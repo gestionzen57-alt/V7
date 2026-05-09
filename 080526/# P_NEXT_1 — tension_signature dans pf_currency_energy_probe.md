@@ -1,6 +1,6 @@
 # P_NEXT_1 — tension_signature dans pf_currency_energy_probe
 **Date :** 2026-05-08  
-**Priorité :** NEXT (lundi 11/05)  
+  
 **Fichier cible :** `pf_currency_energy_probe.py`
 
 ---

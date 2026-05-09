@@ -1,6 +1,6 @@
 # P_NEXT_4 — EIE vers behavioral_alert_queue
 **Date :** 2026-05-08  
-**Priorité :** NEXT (lundi 11/05)  
+ 
 **Fichiers cibles :** `run_confluence_alert.py`, `pf_behavioral_alert_mapper.py`
 
 ---
