@@ -1,267 +1,210 @@
-#!/usr/bin/env python3
-"""
-pf_temporal_density.py V0.1
-
-PowerFlow V6 - moteur mathematique pur.
-Mesure la densite temporelle COMPRESSED / HOLLOW d'une devise
-sur les N dernieres barres disponibles dans force_snapshots.
-
-Contraintes respectees :
-- lecture seule sur powerflow.db
-- aucune ecriture DB
-- aucun import vers la couche affichage
-- aucun signal directionnel
-- compatible Python 3.10+
-"""
+# pf_temporal_density.py — PowerFlow V7 — B4 Temporal Density
+# Autocorrélation rolling — détection compression de cycle
+# Version : 1.0.0 — 2026-05-09
+# Read-only DB. Pas de signal. Perception uniquement.
 
 from __future__ import annotations
-
-import argparse
-import os
 import sqlite3
 from dataclasses import dataclass
-from statistics import mean
-from typing import Iterable, Sequence
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from typing import Dict, List, Optional
+import numpy as np
 
 
-SUPPORTED_CURRENCIES: tuple[str, ...] = ("GBP", "USD", "EUR", "JPY", "CAD", "CHF", "AUD")
-LOW_ACTIVITY_DELTA = 0.5
-EPSILON = 1e-9
+CYCLE_STATES = {
+    "CYCLE_COMPRESSING": "Oscillations se répètent plus vite → rupture imminente",
+    "CYCLE_EXPANDING":   "Oscillations s'allongent → respiration / pullback",
+    "CYCLE_STABLE":      "Fréquence stable → range / consolidation",
+    "CYCLE_NOISY":       "Pas de cycle dominant → bruit ou transition",
+}
+
+# Seuils par TF (en barres)
+COMPRESSION_THRESHOLD = {1: 0.65, 5: 0.60, 15: 0.55, 30: 0.50, 60: 0.45}
+WINDOW_BARS = 30  # fenêtre autocorrélation
 
 
-@dataclass(frozen=True)
-class TemporalDensityMetrics:
+@dataclass
+class TemporalDensityResult:
     currency: str
     timeframe: int
-    window: int
-    density_score: float
-    state: str
-    avg_delta: float
-    max_delta: float
-    low_activity_ratio: float
-    note: str
-
-    def as_dict(self) -> dict[str, str | int | float]:
-        return {
-            "currency": self.currency,
-            "timeframe": self.timeframe,
-            "window": self.window,
-            "density_score": self.density_score,
-            "state": self.state,
-            "avg_delta": self.avg_delta,
-            "max_delta": self.max_delta,
-            "low_activity_ratio": self.low_activity_ratio,
-            "note": self.note,
-        }
+    compression_ratio: float   # 0.0 → 1.0 (1.0 = compression max)
+    dominant_period_bars: int  # période dominante détectée
+    cycle_state: str
+    autocorr_peak: float       # valeur max autocorrélation
+    bars_analyzed: int
+    timestamp: str
 
 
-def _normalize_currency(currency: str) -> str:
-    normalized = currency.strip().upper()
-    if normalized not in SUPPORTED_CURRENCIES:
-        allowed = ", ".join(SUPPORTED_CURRENCIES)
-        raise ValueError(f"Devise non supportee: {currency!r}. Devise attendue: {allowed}")
-    return normalized
-
-
-def _force_column(currency: str) -> str:
-    normalized = _normalize_currency(currency)
-    return f"force_{normalized.lower()}"
-
-
-def _connect_read_only(db_path: str) -> sqlite3.Connection:
-    absolute_path = os.path.abspath(db_path)
-    uri = f"file:{absolute_path}?mode=ro"
-    return sqlite3.connect(uri, uri=True)
-
-
-def _fetch_force_values(
+def _fetch_series(
     db_path: str,
-    symbol: str,
+    col: str,
     timeframe: int,
-    currency: str,
-    window: int,
-) -> list[float]:
-    if window < 2:
-        raise ValueError("window doit etre >= 2 pour calculer des deltas")
+    bars: int,
+    lookback_min: Optional[int] = None,
+) -> np.ndarray:
+    """Fetch force series read-only."""
+    uri = f"file:{db_path}?mode=ro"
+    conn = sqlite3.connect(uri, uri=True)
+    try:
+        if lookback_min:
+            cutoff = (datetime.now(timezone.utc) - timedelta(minutes=lookback_min)).isoformat()
+            rows = conn.execute(
+                f"SELECT {col} FROM force_snapshots "
+                f"WHERE timeframe=? AND created_at >= ? "
+                f"ORDER BY created_at DESC LIMIT ?",
+                (timeframe, cutoff, bars),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                f"SELECT {col} FROM force_snapshots "
+                f"WHERE timeframe=? ORDER BY created_at DESC LIMIT ?",
+                (timeframe, bars),
+            ).fetchall()
+        return np.array([r[0] for r in rows if r[0] is not None], dtype=float)
+    finally:
+        conn.close()
 
-    column = _force_column(currency)
-    query = f"""
-        SELECT {column}
-        FROM force_snapshots
-        WHERE symbol = ?
-          AND timeframe = ?
-          AND {column} IS NOT NULL
-        ORDER BY created_at DESC
-        LIMIT ?
+
+def _autocorr_rolling(series: np.ndarray, max_lag: int = 15) -> tuple[int, float, float]:
     """
+    Autocorrélation sur série.
+    Retourne : (dominant_period, peak_value, compression_ratio)
+    """
+    if len(series) < 10:
+        return 0, 0.0, 0.0
 
-    with _connect_read_only(db_path) as connection:
-        rows = connection.execute(query, (symbol.upper(), int(timeframe), int(window))).fetchall()
+    # Normaliser
+    s = series - np.mean(series)
+    std = np.std(s)
+    if std < 1e-10:
+        return 0, 0.0, 0.0
+    s = s / std
 
-    # La requete lit du plus recent au plus ancien. Les deltas doivent suivre le temps.
-    values = [float(row[0]) for row in reversed(rows)]
-    return values
+    # Calculer autocorrélation lag 1..max_lag
+    n = len(s)
+    autocorrs = []
+    for lag in range(1, min(max_lag + 1, n // 2)):
+        c = np.corrcoef(s[:-lag], s[lag:])[0, 1]
+        autocorrs.append((lag, abs(c)))
+
+    if not autocorrs:
+        return 0, 0.0, 0.0
+
+    # Trouver le pic dominant
+    best_lag, best_val = max(autocorrs, key=lambda x: x[1])
+
+    # Compression ratio : ratio entre la période dominante et la fenêtre max
+    # Plus la période est courte par rapport à max_lag → plus c'est comprimé
+    compression = 1.0 - (best_lag / max_lag)
+    compression = max(0.0, min(1.0, compression))
+
+    return best_lag, best_val, compression
 
 
-def _classify_density(score: float) -> str:
-    if score > 0.70:
-        return "COMPRESSED"
-    if 0.45 <= score <= 0.70:
-        return "ACTIVE"
-    if 0.25 <= score < 0.45:
-        return "NEUTRAL"
-    if 0.10 <= score < 0.25:
-        return "HOLLOW"
-    return "DEAD"
+def compute_temporal_density(
+    db_path: str,
+    currency: str,
+    timeframe: int,
+    bars: int = WINDOW_BARS,
+    lookback_min: Optional[int] = None,
+) -> Optional[TemporalDensityResult]:
+    """
+    Compute cycle compression for one currency × timeframe.
+    Returns None if insufficient data.
+    """
+    col = f"force_{currency.lower()}"
+    series = _fetch_series(db_path, col, timeframe, bars, lookback_min)
+
+    if len(series) < 10:
+        return None
+
+    # Inverser pour ordre chronologique
+    series = series[::-1]
+
+    dominant_period, peak_val, compression = _autocorr_rolling(series)
+
+    # Déterminer état cycle
+    threshold = COMPRESSION_THRESHOLD.get(timeframe, 0.55)
+    if peak_val < 0.25:
+        state = "CYCLE_NOISY"
+    elif compression >= threshold:
+        state = "CYCLE_COMPRESSING"
+    elif compression <= (1.0 - threshold):
+        state = "CYCLE_EXPANDING"
+    else:
+        state = "CYCLE_STABLE"
+
+    return TemporalDensityResult(
+        currency=currency.upper(),
+        timeframe=timeframe,
+        compression_ratio=round(compression, 3),
+        dominant_period_bars=dominant_period,
+        cycle_state=state,
+        autocorr_peak=round(peak_val, 3),
+        bars_analyzed=len(series),
+        timestamp=datetime.now(timezone.utc).isoformat(),
+    )
 
 
-def _build_note(state: str) -> str:
-    notes = {
-        "COMPRESSED": "Marche dense: energie concentree, bataille active.",
-        "ACTIVE": "Marche vivant: mouvement regulier sur la fenetre.",
-        "NEUTRAL": "Activite moyenne: flux present sans densite forte.",
-        "HOLLOW": "Marche creux: beaucoup de barres, peu de mouvement.",
-        "DEAD": "Derive plate: PowerFlow se tait.",
+def compute_temporal_density_multi(
+    db_path: str,
+    currencies: List[str],
+    timeframes: List[int],
+    bars: int = WINDOW_BARS,
+    lookback_min: Optional[int] = None,
+) -> Dict[str, Dict[int, Optional[TemporalDensityResult]]]:
+    """
+    Compute for all currencies × timeframes.
+    Returns {currency: {tf: result}}
+    """
+    results = {}
+    for ccy in currencies:
+        results[ccy.upper()] = {}
+        for tf in timeframes:
+            results[ccy.upper()][tf] = compute_temporal_density(
+                db_path, ccy, tf, bars, lookback_min
+            )
+    return results
+
+
+def format_density_summary(results: Dict) -> dict:
+    """Format pour cockpit JSON."""
+    compressing = []
+    expanding = []
+    stable = []
+    noisy = []
+
+    flat = {}
+    for ccy, tfs in results.items():
+        for tf, r in tfs.items():
+            if r is None:
+                continue
+            key = f"{ccy}_TF{tf}"
+            flat[key] = {
+                "currency": ccy,
+                "timeframe": tf,
+                "compression_ratio": r.compression_ratio,
+                "dominant_period_bars": r.dominant_period_bars,
+                "cycle_state": r.cycle_state,
+                "autocorr_peak": r.autocorr_peak,
+            }
+            if r.cycle_state == "CYCLE_COMPRESSING":
+                compressing.append(f"{ccy}_TF{tf}")
+            elif r.cycle_state == "CYCLE_EXPANDING":
+                expanding.append(f"{ccy}_TF{tf}")
+            elif r.cycle_state == "CYCLE_STABLE":
+                stable.append(f"{ccy}_TF{tf}")
+            else:
+                noisy.append(f"{ccy}_TF{tf}")
+
+    return {
+        "state": "TEMPORAL_DENSITY_ACTIVE",
+        "compressing": compressing,
+        "expanding": expanding,
+        "stable": stable,
+        "noisy": noisy,
+        "details": flat,
+        "compression_alert": len(compressing) >= 3,
+        "compression_count": len(compressing),
     }
-    return notes[state]
-
-
-def _dead_result(currency: str, timeframe: int, window: int, note: str) -> dict[str, str | int | float]:
-    return TemporalDensityMetrics(
-        currency=currency,
-        timeframe=int(timeframe),
-        window=int(window),
-        density_score=0.0,
-        state="DEAD",
-        avg_delta=0.0,
-        max_delta=0.0,
-        low_activity_ratio=1.0,
-        note=note,
-    ).as_dict()
-
-
-def analyze_temporal_density(
-    db_path: str,
-    symbol: str,
-    timeframe: int,
-    currency: str,
-    window: int = 20,
-) -> dict[str, str | int | float]:
-    """
-    Analyse la densite temporelle d'une devise sur les N dernieres barres.
-
-    Args:
-        db_path: chemin vers powerflow.db.
-        symbol: symbole de marche, ex: "GBPUSD".
-        timeframe: timeframe entier, ex: 5 pour M5.
-        currency: devise, ex: "GBP".
-        window: nombre de barres lues.
-
-    Returns:
-        dict contenant currency, timeframe, window, density_score, state,
-        avg_delta, max_delta, low_activity_ratio et note.
-    """
-    normalized_currency = _normalize_currency(currency)
-    values = _fetch_force_values(db_path, symbol, timeframe, normalized_currency, window)
-
-    if len(values) < 2:
-        return _dead_result(
-            normalized_currency,
-            timeframe,
-            window,
-            "Donnees insuffisantes: moins de 2 valeurs exploitables.",
-        )
-
-    deltas = [abs(values[index] - values[index - 1]) for index in range(1, len(values))]
-    avg_delta = float(mean(deltas))
-    max_delta = float(max(deltas))
-    low_activity_count = sum(1 for delta in deltas if delta < LOW_ACTIVITY_DELTA)
-    low_activity_ratio = float(low_activity_count / len(deltas))
-
-    raw_score = (avg_delta / (max_delta + EPSILON)) * (1.0 - low_activity_ratio)
-    density_score = max(0.0, min(1.0, float(raw_score)))
-    state = _classify_density(density_score)
-
-    metrics = TemporalDensityMetrics(
-        currency=normalized_currency,
-        timeframe=int(timeframe),
-        window=int(window),
-        density_score=round(density_score, 6),
-        state=state,
-        avg_delta=round(avg_delta, 6),
-        max_delta=round(max_delta, 6),
-        low_activity_ratio=round(low_activity_ratio, 6),
-        note=_build_note(state),
-    )
-    return metrics.as_dict()
-
-
-def scan_all_currencies(
-    db_path: str,
-    symbol: str,
-    timeframe: int,
-    window: int = 20,
-    currencies: Sequence[str] | None = None,
-) -> list[dict[str, str | int | float]]:
-    """
-    Analyse toutes les devises demandees et trie par density_score DESC.
-    """
-    selected_currencies = currencies or SUPPORTED_CURRENCIES
-    results = [
-        analyze_temporal_density(
-            db_path=db_path,
-            symbol=symbol,
-            timeframe=timeframe,
-            currency=currency,
-            window=window,
-        )
-        for currency in selected_currencies
-    ]
-    return sorted(results, key=lambda item: float(item["density_score"]), reverse=True)
-
-
-def format_temporal_density_table(results: Iterable[dict[str, str | int | float]]) -> str:
-    """
-    Formate une table console lisible sans dependance externe.
-    """
-    header = "CURRENCY | TF | STATE      | SCORE | AVG_DELTA | NOTE"
-    separator = "-" * len(header)
-    lines = [header, separator]
-
-    for row in results:
-        currency = str(row["currency"])
-        timeframe = f"M{int(row['timeframe'])}"
-        state = str(row["state"])
-        score = float(row["density_score"])
-        avg_delta = float(row["avg_delta"])
-        note = str(row["note"])
-        lines.append(
-            f"{currency:<8} | {timeframe:<2} | {state:<10} | {score:>5.2f} | {avg_delta:>9.2f} | {note}"
-        )
-
-    return "\n".join(lines)
-
-
-def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="PowerFlow V6 - Temporal Density V0.1")
-    parser.add_argument("--db", required=True, help="Chemin vers powerflow.db")
-    parser.add_argument("--symbol", required=True, help="Symbole, ex: GBPUSD")
-    parser.add_argument("--tf", required=True, type=int, help="Timeframe entier, ex: 5 pour M5")
-    parser.add_argument("--window", default=20, type=int, help="Nombre de barres a analyser")
-    return parser.parse_args()
-
-
-def main() -> int:
-    args = _parse_args()
-    results = scan_all_currencies(
-        db_path=args.db,
-        symbol=args.symbol,
-        timeframe=args.tf,
-        window=args.window,
-    )
-    print(format_temporal_density_table(results))
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
