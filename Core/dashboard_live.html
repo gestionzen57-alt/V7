@@ -218,6 +218,35 @@ body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-sm);col
 .bf-panel-body{padding:var(--space-3) var(--space-4) var(--space-4);}
 
 </style>
+
+<!-- PFV71_LIVE_GUARDS_STYLE_START -->
+<style id="pfv71-live-guards-style">
+  .pfv71-live-guards { margin-top: 1rem; }
+  .pfv71-card { height: 100%; border: 1px solid rgba(255,255,255,.08); }
+  .pfv71-card .card-header { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+  .pfv71-title { font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .pfv71-subtitle { font-size: .72rem; opacity: .7; }
+  .pfv71-badge { display: inline-flex; align-items: center; gap: .35rem; border-radius: 999px; padding: .28rem .58rem; font-size: .72rem; font-weight: 700; line-height: 1; white-space: nowrap; }
+  .pfv71-status-ok, .pfv71-status-pass, .pfv71-status-normal, .pfv71-session-ny { background: rgba(25,135,84,.18); color: #2fd27f; border: 1px solid rgba(47,210,127,.35); }
+  .pfv71-status-degraded, .pfv71-status-partial, .pfv71-status-burst, .pfv71-session-london { background: rgba(255,159,26,.18); color: #ffb74d; border: 1px solid rgba(255,183,77,.38); }
+  .pfv71-status-critical, .pfv71-status-fail, .pfv71-status-saturated, .pfv71-session-overlap { background: rgba(220,53,69,.18); color: #ff6b7a; border: 1px solid rgba(255,107,122,.38); }
+  .pfv71-session-asian { background: rgba(13,110,253,.18); color: #75a7ff; border: 1px solid rgba(117,167,255,.38); }
+  .pfv71-session-dead, .pfv71-status-muted { background: rgba(108,117,125,.18); color: #b8c0c7; border: 1px solid rgba(184,192,199,.30); }
+  .pfv71-kv { display: flex; justify-content: space-between; gap: 1rem; padding: .35rem 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .pfv71-kv:last-child { border-bottom: 0; }
+  .pfv71-k { opacity: .68; font-size: .78rem; }
+  .pfv71-v { font-size: .82rem; font-weight: 600; text-align: right; word-break: break-word; }
+  .pfv71-table { width: 100%; margin: 0; font-size: .78rem; }
+  .pfv71-table th { opacity: .68; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.08); padding: .35rem .25rem; }
+  .pfv71-table td { border-bottom: 1px solid rgba(255,255,255,.05); padding: .35rem .25rem; vertical-align: middle; }
+  .pfv71-table tr:last-child td { border-bottom: 0; }
+  .pfv71-row-alert { background: rgba(220,53,69,.08); }
+  .pfv71-progress { height: .55rem; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
+  .pfv71-progress-bar { height: 100%; width: 0%; background: currentColor; transition: width .25s ease; }
+  .pfv71-card-empty { opacity: .62; font-size: .84rem; padding: .75rem 0; }
+  .pfv71-small-note { opacity: .55; font-size: .72rem; margin-top: .5rem; }
+</style>
+<!-- PFV71_LIVE_GUARDS_STYLE_END -->
 </head>
 <body>
 <div class="cockpit">
@@ -298,6 +327,83 @@ body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-sm);col
   </div>
 </div>
 <div class="main-grid" id="mainGrid"></div>
+
+<!-- PFV71_LIVE_GUARDS_HTML_START -->
+<!-- =========================================================
+     POWERFLOW V7.1 — LIVE GUARDS SECTION
+     Cards: Data Quality / Market Validator / Entropy / Session Overlay
+     Source JSON: /output/*.json via vanilla fetch polling
+     ========================================================= -->
+
+
+<section id="pfv71-live-guards" class="pfv71-live-guards container-fluid">
+  <div class="row g-3">
+    <!-- POWERFLOW V7.1 CARD 1 — DATA QUALITY -->
+    <div class="col-12 col-lg-6 col-xl-3">
+      <div class="card pfv71-card" id="pfv71-card-data-quality">
+        <div class="card-header">
+          <div>
+            <div class="pfv71-title">Data Quality</div>
+            <div class="pfv71-subtitle">output/data_quality_guard.json</div>
+          </div>
+          <span id="pfv71-data-quality-status" class="pfv71-badge pfv71-status-muted">No data</span>
+        </div>
+        <div class="card-body" id="pfv71-data-quality-body">
+          <div class="pfv71-card-empty">No data</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POWERFLOW V7.1 CARD 2 — MARKET VALIDATOR -->
+    <div class="col-12 col-lg-6 col-xl-3">
+      <div class="card pfv71-card" id="pfv71-card-market-validator">
+        <div class="card-header">
+          <div>
+            <div class="pfv71-title">Market Validator</div>
+            <div class="pfv71-subtitle">output/market_open_validator.json</div>
+          </div>
+          <span id="pfv71-market-validator-status" class="pfv71-badge pfv71-status-muted">No data</span>
+        </div>
+        <div class="card-body" id="pfv71-market-validator-body">
+          <div class="pfv71-card-empty">No data</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POWERFLOW V7.1 CARD 3 — ENTROPY -->
+    <div class="col-12 col-lg-6 col-xl-3">
+      <div class="card pfv71-card" id="pfv71-card-entropy">
+        <div class="card-header">
+          <div>
+            <div class="pfv71-title">Entropy</div>
+            <div class="pfv71-subtitle">output/entropy_engine.json</div>
+          </div>
+          <span id="pfv71-entropy-status" class="pfv71-badge pfv71-status-muted">No data</span>
+        </div>
+        <div class="card-body" id="pfv71-entropy-body">
+          <div class="pfv71-card-empty">No data</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POWERFLOW V7.1 CARD 4 — SESSION OVERLAY -->
+    <div class="col-12 col-lg-6 col-xl-3">
+      <div class="card pfv71-card" id="pfv71-card-session-overlay">
+        <div class="card-header">
+          <div>
+            <div class="pfv71-title">Session Overlay</div>
+            <div class="pfv71-subtitle">output/session_overlay.json</div>
+          </div>
+          <span id="pfv71-session-status" class="pfv71-badge pfv71-status-muted">No data</span>
+        </div>
+        <div class="card-body" id="pfv71-session-body">
+          <div class="pfv71-card-empty">No data</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- PFV71_LIVE_GUARDS_HTML_END -->
 </main>
 
 <footer class="footer">
@@ -508,5 +614,343 @@ applyUiState();
 setInterval(loadDashboard,10000);
 setInterval(loadAgenticCoreState,15000);
 </script>
+
+<!-- PFV71_LIVE_GUARDS_JS_START -->
+<script>
+/* =========================================================
+   POWERFLOW V7.1 — LIVE GUARDS CARDS
+   Vanilla JS only. Polls JSON files from /output every 30s.
+   Cards: Data Quality / Market Validator / Entropy / Session Overlay
+   ========================================================= */
+(function () {
+  'use strict';
+
+  const POLL_MS = 30000;
+  const SOURCES = {
+    dataQuality: 'output/data_quality_guard.json',
+    marketValidator: 'output/market_open_validator.json',
+    entropy: 'output/entropy_engine.json',
+    session: 'output/session_overlay.json'
+  };
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+    return String(value).replace(/[&<>'"]/g, function (char) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char];
+    });
+  }
+
+  function firstDefined() {
+    for (let i = 0; i < arguments.length; i += 1) {
+      if (arguments[i] !== undefined && arguments[i] !== null) return arguments[i];
+    }
+    return null;
+  }
+
+  function deepGet(obj, paths, fallback) {
+    for (const path of paths) {
+      const parts = path.split('.');
+      let cur = obj;
+      let ok = true;
+      for (const part of parts) {
+        if (cur && Object.prototype.hasOwnProperty.call(cur, part)) {
+          cur = cur[part];
+        } else {
+          ok = false;
+          break;
+        }
+      }
+      if (ok && cur !== undefined && cur !== null) return cur;
+    }
+    return fallback === undefined ? null : fallback;
+  }
+
+  function asNumber(value, fallback) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : (fallback === undefined ? 0 : fallback);
+  }
+
+  function clamp01(value) {
+    return Math.max(0, Math.min(1, asNumber(value, 0)));
+  }
+
+  function pct(value) {
+    return Math.round(clamp01(value) * 100);
+  }
+
+  function fmtNumber(value, digits) {
+    if (value === null || value === undefined || value === '') return '—';
+    const n = Number(value);
+    if (!Number.isFinite(n)) return escapeHtml(value);
+    return n.toFixed(digits === undefined ? 2 : digits);
+  }
+
+  function normalizeBool(value) {
+    if (value === true || value === 'true' || value === 'TRUE' || value === 1 || value === '1') return true;
+    return false;
+  }
+
+  function badgeClass(kind, value) {
+    const v = String(value || '').toUpperCase();
+    if (kind === 'quality') {
+      if (v === 'OK') return 'pfv71-status-ok';
+      if (v === 'DEGRADED') return 'pfv71-status-degraded';
+      if (v === 'CRITICAL') return 'pfv71-status-critical';
+    }
+    if (kind === 'validator') {
+      if (v === 'PASS' || v === 'MARKET_OPEN_VALIDATED') return 'pfv71-status-pass';
+      if (v === 'PARTIAL' || v === 'PENDING') return 'pfv71-status-partial';
+      if (v === 'FAIL' || v === 'STATIC_WARNING') return 'pfv71-status-fail';
+    }
+    if (kind === 'entropy') {
+      if (v === 'NORMAL_ALERT_FLOW' || v === 'NORMAL') return 'pfv71-status-normal';
+      if (v === 'BURST_ACTIVE' || v === 'BURST') return 'pfv71-status-burst';
+      if (v.indexOf('SATURATED') >= 0) return 'pfv71-status-saturated';
+    }
+    if (kind === 'session') {
+      if (v === 'ASIAN') return 'pfv71-session-asian';
+      if (v === 'LONDON') return 'pfv71-session-london';
+      if (v === 'NY' || v === 'NEW_YORK') return 'pfv71-session-ny';
+      if (v === 'OVERLAP') return 'pfv71-session-overlap';
+      if (v === 'DEAD') return 'pfv71-session-dead';
+    }
+    return 'pfv71-status-muted';
+  }
+
+  function setBadge(id, kind, value) {
+    const el = byId(id);
+    if (!el) return;
+    const label = value || 'No data';
+    el.className = 'pfv71-badge ' + badgeClass(kind, label);
+    el.textContent = label;
+  }
+
+  function setNoData(bodyId, badgeId, kind) {
+    const body = byId(bodyId);
+    if (body) body.innerHTML = '<div class="pfv71-card-empty">No data</div>';
+    setBadge(badgeId, kind, 'No data');
+  }
+
+  async function fetchJson(url) {
+    const finalUrl = url + '?_=' + Date.now();
+    const response = await fetch(finalUrl, { cache: 'no-store' });
+    if (!response.ok) throw new Error('HTTP ' + response.status + ' for ' + url);
+    return response.json();
+  }
+
+  function normalizeTfRows(data) {
+    const raw = firstDefined(
+      deepGet(data, ['timeframes'], null),
+      deepGet(data, ['by_timeframe'], null),
+      deepGet(data, ['tf_reports'], null),
+      deepGet(data, ['quality_by_tf'], null),
+      deepGet(data, ['report.timeframes'], null),
+      deepGet(data, ['details.timeframes'], null),
+      []
+    );
+
+    if (Array.isArray(raw)) {
+      return raw.map(function (row) { return row || {}; });
+    }
+
+    if (raw && typeof raw === 'object') {
+      return Object.keys(raw).map(function (key) {
+        const row = raw[key] || {};
+        if (!Object.prototype.hasOwnProperty.call(row, 'timeframe') && !Object.prototype.hasOwnProperty.call(row, 'tf')) {
+          row.timeframe = key;
+        }
+        return row;
+      });
+    }
+
+    return [];
+  }
+
+  function renderDataQuality(data) {
+    const status = String(firstDefined(
+      deepGet(data, ['global_status', 'status', 'quality_status', 'verdict'], 'UNKNOWN')
+    )).toUpperCase();
+
+    setBadge('pfv71-data-quality-status', 'quality', status);
+
+    const rows = normalizeTfRows(data);
+    const tableRows = rows.length ? rows.map(function (row) {
+      const tf = firstDefined(row.timeframe, row.tf, row.name, '—');
+      const count = firstDefined(row.rows_count, row.row_count, row.rows, row.count, 0);
+      const lastTs = firstDefined(row.last_timestamp, row.last_ts, row.latest_timestamp, '—');
+      const stale = normalizeBool(firstDefined(row.is_stale, row.stale, false));
+      const gaps = asNumber(firstDefined(row.gap_count, row.gaps, row.temporal_gap_count, 0), 0);
+      const alertClass = stale || gaps > 0 ? ' class="pfv71-row-alert"' : '';
+      return '<tr' + alertClass + '>' +
+        '<td>TF' + escapeHtml(tf) + '</td>' +
+        '<td class="text-end">' + escapeHtml(count) + '</td>' +
+        '<td>' + escapeHtml(lastTs) + '</td>' +
+        '<td class="text-end">' + (stale ? 'true' : 'false') + '</td>' +
+        '<td class="text-end">' + escapeHtml(gaps) + '</td>' +
+        '</tr>';
+    }).join('') : '<tr><td colspan="5" class="pfv71-card-empty">No TF details</td></tr>';
+
+    const body = byId('pfv71-data-quality-body');
+    if (!body) return;
+    body.innerHTML =
+      '<table class="pfv71-table">' +
+        '<thead><tr><th>TF</th><th class="text-end">Rows</th><th>Last</th><th class="text-end">Stale</th><th class="text-end">Gaps</th></tr></thead>' +
+        '<tbody>' + tableRows + '</tbody>' +
+      '</table>' +
+      '<div class="pfv71-small-note">Stale=true ou gaps&gt;0 déclenche une ligne rouge.</div>';
+  }
+
+  function normalizeValidatorBlock(data, key) {
+    const upper = key.toUpperCase();
+    const lower = key.toLowerCase();
+    const block = firstDefined(
+      data[upper], data[lower],
+      data[upper + '_validation'], data[lower + '_validation'],
+      deepGet(data, ['checks.' + upper], null),
+      deepGet(data, ['checks.' + lower], null),
+      {}
+    );
+    if (typeof block === 'string') return { status: block };
+    return block || {};
+  }
+
+  function validatorStatus(block) {
+    return String(firstDefined(block.status, block.verdict, block.state, block.result, 'UNKNOWN')).toUpperCase();
+  }
+
+  function renderMarketValidator(data) {
+    const verdict = String(firstDefined(
+      deepGet(data, ['global_verdict', 'verdict', 'market_open_verdict', 'status'], 'UNKNOWN')
+    )).toUpperCase();
+
+    setBadge('pfv71-market-validator-status', 'validator', verdict);
+
+    const b4 = normalizeValidatorBlock(data, 'B4');
+    const b5 = normalizeValidatorBlock(data, 'B5');
+    const eie = normalizeValidatorBlock(data, 'EIE');
+    const checks = [
+      ['B4', b4, 'dominant_period_bars ≠ 1'],
+      ['B5', b5, 'rho fluctuant'],
+      ['EIE', eie, 'non statique']
+    ];
+
+    const rows = checks.map(function (item) {
+      const label = item[0];
+      const block = item[1];
+      const expectation = item[2];
+      const st = validatorStatus(block);
+      const details = firstDefined(
+        block.reason,
+        block.technical_risk,
+        block.static_signature,
+        block.message,
+        block.note,
+        expectation
+      );
+      return '<div class="pfv71-kv">' +
+        '<div><span class="pfv71-badge ' + badgeClass('validator', st) + '">' + escapeHtml(st) + '</span> <span class="pfv71-k">' + escapeHtml(label) + '</span></div>' +
+        '<div class="pfv71-v">' + escapeHtml(details) + '</div>' +
+      '</div>';
+    }).join('');
+
+    const body = byId('pfv71-market-validator-body');
+    if (!body) return;
+    body.innerHTML = rows + '<div class="pfv71-small-note">Verdict global : ' + escapeHtml(verdict) + '</div>';
+  }
+
+  function renderProgress(label, value) {
+    const p = pct(value);
+    return '<div class="pfv71-kv">' +
+      '<div class="pfv71-k">' + escapeHtml(label) + '</div>' +
+      '<div class="pfv71-v">' + fmtNumber(value, 2) + '</div>' +
+    '</div>' +
+    '<div class="pfv71-progress mb-2" aria-label="' + escapeHtml(label) + '" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + p + '">' +
+      '<div class="pfv71-progress-bar" style="width:' + p + '%"></div>' +
+    '</div>';
+  }
+
+  function renderEntropy(data) {
+    const state = String(firstDefined(
+      deepGet(data, ['alert_entropy_state', 'entropy_state', 'state', 'status'], 'UNKNOWN')
+    )).toUpperCase();
+    const normalized = firstDefined(deepGet(data, ['normalized_entropy', 'entropy.normalized_entropy'], null), 0);
+    const duplication = firstDefined(deepGet(data, ['duplication_ratio', 'entropy.duplication_ratio'], null), 0);
+    const burstScore = firstDefined(deepGet(data, ['burst_score', 'burst.burst_score'], null), null);
+
+    setBadge('pfv71-entropy-status', 'entropy', state);
+
+    const burstHtml = (state.indexOf('BURST') >= 0 || burstScore !== null) ?
+      '<div class="pfv71-kv"><div class="pfv71-k">burst_score</div><div class="pfv71-v">' + fmtNumber(burstScore, 2) + '</div></div>' :
+      '';
+
+    const body = byId('pfv71-entropy-body');
+    if (!body) return;
+    body.innerHTML =
+      '<div class="pfv71-kv"><div class="pfv71-k">alert_entropy_state</div><div class="pfv71-v">' + escapeHtml(state) + '</div></div>' +
+      renderProgress('normalized_entropy', normalized) +
+      renderProgress('duplication_ratio', duplication) +
+      burstHtml;
+  }
+
+  function renderSession(data) {
+    const ctx = firstDefined(data.session_context, data.context, data);
+    const session = String(firstDefined(ctx.session, ctx.active_session, 'UNKNOWN')).toUpperCase();
+    const phase = String(firstDefined(ctx.session_phase, ctx.phase, 'UNKNOWN')).toUpperCase();
+    const minutes = firstDefined(ctx.minutes_since_open, ctx.minutes_from_open, '—');
+    const bias = String(firstDefined(ctx.session_bias, ctx.bias, 'UNKNOWN')).toUpperCase();
+    const overlap = firstDefined(ctx.overlap, ctx.secondary_session, ctx.overlap_session, null);
+
+    setBadge('pfv71-session-status', 'session', session);
+
+    const overlapHtml = overlap ?
+      '<div class="pfv71-kv"><div class="pfv71-k">overlap</div><div class="pfv71-v">' + escapeHtml(overlap) + '</div></div>' :
+      '';
+
+    const body = byId('pfv71-session-body');
+    if (!body) return;
+    body.innerHTML =
+      '<div class="pfv71-kv"><div class="pfv71-k">session</div><div class="pfv71-v">' + escapeHtml(session) + '</div></div>' +
+      '<div class="pfv71-kv"><div class="pfv71-k">session_phase</div><div class="pfv71-v">' + escapeHtml(phase) + '</div></div>' +
+      '<div class="pfv71-kv"><div class="pfv71-k">minutes_since_open</div><div class="pfv71-v">' + escapeHtml(minutes) + '</div></div>' +
+      '<div class="pfv71-kv"><div class="pfv71-k">session_bias</div><div class="pfv71-v">' + escapeHtml(bias) + '</div></div>' +
+      overlapHtml;
+  }
+
+  async function loadOne(key, renderFn, bodyId, badgeId, kind) {
+    try {
+      const data = await fetchJson(SOURCES[key]);
+      renderFn(data || {});
+    } catch (err) {
+      setNoData(bodyId, badgeId, kind);
+      if (window.console && console.debug) console.debug('[PowerFlow V7.1] No data for ' + key + ':', err.message);
+    }
+  }
+
+  function refreshPowerFlowV71Cards() {
+    loadOne('dataQuality', renderDataQuality, 'pfv71-data-quality-body', 'pfv71-data-quality-status', 'quality');
+    loadOne('marketValidator', renderMarketValidator, 'pfv71-market-validator-body', 'pfv71-market-validator-status', 'validator');
+    loadOne('entropy', renderEntropy, 'pfv71-entropy-body', 'pfv71-entropy-status', 'entropy');
+    loadOne('session', renderSession, 'pfv71-session-body', 'pfv71-session-status', 'session');
+  }
+
+  window.refreshPowerFlowV71Cards = refreshPowerFlowV71Cards;
+
+  function startPowerFlowV71Polling() {
+    refreshPowerFlowV71Cards();
+    window.setInterval(refreshPowerFlowV71Cards, POLL_MS);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startPowerFlowV71Polling);
+  } else {
+    startPowerFlowV71Polling();
+  }
+})();
+</script>
+<!-- PFV71_LIVE_GUARDS_JS_END -->
 </body>
 </html>
