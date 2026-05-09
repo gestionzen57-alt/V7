@@ -179,6 +179,8 @@ FRACTALITÉ (0-3)     TF15/30/60 simultanément en zone active
 EIE_LEADER_CONFIRMED Devise EIE est leader RG sur TF fiables
 ```
 
+### Voir LEXIQUE_GRAMMAIRE_V7_20260509.md pour documentation complète
+
 ---
 
 ## 6. DB DENSITÉ (2026-05-09)
@@ -273,18 +275,61 @@ cockpit_agentic_state_v01_orchestral.py V0.1.5+ = NO GO
 ## 10. MISSIONS QUEUE
 
 ```
-IMMÉDIAT (lundi 12 mai) :
-  Valider B4/B5 sur marché ouvert (Asian open 23h CEST)
-  Task Scheduler : cycle complet toutes les 5 min
+P0 — Tests marché ouvert lundi
+  Valider V7.1 sur capture active
+  Vérifier DB fraîche via Data Quality Guard
+  Vérifier B4 non figé via Market Open Validator
+  Vérifier B5 rho fluctuant via Market Open Validator
+  Vérifier EIE non statique si tension réelle
+  Vérifier Entropy dynamique
+  Vérifier Session Overlay correct selon heure/session
+  Vérifier Replay sur fenêtre live puis historique
+  Vérifier Film Engine sur session réelle
 
-COURT TERME :
-  Lab Engine V2 : 6 queries trading (B4+B5+regime nourriront)
-  Dashboard V7 : cards B1 + B4 + B5
+Commandes prioritaires :
+  python .\run_data_quality_guard_once.py --db .\powerflow.db --since 2026-05-12 --pretty --output .\output\data_quality_guard.json
+  python .\run_market_open_validator_once.py --db .\powerflow.db --since 2026-05-12 --recent-minutes 180 --pretty --output .\output\market_open_validator.json
+  python .\run_entropy_engine_once.py --db .\powerflow.db --symbol GBPUSD --pretty
+  python .\run_session_overlay_once.py --timestamp now --pretty
 
-MOYEN TERME :
-  B1 HMM upgrade : quand TF1440 > 50 rows (~3 semaines)
-  B4 Wavelet Morlet : si densité TF5 reste propre
-  Telegram V7 : alertes regime + cascade (après cockpit stable)
+P1 — Task Scheduler
+  Automatiser le cycle complet toutes les 5 minutes
+  Ajouter runners V7.1 au cycle
+  Écrire les outputs JSON dans output/
+  Garder DB strictement read-only
+  Ne pas intégrer cockpit avant validation stable
+
+Cycle candidat :
+  1. run_data_quality_guard_once.py
+  2. run_market_open_validator_once.py
+  3. run_entropy_engine_once.py
+  4. run_session_overlay_once.py
+  5. run_temporal_node_state_once.py
+  6. run_currency_energy_probe_once.py
+  7. run_confluence_alert.py --once
+  8. run_cascade_engine_once.py
+  9. run_powerflow_dashboard_refresh_once.py
+
+P2 — Dashboard Cards
+  Ajouter Quality Card
+    source : output/data_quality_guard.json
+    affiche : rows, stale, gaps, status par TF
+
+  Ajouter Market Validator Card
+    source : output/market_open_validator.json
+    affiche : B4/B5/EIE PASS/FAIL + risques techniques
+
+  Ajouter Entropy Card
+    source : output/entropy_engine.json
+    affiche : entropy_state / texture / instabilité
+
+  Ajouter Session Overlay Card
+    source : output/session_overlay.json
+    affiche : session / phase / minutes_since_open / session_bias
+
+  Ajouter Replay / Film Lab access
+    source : output/replay_*.json et output/film_*.json
+    usage : analyse historique, pas cockpit live obligatoire
 ```
 
 ---
@@ -301,6 +346,17 @@ C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT\
 Git : https://github.com/gestionzen57-alt/V7.git
 Branche : main
 Dernier commit : c579afa — V7: B4+B5
+
+Documents PowerFlow à importer dans Workspace/00_CURRENT/ :
+  • MANIFESTE_FONDATEUR_POWERFLOW_V7.md
+  • CARTOGRAPHIE_ARCHITECTURE_V7_20260509.md
+  • LEXIQUE_GRAMMAIRE_V7_20260509.md
+  • CURRENT_STATE_V7_20260509.md
+  • ROADMAP_V7_20260509.md
+  • NOMENCLATURE_V7_20260509.md
+  • REGISTRE_BRIQUES_V7_20260509.md
+  • ONBOARDING_IA_POWERFLOW_V7.md
+  • LEVIERS_NATURELS_V7_20260509.md
 ```
 
 ---
@@ -310,12 +366,14 @@ Dernier commit : c579afa — V7: B4+B5
 ```
 DÉBUT SESSION :
   Lire ce CLAUDE.md → contexte complet
+  Lire ONBOARDING_IA_POWERFLOW_V7.md si nouveau fil
+  Lire CURRENT_STATE_V7 → état du jour précis
 
 FIN SESSION :
   1. Rapport mission (court)
   2. Checkpoint (état concis)
   3. Lexique patch (nouveaux termes)
-  4. Mettre à jour CLAUDE.md V7 (section 1 + 10)
+  4. Mettre à jour CLAUDE.md V7 (section 1 + 10 + 14 + version)
   5. .\git_sync.ps1 "Session [date] [mission]"
 
 NB : CLAUDE.md n'est PAS auto-alimenté.
@@ -328,7 +386,7 @@ NB : CLAUDE.md n'est PAS auto-alimenté.
 ## 13. MULTI-IA WORKFLOW
 
 ```
-Claude (ce fil)   → Chef d'orchestre / architecte / CLAUDE.md
+Claude (ce fil)   → Chef d'orchestre / architecte / CLAUDE.md / docs
 Claude Code       → Exécution / tests / commits
 GPT Pro 1         → Algo / infrastructure / cleanup
 GPT Pro 2         → ML / automation / docs
@@ -360,6 +418,39 @@ Après mardi 12 mai :
 2026-05-09  Cleanup Core 40 fichiers    ✅ Archive_20260509
 2026-05-09  git_sync.ps1                ✅
 2026-05-09  CLAUDE.md V7                ✅ ce fichier
+2026-05-09  Documentation suite V7      ✅ 9 documents complets
+2026-05-09  V7.1 Phase 1 — Infra & Qualité ✅
+            pf_data_quality_guard.py
+            run_data_quality_guard_once.py
+            pf_market_open_validator.py
+            run_market_open_validator_once.py
+            DB read-only validée
+            gaps / stale / no rows / static outputs exposés
+
+2026-05-09  V7.1 Phase 2 — Entropy & Session Overlay ✅
+            pf_entropy_engine.py
+            run_entropy_engine_once.py
+            pf_session_overlay.py
+            run_session_overlay_once.py
+            Contexte sessionnel disponible
+            Texture / désordre du flux mesurable
+            Aucun filtrage trading ajouté
+
+2026-05-09  V7.1 Phase 3 — Replay & Film Engine ✅
+            pf_replay_engine.py
+            lab_replay.py
+            pf_film_engine.py
+            lab_film.py
+            Replay déterministe depuis force_snapshots
+            Timeline minute par minute
+            Film comportemental historique prêt pour lab
+
+2026-05-09  V7.1 Sprint 7J clôturé ✅
+            Code intégré dans Core/
+            Python compile OK
+            Git push effectué
+            Rapport final créé : reports/POWERFLOW_V7_SPRINT_7J_REPORT.md
+            Prochaine étape : tests marché ouvert lundi
 ```
 
 ---
@@ -388,5 +479,157 @@ Perception pure. Transparence technique. Souveraineté trader.
 
 ---
 
+## 16. DOCUMENTATIONS COMPLÉMENTAIRES (2026-05-09)
+
+### Documents Fondateurs
+```
+MANIFESTE_FONDATEUR_POWERFLOW_V7.md
+  → Vision organique du marché
+  → Doctrine anti-censure / anti-nanny
+  → Contrat PowerFlow-Trader
+  → Document de référence qui prime en cas de contradiction
+```
+
+### Documents de Référence Technique
+```
+CARTOGRAPHIE_ARCHITECTURE_V7_20260509.md
+  → Vue macro 5 couches (acquisition → cockpit → trader)
+  → Chaîne runtime complète avec injection de contexte
+  → Inventaire fichiers par couche
+  → Matrice dépendances simplifiée
+  → Règles architecturales absolues
+
+REGISTRE_BRIQUES_V7_20260509.md
+  → B1 à B5 : rôle, statut, dépendances, limitations
+  → Confluence Élastique : EIE / gravity bridge / daemon
+  → Node Engine : ce qu'il est (ne pas modifier)
+  → Behavioral Mapper : leviers actifs V7
+  → Cockpit / RG : rôles et frontières
+
+NOMENCLATURE_V7_20260509.md
+  → Préfixes fichiers (capture_*, pf_*, run_*, lab_*, cockpit_*, etc.)
+  → Convention briques (B1-B5, P1.2, P_NEXT_*)
+  → Structure JSON alerte complète avec exemples
+  → Énumérations états (zones, régimes, cycles, corrélation, etc.)
+  → Anti-patterns commentés (❌ vs ✅)
+  → Convention commits Git
+```
+
+### Lexique et Langage
+```
+LEXIQUE_GRAMMAIRE_V7_20260509.md
+  → 15 domaines couverts (flux, cinématique, zones, cycles, régimes, gravité, etc.)
+  → 80+ termes avec définitions comportementales
+  → Termes interdits (GPT-biais à éviter)
+  → Nomenclature fichiers cohérente
+  → Lexique vivant — mise à jour après chaque nouveau terme validé
+```
+
+### Opération et Onboarding
+```
+CURRENT_STATE_V7_20260509.md
+  → État du jour : pipeline actif, densité DB, dates validations
+  → Résolution angle mort V7
+  → P0/P1/P2/P3 actions immédiates (12 mai Asian open)
+  → Règles runtime absolues
+
+ROADMAP_V7_20260509.md
+  → P0 : validation marché ouvert (lundi 12 mai 23h CEST)
+  → P1 : Task Scheduler cycle 5min
+  → P2 : Lab Engine V2 + Dashboard V7 cards
+  → Moyen terme : B1 HMM / B4 Wavelet / Multi-Symbol / Session Memory
+  → Horizon V8 : architecture future
+  → Règles de priorisation naturelle
+
+ONBOARDING_IA_POWERFLOW_V7.md
+  → 5 minutes de lecture obligatoire pour tout nouveau fil IA
+  → Règles absolues intégrées
+  → Doctrine anti-censure obligatoire
+  → Commandes rapides de vérification
+  → Documents de référence indexés
+```
+
+### Vision et Leviers
+```
+LEVIERS_NATURELS_V7_20260509.md
+  → 6 propositions de valeur issues de ta vision organique
+  → Pas des features imposées — extensions naturelles
+  → Priorisation naturelle : 1. Session Overlay 2. Film 3. Fractal Resonance 4. Volatility 5. Memory 6. Multi-Symbol
+  → Chaque levier avec implémentation naturelle et dépendances claires
+
+  Leviers :
+  1. Session Memory Overlay — contexte session (Asian/London/NY) dans alertes
+  2. Behavioral Journal / Film Engine — rejouer journée comportementale
+  3. Fractal Resonance Detection — quand LTF/MTF/HTF vibrent ensemble
+  4. Volatility Texture Engine — nature de la volatilité (structurelle/news/friction/bruit)
+  5. Memory Engine (B6) — patterns historiques et fréquences d'occurrence
+  6. Multi-Symbol Extension — valider GBP sur tous ses crosses vs pairs
+```
+
+---
+
+## 17. PROTOCOLE MISE À JOUR CLAUDE.MD
+
+### Début de session
+```
+1. Lire CLAUDE.md V7 → contexte complet
+2. Lire CURRENT_STATE_V7 → état du jour précis
+3. Lire ONBOARDING_IA si nouveau fil
+4. Valider que tu comprends la doctrine
+```
+
+### Fin de session — mise à jour CLAUDE.md
+```
+1. Ajouter checkpoint dans section 14 (format : YYYY-MM-DD description ✅)
+2. Mettre à jour section 10 (missions queue) si état change
+3. Mettre à jour section 6 (DB densité) si de nouvelles données
+4. Ajouter nouveaux termes dans section 5 (lexique V7)
+5. Modifier version / date / Git commit en haut du fichier
+6. git_sync.ps1 avec message descriptif
+```
+
+### Règle importante
+```
+CLAUDE.md n'est PAS auto-alimenté.
+Mise à jour manuelle obligatoire après chaque mission.
+C'est intentionnel : valider avant d'intégrer.
+```
+
+---
+
+## 18. ARCHITECTURE DOCUMENTAIRE COMPLÈTE
+
+```
+Niveau 1 — VISION ET DOCTRINE
+  ├── MANIFESTE_FONDATEUR (ce que PowerFlow est et n'est pas)
+  ├── CLAUDE.md V7 (source of truth absolue)
+  └── ONBOARDING_IA (protocole démarrage)
+
+Niveau 2 — RÉFÉRENCE TECHNIQUE
+  ├── CARTOGRAPHIE_ARCHITECTURE (vue macro)
+  ├── REGISTRE_BRIQUES (brique par brique)
+  ├── NOMENCLATURE (conventions)
+  └── LEXIQUE_GRAMMAIRE (langage PowerFlow)
+
+Niveau 3 — OPÉRATION
+  ├── CURRENT_STATE (état du jour)
+  ├── ROADMAP (horizon + priorisation)
+  └── LEVIERS_NATURELS (propositions valeur)
+
+Niveau 4 — EXÉCUTION
+  └── Code + Runners + Tests
+```
+
+---
+
 **END CLAUDE.MD V7**
 *Updated 2026-05-09 — Git c579afa — PowerFlow Anticipatoire LIVE*
+
+---
+
+**DOCUMENTATION COMPLETE** :
+```
+9 documents de référence créés le 2026-05-09.
+Intégration CLAUDE.md V7 : sections 16, 17, 18 ajoutées.
+Tous les documents téléchargeables et prêts pour PowerFlow_Workspace.
+```
