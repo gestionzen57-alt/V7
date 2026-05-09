@@ -50,6 +50,8 @@ COOLDOWN_S       = 600        # 10 min anti-spam par devise
 
 ENV_PATH         = Path(".env")
 LAST_ALERT_PATH  = Path("output/confluence_alert_last.json")
+BEHAVIORAL_QUEUE_PATH = Path("output/behavioral_alert_queue.json")
+BEHAVIORAL_QUEUE_MAX_EVENTS = 200
 
 ZONE_ACTIVE_STATES = {"ACCUMULATING", "EXTREME", "EARLY_EXTREME", "LEAKING"}
 
@@ -257,6 +259,74 @@ def update_persistence(snapshot: Dict[str, dict]) -> Dict[str, int]:
     return current
 
 
+
+# ==========================================================================
+# BEHAVIORAL ALERT QUEUE — P_NEXT_4
+# ==========================================================================
+
+def _read_json_list(path: Path) -> List[dict]:
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    if isinstance(data, list):
+        return [item for item in data if isinstance(item, dict)]
+    if isinstance(data, dict) and isinstance(data.get("events"), list):
+        return [item for item in data["events"] if isinstance(item, dict)]
+    return []
+
+
+def write_eie_to_behavioral_queue(
+    event: dict,
+    queue_path: Path | str = BEHAVIORAL_QUEUE_PATH,
+    max_events: int = BEHAVIORAL_QUEUE_MAX_EVENTS,
+) -> dict:
+    """
+    Append-only EIE bridge vers behavioral_alert_queue.
+
+    Règles P_NEXT_4 :
+    - append uniquement ;
+    - trim automatique aux 200 derniers events par défaut ;
+    - aucun accès DB ;
+    - type ELASTIC_IN_EXTREME uniquement.
+    """
+    if event.get("type") != "ELASTIC_IN_EXTREME":
+        return {"ok": False, "reason": "ignored_non_eie_event"}
+
+    path = Path(queue_path)
+    events = _read_json_list(path)
+    events.append(dict(event))
+    if max_events > 0 and len(events) > max_events:
+        events = events[-max_events:]
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(events, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return {"ok": True, "path": str(path), "events": len(events)}
+
+
+def build_eie_behavioral_event(
+    currency: str,
+    data: dict,
+    persist_count: int,
+    session: str,
+    cg,
+    timestamp: Optional[str] = None,
+) -> dict:
+    """Construit le payload canonique ELASTIC_IN_EXTREME pour la queue comportementale."""
+    return {
+        "type": "ELASTIC_IN_EXTREME",
+        "level": "HOT",
+        "currency": currency,
+        "persist": int(persist_count),
+        "fractal_score": int(data.get("fractal_score", 0)),
+        "fusion_state": getattr(cg, "fusion_state", "UNKNOWN"),
+        "confidence": getattr(cg, "confidence", "UNKNOWN"),
+        "session": session,
+        "timestamp": timestamp or iso_now(),
+    }
+
 # ==========================================================================
 # MESSAGE BUILDER
 # ==========================================================================
@@ -378,8 +448,20 @@ def scan_once(
         )
 
         message = build_alert_message(currency, data, p, session, zone_tf, cg)
+        eie_event = build_eie_behavioral_event(
+            currency=currency,
+            data=data,
+            persist_count=p,
+            session=session,
+            cg=cg,
+        )
+        queue_result = write_eie_to_behavioral_queue(eie_event)
 
         print(f"\n  [{time_str}] ⚡ ALERTE {currency} EIE persistant x{p}")
+        if queue_result.get("ok"):
+            print(f"  [QUEUE] behavioral_alert_queue append OK ({queue_result.get('events')} events)")
+        else:
+            print(f"  [QUEUE] skip: {queue_result.get('reason')}")
         print(f"  {message[:120]}...")
 
         if dry_run:
