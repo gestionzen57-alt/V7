@@ -30,7 +30,10 @@ Relational Gravity P1.2 :
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 # ---------------------------------------------------------------------------
@@ -932,6 +935,8 @@ def _build_next_watch(tns: dict, behavioral_alerts: list[BehavioralAlert]) -> li
         extra.append("WATCH_GRAVITY_BREAK — cluster serré, surveiller rupture")
     if "NODE_HEAT_ENERGY_DIVERGENCE" in alert_names:
         extra.append("WATCH_ENERGY_ALIGNMENT — divergence Heat/Energy à surveiller")
+    if "ELASTIC_IN_EXTREME" in alert_names:
+        extra.append("WATCH_EIE_FOLLOW_THROUGH — élastique chargé en zone extrême, surveiller libération/absorption")
     if "RELATIONAL_GRAVITY_ALIGNED_LEADER_CONFLICT_INFO" in alert_names:
         extra.append("WATCH_RG_LEADER_RESOLUTION — direction relationnelle alignée mais leadership conflictuel")
     if "LEADER_CONFLICT_INFO" in alert_names or "RELATIONAL_GRAVITY_MIXED_TOPLINE_INFO" in alert_names:
@@ -1127,6 +1132,107 @@ _RG_CHECKERS = [
 
 
 # ---------------------------------------------------------------------------
+# EIE behavioral queue — P_NEXT_4
+# ---------------------------------------------------------------------------
+
+def _parse_event_timestamp(value: Any) -> datetime | None:
+    if not value:
+        return None
+    try:
+        txt = str(value).replace("Z", "+00:00")
+        dt = datetime.fromisoformat(txt)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc)
+    except ValueError:
+        return None
+
+
+def _read_eie_events(
+    queue_path: str | Path = "output/behavioral_alert_queue.json",
+    now: datetime | None = None,
+    freshness_minutes: int = 10,
+) -> list[dict[str, Any]]:
+    """
+    Lit la behavioral_alert_queue et ne retourne que les EIE frais.
+
+    Règles P_NEXT_4 :
+    - type=ELASTIC_IN_EXTREME seulement ;
+    - freshness <= 10 min par défaut ;
+    - lecture JSON uniquement, aucune DB, aucun Telegram.
+    """
+    path = Path(queue_path)
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+
+    if isinstance(data, dict):
+        raw_events = data.get("events", [])
+    elif isinstance(data, list):
+        raw_events = data
+    else:
+        return []
+
+    now_utc = now or datetime.now(timezone.utc)
+    if now_utc.tzinfo is None:
+        now_utc = now_utc.replace(tzinfo=timezone.utc)
+    now_utc = now_utc.astimezone(timezone.utc)
+
+    fresh: list[dict[str, Any]] = []
+    for item in raw_events:
+        if not isinstance(item, dict):
+            continue
+        if item.get("type") != "ELASTIC_IN_EXTREME":
+            continue
+        ts = _parse_event_timestamp(item.get("timestamp"))
+        if ts is None:
+            continue
+        age_minutes = (now_utc - ts).total_seconds() / 60.0
+        if 0.0 <= age_minutes <= freshness_minutes:
+            event = dict(item)
+            event["age_minutes"] = round(age_minutes, 2)
+            fresh.append(event)
+    return fresh
+
+
+def _alerts_from_eie_events(events: list[dict[str, Any]]) -> list[BehavioralAlert]:
+    alerts: list[BehavioralAlert] = []
+    for event in events:
+        currency = str(event.get("currency", "?")).upper()
+        persist = event.get("persist", "?")
+        fractal_score = event.get("fractal_score", "?")
+        fusion_state = event.get("fusion_state", "UNKNOWN")
+        confidence = event.get("confidence", "UNKNOWN")
+        session = event.get("session", "UNKNOWN")
+        alerts.append(
+            BehavioralAlert(
+                name="ELASTIC_IN_EXTREME",
+                level=str(event.get("level", "HOT") or "HOT"),
+                reason=(
+                    f"EIE frais depuis behavioral_alert_queue — {currency} persist={persist}, "
+                    f"fractal_score={fractal_score}, fusion_state={fusion_state}, confidence={confidence}, session={session}"
+                ),
+                source_fields=[
+                    "behavioral_alert_queue.type",
+                    "behavioral_alert_queue.timestamp",
+                    "behavioral_alert_queue.fusion_state",
+                ],
+                dashboard_badge=f"⚡ EIE {currency}",
+                telegram_text=(
+                    f"⚡ ELASTIC IN EXTREME\n"
+                    f"Devise: {currency} | Persist: {persist}\n"
+                    f"Fractal: {fractal_score}/3 | Fusion: {fusion_state}\n"
+                    f"Confidence: {confidence} | Session: {session}"
+                ),
+            )
+        )
+    return alerts
+
+
+# ---------------------------------------------------------------------------
 # Checkers registry
 # ---------------------------------------------------------------------------
 
@@ -1248,6 +1354,7 @@ def _build_mapper_meta() -> dict[str, Any]:
         "telegram_send": False,
         "buy_sell_output": False,
         "p1_2_guard_aware": True,
+        "p_next_4_eie_queue_reader": True,
     }
 
 
@@ -1259,6 +1366,7 @@ def map_behavioral_alerts(
     temporal_node_state: dict,
     currency_energy_state: dict | None = None,
     relational_gravity: dict | None = None,
+    behavioral_queue_path: str | Path | None = "output/behavioral_alert_queue.json",
 ) -> dict[str, Any]:
     """
     Transforme temporal_node_state + currency_energy_state + relational_gravity en alertes comportementales.
@@ -1279,6 +1387,7 @@ def map_behavioral_alerts(
         temporal_node_state: dict issu de pf_temporal_node_state.py
         currency_energy_state: dict issu de pf_currency_energy_probe.py (optionnel)
         relational_gravity: dict issu de pf_relational_gravity_bridge.py (optionnel)
+        behavioral_queue_path: queue JSON EIE optionnelle, freshness 10 min
 
     Returns:
         dict avec behavioral_alerts, degraded_alerts, next_watch_enriched, film_steps
@@ -1306,6 +1415,15 @@ def map_behavioral_alerts(
         else:
             behavioral.append(result)
 
+    # ── EIE queue — P_NEXT_4 : lecture fraîche uniquement ───────
+    eie_events: list[dict[str, Any]] = []
+    if behavioral_queue_path:
+        try:
+            eie_events = _read_eie_events(behavioral_queue_path)
+            behavioral.extend(_alerts_from_eie_events(eie_events))
+        except Exception:
+            eie_events = []
+
     # ── Relational Gravity checkers — guard-aware (V0.8.3) ──────
     # topline_reliable == False → aucune alerte HOT depuis RG
     for rg_checker in _RG_CHECKERS:
@@ -1330,7 +1448,7 @@ def map_behavioral_alerts(
         degraded_alerts=[a.to_dict() for a in degraded],
         next_watch_enriched=next_watch,
         film_steps=film_steps,
-        mapper_meta=_build_mapper_meta(),
+        mapper_meta={**_build_mapper_meta(), "eie_events_fresh_read": len(eie_events)},
         energy_guard=_build_energy_guard(ev),
         relational_gravity_guard=_build_relational_gravity_guard(rg),
     )

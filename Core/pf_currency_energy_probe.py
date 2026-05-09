@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 PowerFlow V6 — pf_currency_energy_probe.py
-Version : 0.1
+Version : 0.2
 
 Mission :
     Mesurer la force vivante contextualisée (Currency Energy) de chaque devise
@@ -95,12 +95,18 @@ try:
 except ImportError:
     _HAS_FRESHNESS = False
 
+try:
+    from pf_tension_signature import compute_tension_signature
+    _HAS_TENSION_SIGNATURE = True
+except ImportError:
+    _HAS_TENSION_SIGNATURE = False
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  CONSTANTES
 # ═══════════════════════════════════════════════════════════════════════════════
 
-VERSION = "0.1"
+VERSION = "0.2"
 MODULE_NAME = "pf_currency_energy_probe"
 
 CURRENCIES: Tuple[str, ...] = ("GBP", "USD", "EUR", "JPY", "CAD", "CHF", "AUD", "NZD")
@@ -128,6 +134,7 @@ WEIGHTS: Dict[str, float] = {
     "persistence":        0.10,
     "basket_deviation":   0.05,
     "htf_context":        0.05,
+    "elastic_tension":    0.10,
 }
 
 # Capture quality : pénalité max 0.80 (jamais annulation totale)
@@ -163,6 +170,7 @@ class EnergyComponents:
     persistence_norm:       float = 0.0
     basket_deviation_norm:  float = 0.0
     htf_context_norm:       float = 0.0
+    elastic_tension_score:  float = 0.0
 
     def to_dict(self) -> Dict[str, float]:
         return {
@@ -174,6 +182,7 @@ class EnergyComponents:
             "persistence_norm":       round(self.persistence_norm, 4),
             "basket_deviation_norm":  round(self.basket_deviation_norm, 4),
             "htf_context_norm":       round(self.htf_context_norm, 4),
+            "elastic_tension_score":  round(self.elastic_tension_score, 4),
         }
 
 
@@ -191,6 +200,9 @@ class EnergyResult:
     raw_signed:                Dict[str, Any]
     absorption_escape_state:   str
     contextual_tags:           List[str]
+    energy_context:            List[str]
+    elastic_tension_score:     float
+    elastic_tension_label:     str
     missing_modules:           List[str]
     notes:                     str
 
@@ -207,6 +219,9 @@ class EnergyResult:
             "raw_signed":              self.raw_signed,
             "absorption_escape_state": self.absorption_escape_state,
             "contextual_tags":         self.contextual_tags,
+            "energy_context":          self.energy_context,
+            "elastic_tension_score":   round(self.elastic_tension_score, 4),
+            "elastic_tension_label":   self.elastic_tension_label,
             "missing_modules":         self.missing_modules,
             "notes":                   self.notes,
         }
@@ -368,6 +383,68 @@ def _compute_basket_deviation(force_rows: List[Dict[str, Any]], available: Dict[
         return {}
     mean_val = sum(values.values()) / len(values)
     return {c: round(v - mean_val, 4) for c, v in values.items()}
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  COMPOSANTE : ELASTIC TENSION SIGNATURE — P_NEXT_1
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _fetch_force_series_ro(
+    db_path: Path,
+    symbol: str,
+    timeframe: int,
+    force_col: str,
+    bars: int,
+    table: str,
+) -> List[Optional[float]]:
+    """Charge une série force_* brute en lecture seule, ordre chronologique."""
+    sql = (
+        f'SELECT "{force_col}" FROM "{table}" '
+        f'WHERE UPPER(symbol)=? AND timeframe=? '
+        f'ORDER BY created_at DESC LIMIT ?'
+    )
+    try:
+        with _connect_ro(db_path) as conn:
+            rows = conn.execute(sql, (symbol.upper(), timeframe, bars)).fetchall()
+        return [_safe_float(row[0]) for row in reversed(rows)]
+    except Exception:
+        return []
+
+
+def _compute_elastic_tension_component(
+    db_path: Path,
+    symbol: str,
+    currency: str,
+    available_cols: Dict[str, str],
+    table: str,
+    bars: int,
+) -> Tuple[float, str, Dict[str, Any]]:
+    """
+    P_NEXT_1 : composante élastique observationnelle.
+
+    Guard dur : si len(series_tf5) < 20 -> score 0.0.
+    Energy != signal : cette composante qualifie l'énergie, elle ne décide pas.
+    """
+    if currency not in available_cols:
+        return 0.0, "NO_FORCE_COLUMN", {"tf": 5, "n_bars": 0}
+    if not _HAS_TENSION_SIGNATURE:
+        return 0.0, "MODULE_UNAVAILABLE", {"tf": 5, "n_bars": 0}
+
+    series_tf5 = _fetch_force_series_ro(
+        db_path=db_path,
+        symbol=symbol,
+        timeframe=5,
+        force_col=available_cols[currency],
+        bars=max(20, bars),
+        table=table,
+    )
+    if len(series_tf5) < 20:
+        return 0.0, "INSUFFICIENT_DATA", {"tf": 5, "n_bars": len(series_tf5)}
+
+    sig = compute_tension_signature(series_tf5)
+    score = _safe_float(getattr(sig, "score", 0.0)) or 0.0
+    label = str(getattr(sig, "label", "UNKNOWN"))
+    return round(score, 4), label, sig.to_dict() if hasattr(sig, "to_dict") else {"tf": 5}
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -572,6 +649,9 @@ def compute_currency_energy(
         raw_signed: Dict[str, Any] = {}
         absorption_escape = "NEUTRAL"
         ctx_tags: List[str] = []
+        energy_context: List[str] = []
+        elastic_tension_score = 0.0
+        elastic_tension_label = "INACTIVE"
         notes_parts: List[str] = []
 
         # ── 1. behavioral_zscore ─────────────────────────────────────────────
@@ -671,7 +751,27 @@ def compute_currency_energy(
         raw_signed["htf_context_score"] = round(htf_score, 3)
         raw_signed["htf_tfs_scanned"]   = list(htf_tfs)
 
-        # ── 6. Personality metadata ──────────────────────────────────────────
+        # ── 6. Elastic tension signature — TF5 observationnel ────────────────
+        elastic_tension_score, elastic_tension_label, elastic_debug = _compute_elastic_tension_component(
+            db_path=db_path,
+            symbol=symbol,
+            currency=currency,
+            available_cols=available_cols,
+            table=table,
+            bars=bars,
+        )
+        comp.elastic_tension_score = _clip(elastic_tension_score, 0.0, 1.0)
+        raw_signed["elastic_tension_score"] = round(elastic_tension_score, 4)
+        raw_signed["elastic_tension_label"] = elastic_tension_label
+        raw_signed["elastic_tension_tf"] = 5
+        raw_signed["elastic_tension_debug"] = elastic_debug
+
+        if elastic_tension_label == "ELASTIC_LOADED":
+            energy_context.append("ELASTIC_COMPONENT_ACTIVE")
+        elif elastic_tension_score > 0.0:
+            energy_context.append("ELASTIC_COMPONENT_PRESENT")
+
+        # ── 7. Personality metadata ──────────────────────────────────────────
         if profile:
             raw_signed["role"]           = profile.role
             raw_signed["volatility_class"] = profile.volatility_class
@@ -681,7 +781,10 @@ def compute_currency_energy(
             raw_signed["volatility_class"] = None
             raw_signed["tempo_tf"]       = None
 
-        # ── 7. Formule energy_raw ────────────────────────────────────────────
+        if absorption_escape in ("ACCUMULATING", "EXTREME", "EARLY_EXTREME", "LEAKING", "RUPTURE"):
+            energy_context.insert(0, "ZONE_ACTIVE")
+
+        # ── 8. Formule energy_raw ────────────────────────────────────────────
         energy_raw = (
             WEIGHTS["zone_tension"]      * comp.zone_tension_norm
           + WEIGHTS["behavioral_zscore"] * comp.behavioral_zscore_norm
@@ -691,18 +794,19 @@ def compute_currency_energy(
           + WEIGHTS["persistence"]       * comp.persistence_norm
           + WEIGHTS["basket_deviation"]  * comp.basket_deviation_norm
           + WEIGHTS["htf_context"]       * comp.htf_context_norm
+          + WEIGHTS["elastic_tension"]   * comp.elastic_tension_score
         )
         energy_raw = _clip(energy_raw, 0.0, 1.0)
         energy_raw = round(energy_raw, 4)
 
-        # ── 8. Pénalité capture quality ───────────────────────────────────────
+        # ── 9. Pénalité capture quality ───────────────────────────────────────
         energy_score = round(_clip(energy_raw * (1.0 - capture_penalty), 0.0, 1.0), 4)
 
-        # ── 9. Label et confidence ───────────────────────────────────────────
+        # ── 10. Label et confidence ──────────────────────────────────────────
         label = _energy_label(energy_score)
         confidence = _confidence(missing_modules)
 
-        # ── 10. Notes contextuelles ──────────────────────────────────────────
+        # ── 11. Notes contextuelles ──────────────────────────────────────────
         if absorption_escape == "ACCUMULATING":
             notes_parts.append("Champ chargé. Énergie potentielle. Surveiller LEAKING.")
         elif absorption_escape == "LEAKING":
@@ -733,6 +837,9 @@ def compute_currency_energy(
             raw_signed=raw_signed,
             absorption_escape_state=absorption_escape,
             contextual_tags=ctx_tags,
+            energy_context=energy_context,
+            elastic_tension_score=elastic_tension_score,
+            elastic_tension_label=elastic_tension_label,
             missing_modules=missing_modules,
             notes=note_str,
         ))
@@ -826,13 +933,14 @@ def build_currency_energy_state(
             "timeframe":        timeframe,
             "bars":             bars,
             "htf_tfs_scanned":  list(htf_tfs),
-            "formula_version":  "V0.1",
+            "formula_version":  "V0.2_P_NEXT_1",
             "weights":          WEIGHTS,
             "modules_available": {
                 "pf_personalities":    _HAS_PERSONALITIES,
                 "pf_zone_dynamics":    _HAS_ZONE,
                 "pf_force_kinematics": _HAS_KINEMATICS,
                 "pf_db_freshness_probe": _HAS_FRESHNESS,
+                "pf_tension_signature": _HAS_TENSION_SIGNATURE,
             },
         },
         "capture": {
