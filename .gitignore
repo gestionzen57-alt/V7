@@ -24,3 +24,26 @@ venv/
 *.tmp
 *.bak
 temporal_density.txt
+# PowerFlow local / generated noise
+.tmp.driveupload/
+desktop.ini
+manifest.csv
+audit_report.csv
+
+# Cleanup archives
+Archive_*/
+
+# Python noise
+__pycache__/
+*.pyc
+*.pyo
+
+# Local databases / heavy runtime outputs
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment
+.venv/
+venv/
+.env
