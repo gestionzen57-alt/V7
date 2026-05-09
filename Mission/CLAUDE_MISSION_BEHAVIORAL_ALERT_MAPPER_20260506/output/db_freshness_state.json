@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "generated_at": "2026-05-05T11:12:47.128477Z",
+    "source": "pf_db_freshness_probe",
+    "version": "0.3-readonly",
+    "symbol": "GBPUSD",
+    "stale_minutes": 5,
+    "tactical_stale_minutes": 180
+  },
+  "files": {
+    "powerflow.db": {
+      "path": "powerflow.db",
+      "exists": true,
+      "size_bytes": 3178496,
+      "modified_at": "2026-05-05T11:08:32.002003Z",
+      "modified_age_minutes": 4.3
+    },
+    "powerflow.db-wal": {
+      "path": "powerflow.db-wal",
+      "exists": true,
+      "size_bytes": 4297192,
+      "modified_at": "2026-05-05T11:08:31.867320Z",
+      "modified_age_minutes": 4.3
+    },
+    "powerflow.db-shm": {
+      "path": "powerflow.db-shm",
+      "exists": true,
+      "size_bytes": 32768,
+      "modified_at": "2026-05-04T15:57:28.935637Z",
+      "modified_age_minutes": 1155.3
+    }
+  },
+  "tables": [
+    {
+      "table": "force_snapshots",
+      "exists": true,
+      "row_count": 3398,
+      "latest_timestamp": "2026-05-05T14:05:00Z",
+      "data_age_minutes": 0.0,
+      "status": "LIVE_OK",
+      "time_column": "created_at",
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    },
+    {
+      "table": "force_snapshots_v2",
+      "exists": true,
+      "row_count": 31,
+      "latest_timestamp": "2026-05-05T14:05:00Z",
+      "data_age_minutes": 0.0,
+      "status": "LIVE_OK",
+      "time_column": "created_at",
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    },
+    {
+      "table": "nodes_v6",
+      "exists": true,
+      "row_count": 34,
+      "latest_timestamp": null,
+      "data_age_minutes": null,
+      "status": "NO_TIME_COLUMN",
+      "time_column": null,
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    },
+    {
+      "table": "signals",
+      "exists": true,
+      "row_count": 1777,
+      "latest_timestamp": "2026-05-05T11:08:31.867327Z",
+      "data_age_minutes": 4.3,
+      "status": "LIVE_OK",
+      "time_column": "created_at",
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    },
+    {
+      "table": "zone_diagnostics",
+      "exists": true,
+      "row_count": 1368,
+      "latest_timestamp": null,
+      "data_age_minutes": null,
+      "status": "NO_TIME_COLUMN",
+      "time_column": null,
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    }
+  ],
+  "processes": {},
+  "verdict": {
+    "status": "LIVE_OK",
+    "latest_timestamp": "2026-05-05T14:05:00Z",
+    "data_age_minutes": 0.0,
+    "probable_cause": "capture_chain_currently_fresh",
+    "next_action": [
+      "run_temporal_node_state_again",
+      "then_prepare_telegram_dry_run"
+    ],
+    "risks_technical": [
+      "timestamp_age_clamped_zero_check_timezone_or_broker_time"
+    ],
+    "source_table": "force_snapshots"
+  }
+}

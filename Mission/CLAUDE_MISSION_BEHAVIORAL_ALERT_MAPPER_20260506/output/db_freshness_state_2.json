@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "generated_at": "2026-05-05T10:47:16.652562Z",
+    "source": "pf_db_freshness_probe",
+    "version": "0.1-readonly",
+    "symbol": "GBPUSD",
+    "stale_minutes": 5,
+    "tactical_stale_minutes": 180
+  },
+  "files": {
+    "powerflow.db": {
+      "path": "powerflow.db",
+      "exists": true,
+      "size_bytes": 3137536,
+      "modified_at": "2026-05-04T15:57:28.503493Z",
+      "modified_age_minutes": 1129.8
+    },
+    "powerflow.db-wal": {
+      "path": "powerflow.db-wal",
+      "exists": true,
+      "size_bytes": 3473192,
+      "modified_at": "2026-05-04T18:35:51.411176Z",
+      "modified_age_minutes": 971.4
+    },
+    "powerflow.db-shm": {
+      "path": "powerflow.db-shm",
+      "exists": true,
+      "size_bytes": 32768,
+      "modified_at": "2026-05-04T15:57:28.935637Z",
+      "modified_age_minutes": 1129.8
+    }
+  },
+  "tables": [
+    {
+      "table": "force_snapshots",
+      "exists": true,
+      "row_count": 3389,
+      "latest_timestamp": "2026-05-04T21:07:00Z",
+      "data_age_minutes": 820.3,
+      "status": "DATA_STALE",
+      "time_column": "created_at",
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    },
+    {
+      "table": "force_snapshots_v2",
+      "exists": true,
+      "row_count": 23,
+      "latest_timestamp": "2026-05-04T21:07:00Z",
+      "data_age_minutes": 820.3,
+      "status": "DATA_STALE",
+      "time_column": "created_at",
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    },
+    {
+      "table": "nodes_v6",
+      "exists": true,
+      "row_count": 34,
+      "latest_timestamp": null,
+      "data_age_minutes": null,
+      "status": "NO_TIME_COLUMN",
+      "time_column": null,
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    },
+    {
+      "table": "signals",
+      "exists": true,
+      "row_count": 1764,
+      "latest_timestamp": "2026-05-04T18:35:51.411074Z",
+      "data_age_minutes": 971.4,
+      "status": "DATA_STALE",
+      "time_column": "created_at",
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    },
+    {
+      "table": "zone_diagnostics",
+      "exists": true,
+      "row_count": 1368,
+      "latest_timestamp": null,
+      "data_age_minutes": null,
+      "status": "NO_TIME_COLUMN",
+      "time_column": null,
+      "symbol_column": "symbol",
+      "timeframe_column": "timeframe"
+    }
+  ],
+  "processes": {
+    "tasklist_available": false,
+    "python_processes": [],
+    "capture_bridge_hint": false,
+    "notes": [
+      "tasklist_error:Command '['tasklist', '/V', '/FO', 'CSV']' timed out after 5 seconds"
+    ]
+  },
+  "verdict": {
+    "status": "DATA_STALE",
+    "latest_timestamp": "2026-05-04T21:07:00Z",
+    "data_age_minutes": 820.3,
+    "probable_cause": "capture_chain_not_updating_force_snapshots",
+    "next_action": [
+      "start_or_check_capture_bridge",
+      "verify_MT4_EA_is_connected",
+      "check_TCP_127.0.0.1_55555",
+      "re-run_probe_after_30_seconds"
+    ],
+    "risks_technical": [
+      "stale_data",
+      "historical_perception_only"
+    ]
+  }
+}

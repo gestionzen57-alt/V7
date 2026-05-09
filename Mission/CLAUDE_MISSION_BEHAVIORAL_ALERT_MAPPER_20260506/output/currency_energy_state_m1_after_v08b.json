@@ -1,0 +1,480 @@
+{
+  "meta": {
+    "generated_at": "2026-05-05T23:02:17.596982Z",
+    "source": "pf_currency_energy_probe",
+    "version": "0.1",
+    "symbol": "GBPUSD",
+    "timeframe": 1,
+    "bars": 50,
+    "htf_tfs_scanned": [
+      5,
+      15,
+      30
+    ],
+    "formula_version": "V0.1",
+    "weights": {
+      "zone_tension": 0.25,
+      "behavioral_zscore": 0.2,
+      "speed": 0.15,
+      "angle": 0.1,
+      "acceleration": 0.1,
+      "persistence": 0.1,
+      "basket_deviation": 0.05,
+      "htf_context": 0.05
+    },
+    "modules_available": {
+      "pf_personalities": true,
+      "pf_zone_dynamics": true,
+      "pf_force_kinematics": true,
+      "pf_db_freshness_probe": true
+    },
+    "db_table": "force_snapshots",
+    "force_cols_found": [
+      "GBP",
+      "USD",
+      "EUR",
+      "JPY",
+      "CAD",
+      "CHF",
+      "AUD"
+    ]
+  },
+  "capture": {
+    "data_age_minutes": 0.0,
+    "capture_status": "LIVE_OK",
+    "capture_quality_penalty": 0.0
+  },
+  "currencies": {
+    "EUR": {
+      "currency": "EUR",
+      "timeframe": 1,
+      "energy_raw_score": 0.4899,
+      "energy_score": 0.4899,
+      "energy_label": "ENERGY_LOW",
+      "energy_confidence": "HIGH",
+      "capture_quality_penalty": 0.0,
+      "components": {
+        "zone_tension_norm": 0.8895,
+        "behavioral_zscore_norm": 0.5397,
+        "speed_norm": 0.0735,
+        "angle_norm": 0.2049,
+        "acceleration_norm": 0.3764,
+        "persistence_norm": 0.4,
+        "basket_deviation_norm": 0.7091,
+        "htf_context_norm": 0.3
+      },
+      "raw_signed": {
+        "behavioral_zscore": 1.6191,
+        "z_current": 1.6191,
+        "zone_state": "PRE_EXTREME",
+        "zone_level": "PRE_EXTREME",
+        "z_extreme_dir": "HIGH",
+        "bars_in_extreme": 8,
+        "absorption_factor": 0.5,
+        "tension_score": 1.779,
+        "depth_slope": 0.0,
+        "depth_acceleration": 0.0,
+        "context_score": 2.01,
+        "speed_per_min": 0.2941,
+        "angle_deg": 16.39,
+        "acceleration_raw": -1.5056,
+        "amplitude_norm_ref": 4.0,
+        "basket_deviation": 7.0908,
+        "htf_context_score": 0.3,
+        "htf_tfs_scanned": [
+          5,
+          15,
+          30
+        ],
+        "role": "RISK",
+        "volatility_class": "MEDIUM",
+        "tempo_tf": 15
+      },
+      "absorption_escape_state": "PRE_EXTREME",
+      "contextual_tags": [
+        "LOCAL_ZONE_WORK",
+        "M1_SPECIAL_MICROFILM",
+        "CURRENCY_EUR"
+      ],
+      "missing_modules": [],
+      "notes": "Zone approche extrême. Tension naissante. TF=1 hors tempo natif 15 pour EUR."
+    },
+    "CAD": {
+      "currency": "CAD",
+      "timeframe": 1,
+      "energy_raw_score": 0.292,
+      "energy_score": 0.292,
+      "energy_label": "ENERGY_LOW",
+      "energy_confidence": "HIGH",
+      "capture_quality_penalty": 0.0,
+      "components": {
+        "zone_tension_norm": 0.0,
+        "behavioral_zscore_norm": 0.1994,
+        "speed_norm": 0.2793,
+        "angle_norm": 0.6021,
+        "acceleration_norm": 1.0,
+        "persistence_norm": 0.0,
+        "basket_deviation_norm": 1.0,
+        "htf_context_norm": 0.0
+      },
+      "raw_signed": {
+        "behavioral_zscore": 0.5981,
+        "z_current": 0.5981,
+        "zone_state": "NEUTRAL",
+        "zone_level": "NORMAL",
+        "z_extreme_dir": "NONE",
+        "bars_in_extreme": 0,
+        "absorption_factor": 1.0,
+        "tension_score": 0.0,
+        "depth_slope": 0.0,
+        "depth_acceleration": 0.0,
+        "context_score": 0.0,
+        "speed_per_min": 1.1172,
+        "angle_deg": 48.17,
+        "acceleration_raw": -4.0139,
+        "amplitude_norm_ref": 4.0,
+        "basket_deviation": -28.0889,
+        "htf_context_score": 0.0,
+        "htf_tfs_scanned": [
+          5,
+          15,
+          30
+        ],
+        "role": "PIVOT",
+        "volatility_class": "MEDIUM",
+        "tempo_tf": 15
+      },
+      "absorption_escape_state": "NEUTRAL",
+      "contextual_tags": [
+        "CURRENCY_CAD"
+      ],
+      "missing_modules": [],
+      "notes": "TF=1 hors tempo natif 15 pour CAD."
+    },
+    "AUD": {
+      "currency": "AUD",
+      "timeframe": 1,
+      "energy_raw_score": 0.242,
+      "energy_score": 0.242,
+      "energy_label": "ENERGY_WEAK",
+      "energy_confidence": "HIGH",
+      "capture_quality_penalty": 0.0,
+      "components": {
+        "zone_tension_norm": 0.0,
+        "behavioral_zscore_norm": 0.3818,
+        "speed_norm": 0.1546,
+        "angle_norm": 0.5357,
+        "acceleration_norm": 0.239,
+        "persistence_norm": 0.0,
+        "basket_deviation_norm": 1.0,
+        "htf_context_norm": 0.3
+      },
+      "raw_signed": {
+        "behavioral_zscore": 1.1453,
+        "z_current": 1.1453,
+        "zone_state": "NEUTRAL",
+        "zone_level": "NORMAL",
+        "z_extreme_dir": "NONE",
+        "bars_in_extreme": 0,
+        "absorption_factor": 1.0,
+        "tension_score": 0.0,
+        "depth_slope": 0.0,
+        "depth_acceleration": 0.0,
+        "context_score": 0.0,
+        "speed_per_min": -0.9279,
+        "angle_deg": -42.86,
+        "acceleration_raw": 1.4338,
+        "amplitude_norm_ref": 6.0,
+        "basket_deviation": 28.6475,
+        "htf_context_score": 0.3,
+        "htf_tfs_scanned": [
+          5,
+          15,
+          30
+        ],
+        "role": "RISK",
+        "volatility_class": "HIGH",
+        "tempo_tf": 5
+      },
+      "absorption_escape_state": "NEUTRAL",
+      "contextual_tags": [
+        "CURRENCY_AUD"
+      ],
+      "missing_modules": [],
+      "notes": "TF=1 hors tempo natif 5 pour AUD."
+    },
+    "GBP": {
+      "currency": "GBP",
+      "timeframe": 1,
+      "energy_raw_score": 0.2174,
+      "energy_score": 0.2174,
+      "energy_label": "ENERGY_WEAK",
+      "energy_confidence": "HIGH",
+      "capture_quality_penalty": 0.0,
+      "components": {
+        "zone_tension_norm": 0.0,
+        "behavioral_zscore_norm": 0.4214,
+        "speed_norm": 0.1429,
+        "angle_norm": 0.4442,
+        "acceleration_norm": 0.0232,
+        "persistence_norm": 0.0,
+        "basket_deviation_norm": 1.0,
+        "htf_context_norm": 0.3
+      },
+      "raw_signed": {
+        "behavioral_zscore": 1.2641,
+        "z_current": 1.2641,
+        "zone_state": "NEUTRAL",
+        "zone_level": "NORMAL",
+        "z_extreme_dir": "NONE",
+        "bars_in_extreme": 0,
+        "absorption_factor": 1.0,
+        "tension_score": 0.0,
+        "depth_slope": 0.0,
+        "depth_acceleration": 0.0,
+        "context_score": 0.0,
+        "speed_per_min": 0.7144,
+        "angle_deg": 35.54,
+        "acceleration_raw": -0.1158,
+        "amplitude_norm_ref": 5.0,
+        "basket_deviation": 23.7895,
+        "htf_context_score": 0.3,
+        "htf_tfs_scanned": [
+          5,
+          15,
+          30
+        ],
+        "role": "RISK",
+        "volatility_class": "MEDIUM",
+        "tempo_tf": 15
+      },
+      "absorption_escape_state": "NEUTRAL",
+      "contextual_tags": [
+        "CURRENCY_GBP"
+      ],
+      "missing_modules": [],
+      "notes": "TF=1 hors tempo natif 15 pour GBP."
+    },
+    "CHF": {
+      "currency": "CHF",
+      "timeframe": 1,
+      "energy_raw_score": 0.1958,
+      "energy_score": 0.1958,
+      "energy_label": "ENERGY_WEAK",
+      "energy_confidence": "HIGH",
+      "capture_quality_penalty": 0.0,
+      "components": {
+        "zone_tension_norm": 0.0,
+        "behavioral_zscore_norm": 0.4444,
+        "speed_norm": 0.1032,
+        "angle_norm": 0.215,
+        "acceleration_norm": 0.0491,
+        "persistence_norm": 0.0,
+        "basket_deviation_norm": 1.0,
+        "htf_context_norm": 0.3
+      },
+      "raw_signed": {
+        "behavioral_zscore": 1.3332,
+        "z_current": 1.3332,
+        "zone_state": "NEUTRAL",
+        "zone_level": "NORMAL",
+        "z_extreme_dir": "NONE",
+        "bars_in_extreme": 0,
+        "absorption_factor": 1.0,
+        "tension_score": 0.0,
+        "depth_slope": 0.0,
+        "depth_acceleration": 0.0,
+        "context_score": 0.0,
+        "speed_per_min": 0.3095,
+        "angle_deg": 17.2,
+        "acceleration_raw": 0.1473,
+        "amplitude_norm_ref": 3.0,
+        "basket_deviation": 20.5942,
+        "htf_context_score": 0.3,
+        "htf_tfs_scanned": [
+          5,
+          15,
+          30
+        ],
+        "role": "REFUGE",
+        "volatility_class": "LOW",
+        "tempo_tf": 30
+      },
+      "absorption_escape_state": "NEUTRAL",
+      "contextual_tags": [
+        "CURRENCY_CHF"
+      ],
+      "missing_modules": [],
+      "notes": "TF=1 hors tempo natif 30 pour CHF."
+    },
+    "JPY": {
+      "currency": "JPY",
+      "timeframe": 1,
+      "energy_raw_score": 0.1525,
+      "energy_score": 0.1525,
+      "energy_label": "ENERGY_WEAK",
+      "energy_confidence": "HIGH",
+      "capture_quality_penalty": 0.0,
+      "components": {
+        "zone_tension_norm": 0.0,
+        "behavioral_zscore_norm": 0.419,
+        "speed_norm": 0.0119,
+        "angle_norm": 0.1509,
+        "acceleration_norm": 0.1633,
+        "persistence_norm": 0.0,
+        "basket_deviation_norm": 0.4099,
+        "htf_context_norm": 0.3
+      },
+      "raw_signed": {
+        "behavioral_zscore": 1.257,
+        "z_current": 1.257,
+        "zone_state": "NEUTRAL",
+        "zone_level": "NORMAL",
+        "z_extreme_dir": "NONE",
+        "bars_in_extreme": 0,
+        "absorption_factor": 1.0,
+        "tension_score": 0.0,
+        "depth_slope": 0.0,
+        "depth_acceleration": 0.0,
+        "context_score": 0.0,
+        "speed_per_min": 0.2139,
+        "angle_deg": 12.07,
+        "acceleration_raw": 2.9398,
+        "amplitude_norm_ref": 18.0,
+        "basket_deviation": 4.099,
+        "htf_context_score": 0.3,
+        "htf_tfs_scanned": [
+          5,
+          15,
+          30
+        ],
+        "role": "REFUGE",
+        "volatility_class": "HIGH",
+        "tempo_tf": 5
+      },
+      "absorption_escape_state": "NEUTRAL",
+      "contextual_tags": [
+        "CURRENCY_JPY"
+      ],
+      "missing_modules": [],
+      "notes": "TF=1 hors tempo natif 5 pour JPY."
+    },
+    "USD": {
+      "currency": "USD",
+      "timeframe": 1,
+      "energy_raw_score": 0.0642,
+      "energy_score": 0.0642,
+      "energy_label": "ENERGY_WEAK",
+      "energy_confidence": "HIGH",
+      "capture_quality_penalty": 0.0,
+      "components": {
+        "zone_tension_norm": 0.0,
+        "behavioral_zscore_norm": 0.0,
+        "speed_norm": 0.0347,
+        "angle_norm": 0.0744,
+        "acceleration_norm": 0.0151,
+        "persistence_norm": 0.0,
+        "basket_deviation_norm": 1.0,
+        "htf_context_norm": 0.0
+      },
+      "raw_signed": {
+        "behavioral_zscore": 0.0,
+        "z_current": 0.0,
+        "zone_state": "NEUTRAL",
+        "zone_level": "NORMAL",
+        "z_extreme_dir": "NONE",
+        "bars_in_extreme": 0,
+        "absorption_factor": 1.0,
+        "tension_score": 0.0,
+        "depth_slope": 0.0,
+        "depth_acceleration": 0.0,
+        "context_score": 0.0,
+        "speed_per_min": -0.1042,
+        "angle_deg": -5.95,
+        "acceleration_raw": -0.0453,
+        "amplitude_norm_ref": 3.0,
+        "basket_deviation": -56.1322,
+        "htf_context_score": 0.0,
+        "htf_tfs_scanned": [
+          5,
+          15,
+          30
+        ],
+        "role": "PIVOT",
+        "volatility_class": "MEDIUM",
+        "tempo_tf": 30
+      },
+      "absorption_escape_state": "NEUTRAL",
+      "contextual_tags": [
+        "CURRENCY_USD"
+      ],
+      "missing_modules": [],
+      "notes": "TF=1 hors tempo natif 30 pour USD."
+    }
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "currency": "EUR",
+      "energy_score": 0.4899,
+      "label": "ENERGY_LOW",
+      "absorption": "PRE_EXTREME"
+    },
+    {
+      "rank": 2,
+      "currency": "CAD",
+      "energy_score": 0.292,
+      "label": "ENERGY_LOW",
+      "absorption": "NEUTRAL"
+    },
+    {
+      "rank": 3,
+      "currency": "AUD",
+      "energy_score": 0.242,
+      "label": "ENERGY_WEAK",
+      "absorption": "NEUTRAL"
+    },
+    {
+      "rank": 4,
+      "currency": "GBP",
+      "energy_score": 0.2174,
+      "label": "ENERGY_WEAK",
+      "absorption": "NEUTRAL"
+    },
+    {
+      "rank": 5,
+      "currency": "CHF",
+      "energy_score": 0.1958,
+      "label": "ENERGY_WEAK",
+      "absorption": "NEUTRAL"
+    },
+    {
+      "rank": 6,
+      "currency": "JPY",
+      "energy_score": 0.1525,
+      "label": "ENERGY_WEAK",
+      "absorption": "NEUTRAL"
+    },
+    {
+      "rank": 7,
+      "currency": "USD",
+      "energy_score": 0.0642,
+      "label": "ENERGY_WEAK",
+      "absorption": "NEUTRAL"
+    }
+  ],
+  "top_energy": {
+    "highest": "EUR",
+    "highest_score": 0.4899,
+    "high_field": [],
+    "in_transition": [],
+    "weak_field": [
+      "AUD",
+      "GBP",
+      "CHF",
+      "JPY",
+      "USD"
+    ]
+  },
+  "energy_field_summary": "EUR dominant (ENERGY_LOW, PRE_EXTREME). Faibles : AUD+GBP+CHF+JPY+USD."
+}

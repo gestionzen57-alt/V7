@@ -1,0 +1,23 @@
+﻿# INBOX RULES
+
+Drop fast. Class later.
+
+Filename format:
+YYYYMMDD_HHMM__TYPE__SOURCE__TOPIC__STATUS.md
+
+TYPE:
+REPORT / CHECKPOINT / MISSION / AUDIT / SPEC / PATCH / LAB / VISION_NOTE / DECISION / ROADMAP / CURRENT_STATE
+
+SOURCE:
+GPT_MAIN / GPT_CODE / CLAUDE / PERPLEXITY / GEMINI / TRADER / SYSTEM
+
+STATUS:
+DRAFT / ACTIVE / DONE / SUPERSEDED / LEGACY / REJECTED
+
+Rule:
+Report goes to REPORTS.
+Decision goes to CHECKPOINTS.
+Current truth goes to CURRENT.
+Live idea goes to LABS.
+Mission goes to MISSIONS.
+Technical brick goes to SPECS.

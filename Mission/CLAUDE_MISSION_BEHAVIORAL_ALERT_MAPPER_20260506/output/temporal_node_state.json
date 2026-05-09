@@ -1,0 +1,573 @@
+{
+  "meta": {
+    "generated_at": "2026-05-05T23:05:38.352494Z",
+    "symbol": "GBPUSD",
+    "recent_minutes": 180,
+    "source": "pf_temporal_node_state",
+    "version": "0.6-node-context",
+    "visual_htf_story": "confirmed"
+  },
+  "db_vision": {
+    "status": "TACTICAL_OK",
+    "table": "force_snapshots",
+    "rows_loaded": 277,
+    "latest_timestamp": "2026-05-06T02:04:00Z",
+    "data_age_minutes": 0.0,
+    "freshness_gate": "LIVE_PERCEPTION_OK",
+    "telegram_live_allowed": true,
+    "notes": [],
+    "tf_coverage": {
+      "M1": 234,
+      "M5": 19,
+      "M15": 15,
+      "M30": 5,
+      "H1": 4
+    }
+  },
+  "node_summary": {
+    "active_count": 4,
+    "highest_level": "HOT_NODE",
+    "dominant_direction": "GBP pressure down / USD pressure up",
+    "telegram_mode": "SCALPING",
+    "best_score": 11.0,
+    "has_convergence": true,
+    "has_repulsion": false,
+    "fractal_score": 3,
+    "best_interest": "NODE_COMPLET_FULL",
+    "structure_label": "M1_MICRO_NODE_BIRTH",
+    "fractal_state": "LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+    "extended_micro_window": "MICRO_WINDOW_ACTIVE_WEAK"
+  },
+  "nodes": [
+    {
+      "id": "NODE_004",
+      "timestamp": "2026-05-06T01:30:00Z",
+      "symbol": "GBPUSD",
+      "timeframe": "M30",
+      "tf_minutes": 30,
+      "type": "NODE_COMPLET_FULL",
+      "level": "HOT_NODE",
+      "family": "TEMPORAL_NODE",
+      "direction_bias": "GBP pressure down / USD pressure up",
+      "maturity": "CONFIRMING",
+      "confidence": "STRONG",
+      "score": 11.0,
+      "window": "21:30->01:30",
+      "reasons": [
+        "cross",
+        "kiss_reject",
+        "convergence",
+        "force_shift",
+        "m1_microfilm_context",
+        "htf_battle_context",
+        "micro_window_active_weak"
+      ],
+      "risks_technical": [
+        "small_sample"
+      ],
+      "telegram_allowed": true,
+      "telegram_level": "HOT",
+      "has_convergence": true,
+      "has_repulsion": false,
+      "has_cross": true,
+      "has_kiss_reject": true,
+      "has_compression": false,
+      "has_break": false,
+      "action": "HOT",
+      "severity": "hot",
+      "node_tags": [
+        "m1_microfilm_present",
+        "htf_battle_context",
+        "micro_window_active_weak"
+      ],
+      "context": {
+        "structure_label": "M1_MICRO_NODE_BIRTH",
+        "fractal_state": "LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+        "trigger_tf": "M1",
+        "m1_role": "M1_NODE_ACTIVE",
+        "m5_role": "M5_TACTICAL_NODE_BIRTH",
+        "m15_role": "M15_NODE_ACTIVE",
+        "htf_role": "VISUAL_HTF_BATTLE_CONFIRMED",
+        "visual_htf_story": "confirmed",
+        "extended_micro_window": "MICRO_WINDOW_ACTIVE_WEAK",
+        "extended_flags": [
+          "NZD_AVAILABLE",
+          "SPREAD_CLEAN_FIELD",
+          "MICRO_WINDOW_ACTIVE_WEAK"
+        ]
+      },
+      "description": "NODE_COMPLET_FULL / HOT_NODE — GBP pressure down / USD pressure up — cross, kiss_reject, convergence, force_shift, m1_microfilm_context, htf_battle_context, micro_window_active_weak"
+    },
+    {
+      "id": "NODE_001",
+      "timestamp": "2026-05-06T02:04:00Z",
+      "symbol": "GBPUSD",
+      "timeframe": "M1",
+      "tf_minutes": 1,
+      "type": "NODE_WATCH",
+      "level": "FAST_NODE_BIRTH",
+      "family": "TEMPORAL_NODE",
+      "direction_bias": "GBP pressure up / USD pressure down",
+      "maturity": "BIRTH",
+      "confidence": "EARLY_M1",
+      "score": 5.5,
+      "window": "01:13->02:04",
+      "reasons": [
+        "compression",
+        "break",
+        "force_shift",
+        "m1_microfilm_birth",
+        "fractal_context",
+        "m1_microfilm_context",
+        "htf_battle_context",
+        "micro_window_active_weak"
+      ],
+      "risks_technical": [
+        "m1_noise",
+        "early_maturity"
+      ],
+      "telegram_allowed": true,
+      "telegram_level": "BIRTH",
+      "has_convergence": false,
+      "has_repulsion": false,
+      "has_cross": false,
+      "has_kiss_reject": false,
+      "has_compression": true,
+      "has_break": true,
+      "action": "WATCH_BIRTH",
+      "severity": "important",
+      "node_tags": [
+        "m1_microfilm_present",
+        "htf_battle_context",
+        "micro_window_active_weak"
+      ],
+      "context": {
+        "structure_label": "M1_MICRO_NODE_BIRTH",
+        "fractal_state": "LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+        "trigger_tf": "M1",
+        "m1_role": "M1_NODE_ACTIVE",
+        "m5_role": "M5_TACTICAL_NODE_BIRTH",
+        "m15_role": "M15_NODE_ACTIVE",
+        "htf_role": "VISUAL_HTF_BATTLE_CONFIRMED",
+        "visual_htf_story": "confirmed",
+        "extended_micro_window": "MICRO_WINDOW_ACTIVE_WEAK",
+        "extended_flags": [
+          "NZD_AVAILABLE",
+          "SPREAD_CLEAN_FIELD",
+          "MICRO_WINDOW_ACTIVE_WEAK"
+        ]
+      },
+      "description": "NODE_WATCH / FAST_NODE_BIRTH — GBP pressure up / USD pressure down — compression, break, force_shift, m1_microfilm_birth, fractal_context, m1_microfilm_context, htf_battle_context, micro_window_active_weak"
+    },
+    {
+      "id": "NODE_002",
+      "timestamp": "2026-05-06T01:55:00Z",
+      "symbol": "GBPUSD",
+      "timeframe": "M5",
+      "tf_minutes": 5,
+      "type": "NODE_WATCH",
+      "level": "NODE_BIRTH",
+      "family": "TEMPORAL_NODE",
+      "direction_bias": "GBP pressure up / USD pressure down",
+      "maturity": "BIRTH",
+      "confidence": "EARLY",
+      "score": 5.0,
+      "window": "22:00->01:55",
+      "reasons": [
+        "compression",
+        "break",
+        "force_shift",
+        "fractal_context",
+        "m1_microfilm_context",
+        "htf_battle_context",
+        "micro_window_active_weak"
+      ],
+      "risks_technical": [
+        "early_maturity"
+      ],
+      "telegram_allowed": true,
+      "telegram_level": "BIRTH",
+      "has_convergence": false,
+      "has_repulsion": false,
+      "has_cross": false,
+      "has_kiss_reject": false,
+      "has_compression": true,
+      "has_break": true,
+      "action": "WATCH_BIRTH",
+      "severity": "important",
+      "node_tags": [
+        "m1_microfilm_present",
+        "htf_battle_context",
+        "micro_window_active_weak"
+      ],
+      "context": {
+        "structure_label": "M1_MICRO_NODE_BIRTH",
+        "fractal_state": "LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+        "trigger_tf": "M1",
+        "m1_role": "M1_NODE_ACTIVE",
+        "m5_role": "M5_TACTICAL_NODE_BIRTH",
+        "m15_role": "M15_NODE_ACTIVE",
+        "htf_role": "VISUAL_HTF_BATTLE_CONFIRMED",
+        "visual_htf_story": "confirmed",
+        "extended_micro_window": "MICRO_WINDOW_ACTIVE_WEAK",
+        "extended_flags": [
+          "NZD_AVAILABLE",
+          "SPREAD_CLEAN_FIELD",
+          "MICRO_WINDOW_ACTIVE_WEAK"
+        ]
+      },
+      "description": "NODE_WATCH / NODE_BIRTH — GBP pressure up / USD pressure down — compression, break, force_shift, fractal_context, m1_microfilm_context, htf_battle_context, micro_window_active_weak"
+    },
+    {
+      "id": "NODE_003",
+      "timestamp": "2026-05-06T01:45:00Z",
+      "symbol": "GBPUSD",
+      "timeframe": "M15",
+      "tf_minutes": 15,
+      "type": "NODE_SIMPLE",
+      "level": "NODE_WATCH",
+      "family": "TEMPORAL_NODE",
+      "direction_bias": "GBP pressure down / USD pressure up",
+      "maturity": "BIRTH",
+      "confidence": "EARLY",
+      "score": 3.0,
+      "window": "21:45->01:45",
+      "reasons": [
+        "cross",
+        "force_shift",
+        "m1_microfilm_context",
+        "htf_battle_context",
+        "micro_window_active_weak"
+      ],
+      "risks_technical": [
+        "early_maturity"
+      ],
+      "telegram_allowed": false,
+      "telegram_level": "WATCH",
+      "has_convergence": false,
+      "has_repulsion": false,
+      "has_cross": true,
+      "has_kiss_reject": false,
+      "has_compression": false,
+      "has_break": false,
+      "action": "WATCH",
+      "severity": "watch",
+      "node_tags": [
+        "m1_microfilm_present",
+        "htf_battle_context",
+        "micro_window_active_weak"
+      ],
+      "context": {
+        "structure_label": "M1_MICRO_NODE_BIRTH",
+        "fractal_state": "LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+        "trigger_tf": "M1",
+        "m1_role": "M1_NODE_ACTIVE",
+        "m5_role": "M5_TACTICAL_NODE_BIRTH",
+        "m15_role": "M15_NODE_ACTIVE",
+        "htf_role": "VISUAL_HTF_BATTLE_CONFIRMED",
+        "visual_htf_story": "confirmed",
+        "extended_micro_window": "MICRO_WINDOW_ACTIVE_WEAK",
+        "extended_flags": [
+          "NZD_AVAILABLE",
+          "SPREAD_CLEAN_FIELD",
+          "MICRO_WINDOW_ACTIVE_WEAK"
+        ]
+      },
+      "description": "NODE_SIMPLE / NODE_WATCH — GBP pressure down / USD pressure up — cross, force_shift, m1_microfilm_context, htf_battle_context, micro_window_active_weak"
+    }
+  ],
+  "node_context": {
+    "structure_label": "M1_MICRO_NODE_BIRTH",
+    "fractal_state": "LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+    "trigger_tf": "M1",
+    "m1_role": "M1_NODE_ACTIVE",
+    "m5_role": "M5_RELAY_CLEAN",
+    "m15_role": "M15_NODE_ACTIVE",
+    "htf_role": "VISUAL_HTF_BATTLE_CONFIRMED",
+    "visual_htf_story": "confirmed",
+    "extended_micro_window": "MICRO_WINDOW_ACTIVE_WEAK",
+    "extended_flags": [
+      "NZD_AVAILABLE",
+      "SPREAD_CLEAN_FIELD",
+      "MICRO_WINDOW_ACTIVE_WEAK"
+    ]
+  },
+  "extended": {
+    "schema_state": "EXTENDED_SCHEMA_OK",
+    "table": "force_snapshots_v2",
+    "rows_loaded": 208,
+    "latest_timestamp": "2026-05-06T02:04:00Z",
+    "tf_coverage": {
+      "H1": 2,
+      "M1": 176,
+      "M15": 8,
+      "M30": 4,
+      "M5": 18
+    },
+    "flags": [
+      "NZD_AVAILABLE",
+      "SPREAD_CLEAN_FIELD",
+      "MICRO_WINDOW_ACTIVE_WEAK"
+    ],
+    "micro_window_state": "MICRO_WINDOW_ACTIVE_WEAK",
+    "metrics": {
+      "spread_pips_avg": 0.4,
+      "last_pip_range": 1.6,
+      "pip_range_expansion_ratio": 1.0,
+      "last_tick_volume": 92.0,
+      "volume_expansion_ratio": 1.189
+    }
+  },
+  "telegram_candidates": [
+    {
+      "node_id": "NODE_004",
+      "severity": "hot",
+      "should_send": true,
+      "dry_run_only": true,
+      "telegram_level": "HOT",
+      "dedupe_key_hint": "GBPUSD|M30|NODE_COMPLET_FULL|21:30->01:30",
+      "message": "🔥 POWERFLOW NODE HOT\\nGBPUSD | NODE_COMPLET_FULL | HOT_NODE | M30\\nBias: GBP pressure down / USD pressure up\\nWindow: 21:30->01:30 | Score: 11.0\\nContext: M1_MICRO_NODE_BIRTH\\nNext: WATCH"
+    },
+    {
+      "node_id": "NODE_001",
+      "severity": "important",
+      "should_send": true,
+      "dry_run_only": true,
+      "telegram_level": "BIRTH",
+      "dedupe_key_hint": "GBPUSD|M1|NODE_WATCH|01:13->02:04",
+      "message": "🟠 POWERFLOW NODE IMPORTANT\\nGBPUSD | NODE_WATCH | FAST_NODE_BIRTH | M1\\nBias: GBP pressure up / USD pressure down\\nWindow: 01:13->02:04 | Score: 5.5\\nContext: M1_MICRO_NODE_BIRTH\\nNext: WATCH"
+    },
+    {
+      "node_id": "NODE_002",
+      "severity": "important",
+      "should_send": true,
+      "dry_run_only": true,
+      "telegram_level": "BIRTH",
+      "dedupe_key_hint": "GBPUSD|M5|NODE_WATCH|22:00->01:55",
+      "message": "🟠 POWERFLOW NODE IMPORTANT\\nGBPUSD | NODE_WATCH | NODE_BIRTH | M5\\nBias: GBP pressure up / USD pressure down\\nWindow: 22:00->01:55 | Score: 5.0\\nContext: M1_MICRO_NODE_BIRTH\\nNext: WATCH"
+    },
+    {
+      "node_id": "NODE_003",
+      "severity": "watch",
+      "should_send": false,
+      "dry_run_only": true,
+      "telegram_level": "WATCH",
+      "dedupe_key_hint": "GBPUSD|M15|NODE_SIMPLE|21:45->01:45",
+      "message": "🟡 POWERFLOW NODE WATCH\\nGBPUSD | NODE_SIMPLE | NODE_WATCH | M15\\nBias: GBP pressure down / USD pressure up\\nWindow: 21:45->01:45 | Score: 3.0\\nContext: M1_MICRO_NODE_BIRTH\\nNext: WATCH"
+    }
+  ],
+  "next_watch": [
+    "WATCH_ABSORPTION",
+    "WATCH_FRACTAL_CONFIRMATION",
+    "WATCH_M1_RESPRING",
+    "WATCH_M15_ENERGY_RELAY",
+    "WATCH_HTF_BATTLE_RESOLUTION",
+    "WATCH_EXTENDED_MICRO_WINDOW"
+  ],
+  "capture_quality": {
+    "live_reference_tf": "M1",
+    "live_reference_timestamp": "2026-05-06T02:04:00Z",
+    "tf_freshness": {
+      "M1": {
+        "status": "LIVE",
+        "rows": 234,
+        "relative_age_minutes": 0.0,
+        "wall_clock_age_minutes": 0.0
+      },
+      "M5": {
+        "status": "LIVE",
+        "rows": 19,
+        "relative_age_minutes": 9.0,
+        "wall_clock_age_minutes": 0.0
+      },
+      "M15": {
+        "status": "LIVE",
+        "rows": 15,
+        "relative_age_minutes": 19.0,
+        "wall_clock_age_minutes": 0.0
+      },
+      "M30": {
+        "status": "LIVE",
+        "rows": 5,
+        "relative_age_minutes": 34.0,
+        "wall_clock_age_minutes": 0.0
+      },
+      "H1": {
+        "status": "LIVE",
+        "rows": 4,
+        "relative_age_minutes": 64.0,
+        "wall_clock_age_minutes": 0.0
+      }
+    },
+    "relay_tf_available": true,
+    "relay_quality": "CLEAN",
+    "relay_sample_state": "M5_RELAY_CLEAN",
+    "m5_role_capture": "M5_RELAY_CLEAN"
+  },
+  "scene_structure": {
+    "scene_type": "HOT_SCENE",
+    "active_node_count": 4,
+    "hot_node_count": 1,
+    "fractal_depth": 4,
+    "is_fractal": true,
+    "structure_label": "M1_MICRO_NODE_BIRTH",
+    "fractal_state": "LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+    "trigger_tf": "M1",
+    "active_tf_list": [
+      "M1",
+      "M15",
+      "M30",
+      "M5"
+    ],
+    "db_tf_list": [
+      "H1",
+      "M1",
+      "M15",
+      "M30",
+      "M5"
+    ],
+    "session_transition": {
+      "active": false,
+      "state": "NONE",
+      "transition_window_minutes": 30,
+      "minutes_from_daily_open": 124.0,
+      "live_reference_tf": "M1",
+      "live_reference_timestamp": "2026-05-06T02:04:00Z",
+      "stale_htf_count": 0,
+      "stale_htf_list": [],
+      "live_htf_list": [
+        "M15",
+        "M30",
+        "H1"
+      ],
+      "flags": [],
+      "note": null
+    },
+    "session_transition_state": "NONE",
+    "transition_flags": []
+  },
+  "direction_windows": {
+    "symbol": "GBPUSD",
+    "windows": [
+      {
+        "tf": "M1",
+        "tf_minutes": 1,
+        "direction_bias": "GBP pressure up / USD pressure down",
+        "level": "FAST_NODE_BIRTH",
+        "score": 5.5,
+        "window": "01:13->02:04"
+      },
+      {
+        "tf": "M5",
+        "tf_minutes": 5,
+        "direction_bias": "GBP pressure up / USD pressure down",
+        "level": "NODE_BIRTH",
+        "score": 5.0,
+        "window": "22:00->01:55"
+      },
+      {
+        "tf": "M15",
+        "tf_minutes": 15,
+        "direction_bias": "GBP pressure down / USD pressure up",
+        "level": "NODE_WATCH",
+        "score": 3.0,
+        "window": "21:45->01:45"
+      },
+      {
+        "tf": "M30",
+        "tf_minutes": 30,
+        "direction_bias": "GBP pressure down / USD pressure up",
+        "level": "HOT_NODE",
+        "score": 11.0,
+        "window": "21:30->01:30"
+      }
+    ],
+    "dominant_direction": "GBP pressure up / USD pressure down",
+    "direction_consensus": false,
+    "direction_count": 2
+  },
+  "telegram_gating": {
+    "effective_state": "HOT_READY",
+    "relay_tf_available": true,
+    "relay_quality": "CLEAN",
+    "relay_sample_state": "M5_RELAY_CLEAN",
+    "m5_role": "M5_RELAY_CLEAN",
+    "live_allowed": true,
+    "telegram_mode": "SCALPING",
+    "hot_node_count": 1,
+    "degraded_reason": null,
+    "note": null
+  },
+  "kinematics_state": {
+    "status": "OK",
+    "live_reference_used": "2026-05-06T02:04:00Z",
+    "window": "2026-05-05T23:04:00Z -> 2026-05-06T02:04:00Z",
+    "angle_state": "NEUTRAL",
+    "speed_state": "MODERATE",
+    "acceleration_state": "STABLE",
+    "same_angle_cluster": {
+      "label": "NO_CLUSTER",
+      "currencies": []
+    },
+    "tight_gravity_cluster": {
+      "label": "M15_TIGHT_GRAVITY_GROUP",
+      "currencies": [
+        "AUD",
+        "NZD",
+        "CHF"
+      ],
+      "forces": {
+        "AUD": 27.12,
+        "NZD": 28.21,
+        "CHF": 32.92
+      },
+      "force_spread": 5.8
+    },
+    "first_detachment": {
+      "detected": false,
+      "label": "NO_DETACHMENT",
+      "note": "no currency angle >= 60 on M1"
+    },
+    "force_hold_with_acceleration_fade": {
+      "detected": false,
+      "label": "NO_FADE",
+      "energy_fade": false,
+      "angle_flattening": true,
+      "notes": [
+        "energy_not_monotone:[9.4, 21.38, 22.11]",
+        "USD_flattening:-60.08->-52.78"
+      ]
+    },
+    "release_candidate": {
+      "release": false,
+      "release_watch": false,
+      "release_confirmed": false,
+      "release_state": "RELEASE_REJECTED",
+      "release_confidence": "LOW",
+      "label": "RELEASE_REJECTED_NO_DETACHMENT",
+      "relay_quality_used": "CLEAN",
+      "m5_supports_detachment": false,
+      "m5_gbp_angle": -2.56,
+      "m5_usd_angle": -31.63,
+      "reasons_ok": [
+        "relay_clean"
+      ],
+      "reasons_nok": [
+        "no_first_detachment",
+        "no_m1_energy_signal"
+      ],
+      "flags": []
+    },
+    "lab_signatures": [
+      "RELEASE_REJECTED"
+    ],
+    "_debug": {
+      "m1_angle_gbp": 30.49,
+      "m1_angle_usd": 30.98,
+      "m1_pair_bias": "GBP_ABOVE_USD",
+      "m5_cluster_label": "NO_CLUSTER",
+      "accel_tags": [],
+      "live_ref_source": "capture_quality"
+    }
+  }
+}

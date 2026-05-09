@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "generated_at": "2026-05-05T13:17:29.361748Z",
+    "source": "pf_force_angle_speed_probe",
+    "version": "0.1-readonly",
+    "symbol": "GBPUSD",
+    "bars": 2,
+    "angle_definition": "angle_deg = atan(delta_force / elapsed_minutes)",
+    "speed_definition": "speed_per_min = delta_force / elapsed_minutes"
+  },
+  "timeframes": {
+    "M5": {
+      "tf_minutes": 5,
+      "rows_loaded": 22,
+      "latest_timestamp": "2026-05-05T16:10:00Z",
+      "data_age_minutes": 0.0,
+      "status": "LIVE_OK",
+      "metrics": [
+        {
+          "currency": "GBP",
+          "latest_force": 64.4214,
+          "delta_force": 9.4122,
+          "speed_per_min": 0.2353,
+          "angle_deg": 13.24,
+          "direction": "UP"
+        },
+        {
+          "currency": "USD",
+          "latest_force": 36.5943,
+          "delta_force": -6.0582,
+          "speed_per_min": -0.1515,
+          "angle_deg": -8.61,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "EUR",
+          "latest_force": 63.4245,
+          "delta_force": -2.3029,
+          "speed_per_min": -0.0576,
+          "angle_deg": -3.3,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "JPY",
+          "latest_force": 41.5701,
+          "delta_force": -22.3854,
+          "speed_per_min": -0.5596,
+          "angle_deg": -29.23,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "CAD",
+          "latest_force": 32.0215,
+          "delta_force": 12.8466,
+          "speed_per_min": 0.3212,
+          "angle_deg": 17.81,
+          "direction": "UP"
+        },
+        {
+          "currency": "CHF",
+          "latest_force": 46.1383,
+          "delta_force": 0.2113,
+          "speed_per_min": 0.0053,
+          "angle_deg": 0.3,
+          "direction": "FLAT"
+        },
+        {
+          "currency": "AUD",
+          "latest_force": 68.7496,
+          "delta_force": 5.8595,
+          "speed_per_min": 0.1465,
+          "angle_deg": 8.33,
+          "direction": "UP"
+        },
+        {
+          "currency": "NZD",
+          "latest_force": 50.4553,
+          "delta_force": -19.5121,
+          "speed_per_min": -0.4878,
+          "angle_deg": -26.0,
+          "direction": "DOWN"
+        }
+      ],
+      "pair": {
+        "gbp_minus_usd_force_gap": 27.8271,
+        "gbp_usd_gap_delta": 15.4704,
+        "pair_bias": "GBP_PULLING_AWAY_FROM_USD",
+        "eur_usd_sync_hint": "EUR_USD_SYNC_DOWN"
+      },
+      "notes": []
+    }
+  }
+}

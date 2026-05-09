@@ -1,0 +1,413 @@
+{
+  "meta": {
+    "generated_at": "2026-05-05T19:16:21.414991Z",
+    "source": "pf_force_angle_speed_probe",
+    "version": "0.1-readonly",
+    "symbol": "GBPUSD",
+    "bars": 5,
+    "angle_definition": "angle_deg = atan(delta_force / elapsed_minutes)",
+    "speed_definition": "speed_per_min = delta_force / elapsed_minutes"
+  },
+  "timeframes": {
+    "M1": {
+      "tf_minutes": 1,
+      "rows_loaded": 14,
+      "latest_timestamp": "2026-05-05T22:14:00Z",
+      "data_age_minutes": 0.0,
+      "status": "LIVE_OK",
+      "metrics": [
+        {
+          "currency": "GBP",
+          "latest_force": 43.2702,
+          "delta_force": 1.7212,
+          "speed_per_min": 0.3442,
+          "angle_deg": 19.0,
+          "direction": "UP"
+        },
+        {
+          "currency": "USD",
+          "latest_force": 63.2894,
+          "delta_force": -5.8675,
+          "speed_per_min": -1.1735,
+          "angle_deg": -49.56,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "EUR",
+          "latest_force": 29.0559,
+          "delta_force": -3.4513,
+          "speed_per_min": -0.6903,
+          "angle_deg": -34.62,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "JPY",
+          "latest_force": 77.6756,
+          "delta_force": 3.6235,
+          "speed_per_min": 0.7247,
+          "angle_deg": 35.93,
+          "direction": "UP"
+        },
+        {
+          "currency": "CAD",
+          "latest_force": 25.111,
+          "delta_force": -3.8969,
+          "speed_per_min": -0.7794,
+          "angle_deg": -37.93,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "CHF",
+          "latest_force": 32.5654,
+          "delta_force": -3.3921,
+          "speed_per_min": -0.6784,
+          "angle_deg": -34.15,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "AUD",
+          "latest_force": 45.494,
+          "delta_force": 1.7899,
+          "speed_per_min": 0.358,
+          "angle_deg": 19.7,
+          "direction": "UP"
+        },
+        {
+          "currency": "NZD",
+          "latest_force": 53.818,
+          "delta_force": -11.0132,
+          "speed_per_min": -2.2026,
+          "angle_deg": -65.58,
+          "direction": "DOWN"
+        }
+      ],
+      "pair": {
+        "gbp_minus_usd_force_gap": -20.0192,
+        "gbp_usd_gap_delta": 7.5887,
+        "pair_bias": "GBP_PULLING_AWAY_FROM_USD",
+        "eur_usd_sync_hint": "EUR_USD_SYNC_DOWN"
+      },
+      "notes": []
+    },
+    "M5": {
+      "tf_minutes": 5,
+      "rows_loaded": 23,
+      "latest_timestamp": "2026-05-05T22:00:00Z",
+      "data_age_minutes": 0.0,
+      "status": "LIVE_OK",
+      "metrics": [
+        {
+          "currency": "GBP",
+          "latest_force": 49.0047,
+          "delta_force": 3.13,
+          "speed_per_min": 0.0078,
+          "angle_deg": 0.45,
+          "direction": "UP"
+        },
+        {
+          "currency": "USD",
+          "latest_force": 46.6848,
+          "delta_force": -5.9387,
+          "speed_per_min": -0.0148,
+          "angle_deg": -0.85,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "EUR",
+          "latest_force": 51.4006,
+          "delta_force": -11.5473,
+          "speed_per_min": -0.0289,
+          "angle_deg": -1.65,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "JPY",
+          "latest_force": 50.874,
+          "delta_force": -8.4422,
+          "speed_per_min": -0.0211,
+          "angle_deg": -1.21,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "CAD",
+          "latest_force": 77.8506,
+          "delta_force": 50.709,
+          "speed_per_min": 0.1268,
+          "angle_deg": 7.22,
+          "direction": "UP"
+        },
+        {
+          "currency": "CHF",
+          "latest_force": 49.5282,
+          "delta_force": 15.4374,
+          "speed_per_min": 0.0386,
+          "angle_deg": 2.21,
+          "direction": "UP"
+        },
+        {
+          "currency": "AUD",
+          "latest_force": 31.6859,
+          "delta_force": null,
+          "speed_per_min": null,
+          "angle_deg": null,
+          "direction": "UNKNOWN"
+        },
+        {
+          "currency": "NZD",
+          "latest_force": 32.0536,
+          "delta_force": -26.8611,
+          "speed_per_min": -0.0672,
+          "angle_deg": -3.84,
+          "direction": "DOWN"
+        }
+      ],
+      "pair": {
+        "gbp_minus_usd_force_gap": 2.3199,
+        "gbp_usd_gap_delta": 9.0687,
+        "pair_bias": "GBP_PULLING_AWAY_FROM_USD",
+        "eur_usd_sync_hint": "EUR_USD_SYNC_DOWN"
+      },
+      "notes": []
+    },
+    "M15": {
+      "tf_minutes": 15,
+      "rows_loaded": 6,
+      "latest_timestamp": "2026-05-05T21:45:00Z",
+      "data_age_minutes": 0.0,
+      "status": "LIVE_OK",
+      "metrics": [
+        {
+          "currency": "GBP",
+          "latest_force": 40.0762,
+          "delta_force": -4.0103,
+          "speed_per_min": -0.0026,
+          "angle_deg": -0.15,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "USD",
+          "latest_force": 48.4285,
+          "delta_force": -10.5833,
+          "speed_per_min": -0.007,
+          "angle_deg": -0.4,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "EUR",
+          "latest_force": 36.2376,
+          "delta_force": -0.315,
+          "speed_per_min": -0.0002,
+          "angle_deg": -0.01,
+          "direction": "FLAT"
+        },
+        {
+          "currency": "JPY",
+          "latest_force": 10.2386,
+          "delta_force": -42.039,
+          "speed_per_min": -0.0277,
+          "angle_deg": -1.59,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "CAD",
+          "latest_force": 51.0663,
+          "delta_force": -5.6167,
+          "speed_per_min": -0.0037,
+          "angle_deg": -0.21,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "CHF",
+          "latest_force": 53.8345,
+          "delta_force": 4.2706,
+          "speed_per_min": 0.0028,
+          "angle_deg": 0.16,
+          "direction": "UP"
+        },
+        {
+          "currency": "AUD",
+          "latest_force": 80.5594,
+          "delta_force": 30.6026,
+          "speed_per_min": 0.0202,
+          "angle_deg": 1.16,
+          "direction": "UP"
+        },
+        {
+          "currency": "NZD",
+          "latest_force": 47.377,
+          "delta_force": 7.2485,
+          "speed_per_min": 0.0048,
+          "angle_deg": 0.27,
+          "direction": "UP"
+        }
+      ],
+      "pair": {
+        "gbp_minus_usd_force_gap": -8.3523,
+        "gbp_usd_gap_delta": 6.573,
+        "pair_bias": "GBP_PULLING_AWAY_FROM_USD",
+        "eur_usd_sync_hint": "EUR_USD_SYNC_DOWN"
+      },
+      "notes": []
+    },
+    "M30": {
+      "tf_minutes": 30,
+      "rows_loaded": 10,
+      "latest_timestamp": "2026-05-05T21:30:00Z",
+      "data_age_minutes": 0.0,
+      "status": "LIVE_OK",
+      "metrics": [
+        {
+          "currency": "GBP",
+          "latest_force": 47.0449,
+          "delta_force": 16.1995,
+          "speed_per_min": 0.0106,
+          "angle_deg": 0.61,
+          "direction": "UP"
+        },
+        {
+          "currency": "USD",
+          "latest_force": 40.2719,
+          "delta_force": -11.5146,
+          "speed_per_min": -0.0075,
+          "angle_deg": -0.43,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "EUR",
+          "latest_force": 65.059,
+          "delta_force": 33.4381,
+          "speed_per_min": 0.0219,
+          "angle_deg": 1.25,
+          "direction": "UP"
+        },
+        {
+          "currency": "JPY",
+          "latest_force": 35.3184,
+          "delta_force": 2.8502,
+          "speed_per_min": 0.0019,
+          "angle_deg": 0.11,
+          "direction": "UP"
+        },
+        {
+          "currency": "CAD",
+          "latest_force": 33.1651,
+          "delta_force": -33.4049,
+          "speed_per_min": -0.0218,
+          "angle_deg": -1.25,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "CHF",
+          "latest_force": 61.7204,
+          "delta_force": 10.2151,
+          "speed_per_min": 0.0067,
+          "angle_deg": 0.38,
+          "direction": "UP"
+        },
+        {
+          "currency": "AUD",
+          "latest_force": 72.2924,
+          "delta_force": -4.6759,
+          "speed_per_min": -0.0031,
+          "angle_deg": -0.18,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "NZD",
+          "latest_force": 63.0464,
+          "delta_force": -15.2146,
+          "speed_per_min": -0.0099,
+          "angle_deg": -0.57,
+          "direction": "DOWN"
+        }
+      ],
+      "pair": {
+        "gbp_minus_usd_force_gap": 6.773,
+        "gbp_usd_gap_delta": 27.7141,
+        "pair_bias": "GBP_PULLING_AWAY_FROM_USD",
+        "eur_usd_sync_hint": "EUR_USD_DESYNC_OR_OPPOSITION"
+      },
+      "notes": []
+    },
+    "H1": {
+      "tf_minutes": 60,
+      "rows_loaded": 6,
+      "latest_timestamp": "2026-05-05T21:00:00Z",
+      "data_age_minutes": 0.0,
+      "status": "LIVE_OK",
+      "metrics": [
+        {
+          "currency": "GBP",
+          "latest_force": 74.3863,
+          "delta_force": 35.2685,
+          "speed_per_min": 0.021,
+          "angle_deg": 1.2,
+          "direction": "UP"
+        },
+        {
+          "currency": "USD",
+          "latest_force": 33.092,
+          "delta_force": -44.6741,
+          "speed_per_min": -0.0266,
+          "angle_deg": -1.52,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "EUR",
+          "latest_force": 73.8987,
+          "delta_force": 14.2972,
+          "speed_per_min": 0.0085,
+          "angle_deg": 0.49,
+          "direction": "UP"
+        },
+        {
+          "currency": "JPY",
+          "latest_force": 15.4115,
+          "delta_force": -24.515,
+          "speed_per_min": -0.0146,
+          "angle_deg": -0.84,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "CAD",
+          "latest_force": 35.5837,
+          "delta_force": -20.3946,
+          "speed_per_min": -0.0121,
+          "angle_deg": -0.7,
+          "direction": "DOWN"
+        },
+        {
+          "currency": "CHF",
+          "latest_force": 75.0995,
+          "delta_force": 48.3727,
+          "speed_per_min": 0.0288,
+          "angle_deg": 1.65,
+          "direction": "UP"
+        },
+        {
+          "currency": "AUD",
+          "latest_force": 76.0726,
+          "delta_force": 42.8684,
+          "speed_per_min": 0.0255,
+          "angle_deg": 1.46,
+          "direction": "UP"
+        },
+        {
+          "currency": "NZD",
+          "latest_force": 74.3692,
+          "delta_force": 34.878,
+          "speed_per_min": 0.0208,
+          "angle_deg": 1.19,
+          "direction": "UP"
+        }
+      ],
+      "pair": {
+        "gbp_minus_usd_force_gap": 41.2943,
+        "gbp_usd_gap_delta": 79.9426,
+        "pair_bias": "GBP_PULLING_AWAY_FROM_USD",
+        "eur_usd_sync_hint": "EUR_USD_DESYNC_OR_OPPOSITION"
+      },
+      "notes": []
+    }
+  }
+}
