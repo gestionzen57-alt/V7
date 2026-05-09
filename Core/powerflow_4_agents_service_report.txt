@@ -1,0 +1,165 @@
+
+
+=== DB VISION GUARD ===
+DB: powerflow.db
+SYMBOL: GBPUSD
+CHECKED_AT_UTC: 2026-05-04T21:56:48.390896+00:00
+
+SCHEMA:
+source_table: force_snapshots_v2
+schema_state: SCHEMA_EXTENDED_OK
+- force_snapshots: LEGACY_FORCE_ONLY | legacy_force=7/7 | extended=0/19
+- force_snapshots_v2: SCHEMA_EXTENDED_OK | legacy_force=7/7 | extended=19/19
+
+LIVE:
+TF1   OK                 latest=2026-05-04T21:07:00+00:00 age=2988s    rows_recent=4     rows_total=4       max_gap=18.0m
+TF5   STALE              latest=2026-05-04T20:50:00+00:00 age=4008s    rows_recent=1     rows_total=1       max_gap=unknown
+TF15  OK                 latest=2026-05-04T21:00:00+00:00 age=3408s    rows_recent=3     rows_total=3       max_gap=15.0m
+TF30  OK                 latest=2026-05-04T21:00:00+00:00 age=3408s    rows_recent=3     rows_total=7       max_gap=30.0m
+TF60  OK                 latest=2026-05-04T20:00:00+00:00 age=7008s    rows_recent=2     rows_total=4       max_gap=60.0m
+TF240 STALE              latest=2026-05-04T16:00:00+00:00 age=21408s   rows_recent=1     rows_total=2       max_gap=240.0m
+
+GAPS:
+TF240: 2026-05-04T12:00:00+00:00 -> 2026-05-04T16:00:00+00:00 240.0m HISTORICAL_GAP_DETECTED
+
+VERDICT:
+live_state: LIVE_EXTENDED_ACTIVE
+vision_state: DATA_PARTIAL
+can_detect_ltf_birth: False
+can_validate_htf_gravity: True
+
+NOTES:
+- Extended schema appears active.
+- Historical gaps detected; do not treat old gaps as live failure automatically.
+==========================================================================================
+=== POWERFLOW FLOW EVENT EXTRACTOR ===
+VERSION: 0.1.3
+SYMBOL: GBPUSD
+WINDOW: 2026-05-04T09:00:00+00:00 -> 2026-05-04T10:15:00+00:00
+SOURCE_TABLE: force_snapshots
+MODE: LEGACY_FORCE_ONLY
+
+ROWS:
+TF1: 76
+TF5: 16
+TF15: 6
+
+EVENTS:
+09:00->09:20 TF1 PRE_FIELD       energy=132.504  price=PRICE_MOVED          up=EUR+GBP+USD+CAD+CHF down=JPY+AUD conf=0.55
+  note: Pré-champ mesuré avant la naissance du node.
+09:21->09:28 TF1 NODE_BIRTH      energy=173.3043 price=PRICE_LAG            up=JPY+CAD+USD down=EUR+GBP+AUD+CHF conf=0.92
+  note: Basculement collectif des forces. Prix encore retenu si PRICE_LAG.
+09:30->09:48 TF1 CONFIRMATION    energy=157.8214 price=PRICE_PAYING         up=USD+CAD+JPY down=AUD+GBP+EUR+CHF conf=0.85
+  note: Même camp dominant après node. Le prix commence à payer si PRICE_PAYING.
+09:48->10:01 TF1 COUNTER_BREATH  energy=249.3798 price=PRICE_LAG            up=AUD+GBP+EUR+CHF down=USD+CAD+JPY conf=0.85
+  note: Respiration contraire après confirmation. Ne pas classer comme nouveau node principal.
+10:02->10:08 TF1 ABSORPTION      energy=74.4747  price=PRICE_PAYING         up=CAD+USD+JPY down=CHF+EUR+AUD+GBP conf=0.82
+  note: Le camp dominant reprend après respiration contraire.
+
+TOP CANDIDATES:
+09:22->09:42 TF1 score=349.829  energy=283.829  price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:21->09:41 TF1 score=347.1418 energy=281.1418 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:23->09:43 TF1 score=346.6576 energy=280.6576 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:20->09:40 TF1 score=346.5557 energy=280.5557 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=AUD+GBP+EUR+CHF
+09:21->09:40 TF1 score=343.5756 energy=277.5756 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:23->09:42 TF1 score=339.4152 energy=273.4152 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:22->09:41 TF1 score=337.3701 energy=271.3701 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:20->09:39 TF1 score=336.4453 energy=270.4453 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=AUD+GBP+EUR+CHF
+09:24->09:44 TF1 score=335.4385 energy=269.4385 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:19->09:39 TF1 score=334.2534 energy=268.2534 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=AUD+GBP+EUR+CHF
+==========================================================================================
+=== POWERFLOW SCENE REPORT ===
+SCENE_NAMER_VERSION: 0.1.0
+SYMBOL: GBPUSD
+WINDOW: 2026-05-04T09:00:00+00:00 -> 2026-05-04T10:15:00+00:00
+MODE: LEGACY_FORCE_ONLY
+SOURCE_TABLE: force_snapshots
+
+SCENE:
+GRAVITY_RESPRING_NODE
+
+STATE:
+WINDOW_ACTIVE_AFTER_BREATH | dominant_phase=ABSORPTION | confidence=0.86
+
+ONE_LINE:
+GRAVITY_RESPRING_NODE — JPY+CAD+USD reprennent contre EUR+GBP+AUD+CHF. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+
+FILM:
+09:00→09:20 PRE_FIELD — champ préparatoire. EUR+GBP+USD+CAD+CHF travaille pendant que JPY+AUD plie.
+09:21→09:28 NODE_BIRTH — JPY+CAD+USD respring contre EUR+GBP+AUD+CHF fold. Prix encore retenu.
+09:30→09:48 CONFIRMATION — même camp dominant. Le prix commence à payer la structure.
+09:48→10:01 COUNTER_BREATH — respiration opposée forte. Réponse prix: PRICE_LAG.
+10:02→10:08 ABSORPTION — le camp dominant reprend après respiration.
+
+NEXT WATCH:
+WATCH_SECOND_LEG
+
+NOTES:
+- Absorption detected; next useful watch is SECOND_LEG or new breath.
+==========================================================================================
+=== POWERFLOW WEEKLY AGENT SCAN ===
+VERSION: 0.3_GAP_AWARE
+DB: powerflow.db
+SYMBOL: GBPUSD
+RANGE: 2026-04-27T00:00:00+00:00 -> 2026-05-04T00:00:00+00:00
+TIMEFRAMES: 1,5,15
+
+MODE:
+LEGACY_FORCE_ONLY compatible. Gap-aware clustered scan.
+min_rows_window: 20
+
+RAW_HITS: 80
+CLUSTERS: 22
+
+TOP CLUSTERS:
+01. cluster=2026-04-30 16:30->19:30 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:2, RAW_NODE_BIRTH:2]
+    BEST 2026-04-30 17:30->19:00 score=144.8 rows=117 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.73 next=WATCH_SECOND_LEG
+    17:39->17:46 NODE_BIRTH up=AUD+CAD+CHF+JPY down=EUR+USD+GBP price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — AUD+CAD+CHF+JPY reprennent contre EUR+USD+GBP. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+02. cluster=2026-05-01 04:00->07:00 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:2, RAW_NODE_BIRTH:2]
+    BEST 2026-05-01 05:00->06:30 score=144.8 rows=117 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.73 next=WATCH_SECOND_LEG
+    05:13->05:19 NODE_BIRTH up=USD+GBP+EUR+JPY down=CHF+AUD+CAD price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — USD+GBP+EUR+JPY reprennent contre CHF+AUD+CAD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+03. cluster=2026-05-01 06:00->09:00 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:2, RAW_NODE_BIRTH:1, USD_RESPRING_AGAINST_RISK_FOLD:1]
+    BEST 2026-05-01 06:30->08:00 score=144.8 rows=117 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.73 next=WATCH_SECOND_LEG
+    06:30->06:37 NODE_BIRTH up=USD+EUR+CHF+CAD down=AUD+JPY+GBP price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — USD+EUR+CHF+CAD reprennent contre AUD+JPY+GBP. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+04. cluster=2026-05-01 08:00->11:00 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:2, RAW_NODE_BIRTH:2]
+    BEST 2026-05-01 08:00->09:30 score=144.8 rows=117 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.73 next=WATCH_SECOND_LEG
+    08:00->08:03 NODE_BIRTH up=JPY+CAD+USD down=EUR+GBP+CHF+AUD price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — JPY+CAD+USD reprennent contre EUR+GBP+CHF+AUD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+05. cluster=2026-05-01 10:00->13:00 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:1, RAW_NODE_BIRTH:3]
+    BEST 2026-05-01 11:30->13:00 score=144.8 rows=116 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.73 next=WATCH_SECOND_LEG
+    11:30->11:49 NODE_BIRTH up=GBP+USD+CAD down=CHF+EUR+JPY+AUD price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — GBP+USD+CAD reprennent contre CHF+EUR+JPY+AUD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+06. cluster=2026-05-01 21:00->2026-05-02 00:00 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:1, RAW_NODE_BIRTH:3]
+    BEST 2026-05-01 21:00->22:30 score=144.8 rows=117 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.73 next=WATCH_SECOND_LEG
+    21:00->21:08 NODE_BIRTH up=USD+CAD+CHF down=JPY+AUD+GBP+EUR price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — USD+CAD+CHF reprennent contre JPY+AUD+GBP+EUR. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+07. cluster=2026-04-29 14:30->17:30 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:2, RAW_NODE_BIRTH:2]
+    BEST 2026-04-29 15:00->16:30 score=141.8 rows=117 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.70 next=WATCH_SECOND_LEG
+    15:11->15:18 NODE_BIRTH up=USD+JPY down=CAD+CHF+GBP price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — USD+JPY reprennent contre CAD+CHF+GBP. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+08. cluster=2026-05-01 00:00->03:00 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:1, RAW_NODE_BIRTH:3]
+    BEST 2026-05-01 01:00->02:30 score=141.8 rows=115 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.70 next=WATCH_SECOND_LEG
+    01:06->01:13 NODE_BIRTH up=USD+JPY down=GBP+EUR+AUD+CAD price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — USD+JPY reprennent contre GBP+EUR+AUD+CAD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+09. cluster=2026-05-01 02:00->05:00 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:2, RAW_NODE_BIRTH:2]
+    BEST 2026-05-01 03:00->04:30 score=141.8 rows=117 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.70 next=WATCH_SECOND_LEG
+    03:06->03:13 NODE_BIRTH up=JPY+CAD down=EUR+GBP+USD+CHF+AUD price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — JPY+CAD reprennent contre EUR+GBP+USD+CHF+AUD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+10. cluster=2026-05-01 17:00->20:00 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:1, RAW_NODE_BIRTH:3]
+    BEST 2026-05-01 17:00->18:30 score=141.8 rows=116 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.70 next=WATCH_SECOND_LEG
+    17:13->17:19 NODE_BIRTH up=CAD+USD down=CHF+GBP+AUD+EUR+JPY price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — CAD+USD reprennent contre CHF+GBP+AUD+EUR+JPY. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+11. cluster=2026-04-29 12:30->15:30 duration=180m hits=4 scenes=[GRAVITY_RESPRING_NODE:3, RAW_NODE_BIRTH:1]
+    BEST 2026-04-29 13:30->15:00 score=138.8 rows=117 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE_AFTER_BREATH conf=0.70 next=WATCH_SECOND_LEG
+    13:37->13:43 NODE_BIRTH up=EUR+GBP+USD+CAD down=AUD+CHF price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — EUR+GBP+USD+CAD reprennent contre AUD+CHF. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+12. cluster=2026-04-30 18:30->20:30 duration=120m hits=2 scenes=[GRAVITY_RESPRING_NODE:1, RAW_NODE_BIRTH:1]
+    BEST 2026-04-30 19:00->20:30 score=135.5 rows=48 scene=GRAVITY_RESPRING_NODE state=WINDOW_ACTIVE conf=0.73 next=WATCH_COUNTER_BREATH
+    19:08->19:22 NODE_BIRTH up=CAD+USD+CHF down=JPY+AUD+GBP+EUR price=PRICE_UNKNOWN
+    GRAVITY_RESPRING_NODE — CAD+USD+CHF reprennent contre JPY+AUD+GBP+EUR. WINDOW_ACTIVE. NEXT: WATCH_COUNTER_BREATH.
+
+NEXT:
+Open the BEST windows with run_scene_report_once.py for full film details.

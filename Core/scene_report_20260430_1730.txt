@@ -1,0 +1,28 @@
+=== POWERFLOW SCENE REPORT ===
+SCENE_NAMER_VERSION: 0.1.0
+SYMBOL: GBPUSD
+WINDOW: 2026-04-30T17:30:00+00:00 -> 2026-04-30T19:00:00+00:00
+MODE: LEGACY_FORCE_ONLY
+SOURCE_TABLE: force_snapshots
+
+SCENE:
+GRAVITY_RESPRING_NODE
+
+STATE:
+WINDOW_ACTIVE_AFTER_BREATH | dominant_phase=ABSORPTION | confidence=0.73
+
+ONE_LINE:
+GRAVITY_RESPRING_NODE — AUD+CAD+CHF+JPY reprennent contre EUR+USD+GBP. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+
+FILM:
+17:30→17:38 PRE_FIELD — champ préparatoire. USD+JPY travaille pendant que GBP+AUD+CHF plie.
+17:39→17:46 NODE_BIRTH — AUD+CAD+CHF+JPY respring contre EUR+USD+GBP fold.
+17:48→18:01 CONFIRMATION — même camp dominant.
+18:02→18:21 COUNTER_BREATH — respiration opposée forte. Réponse prix: PRICE_UNKNOWN.
+18:21→18:36 ABSORPTION — le camp dominant reprend après respiration.
+
+NEXT WATCH:
+WATCH_SECOND_LEG
+
+NOTES:
+- Absorption detected; next useful watch is SECOND_LEG or new breath.

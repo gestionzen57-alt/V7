@@ -1,0 +1,30 @@
+﻿.env
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+Archive/
+SNAPSHOT_*/
+*.zip
+
+# Windows/system noise
+desktop.ini
+Thumbs.db
+
+# Runtime outputs
+output/
+*.jsonl
+
+# SQLite transient files
+*.db-shm
+*.db-wal
+
+# Optional duplicate DB folder
+db/
+
+# Local patch/apply artifacts
+APPLY_*
+RUN_APPLY_*
+*_BACKUP_*
+*.patch

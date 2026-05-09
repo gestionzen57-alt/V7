@@ -1,0 +1,1389 @@
+{
+  "version": "0.1.4",
+  "generated_at_utc": "2026-05-07T11:45:34.764839+00:00",
+  "symbol": "GBPUSD",
+  "window": {
+    "start": "2026-05-07T07:00:00+00:00",
+    "end": "2026-05-07T12:00:00+00:00",
+    "ltf_timeframes": [
+      1,
+      5,
+      15
+    ],
+    "htf_timeframes": [
+      30,
+      60,
+      240
+    ],
+    "orchestral_timeframes": [
+      1,
+      5,
+      15,
+      30
+    ],
+    "visual_htf_story": "none"
+  },
+  "cockpit_status": "AGENTIC_WINDOW_ACTIVE",
+  "headline": "FENÊTRE FRACTALE — temps compressé puis étiré",
+  "agent_summary": {
+    "vision_state": "TACTICAL_OK",
+    "live_state": "LIVE_EXTENDED_ACTIVE",
+    "schema_state": "SCHEMA_EXTENDED_OK",
+    "source_table": "force_snapshots_v2",
+    "scene": "RAW_NODE_BIRTH",
+    "window_state": "WINDOW_ACTIVE_AFTER_BREATH",
+    "dominant_phase": "ABSORPTION",
+    "next_watch": "WATCH_SECOND_LEG",
+    "fractal_state": "FRACTAL_CONTRADICTION_FIELD",
+    "temporal_state": "TEMPORAL_ELASTICITY_FIELD",
+    "htf_relation": "HTF_SILENT_OR_FLAT",
+    "higher_story": "HIGHER_STORY_NOT_CONFIRMED",
+    "contradiction": "FRACTAL_CONTRADICTION_FIELD",
+    "flags": [
+      "TIME_COMPRESSION_PHASE",
+      "TIME_STRETCHING_PHASE",
+      "ABSORPTION_TIME_EXTENSION",
+      "TEMPORAL_ELASTICITY_FIELD",
+      "FRACTAL_CONTRADICTION_FIELD"
+    ],
+    "extended_summary": "EXTENDED DATA PRESENT — NO MICRO SPIKE CONFIRMED",
+    "extended_flags": [
+      "M1_NODE_BIRTH",
+      "NZD_AVAILABLE"
+    ],
+    "extended_schema_state": "EXTENDED_SCHEMA_OK"
+  },
+  "db_vision": {
+    "schema_state": "SCHEMA_EXTENDED_OK",
+    "live_state": "LIVE_EXTENDED_ACTIVE",
+    "vision_state": "TACTICAL_OK",
+    "source_table": "force_snapshots_v2",
+    "can_detect_ltf_birth": true,
+    "can_validate_htf_gravity": true,
+    "timeframes": [
+      {
+        "timeframe": 1,
+        "rows_total": 2435,
+        "rows_recent": 61,
+        "latest_created_at": "2026-05-07T14:43:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 1026.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 5,
+        "rows_total": 481,
+        "rows_recent": 13,
+        "latest_created_at": "2026-05-07T14:35:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 1025.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 15,
+        "rows_total": 165,
+        "rows_recent": 5,
+        "latest_created_at": "2026-05-07T14:15:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 1005.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 30,
+        "rows_total": 87,
+        "rows_recent": 3,
+        "latest_created_at": "2026-05-07T14:00:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 990.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 60,
+        "rows_total": 45,
+        "rows_recent": 2,
+        "latest_created_at": "2026-05-07T13:00:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 1020.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 240,
+        "rows_total": 14,
+        "rows_recent": 1,
+        "latest_created_at": "2026-05-07T08:00:00+00:00",
+        "latest_age_sec": 13534.76,
+        "max_gap_minutes": 960.0,
+        "status": "OK"
+      }
+    ],
+    "gaps": [
+      {
+        "timeframe": 1,
+        "start": "2026-05-04T21:07:00+00:00",
+        "end": "2026-05-05T14:13:00+00:00",
+        "gap_minutes": 1026.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 1,
+        "start": "2026-05-05T14:13:00+00:00",
+        "end": "2026-05-05T22:06:00+00:00",
+        "gap_minutes": 473.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 5,
+        "start": "2026-05-04T20:50:00+00:00",
+        "end": "2026-05-05T13:55:00+00:00",
+        "gap_minutes": 1025.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 5,
+        "start": "2026-05-05T16:10:00+00:00",
+        "end": "2026-05-05T22:00:00+00:00",
+        "gap_minutes": 350.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 15,
+        "start": "2026-05-04T21:00:00+00:00",
+        "end": "2026-05-05T13:45:00+00:00",
+        "gap_minutes": 1005.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 15,
+        "start": "2026-05-05T14:00:00+00:00",
+        "end": "2026-05-05T21:45:00+00:00",
+        "gap_minutes": 465.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 30,
+        "start": "2026-05-04T21:00:00+00:00",
+        "end": "2026-05-05T13:30:00+00:00",
+        "gap_minutes": 990.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 30,
+        "start": "2026-05-05T14:00:00+00:00",
+        "end": "2026-05-05T21:30:00+00:00",
+        "gap_minutes": 450.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 60,
+        "start": "2026-05-04T20:00:00+00:00",
+        "end": "2026-05-05T13:00:00+00:00",
+        "gap_minutes": 1020.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 60,
+        "start": "2026-05-05T13:00:00+00:00",
+        "end": "2026-05-05T21:00:00+00:00",
+        "gap_minutes": 480.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-04T12:00:00+00:00",
+        "end": "2026-05-04T16:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-04T16:00:00+00:00",
+        "end": "2026-05-05T08:00:00+00:00",
+        "gap_minutes": 960.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-05T08:00:00+00:00",
+        "end": "2026-05-05T16:00:00+00:00",
+        "gap_minutes": 480.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-05T16:00:00+00:00",
+        "end": "2026-05-05T20:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-05T20:00:00+00:00",
+        "end": "2026-05-06T00:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T00:00:00+00:00",
+        "end": "2026-05-06T04:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T04:00:00+00:00",
+        "end": "2026-05-06T08:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T08:00:00+00:00",
+        "end": "2026-05-06T12:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T12:00:00+00:00",
+        "end": "2026-05-06T16:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T16:00:00+00:00",
+        "end": "2026-05-06T20:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T20:00:00+00:00",
+        "end": "2026-05-07T00:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-07T00:00:00+00:00",
+        "end": "2026-05-07T04:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-07T04:00:00+00:00",
+        "end": "2026-05-07T08:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      }
+    ],
+    "notes": [
+      "Extended schema appears active.",
+      "Historical gaps detected; do not treat old gaps as live failure automatically."
+    ]
+  },
+  "flow_events": {
+    "mode": "EXTENDED",
+    "source_table": "force_snapshots_v2",
+    "rows_loaded": {
+      "TF1": 301,
+      "TF5": 61,
+      "TF15": 21
+    },
+    "phases": {
+      "NODE_BIRTH": {
+        "start": "07:00",
+        "end": "07:06",
+        "timeframe": 1,
+        "up_block": [
+          "AUD",
+          "JPY",
+          "NZD"
+        ],
+        "down_block": [
+          "USD",
+          "CHF",
+          "CAD",
+          "EUR",
+          "GBP"
+        ],
+        "force_energy": 120.8659,
+        "price_response": "WEAK_PRICE_RESPONSE",
+        "confidence": 0.77
+      },
+      "CONFIRMATION": {
+        "start": "07:31",
+        "end": "07:51",
+        "timeframe": 1,
+        "up_block": [
+          "USD",
+          "JPY"
+        ],
+        "down_block": [
+          "NZD",
+          "CHF",
+          "GBP",
+          "AUD"
+        ],
+        "force_energy": 184.3591,
+        "price_response": "PRICE_LAG",
+        "confidence": 0.7
+      },
+      "COUNTER_BREATH": {
+        "start": "08:14",
+        "end": "08:30",
+        "timeframe": 1,
+        "up_block": [
+          "CHF",
+          "CAD",
+          "EUR",
+          "USD",
+          "NZD"
+        ],
+        "down_block": [
+          "GBP",
+          "JPY",
+          "AUD"
+        ],
+        "force_energy": 192.1439,
+        "price_response": "PRICE_LAG",
+        "confidence": 0.85
+      },
+      "ABSORPTION": {
+        "start": "09:05",
+        "end": "09:25",
+        "timeframe": 1,
+        "up_block": [
+          "NZD",
+          "AUD",
+          "GBP"
+        ],
+        "down_block": [
+          "CAD",
+          "USD",
+          "CHF",
+          "EUR",
+          "JPY"
+        ],
+        "force_energy": 240.0989,
+        "price_response": "PRICE_PAYING",
+        "confidence": 0.82
+      }
+    },
+    "events": [
+      {
+        "phase": "NODE_BIRTH",
+        "timeframe": 1,
+        "start": "07:00",
+        "end": "07:06",
+        "start_dt_iso": "2026-05-07T07:00:00+00:00",
+        "end_dt_iso": "2026-05-07T07:06:00+00:00",
+        "up_block": [
+          "AUD",
+          "JPY",
+          "NZD"
+        ],
+        "down_block": [
+          "USD",
+          "CHF",
+          "CAD",
+          "EUR",
+          "GBP"
+        ],
+        "force_energy": 120.8659,
+        "bid_delta": 0.00028,
+        "pip_delta": 2.8,
+        "price_response": "WEAK_PRICE_RESPONSE",
+        "confidence": 0.77,
+        "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+        "note": "Basculement collectif des forces. Prix encore retenu si PRICE_LAG."
+      },
+      {
+        "phase": "CONFIRMATION",
+        "timeframe": 1,
+        "start": "07:31",
+        "end": "07:51",
+        "start_dt_iso": "2026-05-07T07:31:00+00:00",
+        "end_dt_iso": "2026-05-07T07:51:00+00:00",
+        "up_block": [
+          "USD",
+          "JPY"
+        ],
+        "down_block": [
+          "NZD",
+          "CHF",
+          "GBP",
+          "AUD"
+        ],
+        "force_energy": 184.3591,
+        "bid_delta": -0.00015,
+        "pip_delta": -1.5,
+        "price_response": "PRICE_LAG",
+        "confidence": 0.7,
+        "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+        "note": "Même camp dominant après node. Le prix commence à payer si PRICE_PAYING."
+      },
+      {
+        "phase": "COUNTER_BREATH",
+        "timeframe": 1,
+        "start": "08:14",
+        "end": "08:30",
+        "start_dt_iso": "2026-05-07T08:14:00+00:00",
+        "end_dt_iso": "2026-05-07T08:30:00+00:00",
+        "up_block": [
+          "CHF",
+          "CAD",
+          "EUR",
+          "USD",
+          "NZD"
+        ],
+        "down_block": [
+          "GBP",
+          "JPY",
+          "AUD"
+        ],
+        "force_energy": 192.1439,
+        "bid_delta": -0.00018,
+        "pip_delta": -1.8,
+        "price_response": "PRICE_LAG",
+        "confidence": 0.85,
+        "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+        "note": "Respiration contraire après confirmation. Ne pas classer comme nouveau node principal."
+      },
+      {
+        "phase": "ABSORPTION",
+        "timeframe": 1,
+        "start": "09:05",
+        "end": "09:25",
+        "start_dt_iso": "2026-05-07T09:05:00+00:00",
+        "end_dt_iso": "2026-05-07T09:25:00+00:00",
+        "up_block": [
+          "NZD",
+          "AUD",
+          "GBP"
+        ],
+        "down_block": [
+          "CAD",
+          "USD",
+          "CHF",
+          "EUR",
+          "JPY"
+        ],
+        "force_energy": 240.0989,
+        "bid_delta": 0.0003,
+        "pip_delta": 3.0,
+        "price_response": "PRICE_PAYING",
+        "confidence": 0.82,
+        "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+        "note": "Le camp dominant reprend après respiration contraire."
+      }
+    ],
+    "warnings": []
+  },
+  "scene": {
+    "scene_name": "RAW_NODE_BIRTH",
+    "dominant_phase": "ABSORPTION",
+    "window_state": "WINDOW_ACTIVE_AFTER_BREATH",
+    "next_watch": "WATCH_SECOND_LEG",
+    "confidence": 0.785,
+    "one_liner": "RAW_NODE_BIRTH — AUD+JPY+NZD vs USD+CHF+CAD+EUR+GBP. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.",
+    "film_lines": [
+      "07:00→07:06 NODE_BIRTH — AUD+JPY+NZD respring contre USD+CHF+CAD+EUR+GBP fold.",
+      "07:31→07:51 CONFIRMATION — même camp dominant.",
+      "08:14→08:30 COUNTER_BREATH — respiration opposée forte. Réponse prix: PRICE_LAG.",
+      "09:05→09:25 ABSORPTION — le camp dominant reprend après respiration."
+    ],
+    "warnings": [
+      "Absorption detected; next useful watch is SECOND_LEG or new breath."
+    ]
+  },
+  "fractal": {
+    "symbol": "GBPUSD",
+    "start": "2026-05-07T07:00:00+00:00",
+    "end": "2026-05-07T12:00:00+00:00",
+    "ltf_timeframes": [
+      1,
+      5,
+      15
+    ],
+    "htf_timeframes": [
+      30,
+      60,
+      240
+    ],
+    "ltf_scene": "RAW_NODE_BIRTH",
+    "ltf_window_state": "WINDOW_ACTIVE_AFTER_BREATH",
+    "fractal_state": "FRACTAL_CONTRADICTION_FIELD",
+    "temporal_state": "TEMPORAL_ELASTICITY_FIELD",
+    "htf_relation": "HTF_SILENT_OR_FLAT",
+    "contradiction_state": "FRACTAL_CONTRADICTION_FIELD",
+    "higher_story_state": "HIGHER_STORY_NOT_CONFIRMED",
+    "node_timing": {
+      "ltf_node_start": "2026-05-07T07:00:00+00:00",
+      "ltf_node_end": "2026-05-07T07:06:00+00:00",
+      "htf_event_start": null,
+      "htf_event_phase": null
+    },
+    "metrics": {
+      "node_duration_min": 6.0,
+      "node_energy_per_min": 20.1443,
+      "counter_breath_duration_min": 16.0,
+      "absorption_duration_min": 20.0,
+      "htf_rows_total": 36,
+      "ltf_rows_total": 383,
+      "ltf_events_count": 4,
+      "htf_events_count": 0
+    },
+    "flags": [
+      "TIME_COMPRESSION_PHASE",
+      "TIME_STRETCHING_PHASE",
+      "ABSORPTION_TIME_EXTENSION",
+      "TEMPORAL_ELASTICITY_FIELD",
+      "FRACTAL_CONTRADICTION_FIELD"
+    ],
+    "summary": "GBPUSD | RAW_NODE_BIRTH | FRACTAL_CONTRADICTION_FIELD | temps compressé puis étiré | HTF=HTF_SILENT_OR_FLAT | NEXT=WATCH_SECOND_LEG",
+    "next_watch": "WATCH_MICROSTRUCTURE_CONFIRMATION",
+    "warnings": [
+      "HTF: No NODE_BIRTH candidate found."
+    ]
+  },
+  "extended": {
+    "symbol": "GBPUSD",
+    "source_table": "force_snapshots_v2",
+    "mode": "EXTENDED_V02",
+    "start": "2026-05-07T07:00:00+00:00",
+    "end": "2026-05-07T12:00:00+00:00",
+    "base": {
+      "symbol": "GBPUSD",
+      "mode": "EXTENDED",
+      "source_table": "force_snapshots_v2",
+      "start": "2026-05-07T07:00:00+00:00",
+      "end": "2026-05-07T12:00:00+00:00",
+      "timeframes": [
+        1,
+        5,
+        15
+      ],
+      "rows_loaded": {
+        "TF1": 301,
+        "TF5": 61,
+        "TF15": 21
+      },
+      "events": [
+        {
+          "phase": "NODE_BIRTH",
+          "timeframe": 1,
+          "start": "07:00",
+          "end": "07:06",
+          "start_dt_iso": "2026-05-07T07:00:00+00:00",
+          "end_dt_iso": "2026-05-07T07:06:00+00:00",
+          "up_block": [
+            "AUD",
+            "JPY",
+            "NZD"
+          ],
+          "down_block": [
+            "USD",
+            "CHF",
+            "CAD",
+            "EUR",
+            "GBP"
+          ],
+          "force_energy": 120.8659,
+          "bid_delta": 0.00028,
+          "pip_delta": 2.8,
+          "price_response": "WEAK_PRICE_RESPONSE",
+          "confidence": 0.77,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+          "note": "Basculement collectif des forces. Prix encore retenu si PRICE_LAG."
+        },
+        {
+          "phase": "CONFIRMATION",
+          "timeframe": 1,
+          "start": "07:31",
+          "end": "07:51",
+          "start_dt_iso": "2026-05-07T07:31:00+00:00",
+          "end_dt_iso": "2026-05-07T07:51:00+00:00",
+          "up_block": [
+            "USD",
+            "JPY"
+          ],
+          "down_block": [
+            "NZD",
+            "CHF",
+            "GBP",
+            "AUD"
+          ],
+          "force_energy": 184.3591,
+          "bid_delta": -0.00015,
+          "pip_delta": -1.5,
+          "price_response": "PRICE_LAG",
+          "confidence": 0.7,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+          "note": "Même camp dominant après node. Le prix commence à payer si PRICE_PAYING."
+        },
+        {
+          "phase": "COUNTER_BREATH",
+          "timeframe": 1,
+          "start": "08:14",
+          "end": "08:30",
+          "start_dt_iso": "2026-05-07T08:14:00+00:00",
+          "end_dt_iso": "2026-05-07T08:30:00+00:00",
+          "up_block": [
+            "CHF",
+            "CAD",
+            "EUR",
+            "USD",
+            "NZD"
+          ],
+          "down_block": [
+            "GBP",
+            "JPY",
+            "AUD"
+          ],
+          "force_energy": 192.1439,
+          "bid_delta": -0.00018,
+          "pip_delta": -1.8,
+          "price_response": "PRICE_LAG",
+          "confidence": 0.85,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+          "note": "Respiration contraire après confirmation. Ne pas classer comme nouveau node principal."
+        },
+        {
+          "phase": "ABSORPTION",
+          "timeframe": 1,
+          "start": "09:05",
+          "end": "09:25",
+          "start_dt_iso": "2026-05-07T09:05:00+00:00",
+          "end_dt_iso": "2026-05-07T09:25:00+00:00",
+          "up_block": [
+            "NZD",
+            "AUD",
+            "GBP"
+          ],
+          "down_block": [
+            "CAD",
+            "USD",
+            "CHF",
+            "EUR",
+            "JPY"
+          ],
+          "force_energy": 240.0989,
+          "bid_delta": 0.0003,
+          "pip_delta": 3.0,
+          "price_response": "PRICE_PAYING",
+          "confidence": 0.82,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+          "note": "Le camp dominant reprend après respiration contraire."
+        }
+      ],
+      "candidates": [
+        {
+          "timeframe": 1,
+          "start": "09:45",
+          "end": "10:02",
+          "start_dt_iso": "2026-05-07T09:45:00+00:00",
+          "end_dt_iso": "2026-05-07T10:02:00+00:00",
+          "duration_min": 17.0,
+          "deltas": {
+            "AUD": -47.8122,
+            "CAD": 25.6957,
+            "CHF": -15.4184,
+            "EUR": 47.5829,
+            "GBP": -8.5266,
+            "JPY": -32.0723,
+            "NZD": -50.6142,
+            "USD": 45.7264
+          },
+          "up_block": [
+            "EUR",
+            "USD",
+            "CAD"
+          ],
+          "down_block": [
+            "NZD",
+            "AUD",
+            "JPY",
+            "CHF",
+            "GBP"
+          ],
+          "force_energy": 273.4487,
+          "bid_delta": -0.00016,
+          "pip_delta": -1.6,
+          "price_response": "PRICE_LAG",
+          "score": 352.4487,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        },
+        {
+          "timeframe": 1,
+          "start": "09:45",
+          "end": "10:01",
+          "start_dt_iso": "2026-05-07T09:45:00+00:00",
+          "end_dt_iso": "2026-05-07T10:01:00+00:00",
+          "duration_min": 16.0,
+          "deltas": {
+            "AUD": -46.1615,
+            "CAD": 30.2472,
+            "CHF": -14.8034,
+            "EUR": 41.8132,
+            "GBP": -7.9029,
+            "JPY": -36.2595,
+            "NZD": -49.2244,
+            "USD": 48.4013
+          },
+          "up_block": [
+            "USD",
+            "EUR",
+            "CAD"
+          ],
+          "down_block": [
+            "NZD",
+            "AUD",
+            "JPY",
+            "CHF",
+            "GBP"
+          ],
+          "force_energy": 274.8134,
+          "bid_delta": -0.00031,
+          "pip_delta": -3.1,
+          "price_response": "PRICE_PAYING",
+          "score": 348.8134,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        },
+        {
+          "timeframe": 1,
+          "start": "09:44",
+          "end": "10:04",
+          "start_dt_iso": "2026-05-07T09:44:00+00:00",
+          "end_dt_iso": "2026-05-07T10:04:00+00:00",
+          "duration_min": 20.0,
+          "deltas": {
+            "AUD": -46.9689,
+            "CAD": 17.3024,
+            "CHF": -15.4407,
+            "EUR": 63.7085,
+            "GBP": 7.1827,
+            "JPY": -32.7959,
+            "NZD": -48.429,
+            "USD": 37.6253
+          },
+          "up_block": [
+            "EUR",
+            "USD",
+            "CAD",
+            "GBP"
+          ],
+          "down_block": [
+            "NZD",
+            "AUD",
+            "JPY",
+            "CHF"
+          ],
+          "force_energy": 269.4534,
+          "bid_delta": -0.00015,
+          "pip_delta": -1.5,
+          "price_response": "PRICE_LAG",
+          "score": 348.4534,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        },
+        {
+          "timeframe": 1,
+          "start": "09:45",
+          "end": "10:03",
+          "start_dt_iso": "2026-05-07T09:45:00+00:00",
+          "end_dt_iso": "2026-05-07T10:03:00+00:00",
+          "duration_min": 18.0,
+          "deltas": {
+            "AUD": -48.6891,
+            "CAD": 20.2345,
+            "CHF": -16.6326,
+            "EUR": 53.5725,
+            "GBP": -5.4083,
+            "JPY": -30.6231,
+            "NZD": -51.1714,
+            "USD": 42.1604
+          },
+          "up_block": [
+            "EUR",
+            "USD",
+            "CAD"
+          ],
+          "down_block": [
+            "NZD",
+            "AUD",
+            "JPY",
+            "CHF",
+            "GBP"
+          ],
+          "force_energy": 268.4919,
+          "bid_delta": 7e-05,
+          "pip_delta": 0.7,
+          "price_response": "PRICE_LAG",
+          "score": 347.4919,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        },
+        {
+          "timeframe": 1,
+          "start": "09:55",
+          "end": "10:14",
+          "start_dt_iso": "2026-05-07T09:55:00+00:00",
+          "end_dt_iso": "2026-05-07T10:14:00+00:00",
+          "duration_min": 19.0,
+          "deltas": {
+            "AUD": 20.8139,
+            "CAD": -49.5623,
+            "CHF": 13.7388,
+            "EUR": 64.8801,
+            "GBP": 33.046,
+            "JPY": 8.3782,
+            "NZD": 42.3113,
+            "USD": -38.5343
+          },
+          "up_block": [
+            "EUR",
+            "NZD",
+            "GBP",
+            "AUD",
+            "CHF",
+            "JPY"
+          ],
+          "down_block": [
+            "CAD",
+            "USD"
+          ],
+          "force_energy": 271.2649,
+          "bid_delta": 0.00216,
+          "pip_delta": 21.6,
+          "price_response": "PRICE_PAYING",
+          "score": 345.2649,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        },
+        {
+          "timeframe": 1,
+          "start": "09:55",
+          "end": "10:12",
+          "start_dt_iso": "2026-05-07T09:55:00+00:00",
+          "end_dt_iso": "2026-05-07T10:12:00+00:00",
+          "duration_min": 17.0,
+          "deltas": {
+            "AUD": 18.874,
+            "CAD": -51.8167,
+            "CHF": 15.034,
+            "EUR": 64.6334,
+            "GBP": 29.3775,
+            "JPY": 13.5848,
+            "NZD": 39.5451,
+            "USD": -37.0729
+          },
+          "up_block": [
+            "EUR",
+            "NZD",
+            "GBP",
+            "AUD",
+            "CHF",
+            "JPY"
+          ],
+          "down_block": [
+            "CAD",
+            "USD"
+          ],
+          "force_energy": 269.9384,
+          "bid_delta": 0.00196,
+          "pip_delta": 19.6,
+          "price_response": "PRICE_PAYING",
+          "score": 343.9384,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        },
+        {
+          "timeframe": 1,
+          "start": "09:55",
+          "end": "10:13",
+          "start_dt_iso": "2026-05-07T09:55:00+00:00",
+          "end_dt_iso": "2026-05-07T10:13:00+00:00",
+          "duration_min": 18.0,
+          "deltas": {
+            "AUD": 20.141,
+            "CAD": -50.325,
+            "CHF": 14.2302,
+            "EUR": 64.8687,
+            "GBP": 31.7859,
+            "JPY": 9.1937,
+            "NZD": 41.3816,
+            "USD": -37.8117
+          },
+          "up_block": [
+            "EUR",
+            "NZD",
+            "GBP",
+            "AUD",
+            "CHF",
+            "JPY"
+          ],
+          "down_block": [
+            "CAD",
+            "USD"
+          ],
+          "force_energy": 269.7378,
+          "bid_delta": 0.00195,
+          "pip_delta": 19.5,
+          "price_response": "PRICE_PAYING",
+          "score": 343.7378,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        },
+        {
+          "timeframe": 1,
+          "start": "09:45",
+          "end": "10:00",
+          "start_dt_iso": "2026-05-07T09:45:00+00:00",
+          "end_dt_iso": "2026-05-07T10:00:00+00:00",
+          "duration_min": 15.0,
+          "deltas": {
+            "AUD": -43.8745,
+            "CAD": 30.1669,
+            "CHF": -15.5857,
+            "EUR": 37.4731,
+            "GBP": -7.73,
+            "JPY": -38.0165,
+            "NZD": -47.4253,
+            "USD": 49.175
+          },
+          "up_block": [
+            "USD",
+            "EUR",
+            "CAD"
+          ],
+          "down_block": [
+            "NZD",
+            "AUD",
+            "JPY",
+            "CHF",
+            "GBP"
+          ],
+          "force_energy": 269.447,
+          "bid_delta": -0.00041,
+          "pip_delta": -4.1,
+          "price_response": "PRICE_PAYING",
+          "score": 343.447,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        },
+        {
+          "timeframe": 1,
+          "start": "09:45",
+          "end": "09:59",
+          "start_dt_iso": "2026-05-07T09:45:00+00:00",
+          "end_dt_iso": "2026-05-07T09:59:00+00:00",
+          "duration_min": 14.0,
+          "deltas": {
+            "AUD": -42.6479,
+            "CAD": 32.5283,
+            "CHF": -17.7351,
+            "EUR": 32.405,
+            "GBP": -4.5948,
+            "JPY": -41.0308,
+            "NZD": -46.7071,
+            "USD": 50.2282
+          },
+          "up_block": [
+            "USD",
+            "CAD",
+            "EUR"
+          ],
+          "down_block": [
+            "NZD",
+            "AUD",
+            "JPY",
+            "CHF",
+            "GBP"
+          ],
+          "force_energy": 267.8772,
+          "bid_delta": -0.00045,
+          "pip_delta": -4.5,
+          "price_response": "PRICE_PAYING",
+          "score": 341.8772,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        },
+        {
+          "timeframe": 1,
+          "start": "09:56",
+          "end": "10:14",
+          "start_dt_iso": "2026-05-07T09:56:00+00:00",
+          "end_dt_iso": "2026-05-07T10:14:00+00:00",
+          "duration_min": 18.0,
+          "deltas": {
+            "AUD": 23.0668,
+            "CAD": -50.7481,
+            "CHF": 10.8876,
+            "EUR": 58.5699,
+            "GBP": 32.6136,
+            "JPY": 8.696,
+            "NZD": 42.3489,
+            "USD": -39.4116
+          },
+          "up_block": [
+            "EUR",
+            "NZD",
+            "GBP",
+            "AUD",
+            "CHF",
+            "JPY"
+          ],
+          "down_block": [
+            "CAD",
+            "USD"
+          ],
+          "force_energy": 266.3425,
+          "bid_delta": 0.00209,
+          "pip_delta": 20.9,
+          "price_response": "PRICE_PAYING",
+          "score": 340.3425,
+          "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD"
+        }
+      ],
+      "warnings": []
+    },
+    "extended_schema_state": "EXTENDED_SCHEMA_OK",
+    "extended_rows_loaded": {
+      "TF1": 301,
+      "TF5": 61,
+      "TF15": 21
+    },
+    "extended_event_metrics": [
+      {
+        "phase": "NODE_BIRTH",
+        "timeframe": 1,
+        "start": "07:00",
+        "end": "07:06",
+        "rows": 7,
+        "avg_tick_volume": 44.428571,
+        "max_tick_volume": 58.0,
+        "avg_pip_range": null,
+        "max_pip_range": null,
+        "avg_pip_body": null,
+        "max_abs_pip_change": null,
+        "avg_spread_pips": null,
+        "max_spread_pips": null,
+        "volume_ratio": 0.5554,
+        "pip_range_ratio": null,
+        "spread_ratio": null,
+        "flags": [
+          "M1_NODE_BIRTH",
+          "NZD_AVAILABLE"
+        ],
+        "note": "Extended event measured."
+      },
+      {
+        "phase": "CONFIRMATION",
+        "timeframe": 1,
+        "start": "07:31",
+        "end": "07:51",
+        "rows": 21,
+        "avg_tick_volume": 52.0,
+        "max_tick_volume": 78.0,
+        "avg_pip_range": null,
+        "max_pip_range": null,
+        "avg_pip_body": null,
+        "max_abs_pip_change": null,
+        "avg_spread_pips": null,
+        "max_spread_pips": null,
+        "volume_ratio": 0.65,
+        "pip_range_ratio": null,
+        "spread_ratio": null,
+        "flags": [
+          "NZD_AVAILABLE"
+        ],
+        "note": "Extended event measured."
+      },
+      {
+        "phase": "COUNTER_BREATH",
+        "timeframe": 1,
+        "start": "08:14",
+        "end": "08:30",
+        "rows": 17,
+        "avg_tick_volume": 50.176471,
+        "max_tick_volume": 72.0,
+        "avg_pip_range": null,
+        "max_pip_range": null,
+        "avg_pip_body": null,
+        "max_abs_pip_change": null,
+        "avg_spread_pips": null,
+        "max_spread_pips": null,
+        "volume_ratio": 0.6272,
+        "pip_range_ratio": null,
+        "spread_ratio": null,
+        "flags": [
+          "NZD_AVAILABLE"
+        ],
+        "note": "Extended event measured."
+      },
+      {
+        "phase": "ABSORPTION",
+        "timeframe": 1,
+        "start": "09:05",
+        "end": "09:25",
+        "rows": 21,
+        "avg_tick_volume": 86.809524,
+        "max_tick_volume": 133.0,
+        "avg_pip_range": null,
+        "max_pip_range": null,
+        "avg_pip_body": null,
+        "max_abs_pip_change": null,
+        "avg_spread_pips": null,
+        "max_spread_pips": null,
+        "volume_ratio": 1.0851,
+        "pip_range_ratio": null,
+        "spread_ratio": null,
+        "flags": [
+          "NZD_AVAILABLE"
+        ],
+        "note": "Extended event measured."
+      }
+    ],
+    "extended_flags": [
+      "M1_NODE_BIRTH",
+      "NZD_AVAILABLE"
+    ],
+    "extended_summary": "EXTENDED DATA PRESENT — NO MICRO SPIKE CONFIRMED",
+    "warnings": []
+  },
+  "behavioral_alerts": [
+    {
+      "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+      "level": "HOT",
+      "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_USD_DOWN) avec relais M5 propre — GBP pressure down / USD pressure up",
+      "source_fields": [
+        "kinematics_state.first_detachment",
+        "telegram_gating.relay_quality"
+      ],
+      "dashboard_badge": "🔥 DETACH+RELAY",
+      "telegram_text": "⚡ FIRST DETACHMENT + RELAY CLEAN\nGBP pressure down / USD pressure up\nKinematics: M1_FIRST_DETACHMENT_USD_DOWN"
+    },
+    {
+      "name": "COUNTER_RELEASE_ATTEMPT_ALERT",
+      "level": "WATCH",
+      "reason": "Tentative de contre-libération détectée — CONTRE la direction dominante, non confirmée (COUNTER_RELEASE_ATTEMPT ≠ RELEASE_CONFIRMED) — counter release non supportée par energy",
+      "source_fields": [
+        "kinematics_state.release_candidate.release_state",
+        "energy_context.secondary_state"
+      ],
+      "dashboard_badge": "👁 COUNTER REL",
+      "telegram_text": "👁 COUNTER RELEASE ATTEMPT\nContre GBP pressure down / USD pressure up\nNon confirmé — observer absorption"
+    },
+    {
+      "name": "NODE_HEAT_ENERGY_DIVERGENCE",
+      "level": "WATCH",
+      "reason": "Node HOT_NODE — direction GBP pressure down / USD pressure up — mais GBP=ENERGY_WEAK / USD=ENERGY_WEAK (node_energy_relation=DIVERGENT) — Node Heat ≠ Currency Energy",
+      "source_fields": [
+        "node_summary.highest_level",
+        "energy_context.node_energy_relation",
+        "energy_context.field_quality"
+      ],
+      "dashboard_badge": "👁 HEAT≠ENERGY",
+      "telegram_text": "👁 NODE HEAT / ENERGY DIVERGENCE\nNode: HOT_NODE | relation: DIVERGENT\nGBP=ENERGY_WEAK | USD=ENERGY_WEAK\nNe pas confondre — observer les deux"
+    },
+    {
+      "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
+      "level": "INFO",
+      "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — EUR+GBP+CAD en compression (spread force: 4.0) — champ energy thin/mixed",
+      "source_fields": [
+        "kinematics_state.tight_gravity_cluster",
+        "energy_context.field_quality"
+      ],
+      "dashboard_badge": "ℹ GRAVITY CLUSTER",
+      "telegram_text": "ℹ TIGHT GRAVITY CLUSTER\nM15_TIGHT_GRAVITY_GROUP\nDevises: EUR+GBP+CAD | Spread: 4.0"
+    },
+    {
+      "name": "SAME_ANGLE_CLUSTER_ALERT",
+      "level": "INFO",
+      "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — NZD+AUD+USD en mouvement synchronisé",
+      "source_fields": [
+        "kinematics_state.same_angle_cluster"
+      ],
+      "dashboard_badge": "ℹ SAME ANGLE",
+      "telegram_text": "ℹ SAME ANGLE CLUSTER\nM5_POLARIZED_SAME_ANGLE_UP\nDevises: NZD+AUD+USD"
+    },
+    {
+      "name": "RELATIONAL_GRAVITY_ALIGNED_LEADER_CONFLICT_INFO",
+      "level": "WATCH",
+      "reason": "Direction relationnelle alignée (UP) mais leadership conflictuel entre TFs — lire tf_details. Antagoniste : USD/CAD/GBP/JPY/AUD.",
+      "source_fields": [
+        "relational_gravity.topline_state",
+        "relational_gravity.direction_consistency",
+        "relational_gravity.leader_consistency",
+        "relational_gravity.tf_details"
+      ],
+      "dashboard_badge": "👁 RG DIR/LEAD CONFLICT",
+      "telegram_text": "👁 RG DIRECTION ALIGNÉE / LEADER CONFLIT\nDirection : UP | Antagoniste : USD/CAD/GBP/JPY/AUD\nLire tf_details — pas de leader fiable"
+    }
+  ],
+  "degraded_alerts": [],
+  "film_steps": [
+    "[FRACTAL] LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+    "[NODE] HOT_NODE @ M5 — GBP pressure down / USD pressure up",
+    "[RELAY] M5 relais propre — confirmation tactique disponible",
+    "[KINEM] angle=NEUTRAL | speed=M1_USD_FAST_DOWN | accel=STABLE",
+    "[DETACH] M1_FIRST_DETACHMENT_USD_DOWN — détachement actif",
+    "[RELEASE] COUNTER_RELEASE_ATTEMPT | ok=first_detachment_confirmed,price_coherent,relay_clean | nok=no_m1_energy_signal",
+    "[ENERGY_CONTEXT] OBSERVATION_ONLY | GBP=ENERGY_WEAK | USD=ENERGY_WEAK | relation=DIVERGENT | field=ENERGY_THIN_OR_MIXED",
+    "[MATURITY] CONFIRMING → surveiller ABSORBING"
+  ],
+  "next_watch_enriched": [
+    "WATCH_MICROSTRUCTURE_CONFIRMATION",
+    "WATCH_SECOND_LEG",
+    "WATCH_REPULSION_CONTINUATION",
+    "WATCH_PRICE_CATCHUP",
+    "WATCH_FRACTAL_CONFIRMATION",
+    "WATCH_M1_RESPRING",
+    "WATCH_M15_ENERGY_RELAY",
+    "WATCH_HTF_BATTLE_RESOLUTION",
+    "WATCH_EXTENDED_MICRO_WINDOW",
+    "WATCH_RELEASE_CONFIRMATION — détachement + relay clean actif",
+    "WATCH_ABSORPTION_OR_REJECTION — counter attempt en cours",
+    "WATCH_GRAVITY_BREAK — cluster serré, surveiller rupture",
+    "WATCH_ENERGY_ALIGNMENT — divergence Heat/Energy à surveiller"
+  ],
+  "behavioral_summary": {
+    "behavioral_count": 6,
+    "degraded_count": 0,
+    "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+    "top_level": "HOT",
+    "has_degraded": false,
+    "has_hot_behavioral": true
+  },
+  "relational_gravity": {
+    "bridge_version": "0.1.3",
+    "cross_tf_state": "RELATIONAL_GRAVITY_ALIGNED_M1_M5_M15",
+    "dominant_direction": "UP",
+    "dominant_leader": "MIXED",
+    "dominant_antagonist": "USD/CAD/GBP/JPY/AUD",
+    "aligned_tfs": [
+      1,
+      5,
+      15
+    ],
+    "counter_tf": null,
+    "max_score": 0.72,
+    "direction_consistency": "ALIGNED",
+    "leader_consistency": "CONFLICT",
+    "antagonist_consistency": "DEDUPED",
+    "topline_reliable": false,
+    "topline_state": "RELATIONAL_GRAVITY_DIRECTION_ALIGNED_LEADER_CONFLICT",
+    "notes": [
+      "leader_conflict: dominant_leader set to MIXED"
+    ],
+    "tf_details": {
+      "1": {
+        "loaded": true,
+        "source_file": "output\\relational_gravity_m1_v011.json",
+        "status": "OK",
+        "primary_state": "DESYNC_TRIGGER",
+        "group": [
+          "GBP",
+          "EUR",
+          "JPY",
+          "CHF",
+          "AUD"
+        ],
+        "direction": "UP",
+        "gap_mode": "DESYNC",
+        "leader": "GBP",
+        "antagonist": "USD/CAD",
+        "score": 0.456,
+        "confidence": "MEDIUM",
+        "lab_signatures": [
+          "DESYNC_TRIGGER"
+        ],
+        "interpretation": "Désynchronisation détectée dans GBP/EUR/JPY/CHF/AUD. Angles divergents — cohésion en rupture. Attention aux faux groupes (MEDIUM)."
+      },
+      "5": {
+        "loaded": true,
+        "source_file": "output\\relational_gravity_m5_v011.json",
+        "status": "OK",
+        "primary_state": "DESYNC_TRIGGER",
+        "group": [
+          "EUR",
+          "JPY",
+          "CHF",
+          "AUD"
+        ],
+        "direction": "UP",
+        "gap_mode": "DESYNC",
+        "leader": "AUD",
+        "antagonist": "GBP/USD/CAD",
+        "score": 0.397,
+        "confidence": "LOW",
+        "lab_signatures": [
+          "DESYNC_TRIGGER"
+        ],
+        "interpretation": "Désynchronisation détectée dans EUR/JPY/CHF/AUD. Angles divergents — cohésion en rupture. Attention aux faux groupes (LOW)."
+      },
+      "15": {
+        "loaded": true,
+        "source_file": "output\\relational_gravity_m15_v011.json",
+        "status": "OK",
+        "primary_state": "GRAVITY_COMPRESSION_CLUSTER",
+        "group": [
+          "GBP",
+          "USD",
+          "EUR",
+          "CAD",
+          "CHF"
+        ],
+        "direction": "UP",
+        "gap_mode": "COMPRESSING",
+        "leader": "USD",
+        "antagonist": "JPY/AUD",
+        "score": 0.72,
+        "confidence": "HIGH",
+        "lab_signatures": [
+          "GRAVITY_COMPRESSION_CLUSTER",
+          "FOLLOWER_CATCH_UP",
+          "COALITION_VS_ANTAGONIST_EXPANSION"
+        ],
+        "interpretation": "Cluster haussière : GBP/USD/EUR/CAD/CHF se rapprochent. Leader : USD. Suiveurs : CHF/CAD/EUR/GBP. Antagoniste : JPY/AUD. Compression active (HIGH)."
+      }
+    }
+  },
+  "orchestral_gravity": {
+    "state": "ORCHESTRAL_BRIDGE_ERROR",
+    "timeframes": {},
+    "latest_state": null,
+    "compression_detected": false,
+    "notes": [
+      "orchestral_bridge_error: ValueError: max() iterable argument is empty"
+    ]
+  },
+  "dashboard_cards": [
+    {
+      "title": "VISION DB",
+      "status": "TACTICAL_OK",
+      "line": "LIVE_EXTENDED_ACTIVE | SCHEMA_EXTENDED_OK | source=force_snapshots_v2"
+    },
+    {
+      "title": "SCÈNE",
+      "status": "RAW_NODE_BIRTH",
+      "line": "RAW_NODE_BIRTH — AUD+JPY+NZD vs USD+CHF+CAD+EUR+GBP. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG."
+    },
+    {
+      "title": "FRACTALITÉ",
+      "status": "FRACTAL_CONTRADICTION_FIELD",
+      "line": "GBPUSD | RAW_NODE_BIRTH | FRACTAL_CONTRADICTION_FIELD | temps compressé puis étiré | HTF=HTF_SILENT_OR_FLAT | NEXT=WATCH_SECOND_LEG"
+    },
+    {
+      "title": "EXTENDED V0.2",
+      "status": "EXTENDED DATA PRESENT — NO MICRO SPIKE CONFIRMED",
+      "line": "M1_NODE_BIRTH | NZD_AVAILABLE"
+    },
+    {
+      "title": "ORCHESTRAL GRAVITY",
+      "status": "ORCHESTRAL_BRIDGE_ERROR",
+      "line": "Leader: NONE | Compression: False | Patterns: 0"
+    },
+    {
+      "title": "NEXT WATCH",
+      "status": "WATCH_MICROSTRUCTURE_CONFIRMATION",
+      "line": "scene=WATCH_SECOND_LEG | fractal=WATCH_MICROSTRUCTURE_CONFIRMATION"
+    }
+  ]
+}

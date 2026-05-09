@@ -1,0 +1,26 @@
+{
+  "version": "0.1.2",
+  "updated_at": "2026-05-06T20:59:44+00:00",
+  "mode": "SYSTEM_ONLY",
+  "verdict": "MESSAGE_READY",
+  "should_send": true,
+  "duplicate": false,
+  "dry_run": true,
+  "configured": false,
+  "message_kind": "system",
+  "key": "SYSTEM_ONLY:3804dfa494898745",
+  "reason": "",
+  "symbol": "POWERFLOW",
+  "level": "WARN",
+  "freshness": "",
+  "age_seconds": null,
+  "message_preview": "⚠️ POWERFLOW WARN\nruntime heartbeat delayed\ndashboard_ready=true\ntrader_alert_ready=false",
+  "telegram_result": {
+    "ok": true,
+    "dry_run": true,
+    "status": "DRY_RUN_MESSAGE_READY"
+  },
+  "last_sent_at": null,
+  "last_sent_key": null,
+  "history": {}
+}

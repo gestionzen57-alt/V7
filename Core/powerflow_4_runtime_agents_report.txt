@@ -1,0 +1,153 @@
+
+=== DB VISION GUARD ===
+DB: powerflow.db
+SYMBOL: GBPUSD
+CHECKED_AT_UTC: 2026-05-04T21:59:49.003657+00:00
+
+SCHEMA:
+source_table: force_snapshots_v2
+schema_state: SCHEMA_EXTENDED_OK
+- force_snapshots: LEGACY_FORCE_ONLY | legacy_force=7/7 | extended=0/19
+- force_snapshots_v2: SCHEMA_EXTENDED_OK | legacy_force=7/7 | extended=19/19
+
+LIVE:
+TF1   OK                 latest=2026-05-04T21:07:00+00:00 age=3169s    rows_recent=4     rows_total=4       max_gap=18.0m
+TF5   STALE              latest=2026-05-04T20:50:00+00:00 age=4189s    rows_recent=1     rows_total=1       max_gap=unknown
+TF15  OK                 latest=2026-05-04T21:00:00+00:00 age=3589s    rows_recent=3     rows_total=3       max_gap=15.0m
+TF30  OK                 latest=2026-05-04T21:00:00+00:00 age=3589s    rows_recent=3     rows_total=7       max_gap=30.0m
+TF60  OK                 latest=2026-05-04T20:00:00+00:00 age=7189s    rows_recent=2     rows_total=4       max_gap=60.0m
+TF240 STALE              latest=2026-05-04T16:00:00+00:00 age=21589s   rows_recent=1     rows_total=2       max_gap=240.0m
+
+GAPS:
+TF240: 2026-05-04T12:00:00+00:00 -> 2026-05-04T16:00:00+00:00 240.0m HISTORICAL_GAP_DETECTED
+
+VERDICT:
+live_state: LIVE_EXTENDED_ACTIVE
+vision_state: DATA_PARTIAL
+can_detect_ltf_birth: False
+can_validate_htf_gravity: True
+
+NOTES:
+- Extended schema appears active.
+- Historical gaps detected; do not treat old gaps as live failure automatically.
+==========================================================================================
+=== POWERFLOW FLOW EVENT EXTRACTOR ===
+VERSION: 0.1.3
+SYMBOL: GBPUSD
+WINDOW: 2026-05-04T09:00:00+00:00 -> 2026-05-04T10:15:00+00:00
+SOURCE_TABLE: force_snapshots
+MODE: LEGACY_FORCE_ONLY
+
+ROWS:
+TF1: 76
+TF5: 16
+TF15: 6
+
+EVENTS:
+09:00->09:20 TF1 PRE_FIELD       energy=132.504  price=PRICE_MOVED          up=EUR+GBP+USD+CAD+CHF down=JPY+AUD conf=0.55
+  note: Pré-champ mesuré avant la naissance du node.
+09:21->09:28 TF1 NODE_BIRTH      energy=173.3043 price=PRICE_LAG            up=JPY+CAD+USD down=EUR+GBP+AUD+CHF conf=0.92
+  note: Basculement collectif des forces. Prix encore retenu si PRICE_LAG.
+09:30->09:48 TF1 CONFIRMATION    energy=157.8214 price=PRICE_PAYING         up=USD+CAD+JPY down=AUD+GBP+EUR+CHF conf=0.85
+  note: Même camp dominant après node. Le prix commence à payer si PRICE_PAYING.
+09:48->10:01 TF1 COUNTER_BREATH  energy=249.3798 price=PRICE_LAG            up=AUD+GBP+EUR+CHF down=USD+CAD+JPY conf=0.85
+  note: Respiration contraire après confirmation. Ne pas classer comme nouveau node principal.
+10:02->10:08 TF1 ABSORPTION      energy=74.4747  price=PRICE_PAYING         up=CAD+USD+JPY down=CHF+EUR+AUD+GBP conf=0.82
+  note: Le camp dominant reprend après respiration contraire.
+
+TOP CANDIDATES:
+09:22->09:42 TF1 score=349.829  energy=283.829  price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:21->09:41 TF1 score=347.1418 energy=281.1418 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:23->09:43 TF1 score=346.6576 energy=280.6576 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:20->09:40 TF1 score=346.5557 energy=280.5557 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=AUD+GBP+EUR+CHF
+09:21->09:40 TF1 score=343.5756 energy=277.5756 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:23->09:42 TF1 score=339.4152 energy=273.4152 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:22->09:41 TF1 score=337.3701 energy=271.3701 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:20->09:39 TF1 score=336.4453 energy=270.4453 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=AUD+GBP+EUR+CHF
+09:24->09:44 TF1 score=335.4385 energy=269.4385 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=GBP+EUR+AUD+CHF
+09:19->09:39 TF1 score=334.2534 energy=268.2534 price=PRICE_PAYING         raw=SIMULTANEOUS_RESPRING_VS_FOLD up=CAD+USD+JPY down=AUD+GBP+EUR+CHF
+==========================================================================================
+=== POWERFLOW SCENE REPORT ===
+SCENE_NAMER_VERSION: 0.1.0
+SYMBOL: GBPUSD
+WINDOW: 2026-05-04T09:00:00+00:00 -> 2026-05-04T10:15:00+00:00
+MODE: LEGACY_FORCE_ONLY
+SOURCE_TABLE: force_snapshots
+
+SCENE:
+GRAVITY_RESPRING_NODE
+
+STATE:
+WINDOW_ACTIVE_AFTER_BREATH | dominant_phase=ABSORPTION | confidence=0.86
+
+ONE_LINE:
+GRAVITY_RESPRING_NODE — JPY+CAD+USD reprennent contre EUR+GBP+AUD+CHF. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.
+
+FILM:
+09:00→09:20 PRE_FIELD — champ préparatoire. EUR+GBP+USD+CAD+CHF travaille pendant que JPY+AUD plie.
+09:21→09:28 NODE_BIRTH — JPY+CAD+USD respring contre EUR+GBP+AUD+CHF fold. Prix encore retenu.
+09:30→09:48 CONFIRMATION — même camp dominant. Le prix commence à payer la structure.
+09:48→10:01 COUNTER_BREATH — respiration opposée forte. Réponse prix: PRICE_LAG.
+10:02→10:08 ABSORPTION — le camp dominant reprend après respiration.
+
+NEXT WATCH:
+WATCH_SECOND_LEG
+
+NOTES:
+- Absorption detected; next useful watch is SECOND_LEG or new breath.
+==========================================================================================
+=== POWERFLOW FRACTAL WINDOW ENGINE ===
+VERSION: 0.1.0
+SYMBOL: GBPUSD
+WINDOW: 2026-05-04T09:00:00+00:00 -> 2026-05-04T10:15:00+00:00
+LTF: 1,5,15
+HTF: 30,60,240
+
+LTF_SCENE:
+GRAVITY_RESPRING_NODE | WINDOW_ACTIVE_AFTER_BREATH
+
+FRACTAL_STATE:
+FRACTAL_CONTRADICTION_FIELD
+
+TEMPORAL_STATE:
+TEMPORAL_ELASTICITY_FIELD
+
+HTF_RELATION:
+HTF_SILENT_OR_FLAT
+
+HIGHER_STORY:
+HIGHER_STORY_NOT_CONFIRMED
+
+CONTRADICTION:
+FRACTAL_CONTRADICTION_FIELD
+
+FLAGS:
+- TIME_COMPRESSION_PHASE
+- TIME_STRETCHING_PHASE
+- TEMPORAL_ELASTICITY_FIELD
+- FRACTAL_CONTRADICTION_FIELD
+
+NODE_TIMING:
+ltf_node_start: 2026-05-04T09:21:00+00:00
+ltf_node_end: 2026-05-04T09:28:00+00:00
+htf_event_start: None
+htf_event_phase: None
+
+METRICS:
+node_duration_min: 7.0
+node_energy_per_min: 24.7578
+counter_breath_duration_min: 13.0
+absorption_duration_min: 6.0
+htf_rows_total: 30
+ltf_rows_total: 98
+ltf_events_count: 5
+htf_events_count: 0
+
+SUMMARY:
+GBPUSD | GRAVITY_RESPRING_NODE | FRACTAL_CONTRADICTION_FIELD | temps compressé puis étiré | HTF=HTF_SILENT_OR_FLAT | NEXT=WATCH_SECOND_LEG
+
+NEXT WATCH:
+WATCH_MICROSTRUCTURE_CONFIRMATION
+
+WARNINGS:
+- HTF: No NODE_BIRTH candidate found.

@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "generated_at": "2026-05-06T20:03:10+00:00",
+    "symbol": "GBPUSD",
+    "source": "pf_behavioral_alert_mapper",
+    "note": "TEST FILE - Alertes ultra-fraîches pour démonstration"
+  },
+  "alerts": [
+    {
+      "alert_type": "HOT_DETACHMENT_COUNTER_RELEASE_ENERGY_DIVERGENT",
+      "level": "HOT",
+      "timestamp": "2026-05-06T20:02:40+00:00",
+      "symbol": "GBPUSD",
+      "timeframe": "M1",
+      "description": "First detachment M1 + counter-release attempt but energy divergent",
+      "details": {
+        "detachment_strength": "HIGH",
+        "release_direction": "GBP_UP_USD_DOWN",
+        "energy_support": "WEAK"
+      }
+    },
+    {
+      "alert_type": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+      "level": "HOT",
+      "timestamp": "2026-05-06T20:02:10+00:00",
+      "symbol": "GBPUSD",
+      "timeframe": "M1",
+      "description": "First detachment with clean M5 relay",
+      "details": {
+        "m5_relay_quality": "CLEAN",
+        "angle_coherence": "ALIGNED"
+      }
+    },
+    {
+      "alert_type": "NODE_HEAT_ENERGY_DIVERGENCE",
+      "level": "WATCH",
+      "timestamp": "2026-05-06T20:01:30+00:00",
+      "symbol": "GBPUSD",
+      "timeframe": "M1",
+      "description": "Node heat but energy thin or divergent",
+      "details": {
+        "node_heat": "HIGH",
+        "gbp_energy": "THIN",
+        "usd_energy": "NEUTRAL"
+      }
+    },
+    {
+      "alert_type": "COUNTER_RELEASE_ATTEMPT_ALERT",
+      "level": "WATCH",
+      "timestamp": "2026-05-06T20:01:00+00:00",
+      "symbol": "GBPUSD",
+      "timeframe": "M1",
+      "description": "Counter-release attempt without full confirmation",
+      "details": {
+        "release_maturity": "EARLY",
+        "confirmation_missing": "ENERGY_SUPPORT"
+      }
+    },
+    {
+      "alert_type": "TIGHT_GRAVITY_CLUSTER_ALERT",
+      "level": "INFO",
+      "timestamp": "2026-05-06T19:59:30+00:00",
+      "symbol": "GBPUSD",
+      "timeframe": "H1",
+      "description": "Tight gravity cluster detected on H1",
+      "details": {
+        "cluster_tightness": "HIGH",
+        "angle_compression": "75_PERCENT"
+      }
+    },
+    {
+      "alert_type": "SAME_ANGLE_CLUSTER_ALERT",
+      "level": "INFO",
+      "timestamp": "2026-05-06T19:58:45+00:00",
+      "symbol": "GBPUSD",
+      "timeframe": "M5",
+      "description": "Same angle cluster on M5 - synchronized movement",
+      "details": {
+        "cluster_size": "4_BARS",
+        "angle_variance": "LOW"
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+﻿{
+  "trader_alert_ready": true,
+  "symbol": "GBPUSD",
+  "level": "HOT",
+  "freshness": "RECENT",
+  "age_seconds": 154,
+  "alert_id": "TEST_HOT_TRADER_ALERT",
+  "trader_message": "contre-release + détachement M1\nNon confirmé: énergie paire insuffisante."
+}

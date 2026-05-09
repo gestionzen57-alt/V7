@@ -1,0 +1,147 @@
+<!--
+PowerFlow V6 — Agentic Core Panel V0.1
+
+Drop this block inside dashboard_live.html where you want the Agentic panel.
+It reads output/cockpit_agentic_state_v01.json and does not write anywhere.
+
+Required:
+    python run_cockpit_agentic_state_once.py --db powerflow.db --symbol GBPUSD --start ... --end ... --visual-htf-story confirmed --out output/cockpit_agentic_state_v01.json
+-->
+
+<section class="card agentic-core-card">
+  <div class="card-header">
+    <div>
+      <div class="label">AGENTIC CORE</div>
+      <h2 id="agentic-headline">Chargement Agentic Core...</h2>
+    </div>
+    <div id="agentic-status" class="pill">...</div>
+  </div>
+
+  <div class="agentic-grid">
+    <div class="agentic-box">
+      <div class="agentic-title">VISION DB</div>
+      <div id="agentic-db" class="agentic-value">...</div>
+    </div>
+    <div class="agentic-box">
+      <div class="agentic-title">SCÈNE</div>
+      <div id="agentic-scene" class="agentic-value">...</div>
+    </div>
+    <div class="agentic-box">
+      <div class="agentic-title">FRACTALITÉ</div>
+      <div id="agentic-fractal" class="agentic-value">...</div>
+    </div>
+    <div class="agentic-box">
+      <div class="agentic-title">NEXT WATCH</div>
+      <div id="agentic-next" class="agentic-value">...</div>
+    </div>
+  </div>
+
+  <pre id="agentic-film" class="agentic-film">...</pre>
+</section>
+
+<style>
+.agentic-core-card {
+  border: 1px solid rgba(77, 208, 225, 0.18);
+  background: rgba(9, 17, 24, 0.72);
+  box-shadow: 0 0 30px rgba(77, 208, 225, 0.05);
+}
+.agentic-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.agentic-box {
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.68);
+}
+.agentic-title {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: #4dd0e1;
+  margin-bottom: 8px;
+}
+.agentic-value {
+  font-size: 13px;
+  line-height: 1.35;
+  color: #dbeafe;
+}
+.agentic-film {
+  margin-top: 12px;
+  white-space: pre-wrap;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b6c2d1;
+  background: rgba(2, 6, 23, 0.45);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 12px;
+  padding: 12px;
+}
+.pill {
+  border: 1px solid rgba(77, 208, 225, 0.35);
+  color: #4dd0e1;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+@media (max-width: 1100px) {
+  .agentic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+</style>
+
+<script>
+async function loadAgenticCoreState() {
+  try {
+    const res = await fetch("output/cockpit_agentic_state_v01.json?ts=" + Date.now());
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const state = await res.json();
+
+    const summary = state.agent_summary || {};
+    const phases = ((state.flow_events || {}).phases) || {};
+    const fractal = state.fractal || {};
+
+    document.getElementById("agentic-headline").textContent = state.headline || "AGENTIC CORE";
+    document.getElementById("agentic-status").textContent = state.cockpit_status || "UNKNOWN";
+
+    document.getElementById("agentic-db").textContent =
+      `${summary.vision_state || "-"} | ${summary.live_state || "-"} | ${summary.schema_state || "-"}`;
+
+    document.getElementById("agentic-scene").textContent =
+      `${summary.scene || "-"} | ${summary.window_state || "-"} | ${summary.dominant_phase || "-"}`;
+
+    document.getElementById("agentic-fractal").textContent =
+      `${summary.fractal_state || "-"} | ${summary.temporal_state || "-"} | ${summary.higher_story || "-"}`;
+
+    document.getElementById("agentic-next").textContent =
+      summary.next_watch || "-";
+
+    const phaseLines = Object.entries(phases).map(([phase, ev]) => {
+      return `${ev.start}→${ev.end} ${phase} | up=${(ev.up_block || []).join("+") || "-"} | down=${(ev.down_block || []).join("+") || "-"} | price=${ev.price_response || "-"}`;
+    });
+
+    const flags = (summary.flags || []).map(f => `- ${f}`).join("\n");
+
+    document.getElementById("agentic-film").textContent =
+      [
+        "FILM:",
+        ...phaseLines,
+        "",
+        "FRACTAL FLAGS:",
+        flags || "none",
+        "",
+        "SUMMARY:",
+        fractal.summary || "-"
+      ].join("\n");
+
+  } catch (err) {
+    document.getElementById("agentic-headline").textContent = "Agentic Core indisponible";
+    document.getElementById("agentic-status").textContent = "NO_JSON";
+    document.getElementById("agentic-film").textContent = String(err);
+  }
+}
+
+loadAgenticCoreState();
+setInterval(loadAgenticCoreState, 15000);
+</script>

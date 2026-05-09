@@ -1,0 +1,9 @@
+﻿{
+  "trader_alert_ready": true,
+  "symbol": "GBPUSD",
+  "level": "WATCH",
+  "freshness": "FRESH",
+  "age_seconds": 42,
+  "alert_id": "TEST_WATCH_TRADER_ALERT",
+  "trader_message": "pression courte en construction\nFenêtre à surveiller."
+}

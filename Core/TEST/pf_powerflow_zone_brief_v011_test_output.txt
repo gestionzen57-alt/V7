@@ -1,0 +1,44 @@
+OK compile pf_powerflow_zone_brief.py
+SYNTHETIC_SCHEMA_SMOKE returncode=0
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/generated/interface/models.py", line 48821, in hydrate_crdt_from_proto
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/remote.py", line 747, in __call__
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/client.py", line 150, in call
+artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
+PowerFlow Zone Brief - COCKPIT FIELD
+============================================================================================
+Symbol: GBPUSD | Events: 4 | Battles: 1
+Generated UTC: 2026-05-02 17:32
+
+Top 1 strategic temporal battlefields:
+--------------------------------------------------------------------------------------------
+01. AUD LOW - STRATEGIC_RELEASE_WINDOW | TF=M15,M30,H1 | release | score=99.863 | 9.0h | ASIA->LONDON_OPEN->LONDON
+    anchor=H1 trigger=M15 ctx_max=13.200 tension_max=8.500 peak_abs_z=2.400
+    path=PRE_EXTREME->EARLY_EXTREME->ACCUMULATING->RUPTURE | note=scene multi-TF; fenetre de release ouverte ou deja active; tension portee entre sessions; HTF porteur.
+
+Release windows (1 shown):
+--------------------------------------------------------------------------------------------
+01. AUD LOW  STRATEGIC_RELEASE_WINDOW       score=99.863   TF=M15,M30,H1      ASIA->LONDON_OPEN->LONDON
+
+Battles in preparation (0 shown):
+--------------------------------------------------------------------------------------------
+-
+
+Session-carried tensions (1 shown):
+--------------------------------------------------------------------------------------------
+01. AUD LOW  STRATEGIC_RELEASE_WINDOW       score=99.863   TF=M15,M30,H1      ASIA->LONDON_OPEN->LONDON
+
+Microfilm fields (0 shown):
+--------------------------------------------------------------------------------------------
+-
+
+Cockpit synthesis:
+--------------------------------------------------------------------------------------------
+Dominant field: AUD LOW - STRATEGIC_RELEASE_WINDOW | TF=M15,M30,H1 | release | score=99.863 | 9.0h | ASIA->LONDON_OPEN->LONDON
+scene multi-TF; fenetre de release ouverte ou deja active; tension portee entre sessions; HTF porteur.
+Temporal window: release / rupture field already visible.

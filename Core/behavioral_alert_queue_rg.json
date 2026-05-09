@@ -1,0 +1,75 @@
+[
+  {
+    "alert_name": "RELATIONAL_GRAVITY_ALIGNED_ALERT",
+    "level": "HOT",
+    "source": "relational_gravity",
+    "cross_tf_state": "RELATIONAL_GRAVITY_ALIGNED_M1_M5_M15",
+    "dominant_direction": "UP",
+    "dominant_leader": "GBP",
+    "dominant_antagonist": "USD/JPY/CAD",
+    "aligned_tfs": [
+      1,
+      5,
+      15
+    ],
+    "counter_tf": null,
+    "max_score": 0.954,
+    "reason": "M1/M5/M15 alignés UP — leader GBP — antagoniste USD/JPY/CAD — score 0.954",
+    "interpretation": "Champ gravitationnel complet : M1/M5/M15 convergent UP. GBP domine. Antagoniste : USD/JPY/CAD.",
+    "tags": [
+      "gravity",
+      "aligned",
+      "cross_tf",
+      "hot"
+    ]
+  },
+  {
+    "alert_name": "LEADER_PULLING_AWAY_ALERT",
+    "level": "HOT",
+    "source": "relational_gravity",
+    "cross_tf_state": "RELATIONAL_GRAVITY_ALIGNED_M1_M5_M15",
+    "dominant_direction": "UP",
+    "dominant_leader": "GBP",
+    "dominant_antagonist": "USD/JPY/CAD",
+    "aligned_tfs": [
+      1,
+      5,
+      15
+    ],
+    "counter_tf": null,
+    "max_score": 0.954,
+    "reason": "GBP prend de l'avance (UP) — score 0.954 — antagoniste USD/JPY/CAD",
+    "interpretation": "GBP tire le groupe UP. Antagoniste : USD/JPY/CAD. Attention à la désynchro si les suiveurs ne rattrapent pas.",
+    "tags": [
+      "gravity",
+      "leader",
+      "pulling_away",
+      "hot"
+    ]
+  },
+  {
+    "alert_name": "COALITION_VS_ANTAGONIST_EXPANSION_ALERT",
+    "level": "INFO",
+    "source": "relational_gravity",
+    "cross_tf_state": "RELATIONAL_GRAVITY_ALIGNED_M1_M5_M15",
+    "dominant_direction": "UP",
+    "dominant_leader": "GBP",
+    "dominant_antagonist": "USD/JPY/CAD",
+    "aligned_tfs": [
+      1,
+      5,
+      15
+    ],
+    "counter_tf": null,
+    "max_score": 0.954,
+    "reason": "Coalition UP (leader GBP) s'oppose à USD/JPY/CAD — score 0.954",
+    "interpretation": "Champ bipolaire actif : groupe UP vs USD/JPY/CAD. Expansion de la distance coalition/antagoniste détectée.",
+    "tags": [
+      "gravity",
+      "coalition",
+      "antagonist",
+      "bipolar",
+      "info"
+    ]
+  }
+]

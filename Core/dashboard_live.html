@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PowerFlow V6 — Cockpit Agentic V06</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --text-xs:.75rem;--text-sm:.875rem;--text-base:1rem;
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+  --space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;
+  --font-body:'Satoshi','Inter',sans-serif;
+  --font-mono:'JetBrains Mono','Fira Code','Consolas',monospace;
+  --transition:200ms cubic-bezier(.16,1,.3,1);
+  --bg:#0d0e10;--surface:#13151a;--surface-2:#181b22;--surface-3:#1e2230;
+  --border:rgba(255,255,255,.07);--border-strong:rgba(255,255,255,.14);
+  --text:#d4d8e2;--text-muted:#7a8099;--text-faint:#3d4257;
+  --compressed:#ff4444;--active:#ff8800;--neutral:#f0c040;
+  --hollow:#5577aa;--dead:#3a3f55;
+  --live:#22dd88;--delayed:#ff8800;--stale:#ff4444;--accent:#4f98a3;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-sm);color:var(--text);background:var(--bg);line-height:1.5}
+.cockpit{display:grid;grid-template-rows:auto auto 1fr auto;min-height:100dvh}
+.header{display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-6);background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:var(--space-3)}
+.logo-text{font-size:var(--text-base);font-weight:700;letter-spacing:.08em}
+.logo-sub{font-size:var(--text-xs);color:var(--text-muted);letter-spacing:.12em;font-family:var(--font-mono)}
+.header-right{display:flex;align-items:center;gap:var(--space-4)}
+.db-badge{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-1) var(--space-3);border-radius:var(--radius-xl);font-family:var(--font-mono);font-size:var(--text-xs);font-weight:500;border:1px solid transparent}
+.db-badge.LIVE{color:var(--live);border-color:rgba(34,221,136,.25);background:rgba(34,221,136,.08)}
+.db-badge.DELAYED{color:var(--delayed);border-color:rgba(255,136,0,.25);background:rgba(255,136,0,.08)}
+.db-badge.STALE,.db-badge.ERROR{color:var(--stale);border-color:rgba(255,68,68,.25);background:rgba(255,68,68,.08)}
+.db-dot{width:6px;height:6px;border-radius:50%}
+.LIVE .db-dot{background:var(--live);animation:pdot 2s ease-in-out infinite}
+.DELAYED .db-dot,.STALE .db-dot,.ERROR .db-dot{background:var(--stale)}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.refresh-btn{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-1) var(--space-3);border-radius:var(--radius-md);background:var(--surface-2);border:1px solid var(--border);color:var(--text-muted);font-size:var(--text-xs);cursor:pointer;transition:background var(--transition),color var(--transition)}
+.refresh-btn:hover{background:var(--surface-3);color:var(--text)}
+.header-actions{display:flex;align-items:center;gap:var(--space-2)}
+.ghost-btn{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-1) var(--space-3);border-radius:var(--radius-md);background:transparent;border:1px solid var(--border);color:var(--text-muted);font-size:var(--text-xs);cursor:pointer;transition:background var(--transition),color var(--transition),border-color var(--transition)}
+.ghost-btn:hover,.ghost-btn.active{background:var(--surface-2);color:var(--text);border-color:rgba(79,152,163,.35)}
+.loading-bar{height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);background-size:200% 100%;animation:sweep 1.2s ease-in-out infinite}
+@keyframes sweep{0%{background-position:-100% 0}100%{background-position:200% 0}}
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);padding:var(--space-4) var(--space-6);align-items:start}
+@media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border)}
+.card-title{font-size:var(--text-xs);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);font-family:var(--font-mono)}
+.card-body{padding:var(--space-4)}
+.full-width{grid-column:1 / -1}
+.field-line{display:flex;gap:var(--space-3);padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);margin-bottom:var(--space-2);border:1px solid var(--border);background:var(--surface-2)}
+.field-label{font-family:var(--font-mono);font-size:var(--text-xs);font-weight:700;color:var(--accent);min-width:150px;flex-shrink:0;letter-spacing:.04em;padding-top:1px}
+.field-value{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text);line-height:1.6;word-break:break-word}
+.temporal-block{margin-top:var(--space-3);padding:var(--space-3);background:rgba(79,152,163,.05);border:1px solid rgba(79,152,163,.15);border-radius:var(--radius-lg)}
+.temporal-title{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--accent);font-weight:700;letter-spacing:.1em;margin-bottom:var(--space-2)}
+.temporal-text{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted);line-height:1.7;white-space:pre-wrap}
+.density-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:var(--space-3)}
+.density-card{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-3);display:flex;flex-direction:column;gap:var(--space-2);transition:border-color var(--transition),transform var(--transition)}
+.density-card:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.density-currency{font-family:var(--font-mono);font-size:var(--text-base);font-weight:700}
+.state-badge{display:inline-flex;align-items:center;padding:2px var(--space-2);border-radius:var(--radius-xl);font-family:var(--font-mono);font-size:.62rem;font-weight:700;letter-spacing:.06em;width:fit-content}
+.s-COMPRESSED{background:rgba(255,68,68,.15);color:var(--compressed);border:1px solid rgba(255,68,68,.3)}
+.s-ACTIVE{background:rgba(255,136,0,.15);color:var(--active);border:1px solid rgba(255,136,0,.3)}
+.s-NEUTRAL{background:rgba(240,192,64,.12);color:var(--neutral);border:1px solid rgba(240,192,64,.25)}
+.s-HOLLOW{background:rgba(85,119,170,.15);color:var(--hollow);border:1px solid rgba(85,119,170,.3)}
+.s-DEAD{background:rgba(58,63,85,.3);color:var(--dead);border:1px solid rgba(58,63,85,.5)}
+.score-bar-wrap{height:4px;background:var(--surface-3);border-radius:2px;overflow:hidden}
+.score-bar{height:100%;border-radius:2px;transition:width .6s cubic-bezier(.16,1,.3,1)}
+.f-COMPRESSED{background:var(--compressed)}.f-ACTIVE{background:var(--active)}
+.f-NEUTRAL{background:var(--neutral)}.f-HOLLOW{background:var(--hollow)}.f-DEAD{background:var(--dead)}
+.score-text{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted);text-align:right}
+.raw-pre{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted);line-height:1.7;white-space:pre-wrap;word-break:break-word;max-height:380px;overflow-y:auto}
+.empty-state{display:flex;flex-direction:column;align-items:center;padding:var(--space-10) var(--space-8);text-align:center;color:var(--text-muted)}
+.empty-state h3{color:var(--text);margin-bottom:var(--space-2)}
+.empty-state p{font-family:var(--font-mono);font-size:var(--text-xs);max-width:50ch;line-height:1.6}
+.footer{padding:var(--space-3) var(--space-6);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface)}
+.footer-ts{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-faint)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
+
+/* === AGENTIC CORE PANEL V0.1 === */
+.agentic-card{border-color:rgba(79,152,163,.22);background:linear-gradient(180deg,rgba(79,152,163,.055),rgba(19,21,26,.96))}
+.agentic-head{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)}
+.agentic-headline{font-family:var(--font-mono);font-size:var(--text-sm);color:var(--text);letter-spacing:.02em}
+.agentic-pill{display:inline-flex;align-items:center;border:1px solid rgba(79,152,163,.35);color:var(--accent);border-radius:var(--radius-xl);padding:2px var(--space-3);font-family:var(--font-mono);font-size:var(--text-xs);white-space:nowrap;background:rgba(79,152,163,.08)}
+.agentic-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-3);margin-bottom:var(--space-3)}
+.agentic-box{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-3);min-height:82px}
+.agentic-title{font-family:var(--font-mono);font-size:.62rem;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:var(--space-2)}
+.agentic-value{font-family:var(--font-mono);font-size:var(--text-xs);line-height:1.55;color:var(--text);word-break:break-word}
+.agentic-film{font-family:var(--font-mono);font-size:var(--text-xs);line-height:1.65;color:var(--text-muted);white-space:pre-wrap;background:rgba(79,152,163,.045);border:1px solid rgba(79,152,163,.14);border-radius:var(--radius-lg);padding:var(--space-3);max-height:260px;overflow-y:auto}
+@media(max-width:1100px){.agentic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.agentic-grid{grid-template-columns:1fr}}
+
+
+/* === AGENTIC CORE PANEL V0.5 — focus mode + collapsible cockpit + taller agentic === */
+.agentic-root{padding:var(--space-4) var(--space-6) 0 var(--space-6)}
+.agentic-hero-card{border-color:rgba(79,152,163,.30);background:linear-gradient(180deg,rgba(79,152,163,.075),rgba(19,21,26,.98));box-shadow:0 0 38px rgba(79,152,163,.06)}
+.agentic-hero-card .card-body{padding:var(--space-6);min-height:1100px}
+.agentic-headline{font-size:1.05rem;line-height:1.45;color:#e6f6ff}
+.agentic-pill{font-size:.78rem;padding:4px var(--space-4)}
+.agentic-grid{grid-template-columns:1.05fr 1.25fr 1.45fr 1.15fr .8fr;gap:var(--space-4);margin-bottom:var(--space-4)}
+.agentic-box{min-height:112px;padding:var(--space-4);border-color:rgba(255,255,255,.09)}
+.agentic-title{font-size:.68rem;margin-bottom:var(--space-3)}
+.agentic-value{font-size:.86rem;line-height:1.75;color:#dbeafe}
+.agentic-film{font-size:.84rem;line-height:1.78;min-height:860px;max-height:860px;padding:var(--space-4);border-color:rgba(79,152,163,.20)}
+.agentic-toolbar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);margin-bottom:var(--space-4)}
+.agentic-toolbar-actions{display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap}
+.main-grid.hidden{display:none}
+.card.collapsed .card-body{display:none}
+.card-toggle{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:transparent;color:var(--text-muted);font-family:var(--font-mono);font-size:.68rem;cursor:pointer}
+.card-toggle:hover{color:var(--text);border-color:rgba(79,152,163,.35);background:rgba(79,152,163,.06)}
+.agentic-core-mini{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-3)}
+.agentic-chip{font-family:var(--font-mono);font-size:.72rem;border:1px solid rgba(79,152,163,.20);background:rgba(79,152,163,.055);color:var(--text-muted);border-radius:999px;padding:3px 10px}
+@media(max-width:1200px){.agentic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.agentic-grid{grid-template-columns:1fr}.agentic-root{padding:var(--space-3)}}
+
+
+/* === AGENTIC CORE PANEL V0.6 — auto-focus + sticky live scene + stronger watch === */
+.live-scene-bar{
+  position:sticky;
+  top:57px;
+  z-index:95;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--space-4);
+  padding:10px var(--space-6);
+  background:rgba(13,14,16,.94);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(79,152,163,.24);
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
+}
+.live-scene-left{display:flex;align-items:center;gap:var(--space-3);min-width:0}
+.live-scene-dot{width:8px;height:8px;border-radius:999px;background:var(--accent);box-shadow:0 0 14px rgba(79,152,163,.8)}
+.live-scene-title{
+  font-family:var(--font-mono);
+  font-size:.82rem;
+  color:#e6f6ff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.live-scene-next{
+  font-family:var(--font-mono);
+  font-size:.76rem;
+  color:#ffd36b;
+  border:1px solid rgba(255,211,107,.28);
+  background:rgba(255,211,107,.07);
+  border-radius:999px;
+  padding:4px 12px;
+  white-space:nowrap;
+}
+.agentic-next-hot{
+  border-color:rgba(255,211,107,.45)!important;
+  box-shadow:0 0 26px rgba(255,211,107,.08);
+}
+.agentic-next-hot .agentic-title{color:#ffd36b}
+.agentic-next-hot .agentic-value{color:#fff0bd;font-size:.92rem}
+.agentic-auto-focus{
+  border-color:rgba(79,152,163,.45)!important;
+  color:#6ee7f0!important;
+}
+.agentic-root{padding-top:var(--space-3)}
+.agentic-hero-card .card-body{min-height:1120px}
+.agentic-film{min-height:880px;max-height:880px}
+@media(max-width:900px){
+  .live-scene-bar{top:52px;padding:8px var(--space-3);align-items:flex-start;flex-direction:column}
+  .live-scene-title{white-space:normal;font-size:.76rem}
+  .live-scene-next{font-size:.70rem}
+  .agentic-grid{grid-template-columns:1fr!important}
+  .agentic-hero-card .card-body{min-height:980px}
+  .agentic-film{min-height:680px;max-height:680px}
+}
+
+/* === BEHAVIORAL FLOW CARD V0.1 === */
+.bf-card{border-color:rgba(255,136,0,.22);background:linear-gradient(180deg,rgba(255,136,0,.045),rgba(19,21,26,.98))}
+.bf-status{font-family:var(--font-mono);font-size:.72rem;font-weight:700;letter-spacing:.06em;color:#ff8800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.bf-top-alert{font-family:var(--font-mono);font-size:.78rem;color:#e8f4f8;margin:.5rem 0 .75rem;font-weight:600;letter-spacing:.03em}
+.bf-line{font-family:var(--font-mono);font-size:.7rem;color:var(--text-muted);line-height:1.6;padding:.5rem .75rem;background:rgba(255,136,0,.04);border:1px solid rgba(255,136,0,.12);border-radius:var(--radius-md);margin-bottom:.75rem;word-break:break-word}
+.bf-alerts{display:flex;flex-direction:column;gap:var(--space-2)}
+.bf-alert-row{display:flex;align-items:flex-start;gap:var(--space-3);padding:.5rem .75rem;border-radius:var(--radius-md);background:var(--surface-2);border:1px solid var(--border)}
+.bf-alert-row.l-HOT{border-color:rgba(255,68,68,.28);background:rgba(255,68,68,.06)}
+.bf-alert-row.l-WATCH{border-color:rgba(255,136,0,.22);background:rgba(255,136,0,.04)}
+.bf-alert-row.l-DEGRADED{border-color:rgba(255,211,107,.22);background:rgba(255,211,107,.04)}
+.bf-alert-row.l-INFO{border-color:rgba(85,119,170,.2);background:rgba(85,119,170,.04)}
+.bf-badge{font-family:var(--font-mono);font-size:.68rem;font-weight:700;min-width:110px;flex-shrink:0;padding-top:1px}
+.bf-badge.l-HOT{color:#ff4444}
+.bf-badge.l-WATCH{color:#ff8800}
+.bf-badge.l-DEGRADED{color:#ffd36b}
+.bf-badge.l-INFO{color:var(--hollow)}
+.bf-reason{font-family:var(--font-mono);font-size:.68rem;color:var(--text-muted);line-height:1.55;word-break:break-word}
+.bf-empty{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-faint);text-align:center;padding:var(--space-6)}
+
+/* === BEHAVIORAL FLOW PANEL dans Agentic Core (focus mode) V0.1.1 === */
+#agenticBfPanel{
+  margin-top:var(--space-4);
+  border:1px solid rgba(255,136,0,.28);
+  border-radius:var(--radius-lg);
+  background:linear-gradient(180deg,rgba(255,136,0,.055),rgba(19,21,26,.98));
+  overflow:hidden;
+}
+.bf-panel-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:var(--space-2) var(--space-4);
+  border-bottom:1px solid rgba(255,136,0,.18);
+}
+.bf-panel-title{
+  font-family:var(--font-mono);font-size:.65rem;font-weight:700;
+  letter-spacing:.12em;color:#ff8800;
+}
+.bf-panel-pill{
+  font-family:var(--font-mono);font-size:.65rem;
+  color:var(--text-faint);letter-spacing:.06em;
+}
+.bf-panel-body{padding:var(--space-3) var(--space-4) var(--space-4);}
+
+</style>
+</head>
+<body>
+<div class="cockpit">
+<header class="header">
+  <div class="logo">
+    <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
+      <rect x="2" y="2" width="28" height="28" rx="6" fill="rgba(79,152,163,.12)" stroke="rgba(79,152,163,.4)" stroke-width="1"/>
+      <path d="M8 20 L13 12 L17 17 L21 10 L24 14" stroke="#4f98a3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="24" cy="14" r="2.5" fill="#4f98a3"/>
+    </svg>
+    <div><div class="logo-text">POWERFLOW</div><div class="logo-sub">V6 COCKPIT</div></div>
+  </div>
+  <div class="header-right">
+    <div id="dbBadge" class="db-badge LIVE"><div class="db-dot"></div><span id="dbLabel">...</span></div>
+    <div class="header-actions">
+      <button id="focusBtn" class="ghost-btn" onclick="toggleFocusMode()">Focus Agentic</button>
+      <button class="refresh-btn" onclick="loadDashboard();loadAgenticCoreState()">↻ Refresh</button>
+    </div>
+  </div>
+</header>
+<div id="loadingBar" style="display:none" class="loading-bar"></div>
+
+<div id="liveSceneBar" class="live-scene-bar">
+  <div class="live-scene-left">
+    <div class="live-scene-dot"></div>
+    <div id="liveSceneTitle" class="live-scene-title">Agentic Core — attente JSON</div>
+  </div>
+  <div id="liveSceneNext" class="live-scene-next">NEXT: —</div>
+</div>
+
+
+<main>
+<div id="agenticRoot" class="agentic-root">
+  <div class="card full-width agentic-card agentic-hero-card">
+    <div class="card-header">
+      <div class="agentic-head">
+        <span class="card-title">Agentic Core</span>
+        <span id="agenticStatus" class="agentic-pill">CHARGEMENT</span>
+      </div>
+      <span class="card-title" style="color:var(--text-faint);font-size:.6rem">4 AGENTS RUNTIME</span>
+    </div>
+    <div class="card-body">
+      <div id="agenticHeadline" class="agentic-headline" style="margin-bottom:var(--space-4)">Lecture Agentic Core...</div>
+      <div class="agentic-toolbar">
+        <div class="agentic-chip" id="focusHint">Mode lecture normale</div>
+        <div class="agentic-toolbar-actions">
+          <button id="agenticFocusBtn" class="ghost-btn" onclick="toggleFocusMode()">Mode focus</button>
+          <button id="autoFocusBtn" class="ghost-btn agentic-auto-focus" onclick="toggleAutoFocus()">Auto-focus ON</button>
+          <button id="cockpitToggleBtn" class="ghost-btn" onclick="toggleCockpitField()">Replier Cockpit Field</button>
+        </div>
+      </div>
+      <div class="agentic-grid">
+        <div class="agentic-box"><div class="agentic-title">VISION DB</div><div id="agenticDb" class="agentic-value">...</div></div>
+        <div class="agentic-box"><div class="agentic-title">SCÈNE</div><div id="agenticScene" class="agentic-value">...</div></div>
+        <div class="agentic-box"><div class="agentic-title">FRACTALITÉ</div><div id="agenticFractal" class="agentic-value">...</div></div>
+        <div class="agentic-box"><div class="agentic-title">EXTENDED V0.2</div><div id="agenticExtended" class="agentic-value">...</div></div>
+        <div id="agenticNextBox" class="agentic-box agentic-next-hot"><div class="agentic-title">NEXT WATCH</div><div id="agenticNext" class="agentic-value">...</div></div>
+      </div>
+
+      <div id="agenticBfPanel">
+        <div class="bf-panel-header">
+          <span class="bf-panel-title">BEHAVIORAL FLOW</span>
+          <span class="bf-panel-pill" id="agenticBfPill">—</span>
+        </div>
+        <div class="bf-panel-body" id="agenticBfBody">
+          <div class="bf-empty">En attente de dashboard_data.behavioral_flow…</div>
+        </div>
+      </div>
+
+      <pre id="agenticFilm" class="agentic-film">En attente de output/cockpit_agentic_state_v01.json...</pre>
+      <div class="agentic-core-mini">
+        <span class="agentic-chip">DBVisionGuard</span>
+        <span class="agentic-chip">FlowEventExtractor</span>
+        <span class="agentic-chip">SceneNamer</span>
+        <span class="agentic-chip">FractalWindowEngine</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="main-grid" id="mainGrid"></div>
+</main>
+
+<footer class="footer">
+  <span class="footer-ts" id="footerTs">—</span>
+  <span class="footer-ts">PowerFlow V6 — Read Only</span>
+</footer>
+</div>
+<script>
+const SL={COMPRESSED:'COMPRESSE',ACTIVE:'ACTIF',NEUTRAL:'NEUTRE',HOLLOW:'CREUX',DEAD:'MORT'};
+const FL={dominant:'CHAMP DOMINANT',coalition:'COALITION',context:'CONTEXTE OPPOSE',contested_window:'FENETRE CONTESTEE',bipolar_focus:'BIPOLAIRE FOCUS',bipolar_list:'BIPOLAIRES'};
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function fmtTs(ts){try{const d=new Date(ts);return d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' — '+d.toLocaleDateString('fr-FR');}catch{return ts||'—'}}
+function renderField(f){
+  if(!f)return'<div style="color:var(--text-faint);font-family:var(--font-mono);font-size:var(--text-xs);padding:1rem;text-align:center">Aucune donnee.</div>';
+  let h='',ok=false;
+  for(const k of['dominant','coalition','context','contested_window','bipolar_focus','bipolar_list']){
+    const v=f[k];if(!v||!v.trim())continue;ok=true;
+    h+=`<div class="field-line"><div class="field-label">${FL[k]||k}</div><div class="field-value">${esc(v)}</div></div>`;
+  }
+  if(!ok)h='<div style="color:var(--text-faint);font-family:var(--font-mono);font-size:var(--text-xs);padding:1rem;text-align:center">Hors session ou DB stale.</div>';
+  if(f.temporal_patterns&&f.temporal_patterns.trim())
+    h+=`<div class="temporal-block"><div class="temporal-title">TEMPORAL PATTERNS</div><div class="temporal-text">${esc(f.temporal_patterns)}</div></div>`;
+  return h;
+}
+function renderDensity(d){
+  if(!d||!Object.keys(d).length)return'<div style="color:var(--text-faint);font-family:var(--font-mono);font-size:var(--text-xs);text-align:center;padding:1rem">Non disponible.</div>';
+  let h='<div class="density-grid">';
+  for(const[c,v]of Object.entries(d).sort((a,b)=>b[1].score-a[1].score)){
+    const st=v.state||'DEAD',sc=parseFloat(v.score||0),pct=Math.round(sc*100);
+    h+=`<div class="density-card"><div class="density-currency">${esc(c)}</div><div class="state-badge s-${st}">${SL[st]||st}</div><div class="score-bar-wrap"><div class="score-bar f-${st}" style="width:${pct}%"></div></div><div class="score-text">${sc.toFixed(2)}</div></div>`;
+  }
+  return h+'</div>';
+}
+const uiState={focus:false,cockpitCollapsed:false,autoFocus:true};
+function applyUiState(){
+  const grid=document.getElementById('mainGrid');
+  const focusBtn=document.getElementById('focusBtn');
+  const agenticFocusBtn=document.getElementById('agenticFocusBtn');
+  const hint=document.getElementById('focusHint');
+  if(grid) grid.classList.toggle('hidden', uiState.focus);
+  if(focusBtn) {focusBtn.classList.toggle('active', uiState.focus);focusBtn.textContent=uiState.focus?'Quitter focus':'Focus Agentic';}
+  if(agenticFocusBtn) {agenticFocusBtn.classList.toggle('active', uiState.focus);agenticFocusBtn.textContent=uiState.focus?'Quitter mode focus':'Mode focus';}
+  if(hint) hint.textContent=uiState.focus?'Mode focus agentic actif':'Mode lecture normale';
+  const cockpitCard=document.getElementById('cockpitFieldCard');
+  const cockpitBtn=document.getElementById('cockpitToggleBtn');
+  const autoBtn=document.getElementById('autoFocusBtn');
+  if(cockpitCard) cockpitCard.classList.toggle('collapsed', uiState.cockpitCollapsed);
+  if(cockpitBtn) cockpitBtn.textContent=uiState.cockpitCollapsed?'Déplier Cockpit Field':'Replier Cockpit Field';
+  if(autoBtn){autoBtn.classList.toggle('agentic-auto-focus', uiState.autoFocus);autoBtn.textContent=uiState.autoFocus?'Auto-focus ON':'Auto-focus OFF';}
+  try{localStorage.setItem('pf_agentic_v06_ui', JSON.stringify(uiState));}catch(e){}
+}
+function restoreUiState(){
+  try{const s=JSON.parse(localStorage.getItem('pf_agentic_v06_ui')||localStorage.getItem('pf_agentic_v05_ui')||'{}'); if(typeof s.focus==='boolean') uiState.focus=s.focus; if(typeof s.cockpitCollapsed==='boolean') uiState.cockpitCollapsed=s.cockpitCollapsed; if(typeof s.autoFocus==='boolean') uiState.autoFocus=s.autoFocus;}catch(e){}
+}
+function toggleFocusMode(){uiState.focus=!uiState.focus; applyUiState();}
+function toggleCockpitField(){uiState.cockpitCollapsed=!uiState.cockpitCollapsed; applyUiState();}
+function toggleAutoFocus(){uiState.autoFocus=!uiState.autoFocus; applyUiState();}
+function renderBehavioralFlow(data) {
+  // Priorité 1 : data.behavioral_flow
+  // Priorité 2 : data.dashboard_cards → title = "BEHAVIORAL FLOW"
+  let bf = data.behavioral_flow;
+  if (!bf && Array.isArray(data.dashboard_cards)) {
+    bf = data.dashboard_cards.find(c => c && c.title === 'BEHAVIORAL FLOW') || null;
+  }
+
+  if (!bf) {
+    return `<div class="bf-empty">BEHAVIORAL FLOW — en attente de dashboard_sync_agent</div>`;
+  }
+
+  const status = bf.status || '—';
+  const topAlert = bf.top_alert || '—';
+  const line = bf.line || '';
+  const alerts = Array.isArray(bf.alerts) ? bf.alerts : [];
+
+  let alertsHtml = '';
+  if (alerts.length) {
+    for (const a of alerts) {
+      const lvl = a.level || 'INFO';
+      const badge = a.badge || a.name || '—';
+      const reason = a.reason || '';
+      alertsHtml += `<div class="bf-alert-row l-${esc(lvl)}">` +
+        `<div class="bf-badge l-${esc(lvl)}">${esc(badge)}</div>` +
+        `<div class="bf-reason">${esc(reason)}</div>` +
+        `</div>`;
+    }
+  } else {
+    alertsHtml = `<div class="bf-empty">Aucune alerte comportementale</div>`;
+  }
+
+  return `<div class="bf-status">${esc(status)}</div>` +
+    `<div class="bf-top-alert">${esc(topAlert)}</div>` +
+    (line ? `<div class="bf-line">${esc(line)}</div>` : '') +
+    `<div class="bf-alerts">${alertsHtml}</div>`;
+}
+
+function renderGrid(data){
+  const raw=data.cockpit_raw||'';
+  document.getElementById('mainGrid').innerHTML=`
+    <div id="cockpitFieldCard" class="card full-width">
+      <div class="card-header"><span class="card-title">Cockpit Field</span><div style="display:flex;align-items:center;gap:10px"><button class="card-toggle" onclick="toggleCockpitField()">${uiState.cockpitCollapsed?'Déplier':'Replier'}</button><span class="card-title" style="color:var(--text-faint);font-size:.6rem">CHAMP GLOBAL</span></div></div>
+      <div class="card-body">${renderField(data.field)}</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Densite Temporelle</span><span class="card-title" style="color:var(--text-faint);font-size:.6rem">M5 · 20 BARRES</span></div>
+      <div class="card-body">${renderDensity(data.density)}</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Output Brut</span><span class="card-title" style="color:var(--text-faint);font-size:.6rem">COCKPIT RAW</span></div>
+      <div class="card-body"><pre class="raw-pre">${raw.trim()?esc(raw):'<span style="color:var(--text-faint)">Vide.</span>'}</pre></div>
+    </div>
+    <div class="card bf-card">
+      <div class="card-header">
+        <span class="card-title">Behavioral Flow</span>
+        <span class="card-title" style="color:var(--text-faint);font-size:.6rem">ALERTES COMPORTEMENTALES</span>
+      </div>
+      <div class="card-body">${renderBehavioralFlow(data)}</div>
+    </div>`;
+  const b=document.getElementById('dbBadge');
+  b.className='db-badge '+(data.db_status||'ERROR');
+  document.getElementById('dbLabel').textContent=data.db_label||data.db_status;
+  document.getElementById('footerTs').textContent='Mis a jour : '+fmtTs(data.timestamp);
+  applyUiState();
+}
+function renderError(msg){
+  document.getElementById('mainGrid').innerHTML=`<div class="card full-width"><div class="card-body"><div class="empty-state"><h3>Cockpit hors ligne</h3><p>${esc(msg)}</p></div></div></div>`;
+  document.getElementById('dbBadge').className='db-badge ERROR';
+  document.getElementById('dbLabel').textContent='Hors ligne';
+}
+
+async function loadAgenticCoreState(){
+  try{
+    const r=await fetch('./output/cockpit_agentic_state_v01.json?_='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const s=await r.json();
+    const sum=s.agent_summary||{}, phases=((s.flow_events||{}).phases)||{}, fractal=s.fractal||{};
+    const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val||'-'};
+    set('agenticStatus',s.cockpit_status||'UNKNOWN');
+    set('agenticHeadline',s.headline||'AGENTIC CORE');
+    set('agenticDb',`${sum.vision_state||'-'} | ${sum.live_state||'-'} | ${sum.schema_state||'-'}`);
+    set('agenticScene',`${sum.scene||'-'} | ${sum.window_state||'-'} | ${sum.dominant_phase||'-'}`);
+    set('agenticFractal',`${sum.fractal_state||'-'} | ${sum.temporal_state||'-'} | ${sum.higher_story||'-'}`);
+    set('agenticExtended',`${sum.extended_summary||'-'} | ${(sum.extended_flags||[]).slice(0,3).join(' | ')||'-'}`);
+    set('agenticNext',sum.next_watch||'-');
+    set('liveSceneTitle',`${s.headline||'AGENTIC CORE'} | ${sum.scene||'-'} | ${sum.fractal_state||'-'}`);
+    set('liveSceneNext',`NEXT: ${sum.next_watch||'-'}`);
+    const nextBox=document.getElementById('agenticNextBox');
+    if(nextBox) nextBox.classList.toggle('agentic-next-hot', Boolean(sum.next_watch && sum.next_watch !== '-'));
+    if(uiState.autoFocus && s.cockpit_status === 'AGENTIC_WINDOW_ACTIVE' && !uiState.focus){
+      uiState.focus=true;
+      applyUiState();
+    }
+    const phaseLines=Object.entries(phases).map(([p,e])=>`${e.start}→${e.end} ${p} | up=${(e.up_block||[]).join('+')||'-'} | down=${(e.down_block||[]).join('+')||'-'} | price=${e.price_response||'-'}`);
+    const flags=(sum.flags||[]).map(f=>`- ${f}`).join('\n')||'none';
+    const extFlags=(sum.extended_flags||[]).map(f=>`- ${f}`).join('\n')||'none';
+    set('agenticFilm',['FILM:',...phaseLines,'','FRACTAL FLAGS:',flags,'','EXTENDED FLAGS:',extFlags,'','SUMMARY:',fractal.summary||'-'].join('\n'));
+  }catch(e){
+    const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val};
+    set('agenticStatus','NO_JSON');
+    set('agenticHeadline','Agentic Core indisponible');
+    set('liveSceneTitle','Agentic Core indisponible — JSON manquant');
+    set('liveSceneNext','NEXT: —');
+    set('agenticFilm','Générer le JSON : python run_cockpit_agentic_state_once.py --db powerflow.db --symbol GBPUSD --start 2026-05-04T09:00:00 --end 2026-05-04T10:15:00 --visual-htf-story confirmed --out output/cockpit_agentic_state_v01.json');
+  }
+}
+
+// Cache dashboard data pour le panneau agentic (lecture seule)
+let _lastDashboardData = {};
+
+function updateAgenticBfPanel(data) {
+  const body = document.getElementById('agenticBfBody');
+  const pill = document.getElementById('agenticBfPill');
+  if (!body) return;
+
+  // Source : behavioral_flow direct, ou fallback dashboard_cards
+  let bf = data.behavioral_flow;
+  if (!bf && Array.isArray(data.dashboard_cards)) {
+    bf = data.dashboard_cards.find(c => c && c.title === 'BEHAVIORAL FLOW') || null;
+  }
+
+  if (!bf) {
+    body.innerHTML = '<div class="bf-empty">En attente de dashboard_sync_agent…</div>';
+    if (pill) pill.textContent = '—';
+    return;
+  }
+
+  if (pill) pill.textContent = bf.level || bf.status || '—';
+
+  body.innerHTML = renderBehavioralFlow(data);
+}
+
+async function loadDashboard(){
+  const lb=document.getElementById('loadingBar');lb.style.display='block';
+  try{
+    const r=await fetch('./dashboard_data.json?_='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    _lastDashboardData=data;
+    renderGrid(data);
+    updateAgenticBfPanel(data);
+  }
+  catch(e){renderError('Lancer : python dashboard_server.py --once — '+e.message);}
+  finally{lb.style.display='none'}
+}
+restoreUiState();
+loadDashboard();
+loadAgenticCoreState();
+applyUiState();
+setInterval(loadDashboard,10000);
+setInterval(loadAgenticCoreState,15000);
+</script>
+</body>
+</html>

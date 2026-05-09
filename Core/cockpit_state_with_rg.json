@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "source": "cockpit_patch_validator",
+    "version": "patch_test"
+  },
+  "db_vision": {},
+  "current_scene": {},
+  "temporal_nodes": {},
+  "flow_events": [],
+  "fractal_context": {},
+  "telegram": {},
+  "next_watch": {},
+  "relational_gravity": {
+    "bridge_version": "0.1",
+    "cross_tf_state": "RELATIONAL_GRAVITY_ALIGNED_M1_M5_M15",
+    "dominant_direction": "UP",
+    "dominant_leader": "GBP",
+    "dominant_antagonist": "USD/JPY/CAD",
+    "aligned_tfs": [
+      1,
+      5,
+      15
+    ],
+    "counter_tf": null,
+    "max_score": 0.954,
+    "notes": [],
+    "tf_details": {
+      "1": {
+        "loaded": true,
+        "source_file": "output/relational_gravity_m1_v011.json",
+        "status": "OK",
+        "primary_state": "LEADER_PULLING_AWAY",
+        "group": [
+          "GBP",
+          "EUR",
+          "AUD"
+        ],
+        "direction": "UP",
+        "gap_mode": "EXPANDING",
+        "leader": "GBP",
+        "antagonist": "USD/JPY/CAD",
+        "score": 0.859,
+        "confidence": "HIGH",
+        "lab_signatures": [
+          "GRAVITY_EXPANSION_CLUSTER",
+          "LEADER_PULLING_AWAY",
+          "COALITION_VS_ANTAGONIST_EXPANSION"
+        ],
+        "interpretation": "GBP prend de l'avance sur EUR/AUD (haussière). Antagoniste : USD/JPY/CAD. Risque de désynchro si suiveurs ne rattrapent pas (HIGH)."
+      },
+      "5": {
+        "loaded": true,
+        "source_file": "output/relational_gravity_m5_v011.json",
+        "status": "OK",
+        "primary_state": "LEADER_PULLING_AWAY",
+        "group": [
+          "GBP",
+          "EUR",
+          "CAD",
+          "AUD"
+        ],
+        "direction": "UP",
+        "gap_mode": "EXPANDING",
+        "leader": "GBP",
+        "antagonist": "USD",
+        "score": 0.887,
+        "confidence": "HIGH",
+        "lab_signatures": [
+          "GRAVITY_EXPANSION_CLUSTER",
+          "LEADER_PULLING_AWAY",
+          "COALITION_VS_ANTAGONIST_EXPANSION"
+        ],
+        "interpretation": "GBP prend de l'avance sur EUR/AUD/CAD (haussière). Antagoniste : USD. Risque de désynchro si suiveurs ne rattrapent pas (HIGH)."
+      },
+      "15": {
+        "loaded": true,
+        "source_file": "output/relational_gravity_m15_v011.json",
+        "status": "OK",
+        "primary_state": "LEADER_PULLING_AWAY",
+        "group": [
+          "GBP",
+          "EUR",
+          "AUD"
+        ],
+        "direction": "UP",
+        "gap_mode": "EXPANDING",
+        "leader": "GBP",
+        "antagonist": "USD/JPY",
+        "score": 0.954,
+        "confidence": "HIGH",
+        "lab_signatures": [
+          "GRAVITY_EXPANSION_CLUSTER",
+          "LEADER_PULLING_AWAY",
+          "COALITION_VS_ANTAGONIST_EXPANSION"
+        ],
+        "interpretation": "GBP prend de l'avance sur EUR/AUD (haussière). Antagoniste : USD/JPY. Risque de désynchro si suiveurs ne rattrapent pas (HIGH)."
+      }
+    }
+  }
+}

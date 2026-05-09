@@ -1,0 +1,52 @@
+OK compile pf_battlefield_map.py
+OK compile run_battlefield_map.py
+SYNTHETIC_SIDE_SMOKE returncode=0
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/generated/interface/models.py", line 48821, in hydrate_crdt_from_proto
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/remote.py", line 747, in __call__
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/client.py", line 150, in call
+artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
+PowerFlow Battlefield Map - CARTE GLOBALE DES BATAILLES
+====================================================================================================
+Symbol: GBPUSD | Events: 4 | Zone battles: 2 | Battlefield clusters: 2
+Generated UTC: 2026-05-02 17:51
+
+Top 2 global battlefields:
+----------------------------------------------------------------------------------------------------
+01. TACTICAL_RELEASE_BATTLEFIELD | score=30.178 | 2026-05-01 21:40 -> 2026-05-01 22:00 (20m) | TF=M1,M5 | sessions=LATE_US
+    tags=BATTLEFIELD_MAP,RELEASE_PRESENT,MICROFILM_PRESENT
+    HIGH=CAD | LOW=- | release=CAD HIGH
+      - CAD HIGH ZONE_RELEASE_WINDOW            release score=22.904   TF=M1,M5        LATE_US
+02. HTF_PREPARATION_FIELD | score=28.121 | 2026-05-01 21:50 -> 2026-05-01 22:10 (20m) | TF=M15,M30 | sessions=LATE_US
+    tags=BATTLEFIELD_MAP,PREPARATION_PRESENT,HTF_ANCHOR_PRESENT
+    HIGH=- | LOW=EUR | prep=EUR LOW
+      - EUR LOW  SCENARIO_BATTLEFIELD           prep    score=24.453   TF=M15,M30      LATE_US
+
+Contested windows (1 shown):
+----------------------------------------------------------------------------------------------------
+01. CONTESTED_RELEASE_WINDOW | score=67.044 | 2026-05-01 21:40 -> 2026-05-01 22:10 (30m) | HIGH=CAD | LOW=EUR | sessions=LATE_US
+    high_release=CAD HIGH | low_release=-
+
+Release battlefields (1 shown):
+----------------------------------------------------------------------------------------------------
+01. TACTICAL_RELEASE_BATTLEFIELD     score=30.178   dominant=CAD HIGH TF=M1,M5            LATE_US
+
+Preparation battlefields (1 shown):
+----------------------------------------------------------------------------------------------------
+01. HTF_PREPARATION_FIELD            score=28.121   dominant=EUR LOW  TF=M15,M30          LATE_US
+
+Contradiction / dual-side fields (0 shown):
+----------------------------------------------------------------------------------------------------
+-
+
+Cockpit synthesis:
+----------------------------------------------------------------------------------------------------
+Dominant battlefield: TACTICAL_RELEASE_BATTLEFIELD | score=30.178 | 2026-05-01 21:40 -> 2026-05-01 22:00 (20m) | TF=M1,M5 | sessions=LATE_US
+HIGH=CAD | LOW=- | release=CAD HIGH
+Window: release visible in the map.
+Contested window: HIGH=CAD vs LOW=EUR.

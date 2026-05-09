@@ -1,0 +1,287 @@
+{
+  "timestamp": "2026-05-09T00:42:07.180425",
+  "db_status": "LIVE",
+  "db_label": "LIVE (0min)",
+  "db_last_update": "2026-05-08T23:56:00+00:00",
+  "cockpit_raw": "COCKPIT FIELD\n========================================================================\nFIELD: TACTICAL_RELEASE_BATTLEFIELD | session=LATE_US | score=257.063\nDOMINANT: TACTICAL_RELEASE_BATTLEFIELD: release=CAD HIGH/GBP HIGH | prep=EUR HIGH/CHF HIGH/AUD HIGH/JPY HIGH | HIGH=CAD/GBP/EUR/CHF/AUD/JPY | LOW=-\nOPPOSITE/CONTEXT: HTF_PREPARATION_FIELD: prep=EUR LOW/GBP LOW/CHF LOW/CAD LOW/JPY LOW | HIGH=- | LOW=EUR/GBP/CHF/CAD/JPY\nCONTESTED_WINDOW: HIGH=CAD/GBP/EUR/CHF/AUD/JPY vs LOW=EUR/GBP/CHF/CAD/JPY | BIPOLAR_CONTESTED_RELEASE_WINDOW\nBIPOLAR_FOCUS: EUR | MICRO_VS_HTF_ROTATION_CONTEST | HIGH_TF=M1,M5 vs LOW_TF=M15,M30\nBIPOLAR_LIST: EUR:PREPH/PREPL | GBP:RELH/PREPL | CAD:RELH/PREPL | CHF:PREPH/PREPL\n\nTEMPORAL_PATTERNS:\nBREATHING: CAD M1 HIGH PULLURE_ABSORPTION_FIELD score=15.825 energy=7.965 pullures=33 comp=142 | 2026-05-08T21:43:00+00:00 -> 2026-05-08T22:01:00+00:00\nPULLURE: CAD M1 HIGH score=15.825 pullures=33 energy=7.965 | 2026-05-08T21:43:00+00:00 -> 2026-05-08T22:01:00+00:00\nDENSITY: EUR M1 TEMPORAL_DENSITY_FIELD score=5.576 density=3.926 cutoff=3.119 | 2026-05-08T23:03:00+00:00 -> 2026-05-08T23:41:00+00:00\nANGLE: CHF,GBP,USD M1 ANGULAR_ALIGNMENT_NODE score=10.430 angle=+73.98 q=0.968 changes=1 | 2026-05-08T22:23:00+00:00\nTEMPORAL_TARGETS: CAD/M1/HIGH/PULLURE_ABSORPTION_FIELD/score=15.83 | GBP/M1/HIGH/PULLURE_ABSORPTION_FIELD/score=14.59 | CAD/M1/LOW/PULLURE_ABSORPTION_FIELD/score=13.97 | GBP/M1/LOW/PULLURE_ABSORPTION_FIELD/score=12.35 | JPY/M1/LOW/PULLURE_ABSORPTION_FIELD/score=12.10 | CHF/M1/LOW/EXTREME_BREATHING_FIELD/score=11.76\nTEMPORAL_ROWS: M1=181 | M5=37 | M15=13 | M30=7 | H1=4",
+  "field": {
+    "dominant": "TACTICAL_RELEASE_BATTLEFIELD | session=LATE_US | score=257.063",
+    "coalition": "TACTICAL_RELEASE_BATTLEFIELD: release=CAD HIGH/GBP HIGH | prep=EUR HIGH/CHF HIGH/AUD HIGH/JPY HIGH | HIGH=CAD/GBP/EUR/CHF/AUD/JPY | LOW=-",
+    "context": "HTF_PREPARATION_FIELD: prep=EUR LOW/GBP LOW/CHF LOW/CAD LOW/JPY LOW | HIGH=- | LOW=EUR/GBP/CHF/CAD/JPY",
+    "contested_window": "HIGH=CAD/GBP/EUR/CHF/AUD/JPY vs LOW=EUR/GBP/CHF/CAD/JPY | BIPOLAR_CONTESTED_RELEASE_WINDOW",
+    "bipolar_focus": "EUR | MICRO_VS_HTF_ROTATION_CONTEST | HIGH_TF=M1,M5 vs LOW_TF=M15,M30",
+    "bipolar_list": "EUR:PREPH/PREPL | GBP:RELH/PREPL | CAD:RELH/PREPL | CHF:PREPH/PREPL",
+    "temporal_patterns": "BREATHING: CAD M1 HIGH PULLURE_ABSORPTION_FIELD score=15.825 energy=7.965 pullures=33 comp=142 | 2026-05-08T21:43:00+00:00 -> 2026-05-08T22:01:00+00:00\nPULLURE: CAD M1 HIGH score=15.825 pullures=33 energy=7.965 | 2026-05-08T21:43:00+00:00 -> 2026-05-08T22:01:00+00:00\nDENSITY: EUR M1 TEMPORAL_DENSITY_FIELD score=5.576 density=3.926 cutoff=3.119 | 2026-05-08T23:03:00+00:00 -> 2026-05-08T23:41:00+00:00\nANGLE: CHF,GBP,USD M1 ANGULAR_ALIGNMENT_NODE score=10.430 angle=+73.98 q=0.968 changes=1 | 2026-05-08T22:23:00+00:00\nTEMPORAL_TARGETS: CAD/M1/HIGH/PULLURE_ABSORPTION_FIELD/score=15.83 | GBP/M1/HIGH/PULLURE_ABSORPTION_FIELD/score=14.59 | CAD/M1/LOW/PULLURE_ABSORPTION_FIELD/score=13.97 | GBP/M1/LOW/PULLURE_ABSORPTION_FIELD/score=12.35 | JPY/M1/LOW/PULLURE_ABSORPTION_FIELD/score=12.10 | CHF/M1/LOW/EXTREME_BREATHING_FIELD/score=11.76\nTEMPORAL_ROWS: M1=181 | M5=37 | M15=13 | M30=7 | H1=4"
+  },
+  "density": {
+    "GBP": {
+      "state": "HOLLOW",
+      "score": 0.233275
+    },
+    "USD": {
+      "state": "NEUTRAL",
+      "score": 0.254535
+    },
+    "EUR": {
+      "state": "HOLLOW",
+      "score": 0.206077
+    },
+    "JPY": {
+      "state": "NEUTRAL",
+      "score": 0.31425
+    },
+    "CAD": {
+      "state": "NEUTRAL",
+      "score": 0.326757
+    },
+    "CHF": {
+      "state": "NEUTRAL",
+      "score": 0.272215
+    },
+    "AUD": {
+      "state": "ACTIVE",
+      "score": 0.452265
+    }
+  },
+  "source": "dashboard_sync_agent_v01",
+  "symbol": "GBPUSD",
+  "generated_at_utc": "2026-05-08T22:42:00.998310+00:00",
+  "cockpit_status": "AGENTIC_WINDOW_ACTIVE",
+  "headline": "SCÈNE ACTIVE — RAW_NODE_BIRTH",
+  "behavioral_summary": {
+    "behavioral_count": 6,
+    "degraded_count": 0,
+    "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+    "top_level": "HOT",
+    "has_degraded": false,
+    "has_hot_behavioral": true
+  },
+  "behavioral_alerts": [
+    {
+      "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+      "level": "HOT",
+      "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_UP) avec relais M5 propre — GBP pressure down / USD pressure up",
+      "source_fields": [
+        "kinematics_state.first_detachment",
+        "telegram_gating.relay_quality"
+      ],
+      "dashboard_badge": "🔥 DETACH+RELAY",
+      "telegram_text": "⚡ FIRST DETACHMENT + RELAY CLEAN\nGBP pressure down / USD pressure up\nKinematics: M1_FIRST_DETACHMENT_GBP_UP"
+    },
+    {
+      "name": "COUNTER_RELEASE_ATTEMPT_ALERT",
+      "level": "WATCH",
+      "reason": "Tentative de contre-libération détectée — CONTRE la direction dominante, non confirmée (COUNTER_RELEASE_ATTEMPT ≠ RELEASE_CONFIRMED)",
+      "source_fields": [
+        "kinematics_state.release_candidate.release_state"
+      ],
+      "dashboard_badge": "👁 COUNTER REL",
+      "telegram_text": "👁 COUNTER RELEASE ATTEMPT\nContre GBP pressure down / USD pressure up\nNon confirmé — observer absorption"
+    },
+    {
+      "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
+      "level": "INFO",
+      "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — EUR+GBP+CHF en compression (spread force: 7.8)",
+      "source_fields": [
+        "kinematics_state.tight_gravity_cluster"
+      ],
+      "dashboard_badge": "ℹ GRAVITY CLUSTER",
+      "telegram_text": "ℹ TIGHT GRAVITY CLUSTER\nM15_TIGHT_GRAVITY_GROUP\nDevises: EUR+GBP+CHF | Spread: 7.8"
+    },
+    {
+      "name": "SAME_ANGLE_CLUSTER_ALERT",
+      "level": "INFO",
+      "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — CAD+AUD+NZD en mouvement synchronisé",
+      "source_fields": [
+        "kinematics_state.same_angle_cluster"
+      ],
+      "dashboard_badge": "ℹ SAME ANGLE",
+      "telegram_text": "ℹ SAME ANGLE CLUSTER\nM5_POLARIZED_SAME_ANGLE_UP\nDevises: CAD+AUD+NZD"
+    },
+    {
+      "name": "LEADER_CONFLICT_INFO",
+      "level": "INFO",
+      "reason": "Relational Gravity leader conflict — dominant_leader='MIXED' | leader_consistency=CONFLICT. Pas de topline leader fiable. Antagoniste : AUD/CAD.",
+      "source_fields": [
+        "relational_gravity.dominant_leader",
+        "relational_gravity.leader_consistency",
+        "relational_gravity.topline_reliable"
+      ],
+      "dashboard_badge": "ℹ RG LEADER CONFLICT",
+      "telegram_text": "ℹ RG LEADER CONFLICT\ndominant_leader=MIXED | consistency=CONFLICT\nNo reliable topline leader"
+    },
+    {
+      "name": "RELATIONAL_GRAVITY_MIXED_TOPLINE_INFO",
+      "level": "INFO",
+      "reason": "Relational Gravity topline mixed/unreliable — topline_state=RELATIONAL_GRAVITY_PARTIAL_DIRECTION_LEADER_CONFLICT | direction=UP | leader=MIXED | aligned_tfs=[1, 15] | counter_tf=M5. Pas de lecture topline fiable.",
+      "source_fields": [
+        "relational_gravity.topline_state",
+        "relational_gravity.dominant_direction",
+        "relational_gravity.dominant_leader",
+        "relational_gravity.aligned_tfs"
+      ],
+      "dashboard_badge": "ℹ RG MIXED TOPLINE",
+      "telegram_text": "ℹ RG TOPLINE MIXED/UNRELIABLE\nRELATIONAL_GRAVITY_PARTIAL_DIRECTION_LEADER_CONFLICT\ndir=UP | leader=MIXED | counter_tf=M5"
+    }
+  ],
+  "degraded_alerts": [],
+  "film_steps": [
+    "[FRACTAL] LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+    "[NODE] HOT_NODE @ M5 — GBP pressure down / USD pressure up",
+    "[RELAY] M5 relais propre — confirmation tactique disponible",
+    "[KINEM] angle=M1_GBP_USD_DIVERGING | speed=M1_GBP_FAST_UP|M1_USD_FAST_DOWN | accel=M1_USD_ACCEL_DOWN",
+    "[DETACH] M1_FIRST_DETACHMENT_GBP_UP — détachement actif",
+    "[RELEASE] COUNTER_RELEASE_ATTEMPT | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean | nok=—",
+    "[ENERGY_CONTEXT] OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_LOW | relation=NEUTRAL | field=MIXED_BIPOLAR_FIELD",
+    "[MATURITY] CONFIRMING → surveiller ABSORBING",
+    "[RG] TOPLINE_UNRELIABLE | cross=RELATIONAL_GRAVITY_MIXED | state=RELATIONAL_GRAVITY_PARTIAL_DIRECTION_LEADER_CONFLICT | direction=UP | leader=MIXED | aligned_tfs=[1, 15] | counter_tf=M5 | read=tf_details"
+  ],
+  "next_watch_enriched": [
+    "WATCH_M5_CONFIRMATION",
+    "WATCH_ABSORPTION",
+    "WATCH_REPULSION_CONTINUATION",
+    "WATCH_PRICE_CATCHUP",
+    "WATCH_FRACTAL_CONFIRMATION",
+    "WATCH_M1_RESPRING",
+    "WATCH_M15_ENERGY_RELAY",
+    "WATCH_HTF_BATTLE_RESOLUTION",
+    "WATCH_EXTENDED_MICRO_WINDOW",
+    "WATCH_RELEASE_CONFIRMATION — détachement + relay clean actif",
+    "WATCH_ABSORPTION_OR_REJECTION — counter attempt en cours",
+    "WATCH_GRAVITY_BREAK — cluster serré, surveiller rupture",
+    "WATCH_RG_TF_DETAILS — topline relationnelle non fiable, lire tf_details"
+  ],
+  "behavioral_flow": {
+    "title": "BEHAVIORAL FLOW",
+    "status": "HOT_DETACHMENT_COUNTER_RELEASE",
+    "level": "HOT",
+    "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+    "line": "M1_FIRST_DETACHMENT_GBP_UP — détachement actif | COUNTER_RELEASE_ATTEMPT | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean | nok=— | OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_LOW | relation=NEUTRAL | field=MIXED_BIPOLAR_FIELD",
+    "summary": {
+      "behavioral_count": 6,
+      "degraded_count": 0,
+      "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+      "top_level": "HOT",
+      "has_degraded": false,
+      "has_hot_behavioral": true
+    },
+    "alerts": [
+      {
+        "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+        "level": "HOT",
+        "badge": "🔥 DETACH+RELAY",
+        "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_UP) avec relais M5 propre — GBP pressure down / USD pressure up"
+      },
+      {
+        "name": "COUNTER_RELEASE_ATTEMPT_ALERT",
+        "level": "WATCH",
+        "badge": "👁 COUNTER REL",
+        "reason": "Tentative de contre-libération détectée — CONTRE la direction dominante, non confirmée (COUNTER_RELEASE_ATTEMPT ≠ RELEASE_CONFIRMED)"
+      },
+      {
+        "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
+        "level": "INFO",
+        "badge": "ℹ GRAVITY CLUSTER",
+        "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — EUR+GBP+CHF en compression (spread force: 7.8)"
+      },
+      {
+        "name": "SAME_ANGLE_CLUSTER_ALERT",
+        "level": "INFO",
+        "badge": "ℹ SAME ANGLE",
+        "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — CAD+AUD+NZD en mouvement synchronisé"
+      },
+      {
+        "name": "LEADER_CONFLICT_INFO",
+        "level": "INFO",
+        "badge": "ℹ RG LEADER CONFLICT",
+        "reason": "Relational Gravity leader conflict — dominant_leader='MIXED' | leader_consistency=CONFLICT. Pas de topline leader fiable. Antagoniste : AUD/CAD."
+      },
+      {
+        "name": "RELATIONAL_GRAVITY_MIXED_TOPLINE_INFO",
+        "level": "INFO",
+        "badge": "ℹ RG MIXED TOPLINE",
+        "reason": "Relational Gravity topline mixed/unreliable — topline_state=RELATIONAL_GRAVITY_PARTIAL_DIRECTION_LEADER_CONFLICT | direction=UP | leader=MIXED | aligned_tfs=[1, 15] | counter_tf=M5. Pas de lecture topline fiable."
+      }
+    ]
+  },
+  "dashboard_cards": [
+    {
+      "title": "VISION DB",
+      "status": "TACTICAL_OK",
+      "line": "LIVE_EXTENDED_ACTIVE | SCHEMA_EXTENDED_OK | source=force_snapshots_v2"
+    },
+    {
+      "title": "SCÈNE",
+      "status": "RAW_NODE_BIRTH",
+      "line": "RAW_NODE_BIRTH — GBP+JPY+AUD vs CAD+CHF. WINDOW_YOUNG. NEXT: WATCH_M5_CONFIRMATION."
+    },
+    {
+      "title": "FRACTALITÉ",
+      "status": "LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+      "line": "GBPUSD | RAW_NODE_BIRTH | LTF_BIRTH_INSIDE_VISUAL_HTF_STORY | temps compressé | HTF=DB_HTF_SILENT_OR_FLAT | NEXT=WATCH_M5_CONFIRMATION"
+    },
+    {
+      "title": "EXTENDED V0.2",
+      "status": "EXTENDED MICRO WINDOW ACTIVE WEAK",
+      "line": "SPREAD_CLEAN_FIELD | NZD_AVAILABLE | M1_NODE_BIRTH | PRICE_LAG_AT_NODE | MICRO_WINDOW_ACTIVE_WEAK | MICRO_WINDOW_ACTIVE"
+    },
+    {
+      "title": "NEXT WATCH",
+      "status": "WATCH_M5_CONFIRMATION",
+      "line": "scene=WATCH_M5_CONFIRMATION | fractal=WATCH_M5_CONFIRMATION"
+    },
+    {
+      "title": "BEHAVIORAL FLOW",
+      "status": "HOT_DETACHMENT_COUNTER_RELEASE",
+      "level": "HOT",
+      "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+      "line": "M1_FIRST_DETACHMENT_GBP_UP — détachement actif | COUNTER_RELEASE_ATTEMPT | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean | nok=— | OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_LOW | relation=NEUTRAL | field=MIXED_BIPOLAR_FIELD",
+      "summary": {
+        "behavioral_count": 6,
+        "degraded_count": 0,
+        "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+        "top_level": "HOT",
+        "has_degraded": false,
+        "has_hot_behavioral": true
+      },
+      "alerts": [
+        {
+          "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+          "level": "HOT",
+          "badge": "🔥 DETACH+RELAY",
+          "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_UP) avec relais M5 propre — GBP pressure down / USD pressure up"
+        },
+        {
+          "name": "COUNTER_RELEASE_ATTEMPT_ALERT",
+          "level": "WATCH",
+          "badge": "👁 COUNTER REL",
+          "reason": "Tentative de contre-libération détectée — CONTRE la direction dominante, non confirmée (COUNTER_RELEASE_ATTEMPT ≠ RELEASE_CONFIRMED)"
+        },
+        {
+          "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
+          "level": "INFO",
+          "badge": "ℹ GRAVITY CLUSTER",
+          "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — EUR+GBP+CHF en compression (spread force: 7.8)"
+        },
+        {
+          "name": "SAME_ANGLE_CLUSTER_ALERT",
+          "level": "INFO",
+          "badge": "ℹ SAME ANGLE",
+          "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — CAD+AUD+NZD en mouvement synchronisé"
+        },
+        {
+          "name": "LEADER_CONFLICT_INFO",
+          "level": "INFO",
+          "badge": "ℹ RG LEADER CONFLICT",
+          "reason": "Relational Gravity leader conflict — dominant_leader='MIXED' | leader_consistency=CONFLICT. Pas de topline leader fiable. Antagoniste : AUD/CAD."
+        },
+        {
+          "name": "RELATIONAL_GRAVITY_MIXED_TOPLINE_INFO",
+          "level": "INFO",
+          "badge": "ℹ RG MIXED TOPLINE",
+          "reason": "Relational Gravity topline mixed/unreliable — topline_state=RELATIONAL_GRAVITY_PARTIAL_DIRECTION_LEADER_CONFLICT | direction=UP | leader=MIXED | aligned_tfs=[1, 15] | counter_tf=M5. Pas de lecture topline fiable."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+﻿{
+  "status": "WARN",
+  "dashboard_ready": true,
+  "trader_alert_ready": false,
+  "warning": "runtime heartbeat delayed"
+}

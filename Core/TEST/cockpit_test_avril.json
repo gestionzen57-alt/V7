@@ -1,0 +1,1975 @@
+{
+  "version": "0.1.4",
+  "generated_at_utc": "2026-05-07T12:00:28.368214+00:00",
+  "symbol": "GBPUSD",
+  "window": {
+    "start": "2026-04-29T07:00:00+00:00",
+    "end": "2026-04-29T17:00:00+00:00",
+    "ltf_timeframes": [
+      1,
+      5,
+      15
+    ],
+    "htf_timeframes": [
+      30,
+      60,
+      240
+    ],
+    "orchestral_timeframes": [
+      1,
+      5,
+      15,
+      30
+    ],
+    "visual_htf_story": "none"
+  },
+  "cockpit_status": "AGENTIC_WINDOW_ACTIVE",
+  "headline": "FENÊTRE FRACTALE — temps compressé puis étiré",
+  "agent_summary": {
+    "vision_state": "TACTICAL_OK",
+    "live_state": "LIVE_EXTENDED_ACTIVE",
+    "schema_state": "SCHEMA_EXTENDED_OK",
+    "source_table": "force_snapshots_v2",
+    "scene": "RAW_NODE_BIRTH",
+    "window_state": "WINDOW_ACTIVE_AFTER_BREATH",
+    "dominant_phase": "ABSORPTION",
+    "next_watch": "WATCH_SECOND_LEG",
+    "fractal_state": "FRACTAL_CONTRADICTION_FIELD",
+    "temporal_state": "TEMPORAL_ELASTICITY_FIELD",
+    "htf_relation": "HTF_SILENT_OR_FLAT",
+    "higher_story": "HIGHER_STORY_NOT_CONFIRMED",
+    "contradiction": "FRACTAL_CONTRADICTION_FIELD",
+    "flags": [
+      "TIME_COMPRESSION_PHASE",
+      "TIME_STRETCHING_PHASE",
+      "ABSORPTION_TIME_EXTENSION",
+      "TEMPORAL_ELASTICITY_FIELD",
+      "FRACTAL_CONTRADICTION_FIELD"
+    ],
+    "extended_summary": "EXTENDED DATA PARTIAL",
+    "extended_flags": [],
+    "extended_schema_state": "EXTENDED_SCHEMA_OK"
+  },
+  "db_vision": {
+    "schema_state": "SCHEMA_EXTENDED_OK",
+    "live_state": "LIVE_EXTENDED_ACTIVE",
+    "vision_state": "TACTICAL_OK",
+    "source_table": "force_snapshots_v2",
+    "can_detect_ltf_birth": true,
+    "can_validate_htf_gravity": true,
+    "timeframes": [
+      {
+        "timeframe": 1,
+        "rows_total": 2450,
+        "rows_recent": 61,
+        "latest_created_at": "2026-05-07T14:58:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 1026.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 5,
+        "rows_total": 484,
+        "rows_recent": 13,
+        "latest_created_at": "2026-05-07T14:50:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 1025.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 15,
+        "rows_total": 166,
+        "rows_recent": 5,
+        "latest_created_at": "2026-05-07T14:30:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 1005.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 30,
+        "rows_total": 87,
+        "rows_recent": 3,
+        "latest_created_at": "2026-05-07T14:00:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 990.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 60,
+        "rows_total": 45,
+        "rows_recent": 2,
+        "latest_created_at": "2026-05-07T13:00:00+00:00",
+        "latest_age_sec": 0.0,
+        "max_gap_minutes": 1020.0,
+        "status": "OK"
+      },
+      {
+        "timeframe": 240,
+        "rows_total": 14,
+        "rows_recent": 1,
+        "latest_created_at": "2026-05-07T08:00:00+00:00",
+        "latest_age_sec": 14428.37,
+        "max_gap_minutes": 960.0,
+        "status": "STALE"
+      }
+    ],
+    "gaps": [
+      {
+        "timeframe": 1,
+        "start": "2026-05-04T21:07:00+00:00",
+        "end": "2026-05-05T14:13:00+00:00",
+        "gap_minutes": 1026.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 1,
+        "start": "2026-05-05T14:13:00+00:00",
+        "end": "2026-05-05T22:06:00+00:00",
+        "gap_minutes": 473.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 5,
+        "start": "2026-05-04T20:50:00+00:00",
+        "end": "2026-05-05T13:55:00+00:00",
+        "gap_minutes": 1025.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 5,
+        "start": "2026-05-05T16:10:00+00:00",
+        "end": "2026-05-05T22:00:00+00:00",
+        "gap_minutes": 350.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 15,
+        "start": "2026-05-04T21:00:00+00:00",
+        "end": "2026-05-05T13:45:00+00:00",
+        "gap_minutes": 1005.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 15,
+        "start": "2026-05-05T14:00:00+00:00",
+        "end": "2026-05-05T21:45:00+00:00",
+        "gap_minutes": 465.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 30,
+        "start": "2026-05-04T21:00:00+00:00",
+        "end": "2026-05-05T13:30:00+00:00",
+        "gap_minutes": 990.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 30,
+        "start": "2026-05-05T14:00:00+00:00",
+        "end": "2026-05-05T21:30:00+00:00",
+        "gap_minutes": 450.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 60,
+        "start": "2026-05-04T20:00:00+00:00",
+        "end": "2026-05-05T13:00:00+00:00",
+        "gap_minutes": 1020.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 60,
+        "start": "2026-05-05T13:00:00+00:00",
+        "end": "2026-05-05T21:00:00+00:00",
+        "gap_minutes": 480.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-04T12:00:00+00:00",
+        "end": "2026-05-04T16:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-04T16:00:00+00:00",
+        "end": "2026-05-05T08:00:00+00:00",
+        "gap_minutes": 960.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-05T08:00:00+00:00",
+        "end": "2026-05-05T16:00:00+00:00",
+        "gap_minutes": 480.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-05T16:00:00+00:00",
+        "end": "2026-05-05T20:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-05T20:00:00+00:00",
+        "end": "2026-05-06T00:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T00:00:00+00:00",
+        "end": "2026-05-06T04:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T04:00:00+00:00",
+        "end": "2026-05-06T08:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T08:00:00+00:00",
+        "end": "2026-05-06T12:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T12:00:00+00:00",
+        "end": "2026-05-06T16:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T16:00:00+00:00",
+        "end": "2026-05-06T20:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-06T20:00:00+00:00",
+        "end": "2026-05-07T00:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-07T00:00:00+00:00",
+        "end": "2026-05-07T04:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      },
+      {
+        "timeframe": 240,
+        "start": "2026-05-07T04:00:00+00:00",
+        "end": "2026-05-07T08:00:00+00:00",
+        "gap_minutes": 240.0,
+        "status": "HISTORICAL_GAP_DETECTED"
+      }
+    ],
+    "notes": [
+      "Extended schema appears active.",
+      "Historical gaps detected; do not treat old gaps as live failure automatically."
+    ]
+  },
+  "flow_events": {
+    "mode": "LEGACY_FORCE_ONLY",
+    "source_table": "force_snapshots",
+    "rows_loaded": {
+      "TF1": 315,
+      "TF5": 64,
+      "TF15": 22
+    },
+    "phases": {
+      "PRE_FIELD": {
+        "start": "11:46",
+        "end": "12:23",
+        "timeframe": 1,
+        "up_block": [
+          "AUD",
+          "JPY",
+          "USD",
+          "CHF"
+        ],
+        "down_block": [
+          "EUR",
+          "GBP",
+          "CAD"
+        ],
+        "force_energy": 103.6856,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.55
+      },
+      "NODE_BIRTH": {
+        "start": "12:24",
+        "end": "12:31",
+        "timeframe": 1,
+        "up_block": [
+          "EUR",
+          "CHF",
+          "CAD",
+          "GBP"
+        ],
+        "down_block": [
+          "JPY",
+          "AUD",
+          "USD"
+        ],
+        "force_energy": 124.5051,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.77
+      },
+      "CONFIRMATION": {
+        "start": "12:56",
+        "end": "13:12",
+        "timeframe": 1,
+        "up_block": [
+          "AUD",
+          "CHF",
+          "CAD",
+          "EUR"
+        ],
+        "down_block": [
+          "GBP",
+          "USD",
+          "JPY"
+        ],
+        "force_energy": 174.4757,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.7
+      },
+      "COUNTER_BREATH": {
+        "start": "13:37",
+        "end": "13:53",
+        "timeframe": 1,
+        "up_block": [
+          "EUR",
+          "GBP",
+          "CHF",
+          "USD"
+        ],
+        "down_block": [
+          "AUD",
+          "JPY",
+          "CAD"
+        ],
+        "force_energy": 182.5466,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.72
+      },
+      "ABSORPTION": {
+        "start": "14:09",
+        "end": "14:29",
+        "timeframe": 1,
+        "up_block": [
+          "JPY",
+          "GBP",
+          "USD"
+        ],
+        "down_block": [
+          "CAD",
+          "CHF",
+          "EUR",
+          "AUD"
+        ],
+        "force_energy": 193.0882,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.72
+      }
+    },
+    "events": [
+      {
+        "phase": "PRE_FIELD",
+        "timeframe": 1,
+        "start": "11:46",
+        "end": "12:23",
+        "start_dt_iso": "2026-04-29T11:46:00+00:00",
+        "end_dt_iso": "2026-04-29T12:23:00+00:00",
+        "up_block": [
+          "AUD",
+          "JPY",
+          "USD",
+          "CHF"
+        ],
+        "down_block": [
+          "EUR",
+          "GBP",
+          "CAD"
+        ],
+        "force_energy": 103.6856,
+        "bid_delta": null,
+        "pip_delta": null,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.55,
+        "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+        "note": "Pré-champ mesuré avant la naissance du node."
+      },
+      {
+        "phase": "NODE_BIRTH",
+        "timeframe": 1,
+        "start": "12:24",
+        "end": "12:31",
+        "start_dt_iso": "2026-04-29T12:24:00+00:00",
+        "end_dt_iso": "2026-04-29T12:31:00+00:00",
+        "up_block": [
+          "EUR",
+          "CHF",
+          "CAD",
+          "GBP"
+        ],
+        "down_block": [
+          "JPY",
+          "AUD",
+          "USD"
+        ],
+        "force_energy": 124.5051,
+        "bid_delta": null,
+        "pip_delta": null,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.77,
+        "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+        "note": "Basculement collectif des forces. Prix encore retenu si PRICE_LAG."
+      },
+      {
+        "phase": "CONFIRMATION",
+        "timeframe": 1,
+        "start": "12:56",
+        "end": "13:12",
+        "start_dt_iso": "2026-04-29T12:56:00+00:00",
+        "end_dt_iso": "2026-04-29T13:12:00+00:00",
+        "up_block": [
+          "AUD",
+          "CHF",
+          "CAD",
+          "EUR"
+        ],
+        "down_block": [
+          "GBP",
+          "USD",
+          "JPY"
+        ],
+        "force_energy": 174.4757,
+        "bid_delta": null,
+        "pip_delta": null,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.7,
+        "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+        "note": "Même camp dominant après node. Le prix commence à payer si PRICE_PAYING."
+      },
+      {
+        "phase": "COUNTER_BREATH",
+        "timeframe": 1,
+        "start": "13:37",
+        "end": "13:53",
+        "start_dt_iso": "2026-04-29T13:37:00+00:00",
+        "end_dt_iso": "2026-04-29T13:53:00+00:00",
+        "up_block": [
+          "EUR",
+          "GBP",
+          "CHF",
+          "USD"
+        ],
+        "down_block": [
+          "AUD",
+          "JPY",
+          "CAD"
+        ],
+        "force_energy": 182.5466,
+        "bid_delta": null,
+        "pip_delta": null,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.72,
+        "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+        "note": "Respiration contraire après confirmation. Ne pas classer comme nouveau node principal."
+      },
+      {
+        "phase": "ABSORPTION",
+        "timeframe": 1,
+        "start": "14:09",
+        "end": "14:29",
+        "start_dt_iso": "2026-04-29T14:09:00+00:00",
+        "end_dt_iso": "2026-04-29T14:29:00+00:00",
+        "up_block": [
+          "JPY",
+          "GBP",
+          "USD"
+        ],
+        "down_block": [
+          "CAD",
+          "CHF",
+          "EUR",
+          "AUD"
+        ],
+        "force_energy": 193.0882,
+        "bid_delta": null,
+        "pip_delta": null,
+        "price_response": "PRICE_UNKNOWN",
+        "confidence": 0.72,
+        "raw_event": "SIMULTANEOUS_RESPRING_VS_FOLD",
+        "note": "Le camp dominant reprend après respiration contraire."
+      }
+    ],
+    "warnings": []
+  },
+  "scene": {
+    "scene_name": "RAW_NODE_BIRTH",
+    "dominant_phase": "ABSORPTION",
+    "window_state": "WINDOW_ACTIVE_AFTER_BREATH",
+    "next_watch": "WATCH_SECOND_LEG",
+    "confidence": 0.728,
+    "one_liner": "RAW_NODE_BIRTH — EUR+CHF+CAD+GBP vs JPY+AUD+USD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG.",
+    "film_lines": [
+      "11:46→12:23 PRE_FIELD — champ préparatoire. AUD+JPY+USD+CHF travaille pendant que EUR+GBP+CAD plie.",
+      "12:24→12:31 NODE_BIRTH — EUR+CHF+CAD+GBP respring contre JPY+AUD+USD fold.",
+      "12:56→13:12 CONFIRMATION — même camp dominant.",
+      "13:37→13:53 COUNTER_BREATH — respiration opposée forte. Réponse prix: PRICE_UNKNOWN.",
+      "14:09→14:29 ABSORPTION — le camp dominant reprend après respiration."
+    ],
+    "warnings": [
+      "Absorption detected; next useful watch is SECOND_LEG or new breath."
+    ]
+  },
+  "fractal": {
+    "symbol": "GBPUSD",
+    "start": "2026-04-29T07:00:00+00:00",
+    "end": "2026-04-29T17:00:00+00:00",
+    "ltf_timeframes": [
+      1,
+      5,
+      15
+    ],
+    "htf_timeframes": [
+      30,
+      60,
+      240
+    ],
+    "ltf_scene": "RAW_NODE_BIRTH",
+    "ltf_window_state": "WINDOW_ACTIVE_AFTER_BREATH",
+    "fractal_state": "FRACTAL_CONTRADICTION_FIELD",
+    "temporal_state": "TEMPORAL_ELASTICITY_FIELD",
+    "htf_relation": "HTF_SILENT_OR_FLAT",
+    "contradiction_state": "FRACTAL_CONTRADICTION_FIELD",
+    "higher_story_state": "HIGHER_STORY_NOT_CONFIRMED",
+    "node_timing": {
+      "ltf_node_start": "2026-04-29T12:24:00+00:00",
+      "ltf_node_end": "2026-04-29T12:31:00+00:00",
+      "htf_event_start": null,
+      "htf_event_phase": null
+    },
+    "metrics": {
+      "node_duration_min": 7.0,
+      "node_energy_per_min": 17.7864,
+      "counter_breath_duration_min": 16.0,
+      "absorption_duration_min": 20.0,
+      "htf_rows_total": 20,
+      "ltf_rows_total": 401,
+      "ltf_events_count": 5,
+      "htf_events_count": 0
+    },
+    "flags": [
+      "TIME_COMPRESSION_PHASE",
+      "TIME_STRETCHING_PHASE",
+      "ABSORPTION_TIME_EXTENSION",
+      "TEMPORAL_ELASTICITY_FIELD",
+      "FRACTAL_CONTRADICTION_FIELD"
+    ],
+    "summary": "GBPUSD | RAW_NODE_BIRTH | FRACTAL_CONTRADICTION_FIELD | temps compressé puis étiré | HTF=HTF_SILENT_OR_FLAT | NEXT=WATCH_SECOND_LEG",
+    "next_watch": "WATCH_MICROSTRUCTURE_CONFIRMATION",
+    "warnings": [
+      "HTF: No NODE_BIRTH candidate found."
+    ]
+  },
+  "extended": {
+    "symbol": "GBPUSD",
+    "source_table": "force_snapshots_v2",
+    "mode": "EXTENDED_V02",
+    "start": "2026-04-29T07:00:00+00:00",
+    "end": "2026-04-29T17:00:00+00:00",
+    "base": {
+      "symbol": "GBPUSD",
+      "mode": "EXTENDED",
+      "source_table": "force_snapshots_v2",
+      "start": "2026-04-29T07:00:00+00:00",
+      "end": "2026-04-29T17:00:00+00:00",
+      "timeframes": [
+        1,
+        5,
+        15
+      ],
+      "rows_loaded": {
+        "TF1": 0,
+        "TF5": 0,
+        "TF15": 0
+      },
+      "events": [],
+      "candidates": [],
+      "warnings": [
+        "No rows found in requested window for candidate snapshot tables.",
+        "DATA_BLIND for requested window."
+      ]
+    },
+    "extended_schema_state": "EXTENDED_SCHEMA_OK",
+    "extended_rows_loaded": {
+      "TF1": 0,
+      "TF5": 0,
+      "TF15": 0
+    },
+    "extended_event_metrics": [],
+    "extended_flags": [],
+    "extended_summary": "EXTENDED DATA PARTIAL",
+    "warnings": [
+      "No extended V2 rows in selected window."
+    ]
+  },
+  "behavioral_alerts": [
+    {
+      "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+      "level": "HOT",
+      "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_USD_DOWN) avec relais M5 propre — GBP pressure down / USD pressure up",
+      "source_fields": [
+        "kinematics_state.first_detachment",
+        "telegram_gating.relay_quality"
+      ],
+      "dashboard_badge": "🔥 DETACH+RELAY",
+      "telegram_text": "⚡ FIRST DETACHMENT + RELAY CLEAN\nGBP pressure down / USD pressure up\nKinematics: M1_FIRST_DETACHMENT_USD_DOWN"
+    },
+    {
+      "name": "COUNTER_RELEASE_ATTEMPT_ALERT",
+      "level": "WATCH",
+      "reason": "Tentative de contre-libération détectée — CONTRE la direction dominante, non confirmée (COUNTER_RELEASE_ATTEMPT ≠ RELEASE_CONFIRMED) — counter release non supportée par energy",
+      "source_fields": [
+        "kinematics_state.release_candidate.release_state",
+        "energy_context.secondary_state"
+      ],
+      "dashboard_badge": "👁 COUNTER REL",
+      "telegram_text": "👁 COUNTER RELEASE ATTEMPT\nContre GBP pressure down / USD pressure up\nNon confirmé — observer absorption"
+    },
+    {
+      "name": "NODE_HEAT_ENERGY_DIVERGENCE",
+      "level": "WATCH",
+      "reason": "Node HOT_NODE — direction GBP pressure down / USD pressure up — mais GBP=ENERGY_WEAK / USD=ENERGY_WEAK (node_energy_relation=DIVERGENT) — Node Heat ≠ Currency Energy",
+      "source_fields": [
+        "node_summary.highest_level",
+        "energy_context.node_energy_relation",
+        "energy_context.field_quality"
+      ],
+      "dashboard_badge": "👁 HEAT≠ENERGY",
+      "telegram_text": "👁 NODE HEAT / ENERGY DIVERGENCE\nNode: HOT_NODE | relation: DIVERGENT\nGBP=ENERGY_WEAK | USD=ENERGY_WEAK\nNe pas confondre — observer les deux"
+    },
+    {
+      "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
+      "level": "INFO",
+      "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — EUR+GBP+CAD en compression (spread force: 4.0) — champ energy thin/mixed",
+      "source_fields": [
+        "kinematics_state.tight_gravity_cluster",
+        "energy_context.field_quality"
+      ],
+      "dashboard_badge": "ℹ GRAVITY CLUSTER",
+      "telegram_text": "ℹ TIGHT GRAVITY CLUSTER\nM15_TIGHT_GRAVITY_GROUP\nDevises: EUR+GBP+CAD | Spread: 4.0"
+    },
+    {
+      "name": "SAME_ANGLE_CLUSTER_ALERT",
+      "level": "INFO",
+      "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — NZD+AUD+USD en mouvement synchronisé",
+      "source_fields": [
+        "kinematics_state.same_angle_cluster"
+      ],
+      "dashboard_badge": "ℹ SAME ANGLE",
+      "telegram_text": "ℹ SAME ANGLE CLUSTER\nM5_POLARIZED_SAME_ANGLE_UP\nDevises: NZD+AUD+USD"
+    },
+    {
+      "name": "RELATIONAL_GRAVITY_ALIGNED_LEADER_CONFLICT_INFO",
+      "level": "WATCH",
+      "reason": "Direction relationnelle alignée (UP) mais leadership conflictuel entre TFs — lire tf_details. Antagoniste : USD/CAD/GBP/JPY/AUD.",
+      "source_fields": [
+        "relational_gravity.topline_state",
+        "relational_gravity.direction_consistency",
+        "relational_gravity.leader_consistency",
+        "relational_gravity.tf_details"
+      ],
+      "dashboard_badge": "👁 RG DIR/LEAD CONFLICT",
+      "telegram_text": "👁 RG DIRECTION ALIGNÉE / LEADER CONFLIT\nDirection : UP | Antagoniste : USD/CAD/GBP/JPY/AUD\nLire tf_details — pas de leader fiable"
+    }
+  ],
+  "degraded_alerts": [],
+  "film_steps": [
+    "[FRACTAL] LTF_BIRTH_INSIDE_VISUAL_HTF_STORY",
+    "[NODE] HOT_NODE @ M5 — GBP pressure down / USD pressure up",
+    "[RELAY] M5 relais propre — confirmation tactique disponible",
+    "[KINEM] angle=NEUTRAL | speed=M1_USD_FAST_DOWN | accel=STABLE",
+    "[DETACH] M1_FIRST_DETACHMENT_USD_DOWN — détachement actif",
+    "[RELEASE] COUNTER_RELEASE_ATTEMPT | ok=first_detachment_confirmed,price_coherent,relay_clean | nok=no_m1_energy_signal",
+    "[ENERGY_CONTEXT] OBSERVATION_ONLY | GBP=ENERGY_WEAK | USD=ENERGY_WEAK | relation=DIVERGENT | field=ENERGY_THIN_OR_MIXED",
+    "[MATURITY] CONFIRMING → surveiller ABSORBING"
+  ],
+  "next_watch_enriched": [
+    "WATCH_MICROSTRUCTURE_CONFIRMATION",
+    "WATCH_SECOND_LEG",
+    "WATCH_REPULSION_CONTINUATION",
+    "WATCH_PRICE_CATCHUP",
+    "WATCH_FRACTAL_CONFIRMATION",
+    "WATCH_M1_RESPRING",
+    "WATCH_M15_ENERGY_RELAY",
+    "WATCH_HTF_BATTLE_RESOLUTION",
+    "WATCH_EXTENDED_MICRO_WINDOW",
+    "WATCH_RELEASE_CONFIRMATION — détachement + relay clean actif",
+    "WATCH_ABSORPTION_OR_REJECTION — counter attempt en cours",
+    "WATCH_GRAVITY_BREAK — cluster serré, surveiller rupture",
+    "WATCH_ENERGY_ALIGNMENT — divergence Heat/Energy à surveiller"
+  ],
+  "behavioral_summary": {
+    "behavioral_count": 6,
+    "degraded_count": 0,
+    "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+    "top_level": "HOT",
+    "has_degraded": false,
+    "has_hot_behavioral": true
+  },
+  "relational_gravity": {
+    "bridge_version": "0.1.3",
+    "cross_tf_state": "RELATIONAL_GRAVITY_ALIGNED_M1_M5_M15",
+    "dominant_direction": "UP",
+    "dominant_leader": "MIXED",
+    "dominant_antagonist": "USD/CAD/GBP/JPY/AUD",
+    "aligned_tfs": [
+      1,
+      5,
+      15
+    ],
+    "counter_tf": null,
+    "max_score": 0.72,
+    "direction_consistency": "ALIGNED",
+    "leader_consistency": "CONFLICT",
+    "antagonist_consistency": "DEDUPED",
+    "topline_reliable": false,
+    "topline_state": "RELATIONAL_GRAVITY_DIRECTION_ALIGNED_LEADER_CONFLICT",
+    "notes": [
+      "leader_conflict: dominant_leader set to MIXED"
+    ],
+    "tf_details": {
+      "1": {
+        "loaded": true,
+        "source_file": "output\\relational_gravity_m1_v011.json",
+        "status": "OK",
+        "primary_state": "DESYNC_TRIGGER",
+        "group": [
+          "GBP",
+          "EUR",
+          "JPY",
+          "CHF",
+          "AUD"
+        ],
+        "direction": "UP",
+        "gap_mode": "DESYNC",
+        "leader": "GBP",
+        "antagonist": "USD/CAD",
+        "score": 0.456,
+        "confidence": "MEDIUM",
+        "lab_signatures": [
+          "DESYNC_TRIGGER"
+        ],
+        "interpretation": "Désynchronisation détectée dans GBP/EUR/JPY/CHF/AUD. Angles divergents — cohésion en rupture. Attention aux faux groupes (MEDIUM)."
+      },
+      "5": {
+        "loaded": true,
+        "source_file": "output\\relational_gravity_m5_v011.json",
+        "status": "OK",
+        "primary_state": "DESYNC_TRIGGER",
+        "group": [
+          "EUR",
+          "JPY",
+          "CHF",
+          "AUD"
+        ],
+        "direction": "UP",
+        "gap_mode": "DESYNC",
+        "leader": "AUD",
+        "antagonist": "GBP/USD/CAD",
+        "score": 0.397,
+        "confidence": "LOW",
+        "lab_signatures": [
+          "DESYNC_TRIGGER"
+        ],
+        "interpretation": "Désynchronisation détectée dans EUR/JPY/CHF/AUD. Angles divergents — cohésion en rupture. Attention aux faux groupes (LOW)."
+      },
+      "15": {
+        "loaded": true,
+        "source_file": "output\\relational_gravity_m15_v011.json",
+        "status": "OK",
+        "primary_state": "GRAVITY_COMPRESSION_CLUSTER",
+        "group": [
+          "GBP",
+          "USD",
+          "EUR",
+          "CAD",
+          "CHF"
+        ],
+        "direction": "UP",
+        "gap_mode": "COMPRESSING",
+        "leader": "USD",
+        "antagonist": "JPY/AUD",
+        "score": 0.72,
+        "confidence": "HIGH",
+        "lab_signatures": [
+          "GRAVITY_COMPRESSION_CLUSTER",
+          "FOLLOWER_CATCH_UP",
+          "COALITION_VS_ANTAGONIST_EXPANSION"
+        ],
+        "interpretation": "Cluster haussière : GBP/USD/EUR/CAD/CHF se rapprochent. Leader : USD. Suiveurs : CHF/CAD/EUR/GBP. Antagoniste : JPY/AUD. Compression active (HIGH)."
+      }
+    }
+  },
+  "orchestral_gravity": {
+    "state": "ORCHESTRAL_ACTIVE",
+    "timeframes": {
+      "1": {
+        "timeframe": 1,
+        "timestamp": "2026-04-29T17:00:00+00:00",
+        "leaders": [
+          "CAD"
+        ],
+        "antagonists": [
+          "EUR",
+          "JPY",
+          "GBP",
+          "USD"
+        ],
+        "followers": [
+          "CHF",
+          "AUD"
+        ],
+        "neutral": [],
+        "roles": {
+          "GBP": {
+            "currency": "GBP",
+            "force_level": 32.1,
+            "avg_angle": -58.22,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "PRE_EXTREME",
+              "zone_level": "PRE_EXTREME",
+              "tension_score": 1.092,
+              "z_current": -1.576,
+              "z_direction": "LOW",
+              "available": true
+            }
+          },
+          "USD": {
+            "currency": "USD",
+            "force_level": 42.49,
+            "avg_angle": -51.24,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "PRE_EXTREME",
+              "zone_level": "PRE_EXTREME",
+              "tension_score": 1.103,
+              "z_current": -1.591,
+              "z_direction": "LOW",
+              "available": true
+            }
+          },
+          "EUR": {
+            "currency": "EUR",
+            "force_level": 60.85,
+            "avg_angle": -72.22,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": -1.427,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "JPY": {
+            "currency": "JPY",
+            "force_level": 44.1,
+            "avg_angle": -60.61,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": -1.209,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "CAD": {
+            "currency": "CAD",
+            "force_level": 61.38,
+            "avg_angle": 68.23,
+            "role": "LEADER",
+            "direction": "UP",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "PRE_EXTREME",
+              "zone_level": "PRE_EXTREME",
+              "tension_score": 0.863,
+              "z_current": 1.572,
+              "z_direction": "HIGH",
+              "available": true
+            }
+          },
+          "CHF": {
+            "currency": "CHF",
+            "force_level": 84.91,
+            "avg_angle": 7.25,
+            "role": "LAGGING",
+            "direction": "UP",
+            "attraction_to": "CAD",
+            "attraction_strength": 0.106,
+            "lag_bars": 2,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": 1.149,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "AUD": {
+            "currency": "AUD",
+            "force_level": 48.96,
+            "avg_angle": 67.72,
+            "role": "FOLLOWER",
+            "direction": "UP",
+            "attraction_to": "CAD",
+            "attraction_strength": 1.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "PRE_EXTREME",
+              "zone_level": "PRE_EXTREME",
+              "tension_score": 1.496,
+              "z_current": 1.858,
+              "z_direction": "HIGH",
+              "available": true
+            }
+          }
+        },
+        "up_coalition": {
+          "members": [
+            "CAD",
+            "CHF",
+            "AUD"
+          ],
+          "direction": "UP",
+          "cohesion": 0.4,
+          "avg_angle": 47.73,
+          "coalition_type": "POLARIZED_FIELD"
+        },
+        "down_coalition": {
+          "members": [
+            "GBP",
+            "USD",
+            "EUR",
+            "JPY"
+          ],
+          "direction": "DOWN",
+          "cohesion": 0.875,
+          "avg_angle": -60.57,
+          "coalition_type": "STRONG_SYNCHRO"
+        },
+        "crossings": [
+          {
+            "currency_a": "USD",
+            "currency_b": "JPY",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 42.49,
+            "force_b": 44.1,
+            "distance": 1.61,
+            "crossing_type": "CROSSING_IMMINENT",
+            "direction_a": "DOWN",
+            "direction_b": "DOWN",
+            "converging": false
+          },
+          {
+            "currency_a": "USD",
+            "currency_b": "AUD",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 42.49,
+            "force_b": 48.96,
+            "distance": 6.47,
+            "crossing_type": "CROSSING_ZONE",
+            "direction_a": "DOWN",
+            "direction_b": "UP",
+            "converging": false
+          },
+          {
+            "currency_a": "EUR",
+            "currency_b": "CAD",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 60.85,
+            "force_b": 61.38,
+            "distance": 0.53,
+            "crossing_type": "CROSSING_IMMINENT",
+            "direction_a": "DOWN",
+            "direction_b": "UP",
+            "converging": false
+          },
+          {
+            "currency_a": "JPY",
+            "currency_b": "AUD",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 44.1,
+            "force_b": 48.96,
+            "distance": 4.86,
+            "crossing_type": "CROSSING_ZONE",
+            "direction_a": "DOWN",
+            "direction_b": "UP",
+            "converging": false
+          }
+        ],
+        "patterns": [
+          "BIPOLAR_FIELD_ACTIVE"
+        ]
+      },
+      "5": {
+        "timeframe": 5,
+        "timestamp": "2026-04-29T17:00:00+00:00",
+        "leaders": [
+          "CHF"
+        ],
+        "antagonists": [
+          "GBP",
+          "CAD",
+          "AUD"
+        ],
+        "followers": [
+          "USD",
+          "EUR",
+          "JPY"
+        ],
+        "neutral": [],
+        "roles": {
+          "GBP": {
+            "currency": "GBP",
+            "force_level": 32.46,
+            "avg_angle": -30.78,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": -1.067,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "USD": {
+            "currency": "USD",
+            "force_level": 91.19,
+            "avg_angle": 9.27,
+            "role": "LAGGING",
+            "direction": "UP",
+            "attraction_to": "CHF",
+            "attraction_strength": 0.188,
+            "lag_bars": 2,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": 1.203,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "EUR": {
+            "currency": "EUR",
+            "force_level": 75.09,
+            "avg_angle": 41.6,
+            "role": "FOLLOWER",
+            "direction": "UP",
+            "attraction_to": "CHF",
+            "attraction_strength": 1.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "ACCUMULATING",
+              "zone_level": "EXTREME",
+              "tension_score": 6.443,
+              "z_current": 2.207,
+              "z_direction": "HIGH",
+              "available": true
+            }
+          },
+          "JPY": {
+            "currency": "JPY",
+            "force_level": 75.23,
+            "avg_angle": 26.34,
+            "role": "FOLLOWER",
+            "direction": "UP",
+            "attraction_to": "CHF",
+            "attraction_strength": 0.75,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "PRE_EXTREME",
+              "zone_level": "PRE_EXTREME",
+              "tension_score": 2.15,
+              "z_current": 1.793,
+              "z_direction": "HIGH",
+              "available": true
+            }
+          },
+          "CAD": {
+            "currency": "CAD",
+            "force_level": 37.24,
+            "avg_angle": -22.31,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "PRE_EXTREME",
+              "zone_level": "PRE_EXTREME",
+              "tension_score": 1.904,
+              "z_current": -1.588,
+              "z_direction": "LOW",
+              "available": true
+            }
+          },
+          "CHF": {
+            "currency": "CHF",
+            "force_level": 28.78,
+            "avg_angle": 49.2,
+            "role": "LEADER",
+            "direction": "UP",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": 0.116,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "AUD": {
+            "currency": "AUD",
+            "force_level": 11.78,
+            "avg_angle": -15.63,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "RUPTURE",
+              "zone_level": "POST_ZONE",
+              "tension_score": 0.74,
+              "z_current": -1.366,
+              "z_direction": "NONE",
+              "available": true
+            }
+          }
+        },
+        "up_coalition": {
+          "members": [
+            "USD",
+            "EUR",
+            "JPY",
+            "CHF"
+          ],
+          "direction": "UP",
+          "cohesion": 0.516,
+          "avg_angle": 31.6,
+          "coalition_type": "POLARIZED_FIELD"
+        },
+        "down_coalition": {
+          "members": [
+            "GBP",
+            "CAD",
+            "AUD"
+          ],
+          "direction": "DOWN",
+          "cohesion": 0.729,
+          "avg_angle": -22.91,
+          "coalition_type": "LOOSE_ALLIANCE"
+        },
+        "crossings": [
+          {
+            "currency_a": "GBP",
+            "currency_b": "CAD",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 32.46,
+            "force_b": 37.24,
+            "distance": 4.78,
+            "crossing_type": "CROSSING_ZONE",
+            "direction_a": "DOWN",
+            "direction_b": "DOWN",
+            "converging": false
+          },
+          {
+            "currency_a": "GBP",
+            "currency_b": "CHF",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 32.46,
+            "force_b": 28.78,
+            "distance": 3.68,
+            "crossing_type": "CROSSING_IMMINENT",
+            "direction_a": "DOWN",
+            "direction_b": "UP",
+            "converging": true
+          },
+          {
+            "currency_a": "EUR",
+            "currency_b": "JPY",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 75.09,
+            "force_b": 75.23,
+            "distance": 0.14,
+            "crossing_type": "CROSSING_IMMINENT",
+            "direction_a": "UP",
+            "direction_b": "UP",
+            "converging": false
+          }
+        ],
+        "patterns": [
+          "ANTAGONIST_AUD_RUPTURE",
+          "CROSSING_IMMINENT_GBP_CHF",
+          "BIPOLAR_FIELD_ACTIVE"
+        ]
+      },
+      "15": {
+        "timeframe": 15,
+        "timestamp": "2026-04-29T17:00:00+00:00",
+        "leaders": [
+          "USD"
+        ],
+        "antagonists": [
+          "AUD",
+          "GBP",
+          "CHF"
+        ],
+        "followers": [
+          "EUR",
+          "JPY"
+        ],
+        "neutral": [
+          "CAD"
+        ],
+        "roles": {
+          "GBP": {
+            "currency": "GBP",
+            "force_level": 47.5,
+            "avg_angle": -10.35,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": -1.32,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "USD": {
+            "currency": "USD",
+            "force_level": 67.87,
+            "avg_angle": 27.36,
+            "role": "LEADER",
+            "direction": "UP",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "EARLY_EXTREME",
+              "zone_level": "EXTREME",
+              "tension_score": 2.373,
+              "z_current": 2.139,
+              "z_direction": "HIGH",
+              "available": true
+            }
+          },
+          "EUR": {
+            "currency": "EUR",
+            "force_level": 50.69,
+            "avg_angle": 16.57,
+            "role": "FOLLOWER",
+            "direction": "UP",
+            "attraction_to": "USD",
+            "attraction_strength": 0.606,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": 0.497,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "JPY": {
+            "currency": "JPY",
+            "force_level": 21.81,
+            "avg_angle": 20.72,
+            "role": "FOLLOWER",
+            "direction": "UP",
+            "attraction_to": "USD",
+            "attraction_strength": 0.757,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": 1.294,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "CAD": {
+            "currency": "CAD",
+            "force_level": 68.64,
+            "avg_angle": 2.47,
+            "role": "NEUTRAL",
+            "direction": "FLAT",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": 0.85,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "CHF": {
+            "currency": "CHF",
+            "force_level": 36.04,
+            "avg_angle": -8.65,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": -0.696,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "AUD": {
+            "currency": "AUD",
+            "force_level": 42.15,
+            "avg_angle": -30.9,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "EARLY_EXTREME",
+              "zone_level": "EXTREME",
+              "tension_score": 1.914,
+              "z_current": -2.178,
+              "z_direction": "LOW",
+              "available": true
+            }
+          }
+        },
+        "up_coalition": {
+          "members": [
+            "USD",
+            "EUR",
+            "JPY"
+          ],
+          "direction": "UP",
+          "cohesion": 0.794,
+          "avg_angle": 21.55,
+          "coalition_type": "LOOSE_ALLIANCE"
+        },
+        "down_coalition": {
+          "members": [
+            "GBP",
+            "CHF",
+            "AUD"
+          ],
+          "direction": "DOWN",
+          "cohesion": 0.392,
+          "avg_angle": -16.63,
+          "coalition_type": "POLARIZED_FIELD"
+        },
+        "crossings": [
+          {
+            "currency_a": "GBP",
+            "currency_b": "EUR",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 47.5,
+            "force_b": 50.69,
+            "distance": 3.19,
+            "crossing_type": "CROSSING_IMMINENT",
+            "direction_a": "DOWN",
+            "direction_b": "UP",
+            "converging": false
+          },
+          {
+            "currency_a": "GBP",
+            "currency_b": "AUD",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 47.5,
+            "force_b": 42.15,
+            "distance": 5.35,
+            "crossing_type": "CROSSING_ZONE",
+            "direction_a": "DOWN",
+            "direction_b": "DOWN",
+            "converging": false
+          },
+          {
+            "currency_a": "USD",
+            "currency_b": "CAD",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 67.87,
+            "force_b": 68.64,
+            "distance": 0.77,
+            "crossing_type": "CROSSING_IMMINENT",
+            "direction_a": "UP",
+            "direction_b": "UP",
+            "converging": false
+          },
+          {
+            "currency_a": "CHF",
+            "currency_b": "AUD",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 36.04,
+            "force_b": 42.15,
+            "distance": 6.11,
+            "crossing_type": "CROSSING_ZONE",
+            "direction_a": "DOWN",
+            "direction_b": "DOWN",
+            "converging": false
+          }
+        ],
+        "patterns": [
+          "BIPOLAR_FIELD_ACTIVE"
+        ]
+      },
+      "30": {
+        "timeframe": 30,
+        "timestamp": "2026-04-29T17:00:00+00:00",
+        "leaders": [
+          "USD"
+        ],
+        "antagonists": [
+          "CHF",
+          "AUD"
+        ],
+        "followers": [],
+        "neutral": [
+          "GBP",
+          "EUR",
+          "JPY",
+          "CAD"
+        ],
+        "roles": {
+          "GBP": {
+            "currency": "GBP",
+            "force_level": 46.76,
+            "avg_angle": -3.62,
+            "role": "NEUTRAL",
+            "direction": "FLAT",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": -0.019,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "USD": {
+            "currency": "USD",
+            "force_level": 61.06,
+            "avg_angle": 10.8,
+            "role": "LEADER",
+            "direction": "UP",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": 1.467,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "EUR": {
+            "currency": "EUR",
+            "force_level": 50.42,
+            "avg_angle": 4.67,
+            "role": "NEUTRAL",
+            "direction": "FLAT",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "PRE_EXTREME",
+              "zone_level": "PRE_EXTREME",
+              "tension_score": 0.529,
+              "z_current": 1.527,
+              "z_direction": "HIGH",
+              "available": true
+            }
+          },
+          "JPY": {
+            "currency": "JPY",
+            "force_level": 26.32,
+            "avg_angle": -2.31,
+            "role": "NEUTRAL",
+            "direction": "FLAT",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": -1.217,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "CAD": {
+            "currency": "CAD",
+            "force_level": 79.26,
+            "avg_angle": 2.18,
+            "role": "NEUTRAL",
+            "direction": "FLAT",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": 1.274,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "CHF": {
+            "currency": "CHF",
+            "force_level": 46.34,
+            "avg_angle": -8.5,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": -1.404,
+              "z_direction": "NONE",
+              "available": true
+            }
+          },
+          "AUD": {
+            "currency": "AUD",
+            "force_level": 41.01,
+            "avg_angle": -7.65,
+            "role": "ANTAGONIST",
+            "direction": "DOWN",
+            "attraction_to": null,
+            "attraction_strength": 0.0,
+            "lag_bars": 0,
+            "zone_quality": {
+              "state": "NEUTRAL",
+              "zone_level": "NORMAL",
+              "tension_score": 0.0,
+              "z_current": -0.513,
+              "z_direction": "NONE",
+              "available": true
+            }
+          }
+        },
+        "up_coalition": null,
+        "down_coalition": {
+          "members": [
+            "CHF",
+            "AUD"
+          ],
+          "direction": "DOWN",
+          "cohesion": 0.947,
+          "avg_angle": -8.07,
+          "coalition_type": "STRONG_SYNCHRO"
+        },
+        "crossings": [
+          {
+            "currency_a": "GBP",
+            "currency_b": "EUR",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 46.76,
+            "force_b": 50.42,
+            "distance": 3.66,
+            "crossing_type": "CROSSING_IMMINENT",
+            "direction_a": "DOWN",
+            "direction_b": "UP",
+            "converging": false
+          },
+          {
+            "currency_a": "GBP",
+            "currency_b": "CHF",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 46.76,
+            "force_b": 46.34,
+            "distance": 0.42,
+            "crossing_type": "CROSSING_IMMINENT",
+            "direction_a": "DOWN",
+            "direction_b": "DOWN",
+            "converging": false
+          },
+          {
+            "currency_a": "GBP",
+            "currency_b": "AUD",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 46.76,
+            "force_b": 41.01,
+            "distance": 5.75,
+            "crossing_type": "CROSSING_ZONE",
+            "direction_a": "DOWN",
+            "direction_b": "DOWN",
+            "converging": false
+          },
+          {
+            "currency_a": "EUR",
+            "currency_b": "CHF",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 50.42,
+            "force_b": 46.34,
+            "distance": 4.08,
+            "crossing_type": "CROSSING_ZONE",
+            "direction_a": "UP",
+            "direction_b": "DOWN",
+            "converging": false
+          },
+          {
+            "currency_a": "CHF",
+            "currency_b": "AUD",
+            "timestamp": "2026-04-29T17:00:00+00:00",
+            "force_a": 46.34,
+            "force_b": 41.01,
+            "distance": 5.33,
+            "crossing_type": "CROSSING_ZONE",
+            "direction_a": "DOWN",
+            "direction_b": "DOWN",
+            "converging": false
+          }
+        ],
+        "patterns": [
+          "BIPOLAR_FIELD_ACTIVE"
+        ]
+      }
+    },
+    "latest_tf": 30,
+    "latest_state": {
+      "timeframe": 30,
+      "timestamp": "2026-04-29T17:00:00+00:00",
+      "leaders": [
+        "USD"
+      ],
+      "antagonists": [
+        "CHF",
+        "AUD"
+      ],
+      "followers": [],
+      "neutral": [
+        "GBP",
+        "EUR",
+        "JPY",
+        "CAD"
+      ],
+      "roles": {
+        "GBP": {
+          "currency": "GBP",
+          "force_level": 46.76,
+          "avg_angle": -3.62,
+          "role": "NEUTRAL",
+          "direction": "FLAT",
+          "attraction_to": null,
+          "attraction_strength": 0.0,
+          "lag_bars": 0,
+          "zone_quality": {
+            "state": "NEUTRAL",
+            "zone_level": "NORMAL",
+            "tension_score": 0.0,
+            "z_current": -0.019,
+            "z_direction": "NONE",
+            "available": true
+          }
+        },
+        "USD": {
+          "currency": "USD",
+          "force_level": 61.06,
+          "avg_angle": 10.8,
+          "role": "LEADER",
+          "direction": "UP",
+          "attraction_to": null,
+          "attraction_strength": 0.0,
+          "lag_bars": 0,
+          "zone_quality": {
+            "state": "NEUTRAL",
+            "zone_level": "NORMAL",
+            "tension_score": 0.0,
+            "z_current": 1.467,
+            "z_direction": "NONE",
+            "available": true
+          }
+        },
+        "EUR": {
+          "currency": "EUR",
+          "force_level": 50.42,
+          "avg_angle": 4.67,
+          "role": "NEUTRAL",
+          "direction": "FLAT",
+          "attraction_to": null,
+          "attraction_strength": 0.0,
+          "lag_bars": 0,
+          "zone_quality": {
+            "state": "PRE_EXTREME",
+            "zone_level": "PRE_EXTREME",
+            "tension_score": 0.529,
+            "z_current": 1.527,
+            "z_direction": "HIGH",
+            "available": true
+          }
+        },
+        "JPY": {
+          "currency": "JPY",
+          "force_level": 26.32,
+          "avg_angle": -2.31,
+          "role": "NEUTRAL",
+          "direction": "FLAT",
+          "attraction_to": null,
+          "attraction_strength": 0.0,
+          "lag_bars": 0,
+          "zone_quality": {
+            "state": "NEUTRAL",
+            "zone_level": "NORMAL",
+            "tension_score": 0.0,
+            "z_current": -1.217,
+            "z_direction": "NONE",
+            "available": true
+          }
+        },
+        "CAD": {
+          "currency": "CAD",
+          "force_level": 79.26,
+          "avg_angle": 2.18,
+          "role": "NEUTRAL",
+          "direction": "FLAT",
+          "attraction_to": null,
+          "attraction_strength": 0.0,
+          "lag_bars": 0,
+          "zone_quality": {
+            "state": "NEUTRAL",
+            "zone_level": "NORMAL",
+            "tension_score": 0.0,
+            "z_current": 1.274,
+            "z_direction": "NONE",
+            "available": true
+          }
+        },
+        "CHF": {
+          "currency": "CHF",
+          "force_level": 46.34,
+          "avg_angle": -8.5,
+          "role": "ANTAGONIST",
+          "direction": "DOWN",
+          "attraction_to": null,
+          "attraction_strength": 0.0,
+          "lag_bars": 0,
+          "zone_quality": {
+            "state": "NEUTRAL",
+            "zone_level": "NORMAL",
+            "tension_score": 0.0,
+            "z_current": -1.404,
+            "z_direction": "NONE",
+            "available": true
+          }
+        },
+        "AUD": {
+          "currency": "AUD",
+          "force_level": 41.01,
+          "avg_angle": -7.65,
+          "role": "ANTAGONIST",
+          "direction": "DOWN",
+          "attraction_to": null,
+          "attraction_strength": 0.0,
+          "lag_bars": 0,
+          "zone_quality": {
+            "state": "NEUTRAL",
+            "zone_level": "NORMAL",
+            "tension_score": 0.0,
+            "z_current": -0.513,
+            "z_direction": "NONE",
+            "available": true
+          }
+        }
+      },
+      "up_coalition": null,
+      "down_coalition": {
+        "members": [
+          "CHF",
+          "AUD"
+        ],
+        "direction": "DOWN",
+        "cohesion": 0.947,
+        "avg_angle": -8.07,
+        "coalition_type": "STRONG_SYNCHRO"
+      },
+      "crossings": [
+        {
+          "currency_a": "GBP",
+          "currency_b": "EUR",
+          "timestamp": "2026-04-29T17:00:00+00:00",
+          "force_a": 46.76,
+          "force_b": 50.42,
+          "distance": 3.66,
+          "crossing_type": "CROSSING_IMMINENT",
+          "direction_a": "DOWN",
+          "direction_b": "UP",
+          "converging": false
+        },
+        {
+          "currency_a": "GBP",
+          "currency_b": "CHF",
+          "timestamp": "2026-04-29T17:00:00+00:00",
+          "force_a": 46.76,
+          "force_b": 46.34,
+          "distance": 0.42,
+          "crossing_type": "CROSSING_IMMINENT",
+          "direction_a": "DOWN",
+          "direction_b": "DOWN",
+          "converging": false
+        },
+        {
+          "currency_a": "GBP",
+          "currency_b": "AUD",
+          "timestamp": "2026-04-29T17:00:00+00:00",
+          "force_a": 46.76,
+          "force_b": 41.01,
+          "distance": 5.75,
+          "crossing_type": "CROSSING_ZONE",
+          "direction_a": "DOWN",
+          "direction_b": "DOWN",
+          "converging": false
+        },
+        {
+          "currency_a": "EUR",
+          "currency_b": "CHF",
+          "timestamp": "2026-04-29T17:00:00+00:00",
+          "force_a": 50.42,
+          "force_b": 46.34,
+          "distance": 4.08,
+          "crossing_type": "CROSSING_ZONE",
+          "direction_a": "UP",
+          "direction_b": "DOWN",
+          "converging": false
+        },
+        {
+          "currency_a": "CHF",
+          "currency_b": "AUD",
+          "timestamp": "2026-04-29T17:00:00+00:00",
+          "force_a": 46.34,
+          "force_b": 41.01,
+          "distance": 5.33,
+          "crossing_type": "CROSSING_ZONE",
+          "direction_a": "DOWN",
+          "direction_b": "DOWN",
+          "converging": false
+        }
+      ],
+      "patterns": [
+        "BIPOLAR_FIELD_ACTIVE"
+      ]
+    },
+    "compression_detected": false,
+    "leader_currency": null,
+    "patterns": [
+      "BIPOLAR_FIELD_ACTIVE"
+    ],
+    "notes": []
+  },
+  "dashboard_cards": [
+    {
+      "title": "VISION DB",
+      "status": "TACTICAL_OK",
+      "line": "LIVE_EXTENDED_ACTIVE | SCHEMA_EXTENDED_OK | source=force_snapshots_v2"
+    },
+    {
+      "title": "SCÈNE",
+      "status": "RAW_NODE_BIRTH",
+      "line": "RAW_NODE_BIRTH — EUR+CHF+CAD+GBP vs JPY+AUD+USD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG."
+    },
+    {
+      "title": "FRACTALITÉ",
+      "status": "FRACTAL_CONTRADICTION_FIELD",
+      "line": "GBPUSD | RAW_NODE_BIRTH | FRACTAL_CONTRADICTION_FIELD | temps compressé puis étiré | HTF=HTF_SILENT_OR_FLAT | NEXT=WATCH_SECOND_LEG"
+    },
+    {
+      "title": "EXTENDED V0.2",
+      "status": "EXTENDED DATA PARTIAL",
+      "line": "no extended flags"
+    },
+    {
+      "title": "ORCHESTRAL GRAVITY",
+      "status": "ORCHESTRAL_ACTIVE",
+      "line": "Leader: NONE | Compression: False | Patterns: 1"
+    },
+    {
+      "title": "NEXT WATCH",
+      "status": "WATCH_MICROSTRUCTURE_CONFIRMATION",
+      "line": "scene=WATCH_SECOND_LEG | fractal=WATCH_MICROSTRUCTURE_CONFIRMATION"
+    }
+  ]
+}

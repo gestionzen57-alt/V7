@@ -1,0 +1,50 @@
+=== POWERFLOW FLOW EVENT EXTRACTOR EXTENDED ===
+VERSION: 0.2.1
+SYMBOL: GBPUSD
+WINDOW: 2026-05-04T18:00:00+00:00 -> 2026-05-04T21:15:00+00:00
+SOURCE_TABLE: force_snapshots_v2
+MODE: EXTENDED_V02
+EXTENDED_SCHEMA: EXTENDED_SCHEMA_OK
+
+EXTENDED ROWS:
+TF1: 4
+TF5: 1
+TF15: 3
+
+EXTENDED FLAGS:
+- SPREAD_CLEAN_FIELD
+- NZD_AVAILABLE
+- M1_NODE_BIRTH
+- PRICE_LAG_AT_NODE
+- MICRO_WINDOW_ACTIVE_WEAK
+- MICRO_WINDOW_ACTIVE
+
+EXTENDED EVENTS:
+20:30->20:45 TF15 PRE_FIELD       rows=2   vol=1161.5 vr=1.2462 range=6.25 rr=1.1792 spread=0.15 sr=1.5 flags=SPREAD_CLEAN_FIELD,NZD_AVAILABLE
+  note: Extended event measured.
+20:46->20:49 TF1 NODE_BIRTH      rows=3   vol=50.666667 vr=0.9212 range=0.566667 rr=0.7083 spread=0.366667 sr=1.0476 flags=M1_NODE_BIRTH,SPREAD_CLEAN_FIELD,PRICE_LAG_AT_NODE,NZD_AVAILABLE,MICRO_WINDOW_ACTIVE_WEAK,MICRO_WINDOW_ACTIVE
+  note: Weak micro-window evidence: node detected but pressure layer is not yet strong. Forces moved before price response.
+
+SUMMARY:
+EXTENDED MICRO WINDOW ACTIVE WEAK
+
+==========================================================================================
+=== POWERFLOW FLOW EVENT EXTRACTOR ===
+VERSION: 0.1.3
+SYMBOL: GBPUSD
+WINDOW: 2026-05-04T18:00:00+00:00 -> 2026-05-04T21:15:00+00:00
+SOURCE_TABLE: force_snapshots_v2
+MODE: EXTENDED
+
+ROWS:
+TF1: 4
+TF5: 1
+TF15: 3
+
+EVENTS:
+20:30->20:45 TF15 PRE_FIELD       energy=26.4637  price=PRICE_LAG            up=CAD+NZD down=AUD+USD+JPY conf=0.55
+  note: Pré-champ mesuré avant la naissance du node.
+20:46->20:49 TF1 NODE_BIRTH      energy=54.5906  price=PRICE_LAG            up=GBP+JPY+AUD down=CAD+CHF conf=0.80
+  note: Basculement collectif des forces. Prix encore retenu si PRICE_LAG.
+
+TOP CANDIDATES:

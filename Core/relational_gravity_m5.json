@@ -1,0 +1,39 @@
+{
+  "status": "OK",
+  "version": "0.1",
+  "symbol": "GBPUSD",
+  "timeframe": 5,
+  "window": {
+    "start": "2026-05-06 10:25:00",
+    "end": "2026-05-06 12:50:00",
+    "bars": 30
+  },
+  "primary_state": "LEADER_PULLING_AWAY",
+  "group": [
+    "GBP",
+    "EUR",
+    "CAD",
+    "AUD"
+  ],
+  "direction": "UP",
+  "angle_spread_deg": 0.16,
+  "gap_mode": "EXPANDING",
+  "gap_slope": 0.0032,
+  "distance_persistence_bars": 19,
+  "leader": "GBP",
+  "followers": [
+    "EUR",
+    "AUD",
+    "CAD"
+  ],
+  "antagonist": "USD/JPY/CHF",
+  "score": 0.887,
+  "confidence": "HIGH",
+  "lab_signatures": [
+    "GRAVITY_EXPANSION_CLUSTER",
+    "LEADER_PULLING_AWAY",
+    "COALITION_VS_ANTAGONIST_EXPANSION"
+  ],
+  "interpretation": "GBP prend de l'avance sur EUR/AUD/CAD (haussière). Antagoniste : USD/JPY/CHF. Risque de désynchro si suiveurs ne rattrapent pas (HIGH).",
+  "errors": []
+}

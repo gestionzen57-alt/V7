@@ -1,0 +1,49 @@
+OK compile pf_powerflow_zone_brief.py
+OK compile run_powerflow_zone_brief.py
+SYNTHETIC_SPLIT_SMOKE returncode=0
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/generated/interface/models.py", line 48821, in hydrate_crdt_from_proto
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/remote.py", line 747, in __call__
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/client.py", line 150, in call
+artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
+PowerFlow Zone Brief - COCKPIT FIELD
+============================================================================================
+Symbol: GBPUSD | Events: 4 | Battles: 2
+Mode: history | recent=ALL | max_gap=90m
+Generated UTC: 2026-05-02 17:42
+
+Top 2 strategic temporal battlefields:
+--------------------------------------------------------------------------------------------
+01. AUD LOW - ZONE_RELEASE_WINDOW | TF=M15,M30 | release | score=42.770 | 30m | LONDON_OPEN
+    anchor=M30 trigger=M15 ctx_max=13.200 tension_max=8.500 peak_abs_z=2.400
+    path=ACCUMULATING->RUPTURE | note=relais deux TF; fenetre de release ouverte ou deja active.
+02. AUD LOW - SCENARIO_BATTLEFIELD | TF=M30,H1 | preparation | score=25.545 | 30m | ASIA
+    anchor=H1 trigger=M30 ctx_max=8.600 tension_max=5.000 peak_abs_z=2.100
+    path=PRE_EXTREME->ACCUMULATING | note=relais deux TF; accumulation sans release nette; HTF porteur.
+
+Release windows (1 shown):
+--------------------------------------------------------------------------------------------
+01. AUD LOW  ZONE_RELEASE_WINDOW            score=42.770   TF=M15,M30         LONDON_OPEN
+
+Battles in preparation (1 shown):
+--------------------------------------------------------------------------------------------
+01. AUD LOW  SCENARIO_BATTLEFIELD           score=25.545   TF=M30,H1          ASIA
+
+Session-carried tensions (0 shown):
+--------------------------------------------------------------------------------------------
+-
+
+Microfilm fields (0 shown):
+--------------------------------------------------------------------------------------------
+-
+
+Cockpit synthesis:
+--------------------------------------------------------------------------------------------
+Dominant field: AUD LOW - ZONE_RELEASE_WINDOW | TF=M15,M30 | release | score=42.770 | 30m | LONDON_OPEN
+relais deux TF; fenetre de release ouverte ou deja active.
+Temporal window: release / rupture field already visible.
