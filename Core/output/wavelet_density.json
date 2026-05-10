@@ -1,0 +1,38 @@
+{
+  "1": {
+    "symbol": "GBPUSD",
+    "timeframe": 1,
+    "timestamp": "2026-05-10T00:17:50Z",
+    "cycle_state": "CYCLE_EXPANDING",
+    "compression_ratio": 0.04650364361788441,
+    "dominant_period_bars": 256,
+    "autocorr_peak": 0.9762499391241525,
+    "wavelet_power_max": 3843.7275761326537,
+    "method": "morlet_cwt",
+    "validity": "VALID"
+  },
+  "5": {
+    "symbol": "GBPUSD",
+    "timeframe": 5,
+    "timestamp": "2026-05-10T00:17:50Z",
+    "cycle_state": "CYCLE_EXPANDING",
+    "compression_ratio": 0.045881779672004415,
+    "dominant_period_bars": 256,
+    "autocorr_peak": 0.9727036567594017,
+    "wavelet_power_max": 2199.843452081179,
+    "method": "morlet_cwt",
+    "validity": "VALID"
+  },
+  "15": {
+    "symbol": "GBPUSD",
+    "timeframe": 15,
+    "timestamp": "2026-05-10T00:17:50Z",
+    "cycle_state": "CYCLE_EXPANDING",
+    "compression_ratio": 0.0661112719728876,
+    "dominant_period_bars": 256,
+    "autocorr_peak": 0.9746275587905241,
+    "wavelet_power_max": 5160.754384269288,
+    "method": "morlet_cwt",
+    "validity": "VALID"
+  }
+}
