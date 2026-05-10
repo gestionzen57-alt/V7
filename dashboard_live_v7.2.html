@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PowerFlow V7.2 — Dashboard Live Perception</title>
+<title>PowerFlow V7.2 — Dashboard Live Perception + Scene Memory</title>
 <style>
 :root{
   --bg:#0a0a0a;
@@ -93,7 +93,7 @@ footer{padding:0 14px 18px}
 </head>
 <body>
 <header>
-  <h1>PowerFlow V7.2 — Dashboard Live Perception</h1>
+  <h1>PowerFlow V7.2 — Dashboard Live Perception + Scene Memory</h1>
   <div class="subhead">
     <span class="status-pill"><i id="globalDot" class="dot warn"></i><span id="globalStatus">INITIALIZING</span></span>
     <span>UTC: <strong id="utcNow">—</strong></span>
@@ -123,6 +123,11 @@ footer{padding:0 14px 18px}
     <section class="card" id="sec-alertobs" data-brick="AlertObservability">
       <div class="section-head"><h2>Alert Observability — Champ d’alertes</h2><span class="source-tag">alert_metrics.json</span></div>
       <div class="section-body" id="alertObsBody"></div>
+    </section>
+
+    <section class="card" id="sec-scene-memory" data-brick="SceneMemory">
+      <div class="section-head"><h2>Scene Memory — Scènes B6 enrichies</h2><span class="source-tag">scene_memory_enrichment_report.json</span></div>
+      <div class="section-body" id="sceneMemoryBody"></div>
     </section>
   </div>
 
@@ -194,7 +199,9 @@ const SOURCES = {
   session: ["output/session_context.json","output/session_overlay.json","Core/output/session_context.json"],
   dataQuality: ["output/data_quality_report.json","Core/output/data_quality_report.json"],
   marketOpen: ["output/market_open_validation.json","Core/output/market_open_validation.json"],
-  alertMetrics: ["output/alert_metrics.json","Core/output/alert_metrics.json"],
+  alertMetrics: ["output/alert_metrics.json, output/scene_memory_enrichment_report.json","Core/output/alert_metrics.json, output/scene_memory_enrichment_report.json"],
+  sceneMemory: ["output/scene_memory_enrichment_report.json","Core/output/scene_memory_enrichment_report.json"],
+  sceneQueue: ["output/behavioral_alert_queue_scene_enriched.json","Core/output/behavioral_alert_queue_scene_enriched.json"],
   batchCsv: ["output/BRICKS_SUMMARY.csv","Core/output/BRICKS_SUMMARY.csv"]
 };
 
@@ -472,6 +479,33 @@ function renderAlertObs(){
       <div class="metric wide"><div class="label">Technical notes</div><div class="detail">${Array.isArray(notes) && notes.length ? notes.map(x=>`<span class="badge warn">${esc(x)}</span>`).join("") : "<span class='badge ok'>no notes</span>"}</div></div>
     </div>`;
 }
+
+function renderSceneMemory(){
+  const r = state.data.sceneMemory;
+  const q = state.data.sceneQueue;
+  const total = get(r,["total_alerts"],"WAITING");
+  const summary = get(r,["summary"],{});
+  const byScene = summary.by_scene_id || {};
+  const byFamily = summary.by_scene_family || {};
+  const comp = summary.by_compression_qualification || {};
+  const risks = summary.technical_risks || {};
+  const topScenes = get(r,["top_scenes"],[]);
+  const firstAlert = Array.isArray(q) && q.length ? q[0] : null;
+  const sceneId = firstAlert ? (firstAlert.scene_id || "UNKNOWN") : "WAITING";
+  const sceneConf = firstAlert ? firstAlert.scene_confidence_non_blocking : null;
+  const compressionLabel = firstAlert ? get(firstAlert,["scene_context","compression_qualification","compression_label"],"—") : "—";
+  setSectionClass("sec-scene-memory", risks.NO_ALERT_LIST_FOUND_IN_JSON || total === 0 ? "WARN" : "OK");
+  byId("sceneMemoryBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("Total enriched alerts", total, sourceLine("sceneMemory"), {brick:"SceneMemory"})}
+      ${metric("Current / first scene", sceneId, `confidence=${num(sceneConf,4)} | compression=${compressionLabel}`)}
+      <div class="metric wide"><div class="label">By scene</div><div class="detail">${badges(byScene)}</div></div>
+      <div class="metric wide"><div class="label">By family</div><div class="detail">${badges(byFamily)}</div></div>
+      <div class="metric wide"><div class="label">Compression qualification</div><div class="detail">${badges(comp)}</div></div>
+      <div class="metric wide"><div class="label">Technical risks</div><div class="detail">${badges(risks)}</div></div>
+      <div class="metric wide"><div class="label">Top scenes raw</div><pre class="raw">${esc(JSON.stringify(topScenes, null, 2))}</pre></div>
+    </div>`;
+}
 function renderTemporal(){
   const dq = state.data.dataQuality;
   const mo = state.data.marketOpen;
@@ -498,6 +532,7 @@ function renderAll(){
   renderRegime();
   renderKinematics();
   renderAlertObs();
+  renderSceneMemory();
   renderDensity();
   renderGravity();
   renderBatch();
@@ -525,6 +560,8 @@ function handleManualFiles(files){
         else if(name.includes("hmm")) key = "hmm";
         else if(name.includes("fractal")) key = "fractal";
         else if(name.includes("cycle")) key = "cycle";
+        else if(name.includes("scene_memory_enrichment_report")) key = "sceneMemory";
+        else if(name.includes("behavioral_alert_queue_scene_enriched")) key = "sceneQueue";
         else if(name.includes("bricks_summary")) key = "batchCsv";
       }
       if(!key) return;
