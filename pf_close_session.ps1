@@ -8,32 +8,32 @@
 
 $ErrorActionPreference = "Stop"
 
-function Write-Step($msg) {
+function Step($msg) {
     Write-Host ""
     Write-Host "=== $msg ===" -ForegroundColor Cyan
 }
 
-function Is-ProtectedPath($path) {
+function IsProtected($path) {
     $p = $path -replace "\\", "/"
 
     $protected = @(
         "powerflow.db",
         "Core/powerflow.db",
-        "Core/capture_bridge.py",
         "capture_bridge.py",
+        "Core/capture_bridge.py",
         "Core/pf_temporal_node_state.py",
         "Core/pf_relational_gravity_bridge.py",
         "Core/cockpit_agentic_state_v01_orchestral.py"
     )
 
-    foreach ($item in $protected) {
-        if ($p -ieq $item) { return $true }
+    foreach ($x in $protected) {
+        if ($p -ieq $x) { return $true }
     }
 
     return $false
 }
 
-function Is-IgnoredRuntimePath($path) {
+function IsRuntime($path) {
     $p = $path -replace "\\", "/"
 
     if ($p -like "output/*") { return $true }
@@ -46,54 +46,92 @@ function Is-IgnoredRuntimePath($path) {
     if ($p -like "*.pyc") { return $true }
     if ($p -like ".venv/*") { return $true }
     if ($p -like "venv/*") { return $true }
+    if ($p -like "desktop.ini") { return $true }
+    if ($p -like "*/desktop.ini") { return $true }
 
     return $false
 }
 
-Write-Step "PowerFlow session close"
+Step "PowerFlow close session V3"
 
-$repo = git rev-parse --show-toplevel
+$repo = (git rev-parse --show-toplevel).Trim()
+if ($LASTEXITCODE -ne 0) {
+    throw "Pas dans un repository Git."
+}
+
 Set-Location $repo
 Write-Host "Repo: $repo"
 
-Write-Step "Mise a jour .gitignore runtime"
+Step "Nettoyage desktop.ini dans .git"
 
-$gitignoreAdd = @"
+Get-ChildItem ".git" -Filter "desktop.ini" -Recurse -Force -ErrorAction SilentlyContinue |
+    Remove-Item -Force -ErrorAction SilentlyContinue
 
-# PowerFlow runtime outputs
-output/
-Core/output/
-Core/reports/
-Core/0.85
-*.pkl
-__pycache__/
-*.pyc
-.venv/
-venv/
-"@
+Step "Reset zone staged"
+
+git reset --quiet
+
+Step "Mise a jour .gitignore"
 
 if (!(Test-Path ".gitignore")) {
     New-Item ".gitignore" -ItemType File | Out-Null
 }
 
-$currentGitignore = Get-Content ".gitignore" -Raw
-if ($currentGitignore -notmatch "PowerFlow runtime outputs") {
-    Add-Content ".gitignore" $gitignoreAdd
-    Write-Host ".gitignore mis a jour"
-} else {
-    Write-Host ".gitignore deja OK"
+$ignoreLines = @(
+    "# PowerFlow runtime outputs",
+    "output/",
+    "Core/output/",
+    "Core/reports/",
+    "Core/0.85",
+    "*.pkl",
+    "__pycache__/",
+    "*.pyc",
+    ".venv/",
+    "venv/",
+    "desktop.ini"
+)
+
+$gitignoreRaw = Get-Content ".gitignore" -Raw
+
+foreach ($line in $ignoreLines) {
+    $escaped = [regex]::Escape($line)
+    if ($gitignoreRaw -notmatch "(?m)^$escaped$") {
+        Add-Content ".gitignore" $line
+    }
 }
 
-Write-Step "Verification Git remote"
-git fetch origin
+Step "Restauration des suppressions accidentelles"
 
-Write-Step "Detection des fichiers modifies"
+if (-not $IncludeDeletes) {
+    $deletedFiles = git ls-files --deleted
+
+    foreach ($d in $deletedFiles) {
+        if ([string]::IsNullOrWhiteSpace($d)) { continue }
+
+        if (IsProtected $d) {
+            Write-Host "Protege, restaure: $d" -ForegroundColor Yellow
+            git restore -- "$d"
+            continue
+        }
+
+        Write-Host "Restaure: $d" -ForegroundColor Yellow
+        git restore -- "$d"
+    }
+} else {
+    Write-Host "Mode IncludeDeletes actif: les suppressions seront autorisees." -ForegroundColor Red
+}
+
+Step "Fetch origin"
+
+git fetch --prune origin
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Fetch warning: on continue, mais verifier le remote ensuite." -ForegroundColor Yellow
+}
+
+Step "Detection fichiers propres"
 
 $statusLines = git status --porcelain=v1 -uall
 $filesToAdd = New-Object System.Collections.Generic.List[string]
-$deletedSkipped = New-Object System.Collections.Generic.List[string]
-$protectedSkipped = New-Object System.Collections.Generic.List[string]
-$runtimeSkipped = New-Object System.Collections.Generic.List[string]
 
 foreach ($line in $statusLines) {
     if ([string]::IsNullOrWhiteSpace($line)) { continue }
@@ -107,43 +145,25 @@ foreach ($line in $statusLines) {
 
     $isDeleted = $xy.Contains("D")
 
-    if (Is-ProtectedPath $path) {
-        $protectedSkipped.Add($path)
+    if (IsProtected $path) {
+        Write-Host "Skip protege: $path" -ForegroundColor Yellow
         continue
     }
 
-    if (Is-IgnoredRuntimePath $path) {
-        $runtimeSkipped.Add($path)
+    if (IsRuntime $path) {
+        Write-Host "Skip runtime: $path" -ForegroundColor DarkYellow
         continue
     }
 
     if ($isDeleted -and -not $IncludeDeletes) {
-        $deletedSkipped.Add($path)
+        Write-Host "Skip deletion: $path" -ForegroundColor Yellow
         continue
     }
 
     $filesToAdd.Add($path)
 }
 
-if ($protectedSkipped.Count -gt 0) {
-    Write-Host ""
-    Write-Host "Proteges non stages:" -ForegroundColor Yellow
-    $protectedSkipped | Sort-Object -Unique | ForEach-Object { Write-Host "  $_" }
-}
-
-if ($runtimeSkipped.Count -gt 0) {
-    Write-Host ""
-    Write-Host "Runtime ignores non stages:" -ForegroundColor DarkYellow
-    $runtimeSkipped | Sort-Object -Unique | ForEach-Object { Write-Host "  $_" }
-}
-
-if ($deletedSkipped.Count -gt 0) {
-    Write-Host ""
-    Write-Host "Suppressions non stagees. Normal. Pour les inclure: -IncludeDeletes" -ForegroundColor Yellow
-    $deletedSkipped | Sort-Object -Unique | ForEach-Object { Write-Host "  $_" }
-}
-
-Write-Step "py_compile sur fichiers Python Core modifies"
+Step "py_compile Core/*.py modifies"
 
 $pyFiles = $filesToAdd |
     Where-Object { $_ -like "Core/*.py" -and (Test-Path $_) } |
@@ -152,20 +172,26 @@ $pyFiles = $filesToAdd |
 foreach ($py in $pyFiles) {
     Write-Host "Compile: $py"
     python -m py_compile $py
-}
 
-Write-Step "Staging propre"
-
-if ($filesToAdd.Count -eq 0) {
-    Write-Host "Aucun fichier propre a ajouter."
-} else {
-    foreach ($file in ($filesToAdd | Sort-Object -Unique)) {
-        Write-Host "Add: $file"
-        git add -- "$file"
+    if ($LASTEXITCODE -ne 0) {
+        throw "py_compile failed: $py"
     }
 }
 
-Write-Step "Diff staged"
+Step "Staging"
+
+$uniqueFiles = $filesToAdd | Sort-Object -Unique
+
+if ($uniqueFiles.Count -eq 0) {
+    Write-Host "Rien a ajouter."
+} else {
+    foreach ($f in $uniqueFiles) {
+        Write-Host "Add: $f"
+        git add -- "$f"
+    }
+}
+
+Step "Etat staged"
 
 git status --short
 
@@ -174,7 +200,10 @@ $hasStaged = $LASTEXITCODE -ne 0
 
 if (-not $hasStaged) {
     Write-Host ""
-    Write-Host "Aucun changement stage. Rien a committer." -ForegroundColor Green
+    Write-Host "Rien a committer." -ForegroundColor Green
+
+    Step "Etat final"
+    git status
     exit 0
 }
 
@@ -182,15 +211,24 @@ if ([string]::IsNullOrWhiteSpace($Message)) {
     $Message = "Session: PowerFlow sync $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
 }
 
-Write-Step "Commit"
-git commit -m "$Message"
+Step "Commit"
 
-if (-not $NoPush) {
-    Write-Step "Push"
-    git push origin main
-} else {
-    Write-Host "Push ignore car -NoPush actif"
+git commit -m "$Message"
+if ($LASTEXITCODE -ne 0) {
+    throw "Commit failed."
 }
 
-Write-Step "Etat final"
+if (-not $NoPush) {
+    Step "Push"
+
+    git push origin main
+    if ($LASTEXITCODE -ne 0) {
+        throw "Push failed."
+    }
+} else {
+    Write-Host "Push ignore car -NoPush actif."
+}
+
+Step "Etat final"
+
 git status
