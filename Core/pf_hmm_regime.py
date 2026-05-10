@@ -1,28 +1,18 @@
-"""
-pf_hmm_regime.py
-PowerFlow B1 — HMM Regime Engine V1.2 Standalone Schema-Aware
+"""PowerFlow V7.2 — B1+ Gaussian HMM regime engine.
 
-Gaussian Hidden Markov Model for HTF regime perception.
-No external HMM dependency: numpy only.
-V1.2 adds force_snapshots schema auto-detection for wide currency columns.
+Standalone Hidden Markov Model implementation for HTF regime perception.
+No hmmlearn dependency. No DB writes. No cockpit/telegram imports.
 
-Regime order is fixed and deterministic:
+Regime states are semantic after training:
     0 -> COMPRESSION
     1 -> TENDANCE
     2 -> RANGE
-
-Architecture contract:
-- pf_* moteur only
-- SQLite read-only
-- no cockpit/dashboard/telegram import
-- no BUY/SELL, no trade decision
-- context perception only
 """
-
 from __future__ import annotations
 
 import json
 import math
+import os
 import pickle
 import sqlite3
 from dataclasses import dataclass, asdict
@@ -32,929 +22,511 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 import numpy as np
 
-
-MODEL_VERSION = "HMMRegimeV1.2StandaloneSchema"
+VERSION = "HMMRegimeV1.2StandaloneSchema"
 METHOD = "hmm_gaussian_standalone"
-REGIME_ORDER = ("COMPRESSION", "TENDANCE", "RANGE")
-STATE_TO_REGIME = {0: "COMPRESSION", 1: "TENDANCE", 2: "RANGE"}
-REGIME_TO_STATE = {v: k for k, v in STATE_TO_REGIME.items()}
+STATE_NAMES = ["COMPRESSION", "TENDANCE", "RANGE"]
 
-KALMAN_Q = 0.01
-KALMAN_R = 0.10
-MIN_TRAINING_SAMPLES = 30
-CONFIDENCE_THRESHOLD = 0.60
-COVARIANCE_EPS = 1e-4
-LOG_EPS = 1e-300
+KNOWN_META_COLUMNS = {
+    "id", "timestamp", "time", "datetime", "created_at", "updated_at",
+    "symbol", "timeframe", "tf", "bid", "ask", "spread", "price",
+    "open", "high", "low", "close", "volume", "tick_volume",
+}
+
+CURRENCY_COLUMNS = {
+    "EUR": ["force_eur", "eur", "EUR"],
+    "GBP": ["force_gbp", "gbp", "GBP"],
+    "USD": ["force_usd", "usd", "USD"],
+    "JPY": ["force_jpy", "jpy", "JPY"],
+    "CHF": ["force_chf", "chf", "CHF"],
+    "CAD": ["force_cad", "cad", "CAD"],
+    "AUD": ["force_aud", "aud", "AUD"],
+    "NZD": ["force_nzd", "nzd", "NZD"],
+    "XAU": ["force_xau", "xau", "XAU"],
+}
+
+
+def utc_now_iso() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def connect_readonly(db_path: str) -> sqlite3.Connection:
+    path = Path(db_path)
+    uri = f"file:{path.as_posix()}?mode=ro"
+    return sqlite3.connect(uri, uri=True)
+
+
+def _safe_float(value: Any, default: float = 0.0) -> float:
+    try:
+        if value is None:
+            return default
+        x = float(value)
+        if not math.isfinite(x):
+            return default
+        return x
+    except Exception:
+        return default
+
+
+def _table_columns(conn: sqlite3.Connection, table: str = "force_snapshots") -> List[str]:
+    rows = conn.execute(f"PRAGMA table_info({table})").fetchall()
+    return [str(r[1]) for r in rows]
+
+
+def _column_exists(cols: Sequence[str], name: str) -> bool:
+    return any(c.lower() == name.lower() for c in cols)
+
+
+def _resolve_symbol_columns(symbol: str, cols: Sequence[str]) -> Tuple[Optional[str], Optional[str], List[str]]:
+    symbol = (symbol or "GBPUSD").upper().replace("/", "")
+    base = symbol[:3]
+    quote = symbol[3:6]
+
+    lower_map = {c.lower(): c for c in cols}
+
+    def find_currency(cur: str) -> Optional[str]:
+        for candidate in CURRENCY_COLUMNS.get(cur, []):
+            hit = lower_map.get(candidate.lower())
+            if hit:
+                return hit
+        return None
+
+    base_col = find_currency(base)
+    quote_col = find_currency(quote)
+
+    force_cols = [c for c in cols if c.lower().startswith("force_")]
+    if not force_cols:
+        # Conservative fallback: numeric-looking non-meta columns. SQLite has weak typing,
+        # so actual numeric coercion happens after SELECT.
+        force_cols = [c for c in cols if c.lower() not in KNOWN_META_COLUMNS]
+
+    return base_col, quote_col, force_cols
+
+
+def _ewma(values: np.ndarray, alpha: float = 0.28) -> np.ndarray:
+    if values.size == 0:
+        return values.astype(float)
+    out = np.empty_like(values, dtype=float)
+    out[0] = float(values[0])
+    for i in range(1, len(values)):
+        out[i] = alpha * float(values[i]) + (1.0 - alpha) * out[i - 1]
+    return out
+
+
+def _zone_numeric(series: np.ndarray) -> np.ndarray:
+    if series.size == 0:
+        return series.astype(float)
+    mu = float(np.nanmean(series))
+    sigma = float(np.nanstd(series))
+    if sigma <= 1e-12:
+        return np.zeros_like(series, dtype=float)
+    z = np.abs((series - mu) / sigma)
+    # 0 NEUTRAL, 1 PRE_EXTREME, 2 EARLY_EXTREME, 3 ACCUMULATING, 4 RUPTURE
+    return np.select(
+        [z < 0.70, z < 1.15, z < 1.65, z < 2.20],
+        [0.0, 1.0, 2.0, 3.0],
+        default=4.0,
+    ).astype(float)
+
+
+def build_features_from_force_series(force_series: Sequence[float]) -> np.ndarray:
+    """Build [angle_kalman, speed_magnitude, zone_numeric] per bar."""
+    x = np.asarray([_safe_float(v) for v in force_series], dtype=float)
+    if x.size < 3:
+        return np.empty((0, 3), dtype=float)
+
+    # Robust local standardization avoids huge raw-force scale effects.
+    x_clean = np.nan_to_num(x, nan=0.0, posinf=0.0, neginf=0.0)
+    dx = np.diff(x_clean, prepend=x_clean[0])
+    scale = float(np.nanstd(dx))
+    if scale <= 1e-12:
+        scale = 1.0
+
+    raw_angle = np.degrees(np.arctan(dx / scale))
+    angle_kalman = _ewma(raw_angle, alpha=0.25)
+    speed_magnitude = np.abs(np.diff(angle_kalman, prepend=angle_kalman[0]))
+    zone = _zone_numeric(x_clean)
+
+    return np.column_stack([angle_kalman, speed_magnitude, zone]).astype(float)
+
+
+def load_hmm_features_from_db(
+    db_path: str,
+    symbol: str = "GBPUSD",
+    timeframe: int = 240,
+    lookback: int = 500,
+) -> Tuple[np.ndarray, Dict[str, Any]]:
+    """Read force_snapshots in read-only mode and build HMM features."""
+    meta: Dict[str, Any] = {
+        "db_path": db_path,
+        "symbol": symbol,
+        "timeframe": timeframe,
+        "lookback": lookback,
+        "rows": 0,
+        "force_source": "UNKNOWN",
+        "technical_risks": [],
+    }
+
+    try:
+        conn = connect_readonly(db_path)
+    except Exception as exc:
+        meta["technical_risks"].append("DB_READ_ERROR")
+        meta["error"] = str(exc)
+        return np.empty((0, 3), dtype=float), meta
+
+    try:
+        cols = _table_columns(conn)
+        if not cols:
+            meta["technical_risks"].append("FORCE_SNAPSHOTS_SCHEMA_MISSING")
+            return np.empty((0, 3), dtype=float), meta
+
+        has_symbol = _column_exists(cols, "symbol")
+        has_timeframe = _column_exists(cols, "timeframe")
+        has_timestamp = _column_exists(cols, "timestamp")
+        base_col, quote_col, force_cols = _resolve_symbol_columns(symbol, cols)
+
+        if base_col and quote_col:
+            select_cols = [base_col, quote_col]
+            meta["force_source"] = f"{base_col}-{quote_col}"
+        else:
+            select_cols = force_cols[:8]
+            meta["force_source"] = "mean_force_columns"
+
+        if not select_cols:
+            meta["technical_risks"].append("NO_FORCE_COLUMNS")
+            return np.empty((0, 3), dtype=float), meta
+
+        where = []
+        params: List[Any] = []
+        if has_timeframe:
+            where.append("timeframe = ?")
+            params.append(int(timeframe))
+        if has_symbol:
+            where.append("symbol = ?")
+            params.append(symbol)
+
+        where_sql = (" WHERE " + " AND ".join(where)) if where else ""
+        order_sql = " ORDER BY timestamp DESC" if has_timestamp else ""
+        col_sql = ", ".join([f'"{c}"' for c in select_cols])
+        sql = f"SELECT {col_sql} FROM force_snapshots{where_sql}{order_sql} LIMIT ?"
+        params.append(int(lookback))
+        rows = conn.execute(sql, params).fetchall()
+        rows = list(reversed(rows))
+        meta["rows"] = len(rows)
+
+        if len(rows) < 8:
+            meta["technical_risks"].append("INSUFFICIENT_DATA")
+            return np.empty((0, 3), dtype=float), meta
+
+        arr = np.asarray(rows, dtype=float)
+        if arr.ndim == 1:
+            force = arr
+        elif base_col and quote_col and arr.shape[1] >= 2:
+            force = arr[:, 0] - arr[:, 1]
+        else:
+            force = np.nanmean(arr, axis=1)
+
+        features = build_features_from_force_series(force)
+        if features.shape[0] < 8:
+            meta["technical_risks"].append("INSUFFICIENT_FEATURES")
+        return features, meta
+    except Exception as exc:
+        meta["technical_risks"].append("FEATURE_BUILD_ERROR")
+        meta["error"] = str(exc)
+        return np.empty((0, 3), dtype=float), meta
+    finally:
+        conn.close()
 
 
 @dataclass
-class FeatureFrame:
-    timeframe: int
-    timestamps: List[str]
-    force_pair: List[float]
-    angle_raw: List[float]
-    speed_raw: List[float]
-    zone_raw: List[float]
-    observations: np.ndarray
-    labels: np.ndarray
-    scaler: Dict[str, List[float]]
+class HMMRegimeGaussian:
+    n_states: int = 3
+    n_iter: int = 40
+    random_state: int = 42
+    min_covar: float = 1e-4
 
-
-@dataclass
-class TrainingSummary:
-    valid: bool
-    timeframe: Optional[int]
-    samples: int
-    last_timestamp: Optional[str]
-    label_counts: Dict[str, int]
-    transition_matrix: List[List[float]]
-    means: List[List[float]]
-    covariance_diagonals: List[List[float]]
-    technical_risks: List[str]
-    error: Optional[str] = None
-
-
-class StandaloneGaussianHMM:
-    """Small deterministic Gaussian HMM implementation for 3 fixed regimes."""
-
-    def __init__(self, n_components: int = 3) -> None:
-        self.n_components = n_components
+    def __post_init__(self) -> None:
+        self.state_names = list(STATE_NAMES)
         self.startprob_: Optional[np.ndarray] = None
         self.transmat_: Optional[np.ndarray] = None
         self.means_: Optional[np.ndarray] = None
-        self.covars_: Optional[np.ndarray] = None
-
-    @property
-    def fitted(self) -> bool:
-        return all(
-            value is not None
-            for value in (self.startprob_, self.transmat_, self.means_, self.covars_)
-        )
-
-    def fit_from_labels(self, observations: np.ndarray, labels: np.ndarray) -> None:
-        """Estimate HMM parameters from deterministic heuristic labels."""
-        x = np.asarray(observations, dtype=float)
-        y = np.asarray(labels, dtype=int)
-        if x.ndim != 2:
-            raise ValueError("observations must be a 2D array")
-        if len(x) != len(y):
-            raise ValueError("observations and labels length mismatch")
-        if len(x) == 0:
-            raise ValueError("empty observations")
-
-        n_states = self.n_components
-        n_features = x.shape[1]
-
-        # Start probabilities. Strong but smoothed signal from the first labelled state.
-        start = np.full(n_states, 1.0, dtype=float)
-        start[int(y[0])] += 5.0
-        self.startprob_ = start / start.sum()
-
-        # Transition matrix with Laplace smoothing.
-        trans = np.ones((n_states, n_states), dtype=float)
-        for prev_state, next_state in zip(y[:-1], y[1:]):
-            trans[int(prev_state), int(next_state)] += 1.0
-        trans /= trans.sum(axis=1, keepdims=True)
-        self.transmat_ = trans
-
-        global_mean = np.mean(x, axis=0)
-        global_cov = np.cov(x.T) if len(x) > 1 else np.eye(n_features)
-        global_cov = self._regularize_cov(global_cov, n_features)
-
-        means = np.zeros((n_states, n_features), dtype=float)
-        covars = np.zeros((n_states, n_features, n_features), dtype=float)
-
-        for state in range(n_states):
-            state_x = x[y == state]
-            if len(state_x) == 0:
-                means[state] = global_mean
-                covars[state] = global_cov
-                continue
-            means[state] = np.mean(state_x, axis=0)
-            if len(state_x) >= 2:
-                cov = np.cov(state_x.T)
-            else:
-                cov = global_cov
-            covars[state] = self._regularize_cov(cov, n_features)
-
-        self.means_ = means
-        self.covars_ = covars
-
-    @staticmethod
-    def _regularize_cov(cov: np.ndarray, n_features: int) -> np.ndarray:
-        cov_arr = np.asarray(cov, dtype=float)
-        if cov_arr.ndim == 0:
-            cov_arr = np.eye(n_features) * float(cov_arr)
-        if cov_arr.ndim == 1:
-            cov_arr = np.diag(cov_arr)
-        if cov_arr.shape != (n_features, n_features):
-            cov_arr = np.eye(n_features)
-        cov_arr = np.nan_to_num(cov_arr, nan=0.0, posinf=1.0, neginf=1.0)
-        cov_arr = (cov_arr + cov_arr.T) / 2.0
-        cov_arr += np.eye(n_features) * COVARIANCE_EPS
-        return cov_arr
-
-    def _log_gaussian_prob(self, observations: np.ndarray) -> np.ndarray:
-        if not self.fitted:
-            raise RuntimeError("model not fitted")
-        x = np.asarray(observations, dtype=float)
-        n_samples, n_features = x.shape
-        log_prob = np.zeros((n_samples, self.n_components), dtype=float)
-
-        for state in range(self.n_components):
-            mean = self.means_[state]
-            cov = self._regularize_cov(self.covars_[state], n_features)
-            sign, logdet = np.linalg.slogdet(cov)
-            if sign <= 0:
-                cov = cov + np.eye(n_features) * 1e-3
-                sign, logdet = np.linalg.slogdet(cov)
-            inv_cov = np.linalg.pinv(cov)
-            diff = x - mean
-            mahal = np.einsum("ij,jk,ik->i", diff, inv_cov, diff)
-            log_prob[:, state] = -0.5 * (
-                n_features * math.log(2.0 * math.pi) + logdet + mahal
-            )
-        return log_prob
-
-    @staticmethod
-    def _logsumexp(values: np.ndarray) -> float:
-        max_v = np.max(values)
-        if not np.isfinite(max_v):
-            return float(max_v)
-        return float(max_v + np.log(np.sum(np.exp(values - max_v))))
-
-    def posterior_last(self, observations: np.ndarray) -> Tuple[int, List[float]]:
-        """Forward pass and posterior probabilities for last observation."""
-        if not self.fitted:
-            raise RuntimeError("model not fitted")
-        x = np.asarray(observations, dtype=float)
-        if x.ndim != 2 or len(x) == 0:
-            raise ValueError("observations must be non-empty 2D array")
-
-        log_emit = self._log_gaussian_prob(x)
-        log_start = np.log(np.asarray(self.startprob_, dtype=float) + LOG_EPS)
-        log_trans = np.log(np.asarray(self.transmat_, dtype=float) + LOG_EPS)
-
-        alpha = log_start + log_emit[0]
-        for t in range(1, len(x)):
-            next_alpha = np.zeros(self.n_components, dtype=float)
-            for j in range(self.n_components):
-                next_alpha[j] = self._logsumexp(alpha + log_trans[:, j]) + log_emit[t, j]
-            alpha = next_alpha
-
-        norm = self._logsumexp(alpha)
-        probs = np.exp(alpha - norm)
-        probs = probs / probs.sum()
-        state = int(np.argmax(probs))
-        return state, [float(round(p, 6)) for p in probs]
-
-
-class HMMRegimeEngine:
-    """Train and query a standalone Gaussian HMM for PowerFlow B1 regimes."""
-
-    def __init__(self, model_path: Optional[str | Path] = None) -> None:
-        self.model_path = Path(model_path).resolve() if model_path else None
-        self.model = StandaloneGaussianHMM(n_components=3)
-        self.scaler: Optional[Dict[str, List[float]]] = None
-        self.training_summary: Optional[Dict[str, Any]] = None
-        self.source_columns: Optional[Dict[str, str]] = None
-
-        if self.model_path and self.model_path.exists():
-            self.load_model(self.model_path)
-
-    @staticmethod
-    def utc_now() -> str:
-        return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
-
-    def train_on_historical_data(
-        self,
-        db_path: str | Path,
-        tfs: Sequence[int] = (240, 60),
-        model_path: Optional[str | Path] = None,
-    ) -> Dict[str, Any]:
-        """Load DB, extract HTF features, train HMM, and optionally save model."""
-        db = Path(db_path).resolve()
-        risks: List[str] = []
-
-        if not db.exists():
-            summary = TrainingSummary(
-                valid=False,
-                timeframe=None,
-                samples=0,
-                last_timestamp=None,
-                label_counts={},
-                transition_matrix=[],
-                means=[],
-                covariance_diagonals=[],
-                technical_risks=["DB_NOT_FOUND"],
-                error=f"DB not found: {db}",
-            )
-            self.training_summary = asdict(summary)
-            return self.training_summary
-
-        frame = self._load_best_feature_frame(db, tfs)
-        if frame is None:
-            summary = TrainingSummary(
-                valid=False,
-                timeframe=None,
-                samples=0,
-                last_timestamp=None,
-                label_counts={},
-                transition_matrix=[],
-                means=[],
-                covariance_diagonals=[],
-                technical_risks=["INSUFFICIENT_DATA"],
-                error="No timeframe had enough usable force snapshots",
-            )
-            self.training_summary = asdict(summary)
-            return self.training_summary
-
-        if len(frame.observations) < MIN_TRAINING_SAMPLES:
-            summary = TrainingSummary(
-                valid=False,
-                timeframe=frame.timeframe,
-                samples=len(frame.observations),
-                last_timestamp=frame.timestamps[-1] if frame.timestamps else None,
-                label_counts=self._label_counts(frame.labels),
-                transition_matrix=[],
-                means=[],
-                covariance_diagonals=[],
-                technical_risks=["INSUFFICIENT_DATA"],
-                error=f"Need at least {MIN_TRAINING_SAMPLES} samples",
-            )
-            self.training_summary = asdict(summary)
-            return self.training_summary
-
-        self.model = StandaloneGaussianHMM(n_components=3)
-        self.model.fit_from_labels(frame.observations, frame.labels)
-        self.scaler = frame.scaler
-
-        label_counts = self._label_counts(frame.labels)
-        if min(label_counts.values() or [0]) <= 1:
-            risks.append("LOW_STATE_DIVERSITY")
-
-        summary = TrainingSummary(
-            valid=True,
-            timeframe=frame.timeframe,
-            samples=len(frame.observations),
-            last_timestamp=frame.timestamps[-1] if frame.timestamps else None,
-            label_counts=label_counts,
-            transition_matrix=np.round(self.model.transmat_, 6).tolist(),
-            means=np.round(self.model.means_, 6).tolist(),
-            covariance_diagonals=np.round(
-                np.array([np.diag(cov) for cov in self.model.covars_]), 6
-            ).tolist(),
-            technical_risks=risks,
-            error=None,
-        )
-        self.training_summary = asdict(summary)
-
-        target_model_path = Path(model_path).resolve() if model_path else self.model_path
-        if target_model_path:
-            self.save_model(target_model_path)
-
-        return self.training_summary
-
-    def predict_from_db(
-        self,
-        db_path: str | Path,
-        tfs: Sequence[int] = (240, 60),
-        lookback: int = 50,
-    ) -> Dict[str, Any]:
-        """Predict the current HTF regime from the latest DB snapshots."""
-        if not self.model.fitted or self.scaler is None:
-            return self._invalid_prediction(
-                error="MODEL_NOT_LOADED",
-                risks=["HMM_MODEL_MISSING"],
-                source={"db_path": str(Path(db_path).resolve())},
-            )
-
-        frame = self._load_best_feature_frame(Path(db_path).resolve(), tfs, scaler=self.scaler)
-        if frame is None or len(frame.observations) == 0:
-            return self._invalid_prediction(
-                error="NO_USABLE_OBSERVATIONS",
-                risks=["INSUFFICIENT_DATA"],
-                source={"db_path": str(Path(db_path).resolve())},
-            )
-
-        observations = frame.observations[-lookback:]
-        raw_state, probabilities = self.model.posterior_last(observations)
-        confidence = float(max(probabilities))
-        regime = STATE_TO_REGIME[raw_state]
-        risks: List[str] = []
-        valid = True
-        error = None
-
-        if confidence < CONFIDENCE_THRESHOLD:
-            valid = False
-            error = "LOW_CONFIDENCE"
-            risks.append("LOW_CONFIDENCE")
-
-        return {
-            "timestamp": self.utc_now(),
-            "regime": regime,
-            "confidence": round(confidence, 6),
-            "probabilities": probabilities,
-            "probability_map": {
-                regime_name: probabilities[idx]
-                for idx, regime_name in STATE_TO_REGIME.items()
-            },
-            "raw_state": raw_state,
-            "method": METHOD,
-            "model_version": MODEL_VERSION,
-            "valid": valid,
-            "error": error,
-            "technical_risks": risks,
-            "source": {
-                "db_path": str(Path(db_path).resolve()),
-                "timeframe": frame.timeframe,
-                "samples_used": len(frame.observations),
-                "prediction_lookback": min(lookback, len(frame.observations)),
-                "last_timestamp": frame.timestamps[-1] if frame.timestamps else None,
-            },
-            "htf_context_stack": None,
-        }
-
-    def predict_regime(self, force_rolling: Sequence[Any]) -> Dict[str, Any]:
-        """Predict from a rolling force sequence or a sequence of alert-like rows."""
-        if not self.model.fitted or self.scaler is None:
-            return self._invalid_prediction(
-                error="MODEL_NOT_LOADED",
-                risks=["HMM_MODEL_MISSING"],
-                source={"input": "force_rolling"},
-            )
-
-        if not force_rolling:
-            return self._invalid_prediction(
-                error="EMPTY_FORCE_ROLLING",
-                risks=["INSUFFICIENT_DATA"],
-                source={"input": "force_rolling"},
-            )
-
-        values = self._extract_force_pair_from_sequence(force_rolling)
-        if len(values) < 5:
-            return self._invalid_prediction(
-                error="INSUFFICIENT_FORCE_ROLLING",
-                risks=["INSUFFICIENT_DATA"],
-                source={"samples_used": len(values)},
-            )
-
-        timestamps = [str(i) for i in range(len(values))]
-        frame = self._build_feature_frame_from_series(
-            timeframe=0,
-            timestamps=timestamps,
-            force_pair=values,
-            scaler=self.scaler,
-        )
-        raw_state, probabilities = self.model.posterior_last(frame.observations)
-        confidence = float(max(probabilities))
-        regime = STATE_TO_REGIME[raw_state]
-        valid = confidence >= CONFIDENCE_THRESHOLD
-        risks = [] if valid else ["LOW_CONFIDENCE"]
-
-        return {
-            "timestamp": self.utc_now(),
-            "regime": regime,
-            "confidence": round(confidence, 6),
-            "probabilities": probabilities,
-            "probability_map": {
-                regime_name: probabilities[idx]
-                for idx, regime_name in STATE_TO_REGIME.items()
-            },
-            "raw_state": raw_state,
-            "method": METHOD,
-            "model_version": MODEL_VERSION,
-            "valid": valid,
-            "error": None if valid else "LOW_CONFIDENCE",
-            "technical_risks": risks,
-            "source": {"input": "force_rolling", "samples_used": len(values)},
-            "htf_context_stack": None,
-        }
-
-    def save_model(self, path: str | Path) -> None:
-        target = Path(path).resolve()
-        target.parent.mkdir(parents=True, exist_ok=True)
-        payload = {
-            "model_version": MODEL_VERSION,
-            "method": METHOD,
-            "regime_order": REGIME_ORDER,
-            "startprob": self.model.startprob_,
-            "transmat": self.model.transmat_,
-            "means": self.model.means_,
-            "covars": self.model.covars_,
-            "scaler": self.scaler,
-            "training_summary": self.training_summary,
-            "source_columns": self.source_columns,
-            "saved_at": self.utc_now(),
-        }
-        with target.open("wb") as f:
-            pickle.dump(payload, f)
-        self.model_path = target
-
-    def load_model(self, path: str | Path) -> None:
-        source = Path(path).resolve()
-        with source.open("rb") as f:
-            payload = pickle.load(f)
-        self.model = StandaloneGaussianHMM(n_components=3)
-        self.model.startprob_ = np.asarray(payload["startprob"], dtype=float)
-        self.model.transmat_ = np.asarray(payload["transmat"], dtype=float)
-        self.model.means_ = np.asarray(payload["means"], dtype=float)
-        self.model.covars_ = np.asarray(payload["covars"], dtype=float)
-        self.scaler = payload.get("scaler")
-        self.training_summary = payload.get("training_summary")
-        self.source_columns = payload.get("source_columns")
-        self.model_path = source
-
-    def _invalid_prediction(
-        self, error: str, risks: List[str], source: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
-        return {
-            "timestamp": self.utc_now(),
-            "regime": None,
-            "confidence": 0.0,
-            "probabilities": [0.0, 0.0, 0.0],
-            "probability_map": {},
-            "raw_state": None,
-            "method": METHOD,
-            "model_version": MODEL_VERSION,
-            "valid": False,
-            "error": error,
-            "technical_risks": risks,
-            "source": source or {},
-            "htf_context_stack": None,
-        }
-
-    def _load_best_feature_frame(
-        self,
-        db_path: Path,
-        tfs: Sequence[int],
-        scaler: Optional[Dict[str, List[float]]] = None,
-    ) -> Optional[FeatureFrame]:
-        candidates: List[FeatureFrame] = []
-        for tf in tfs:
-            rows = self._read_force_rows(db_path, int(tf))
-            if len(rows) < 5:
-                continue
-            timestamps = [row[0] for row in rows]
-            force_pair = [float(row[1]) - float(row[2]) for row in rows]
-            frame = self._build_feature_frame_from_series(
-                timeframe=int(tf),
-                timestamps=timestamps,
-                force_pair=force_pair,
-                scaler=scaler,
-            )
-            candidates.append(frame)
-
-        if not candidates:
-            return None
-
-        # Prefer the first timeframe with enough samples. Prompt priority: TF240 then TF60.
-        for frame in candidates:
-            if len(frame.observations) >= MIN_TRAINING_SAMPLES:
-                return frame
-        return max(candidates, key=lambda item: len(item.observations))
-
-    def _read_force_rows(self, db_path: Path, timeframe: int) -> List[Tuple[str, float, float]]:
-        """Read GBP/USD force rows from force_snapshots with schema auto-detection.
-
-        PowerFlow DBs have evolved: some snapshots use force_gbp/force_usd,
-        others use plain currency columns such as GBP/USD or lower-case gbp/usd.
-        This resolver accepts both exact and fuzzy currency column names while
-        preserving read-only DB access.
-        """
-        uri = f"file:{db_path}?mode=ro"
-        with sqlite3.connect(uri, uri=True) as conn:
-            conn.row_factory = sqlite3.Row
-            table_columns = self._get_table_columns(conn, "force_snapshots")
-            if not table_columns:
-                raise RuntimeError("force_snapshots table not found or has no columns")
-
-            schema = self._resolve_force_snapshot_schema(conn, table_columns, timeframe)
-
-            if schema.get("layout") == "long":
-                return self._read_force_rows_long(conn, schema, timeframe)
-
-            ts_col = schema["timestamp"]
-            tf_col = schema["timeframe"]
-            gbp_col = schema["gbp"]
-            usd_col = schema["usd"]
-
-            self.source_columns = {
-                "layout": "wide",
-                "timestamp": ts_col,
-                "timeframe": tf_col,
-                "gbp": gbp_col,
-                "usd": usd_col,
-            }
-
-            query = (
-                f'SELECT {self._qid(ts_col)} AS timestamp, '
-                f'{self._qid(gbp_col)} AS gbp, {self._qid(usd_col)} AS usd '
-                f'FROM force_snapshots WHERE {self._qid(tf_col)} = ? '
-                f'AND {self._qid(gbp_col)} IS NOT NULL AND {self._qid(usd_col)} IS NOT NULL '
-                f'ORDER BY {self._qid(ts_col)} ASC'
-            )
-            rows = conn.execute(query, (timeframe,)).fetchall()
-            return [(str(row["timestamp"]), float(row["gbp"]), float(row["usd"])) for row in rows]
-
-    @staticmethod
-    def _qid(identifier: str) -> str:
-        """Quote a SQLite identifier safely."""
-        return '"' + str(identifier).replace('"', '""') + '"'
-
-    @staticmethod
-    def _get_table_columns(conn: sqlite3.Connection, table: str) -> List[str]:
-        return [row[1] for row in conn.execute(f"PRAGMA table_info({table})").fetchall()]
-
-    def _resolve_force_snapshot_schema(
-        self, conn: sqlite3.Connection, columns: Sequence[str], timeframe: int
-    ) -> Dict[str, str]:
-        ts_col = self._pick_timestamp_column(columns)
-        tf_col = self._pick_timeframe_column(columns)
-
-        if not ts_col or not tf_col:
-            raise RuntimeError(
-                "force_snapshots schema unresolved: timestamp/timeframe column missing; "
-                f"available_columns={list(columns)}"
-            )
-
-        # Wide schema: one row has many currency columns.
-        gbp_col = self._pick_currency_column(conn, columns, timeframe, "GBP", exclude={ts_col, tf_col})
-        usd_col = self._pick_currency_column(conn, columns, timeframe, "USD", exclude={ts_col, tf_col})
-        if gbp_col and usd_col:
-            return {
-                "layout": "wide",
-                "timestamp": ts_col,
-                "timeframe": tf_col,
-                "gbp": gbp_col,
-                "usd": usd_col,
-            }
-
-        # Long schema fallback: timestamp/timeframe/currency/value rows.
-        currency_col = self._pick_column_fuzzy(
-            columns,
-            exact=["currency", "ccy", "asset", "name"],
-            contains=["currency", "ccy"],
-            exclude={ts_col, tf_col},
-        )
-        value_col = self._pick_column_fuzzy(
-            columns,
-            exact=["force", "value", "score", "zscore", "strength"],
-            contains=["force", "score", "zscore", "strength", "value"],
-            exclude={ts_col, tf_col, currency_col} if currency_col else {ts_col, tf_col},
-        )
-        if currency_col and value_col:
-            return {
-                "layout": "long",
-                "timestamp": ts_col,
-                "timeframe": tf_col,
-                "currency": currency_col,
-                "value": value_col,
-            }
-
-        raise RuntimeError(
-            "force_snapshots schema unresolved: could not find GBP/USD force columns; "
-            f"available_columns={list(columns)}; "
-            f"resolved_timestamp={ts_col}; resolved_timeframe={tf_col}"
-        )
-
-    def _read_force_rows_long(
-        self, conn: sqlite3.Connection, schema: Dict[str, str], timeframe: int
-    ) -> List[Tuple[str, float, float]]:
-        ts_col = schema["timestamp"]
-        tf_col = schema["timeframe"]
-        currency_col = schema["currency"]
-        value_col = schema["value"]
-
-        self.source_columns = {
-            "layout": "long",
-            "timestamp": ts_col,
-            "timeframe": tf_col,
-            "currency": currency_col,
-            "value": value_col,
-        }
-
-        query = (
-            f'SELECT {self._qid(ts_col)} AS timestamp, '
-            f'{self._qid(currency_col)} AS currency, {self._qid(value_col)} AS value '
-            f'FROM force_snapshots WHERE {self._qid(tf_col)} = ? '
-            f"AND UPPER({self._qid(currency_col)}) IN ('GBP', 'USD') "
-            f'AND {self._qid(value_col)} IS NOT NULL '
-            f'ORDER BY {self._qid(ts_col)} ASC'
-        )
-        rows = conn.execute(query, (timeframe,)).fetchall()
-        by_ts: Dict[str, Dict[str, float]] = {}
-        for row in rows:
-            ts = str(row["timestamp"])
-            currency = str(row["currency"]).upper()
-            by_ts.setdefault(ts, {})[currency] = float(row["value"])
-
-        output: List[Tuple[str, float, float]] = []
-        for ts in sorted(by_ts.keys()):
-            bucket = by_ts[ts]
-            if "GBP" in bucket and "USD" in bucket:
-                output.append((ts, bucket["GBP"], bucket["USD"]))
-        return output
-
-    @staticmethod
-    def _pick_timestamp_column(columns: Sequence[str]) -> Optional[str]:
-        return HMMRegimeEngine._pick_column_fuzzy(
-            columns,
-            exact=["timestamp", "ts", "time", "datetime", "date", "created_at", "snapshot_time"],
-            contains=["timestamp", "datetime", "snapshot_time"],
-            exclude={"timeframe", "tf", "tf_minutes"},
-        )
-
-    @staticmethod
-    def _pick_timeframe_column(columns: Sequence[str]) -> Optional[str]:
-        return HMMRegimeEngine._pick_column_fuzzy(
-            columns,
-            exact=["timeframe", "tf", "period", "tf_minutes", "timeframe_minutes"],
-            contains=["timeframe", "tf_minutes"],
-            exclude=set(),
-        )
-
-    def _pick_currency_column(
-        self,
-        conn: sqlite3.Connection,
-        columns: Sequence[str],
-        timeframe: int,
-        currency: str,
-        exclude: set[str],
-    ) -> Optional[str]:
-        c = currency.lower()
-        exact = [
-            currency,
-            currency.upper(),
-            currency.lower(),
-            f"force_{c}",
-            f"{c}_force",
-            f"z_{c}",
-            f"{c}_z",
-            f"zscore_{c}",
-            f"{c}_zscore",
-            f"score_{c}",
-            f"{c}_score",
-            f"strength_{c}",
-            f"{c}_strength",
-            f"value_{c}",
-            f"{c}_value",
-            f"raw_{c}",
-            f"{c}_raw",
-        ]
-        contains = [c]
-        candidates = self._rank_matching_columns(columns, exact=exact, contains=contains, exclude=exclude)
-        for col in candidates:
-            if self._column_has_numeric_values(conn, col, timeframe):
-                return col
-        return None
-
-    @staticmethod
-    def _pick_column_fuzzy(
-        columns: Sequence[str],
-        exact: Sequence[str],
-        contains: Sequence[str],
-        exclude: set[str] | None = None,
-    ) -> Optional[str]:
-        ranked = HMMRegimeEngine._rank_matching_columns(columns, exact, contains, exclude or set())
-        return ranked[0] if ranked else None
-
-    @staticmethod
-    def _rank_matching_columns(
-        columns: Sequence[str], exact: Sequence[str], contains: Sequence[str], exclude: set[str]
-    ) -> List[str]:
-        exclude_l = {str(x).lower() for x in exclude if x}
-        exact_l = [x.lower() for x in exact if x]
-        contains_l = [x.lower() for x in contains if x]
-        scored: List[Tuple[int, int, str]] = []
-        for col in columns:
-            lower = col.lower()
-            if lower in exclude_l:
-                continue
-            score: Optional[int] = None
-            if lower in exact_l:
-                score = exact_l.index(lower)
-            elif any(token in lower for token in contains_l):
-                # Prefer short semantic names like GBP over metadata names containing GBP.
-                score = 100 + len(lower)
-            if score is not None:
-                scored.append((score, len(lower), col))
-        scored.sort(key=lambda item: (item[0], item[1], item[2].lower()))
-        return [item[2] for item in scored]
-
-    def _column_has_numeric_values(
-        self, conn: sqlite3.Connection, column: str, timeframe: int, limit: int = 20
-    ) -> bool:
-        # Timeframe column may not be resolved here, so do a lightweight table-wide sample.
-        try:
-            query = (
-                f'SELECT {self._qid(column)} AS value FROM force_snapshots '
-                f'WHERE {self._qid(column)} IS NOT NULL LIMIT ?'
-            )
-            rows = conn.execute(query, (limit,)).fetchall()
-            if not rows:
-                return False
-            numeric = 0
-            for row in rows:
-                try:
-                    float(row["value"])
-                    numeric += 1
-                except (TypeError, ValueError):
-                    pass
-            return numeric > 0
-        except sqlite3.Error:
-            return False
-
-    @staticmethod
-    def _pick_column(columns: Iterable[str], candidates: Sequence[str]) -> Optional[str]:
-        column_map = {col.lower(): col for col in columns}
-        for candidate in candidates:
-            if candidate.lower() in column_map:
-                return column_map[candidate.lower()]
-        return None
-
-    def _build_feature_frame_from_series(
-        self,
-        timeframe: int,
-        timestamps: Sequence[str],
-        force_pair: Sequence[float],
-        scaler: Optional[Dict[str, List[float]]] = None,
-    ) -> FeatureFrame:
-        values = np.asarray(force_pair, dtype=float)
-        values = np.nan_to_num(values, nan=0.0, posinf=0.0, neginf=0.0)
-        smooth = self._kalman_filter(values, q=KALMAN_Q, r=KALMAN_R)
-
-        angle_raw = self._angle_series(smooth)
-        speed_raw = self._speed_series(angle_raw)
-        zone_raw = self._zone_numeric_series(values)
-
-        raw_features = np.column_stack([angle_raw, speed_raw, zone_raw])
-        labels = self._heuristic_labels(angle_raw, speed_raw, zone_raw)
-        labels = self._ensure_state_diversity(raw_features, labels)
-
-        if scaler is None:
-            means = raw_features.mean(axis=0)
-            stds = raw_features.std(axis=0)
-            stds = np.where(stds < 1e-9, 1.0, stds)
-            # Keep zone in 0..1 instead of z-normalized.
-            means[2] = 0.0
-            stds[2] = 5.0
-            scaler = {"mean": means.tolist(), "std": stds.tolist()}
-        else:
-            means = np.asarray(scaler["mean"], dtype=float)
-            stds = np.asarray(scaler["std"], dtype=float)
-            stds = np.where(stds < 1e-9, 1.0, stds)
-
-        observations = (raw_features - means) / stds
-        observations = np.nan_to_num(observations, nan=0.0, posinf=0.0, neginf=0.0)
-
-        return FeatureFrame(
-            timeframe=timeframe,
-            timestamps=list(timestamps),
-            force_pair=values.tolist(),
-            angle_raw=angle_raw.tolist(),
-            speed_raw=speed_raw.tolist(),
-            zone_raw=zone_raw.tolist(),
-            observations=observations,
-            labels=labels,
-            scaler=scaler,
-        )
-
-    @staticmethod
-    def _kalman_filter(values: np.ndarray, q: float, r: float) -> np.ndarray:
-        if len(values) == 0:
-            return values
-        x_est = float(values[0])
-        p_est = 1.0
-        output = np.zeros(len(values), dtype=float)
-        output[0] = x_est
-        for i in range(1, len(values)):
-            x_pred = x_est
-            p_pred = p_est + q
-            k_gain = p_pred / (p_pred + r)
-            x_est = x_pred + k_gain * (float(values[i]) - x_pred)
-            p_est = (1.0 - k_gain) * p_pred
-            output[i] = x_est
-        return output
-
-    @staticmethod
-    def _angle_series(values: np.ndarray) -> np.ndarray:
-        if len(values) < 2:
-            return np.zeros(len(values), dtype=float)
-        diffs = np.gradient(values)
-        local_scale = np.zeros(len(values), dtype=float)
-        for i in range(len(values)):
-            start = max(0, i - 10)
-            window = values[start : i + 1]
-            local_scale[i] = np.std(window) if len(window) > 1 else np.std(values)
-        local_scale = np.where(local_scale < 1e-9, np.std(values) + 1e-6, local_scale)
-        normalized_slope = diffs / local_scale
-        angles = np.degrees(np.arctan(normalized_slope * 10.0))
-        return np.clip(angles, -89.0, 89.0)
-
-    @staticmethod
-    def _speed_series(angle: np.ndarray) -> np.ndarray:
-        if len(angle) < 2:
-            return np.zeros(len(angle), dtype=float)
-        return np.abs(np.gradient(angle))
-
-    @staticmethod
-    def _zone_numeric_series(values: np.ndarray) -> np.ndarray:
-        mean = np.mean(values)
-        std = np.std(values)
-        if std < 1e-9:
-            z = np.zeros(len(values), dtype=float)
-        else:
-            z = (values - mean) / std
-        abs_z = np.abs(z)
-        zone = np.zeros(len(values), dtype=float)
-        zone[(abs_z >= 0.50) & (abs_z < 0.90)] = 1.0   # PRE_EXTREME
-        zone[(abs_z >= 0.90) & (abs_z < 1.20)] = 2.0   # EARLY_EXTREME
-        zone[(abs_z >= 1.20) & (abs_z < 1.60)] = 3.0   # ACCUMULATING
-        zone[(abs_z >= 1.60) & (abs_z < 2.00)] = 4.0   # LEAKING
-        zone[abs_z >= 2.00] = 5.0                      # RUPTURE
-        return zone
-
-    @staticmethod
-    def _heuristic_labels(angle: np.ndarray, speed: np.ndarray, zone: np.ndarray) -> np.ndarray:
-        labels = np.full(len(angle), REGIME_TO_STATE["RANGE"], dtype=int)
-        angle_std = np.zeros(len(angle), dtype=float)
-        for i in range(len(angle)):
-            start = max(0, i - 6)
-            angle_std[i] = np.std(angle[start : i + 1])
-
-        abs_angle = np.abs(angle)
-        zone_norm = zone / 5.0
-
-        compression_mask = (angle_std < 18.0) & (abs_angle < 42.0) & (zone_norm >= 0.45)
-        trend_mask = abs_angle >= 35.0
-
-        labels[compression_mask] = REGIME_TO_STATE["COMPRESSION"]
-        labels[trend_mask] = REGIME_TO_STATE["TENDANCE"]
+        self.covars_: Optional[np.ndarray] = None  # diagonal variances
+        self.feature_mean_: Optional[np.ndarray] = None
+        self.feature_std_: Optional[np.ndarray] = None
+        self.fitted_: bool = False
+
+    def _normalize_fit(self, features: np.ndarray) -> np.ndarray:
+        self.feature_mean_ = np.nanmean(features, axis=0)
+        self.feature_std_ = np.nanstd(features, axis=0)
+        self.feature_std_[self.feature_std_ < 1e-9] = 1.0
+        return (features - self.feature_mean_) / self.feature_std_
+
+    def _normalize_apply(self, features: np.ndarray) -> np.ndarray:
+        if self.feature_mean_ is None or self.feature_std_ is None:
+            return features.astype(float)
+        return (features - self.feature_mean_) / self.feature_std_
+
+    def _initial_labels(self, z: np.ndarray) -> np.ndarray:
+        # Semantic seed using raw normalized features:
+        # angle magnitude + speed -> trend, zone without speed -> compression,
+        # low energy -> range.
+        angle_abs = np.abs(z[:, 0])
+        speed = z[:, 1]
+        zone = z[:, 2]
+        trend_score = angle_abs + 0.65 * speed
+        compression_score = zone - 0.45 * speed - 0.15 * angle_abs
+
+        labels = np.full(z.shape[0], 2, dtype=int)  # RANGE default
+        if z.shape[0] >= self.n_states:
+            trend_cut = np.nanquantile(trend_score, 0.67)
+            comp_cut = np.nanquantile(compression_score, 0.67)
+            labels[trend_score >= trend_cut] = 1
+            labels[(compression_score >= comp_cut) & (labels != 1)] = 0
+
+        # Ensure every state exists.
+        for s in range(self.n_states):
+            if np.sum(labels == s) == 0:
+                labels[s % len(labels)] = s
         return labels
 
+    def _estimate_from_labels(self, z: np.ndarray, labels: np.ndarray) -> None:
+        n, d = z.shape
+        self.startprob_ = np.full(self.n_states, 1e-6, dtype=float)
+        self.startprob_[labels[0]] = 1.0
+        self.startprob_ /= self.startprob_.sum()
+
+        self.transmat_ = np.full((self.n_states, self.n_states), 1e-3, dtype=float)
+        for a, b in zip(labels[:-1], labels[1:]):
+            self.transmat_[a, b] += 1.0
+        self.transmat_ /= self.transmat_.sum(axis=1, keepdims=True)
+
+        self.means_ = np.zeros((self.n_states, d), dtype=float)
+        self.covars_ = np.ones((self.n_states, d), dtype=float)
+        for s in range(self.n_states):
+            pts = z[labels == s]
+            if pts.size == 0:
+                pts = z
+            self.means_[s] = np.nanmean(pts, axis=0)
+            var = np.nanvar(pts, axis=0)
+            self.covars_[s] = np.maximum(var, self.min_covar)
+
+    def _log_gaussian_diag(self, z: np.ndarray) -> np.ndarray:
+        if self.means_ is None or self.covars_ is None:
+            raise RuntimeError("HMM not initialized")
+        z = np.atleast_2d(z).astype(float)
+        n, d = z.shape
+        out = np.zeros((n, self.n_states), dtype=float)
+        const = d * math.log(2.0 * math.pi)
+        for s in range(self.n_states):
+            var = np.maximum(self.covars_[s], self.min_covar)
+            diff = z - self.means_[s]
+            out[:, s] = -0.5 * (const + np.sum(np.log(var)) + np.sum((diff * diff) / var, axis=1))
+        return out
+
     @staticmethod
-    def _ensure_state_diversity(features: np.ndarray, labels: np.ndarray) -> np.ndarray:
-        """Guarantee every state has data on small HTF samples."""
-        y = labels.copy()
-        counts = {state: int(np.sum(y == state)) for state in range(3)}
-        if all(count > 0 for count in counts.values()):
-            return y
+    def _logsumexp(a: np.ndarray, axis: Optional[int] = None) -> np.ndarray:
+        a_max = np.max(a, axis=axis, keepdims=True)
+        safe = np.where(np.isfinite(a_max), a_max, 0.0)
+        res = safe + np.log(np.sum(np.exp(a - safe), axis=axis, keepdims=True))
+        if axis is not None:
+            res = np.squeeze(res, axis=axis)
+        return res
 
-        abs_angle = np.abs(features[:, 0])
-        speed = features[:, 1]
-        zone = features[:, 2]
-        n = len(y)
-        if n < 3:
-            return y
+    def _forward_backward(self, z: np.ndarray) -> Tuple[np.ndarray, np.ndarray, float]:
+        if self.startprob_ is None or self.transmat_ is None:
+            raise RuntimeError("HMM not initialized")
+        log_b = self._log_gaussian_diag(z)
+        log_start = np.log(np.maximum(self.startprob_, 1e-12))
+        log_trans = np.log(np.maximum(self.transmat_, 1e-12))
+        n = z.shape[0]
 
-        # TENDANCE: strongest angular displacement.
-        trend_count = max(1, int(round(n * 0.25)))
-        trend_idx = np.argsort(abs_angle)[-trend_count:]
-        y[trend_idx] = REGIME_TO_STATE["TENDANCE"]
+        alpha = np.zeros((n, self.n_states), dtype=float)
+        alpha[0] = log_start + log_b[0]
+        for t in range(1, n):
+            alpha[t] = log_b[t] + self._logsumexp(alpha[t - 1][:, None] + log_trans, axis=0)
 
-        # COMPRESSION: high zone tension but limited angle/speed.
-        compression_score = (zone / 5.0) - (abs_angle / 100.0) - (speed / (np.std(speed) + 1.0)) * 0.05
-        compression_count = max(1, int(round(n * 0.25)))
-        compression_idx = np.argsort(compression_score)[-compression_count:]
-        y[compression_idx] = REGIME_TO_STATE["COMPRESSION"]
+        beta = np.zeros((n, self.n_states), dtype=float)
+        for t in range(n - 2, -1, -1):
+            beta[t] = self._logsumexp(log_trans + log_b[t + 1][None, :] + beta[t + 1][None, :], axis=1)
 
-        # Remaining defaults to RANGE.
-        for state in range(3):
-            if int(np.sum(y == state)) == 0:
-                candidate = int(np.argsort(abs_angle)[n // 2])
-                y[candidate] = state
-        return y
+        log_likelihood = float(self._logsumexp(alpha[-1], axis=0))
+        gamma_log = alpha + beta - log_likelihood
+        gamma = np.exp(gamma_log)
+        gamma /= np.maximum(gamma.sum(axis=1, keepdims=True), 1e-12)
+        return gamma, alpha, log_likelihood
 
-    @staticmethod
-    def _label_counts(labels: np.ndarray) -> Dict[str, int]:
+    def fit(self, features: Sequence[Sequence[float]]) -> "HMMRegimeGaussian":
+        x = np.asarray(features, dtype=float)
+        x = x[np.all(np.isfinite(x), axis=1)]
+        if x.ndim != 2 or x.shape[0] < 8 or x.shape[1] != 3:
+            raise ValueError("HMM needs at least 8 observations with 3 features")
+
+        z = self._normalize_fit(x)
+        labels = self._initial_labels(z)
+        self._estimate_from_labels(z, labels)
+
+        for _ in range(max(1, int(self.n_iter))):
+            gamma, _alpha, _ll = self._forward_backward(z)
+            weights = np.maximum(gamma.sum(axis=0), 1e-9)
+            self.startprob_ = gamma[0] + 1e-6
+            self.startprob_ /= self.startprob_.sum()
+
+            # Approximate transition update from adjacent smoothed probabilities.
+            xi_sum = np.full((self.n_states, self.n_states), 1e-4, dtype=float)
+            for t in range(z.shape[0] - 1):
+                xi_sum += np.outer(gamma[t], gamma[t + 1])
+            self.transmat_ = xi_sum / np.maximum(xi_sum.sum(axis=1, keepdims=True), 1e-12)
+
+            self.means_ = (gamma.T @ z) / weights[:, None]
+            for s in range(self.n_states):
+                diff = z - self.means_[s]
+                var = (gamma[:, s][:, None] * diff * diff).sum(axis=0) / weights[s]
+                self.covars_[s] = np.maximum(var, self.min_covar)
+
+        self._semantic_reorder()
+        self.fitted_ = True
+        return self
+
+    def _semantic_reorder(self) -> None:
+        if self.means_ is None or self.covars_ is None or self.transmat_ is None or self.startprob_ is None:
+            return
+        m = self.means_
+        trend_scores = np.abs(m[:, 0]) + 0.7 * m[:, 1]
+        compression_scores = m[:, 2] - 0.45 * m[:, 1] - 0.2 * np.abs(m[:, 0])
+        trend_idx = int(np.argmax(trend_scores))
+        remaining = [i for i in range(self.n_states) if i != trend_idx]
+        comp_idx = remaining[int(np.argmax(compression_scores[remaining]))]
+        range_idx = [i for i in range(self.n_states) if i not in {comp_idx, trend_idx}][0]
+        order = [comp_idx, trend_idx, range_idx]
+        self.means_ = self.means_[order]
+        self.covars_ = self.covars_[order]
+        self.startprob_ = self.startprob_[order]
+        self.transmat_ = self.transmat_[np.ix_(order, order)]
+
+    def probability_map(self, features: Sequence[Sequence[float]]) -> Dict[str, float]:
+        if not self.fitted_:
+            raise RuntimeError("Model not fitted")
+        x = np.asarray(features, dtype=float)
+        if x.ndim == 1:
+            x = x.reshape(1, -1)
+        z = self._normalize_apply(x)
+        gamma, _alpha, _ll = self._forward_backward(z)
+        probs = gamma[-1]
+        probs = probs / np.maximum(probs.sum(), 1e-12)
+        return {name: float(probs[i]) for i, name in enumerate(self.state_names)}
+
+    def forward_algorithm(self, obs_seq: Sequence[Sequence[float]]) -> Tuple[int, float, Dict[str, float]]:
+        pmap = self.probability_map(obs_seq)
+        probs = np.asarray([pmap[name] for name in self.state_names], dtype=float)
+        idx = int(np.argmax(probs))
+        return idx, float(probs[idx]), pmap
+
+    def predict(self, features_current: Sequence[Sequence[float]]) -> Dict[str, Any]:
+        idx, confidence, pmap = self.forward_algorithm(features_current)
         return {
-            STATE_TO_REGIME[state]: int(np.sum(labels == state))
-            for state in range(3)
+            "regime": self.state_names[idx],
+            "confidence": float(confidence),
+            "probability_map": pmap,
+            "transition_matrix": self.transition_matrix_list(),
+            "method": METHOD,
+            "version": VERSION,
+            "valid": True,
         }
 
+    def transition_matrix_list(self) -> List[List[float]]:
+        if self.transmat_ is None:
+            return []
+        return [[float(v) for v in row] for row in self.transmat_]
+
+    def save(self, model_path: str) -> None:
+        Path(model_path).parent.mkdir(parents=True, exist_ok=True)
+        with open(model_path, "wb") as f:
+            pickle.dump(self, f)
+
     @staticmethod
-    def _extract_force_pair_from_sequence(force_rolling: Sequence[Any]) -> List[float]:
-        values: List[float] = []
-        for item in force_rolling:
-            if isinstance(item, dict):
-                if "force_pair" in item:
-                    values.append(float(item["force_pair"]))
-                elif "force_gbp" in item and "force_usd" in item:
-                    values.append(float(item["force_gbp"]) - float(item["force_usd"]))
-                elif "gbp" in item and "usd" in item:
-                    values.append(float(item["gbp"]) - float(item["usd"]))
-                elif "value" in item:
-                    values.append(float(item["value"]))
-            else:
-                values.append(float(item))
-        return values
+    def load(model_path: str) -> "HMMRegimeGaussian":
+        with open(model_path, "rb") as f:
+            obj = pickle.load(f)
+        if not isinstance(obj, HMMRegimeGaussian):
+            raise TypeError("Invalid HMMRegimeGaussian model file")
+        return obj
 
 
-def main() -> None:
-    """Small smoke entrypoint. Prefer run_hmm_regime_once.py for CLI usage."""
-    print(json.dumps({"module": "pf_hmm_regime", "model_version": MODEL_VERSION, "method": METHOD}, indent=2))
+def fallback_result(reason: str, meta: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    risks = [reason]
+    if meta:
+        risks.extend(meta.get("technical_risks", []))
+    risks = sorted(set([r for r in risks if r]))
+    return {
+        "timestamp": utc_now_iso(),
+        "regime": "RANGE",
+        "confidence": 1.0,
+        "probability_map": {"COMPRESSION": 0.0, "TENDANCE": 0.0, "RANGE": 1.0},
+        "transition_matrix": [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
+        "method": METHOD,
+        "version": VERSION,
+        "valid": True,
+        "technical_risks": risks,
+        "data_meta": meta or {},
+    }
 
 
-if __name__ == "__main__":
-    main()
+def train_from_db(
+    db_path: str,
+    symbol: str = "GBPUSD",
+    primary_tf: int = 240,
+    fallback_tf: int = 60,
+    lookback: int = 500,
+    min_rows: int = 24,
+) -> Tuple[Optional[HMMRegimeGaussian], Dict[str, Any]]:
+    features, meta = load_hmm_features_from_db(db_path, symbol=symbol, timeframe=primary_tf, lookback=lookback)
+    used_tf = primary_tf
+    if features.shape[0] < min_rows and fallback_tf != primary_tf:
+        features_fb, meta_fb = load_hmm_features_from_db(db_path, symbol=symbol, timeframe=fallback_tf, lookback=lookback)
+        if features_fb.shape[0] > features.shape[0]:
+            features, meta = features_fb, meta_fb
+            used_tf = fallback_tf
+            meta.setdefault("technical_risks", []).append("TF240_INSUFFICIENT_USED_TF60_FALLBACK")
+    meta["used_timeframe"] = used_tf
+    meta["feature_rows"] = int(features.shape[0])
+
+    if features.shape[0] < 8:
+        return None, meta
+
+    model = HMMRegimeGaussian()
+    model.fit(features)
+    return model, meta
+
+
+def predict_from_db(
+    model: HMMRegimeGaussian,
+    db_path: str,
+    symbol: str = "GBPUSD",
+    timeframe: int = 240,
+    fallback_tf: int = 60,
+    lookback: int = 120,
+) -> Dict[str, Any]:
+    features, meta = load_hmm_features_from_db(db_path, symbol=symbol, timeframe=timeframe, lookback=lookback)
+    if features.shape[0] < 8 and fallback_tf != timeframe:
+        fb, meta_fb = load_hmm_features_from_db(db_path, symbol=symbol, timeframe=fallback_tf, lookback=lookback)
+        if fb.shape[0] > features.shape[0]:
+            features, meta = fb, meta_fb
+            meta.setdefault("technical_risks", []).append("PREDICT_USED_FALLBACK_TF")
+    meta["feature_rows"] = int(features.shape[0])
+
+    if features.shape[0] < 3:
+        return fallback_result("INSUFFICIENT_DATA_FOR_PREDICT", meta)
+
+    result = model.predict(features)
+    result["timestamp"] = utc_now_iso()
+    result["data_meta"] = meta
+    if meta.get("technical_risks"):
+        result["technical_risks"] = sorted(set(meta["technical_risks"]))
+    else:
+        result["technical_risks"] = []
+    return result
+
+
+def write_json(path: str, payload: Dict[str, Any]) -> None:
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
