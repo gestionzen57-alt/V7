@@ -1,114 +1,311 @@
-#!/usr/bin/env python3
+"""
+run_powerflow_cycle_once.py
+PowerFlow V7.1 — Multi-symbol capable non-blocking cycle orchestrator.
+
+This replacement keeps GBPUSD backward compatibility while adding:
+  --symbols GBPUSD,EURUSD,USDJPY,XAUUSD
+  --sequential (explicit; current implementation is sequential and safe)
+  --continue-on-fail default non-blocking behavior
+
+It calls existing run_* scripts only if present. Missing optional scripts are
+reported as SKIPPED, not fatal, so the cycle can be introduced progressively.
+"""
+
 from __future__ import annotations
-import argparse, json, os, subprocess, sys, time, uuid
-from datetime import datetime, timezone, timedelta
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+import time
+from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Dict, Iterable, List, Optional, Sequence
 
-TIMEOUT_SECONDS = 30
-NODE_TIMEOUT_SECONDS = 90
-DEFAULT_WINDOW_MINUTES = 180
-OUT = Path("output")
-P = {"report": OUT / "cycle_report.json", "quality": OUT / "data_quality_guard.json",
-     "validator": OUT / "market_open_validator.json", "entropy": OUT / "entropy_engine.json",
-     "session": OUT / "session_overlay.json", "session_input": OUT / "session_overlay_input.json",
-     "node": OUT / "temporal_node_state.json", "energy": OUT / "currency_energy.json",
-     "queue": OUT / "behavioral_alert_queue.json", "cascade": OUT / "cascade_state.json",
-     "dashboard": OUT / "dashboard_data.json"}
+try:
+    from pf_symbol_mapper import DEFAULT_SYMBOL, parse_symbols
+except ImportError:
+    sys.path.append(str(Path(__file__).resolve().parent))
+    from pf_symbol_mapper import DEFAULT_SYMBOL, parse_symbols
 
-def now(): return datetime.now(timezone.utc)
-def iso(): return now().isoformat(timespec="seconds")
-def today(): return now().date().isoformat()
-def log(step, msg): print(f"[{iso()}] [step {step}] {msg}", flush=True)
-def clean_symbol(symbol): return symbol.strip().rstrip(".").upper()
-def compact(text, limit=2000): return " ".join(text.replace("\r", "\n").split())[:limit]
-def timeout_for(script): return NODE_TIMEOUT_SECONDS if script == "run_temporal_node_state_once.py" else TIMEOUT_SECONDS
-def window(minutes):
-    end, start = now(), now() - timedelta(minutes=minutes)
-    return tuple(x.isoformat(timespec="seconds").replace("+00:00", "") for x in (start, end))
-def env_utf8():
-    env = os.environ.copy()
-    env["PYTHONUTF8"] = "1"
-    env["PYTHONIOENCODING"] = "utf-8"
-    return env
-def pack(step, module, status, ms, err=None):
-    return {"step": step, "module": module, "status": status, "duration_ms": ms, "error": err}
 
-def write_session_input():
-    payload = {"alerts": []}
-    if P["queue"].exists():
-        try:
-            raw = json.loads(P["queue"].read_text(encoding="utf-8"))
-            if isinstance(raw, list): payload = {"alerts": raw}
-            elif isinstance(raw, dict) and any(k in raw for k in ("alerts", "items", "queue", "behavioral_alert_queue")): payload = raw
-        except (OSError, json.JSONDecodeError):
-            pass
-    P["session_input"].write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+CORE_DIR = Path(__file__).resolve().parent
+REPO_ROOT = CORE_DIR.parent
+DEFAULT_OUTPUT = "output/cycle_report.json"
 
-def steps():
+
+@dataclass(frozen=True)
+class CycleStep:
+    name: str
+    script: str
+    args: Sequence[str]
+    timeout_seconds: int = 60
+    optional: bool = True
+    accepts_symbol: bool = True
+
+
+def utc_now_iso() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def script_path(script: str) -> Path:
+    p = Path(script)
+    if p.is_absolute():
+        return p
+    candidate_core = CORE_DIR / script
+    if candidate_core.exists():
+        return candidate_core
+    return REPO_ROOT / script
+
+
+def default_steps() -> List[CycleStep]:
+    """V7.1 operational steps, non-destructive and symbol-aware where possible."""
     return [
-        (1, "run_data_quality_guard_once.py", P["quality"], lambda a: ["--db", a.db, "--since", a.since, "--pretty", "--output", str(P["quality"])], (0, 2)),
-        (2, "run_market_open_validator_once.py", P["validator"], lambda a: ["--db", a.db, "--since", a.since, "--recent-minutes", str(a.recent_minutes), "--pretty", "--output", str(P["validator"])], (0, 2)),
-        (3, "run_entropy_engine_once.py", P["entropy"], lambda a: ["--db", a.db, "--symbol", a.symbol, "--pretty", "--output", str(P["entropy"])], (0,)),
-        (4, "run_session_overlay_once.py", P["session"], lambda a: ["--input", str(P["session_input"]), "--pretty", "--output", str(P["session"])], (0,)),
-        (5, "run_temporal_node_state_once.py", P["node"], lambda a: ["--db", a.db, "--symbol", a.symbol, "--pretty", "--out", str(P["node"])], (0,)),
-        (6, "run_currency_energy_probe_once.py", P["energy"], lambda a: ["--db", a.db, "--symbol", a.symbol, "--pretty", "--out", str(P["energy"])], (0,)),
-        (7, "run_confluence_alert.py", P["queue"], lambda a: ["--once"], (0,)),
-        (8, "run_cascade_engine_once.py", P["cascade"], lambda a: ["--output", str(P["cascade"])], (0,)),
-        (9, "run_powerflow_dashboard_refresh_once.py", P["dashboard"], lambda a: ["--db", a.db, "--symbol", a.symbol, "--start", a.start, "--end", a.end, "--temporal", str(P["node"]), "--energy", str(P["energy"]), "--behavioral-queue", str(P["queue"]), "--dashboard-out", str(P["dashboard"]), "--pretty"], (0,)),
+        CycleStep(
+            name="data_quality_guard",
+            script="run_data_quality_guard_once.py",
+            args=["--pretty", "--output", "output/data_quality_guard_{symbol}.json"],
+            timeout_seconds=60,
+            optional=True,
+            accepts_symbol=False,
+        ),
+        CycleStep(
+            name="market_open_validator",
+            script="run_market_open_validator_once.py",
+            args=["--pretty", "--output", "output/market_open_validator_{symbol}.json"],
+            timeout_seconds=60,
+            optional=True,
+            accepts_symbol=False,
+        ),
+        CycleStep(
+            name="regime_engine",
+            script="run_regime_engine_once.py",
+            args=["--pretty", "--output", "output/regime_result_{symbol}.json"],
+            timeout_seconds=60,
+            optional=True,
+            accepts_symbol=True,
+        ),
+        CycleStep(
+            name="temporal_density",
+            script="run_temporal_density_once.py",
+            args=["--tfs", "1,5,15", "--pretty", "--output", "output/temporal_density_{symbol}.json"],
+            timeout_seconds=60,
+            optional=True,
+            accepts_symbol=True,
+        ),
+        CycleStep(
+            name="spearman_gravity",
+            script="run_spearman_gravity_once.py",
+            args=["--tfs", "1,5,15", "--pretty", "--output", "output/spearman_gravity_{symbol}.json"],
+            timeout_seconds=60,
+            optional=True,
+            accepts_symbol=True,
+        ),
+        CycleStep(
+            name="fractal_resonance",
+            script="run_fractal_resonance_once.py",
+            args=["--tfs", "1,5,15,30,60", "--pretty", "--output", "output/fractal_resonance_{symbol}.json"],
+            timeout_seconds=60,
+            optional=True,
+            accepts_symbol=True,
+        ),
+        CycleStep(
+            name="temporal_node_state",
+            script="run_temporal_node_state_once.py",
+            args=["--recent-minutes", "60", "--timeframes", "1,5,15,30,60", "--pretty", "--output", "output/temporal_node_state_{symbol}.json"],
+            timeout_seconds=90,
+            optional=True,
+            accepts_symbol=True,
+        ),
+        CycleStep(
+            name="currency_energy_probe",
+            script="run_currency_energy_probe_once.py",
+            args=["--pretty", "--output", "output/currency_energy_probe_{symbol}.json"],
+            timeout_seconds=60,
+            optional=True,
+            accepts_symbol=True,
+        ),
+        CycleStep(
+            name="confluence_alert",
+            script="run_confluence_alert.py",
+            args=["--once", "--dry-run"],
+            timeout_seconds=90,
+            optional=True,
+            accepts_symbol=True,
+        ),
+        CycleStep(
+            name="cascade_engine",
+            script="run_cascade_engine_once.py",
+            args=["--pretty", "--output", "output/cascade_engine_{symbol}.json"],
+            timeout_seconds=60,
+            optional=True,
+            accepts_symbol=True,
+        ),
+        CycleStep(
+            name="dashboard_refresh",
+            script="run_powerflow_dashboard_refresh_once.py",
+            args=["--pretty"],
+            timeout_seconds=90,
+            optional=True,
+            accepts_symbol=False,
+        ),
     ]
 
-def run_step(spec, args):
-    n, script, out_path, make_args, accepted = spec
-    module, cmd, t0 = Path(script).stem, [sys.executable, script, *make_args(args)], time.perf_counter()
-    timeout = timeout_for(script)
-    if n == 4: write_session_input()
-    if args.dry_run:
-        log(n, "DRY-RUN " + " ".join(cmd)); return pack(n, module, "OK", 0)
-    if not Path(script).is_file():
-        err = f"missing script: {script}"; log(n, f"FAIL {module} (0 ms): {err}"); return pack(n, module, "FAIL", 0, err)
-    log(n, "START " + " ".join(cmd))
+
+def format_args(args: Sequence[str], symbol: str) -> List[str]:
+    return [str(a).format(symbol=symbol) for a in args]
+
+
+def run_step(step: CycleStep, db_path: str, symbol: str, dry_run: bool) -> Dict[str, object]:
+    path = script_path(step.script)
+    started = time.time()
+
+    if not path.exists():
+        return {
+            "step": step.name,
+            "script": str(path),
+            "status": "SKIPPED" if step.optional else "FAIL",
+            "reason": "SCRIPT_NOT_FOUND",
+            "duration_seconds": 0.0,
+        }
+
+    cmd = [sys.executable, str(path), "--db", db_path]
+    if step.accepts_symbol:
+        cmd.extend(["--symbol", symbol])
+    cmd.extend(format_args(step.args, symbol))
+
+    if dry_run:
+        return {
+            "step": step.name,
+            "script": str(path),
+            "status": "DRY_RUN",
+            "cmd": cmd,
+            "duration_seconds": 0.0,
+        }
+
+    env = os.environ.copy()
+    env["PYTHONUTF8"] = "1"
     try:
-        proc = subprocess.run(cmd, timeout=timeout, check=False, text=True, capture_output=True, env=env_utf8())
-        ms = int((time.perf_counter() - t0) * 1000)
-        if proc.returncode == 0:
-            log(n, f"OK {module} ({ms} ms)"); return pack(n, module, "OK", ms)
-        if proc.returncode in accepted and out_path.exists():
-            log(n, f"OK {module} ({ms} ms): accepted returncode={proc.returncode}; output={out_path}")
-            return pack(n, module, "OK", ms)
-        err = compact(proc.stderr or proc.stdout or f"returncode={proc.returncode}")
+        proc = subprocess.run(
+            cmd,
+            cwd=str(CORE_DIR),
+            capture_output=True,
+            text=True,
+            timeout=step.timeout_seconds,
+            env=env,
+        )
+        duration = round(time.time() - started, 3)
+        status = "OK" if proc.returncode == 0 else "FAIL"
+        # Some PowerFlow runners return 2 while still producing JSON. Keep explicit.
+        if proc.returncode == 2 and proc.stdout.strip().startswith("{"):
+            status = "ACCEPTED_RETURNCODE_WITH_OUTPUT"
+        return {
+            "step": step.name,
+            "script": str(path),
+            "status": status,
+            "returncode": proc.returncode,
+            "duration_seconds": duration,
+            "stdout_tail": proc.stdout[-4000:],
+            "stderr_tail": proc.stderr[-4000:],
+            "cmd": cmd,
+        }
     except subprocess.TimeoutExpired as exc:
-        ms, err = int((time.perf_counter() - t0) * 1000), f"timeout after {timeout}s"
-        if exc.stderr or exc.stdout: err += ": " + compact(str(exc.stderr or exc.stdout))
-    except OSError as exc:
-        ms, err = int((time.perf_counter() - t0) * 1000), compact(str(exc))
-    log(n, f"FAIL {module} ({ms} ms): {err}")
-    return pack(n, module, "FAIL", ms, err)
+        return {
+            "step": step.name,
+            "script": str(path),
+            "status": "FAIL",
+            "reason": "TIMEOUT",
+            "timeout_seconds": step.timeout_seconds,
+            "duration_seconds": round(time.time() - started, 3),
+            "stdout_tail": (exc.stdout or "")[-4000:] if isinstance(exc.stdout, str) else "",
+            "stderr_tail": (exc.stderr or "")[-4000:] if isinstance(exc.stderr, str) else "",
+            "cmd": cmd,
+        }
+    except Exception as exc:
+        return {
+            "step": step.name,
+            "script": str(path),
+            "status": "FAIL",
+            "reason": str(exc),
+            "duration_seconds": round(time.time() - started, 3),
+            "cmd": cmd,
+        }
 
-def parse_args():
-    parser = argparse.ArgumentParser(description="Run one full PowerFlow V7.1 cycle.")
-    parser.add_argument("--db", default="powerflow.db")
-    parser.add_argument("--symbol", default="GBPUSD")
-    parser.add_argument("--since", default=today(), help="YYYY-MM-DD for quality validators")
-    parser.add_argument("--recent-minutes", type=int, default=180)
-    parser.add_argument("--window-minutes", type=int, default=DEFAULT_WINDOW_MINUTES)
-    parser.add_argument("--dry-run", action="store_true")
+
+def run_single_cycle(db_path: str, symbol: str, dry_run: bool) -> Dict[str, object]:
+    started = time.time()
+    steps = default_steps()
+    step_results = [run_step(step, db_path, symbol, dry_run) for step in steps]
+    statuses = [str(r.get("status")) for r in step_results]
+    fail_count = sum(1 for s in statuses if s == "FAIL")
+    ok_like = {"OK", "SKIPPED", "DRY_RUN", "ACCEPTED_RETURNCODE_WITH_OUTPUT"}
+    status = "OK" if all(s in ok_like for s in statuses) else "PARTIAL"
+    if fail_count == len(statuses):
+        status = "FAIL"
+    return {
+        "timestamp": utc_now_iso(),
+        "symbol": symbol,
+        "status": status,
+        "duration_seconds": round(time.time() - started, 3),
+        "steps": step_results,
+    }
+
+
+def run_cycle_multi_symbol(db_path: str, symbols: Sequence[str], dry_run: bool) -> Dict[str, object]:
+    started = time.time()
+    results: Dict[str, object] = {}
+    for symbol in symbols:
+        try:
+            results[symbol] = run_single_cycle(db_path, symbol, dry_run)
+        except Exception as exc:
+            results[symbol] = {
+                "timestamp": utc_now_iso(),
+                "symbol": symbol,
+                "status": "FAIL",
+                "error": str(exc),
+            }
+
+    statuses = [str(v.get("status")) for v in results.values() if isinstance(v, dict)]
+    overall = "OK" if statuses and all(s == "OK" for s in statuses) else "PARTIAL"
+    if statuses and all(s == "FAIL" for s in statuses):
+        overall = "FAIL"
+    return {
+        "timestamp": utc_now_iso(),
+        "db_path": db_path,
+        "symbols": list(symbols),
+        "overall_status": overall,
+        "duration_seconds": round(time.time() - started, 3),
+        "symbol_results": results,
+        "method": "powerflow_cycle_multi_symbol_non_blocking",
+    }
+
+
+def write_report(path: str, payload: Dict[str, object]) -> None:
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="PowerFlow cycle orchestrator with multi-symbol support")
+    parser.add_argument("--db", default="Core/powerflow.db", help="Path to powerflow.db")
+    parser.add_argument("--symbol", default=DEFAULT_SYMBOL, help="Backward-compatible single symbol")
+    parser.add_argument("--symbols", default=None, help="Comma-separated symbols; overrides --symbol")
+    parser.add_argument("--sequential", action="store_true", help="Explicit sequential mode; default safe mode")
+    parser.add_argument("--dry-run", action="store_true", help="Show commands without executing")
+    parser.add_argument("--pretty", action="store_true")
+    parser.add_argument("--output", default=DEFAULT_OUTPUT)
     args = parser.parse_args()
-    args.symbol = clean_symbol(args.symbol)
-    args.start, args.end = window(args.window_minutes)
-    return args
 
-def main():
-    args = parse_args()
-    OUT.mkdir(parents=True, exist_ok=True)
-    started, cycle_id, t0 = iso(), str(uuid.uuid4()), time.perf_counter()
-    log("cycle", f"START cycle_id={cycle_id} db={args.db} symbol={args.symbol} since={args.since} dry_run={args.dry_run}")
-    results = [run_step(spec, args) for spec in steps()]
-    ok = sum(1 for item in results if item["status"] == "OK")
-    status = "COMPLETE" if ok == len(results) else ("FAILED" if ok == 0 else "PARTIAL")
-    report = {"cycle_id": cycle_id, "started_at_utc": started, "total_duration_ms": int((time.perf_counter() - t0) * 1000), "steps": results, "cycle_status": status}
-    P["report"].write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    log("cycle", f"END status={status} duration_ms={report['total_duration_ms']} report={P['report']}")
-    return 0
+    raw_symbols = args.symbols if args.symbols else args.symbol
+    symbols = parse_symbols(raw_symbols, default=DEFAULT_SYMBOL)
+    payload = run_cycle_multi_symbol(args.db, symbols, args.dry_run)
+    write_report(args.output, payload)
+    print(json.dumps(payload, indent=2 if args.pretty else None, ensure_ascii=False))
+    return 0 if payload.get("overall_status") in {"OK", "PARTIAL"} else 1
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
