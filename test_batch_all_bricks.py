@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 r"""
-PowerFlow V7.2 — Batch test robuste toutes briques V2
+PowerFlow V7.2 — Batch test robuste toutes briques V4
 
 Objectif:
 - Exécuter les runners PowerFlow sans modifier le Core.
@@ -26,7 +26,8 @@ import os
 import subprocess
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+import sqlite3
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
@@ -226,11 +227,50 @@ class BrickTester:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.results: List[Dict[str, Any]] = []
 
+        self.latest_db_timestamp = self._latest_db_timestamp()
+        self.window_start, self.window_end, self.since_date = self._derive_time_window()
+
+    def _latest_db_timestamp(self) -> Optional[datetime]:
+        db_file = self.root / self.db_root
+        if not db_file.exists():
+            return None
+        try:
+            conn = sqlite3.connect(f"file:{db_file}?mode=ro", uri=True)
+            try:
+                row = conn.execute("SELECT MAX(timestamp) FROM force_snapshots").fetchone()
+            finally:
+                conn.close()
+            if not row or not row[0]:
+                return None
+            raw = str(row[0]).replace("Z", "+00:00")
+            try:
+                dt = datetime.fromisoformat(raw)
+            except ValueError:
+                # Common fallback when timestamp has no timezone.
+                dt = datetime.fromisoformat(raw.split("+")[0])
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt.astimezone(timezone.utc)
+        except Exception:
+            return None
+
+    def _derive_time_window(self) -> Tuple[str, str, str]:
+        latest = self.latest_db_timestamp or datetime.now(timezone.utc)
+        start = latest - timedelta(hours=3)
+        # Keep ISO format acceptable for most argparse/date parsers.
+        start_s = start.replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        end_s = latest.replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        since_s = latest.date().isoformat()
+        return start_s, end_s, since_s
+
     def specs(self) -> List[BrickSpec]:
         db_r = self.db_root
         db_c = self.db_core
         symbol = self.symbol
         tfs = self.tfs
+        start = self.window_start
+        end = self.window_end
+        since = self.since_date
         hmm_root = str(Path("output") / "hmm.pkl")
         hmm_core = str(Path("..") / "output" / "hmm.pkl")
 
@@ -262,8 +302,8 @@ class BrickTester:
             BrickSpec(
                 "B3 Kinematics",
                 "run_force_kinematics_once.py",
-                (("--db", db_r, "--symbol", symbol, "--pretty"), ("--db", db_r, "--pretty"), ("--pretty",), tuple()),
-                (("--db", db_c, "--symbol", symbol, "--pretty"), ("--db", db_c, "--pretty"), ("--pretty",), tuple()),
+                (("--db", db_r, "--symbol", symbol, "--start", start, "--end", end, "--json"), ("--db", db_r, "--start", start, "--end", end, "--json")),
+                (("--db", db_c, "--symbol", symbol, "--start", start, "--end", end, "--json"), ("--db", db_c, "--start", start, "--end", end, "--json")),
                 "B3",
                 "",
             ),
@@ -342,8 +382,8 @@ class BrickTester:
             BrickSpec(
                 "Guard Data Quality",
                 "run_data_quality_guard_once.py",
-                (("--db", db_r, "--pretty"), ("--pretty",), tuple()),
-                (("--db", db_c, "--pretty"), ("--pretty",), tuple()),
+                (("--db", db_r, "--since", since, "--pretty"), ("--db", db_r, "--since", since), ("--since", since, "--pretty")),
+                (("--db", db_c, "--since", since, "--pretty"), ("--db", db_c, "--since", since), ("--since", since, "--pretty")),
                 "GUARD",
                 "",
             ),
@@ -366,8 +406,8 @@ class BrickTester:
             BrickSpec(
                 "Guard Session Overlay",
                 "run_session_overlay_once.py",
-                (("--db", db_r, "--pretty"), ("--pretty",), tuple()),
-                (("--db", db_c, "--pretty"), ("--pretty",), tuple()),
+                (("--pretty",), ("--compact",), tuple()),
+                (("--pretty",), ("--compact",), tuple()),
                 "GUARD",
                 "",
             ),
@@ -399,7 +439,7 @@ class BrickTester:
 
     def run_all(self) -> Dict[str, Any]:
         print("=" * 88)
-        print("PowerFlow V7.2 — Batch Test robuste toutes briques V2")
+        print("PowerFlow V7.2 — Batch Test robuste toutes briques V4")
         print(f"Repo      : {self.root}")
         print(f"DB root   : {self.db_root}")
         print(f"DB core   : {self.db_core}")
@@ -471,12 +511,18 @@ class BrickTester:
 
     def execute(self, spec: BrickSpec, cmd: Sequence[str], cwd: Path, args: Sequence[str], mode: str) -> Dict[str, Any]:
         try:
+            env = os.environ.copy()
+            env.setdefault("PYTHONUTF8", "1")
+            env.setdefault("PYTHONIOENCODING", "utf-8")
             proc = subprocess.run(
                 list(cmd),
                 cwd=str(cwd),
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 timeout=self.timeout,
+                env=env,
             )
         except subprocess.TimeoutExpired:
             return {
@@ -507,8 +553,9 @@ class BrickTester:
                 "timestamp": now_iso(),
             }
 
-        data = extract_first_json(proc.stdout)
+        stdout = proc.stdout or ""
         stderr = proc.stderr or ""
+        data = extract_first_json(stdout)
 
         if proc.returncode == 0 and data is not None:
             risks = collect_risks(data)
@@ -544,7 +591,7 @@ class BrickTester:
                 "args_used": list(args),
                 "returncode": proc.returncode,
                 "error": "Returncode 0 but no JSON parsed",
-                "raw_output": proc.stdout[:1600],
+                "raw_output": stdout[:1600],
                 "stderr": stderr[:1600],
                 "technical_risks": ["JSON_NOT_PARSED"],
                 "timestamp": now_iso(),
@@ -560,8 +607,8 @@ class BrickTester:
             "cwd_mode": mode,
             "args_used": list(args),
             "returncode": proc.returncode,
-            "error": (stderr or proc.stdout or "Runner failed")[:1600],
-            "raw_output": proc.stdout[:1600],
+            "error": (stderr or stdout or "Runner failed")[:1600],
+            "raw_output": stdout[:1600],
             "stderr": stderr[:1600],
             "technical_risks": ["RUNNER_RETURNED_NON_ZERO"],
             "timestamp": now_iso(),
@@ -810,7 +857,7 @@ p {{ margin:6px 0; color:#cfcfcf; }}
 
 
 def parse_args(argv: Sequence[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="PowerFlow V7.2 robust batch tester V2")
+    parser = argparse.ArgumentParser(description="PowerFlow V7.2 robust batch tester V4")
     parser.add_argument("--db", default=r"Core\powerflow.db")
     parser.add_argument("--symbol", default="GBPUSD")
     parser.add_argument("--tfs", default="1,5,15,30,60")
