@@ -1,0 +1,31 @@
+# CHECKPOINT POWERFLOW V7.1
+**Date :** 2026-05-09  
+**Statut :** MOTEUR BLINDÉ — EN ATTENTE D'OUVERTURE MARCHÉ  
+**Version :** V7.1 (Sprint "Validation & Traçabilité" terminé)  
+**Git Commit :** `cfbcafa` (Workspace nettoyé et synchronisé)  
+
+---
+
+## ÉTAT DU SYSTÈME (V7.1)
+Le noyau dur de PowerFlow a été consolidé. Le système ne se contente plus de calculer, il audite sa propre perception, qualifie son contexte temporel, et permet un replay narratif exact.
+
+### Briques Validées et Intégrées (`Core/`)
+- **[PHASE 1] Qualité & Infra** : `pf_data_quality_guard.py` + `pf_market_open_validator.py`
+- **[PHASE 2] Contexte & Saturation** : `pf_session_overlay.py` + `pf_alert_entropy.py`
+- **[PHASE 3] Mémoire & Narration** : `pf_replay_engine.py` + `pf_film_engine.py`
+
+### Documentation Active (`00_CURRENT/`)
+- Le dossier `00_CURRENT` a été expurgé des anciens fichiers V3/V6.
+- Il contient désormais les 9 piliers purs de la V7.1.
+- `LEXIQUE_GRAMMAIRE_V7.1.md` intègre l'ensemble du vocabulaire infra, session, entropie et film.
+- `CLAUDE.md` V7.1 est la source de vérité absolue à jour.
+
+## PROCHAINES ACTIONS (NEXT_ACTION)
+**Dimanche 11 Mai / Lundi 12 Mai (Asian Open)**
+1. **Lancement de la capture** (Bridge MT4).
+2. **Validation Data Quality** : Vérifier que la DB se remplit sans gaps M1 majeurs.
+3. **Validation Market Open** : Vérifier que `dominant_period` (B4) et `rho` (B5) fluctuent en conditions réelles.
+4. **Activation du Cockpit** pour observation live.
+
+---
+*La machine perçoit, s'audite et raconte. Le trader filtre et décide.*

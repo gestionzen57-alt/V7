@@ -49,3 +49,14 @@ venv/
 .env
 
 Archive/
+
+# PowerFlow runtime outputs
+output/
+Core/output/
+Core/reports/
+Core/0.85
+*.pkl
+__pycache__/
+*.pyc
+.venv/
+venv/
