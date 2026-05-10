@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PowerFlow V7.2 — Dashboard Live Perception</title>
+<style>
+:root{
+  --bg:#0a0a0a;
+  --panel:#111;
+  --panel2:#151515;
+  --border:#242424;
+  --green:#00ff66;
+  --green2:#00ff00;
+  --yellow:#ffe600;
+  --orange:#ff9900;
+  --red:#ff3333;
+  --blue:#55aaff;
+  --gray:#999;
+  --text:#e6e6e6;
+  --muted:#b8b8b8;
+  --dim:#666;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:"Courier New",Courier,monospace;font-size:13px;line-height:1.45}
+body{min-height:100vh}
+header{
+  position:sticky;top:0;z-index:50;
+  background:linear-gradient(180deg,#090909 0%,#090909ee 80%,#09090900 100%);
+  border-bottom:1px solid var(--border);
+  padding:12px 16px 14px;
+}
+h1{margin:0;color:#fff;font-size:18px;letter-spacing:.5px}
+.subhead{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:6px;color:var(--muted)}
+.status-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:999px;padding:3px 8px;background:#0f0f0f}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--gray);display:inline-block}
+.dot.ok{background:var(--green)} .dot.warn{background:var(--yellow)} .dot.fail{background:var(--red)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button,input[type=file]::file-selector-button{
+  background:#121212;color:var(--green);border:1px solid #2a2a2a;border-radius:6px;padding:6px 9px;
+  font-family:inherit;cursor:pointer
+}
+button:hover,input[type=file]::file-selector-button:hover{border-color:var(--green2)}
+.file-input{color:var(--muted);max-width:100%}
+main{padding:14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.column{display:flex;flex-direction:column;gap:14px;min-width:0}
+section.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-left:4px solid var(--green2);
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(0,0,0,.25);
+}
+section.card.warn{border-left-color:var(--yellow)}
+section.card.fail{border-left-color:var(--red)}
+section.card.silent{border-left-color:var(--dim)}
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 12px;background:#0e0e0e;border-bottom:1px solid var(--border)
+}
+.section-head h2{font-size:15px;margin:0;color:#fff}
+.source-tag{font-size:11px;color:var(--muted);white-space:nowrap}
+.section-body{padding:12px}
+.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.metric{background:var(--panel2);border:1px solid #222;border-radius:8px;padding:8px;min-height:58px}
+.metric.wide{grid-column:1/-1}
+.label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.value{font-size:17px;color:var(--green);font-weight:bold;margin-top:3px;word-break:break-word}
+.value.yellow{color:var(--yellow)} .value.red{color:var(--red)} .value.blue{color:var(--blue)} .value.gray{color:var(--gray)}
+.detail{color:#cfcfcf;font-size:12px;margin-top:4px;white-space:pre-wrap;word-break:break-word}
+.kv{display:grid;grid-template-columns:minmax(110px,42%) 1fr;gap:3px 8px;margin:6px 0}
+.kv span:nth-child(odd){color:var(--muted)}
+.kv span:nth-child(even){color:var(--text);overflow-wrap:anywhere}
+.bar{height:8px;border-radius:999px;background:#252525;overflow:hidden;margin-top:6px;border:1px solid #333}
+.bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--yellow));width:0%}
+.table{width:100%;border-collapse:collapse;margin-top:6px;font-size:12px}
+.table th,.table td{border-bottom:1px solid #222;padding:5px;text-align:left;vertical-align:top}
+.table th{color:var(--muted);font-weight:normal}
+.badge{display:inline-block;border:1px solid #333;border-radius:999px;padding:2px 7px;color:var(--muted);background:#0d0d0d;margin:2px 4px 2px 0}
+.badge.ok{color:#000;background:var(--green);border-color:var(--green)}
+.badge.warn{color:#000;background:var(--yellow);border-color:var(--yellow)}
+.badge.fail{color:#fff;background:var(--red);border-color:var(--red)}
+.badge.blue{color:#000;background:var(--blue);border-color:var(--blue)}
+pre.raw{max-height:220px;overflow:auto;background:#080808;border:1px solid #222;border-radius:8px;padding:8px;color:#cfcfcf;font-size:11px}
+footer{padding:0 14px 18px}
+.footer-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px;border-left:4px solid var(--blue)}
+.small{font-size:11px;color:var(--muted)}
+.hidden{display:none!important}
+@media (max-width:1200px){main{grid-template-columns:repeat(2,minmax(0,1fr))}.column:last-child{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){main{grid-template-columns:1fr}.column:last-child{display:flex}.metric-grid{grid-template-columns:1fr}.kv{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>PowerFlow V7.2 — Dashboard Live Perception</h1>
+  <div class="subhead">
+    <span class="status-pill"><i id="globalDot" class="dot warn"></i><span id="globalStatus">INITIALIZING</span></span>
+    <span>UTC: <strong id="utcNow">—</strong></span>
+    <span>Refresh: <strong>30s</strong></span>
+    <span>Mode: <strong>perception brute / no filtering</strong></span>
+    <span>Doctrine: <strong>la machine rapporte, le trader décide</strong></span>
+  </div>
+  <div class="toolbar">
+    <button id="refreshNow">Refresh maintenant</button>
+    <button id="toggleRaw">Afficher/masquer JSON raw</button>
+    <input class="file-input" id="manualFiles" type="file" multiple accept=".json,.csv,.md">
+  </div>
+</header>
+
+<main>
+  <div class="column">
+    <section class="card" id="sec-regime" data-brick="B1,B1+">
+      <div class="section-head"><h2>1 — Régime HTF — Consensus B1/B1+</h2><span class="source-tag">regime + hmm</span></div>
+      <div class="section-body" id="regimeBody"></div>
+    </section>
+
+    <section class="card" id="sec-kinematics" data-brick="B3,P1">
+      <div class="section-head"><h2>2 — Cinématique & Force — B3 + P1</h2><span class="source-tag">angle / speed / energy</span></div>
+      <div class="section-body" id="kinematicsBody"></div>
+    </section>
+
+    <section class="card" id="sec-alertobs" data-brick="AlertObservability">
+      <div class="section-head"><h2>Alert Observability — Champ d’alertes</h2><span class="source-tag">alert_metrics.json</span></div>
+      <div class="section-body" id="alertObsBody"></div>
+    </section>
+  </div>
+
+  <div class="column">
+    <section class="card" id="sec-density" data-brick="B4,B4+">
+      <div class="section-head"><h2>3 — Densité Temporelle Dual — B4/B4+</h2><span class="source-tag">autocorr + wavelet</span></div>
+      <div class="section-body" id="densityBody"></div>
+    </section>
+
+    <section class="card" id="sec-gravity" data-brick="B5,B6">
+      <div class="section-head"><h2>4 — Gravité Relationnelle + Mémoire — B5/B6</h2><span class="source-tag">spearman + memory</span></div>
+      <div class="section-body" id="gravityBody"></div>
+    </section>
+
+    <section class="card" id="sec-batch" data-brick="BatchTest">
+      <div class="section-head"><h2>Batch Test V7.2 — Santé système</h2><span class="source-tag">BRICKS_SUMMARY.csv</span></div>
+      <div class="section-body" id="batchBody"></div>
+    </section>
+  </div>
+
+  <div class="column">
+    <section class="card" id="sec-fractal" data-brick="B7,B7+">
+      <div class="section-head"><h2>5 — Synchronisation Fractale — B7/B7+</h2><span class="source-tag">resonance + volatility texture</span></div>
+      <div class="section-body" id="fractalBody"></div>
+    </section>
+
+    <section class="card" id="sec-cascade" data-brick="B2,Orchestrator">
+      <div class="section-head"><h2>6 — Cascade & Orchestration</h2><span class="source-tag">cycle + cascade</span></div>
+      <div class="section-body" id="cascadeBody"></div>
+    </section>
+
+    <section class="card" id="sec-temporal" data-brick="Guards,Session">
+      <div class="section-head"><h2>7 — Temporel & Contexte Session</h2><span class="source-tag">freshness / session / guards</span></div>
+      <div class="section-body" id="temporalBody"></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-card">
+    <strong>Sources attendues</strong>
+    <div class="small">
+      Le dashboard tente de lire les fichiers dans <code>output/</code> et <code>Core/output/</code>.
+      Si le navigateur bloque <code>file://fetch</code>, lance depuis la racine :
+      <code>python -m http.server 8000</code>, puis ouvre <code>http://localhost:8000/dashboard_live_v7.2.html</code>.
+      Tu peux aussi charger manuellement des JSON/CSV via le bouton fichier.
+    </div>
+    <div id="rawPanel" class="hidden"><pre class="raw" id="rawDump"></pre></div>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+const POLL_MS = 30000;
+const SOURCES = {
+  legacyRegime: ["output/regime_result.json","output/regime_engine_result.json","Core/output/regime_result.json"],
+  hmm: ["output/hmm_regime_result.json","Core/output/hmm_regime_result.json"],
+  cascade: ["output/cascade_result.json","output/cascade_engine_result.json","Core/output/cascade_result.json"],
+  kinematics: ["output/force_kinematics.json","output/kinematics_result.json","Core/output/force_kinematics.json"],
+  temporalDensity: ["output/temporal_density.json","Core/output/temporal_density.json"],
+  wavelet: ["output/wavelet_density.json","Core/output/wavelet_density.json"],
+  spearman: ["output/spearman_gravity.json","output/spearman_gravity_result.json","Core/output/spearman_gravity.json"],
+  memory: ["output/memory_query_results.json","Core/output/memory_query_results.json"],
+  fractal: ["output/fractal_resonance.json","Core/output/fractal_resonance.json"],
+  volatility: ["output/volatility_texture.json","Core/output/volatility_texture.json"],
+  cycle: ["output/cycle_report.json","Core/output/cycle_report.json"],
+  entropy: ["output/alert_entropy.json","output/entropy_result.json","Core/output/alert_entropy.json"],
+  session: ["output/session_context.json","output/session_overlay.json","Core/output/session_context.json"],
+  dataQuality: ["output/data_quality_report.json","Core/output/data_quality_report.json"],
+  marketOpen: ["output/market_open_validation.json","Core/output/market_open_validation.json"],
+  alertMetrics: ["output/alert_metrics.json","Core/output/alert_metrics.json"],
+  batchCsv: ["output/BRICKS_SUMMARY.csv","Core/output/BRICKS_SUMMARY.csv"]
+};
+
+const state = {
+  data: {},
+  sourceMeta: {},
+  manual: {},
+  lastPoll: null,
+  rawVisible: false
+};
+
+function utcNow(){ return new Date().toISOString().replace("T"," ").slice(0,19) + " UTC"; }
+function byId(id){ return document.getElementById(id); }
+function esc(v){ return String(v ?? "—").replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[s])); }
+function num(v, d=4){ const n = Number(v); return Number.isFinite(n) ? n.toFixed(d) : "—"; }
+function pct(v){ const n = Number(v); if(!Number.isFinite(n)) return "—"; return (n*100).toFixed(1)+"%"; }
+function classifyStatus(text){
+  const t = String(text ?? "").toUpperCase();
+  if(["FAIL","ERROR","STALE","DEAD"].some(x=>t.includes(x))) return "fail";
+  if(["PARTIAL","WARN","WAIT","SILENT","UNKNOWN","INSUFFICIENT"].some(x=>t.includes(x))) return "warn";
+  return "ok";
+}
+function valueClass(text){
+  const c = classifyStatus(text);
+  return c === "fail" ? "red" : c === "warn" ? "yellow" : "";
+}
+function setSectionClass(id, statusText){
+  const el = byId(id);
+  if(!el) return;
+  el.classList.remove("warn","fail","silent");
+  const c = classifyStatus(statusText);
+  if(c==="fail") el.classList.add("fail");
+  if(c==="warn") el.classList.add("warn");
+}
+function get(obj, path, fallback=null){
+  let cur = obj;
+  for(const p of path){
+    if(cur == null || typeof cur !== "object" || !(p in cur)) return fallback;
+    cur = cur[p];
+  }
+  return cur;
+}
+function findDeep(obj, keys){
+  if(obj == null) return null;
+  if(Array.isArray(obj)){
+    for(const x of obj){ const r = findDeep(x, keys); if(r !== null) return r; }
+    return null;
+  }
+  if(typeof obj === "object"){
+    for(const k of keys){ if(k in obj) return obj[k]; }
+    for(const v of Object.values(obj)){ const r = findDeep(v, keys); if(r !== null) return r; }
+  }
+  return null;
+}
+function metric(label, value, detail="", opts={}){
+  const cls = opts.cls || valueClass(value);
+  const wide = opts.wide ? " wide" : "";
+  const source = opts.source ? ` data-source="${esc(opts.source)}"` : "";
+  const brick = opts.brick ? ` data-brick="${esc(opts.brick)}"` : "";
+  return `<div class="metric${wide}"${source}${brick}>
+    <div class="label">${esc(label)}</div>
+    <div class="value ${cls}">${esc(value)}</div>
+    ${detail ? `<div class="detail">${esc(detail)}</div>` : ""}
+  </div>`;
+}
+function bar(label, value){
+  const n = Math.max(0, Math.min(1, Number(value)||0));
+  return `<div class="label">${esc(label)} — ${pct(n)}</div><div class="bar"><i style="width:${n*100}%"></i></div>`;
+}
+function kv(obj){
+  return `<div class="kv">${Object.entries(obj).map(([k,v])=>`<span>${esc(k)}</span><span>${esc(v)}</span>`).join("")}</div>`;
+}
+function badges(obj, cls=""){
+  if(!obj || typeof obj !== "object" || !Object.keys(obj).length) return `<span class="badge">empty</span>`;
+  return Object.entries(obj).map(([k,v])=>`<span class="badge ${cls}">${esc(k)}: ${esc(v)}</span>`).join("");
+}
+async function fetchText(path){
+  const res = await fetch(path + "?t=" + Date.now(), {cache:"no-store"});
+  if(!res.ok) throw new Error(res.status + " " + res.statusText);
+  return await res.text();
+}
+async function fetchJsonCandidates(key, paths){
+  if(state.manual[key]) return {data: state.manual[key], source:"manual"};
+  for(const p of paths){
+    try{
+      const txt = await fetchText(p);
+      const data = JSON.parse(txt);
+      return {data, source:p};
+    }catch(e){}
+  }
+  return {data:null, source:null};
+}
+async function fetchCsvCandidates(key, paths){
+  if(state.manual[key]) return {data: state.manual[key], source:"manual"};
+  for(const p of paths){
+    try{
+      const txt = await fetchText(p);
+      return {data: txt, source:p};
+    }catch(e){}
+  }
+  return {data:null, source:null};
+}
+async function loadAll(){
+  for(const [key, paths] of Object.entries(SOURCES)){
+    const result = key === "batchCsv" ? await fetchCsvCandidates(key, paths) : await fetchJsonCandidates(key, paths);
+    state.data[key] = result.data;
+    state.sourceMeta[key] = result.source;
+  }
+  state.lastPoll = new Date();
+  renderAll();
+}
+function sourceLine(key){
+  const s = state.sourceMeta[key];
+  return s ? `source: ${s}` : "source: WAITING FOR DATA";
+}
+function freshness(data){
+  const ts = findDeep(data, ["timestamp","generated_at","generatedAt","updated_at","last_update","time"]);
+  if(!ts) return "timestamp absent";
+  const dt = new Date(ts);
+  if(Number.isNaN(dt.getTime())) return String(ts);
+  const lag = Math.round((Date.now() - dt.getTime())/1000);
+  const mins = Math.round(lag/60);
+  return `${dt.toISOString().replace("T"," ").slice(0,19)} UTC | lag ${mins} min`;
+}
+function renderRegime(){
+  const legacy = state.data.legacyRegime;
+  const hmm = state.data.hmm;
+  const legacyReg = findDeep(legacy, ["regime","state"]) || "WAITING";
+  const hmmReg = findDeep(hmm, ["regime","state"]) || "WAITING";
+  const hmmConf = findDeep(hmm, ["confidence"]);
+  const legacyConf = findDeep(legacy, ["confidence"]);
+  const prob = get(hmm, ["probability_map"], null);
+  const consensus = legacyReg !== "WAITING" && hmmReg !== "WAITING" ? (legacyReg === hmmReg ? "ALIGNED" : "DIVERGENCE") : "PARTIAL";
+  setSectionClass("sec-regime", consensus);
+  byId("regimeBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("Legacy Régime", legacyReg, `${sourceLine("legacyRegime")} | ${freshness(legacy)}`, {brick:"B1"})}
+      ${metric("HMM Régime", hmmReg, `confidence=${num(hmmConf,4)} | ${sourceLine("hmm")} | ${freshness(hmm)}`, {brick:"B1+"})}
+      ${metric("Consensus", consensus, `Legacy conf=${num(legacyConf,3)} | HMM conf=${num(hmmConf,3)}`, {wide:true, brick:"B1/B1+"})}
+      <div class="metric wide"><div class="label">HMM Probability Map</div><div class="detail">${badges(prob)}</div></div>
+      <div class="metric wide"><div class="label">Transition Matrix / Details</div><pre class="raw">${esc(JSON.stringify(get(hmm,["transition_matrix"],get(hmm,["data","transition_matrix"],"WAITING")), null, 2))}</pre></div>
+    </div>`;
+}
+function renderKinematics(){
+  const kin = state.data.kinematics;
+  const p1 = state.data.volatility || state.data.kinematics;
+  const angle = findDeep(kin, ["angle_kalman","angle","kalman_angle"]);
+  const speed = findDeep(kin, ["speed_magnitude","speed","velocity"]);
+  const noise = findDeep(kin, ["noise_ratio","noise"]);
+  const energy = state.data.volatility;
+  const confidence = findDeep(energy, ["confidence"]);
+  const texture = findDeep(energy, ["texture_state","volatility_texture","state","session"]);
+  setSectionClass("sec-kinematics", kin ? "OK" : "WAITING");
+  byId("kinematicsBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("Angle Kalman", angle ?? "WAITING", "pénétration directionnelle", {brick:"B3"})}
+      ${metric("Speed / Magnitude", speed ?? "WAITING", "cinématique brute", {brick:"B3"})}
+      <div class="metric">${bar("Noise ratio", noise)}</div>
+      ${metric("Volatility / Energy texture", texture ?? "WAITING", `confidence=${num(confidence,3)} | ${sourceLine("volatility")}`, {brick:"P1/B7+"})}
+      ${metric("Freshness", freshness(kin), sourceLine("kinematics"), {wide:true})}
+    </div>`;
+}
+function renderDensity(){
+  const legacy = state.data.temporalDensity;
+  const wave = state.data.wavelet;
+  const legacyState = findDeep(legacy, ["cycle_state","state"]) || "WAITING";
+  const waveState = findDeep(wave, ["cycle_state"]) || "WAITING";
+  const legacyRatio = findDeep(legacy, ["compression_ratio"]);
+  const waveRatio = findDeep(wave, ["compression_ratio"]);
+  const domScale = findDeep(wave, ["dominant_scale","dominant_period_bars_wavelet"]);
+  const consensus = legacyState !== "WAITING" && waveState !== "WAITING" ? (String(legacyState).includes(String(waveState).replace("CYCLE_","")) ? "ALIGNED/PARTIAL" : "COMPARE") : "PARTIAL";
+  setSectionClass("sec-density", waveState);
+  byId("densityBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("B4 Legacy Cycle", legacyState, `compression=${num(legacyRatio,4)} | ${sourceLine("temporalDensity")}`, {brick:"B4"})}
+      ${metric("B4+ Wavelet Cycle", waveState, `compression=${num(waveRatio,4)} | dominant=${domScale ?? "—"} | ${sourceLine("wavelet")}`, {brick:"B4+"})}
+      <div class="metric">${bar("Wavelet compression", waveRatio)}</div>
+      <div class="metric">${bar("Legacy compression", legacyRatio)}</div>
+      ${metric("B4 / B4+ consensus", consensus, `legacy=${legacyState} | wavelet=${waveState}`, {wide:true})}
+      <div class="metric wide"><div class="label">Wavelet power spectrum</div><div class="detail">${badges(get(wave,["power_spectrum"],get(wave,["wavelet_details","power_by_scale"],{})))}</div></div>
+    </div>`;
+}
+function renderGravity(){
+  const sp = state.data.spearman;
+  const mem = state.data.memory;
+  const memoryRes = Array.isArray(get(mem,["results"],null)) ? mem.results[0] : mem;
+  const occurrences = findDeep(memoryRes, ["occurrences","sample_size"]);
+  const patternHash = findDeep(memoryRes, ["pattern_hash"]);
+  const outcomeDist = findDeep(memoryRes, ["outcome_distribution"]);
+  const median = findDeep(memoryRes, ["median_bars_to_move"]);
+  setSectionClass("sec-gravity", mem ? "OK" : "WAITING");
+  byId("gravityBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("B5 Spearman", Array.isArray(sp) ? `list_len=${sp.length}` : (findDeep(sp,["state","direction","spearman_rho"]) ?? "WAITING"), sourceLine("spearman"), {brick:"B5"})}
+      ${metric("B6 Memory occurrences", occurrences ?? "WAITING", `pattern_hash=${patternHash ?? "—"} | median_bars=${median ?? "—"}`, {brick:"B6"})}
+      <div class="metric wide"><div class="label">Outcome distribution</div><div class="detail">${badges(outcomeDist)}</div></div>
+      <div class="metric wide"><div class="label">Memory technical risks</div><div class="detail">${badges(findDeep(memoryRes,["technical_risks"]) || {})}</div></div>
+    </div>`;
+}
+function renderFractal(){
+  const fr = state.data.fractal;
+  const vol = state.data.volatility;
+  const rs = findDeep(fr, ["resonance_state","state"]) || "WAITING";
+  const score = findDeep(fr, ["resonance_score","avg_signed_correlation"]);
+  const texture = findDeep(vol, ["texture_state","volatility_texture","state","session"]) || "WAITING";
+  const conf = findDeep(vol, ["confidence"]);
+  setSectionClass("sec-fractal", rs);
+  byId("fractalBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("Resonance State", rs, `score=${num(score,4)} | ${sourceLine("fractal")}`, {wide:true, brick:"B7"})}
+      <div class="metric">${bar("Resonance score", score)}</div>
+      ${metric("Volatility Texture", texture, `confidence=${num(conf,3)} | ${sourceLine("volatility")}`, {brick:"B7+"})}
+      <div class="metric wide"><div class="label">Pair correlations / lags</div><pre class="raw">${esc(JSON.stringify(findDeep(fr,["pair_correlations","lagged_tfs","resonant_tfs"]) ?? fr ?? "WAITING", null, 2).slice(0,2200))}</pre></div>
+    </div>`;
+}
+function renderCascade(){
+  const cas = state.data.cascade;
+  const cycle = state.data.cycle;
+  const casState = findDeep(cas, ["cascade_state","state"]) || "WAITING";
+  const events = findDeep(cas, ["events_count"]);
+  const status = findDeep(cycle, ["status","cycle_status"]) || "WAITING";
+  const duration = findDeep(cycle, ["duration_seconds","cycle_duration_seconds","total_duration"]);
+  const steps = findDeep(cycle, ["steps","results"]);
+  setSectionClass("sec-cascade", status);
+  byId("cascadeBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("B2 Cascade", casState, `events_count=${events ?? "—"} | ${sourceLine("cascade")}`, {brick:"B2"})}
+      ${metric("Orchestrator", status, `duration=${duration ?? "—"}s | ${sourceLine("cycle")}`, {brick:"ORCH"})}
+      <div class="metric wide"><div class="label">Cycle steps</div><pre class="raw">${esc(JSON.stringify(steps ?? cycle ?? "WAITING", null, 2).slice(0,2600))}</pre></div>
+    </div>`;
+}
+function parseCsv(text){
+  if(!text) return [];
+  const lines = text.trim().split(/\r?\n/);
+  if(lines.length < 2) return [];
+  const headers = lines[0].split(",").map(s=>s.trim());
+  return lines.slice(1).map(line=>{
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i)=>row[h]=cells[i] || "");
+    return row;
+  });
+}
+function renderBatch(){
+  const rows = parseCsv(state.data.batchCsv);
+  const counts = rows.reduce((acc,r)=>{ const s=(r.Status||r.status||"UNKNOWN").toUpperCase(); acc[s]=(acc[s]||0)+1; return acc; }, {});
+  const verdict = counts.FAIL ? "PARTIAL_GREEN / INVESTIGATE NON-CRITICAL" : (rows.length ? "GREEN" : "WAITING");
+  setSectionClass("sec-batch", counts.FAIL ? "WARN" : "OK");
+  byId("batchBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("Batch verdict", verdict, sourceLine("batchCsv"), {wide:true})}
+      ${metric("PASS", counts.PASS ?? 0, "", {cls:""})}
+      ${metric("PARTIAL", counts.PARTIAL ?? 0, "", {cls:"yellow"})}
+      ${metric("FAIL", counts.FAIL ?? 0, "", {cls:counts.FAIL ? "red" : ""})}
+      ${metric("MISSING", counts.MISSING ?? 0)}
+      <div class="metric wide"><div class="label">Rows</div><table class="table">${rows.slice(0,12).map(r=>`<tr><td>${esc(r.Brique||r.Name||"")}</td><td>${esc(r.Status||"")}</td><td>${esc(r["Key Info"]||r.Value||"")}</td></tr>`).join("") || "<tr><td>WAITING FOR DATA</td></tr>"}</table></div>
+    </div>`;
+}
+function renderAlertObs(){
+  const a = state.data.alertMetrics;
+  const total = get(a,["total_alerts"],"WAITING");
+  const dist = get(a,["distribution"],{});
+  const cov = get(a,["coverage"],{});
+  const dup = get(a,["duplicates","duplicate_ratio"],0);
+  const notes = get(a,["technical_notes"],[]);
+  setSectionClass("sec-alertobs", notes && notes.length ? "WARN" : "OK");
+  byId("alertObsBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("Total alerts", total, sourceLine("alertMetrics"), {brick:"AlertObservability"})}
+      ${metric("Duplicate ratio", num(dup,4), "répétition du champ d’alertes")}
+      <div class="metric wide"><div class="label">By level</div><div class="detail">${badges(dist.by_level)}</div></div>
+      <div class="metric wide"><div class="label">By maturity</div><div class="detail">${badges(dist.by_maturity)}</div></div>
+      <div class="metric">${bar("Regime context coverage", cov.regime_context_present_ratio)}</div>
+      <div class="metric">${bar("Session context coverage", cov.session_context_present_ratio)}</div>
+      <div class="metric wide"><div class="label">Technical notes</div><div class="detail">${Array.isArray(notes) && notes.length ? notes.map(x=>`<span class="badge warn">${esc(x)}</span>`).join("") : "<span class='badge ok'>no notes</span>"}</div></div>
+    </div>`;
+}
+function renderTemporal(){
+  const dq = state.data.dataQuality;
+  const mo = state.data.marketOpen;
+  const sess = state.data.session;
+  const ent = state.data.entropy;
+  const marketFresh = findDeep(mo, ["market_data_fresh"]);
+  const marketStatus = findDeep(mo, ["overall_status","status"]) || (marketFresh === false ? "STALE/CLOSED" : "WAITING");
+  const entropy = findDeep(ent, ["alert_entropy_state","state"]) || "WAITING";
+  setSectionClass("sec-temporal", marketStatus);
+  byId("temporalBody").innerHTML = `
+    <div class="metric-grid">
+      ${metric("UTC now", utcNow(), "dashboard clock")}
+      ${metric("Market / Freshness", marketStatus, `fresh=${marketFresh ?? "—"} | ${sourceLine("marketOpen")}`)}
+      ${metric("Alert Entropy", entropy, sourceLine("entropy"))}
+      ${metric("Session Overlay", findDeep(sess,["session","session_phase","status"]) || "WAITING", sourceLine("session"))}
+      <div class="metric wide"><div class="label">Data quality / market notes</div><pre class="raw">${esc(JSON.stringify({dataQuality:dq, marketOpen:mo}, null, 2).slice(0,2400))}</pre></div>
+    </div>`;
+}
+function renderRaw(){
+  byId("rawDump").textContent = JSON.stringify({sourceMeta:state.sourceMeta, data:state.data}, null, 2);
+}
+function renderAll(){
+  byId("utcNow").textContent = utcNow();
+  renderRegime();
+  renderKinematics();
+  renderAlertObs();
+  renderDensity();
+  renderGravity();
+  renderBatch();
+  renderFractal();
+  renderCascade();
+  renderTemporal();
+  renderRaw();
+  const loaded = Object.values(state.data).filter(Boolean).length;
+  const failed = [...document.querySelectorAll("section.card.fail")].length;
+  byId("globalStatus").textContent = failed ? `PARTIAL_GREEN (${loaded} sources, ${failed} fail sections)` : `LIVE (${loaded} sources)`;
+  byId("globalDot").className = "dot " + (failed ? "warn" : "ok");
+}
+function handleManualFiles(files){
+  [...files].forEach(file=>{
+    const reader = new FileReader();
+    reader.onload = () => {
+      const name = file.name.toLowerCase();
+      let key = null;
+      for(const [k, paths] of Object.entries(SOURCES)){
+        if(paths.some(p => name === p.split("/").pop().toLowerCase())) key = k;
+      }
+      if(!key){
+        if(name.includes("alert_metrics")) key = "alertMetrics";
+        else if(name.includes("wavelet")) key = "wavelet";
+        else if(name.includes("hmm")) key = "hmm";
+        else if(name.includes("fractal")) key = "fractal";
+        else if(name.includes("cycle")) key = "cycle";
+        else if(name.includes("bricks_summary")) key = "batchCsv";
+      }
+      if(!key) return;
+      try{
+        state.manual[key] = name.endsWith(".csv") ? String(reader.result) : JSON.parse(String(reader.result));
+        state.sourceMeta[key] = "manual:" + file.name;
+      }catch(e){
+        console.error("manual parse failed", file.name, e);
+      }
+      renderAll();
+    };
+    reader.readAsText(file, "utf-8");
+  });
+}
+byId("refreshNow").addEventListener("click", loadAll);
+byId("toggleRaw").addEventListener("click", () => {
+  state.rawVisible = !state.rawVisible;
+  byId("rawPanel").classList.toggle("hidden", !state.rawVisible);
+  renderRaw();
+});
+byId("manualFiles").addEventListener("change", e => handleManualFiles(e.target.files));
+
+setInterval(() => { byId("utcNow").textContent = utcNow(); }, 1000);
+loadAll();
+setInterval(loadAll, POLL_MS);
+</script>
+</body>
+</html>
