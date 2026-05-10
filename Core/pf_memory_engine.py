@@ -1,326 +1,170 @@
-"""
-pf_memory_engine.py
-Memory Engine V1 — Pattern history indexing
+"""PowerFlow V7.2 — B6 Memory Engine V1.
 
-PowerFlow role:
-- index behavioral_alert_queue.json by behavioral pattern
-- return historical occurrences and outcome frequencies
-- never predict, never decide, only expose memory context
+Behavioral pattern indexing over alert queue JSON.
+No prediction. Only observed frequency context. No DB writes.
 """
-
 from __future__ import annotations
 
 import hashlib
 import json
-from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+import statistics
+from collections import Counter, defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
-from statistics import median
-from typing import Any, DefaultDict, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
+from typing import Any, DefaultDict, Dict, Iterable, List, Optional, Sequence, Tuple
 
-PatternTuple = Tuple[str, str, str, str, str, str]
-AlertDict = Dict[str, Any]
+VERSION = "MemoryEngineV1PatternIndexing"
+METHOD = "behavioral_pattern_memory"
 
 
-UNKNOWN = "UNKNOWN"
-NEUTRAL = "NEUTRAL"
-SMALL_SAMPLE_THRESHOLD = 5
-INCOMPLETE_HISTORY_DAYS = 90
+def utc_now_iso() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def _as_alert_list(payload: Any) -> List[Dict[str, Any]]:
+    if isinstance(payload, list):
+        return [x for x in payload if isinstance(x, dict)]
+    if isinstance(payload, dict):
+        for key in ("alerts", "queue", "items", "events", "data"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                return [x for x in value if isinstance(x, dict)]
+        # Single alert dict fallback.
+        if "alert_type" in payload:
+            return [payload]
+    return []
+
+
+def load_queue(queue_path: Optional[str]) -> Tuple[List[Dict[str, Any]], List[str]]:
+    risks: List[str] = []
+    if not queue_path:
+        candidates = [
+            Path("output/behavioral_alert_queue.json"),
+            Path("Core/output/behavioral_alert_queue.json"),
+            Path("behavioral_alert_queue.json"),
+        ]
+        found = next((p for p in candidates if p.exists()), None)
+        if found is None:
+            return [], ["NO_ALERTS_IN_QUEUE"]
+        queue_path = str(found)
+
+    path = Path(queue_path)
+    if not path.exists():
+        return [], ["NO_ALERTS_IN_QUEUE"]
+
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        alerts = _as_alert_list(payload)
+        if not alerts:
+            risks.append("NO_ALERTS_IN_QUEUE")
+        return alerts, risks
+    except Exception as exc:
+        return [], ["QUEUE_READ_ERROR", str(exc)]
 
 
 class MemoryEngine:
-    """Index behavioral patterns and query historical outcomes.
+    def __init__(self, queue_path: Optional[str] = None, alerts: Optional[List[Dict[str, Any]]] = None):
+        if alerts is not None:
+            self.queue = alerts
+            self.load_risks: List[str] = []
+        else:
+            self.queue, self.load_risks = load_queue(queue_path)
+        self.index: DefaultDict[int, List[Dict[str, Any]]] = defaultdict(list)
+        self._build_index()
 
-    Pattern dimensions V1:
-        alert_type, regime, session, EIE_state, B4_state, B5_direction
-
-    Hash contract:
-        deterministic unsigned 64-bit integer. Python's built-in hash() is not
-        used because it is salted per process and would break stability tests.
-    """
-
-    def __init__(self, queue_path: str | Path = "output/behavioral_alert_queue.json"):
-        self.module_dir = Path(__file__).resolve().parent
-        self.project_root = self.module_dir.parent if self.module_dir.name.lower() == "core" else Path.cwd()
-        self.queue_path = self._resolve_input_path(queue_path)
-        self.queue_exists = self.queue_path.exists()
-        self.queue = self._load_queue()
-        self.index = self._build_index()
-
-    def _resolve_input_path(self, path: str | Path) -> Path:
-        """Resolve queue path from root or Core execution contexts.
-
-        PowerFlow is often launched from either the repository root or from
-        ``Core/``. In practice some workspaces are nested (for example
-        ``.../IA/GPT/Core`` while ``output/`` may sit higher). This resolver
-        therefore checks the direct candidates first, then walks upward from
-        both the current working directory and this file location.
-        """
-        raw_path = Path(path)
-        if raw_path.is_absolute():
-            return raw_path
-
-        candidates = [
-            Path.cwd() / raw_path,
-            self.project_root / raw_path,
-            self.module_dir / raw_path,
-            self.module_dir.parent / raw_path,
-        ]
-
-        search_bases = [Path.cwd(), self.module_dir, self.project_root]
-        for base in search_bases:
-            for parent in [base, *base.parents]:
-                candidates.append(parent / raw_path)
-                if raw_path.parts and raw_path.parts[0].lower() == "output":
-                    candidates.append(parent / "output" / raw_path.name)
-
-        seen = set()
-        for candidate in candidates:
-            candidate = candidate.resolve()
-            if candidate in seen:
-                continue
-            seen.add(candidate)
-            if candidate.exists():
-                return candidate
-
-        # Default target when the queue does not exist yet.
-        return (self.project_root / raw_path).resolve()
-
-    def _load_queue(self) -> List[AlertDict]:
-        """Load behavioral queue from JSON.
-
-        Accepts either:
-        - a direct list of alerts
-        - a wrapper dict containing one of: alerts, queue, results, behavioral_alert_queue
-        """
-        try:
-            if not self.queue_path.exists():
-                return []
-            with self.queue_path.open("r", encoding="utf-8") as handle:
-                payload = json.load(handle)
-        except (OSError, json.JSONDecodeError):
-            return []
-
-        if isinstance(payload, list):
-            return [item for item in payload if isinstance(item, dict)]
-
-        if isinstance(payload, dict):
-            for key in ("behavioral_alert_queue", "alerts", "queue", "results"):
-                value = payload.get(key)
-                if isinstance(value, list):
-                    return [item for item in value if isinstance(item, dict)]
-
-        return []
-
-    @staticmethod
-    def _nested(alert: Mapping[str, Any], outer_key: str, inner_key: str, default: str) -> Any:
-        container = alert.get(outer_key, {})
-        if isinstance(container, Mapping):
-            return container.get(inner_key, default)
-        return default
-
-    @staticmethod
-    def _normalize_dimension(value: Any, default: str) -> str:
-        if value is None:
-            return default
-        text = str(value).strip()
-        if not text:
-            return default
-        return text.upper()
-
-    def _pattern_tuple(self, alert: Mapping[str, Any]) -> PatternTuple:
-        """Create normalized pattern tuple from the six V1 dimensions."""
+    def _pattern_tuple(self, alert: Dict[str, Any]) -> Tuple[str, str, str, str, str, str]:
         return (
-            self._normalize_dimension(alert.get("alert_type"), UNKNOWN),
-            self._normalize_dimension(self._nested(alert, "regime_context", "regime", UNKNOWN), UNKNOWN),
-            self._normalize_dimension(self._nested(alert, "session_context", "session", UNKNOWN), UNKNOWN),
-            self._normalize_dimension(alert.get("EIE_state"), NEUTRAL),
-            self._normalize_dimension(alert.get("B4_state"), NEUTRAL),
-            self._normalize_dimension(alert.get("B5_direction"), NEUTRAL),
+            str(alert.get("alert_type", "UNKNOWN")),
+            str(alert.get("regime_context", {}).get("regime", alert.get("regime", "UNKNOWN"))),
+            str(alert.get("session_context", {}).get("session", alert.get("session", "UNKNOWN"))),
+            str(alert.get("EIE_state", alert.get("eie_state", alert.get("elastic_state", "NEUTRAL")))),
+            str(alert.get("B4_state", alert.get("b4_state", alert.get("cycle_state", "NEUTRAL")))),
+            str(alert.get("B5_direction", alert.get("b5_direction", alert.get("direction", "NEUTRAL")))),
         )
 
-    def _pattern_hash(self, alert: Mapping[str, Any]) -> int:
-        """Create deterministic unsigned 64-bit hash for an alert pattern."""
-        pattern = self._pattern_tuple(alert)
-        encoded = json.dumps(pattern, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
-        digest = hashlib.blake2b(encoded, digest_size=8, person=b"PFMEMV1").digest()
-        return int.from_bytes(digest, byteorder="big", signed=False)
+    def _pattern_hash(self, pattern_tuple: Sequence[str]) -> int:
+        joined = json.dumps(list(pattern_tuple), ensure_ascii=False, separators=(",", ":"))
+        digest = hashlib.blake2b(joined.encode("utf-8"), digest_size=8).hexdigest()
+        return int(digest, 16)
 
-    def _pattern_dict(self, alert: Mapping[str, Any]) -> Dict[str, str]:
-        alert_type, regime, session, eie_state, b4_state, b5_direction = self._pattern_tuple(alert)
-        return {
-            "alert_type": alert_type,
-            "regime": regime,
-            "session": session,
-            "eie_state": eie_state,
-            "b4_state": b4_state,
-            "b5_direction": b5_direction,
-        }
-
-    def _build_index(self) -> Dict[int, List[AlertDict]]:
-        """Build index: pattern_hash -> list of alerts."""
-        index: DefaultDict[int, List[AlertDict]] = defaultdict(list)
+    def _build_index(self) -> None:
         for alert in self.queue:
-            pattern_hash = self._pattern_hash(alert)
-            index[pattern_hash].append(alert)
-        return dict(index)
+            pattern = self._pattern_tuple(alert)
+            ph = self._pattern_hash(pattern)
+            self.index[ph].append(alert)
 
-    def query_pattern(self, alert: Mapping[str, Any]) -> Dict[str, Any]:
-        """Query historical context for a behavioral pattern."""
-        pattern_hash = self._pattern_hash(alert)
-        similar_alerts = self.index.get(pattern_hash, [])
-        occurrences = len(similar_alerts)
-        outcomes_data = self._analyze_outcomes(similar_alerts)
-        risks = self._assess_technical_risks(occurrences, similar_alerts, current_alert=alert)
+    def _compute_distribution(self, alerts: Sequence[Dict[str, Any]]) -> Dict[str, float]:
+        if not alerts:
+            return {}
+        counts = Counter(str(a.get("outcome", "UNKNOWN")) for a in alerts)
+        total = sum(counts.values()) or 1
+        return {k: round(v / total, 4) for k, v in sorted(counts.items())}
 
-        return {
-            "pattern": self._pattern_dict(alert),
-            "pattern_hash": pattern_hash,
-            "timestamp": self._timestamp_now(),
-            "historical_context": {
-                "occurrences": occurrences,
-                "outcomes": outcomes_data["outcomes"],
-                "outcome_distribution": outcomes_data["distribution"],
-                "sample_size": occurrences,
-                "median_bars_to_move": outcomes_data["median_bars"],
-            },
-            "technical_risks": risks,
-        }
-
-    def _analyze_outcomes(self, alerts: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
-        """Analyze known outcome distribution.
-
-        Alerts without outcome are ignored for outcome frequencies. They still
-        count as occurrences/sample_size because the pattern did occur.
-        """
-        outcomes_bars: DefaultDict[str, List[int]] = defaultdict(list)
-
-        for alert in alerts:
-            outcome_raw = alert.get("outcome")
-            if outcome_raw is None or str(outcome_raw).strip() == "":
-                continue
-
-            outcome = self._normalize_dimension(outcome_raw, UNKNOWN)
-            bars = self._safe_int(alert.get("bars_to_move"), default=0)
-            outcomes_bars[outcome].append(bars)
-
-        known_outcome_total = sum(len(values) for values in outcomes_bars.values())
-        outcomes = []
-
-        for outcome in sorted(outcomes_bars.keys()):
-            bars_list = outcomes_bars[outcome]
-            outcomes.append(
-                {
-                    "outcome": outcome,
-                    "count": len(bars_list),
-                    "median_bars_to_move": self._median_int(bars_list),
-                }
-            )
-
-        distribution = {
-            outcome: round(len(bars_list) / known_outcome_total, 4) if known_outcome_total else 0
-            for outcome, bars_list in sorted(outcomes_bars.items())
-        }
-
-        all_bars = [bars for bars_list in outcomes_bars.values() for bars in bars_list]
-
-        return {
-            "outcomes": outcomes,
-            "distribution": distribution,
-            "median_bars": self._median_int(all_bars),
-        }
-
-    def _assess_technical_risks(
-        self,
-        occurrences: int,
-        alerts: Sequence[Mapping[str, Any]],
-        current_alert: Optional[Mapping[str, Any]] = None,
-    ) -> List[str]:
-        """Assess statistical and memory-quality risks."""
-        risks: List[str] = []
-
-        if occurrences == 0:
-            risks.append("NO_HISTORICAL_DATA")
-        if occurrences < SMALL_SAMPLE_THRESHOLD:
-            risks.append("SMALL_SAMPLE_SIZE")
-
-        oldest_timestamp = self._oldest_timestamp(alerts)
-        reference_timestamp = self._parse_timestamp((current_alert or {}).get("timestamp")) or self._latest_timestamp(alerts)
-
-        if oldest_timestamp and reference_timestamp:
-            if oldest_timestamp <= reference_timestamp - timedelta(days=INCOMPLETE_HISTORY_DAYS):
-                risks.append("INCOMPLETE_HISTORY")
-
-        return risks
-
-    def batch_query(self, alerts_list: Iterable[Mapping[str, Any]]) -> List[Dict[str, Any]]:
-        """Query multiple alert patterns."""
-        return [self.query_pattern(alert) for alert in alerts_list]
-
-    @staticmethod
-    def _safe_int(value: Any, default: int = 0) -> int:
-        try:
-            if value is None:
-                return default
-            return int(float(value))
-        except (TypeError, ValueError):
-            return default
-
-    @staticmethod
-    def _median_int(values: Sequence[int]) -> int:
+    def _median_duration(self, alerts: Sequence[Dict[str, Any]]) -> Optional[float]:
+        values: List[float] = []
+        for a in alerts:
+            for key in ("bars_to_move", "duration_bars", "median_bars_to_move", "bars_until_outcome"):
+                value = a.get(key)
+                if isinstance(value, (int, float)):
+                    values.append(float(value))
+                    break
         if not values:
-            return 0
-        return int(median(values))
-
-    @staticmethod
-    def _timestamp_now() -> str:
-        return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
-
-    @classmethod
-    def _oldest_timestamp(cls, alerts: Sequence[Mapping[str, Any]]) -> Optional[datetime]:
-        timestamps = [cls._parse_timestamp(alert.get("timestamp")) for alert in alerts]
-        valid = [ts for ts in timestamps if ts is not None]
-        return min(valid) if valid else None
-
-    @classmethod
-    def _latest_timestamp(cls, alerts: Sequence[Mapping[str, Any]]) -> Optional[datetime]:
-        timestamps = [cls._parse_timestamp(alert.get("timestamp")) for alert in alerts]
-        valid = [ts for ts in timestamps if ts is not None]
-        return max(valid) if valid else None
-
-    @staticmethod
-    def _parse_timestamp(value: Any) -> Optional[datetime]:
-        if value is None:
             return None
-        text = str(value).strip()
-        if not text:
-            return None
-        if text.endswith("Z"):
-            text = text[:-1] + "+00:00"
-        try:
-            parsed = datetime.fromisoformat(text)
-        except ValueError:
-            return None
-        if parsed.tzinfo is None:
-            parsed = parsed.replace(tzinfo=timezone.utc)
-        return parsed.astimezone(timezone.utc)
+        return float(statistics.median(values))
 
-    def diagnostics(self) -> Dict[str, Any]:
-        """Return load/index diagnostics for runners and cockpit display."""
+    def _assess_risks(self, alerts: Sequence[Dict[str, Any]]) -> List[str]:
+        risks = list(self.load_risks)
+        if len(alerts) == 0:
+            risks.append("NO_HISTORICAL_DATA")
+        if len(alerts) < 5:
+            risks.append("SMALL_SAMPLE_SIZE")
+        return sorted(set(risks))
+
+    def query_pattern(self, alert: Dict[str, Any]) -> Dict[str, Any]:
+        pattern = self._pattern_tuple(alert)
+        ph = self._pattern_hash(pattern)
+        similar = self.index.get(ph, [])
         return {
-            "queue_path": str(self.queue_path),
-            "queue_exists": bool(self.queue_exists),
-            "queue_size": len(self.queue),
-            "unique_patterns": len(self.index),
-            "engine_version": "MemoryEngineV1.1-weekend-pathfix",
+            "timestamp": utc_now_iso(),
+            "pattern": {
+                "alert_type": pattern[0],
+                "regime": pattern[1],
+                "session": pattern[2],
+                "eie_state": pattern[3],
+                "b4_state": pattern[4],
+                "b5_direction": pattern[5],
+            },
+            "pattern_tuple": list(pattern),
+            "pattern_hash": ph,
+            "historical_context": {
+                "occurrences": len(similar),
+                "outcomes": [str(a.get("outcome", "UNKNOWN")) for a in similar],
+                "outcome_distribution": self._compute_distribution(similar),
+                "median_bars_to_move": self._median_duration(similar),
+                "sample_size": len(similar),
+            },
+            "technical_risks": self._assess_risks(similar),
+            "method": METHOD,
+            "version": VERSION,
+            "valid": True,
         }
 
+    def query_last(self, limit: int = 5) -> List[Dict[str, Any]]:
+        if not self.queue:
+            dummy = {
+                "alert_type": "UNKNOWN",
+                "regime_context": {"regime": "UNKNOWN"},
+                "session_context": {"session": "UNKNOWN"},
+                "EIE_state": "NEUTRAL",
+                "B4_state": "NEUTRAL",
+                "B5_direction": "NEUTRAL",
+            }
+            return [self.query_pattern(dummy)]
+        return [self.query_pattern(a) for a in self.queue[-max(1, int(limit)):]]
 
 
-def main() -> None:
-    """Example usage."""
-    engine = MemoryEngine("output/behavioral_alert_queue.json")
-    test_alert = {
+def build_self_test_alerts() -> List[Dict[str, Any]]:
+    base = {
         "alert_type": "FIRST_DETACHMENT_MICRO",
         "regime_context": {"regime": "COMPRESSION"},
         "session_context": {"session": "LONDON"},
@@ -328,9 +172,24 @@ def main() -> None:
         "B4_state": "CYCLE_COMPRESSING",
         "B5_direction": "DIVERGENT",
     }
-    result = engine.query_pattern(test_alert)
-    print(json.dumps(result, indent=2, ensure_ascii=False))
+    alerts: List[Dict[str, Any]] = []
+    outcomes = ["RELEASE_CONFIRMED", "RELEASE_CONFIRMED", "RELEASE_CONFIRMED", "REJECTION", "RELEASE_CONFIRMED", "REJECTION", "RELEASE_CONFIRMED"]
+    bars = [9, 11, 13, 18, 12, 21, 14]
+    for i, outcome in enumerate(outcomes):
+        item = dict(base)
+        item["timestamp"] = f"2026-05-10T00:{i:02d}:00Z"
+        item["outcome"] = outcome
+        item["bars_to_move"] = bars[i]
+        alerts.append(item)
+    # Add a different pattern to verify indexing isolation.
+    other = dict(base)
+    other["B4_state"] = "CYCLE_STABLE"
+    other["outcome"] = "UNKNOWN"
+    alerts.append(other)
+    return alerts
 
 
-if __name__ == "__main__":
-    main()
+def write_json(path: str, payload: Any) -> None:
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
