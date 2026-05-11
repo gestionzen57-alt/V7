@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-PowerFlow V7.2 — Dashboard Hydration Failure Doctor
+PowerFlow V7.2 — Dashboard Hydration Failure Doctor V2
 
-Reads the latest logs/dashboard_hydrate_*.log and extracts failed runner blocks.
-It does not modify engine files or powerflow.db.
+Reads the latest hydration log from both canonical patterns:
+- logs/dashboard_hydrate_*.log      legacy
+- logs/dashboard_hydration_*.log    canonical
+
+Does not modify engine files or powerflow.db.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import re
 from datetime import datetime, timezone
 from pathlib import Path
@@ -22,7 +26,10 @@ OK_RE = re.compile(r"\[(?P<time>[^\]]+)\]\s+OK\s+(?P<name>.*)")
 
 
 def latest_log(log_dir: Path) -> Path | None:
-    logs = sorted(log_dir.glob("dashboard_hydrate_*.log"), key=lambda p: p.stat().st_mtime, reverse=True)
+    logs = []
+    logs.extend(log_dir.glob("dashboard_hydrate_*.log"))
+    logs.extend(log_dir.glob("dashboard_hydration_*.log"))
+    logs = sorted(logs, key=lambda p: p.stat().st_mtime, reverse=True)
     return logs[0] if logs else None
 
 
@@ -47,12 +54,14 @@ def parse_blocks(lines: List[str]) -> List[Dict[str, object]]:
         if current is not None:
             warn = WARN_RE.search(line)
             ok = OK_RE.search(line)
+
             if warn and warn.group("name").strip() == current["name"]:
                 current["status"] = "WARN"
                 current["exit_code"] = warn.group("code")
                 blocks.append(current)
                 current = None
                 continue
+
             if ok and ok.group("name").strip() == current["name"]:
                 current["status"] = "OK"
                 blocks.append(current)
@@ -71,11 +80,11 @@ def parse_blocks(lines: List[str]) -> List[Dict[str, object]]:
 def classify_output(output: List[str]) -> str:
     text = "\n".join(output).lower()
 
-    if "unrecognized arguments" in text or "error: argument" in text:
+    if "unrecognized arguments" in text or "error: argument" in text or "arguments are required" in text:
         return "CLI_ARGUMENT_MISMATCH"
-    if "no such option" in text or "usage:" in text:
+    if "usage:" in text:
         return "CLI_SIGNATURE_MISMATCH"
-    if "no such file" in text or "cannot find" in text:
+    if "no such file" in text or "cannot find" in text or "can't open file" in text:
         return "MISSING_FILE_OR_PATH"
     if "sqlite" in text or "database" in text:
         return "DB_SCHEMA_OR_ACCESS"
@@ -83,23 +92,24 @@ def classify_output(output: List[str]) -> str:
         return "PYTHON_IMPORT_DEPENDENCY"
     if "typeerror" in text or "attributeerror" in text or "keyerror" in text:
         return "RUNTIME_SCHEMA_DRIFT"
+    if "unsupported json shape" in text or "unsupported json object shape" in text:
+        return "INPUT_CONTRACT_SHAPE"
     if not text.strip():
         return "NO_STDERR_CAPTURED"
     return "RUNNER_RUNTIME_ERROR"
 
 
-def suggested_action(name: str, classification: str) -> str:
-    if classification in {"CLI_ARGUMENT_MISMATCH", "CLI_SIGNATURE_MISMATCH"}:
-        return "Run this runner with --help, then update run_dashboard_hydrate_outputs.ps1 arguments only."
-    if classification == "DB_SCHEMA_OR_ACCESS":
-        return "Inspect DB schema expectations. Do not write DB; adapt runner args/output path if needed."
-    if classification == "PYTHON_IMPORT_DEPENDENCY":
-        return "Check local Python environment/dependencies."
-    if classification == "RUNTIME_SCHEMA_DRIFT":
-        return "Capture traceback; patch runner wrapper or output normalizer, not pf_* first."
-    if classification == "NO_STDERR_CAPTURED":
-        return "Re-run runner manually to capture full error."
-    return "Open the runner error block; classify before patching."
+def suggested_action(classification: str) -> str:
+    return {
+        "CLI_ARGUMENT_MISMATCH": "Run the runner with --help and update wrapper arguments only.",
+        "CLI_SIGNATURE_MISMATCH": "Run the runner with --help and update wrapper arguments only.",
+        "MISSING_FILE_OR_PATH": "Restore/canonicalize missing file path before patching engine.",
+        "DB_SCHEMA_OR_ACCESS": "Inspect DB schema/access; do not write DB.",
+        "PYTHON_IMPORT_DEPENDENCY": "Check local Python dependencies.",
+        "RUNTIME_SCHEMA_DRIFT": "Capture traceback and adapt wrapper/normalizer first.",
+        "INPUT_CONTRACT_SHAPE": "Normalize input JSON contract before runner execution.",
+        "NO_STDERR_CAPTURED": "Re-run runner manually to capture full error.",
+    }.get(classification, "Open raw error block; classify before patching.")
 
 
 def main() -> int:
@@ -134,7 +144,7 @@ def main() -> int:
             str(b.get("exit_code")),
             classification,
             str(b.get("cmd")),
-            suggested_action(str(b.get("name")), classification),
+            suggested_action(classification),
         ))
 
     md = []
@@ -164,13 +174,6 @@ def main() -> int:
         md.append("```powershell")
         md.append(cmd.replace("python ", "python .\\", 1) if cmd.startswith("python ") else cmd)
         md.append("```")
-        if classification in {"CLI_ARGUMENT_MISMATCH", "CLI_SIGNATURE_MISMATCH"}:
-            runner = cmd.split()[1] if len(cmd.split()) > 1 else ""
-            if runner:
-                md.append("")
-                md.append("```powershell")
-                md.append(f"python .\\{runner} --help")
-                md.append("```")
         md.append("")
 
     md.append("## Raw error excerpts")
@@ -181,7 +184,7 @@ def main() -> int:
         md.append("```text")
         output = b.get("output", [])
         if isinstance(output, list) and output:
-            md.extend(output[-40:])
+            md.extend(output[-60:])
         else:
             md.append("(no stderr/stdout captured)")
         md.append("```")
@@ -189,7 +192,6 @@ def main() -> int:
 
     out_md.write_text("\n".join(md), encoding="utf-8")
 
-    import json
     payload = {
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "log": str(log_path),
