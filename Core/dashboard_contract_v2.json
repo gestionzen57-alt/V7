@@ -1,0 +1,41 @@
+{
+  "contract_version": "POWERFLOW_DASHBOARD_SURFACE_V2",
+  "doctrine": {
+    "session_context": "qualifier_only_never_filter",
+    "dual_regime": "B1_LEGACY_AND_B1_HMM_SIDE_BY_SIDE_NEVER_FUSED",
+    "dual_density": "B4_ROLLING_AND_B4_WAVELET_SIDE_BY_SIDE_NEVER_FUSED",
+    "stale": "must_be_visually_explicit",
+    "missing": "must_be_visually_explicit"
+  },
+  "freshness": {
+    "FRESH": { "min_age_seconds": 0, "max_age_seconds_exclusive": 300, "visual": "green_dot" },
+    "AGING": { "min_age_seconds": 300, "max_age_seconds_exclusive": 600, "visual": "orange_dot" },
+    "STALE": { "min_age_seconds": 600, "visual": "red_dot_greyed_block" },
+    "MISSING": { "source_state": "absent_empty_invalid", "visual": "grey_cross_clear_message" }
+  },
+  "required_block_attributes": ["data-brick", "data-method", "data-symbol"],
+  "required_visible_fields": ["timestamp_utc", "age_seconds", "freshness"],
+  "blocks": [
+    { "id": "regime-legacy", "data_brick": "regime", "data_method": "B1_LEGACY", "label": "B1 LEGACY · HEURISTIQUE", "source": "output/regime_legacy_state.json" },
+    { "id": "regime-hmm", "data_brick": "regime", "data_method": "B1_HMM", "label": "B1+ HMM · GAUSSIEN", "source": "output/regime_hmm_state.json", "insufficient_data": { "reason": "TF1440_ROWS_LT_50", "progress_field": "rows_progress" } },
+    { "id": "density-rolling", "data_brick": "density", "data_method": "B4_ROLLING", "label": "B4 ROLLING · AUTOCORR", "source": "output/temporal_density_state.json" },
+    { "id": "density-wavelet", "data_brick": "density", "data_method": "B4_WAVELET", "label": "B4+ WAVELET · MORLET", "source": "output/wavelet_density_state.json" },
+    { "id": "session-card", "data_brick": "session", "data_method": "SESSION_OVERLAY_V2", "label": "SESSION OVERLAY · UTC", "source": "output/session_context.json" }
+  ],
+  "session_context_schema": {
+    "session": ["ASIAN", "LONDON", "NY", "OVERLAP", "DEAD_ZONE"],
+    "session_secondary": ["NY", null],
+    "session_phase": ["PRE_OPEN", "IGNITION", "MID_SESSION", "CLOSING", "MAX_VELOCITY_BATTLEFIELD", "DEAD_ZONE"],
+    "minutes_since_open": "integer_gte_0",
+    "session_bias": ["EXPANSION_EXPECTED", "COMPRESSION_EXPECTED", "ROTATION", "MAX_VELOCITY_BATTLEFIELD", "DEAD_ZONE"],
+    "utc_time": "HH:MM:SS",
+    "method": "SESSION_OVERLAY_V2",
+    "timestamp": "ISO8601_UTC"
+  },
+  "alert_enrichment": {
+    "required_field": "session_context",
+    "producer": "pf_behavioral_alert_mapper.py",
+    "source_function": "pf_session_overlay.get_session_context",
+    "filtering_allowed": false
+  }
+}

@@ -35,6 +35,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from pf_session_overlay import get_session_context
 
 # ---------------------------------------------------------------------------
 # Types

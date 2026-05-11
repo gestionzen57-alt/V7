@@ -1,28 +1,43 @@
-# Validation checklist — B1+ HMM + B4+ Wavelet
+# Validation Checklist — Session Overlay + Dashboard Dual
 
-- [x] `pf_hmm_regime_engine.py` : py_compile PASS
-- [x] B1+ HMM actif sans TF1440/H4 si H1+M30+M15 >= 50 observations
-- [x] `pf_wavelet_density.py` : py_compile PASS
-- [x] Guard multi-TF H1/M30/M15 < 50 observations → INSUFFICIENT_DATA avec fallback B1_LEGACY
-- [x] Guard TF5 < 30 rows → INSUFFICIENT_DATA pour Wavelet
-- [x] Aucun import `cockpit_*` / `dashboard_*` / `telegram_*` dans `pf_*`
-- [x] DB read-only dans tous les modules `pf_*`
-- [x] Output JSON prévus dans `output/dashboard_surface/`
-- [x] Dual architecture préservée: B1/B1+ et B4/B4+ jamais fusionnés
-- [x] WAVELET_SILENT est un état valide, pas une erreur
-- [x] Freshness display sur chaque bloc dashboard
-- [x] `git_deploy_b1hmm_b4wavelet.ps1` produit rapport PASS/FAIL
-- [x] LEXIQUE_PATCH et REGISTRE_PATCH présents dans ZIP
+## Python
 
-## Vérification locale exécutée dans l'environnement de génération
+- [ ] `python -m py_compile pf_session_overlay.py` PASS
+- [ ] `python -m py_compile patch_behavioral_alert_mapper.py` PASS
+- [ ] `python test_session_overlay.py` PASS
+- [ ] `python run_session_overlay_once.py --pretty` PASS
 
-```text
-python -m py_compile pf_hmm_regime_engine.py pf_wavelet_density.py run_hmm_regime_once.py run_wavelet_density_once.py test_hmm_regime.py test_wavelet_density.py
-python test_hmm_regime.py
-python test_wavelet_density.py
-grep imports interdits dans pf_* : PASS
-```
+## Session overlay cases
 
-## Limite externe
+- [ ] 22:15 UTC -> ASIAN / IGNITION
+- [ ] 07:05 UTC -> LONDON / IGNITION
+- [ ] 13:30 UTC -> OVERLAP / MAX_VELOCITY_BATTLEFIELD
+- [ ] 20:30 UTC -> DEAD_ZONE / DEAD_ZONE
+- [ ] `minutes_since_open >= 0`
+- [ ] `session_bias` dans enum valide
 
-L'accès GitHub depuis l'environnement de génération n'a pas pu résoudre `github.com`. Le script PowerShell inclus réalise le commit/push sur la machine cible disposant de l'accès réseau.
+## Mapper
+
+- [ ] `pf_behavioral_alert_mapper.py` importe `get_session_context`
+- [ ] Chaque alerte porte `session_context`
+- [ ] Aucun filtre session ajouté
+- [ ] Aucun BUY/SELL ajouté
+
+## Dashboard
+
+- [ ] Chaque bloc porte `data-brick`
+- [ ] Chaque bloc porte `data-method`
+- [ ] Chaque bloc porte `data-symbol`
+- [ ] B1 Legacy et B1+ HMM côte à côte
+- [ ] B4 Rolling et B4+ Wavelet côte à côte
+- [ ] `FRESH / AGING / STALE / MISSING` visibles
+- [ ] STALE rouge/grisé
+- [ ] MISSING avec message clair
+- [ ] INSUFFICIENT_DATA visible avec raison/progression
+
+## Git
+
+- [ ] `git status` inspecté avant commit
+- [ ] `git add` limité aux fichiers du patch
+- [ ] Commit message exact : `SessionOverlay: V2 complete injection + Dashboard dual display hardening`
+- [ ] `git push` PASS
