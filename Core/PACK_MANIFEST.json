@@ -1,32 +1,125 @@
 {
-  "package": "powerflow_v72_b1hmm_b4wavelet.zip",
-  "powerflow_version": "V7.2.1",
-  "bricks": [
-    "B1+ HMM MTF",
-    "B4+ Wavelet"
-  ],
-  "dual_architecture": true,
-  "generated_files": [
-    "INSTALL_REQUIREMENTS.txt",
-    "INTEGRATION_GUIDE.md",
-    "LEXIQUE_PATCH_B1HMM_B4WAVELET.md",
-    "PACK_MANIFEST.json",
-    "REGISTRE_BRIQUES_PATCH_B1HMM_B4WAVELET.md",
-    "__pycache__",
-    "dashboard_surface_dual_patch.html",
-    "git_deploy_b1hmm_b4wavelet.ps1",
-    "pf_hmm_regime_engine.py",
-    "pf_wavelet_density.py",
-    "run_hmm_regime_once.py",
-    "run_wavelet_density_once.py",
-    "test_hmm_regime.py",
-    "test_wavelet_density.py",
-    "validation_checklist.md"
-  ],
-  "version": "V7.2.1-oneclick",
-  "one_click_script": "powerflow_v721_oneclick_deploy.ps1",
-  "deployment": "single script automates extract/copy/deps/py_compile/tests/runners/json/git commit/git push/report",
+  "pack": "powerflow_v721_dashboard_ui_usdjpy_fix.zip",
+  "date": "2026-05-11",
+  "scope": "Dashboard MultiSymbol UI + USDJPY Capture Audit",
   "files": [
-    "powerflow_v721_oneclick_deploy.ps1"
-  ]
+    "dashboard_multisymbol_ui_patch.html",
+    "dashboard_cross_validation_card.html",
+    "audit_usdjpy_capture.py",
+    "run_audit_usdjpy_once.py",
+    "test_dashboard_tabs.py",
+    "INTEGRATION_GUIDE.md",
+    "LEXIQUE_PATCH_UI.md",
+    "REGISTRE_PATCH_UI.md",
+    "RAPPORT_DASHBOARD_UI_USDJPY_20260511.md",
+    "validation_checklist.md",
+    "git_deploy_dashboard_ui_usdjpy.ps1",
+    "PACK_MANIFEST.json"
+  ],
+  "doctrine": {
+    "no_buy_sell": true,
+    "db_read_only": true,
+    "no_symbol_fusion": true,
+    "technical_risks_only": true
+  },
+  "validation": {
+    "py_compile": [
+      {
+        "file": "audit_usdjpy_capture.py",
+        "returncode": 0,
+        "stderr": ""
+      },
+      {
+        "file": "run_audit_usdjpy_once.py",
+        "returncode": 0,
+        "stderr": ""
+      },
+      {
+        "file": "test_dashboard_tabs.py",
+        "returncode": 0,
+        "stderr": ""
+      }
+    ],
+    "dashboard_tabs_static_test": {
+      "test": "DASHBOARD_MULTISYMBOL_TABS",
+      "html": {
+        "file": "/mnt/data/powerflow_v721_dashboard_ui_usdjpy_fix/dashboard_multisymbol_ui_patch.html",
+        "exists": true,
+        "checks": [
+          {
+            "check": "symbol_tab_GBPUSD",
+            "pass": true
+          },
+          {
+            "check": "symbol_tab_EURUSD",
+            "pass": true
+          },
+          {
+            "check": "symbol_tab_USDJPY",
+            "pass": true
+          },
+          {
+            "check": "symbol_tab_XAUUSD",
+            "pass": true
+          },
+          {
+            "check": "snippet_CROSS_SYMBOL_VALIDATION_CARD",
+            "pass": true
+          },
+          {
+            "check": "snippet_output/dashboard_surface/",
+            "pass": true
+          },
+          {
+            "check": "snippet_cross_validation.json",
+            "pass": true
+          },
+          {
+            "check": "snippet_regime_legacy.json",
+            "pass": true
+          },
+          {
+            "check": "snippet_regime_hmm.json",
+            "pass": true
+          },
+          {
+            "check": "snippet_energy.json",
+            "pass": true
+          },
+          {
+            "check": "snippet_node.json",
+            "pass": true
+          },
+          {
+            "check": "snippet_cascade.json",
+            "pass": true
+          },
+          {
+            "check": "snippet_data-brick",
+            "pass": true
+          },
+          {
+            "check": "snippet_data-symbol",
+            "pass": true
+          },
+          {
+            "check": "snippet_FRESH",
+            "pass": true
+          },
+          {
+            "check": "snippet_AGING",
+            "pass": true
+          },
+          {
+            "check": "snippet_STALE",
+            "pass": true
+          }
+        ],
+        "status": "PASS",
+        "technical_risks": []
+      },
+      "runtime_outputs": null,
+      "status": "PASS"
+    }
+  }
 }
