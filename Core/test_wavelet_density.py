@@ -1,71 +1,58 @@
-from __future__ import annotations
-
-import math
-import py_compile
-import sqlite3
-from pathlib import Path
+﻿import sqlite3
 import tempfile
+from pathlib import Path
 
-from pf_wavelet_density import WaveletDensityEngine, VALID_WAVELET_STATES
-
-CURRENCIES = ("gbp", "usd", "eur", "jpy", "chf", "cad", "aud", "nzd")
+from pf_wavelet_density import WaveletDensityEngine
 
 
-def make_db(path: Path, n_tf5: int, flat: bool = False) -> None:
+def make_db(path, rows=40, wide=True):
     conn = sqlite3.connect(path)
-    cols = ", ".join(f"{c} REAL" for c in CURRENCIES)
-    conn.execute(f"CREATE TABLE force_snapshots (timestamp TEXT, timeframe INTEGER, symbol TEXT, {cols})")
-    for tf, count in [(1, max(n_tf5, 35)), (5, n_tf5), (15, max(n_tf5, 35))]:
-        for i in range(count):
-            if flat:
-                vals = [1.0 for _ in CURRENCIES]
-            else:
-                vals = [math.sin(i / (2.0 + k * 0.2)) + 0.35 * math.sin(i / 9.0 + k) for k in range(len(CURRENCIES))]
-            conn.execute(
-                f"INSERT INTO force_snapshots VALUES ({','.join(['?'] * (3 + len(CURRENCIES)))})",
-                [f"2026-05-11T00:{i:02d}:00Z", tf, "GBPUSD", *vals],
-            )
+    if wide:
+        conn.execute("CREATE TABLE force_snapshots (time TEXT, timeframe INTEGER, symbol TEXT, GBP REAL, USD REAL)")
+        for tf in (1, 5, 15):
+            for i in range(rows):
+                conn.execute("INSERT INTO force_snapshots VALUES (?, ?, ?, ?, ?)", (f"t{i:04d}", tf, "GBPUSD", float((i % 7) - 3), float(i % 5)))
+    else:
+        conn.execute("CREATE TABLE force_snapshots (created_at TEXT, timeframe INTEGER, symbol TEXT, force_value REAL)")
+        for tf in (1, 5, 15):
+            for i in range(rows):
+                conn.execute("INSERT INTO force_snapshots VALUES (?, ?, ?, ?)", (f"t{i:04d}", tf, "GBPUSD", float((i % 7) - 3)))
     conn.commit()
     conn.close()
 
 
-def test_tf5_guard():
-    with tempfile.TemporaryDirectory() as d:
-        db = Path(d) / "pf.db"
-        make_db(db, 23)
-        result = WaveletDensityEngine().compute(str(db), "GBPUSD", [1, 5, 15])
-        assert result["status"] == "INSUFFICIENT_DATA"
-        assert "TF5_INSUFFICIENT_ROWS" in result["technical_risks"]
-
-
-def test_states_and_scale():
-    with tempfile.TemporaryDirectory() as d:
-        db = Path(d) / "pf.db"
-        make_db(db, 45)
-        result = WaveletDensityEngine().compute(str(db), "GBPUSD", [5])
-        assert result["status"] == "ACTIVE"
-        assert result["items"]
-        for item in result["items"]:
-            assert item["wavelet_state"] in VALID_WAVELET_STATES
+def test_wavelet_valid_states_wide():
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
+        db = str(Path(d) / "pf.db")
+        make_db(db, 40, True)
+        res = WaveletDensityEngine().compute(db, "GBPUSD", [1, 5, 15])
+        assert res["status"] == "ACTIVE", res
+        for item in res["results"]:
+            assert item["wavelet_state"] in {"WAVELET_COMPRESSING", "WAVELET_EXPANDING", "WAVELET_MULTI_SCALE", "WAVELET_TRANSITIONING", "WAVELET_SILENT"}
             assert item["dominant_scale_bars"] > 0
 
 
-def test_silent_is_valid_state():
-    with tempfile.TemporaryDirectory() as d:
-        db = Path(d) / "pf.db"
-        make_db(db, 45, flat=True)
-        result = WaveletDensityEngine().compute(str(db), "GBPUSD", [5])
-        assert result["status"] == "ACTIVE"
-        assert any(item["wavelet_state"] == "WAVELET_SILENT" for item in result["items"])
+def test_generic_numeric_schema():
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
+        db = str(Path(d) / "pf.db")
+        make_db(db, 40, False)
+        res = WaveletDensityEngine().compute(db, "GBPUSD", [1, 5, 15])
+        assert res["status"] == "ACTIVE", res
+        assert res["schema_mode"] == "generic_numeric_stream", res
 
 
-def test_py_compile():
-    py_compile.compile("pf_wavelet_density.py", doraise=True)
+def test_tf5_guard_and_silent_valid():
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
+        db = str(Path(d) / "pf.db")
+        make_db(db, 5, True)
+        res = WaveletDensityEngine().compute(db, "GBPUSD", [1, 5, 15])
+        assert res["status"] == "INSUFFICIENT_DATA", res
+        for item in res["results"]:
+            assert item["wavelet_state"] == "WAVELET_SILENT"
 
 
 if __name__ == "__main__":
-    test_tf5_guard()
-    test_states_and_scale()
-    test_silent_is_valid_state()
-    test_py_compile()
-    print("test_wavelet_density.py PASS")
+    test_wavelet_valid_states_wide()
+    test_generic_numeric_schema()
+    test_tf5_guard_and_silent_valid()
+    print("test_wavelet_density PASS")

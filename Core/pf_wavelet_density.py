@@ -1,243 +1,326 @@
-"""
-PowerFlow V7.2 — B4+ Wavelet Morlet Density Engine
-Dual architecture: standalone Morlet CWT density perception, never fused with B4 Rolling.
-DB access is read-only only.
-"""
-from __future__ import annotations
+﻿from __future__ import annotations
 
-from dataclasses import dataclass
-from datetime import datetime, timezone
+import json
 import math
+import re
 import sqlite3
-from typing import Dict, Iterable, List, Sequence, Tuple
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
+import numpy as np
 try:
-    import numpy as np
-except Exception as exc:  # pragma: no cover
-    raise RuntimeError("numpy is required for pf_wavelet_density.py") from exc
+    import pywt  # type: ignore
+except Exception:
+    pywt = None
 
-CURRENCIES: Tuple[str, ...] = ("gbp", "usd", "eur", "jpy", "chf", "cad", "aud", "nzd")
-VALID_WAVELET_STATES: Tuple[str, ...] = (
-    "WAVELET_COMPRESSING",
-    "WAVELET_EXPANDING",
-    "WAVELET_MULTI_SCALE",
-    "WAVELET_TRANSITIONING",
-    "WAVELET_SILENT",
-)
-VALID_DRIFT: Tuple[str, ...] = ("COMPRESSING", "EXPANDING", "STABLE")
-MIN_TF5_ROWS = 30
+VALID_STATES = ("WAVELET_COMPRESSING", "WAVELET_EXPANDING", "WAVELET_MULTI_SCALE", "WAVELET_TRANSITIONING", "WAVELET_SILENT")
+CURRENCIES = ("gbp", "usd", "eur", "jpy", "chf", "cad", "aud", "nzd")
+TIME_CANDIDATES = ("timestamp", "time", "ts", "datetime", "created_at", "date")
+TF_CANDIDATES = ("timeframe", "tf", "period", "timeframe_minutes", "frame")
+SYMBOL_CANDIDATES = ("symbol", "pair", "instrument", "asset")
+LONG_CURRENCY_CANDIDATES = ("currency", "ccy", "devise")
+LONG_VALUE_CANDIDATES = ("value", "force", "score", "strength", "zscore", "z_score", "power", "raw_value")
 
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _ro_connect(db_path: str) -> sqlite3.Connection:
-    return sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+def _norm(name: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(name).lower())
 
 
-def _safe_float(value: object) -> float:
+def _safe_float(x: Any) -> Optional[float]:
     try:
-        if value is None:
-            return 0.0
-        out = float(value)
-        if math.isnan(out) or math.isinf(out):
-            return 0.0
-        return out
+        v = float(x)
+        if math.isfinite(v):
+            return v
     except Exception:
-        return 0.0
+        return None
+    return None
 
 
-@dataclass(frozen=True)
 class WaveletDensityEngine:
-    """Standalone B4+ Morlet CWT temporal density perception."""
+    """B4+ Wavelet Morlet density engine with schema-flexible signal loading."""
 
-    min_tf5_rows: int = MIN_TF5_ROWS
-    max_scale_cap: int = 64
+    min_tf5_rows = 30
 
-    def compute(self, db_path: str, symbol: str = "GBPUSD", timeframes: Sequence[int] = (1, 5, 15)) -> Dict[str, object]:
-        tf5_count = self._count_rows(db_path, symbol, 5)
-        if tf5_count < self.min_tf5_rows:
+    def compute(self, db_path: str, symbol: str = "GBPUSD", timeframes: Optional[List[int]] = None) -> Dict[str, Any]:
+        tfs = [int(x) for x in (timeframes or [1, 5, 15])]
+        base_currency = symbol[:3].lower() if symbol else "gbp"
+        results: List[Dict[str, Any]] = []
+        global_risks: List[str] = []
+        schema_meta: Dict[str, Any] = {}
+
+        try:
+            series_by_tf, schema_meta = self._load_series_by_tf(db_path, symbol, base_currency, tfs)
+        except Exception as exc:
             return {
-                "status": "INSUFFICIENT_DATA",
-                "fallback": "B4_ROLLING",
-                "method": "CWT_MORLET",
                 "symbol": symbol,
-                "rows_tf5": tf5_count,
-                "items": [],
+                "status": "INSUFFICIENT_DATA",
+                "method": "CWT_MORLET",
+                "technical_risks": ["SCHEMA_LOAD_FAILED", str(exc)],
+                "results": [],
                 "timestamp": _utc_now(),
-                "technical_risks": ["TF5_INSUFFICIENT_ROWS"],
+                "timestamp_utc": _utc_now(),
             }
 
-        items: List[Dict[str, object]] = []
-        technical_risks: List[str] = []
-        for tf in timeframes:
-            rows = self._load_rows(db_path, symbol, int(tf))
-            if not rows:
-                technical_risks.append(f"TF{tf}_NO_ROWS")
-                continue
-            for currency in CURRENCIES:
-                series = np.array([r[currency] for r in rows], dtype=float)
-                item = self._compute_one(series, currency, int(tf))
-                items.append(item)
-                technical_risks.extend([r for r in item.get("technical_risks", []) if r not in technical_risks])
+        tf5_len = len(series_by_tf.get(5, []))
+        if 5 in tfs and tf5_len < self.min_tf5_rows:
+            global_risks.append(f"TF5_ROWS_LT_{self.min_tf5_rows}")
 
+        for tf in tfs:
+            values = np.asarray(series_by_tf.get(int(tf), []), dtype=float)
+            item = self._compute_one(values, tf, base_currency)
+            item.update({"schema_mode": schema_meta.get("schema_mode"), "source_column": schema_meta.get("source_column")})
+            results.append(item)
+
+        status = "ACTIVE" if not global_risks else "INSUFFICIENT_DATA"
         return {
-            "status": "ACTIVE",
-            "fallback": None,
-            "method": "CWT_MORLET",
             "symbol": symbol,
-            "timeframes": [int(x) for x in timeframes],
-            "items": items,
+            "status": status,
+            "method": "CWT_MORLET",
+            "currency": base_currency.upper(),
+            "timeframes": tfs,
+            "schema_mode": schema_meta.get("schema_mode"),
+            "source_column": schema_meta.get("source_column"),
+            "technical_risks": global_risks,
+            "results": results,
             "timestamp": _utc_now(),
-            "technical_risks": technical_risks,
+            "timestamp_utc": _utc_now(),
         }
 
-    def _count_rows(self, db_path: str, symbol: str, timeframe: int) -> int:
-        with _ro_connect(db_path) as conn:
-            row = conn.execute(
-                "SELECT COUNT(*) FROM force_snapshots WHERE timeframe = ? AND symbol = ?",
-                (int(timeframe), symbol),
-            ).fetchone()
-        return int(row[0] if row else 0)
+    def _compute_one(self, values: np.ndarray, tf: int, currency: str) -> Dict[str, Any]:
+        risks: List[str] = []
+        if values.size < 8:
+            return self._silent(tf, currency, 0, ["INSUFFICIENT_ROWS"])
+        values = values[np.isfinite(values)]
+        if values.size < 8:
+            return self._silent(tf, currency, int(values.size), ["NON_FINITE_SERIES"])
+        centered = values - float(np.nanmean(values))
+        if float(np.nanstd(centered)) < 1e-9:
+            return self._silent(tf, currency, int(values.size), ["WAVELET_SILENT_VALID_STATIC_OR_FLAT"])
 
-    def _load_rows(self, db_path: str, symbol: str, timeframe: int) -> List[Dict[str, float]]:
-        columns = ", ".join(["timestamp", *CURRENCIES])
-        query = f"""
-            SELECT {columns}
-            FROM force_snapshots
-            WHERE timeframe = ? AND symbol = ?
-            ORDER BY timestamp ASC
-        """
-        with _ro_connect(db_path) as conn:
-            cur = conn.execute(query, (int(timeframe), symbol))
-            rows: List[Dict[str, float]] = []
-            for row in cur.fetchall():
-                d = {"timestamp": row[0]}
-                for idx, c in enumerate(CURRENCIES, start=1):
-                    d[c] = _safe_float(row[idx])
-                rows.append(d)
-        return rows
+        max_scale = max(3, min(64, values.size // 2))
+        scales = np.arange(2, max_scale + 1)
+        if pywt is not None:
+            coeffs, _freqs = pywt.cwt(centered, scales, "morl")
+            power = np.abs(coeffs) ** 2
+        else:
+            risks.append("PYWT_UNAVAILABLE_NUMPY_FFT_FALLBACK_USED")
+            power = self._fallback_power(centered, scales)
 
-    def _compute_one(self, series: np.ndarray, currency: str, timeframe: int) -> Dict[str, object]:
-        technical_risks: List[str] = []
-        n = int(series.size)
-        if n < 8:
-            return self._silent(currency, timeframe, 1, ["WINDOW_TOO_SHORT"])
-        clean = series.astype(float)
-        clean = clean - float(np.nanmean(clean))
-        std = float(np.nanstd(clean))
-        if std < 1e-9:
-            return self._silent(currency, timeframe, 1, [])
-        clean = clean / std
+        recent_power = np.nanmean(power[:, max(0, power.shape[1] - min(10, power.shape[1])):], axis=1)
+        total_power = float(np.nansum(recent_power))
+        if total_power <= 1e-9:
+            return self._silent(tf, currency, int(values.size), risks + ["LOW_WAVELET_ENERGY"])
 
-        scales = np.arange(2, max(3, min(self.max_scale_cap, n // 2)) + 1, dtype=float)
-        try:
-            power = self._cwt_power(clean, scales)
-        except Exception:
-            technical_risks.append("PYWT_FALLBACK_USED")
-            power = self._fallback_scale_power(clean, scales)
+        dominant_idx = int(np.nanargmax(recent_power))
+        dominant_scale = int(scales[dominant_idx])
+        short_band = recent_power[scales <= max(4, max_scale // 4)]
+        long_band = recent_power[scales >= max(5, max_scale // 2)]
+        short_energy = float(np.nansum(short_band)) if short_band.size else 0.0
+        long_energy = float(np.nansum(long_band)) if long_band.size else 0.0
+        energy_ratio = float(short_energy / (long_energy + 1e-9))
 
-        if power.size == 0 or float(np.max(power)) < 1e-9:
-            return self._silent(currency, timeframe, 1, technical_risks)
+        threshold = float(np.nanmax(recent_power) * 0.45)
+        active_bands = int(np.sum(recent_power >= threshold))
+        multi_scale = bool(active_bands >= 2)
 
-        total_by_scale = np.mean(power, axis=1)
-        dominant_idx = int(np.argmax(total_by_scale))
-        dominant_scale = int(round(float(scales[dominant_idx])))
-        max_energy = float(total_by_scale[dominant_idx])
-        total_energy = float(np.sum(total_by_scale)) or 1.0
+        if power.shape[1] >= 12:
+            early = np.nanmean(power[:, -12:-6], axis=1)
+            late = np.nanmean(power[:, -6:], axis=1)
+            early_scale = int(scales[int(np.nanargmax(early))])
+            late_scale = int(scales[int(np.nanargmax(late))])
+        else:
+            early_scale = dominant_scale
+            late_scale = dominant_scale
 
-        short_mask = scales <= max(4.0, np.percentile(scales, 35))
-        long_mask = scales >= max(5.0, np.percentile(scales, 65))
-        high_frequency_energy = float(np.sum(total_by_scale[short_mask]))
-        low_frequency_energy = float(np.sum(total_by_scale[long_mask]))
-        wavelet_energy_ratio = low_frequency_energy / (high_frequency_energy + 1e-12)
-
-        active_scale_count = int(np.sum(total_by_scale >= max_energy * 0.55))
-        multi_scale_flag = bool(active_scale_count >= 2)
-
-        time_dominant = scales[np.argmax(power, axis=0)]
-        cut = max(3, min(10, len(time_dominant) // 3))
-        early = float(np.mean(time_dominant[:cut]))
-        recent = float(np.mean(time_dominant[-cut:]))
-        if recent < early * 0.88:
+        if late_scale < early_scale:
             drift = "COMPRESSING"
-        elif recent > early * 1.12:
+        elif late_scale > early_scale:
             drift = "EXPANDING"
         else:
             drift = "STABLE"
+        compression_onset = bool(drift == "COMPRESSING" and energy_ratio > 1.05)
 
-        recent_short = float(np.mean(np.sum(power[short_mask, -cut:], axis=0)))
-        prior_short = float(np.mean(np.sum(power[short_mask, max(0, power.shape[1] - 2 * cut): max(0, power.shape[1] - cut)], axis=0))) if power.shape[1] >= 2 * cut else 0.0
-        compression_onset = bool(drift == "COMPRESSING" and recent_short > prior_short * 1.15)
-
-        energy_norm = max_energy / (total_energy + 1e-12)
-        if energy_norm < 0.03:
-            state = "WAVELET_SILENT"
-        elif multi_scale_flag and active_scale_count >= 3:
+        if multi_scale:
             state = "WAVELET_MULTI_SCALE"
-        elif compression_onset or (drift == "COMPRESSING" and wavelet_energy_ratio < 0.85):
+        elif compression_onset or (dominant_scale <= max(4, max_scale // 4) and energy_ratio > 1.0):
             state = "WAVELET_COMPRESSING"
-        elif drift == "EXPANDING" or wavelet_energy_ratio > 1.25:
+        elif dominant_scale >= max(5, max_scale // 2) and energy_ratio < 1.0:
             state = "WAVELET_EXPANDING"
         elif drift != "STABLE":
             state = "WAVELET_TRANSITIONING"
         else:
-            state = "WAVELET_SILENT" if energy_norm < 0.06 else "WAVELET_TRANSITIONING"
+            state = "WAVELET_SILENT" if total_power < 1e-6 else "WAVELET_TRANSITIONING"
 
         return {
             "currency": currency.upper(),
-            "timeframe": int(timeframe),
+            "timeframe": int(tf),
             "wavelet_state": state,
-            "dominant_scale_bars": max(1, dominant_scale),
-            "wavelet_energy_ratio": round(float(wavelet_energy_ratio), 6),
+            "dominant_scale_bars": int(max(1, dominant_scale)),
+            "wavelet_energy_ratio": round(float(energy_ratio), 6),
             "scale_drift_direction": drift,
-            "multi_scale_flag": multi_scale_flag,
+            "multi_scale_flag": multi_scale,
             "compression_onset": compression_onset,
-            "method": "CWT_MORLET",
-            "technical_risks": technical_risks,
+            "method": "CWT_MORLET" if pywt is not None else "FFT_SCALE_FALLBACK",
+            "rows_used": int(values.size),
+            "technical_risks": risks,
             "timestamp": _utc_now(),
+            "timestamp_utc": _utc_now(),
         }
 
-    def _cwt_power(self, clean: np.ndarray, scales: np.ndarray) -> np.ndarray:
-        import pywt  # type: ignore
-        coeffs, _ = pywt.cwt(clean, scales, "morl")
-        return np.abs(coeffs) ** 2
-
-    def _fallback_scale_power(self, clean: np.ndarray, scales: np.ndarray) -> np.ndarray:
-        x = np.arange(clean.size, dtype=float)
-        power = np.zeros((len(scales), clean.size), dtype=float)
-        for i, scale in enumerate(scales):
-            width = max(3, int(round(scale)))
-            t = np.arange(-3 * width, 3 * width + 1, dtype=float)
-            wave = np.cos(5.0 * t / width) * np.exp(-(t ** 2) / (2.0 * width ** 2))
-            wave = wave - np.mean(wave)
-            norm = float(np.sqrt(np.sum(wave ** 2))) or 1.0
-            wave = wave / norm
-            conv = np.convolve(clean, wave, mode="same")
-            if conv.size != clean.size:
-                start = max(0, (conv.size - clean.size) // 2)
-                conv = conv[start:start + clean.size]
-            if conv.size < clean.size:
-                conv = np.pad(conv, (0, clean.size - conv.size), mode="constant")
-            power[i, :] = conv ** 2
-        return power
-
-    def _silent(self, currency: str, timeframe: int, dominant_scale: int, risks: Sequence[str]) -> Dict[str, object]:
+    def _silent(self, tf: int, currency: str, rows: int, risks: List[str]) -> Dict[str, Any]:
         return {
             "currency": currency.upper(),
-            "timeframe": int(timeframe),
+            "timeframe": int(tf),
             "wavelet_state": "WAVELET_SILENT",
-            "dominant_scale_bars": max(1, int(dominant_scale)),
+            "dominant_scale_bars": 1,
             "wavelet_energy_ratio": 0.0,
             "scale_drift_direction": "STABLE",
             "multi_scale_flag": False,
             "compression_onset": False,
             "method": "CWT_MORLET",
-            "technical_risks": list(risks),
+            "rows_used": int(rows),
+            "technical_risks": risks,
             "timestamp": _utc_now(),
+            "timestamp_utc": _utc_now(),
         }
 
+    def _fallback_power(self, centered: np.ndarray, scales: np.ndarray) -> np.ndarray:
+        out = []
+        x = np.asarray(centered, dtype=float)
+        for s in scales:
+            win = max(3, int(s))
+            kernel = np.sin(np.linspace(0, 2 * np.pi, win)) * np.hanning(win)
+            conv = np.convolve(x, kernel, mode="same")
+            out.append(conv * conv)
+        return np.asarray(out, dtype=float)
 
-def compute(db_path: str, symbol: str = "GBPUSD", timeframes: Sequence[int] = (1, 5, 15)) -> Dict[str, object]:
-    return WaveletDensityEngine().compute(db_path=db_path, symbol=symbol, timeframes=timeframes)
+    def _connect_ro(self, db_path: str) -> sqlite3.Connection:
+        return sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+
+    def _table_columns(self, conn: sqlite3.Connection) -> List[str]:
+        return [str(r[1]) for r in conn.execute("PRAGMA table_info(force_snapshots)").fetchall()]
+
+    def _find_col(self, cols: List[str], candidates: Iterable[str]) -> Optional[str]:
+        wanted = {_norm(c) for c in candidates}
+        for c in cols:
+            if _norm(c) in wanted:
+                return c
+        return None
+
+    def _currency_col(self, cols: List[str], cur: str) -> Optional[str]:
+        cur = _norm(cur)
+        for c in cols:
+            n = _norm(c)
+            if n == cur or n == f"force{cur}" or n == f"{cur}force" or n.endswith(cur) or n.startswith(cur):
+                if n not in {"currency", "ccy"}:
+                    return c
+        return None
+
+    def _numeric_cols(self, conn: sqlite3.Connection, cols: List[str], excluded: Iterable[Optional[str]]) -> List[str]:
+        ex = {x for x in excluded if x}
+        out: List[str] = []
+        for c in cols:
+            if c in ex or _norm(c) in {"id", "rowid", "symbol", "pair", "instrument"}:
+                continue
+            try:
+                vals = conn.execute(f'SELECT "{c}" FROM force_snapshots WHERE "{c}" IS NOT NULL LIMIT 20').fetchall()
+            except Exception:
+                continue
+            if any(_safe_float(v[0]) is not None for v in vals):
+                out.append(c)
+        return out
+
+    def _load_series_by_tf(self, db_path: str, symbol: str, base_currency: str, timeframes: Iterable[int]) -> Tuple[Dict[int, List[float]], Dict[str, Any]]:
+        conn = self._connect_ro(db_path)
+        try:
+            cols = self._table_columns(conn)
+            if not cols:
+                raise RuntimeError("force_snapshots table not found")
+            time_col = self._find_col(cols, TIME_CANDIDATES)
+            tf_col = self._find_col(cols, TF_CANDIDATES)
+            sym_col = self._find_col(cols, SYMBOL_CANDIDATES)
+            cur_col = self._find_col(cols, LONG_CURRENCY_CANDIDATES)
+            val_col = self._find_col(cols, LONG_VALUE_CANDIDATES)
+            if tf_col is None:
+                raise RuntimeError("timeframe column not detected")
+            order_col = time_col or "rowid"
+            series_by_tf: Dict[int, List[float]] = {int(tf): [] for tf in timeframes}
+            source_col = None
+            schema_mode = None
+
+            wide = self._currency_col(cols, base_currency)
+            if wide:
+                schema_mode = "wide_currency"
+                source_col = wide
+                raw = self._select_rows(conn, [order_col, tf_col, wide], tf_col, sym_col, symbol, timeframes, order_col)
+                for row in raw:
+                    v = _safe_float(row.get(wide))
+                    if v is not None:
+                        series_by_tf.setdefault(int(float(row[tf_col])), []).append(v)
+            elif cur_col and val_col:
+                schema_mode = "long_currency"
+                source_col = val_col
+                raw = self._select_rows(conn, [order_col, tf_col, cur_col, val_col], tf_col, sym_col, symbol, timeframes, order_col)
+                filtered = [r for r in raw if _norm(r.get(cur_col, "")) == _norm(base_currency)]
+                if not filtered:
+                    filtered = raw
+                for row in filtered:
+                    v = _safe_float(row.get(val_col))
+                    if v is not None:
+                        series_by_tf.setdefault(int(float(row[tf_col])), []).append(v)
+            else:
+                nums = self._numeric_cols(conn, cols, [time_col, tf_col, sym_col, cur_col, val_col])
+                if not nums:
+                    raise RuntimeError("no numeric signal column detected")
+                schema_mode = "generic_numeric_stream"
+                source_col = nums[0]
+                raw = self._select_rows(conn, [order_col, tf_col, source_col], tf_col, sym_col, symbol, timeframes, order_col)
+                for row in raw:
+                    v = _safe_float(row.get(source_col))
+                    if v is not None:
+                        series_by_tf.setdefault(int(float(row[tf_col])), []).append(v)
+            return series_by_tf, {"schema_mode": schema_mode, "source_column": source_col, "time_column": time_col or "rowid", "timeframe_column": tf_col, "symbol_column": sym_col}
+        finally:
+            conn.close()
+
+    def _select_rows(self, conn: sqlite3.Connection, select_cols: List[str], tf_col: str, sym_col: Optional[str], symbol: str, timeframes: Iterable[int], order_col: str) -> List[Dict[str, Any]]:
+        tf_list = [int(x) for x in timeframes]
+        ph = ",".join("?" for _ in tf_list)
+        quoted = ", ".join([f'"{c}"' if c != "rowid" else "rowid" for c in select_cols])
+        order_q = f'"{order_col}"' if order_col != "rowid" else "rowid"
+        base = f'SELECT {quoted} FROM force_snapshots WHERE "{tf_col}" IN ({ph})'
+        if sym_col:
+            rows = conn.execute(base + f' AND "{sym_col}" = ? ORDER BY "{tf_col}", {order_q}', list(tf_list) + [symbol]).fetchall()
+            if rows:
+                return [dict(zip(select_cols, r)) for r in rows]
+        rows = conn.execute(base + f' ORDER BY "{tf_col}", {order_q}', list(tf_list)).fetchall()
+        return [dict(zip(select_cols, r)) for r in rows]
+
+
+def parse_tfs(raw: str) -> List[int]:
+    return [int(x.strip()) for x in raw.split(",") if x.strip()]
+
+
+def main() -> int:
+    import argparse
+    p = argparse.ArgumentParser()
+    p.add_argument("--db", default="powerflow.db")
+    p.add_argument("--symbol", default="GBPUSD")
+    p.add_argument("--tfs", default="1,5,15")
+    p.add_argument("--pretty", action="store_true")
+    args = p.parse_args()
+    result = WaveletDensityEngine().compute(args.db, args.symbol, parse_tfs(args.tfs))
+    out_dir = Path("output/dashboard_surface")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "wavelet.json").write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(json.dumps(result, indent=2 if args.pretty else None, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

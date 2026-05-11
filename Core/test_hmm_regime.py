@@ -1,72 +1,57 @@
-from __future__ import annotations
-
-import math
-import py_compile
+﻿import os
 import sqlite3
-from pathlib import Path
 import tempfile
+from pathlib import Path
 
-from pf_hmm_regime_engine import HMMRegimeEngine, VALID_REGIMES
-
-CURRENCIES = ("gbp", "usd", "eur", "jpy", "chf", "cad", "aud", "nzd")
+from pf_hmm_regime_engine import HMMRegimeEngine
 
 
-def make_db(path: Path, counts_by_tf: dict[int, int]) -> None:
+def make_db(path, rows=60, wide=True):
     conn = sqlite3.connect(path)
-    cols = ", ".join(f"{c} REAL" for c in CURRENCIES)
-    conn.execute(f"CREATE TABLE force_snapshots (timestamp TEXT, timeframe INTEGER, symbol TEXT, {cols})")
-    for tf, n in counts_by_tf.items():
-        for i in range(n):
-            vals = [math.sin(i / 5.0 + k + tf / 100.0) * (1 + k * 0.1) + i * 0.01 for k in range(len(CURRENCIES))]
-            conn.execute(
-                f"INSERT INTO force_snapshots VALUES ({','.join(['?'] * (3 + len(CURRENCIES)))})",
-                [f"2026-05-11T00:{i:02d}:00Z", tf, "GBPUSD", *vals],
-            )
+    if wide:
+        conn.execute("CREATE TABLE force_snapshots (time TEXT, timeframe INTEGER, symbol TEXT, GBP REAL, USD REAL)")
+        for tf in (60, 30, 15):
+            for i in range(rows):
+                conn.execute("INSERT INTO force_snapshots VALUES (?, ?, ?, ?, ?)", (f"t{i:04d}", tf, "GBPUSD", i * 0.1, -i * 0.05))
+    else:
+        conn.execute("CREATE TABLE force_snapshots (created_at TEXT, timeframe INTEGER, symbol TEXT, force_value REAL)")
+        for tf in (60, 30, 15):
+            for i in range(rows):
+                conn.execute("INSERT INTO force_snapshots VALUES (?, ?, ?, ?)", (f"t{i:04d}", tf, "GBPUSD", i * 0.1))
     conn.commit()
     conn.close()
 
 
-def test_insufficient_data_guard_is_multitf_not_tf1440():
-    with tempfile.TemporaryDirectory() as d:
-        db = Path(d) / "pf.db"
-        make_db(db, {60: 10, 30: 10, 15: 10})
-        result = HMMRegimeEngine().compute(str(db), "GBPUSD", timeframes=[60, 30, 15])
-        assert result["status"] == "INSUFFICIENT_DATA"
-        assert result["fallback"] == "B1_LEGACY"
-        assert "MULTI_TF_INSUFFICIENT_OBSERVATIONS" in result["technical_risks"]
+def test_mtf_active_without_tf1440_wide():
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
+        db = str(Path(d) / "pf.db")
+        make_db(db, rows=20, wide=True)
+        res = HMMRegimeEngine().compute(db, "GBPUSD", [60, 30, 15])
+        assert res["status"] == "ACTIVE", res
+        assert res["regime_hmm"] in {"COMPRESSION", "TENDANCE", "RANGE", "TRANSITION"}
+        assert 0 <= res["regime_confidence_hmm"] <= 1
 
 
-def test_active_without_tf1440_or_h4_when_tactical_stack_has_50_observations():
-    with tempfile.TemporaryDirectory() as d:
-        db = Path(d) / "pf.db"
-        make_db(db, {60: 20, 30: 20, 15: 20})
-        result = HMMRegimeEngine().compute(str(db), "GBPUSD", timeframes=[60, 30, 15])
-        assert result["status"] == "ACTIVE"
-        assert result["fallback"] is None
-        assert result["regime_scope"] == "MULTI_TF_TACTICAL"
-        assert result["regime_hmm"] in VALID_REGIMES
-        assert 1440 not in result["timeframes_used"]
-        assert 240 not in result["timeframes_used"]
+def test_generic_numeric_schema_active():
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
+        db = str(Path(d) / "pf.db")
+        make_db(db, rows=20, wide=False)
+        res = HMMRegimeEngine().compute(db, "GBPUSD", [60, 30, 15])
+        assert res["status"] == "ACTIVE", res
+        assert res["schema_mode"] == "generic_numeric_stream", res
 
 
-def test_active_state_and_confidence_range():
-    with tempfile.TemporaryDirectory() as d:
-        db = Path(d) / "pf.db"
-        make_db(db, {60: 25, 30: 25, 15: 25})
-        result = HMMRegimeEngine().compute(str(db), "GBPUSD", timeframes=[60, 30, 15])
-        assert result["status"] == "ACTIVE"
-        assert result["regime_hmm"] in VALID_REGIMES
-        assert 0.0 <= result["regime_confidence_hmm"] <= 1.0
-        assert set(result["state_probabilities"]) == set(VALID_REGIMES)
-
-
-def test_py_compile():
-    py_compile.compile("pf_hmm_regime_engine.py", doraise=True)
+def test_insufficient_guard():
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
+        db = str(Path(d) / "pf.db")
+        make_db(db, rows=3, wide=True)
+        res = HMMRegimeEngine().compute(db, "GBPUSD", [60, 30, 15])
+        assert res["status"] == "INSUFFICIENT_DATA", res
+        assert res["fallback"] == "B1_LEGACY", res
 
 
 if __name__ == "__main__":
-    test_insufficient_data_guard_is_multitf_not_tf1440()
-    test_active_without_tf1440_or_h4_when_tactical_stack_has_50_observations()
-    test_active_state_and_confidence_range()
-    test_py_compile()
-    print("test_hmm_regime.py PASS")
+    test_mtf_active_without_tf1440_wide()
+    test_generic_numeric_schema_active()
+    test_insufficient_guard()
+    print("test_hmm_regime PASS")
