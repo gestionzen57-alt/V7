@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PowerFlow V7.2 — Dashboard MAX</title>
+<style>
+:root{--bg:#050805;--panel:#0a120a;--panel2:#101810;--card:#0b170b;--line:rgba(0,255,0,.22);--line2:rgba(0,255,0,.1);--green:#00ff00;--green2:#00c800;--text:#e6f2e6;--muted:#86a086;--warn:#ffaa00;--err:#ff3434;--blue:#65b7ff;--violet:#c990ff;--cyan:#56fff1;--shadow:0 0 24px rgba(0,255,0,.08)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at top left,#0b1d0b 0,#050805 38%,#030403 100%);color:var(--text);font-family:Consolas,Monaco,'Courier New',monospace}body{padding:14px}.shell{max-width:1920px;margin:0 auto}.top{position:sticky;top:0;z-index:20;border:1px solid var(--line);border-radius:18px;padding:14px 16px;background:linear-gradient(135deg,rgba(8,24,8,.98),rgba(5,8,5,.96));box-shadow:var(--shadow);backdrop-filter:blur(8px)}.toprow{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}h1{margin:0;color:var(--green);font-size:clamp(22px,2.8vw,38px);letter-spacing:.04em}.subtitle{margin-top:6px;color:var(--muted);line-height:1.45}.badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.badge,.btn{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#071007;color:var(--green);font-size:12px}.btn{cursor:pointer;color:var(--text)}.btn:hover{border-color:var(--green);color:var(--green)}.nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.nav a{color:var(--muted);text-decoration:none;border:1px solid var(--line2);border-radius:999px;padding:5px 8px;font-size:12px}.nav a:hover{color:var(--green);border-color:var(--line)}.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.controls input{background:#050905;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:260px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:14px}.section{grid-column:span 6;border:1px solid var(--line);border-radius:18px;background:rgba(16,24,16,.9);padding:14px;box-shadow:var(--shadow);overflow:hidden}.wide{grid-column:span 12}.third{grid-column:span 4}@media(max-width:1180px){.section,.third{grid-column:span 12}}.section h2{margin:0 0 12px;color:var(--green);font-size:16px;display:flex;justify-content:space-between;align-items:center;gap:10px}.section h2 small{font-weight:400;color:var(--muted)}.cards2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.cards4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}@media(max-width:900px){.cards2,.cards3,.cards4{grid-template-columns:1fr}}.card{border:1px solid rgba(0,255,0,.16);border-radius:14px;background:linear-gradient(180deg,#0a160a,#081108);padding:12px;min-height:118px;position:relative;overflow:hidden}.card:before{content:attr(data-brick);position:absolute;right:10px;bottom:8px;color:rgba(0,255,0,.08);font-size:18px;font-weight:bold;pointer-events:none}.card[data-freshness="LIVE"],.card[data-freshness="OK"],.liveBorder{border-color:rgba(0,255,0,.38)}.card[data-freshness="STALE"],.staleBorder{border-color:rgba(255,170,0,.5)}.card[data-freshness="MISSING"],.card[data-freshness="DEGRADED"]{border-color:rgba(255,170,0,.36)}.card[data-freshness="ERROR"]{border-color:rgba(255,52,52,.55)}.head{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px}.label{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}.chip{font-size:10px;border:1px solid var(--line2);border-radius:999px;padding:3px 6px;color:var(--muted);white-space:nowrap}.val{font-size:18px;line-height:1.35;word-break:break-word}.mini{font-size:12px;color:var(--muted);line-height:1.45;margin-top:6px}.metric{display:grid;grid-template-columns:210px minmax(0,1fr);gap:8px;border-top:1px solid var(--line2);padding-top:6px;margin-top:6px;font-size:12px}.metric span:first-child{color:var(--muted)}.metric strong{font-weight:500;word-break:break-word}.green{color:var(--green)!important}.warn{color:var(--warn)!important}.err{color:var(--err)!important}.blue{color:var(--blue)!important}.violet{color:var(--violet)!important}.cyan{color:var(--cyan)!important}.muted{color:var(--muted)!important}.tablewrap{max-height:340px;overflow:auto;border:1px solid var(--line2);border-radius:12px;background:#050905;padding:6px;margin-top:10px}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border-bottom:1px solid rgba(0,255,0,.09);padding:7px;text-align:left;vertical-align:top}th{color:var(--green);font-weight:400;position:sticky;top:0;background:#061006;z-index:1}.raw{display:none}.showRaw .raw{display:block}details{margin-top:10px}summary{cursor:pointer;color:var(--muted);font-size:12px}pre{white-space:pre-wrap;word-break:break-word;max-height:300px;overflow:auto;background:#050905;border:1px solid var(--line2);border-radius:12px;padding:10px;font-size:12px}.footer{margin:18px 0 4px;color:var(--muted);font-size:12px}.kpi{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:1100px){.kpi{grid-template-columns:repeat(2,minmax(0,1fr))}}.k{border:1px solid var(--line2);border-radius:14px;background:#071007;padding:10px}.k .n{font-size:21px;color:var(--green)}.k .t{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.matrix{display:grid;grid-template-columns:220px repeat(5,minmax(0,1fr));gap:1px;border:1px solid var(--line2);border-radius:12px;overflow:hidden;background:var(--line2);font-size:12px}.mx{background:#061006;padding:8px}.mx.h{color:var(--green);background:#0a160a}.hidden{display:none!important}.contractBad{color:var(--warn)}.contractOk{color:var(--green)}.spark{height:6px;background:#061006;border:1px solid var(--line2);border-radius:999px;overflow:hidden;margin-top:7px}.spark span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));width:0%}.banner{border:1px solid rgba(255,170,0,.28);border-radius:14px;background:rgba(255,170,0,.06);padding:10px;color:var(--warn);font-size:12px;margin-top:10px}.alertHot{color:var(--err)}.alertWatch{color:var(--warn)}.alertInfo{color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top">
+  <div class="toprow">
+    <div>
+      <h1>POWERFLOW V7.2 — LIVE PERCEPTION MAX V6</h1>
+      <div class="subtitle">Dashboard de perception opérationnelle : dual visible, divergence exposée, fraîcheur mesurée, aucune décision, aucune fusion silencieuse.</div>
+    </div>
+    <div class="badges">
+      <span id="read-status" class="badge warn">BOOT</span>
+      <span id="p0-status" class="badge">P0 unknown</span>
+      <span id="clock-utc" class="badge">UTC --</span>
+      <span id="refresh-status" class="badge">refresh pending</span>
+    </div>
+  </div>
+  <div class="nav">
+    <a href="#source-audit">sources</a><a href="#dual-regime">regime</a><a href="#dual-density">density</a><a href="#kinematics">kinematics</a><a href="#gravity">gravity</a><a href="#fractal">fractal</a><a href="#cascade">cascade</a><a href="#session">session/dq</a><a href="#memory">memory/alerts</a><a href="#contract">contract</a>
+  </div>
+  <div class="controls">
+    <input id="filter" placeholder="Filtrer cartes/tables : GBP, HOT_NODE, PENDING_DATA_WINDOW, B4..." />
+    <button class="btn" onclick="document.body.classList.toggle('showRaw')">raw JSON</button>
+    <button class="btn" onclick="refresh()">refresh now</button>
+    <button class="btn" onclick="document.body.classList.toggle('compact')">compact</button>
+  </div>
+  <div class="kpi">
+    <div class="k"><div id="k-live" class="n">0</div><div class="t">sources LIVE</div></div>
+    <div class="k"><div id="k-stale" class="n warn">0</div><div class="t">sources STALE</div></div>
+    <div class="k"><div id="k-missing" class="n warn">0</div><div class="t">sources MISSING</div></div>
+    <div class="k"><div id="k-error" class="n err">0</div><div class="t">sources ERROR</div></div>
+    <div class="k"><div id="k-alerts" class="n">0</div><div class="t">alertes queue</div></div>
+    <div class="k"><div id="k-risks" class="n warn">0</div><div class="t">technical_risks</div></div>
+  </div>
+  <div class="banner">Contrat : PowerFlow affiche la perception. Aucun ordre directionnel. Dual régime exposé. Dual densité exposée. Memory = fréquence historique, hors prédiction.</div>
+</header>
+
+<main class="grid">
+  <section id="source-audit" class="section wide">
+    <h2>0. Runtime Source Audit <small id="meta-source">BOOT</small></h2>
+    <div id="source-table" class="tablewrap"></div>
+  </section>
+
+  <section id="dual-regime" class="section wide" data-section="REGIME_HTF_SECTION">
+    <h2>1. Dual Regime B1 / B1+ <small id="meta-regime">MISSING</small></h2>
+    <div class="cards3">
+      <article id="card-b1-legacy" class="card" data-brick="B1_LEGACY" data-method="heuristic" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-b1-hmm" class="card" data-brick="B1_HMM" data-method="hmm_gaussian" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-regime-div" class="card" data-brick="DUAL_REGIME_DIVERGENCE" data-method="comparison_no_average" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+    </div>
+    <div class="raw"><details open><summary>raw regime</summary><pre id="raw-regime"></pre></details></div>
+  </section>
+
+  <section id="dual-density" class="section wide" data-section="DENSITE_TEMPORELLE_SECTION">
+    <h2>2. Dual Density B4 / B4+ <small id="meta-density">MISSING</small></h2>
+    <div class="cards3">
+      <article id="card-b4-rolling" class="card" data-brick="B4_ROLLING" data-method="rolling_autocorr" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-b4-wavelet" class="card" data-brick="B4_WAVELET" data-method="morlet_cwt" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-density-div" class="card" data-brick="DUAL_DENSITY_DIVERGENCE" data-method="comparison_no_fusion" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+    </div>
+    <div id="density-detail" class="tablewrap"></div>
+    <div class="raw"><details open><summary>raw density</summary><pre id="raw-density"></pre></details></div>
+  </section>
+
+  <section id="kinematics" class="section" data-section="CINEMATIQUE_SECTION">
+    <h2>3. Kinematics B3 / Energy P1 <small id="meta-kin">MISSING</small></h2>
+    <article id="card-b3" class="card" data-brick="B3_KALMAN" data-method="kalman_q0.01_r0.10" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+    <div class="cards2" style="margin-top:10px">
+      <article id="card-b3-clusters" class="card" data-brick="B3_CLUSTERS" data-method="kalman_clusters" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-p1-energy" class="card" data-brick="P1_ENERGY" data-method="elastic_tension_probe" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+    </div>
+    <div class="raw"><details><summary>raw kinematics</summary><pre id="raw-kin"></pre></details></div>
+  </section>
+
+  <section id="fractal" class="section" data-section="FRACTAL_TEXTURE_SECTION">
+    <h2>4. Fractal Resonance / Texture <small id="meta-fractal">MISSING</small></h2>
+    <div class="cards2">
+      <article id="card-b7-resonance" class="card" data-brick="B7_RESONANCE" data-method="tf_cross_correlation" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-b7-texture" class="card" data-brick="B7_TEXTURE" data-method="variance_texture" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+    </div>
+    <div class="raw"><details><summary>raw fractal/texture</summary><pre id="raw-fractal"></pre></details></div>
+  </section>
+
+  <section id="gravity" class="section wide" data-section="GRAVITE_RELATIONNELLE_SECTION">
+    <h2>5. Relational Gravity B5 Spearman <small id="meta-gravity">MISSING</small></h2>
+    <div class="cards3">
+      <article id="card-b5-summary" class="card" data-brick="B5_SPEARMAN" data-method="spearman_rank" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-b5-extremes" class="card" data-brick="B5_TAIL_EXTREMES" data-method="spearman_rank" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-b5-states" class="card" data-brick="B5_STATE_DISTRIBUTION" data-method="spearman_rank_distribution" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+    </div>
+    <div id="b5-table" class="tablewrap"></div>
+    <div class="raw"><details><summary>raw gravity</summary><pre id="raw-gravity"></pre></details></div>
+  </section>
+
+  <section id="cascade" class="section" data-section="CASCADE_ENTROPY_SECTION">
+    <h2>6. Cascade B2 / Entropy Guard <small id="meta-cascade">MISSING</small></h2>
+    <div class="cards2">
+      <article id="card-b2-cascade" class="card" data-brick="B2_CASCADE" data-method="event_rate_5min" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-entropy" class="card" data-brick="GUARD_ENTROPY" data-method="shannon_entropy" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+    </div>
+    <div class="raw"><details><summary>raw cascade/entropy</summary><pre id="raw-cascade"></pre></details></div>
+  </section>
+
+  <section id="session" class="section" data-section="SESSION_DATA_QUALITY_SECTION">
+    <h2>7. Session / Data Quality <small id="meta-session">MISSING</small></h2>
+    <div class="cards2">
+      <article id="card-session" class="card" data-brick="GUARD_SESSION" data-method="utc_session_overlay" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-dq" class="card" data-brick="GUARD_DATA_QUALITY" data-method="stale_gap_no_rows" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+    </div>
+    <div id="dq-table" class="tablewrap"></div>
+    <div class="raw"><details><summary>raw session/dq</summary><pre id="raw-session"></pre></details></div>
+  </section>
+
+  <section id="memory" class="section wide" data-section="MEMORY_ALERTS_SECTION">
+    <h2>8. Memory Context B6 / Alerts <small id="meta-memory">MISSING</small></h2>
+    <div class="cards3">
+      <article id="card-memory" class="card" data-brick="B6_MEMORY" data-method="pattern_6d_frequency" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-alerts" class="card" data-brick="P2_ALERT_MAPPER" data-method="behavioral_alert_queue" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+      <article id="card-risks" class="card" data-brick="TECHNICAL_RISKS" data-method="risk_visibility_no_censorship" data-timestamp="MISSING" data-freshness="MISSING" data-age-seconds="-1"></article>
+    </div>
+    <div id="alerts-table" class="tablewrap"></div>
+    <div class="raw"><details><summary>raw memory/alerts</summary><pre id="raw-memory"></pre></details></div>
+  </section>
+
+  <section id="contract" class="section wide" data-section="DASHBOARD_CONTRACT_AUDIT">
+    <h2>9. Dashboard Contract Audit <small id="meta-contract">BOOT</small></h2>
+    <div id="contract-table" class="tablewrap"></div>
+  </section>
+</main>
+<div class="footer">La machine perçoit. Le trader arbitre. Aucun ordre directionnel. Aucune censure M1. Divergences dual exposées.</div>
+</div>
+
+<script>
+const STALE_SECONDS=180;
+const JSON_FILES={
+ dashboard:'output/dashboard_data_v7.2.json', cycle:'output/cycle_report.json', p0:'output/P0_FINAL_DECISION.json', p0_lower:'output/p0_final_decision.json',
+ regimeLegacy:'output/dashboard_surface/regime_legacy.json', regimeHmm:'output/dashboard_surface/regime_hmm.json', kinematics:'output/dashboard_surface/kinematics.json', forceKinematics:'output/dashboard_surface/force_kinematics.json', energy:'output/dashboard_surface/energy.json',
+ density:'output/dashboard_surface/density.json', wavelet:'output/dashboard_surface/wavelet.json', gravity:'output/dashboard_surface/spearman.json', resonance:'output/dashboard_surface/fractal.json', texture:'output/dashboard_surface/texture.json',
+ cascade:'output/dashboard_surface/cascade.json', entropy:'output/dashboard_surface/entropy.json', session:'output/dashboard_surface/session.json', dq:'output/dashboard_surface/dq.json', dq2:'output/dashboard_surface/dq.json', memory:'output/dashboard_surface/memory.json', alerts:'output/dashboard_surface/alerts.json', node:'output/dashboard_surface/node.json'
+};
+const $=id=>document.getElementById(id); const isObj=x=>x&&typeof x==='object'&&!Array.isArray(x); const pp=x=>JSON.stringify(x??null,null,2); const val=(x,f='MISSING')=>(x===undefined||x===null||x==='')?f:x;
+function css(v){v=String(v??'').toUpperCase(); if(v.includes('ERROR')||v.includes('FAIL')||v.includes('STATIC')||v.includes('DEAD'))return'err'; if(v.includes('PENDING')||v.includes('STALE')||v.includes('MISSING')||v.includes('DEGRADED')||v.includes('WATCH'))return'warn'; if(v.includes('HOT'))return'alertHot'; if(v.includes('INFO'))return'alertInfo'; if(v.includes('PASS')||v.includes('LIVE')||v.includes('ACTIVE')||v.includes('RESONANT')||v.includes('STRUCTURAL'))return'green'; if(v.includes('DIVERG'))return'violet'; return'';}
+function path(obj,p){let cur=obj; for(const part of p.split('.')){if(cur==null)return undefined; cur=cur[part];} return cur;}
+function safe(obj,paths,f='MISSING'){for(const p of paths){const v=path(obj,p); if(v!==undefined&&v!==null&&v!=='')return v;} return f;}
+function deepFind(obj,keys,max=8){if(obj==null||max<0)return undefined; if(isObj(obj)){for(const k of keys){if(obj[k]!==undefined)return obj[k];} for(const v of Object.values(obj)){const r=deepFind(v,keys,max-1); if(r!==undefined)return r;}} else if(Array.isArray(obj)){for(const v of obj){const r=deepFind(v,keys,max-1); if(r!==undefined)return r;}} return undefined;}
+function merge(...xs){const o={}; for(const x of xs){if(isObj(x))Object.assign(o,x);} return o;}
+function unwrap(x){return isObj(x)&&x._powerflow_contract&&('payload' in x)?x.payload:x;}
+function surfaceMeta(x){return isObj(x)&&x._powerflow_contract?x:null;}
+function arr(x){if(Array.isArray(x))return x; if(isObj(x)){for(const k of ['items','results','pairs','alerts','data','rows','events'])if(Array.isArray(x[k]))return x[k];} return [];}
+function findArray(obj,names){for(const n of names){const v=path(obj,n); if(Array.isArray(v))return v;} const v=deepFind(obj,names.map(x=>x.split('.').pop()),8); return Array.isArray(v)?v:[];}
+function timestampOf(obj){const m=surfaceMeta(obj); if(m)return m.timestamp_utc||m._normalized_at_utc||null; return safe(obj,['timestamp','timestamp_utc','generated_at','generated_at_utc','created_at','updated_at','utc_timestamp','asof','as_of','report_timestamp','metadata.timestamp','meta.timestamp','summary.timestamp'],null);}
+function ageSeconds(ts){if(!ts||ts==='MISSING')return-1; const t=new Date(ts); if(isNaN(t.getTime()))return-1; return Math.max(0,Math.round((new Date()-t)/1000));}
+function utc(ts){if(!ts)return'MISSING'; const d=new Date(ts); return isNaN(d.getTime())?'MISSING':d.toISOString();}
+function freshness(obj,err){
+ if(err)return{state:'ERROR',ts:'MISSING',age:-1};
+ if(!obj||(isObj(obj)&&Object.keys(obj).length===0))return{state:'MISSING',ts:'MISSING',age:-1};
+ if(isObj(obj)&&obj._powerflow_contract){
+   const st=String(obj.freshness||'DEGRADED').toUpperCase();
+   const ts=obj.timestamp_utc||obj._normalized_at_utc;
+   const age=(obj.data_age_seconds!==undefined&&obj.data_age_seconds!==null)?obj.data_age_seconds:ageSeconds(ts);
+   return{state:st,ts:utc(ts),age:Number.isFinite(Number(age))?Number(age):-1};
+ }
+ // V5: payloads unwrapped from dashboard_surface carry contract fields.
+ // Honor them directly instead of recomputing stale/missing from raw source only.
+ if(isObj(obj)&&(obj.freshness||obj.data_freshness||obj.status)){
+   let st=String(obj.freshness||obj.data_freshness||obj.status||'DEGRADED').toUpperCase();
+   if(st==='PASS')st='LIVE';
+   const ts=obj.timestamp_utc||obj._normalized_at_utc||obj.generated_at_utc||obj.generated_at||timestampOf(obj);
+   const age=(obj.data_age_seconds!==undefined&&obj.data_age_seconds!==null)?obj.data_age_seconds:ageSeconds(ts);
+   return{state:st,ts:utc(ts),age:Number.isFinite(Number(age))?Number(age):-1};
+ }
+ const ts=timestampOf(obj); const age=ageSeconds(ts);
+ if(age<0)return{state:'DEGRADED',ts:'MISSING',age:-1};
+ return{state:age>STALE_SECONDS?'STALE':'LIVE',ts:utc(ts),age};
+}
+function metric(label,v){return`<div class="metric"><span>${label}</span><strong class="${css(v)}">${typeof v==='object'?pp(v):val(v)}</strong></div>`;}
+function table(headers,rows){if(!rows.length)return'<div class="warn">MISSING — aucune donnée tabulaire lisible.</div>'; return `<table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`;}
+function setCard(id,brick,method,obj,html,err){const el=$(id); const f=freshness(obj,err); el.dataset.brick=brick; el.dataset.method=method; el.dataset.timestamp=f.ts; el.dataset.freshness=f.state; el.dataset.ageSeconds=String(f.age); el.innerHTML=`<div class="head"><div class="label">${brick}</div><div class="chip ${css(f.state)}">${f.state} · age=${f.age}</div></div>${html}<div class="mini">method=${method}<br>timestamp_utc=${f.ts}<br>freshness=${f.state}</div>`; return f;}
+function setMeta(id,fs){const states=fs.map(x=>x.state); const state=states.includes('ERROR')?'ERROR':states.includes('LIVE')?'LIVE':states.includes('STALE')?'STALE':states.includes('MISSING')?'MISSING':'DEGRADED'; $(id).textContent=state; $(id).className=css(state);}
+async function loadJson(p){try{const r=await fetch(p+'?t='+Date.now(),{cache:'no-store'}); if(!r.ok)return{ok:false,error:'HTTP '+r.status,path:p}; return{ok:true,data:await r.json(),path:p};}catch(e){return{ok:false,error:e.message,path:p};}}
+function sourceObj(d,name){return d[name]?.ok?unwrap(d[name].data):{}} function raw(d,names){const o={}; for(const n of names)o[n]=d[n]?.ok?d[n].data:d[n]?.error; return o;}
+function section(d,keys,direct=[]){const out={}; for(const name of direct){if(d[name]?.ok)Object.assign(out,unwrap(d[name].data));} for(const rootName of ['dashboard','cycle','p0','p0_lower'])if(d[rootName]?.ok){const found=deepFind(d[rootName].data,keys,8); if(isObj(found))Object.assign(out,found);} return out;}
+function divergence(a,b){const aa=parseFloat(a),bb=parseFloat(b); return Number.isFinite(aa)&&Number.isFinite(bb)?Math.abs(aa-bb).toFixed(3):'MISSING';}
+function p0Status(d){const p=merge(sourceObj(d,'p0_lower'),sourceObj(d,'p0'),sourceObj(d,'cycle'),sourceObj(d,'dashboard')); return safe(p,['global_status','verdict','status','p0_status','summary.global_status','summary.verdict'],'P0 status unknown');}
+function distribution(items,fields){const m={}; for(const x of items){const key=String(fields.map(f=>x[f]).find(Boolean)||'UNKNOWN'); m[key]=(m[key]||0)+1;} return m;}
+function collectRisks(alerts){const out=[]; for(const a of alerts){const r=a.technical_risks; if(Array.isArray(r))out.push(...r); else if(r)out.push(r);} return out;}
+function renderSources(d){const rows=Object.entries(JSON_FILES).map(([k,p])=>{const r=d[k]; const obj=r?.ok?r.data:null; const f=freshness(obj,!r?.ok); return `<tr><td>${k}</td><td>${p}</td><td class="${css(f.state)}">${f.state}</td><td>${f.age}</td><td>${f.ts}</td><td>${r?.ok?'READ':val(r?.error)}</td></tr>`;}); $('source-table').innerHTML=table(['key','path','freshness','age_seconds','timestamp_utc','read_status'],rows);}
+function contractAudit(){const required=['data-brick','data-method','data-timestamp','data-freshness','data-age-seconds']; const cards=[...document.querySelectorAll('.card')]; const rows=cards.map(c=>{const miss=required.filter(a=>!c.hasAttribute(a)); const ok=miss.length===0; return `<tr><td>${c.id}</td><td>${c.dataset.brick}</td><td>${c.dataset.method}</td><td class="${ok?'contractOk':'contractBad'}">${ok?'OK':'MISSING '+miss.join(', ')}</td><td>${c.dataset.timestamp}</td><td>${c.dataset.freshness}</td><td>${c.dataset.ageSeconds}</td></tr>`;}); $('contract-table').innerHTML=table(['card','brick','method','contract','timestamp_utc','freshness','age_seconds'],rows); $('meta-contract').textContent=rows.length+' cards audited';}
+function updateKpisFromSources(d){
+ const vals=Object.values(d).map(r=>freshness(r?.ok?r.data:null,!r?.ok).state);
+ const sc=s=>vals.filter(v=>v===s).length;
+ $('k-live').textContent=sc('LIVE');
+ $('k-stale').textContent=sc('STALE');
+ $('k-missing').textContent=sc('MISSING');
+ $('k-error').textContent=sc('ERROR');
+}
+function updateKpis(){/* V6: kept for compatibility; source KPIs are updated in refresh() */}
+
+function applyFilter(){const q=$('filter').value.toLowerCase().trim(); document.querySelectorAll('.section,.card,tr').forEach(el=>{if(!q){el.classList.remove('hidden');return;} const txt=el.innerText.toLowerCase()+ ' '+ Array.from(el.attributes||[]).map(a=>a.value).join(' ').toLowerCase(); el.classList.toggle('hidden',!txt.includes(q));});}
+$('filter').addEventListener('input',applyFilter);
+async function refresh(){
+ $('clock-utc').textContent=new Date().toISOString().replace('T',' ').replace('Z',' UTC');
+ const entries=await Promise.all(Object.entries(JSON_FILES).map(async([k,p])=>[k,await loadJson(p)])); const d=Object.fromEntries(entries); const ok=Object.values(d).filter(x=>x.ok).length;
+ $('read-status').textContent=`READ ${ok}/${Object.keys(JSON_FILES).length}`; $('read-status').className='badge '+(ok?'green':'warn'); $('refresh-status').textContent='refresh '+new Date().toISOString().slice(11,19)+' UTC'; $('p0-status').textContent=p0Status(d); $('p0-status').className='badge '+css(p0Status(d)); renderSources(d); updateKpisFromSources(d); $('meta-source').textContent='sources '+ok+'/'+Object.keys(JSON_FILES).length;
+ const legacy=merge(section(d,['legacy','regime_legacy','b1_legacy'],['regimeLegacy'])); const hmm=merge(section(d,['hmm','regime_hmm','b1_hmm'],['regimeHmm'])); const legacyConf=safe(legacy,['confidence_legacy','legacy_confidence','confidence','state.confidence']); const hmmConf=safe(hmm,['confidence_hmm','hmm_confidence','confidence','state.confidence']);
+ const f1=setCard('card-b1-legacy','B1_LEGACY','heuristic',legacy,`<div class="val ${css(safe(legacy,['regime_legacy','legacy_regime','regime','state.regime','label']))}">${safe(legacy,['regime_legacy','legacy_regime','regime','state.regime','label'])}</div>${metric('confidence',legacyConf)}${metric('method',safe(legacy,['method'],'heuristic'))}${metric('htf_context_stack',pp(safe(legacy,['htf_context_stack','stack'],{})))}`);
+ const f2=setCard('card-b1-hmm','B1_HMM','hmm_gaussian',hmm,`<div class="val ${css(safe(hmm,['regime_hmm','hmm_regime','regime','state.regime','label']))}">${safe(hmm,['regime_hmm','hmm_regime','regime','state.regime','label'])}</div>${metric('confidence',hmmConf)}${metric('method',safe(hmm,['method'],'hmm_gaussian'))}${metric('transition_probs',pp(safe(hmm,['transition_probs','transition_matrix'],{})))}`);
+ const f3=setCard('card-regime-div','DUAL_REGIME_DIVERGENCE','comparison_no_average',merge(legacy,hmm,{timestamp:timestampOf(legacy)||timestampOf(hmm)}),`<div class="val blue">NO FINAL REGIME</div>${metric('confidence_divergence',divergence(legacyConf,hmmConf))}${metric('legacy_visible','YES')}${metric('hmm_visible','YES')}${metric('rule','expose both / trader arbitrates')}`); setMeta('meta-regime',[f1,f2,f3]); $('raw-regime').textContent=pp(raw(d,['regimeLegacy','regimeHmm','dashboard','cycle']));
+ const rolling=merge(section(d,['rolling','b4_rolling','temporal_density'],['density'])); const wavelet=merge(section(d,['wavelet','b4_wavelet','wavelet_density'],['wavelet']));
+ const fr=setCard('card-b4-rolling','B4_ROLLING','rolling_autocorr',rolling,`<div class="val ${css(safe(rolling,['cycle_state','cycle_state_rolling','state','b4_status']))}">${safe(rolling,['cycle_state','cycle_state_rolling','state','b4_status'])}</div>${metric('compression_ratio',safe(rolling,['compression_ratio','compression_ratio_rolling']))}${metric('dominant_period_bars',safe(rolling,['dominant_period_bars','dominant_period']))}${metric('autocorr_peak',safe(rolling,['autocorr_peak']))}${metric('compression_alert',safe(rolling,['compression_alert']))}`);
+ const fw=setCard('card-b4-wavelet','B4_WAVELET','morlet_cwt',wavelet,`<div class="val">power=${safe(wavelet,['wavelet_power','power'])}</div>${metric('dominant_scale',safe(wavelet,['dominant_scale','scale']))}${metric('cycle_detected',safe(wavelet,['cycle_detected']))}${metric('method',safe(wavelet,['method'],'morlet_cwt'))}`);
+ const fd=setCard('card-density-div','DUAL_DENSITY_DIVERGENCE','comparison_no_fusion',merge(rolling,wavelet,{timestamp:timestampOf(rolling)||timestampOf(wavelet)}),`<div class="val blue">NO FINAL DENSITY</div>${metric('rolling_visible','YES')}${metric('wavelet_visible','YES')}${metric('divergence_note',safe(merge(rolling,wavelet),['divergence_note','dual_density_divergence'],'EXPOSE_RAW'))}`); setMeta('meta-density',[fr,fw,fd]);
+ const densityRows=findArray(rolling,['currencies','items','results','states']).slice(0,80).map(x=>`<tr><td>${val(x.currency||x.symbol||x.name)}</td><td>${val(x.timeframe||x.tf)}</td><td class="${css(x.cycle_state||x.state)}">${val(x.cycle_state||x.state)}</td><td>${val(x.compression_ratio)}</td><td>${val(x.dominant_period_bars||x.dominant_period)}</td><td>${val(x.autocorr_peak)}</td></tr>`); $('density-detail').innerHTML=table(['currency','TF','cycle_state','compression_ratio','dominant_period','autocorr_peak'],densityRows); $('raw-density').textContent=pp(raw(d,['density','wavelet','dashboard','cycle']));
+ const kin=merge(section(d,['kinematics','force_kinematics','b3'],['kinematics','forceKinematics'])); const energy=merge(section(d,['energy','p1','currency_energy'],['energy']));
+ const fk=setCard('card-b3','B3_KALMAN','kalman_q0.01_r0.10',kin,`<div class="val">angle=${safe(kin,['angle_kalman','angle','kalman.angle'])} · speed=${safe(kin,['speed_kalman','speed','kalman.speed'])}</div>${metric('noise_ratio',safe(kin,['noise_ratio','kalman.noise_ratio']))}${metric('first_detachment',safe(kin,['first_detachment','first_detachment_active']))}${metric('acceleration',safe(kin,['acceleration','accel']))}`);
+ const fc=setCard('card-b3-clusters','B3_CLUSTERS','kalman_clusters',kin,`${metric('same_angle_cluster',pp(safe(kin,['same_angle_cluster','clusters.same_angle'],[])))}${metric('tight_gravity_cluster',pp(safe(kin,['tight_gravity_cluster','clusters.tight_gravity'],[])))}`);
+ const fe=setCard('card-p1-energy','P1_ENERGY','elastic_tension_probe',energy,`<div class="val ${css(safe(energy,['energy_state','state']))}">${safe(energy,['energy_state','state'])}</div>${metric('elastic_tension_score',safe(energy,['elastic_tension_score','tension_score']))}${metric('micro_macro_ratio',safe(energy,['micro_macro_ratio']))}`); setMeta('meta-kin',[fk,fc,fe]); $('raw-kin').textContent=pp(raw(d,['kinematics','forceKinematics','energy','dashboard','cycle']));
+ const resonance=merge(section(d,['resonance','fractal_resonance','b7'],['resonance'])); const texture=merge(section(d,['texture','volatility_texture','b7_texture'],['texture']));
+ const fres=setCard('card-b7-resonance','B7_RESONANCE','tf_cross_correlation',resonance,`<div class="val ${css(safe(resonance,['resonance_state','state','b7_state']))}">${safe(resonance,['resonance_state','state','b7_state'])}</div>${metric('resonant_tfs',pp(safe(resonance,['resonant_tfs'],[])))}${metric('lag_tfs',pp(safe(resonance,['lag_tfs'],[])))}${metric('resonance_score',safe(resonance,['resonance_score','score']))}${metric('expected_amplification',safe(resonance,['expected_amplification']))}`);
+ const ftex=setCard('card-b7-texture','B7_TEXTURE','variance_texture',texture,`<div class="val ${css(safe(texture,['variance_nature','state','texture_state']))}">${safe(texture,['variance_nature','state','texture_state'])}</div>${metric('micro_macro_ratio',safe(texture,['micro_macro_ratio']))}${metric('pattern_consistency',safe(texture,['pattern_consistency']))}${metric('spread_state',safe(texture,['spread_behavior','spread_state']))}`); setMeta('meta-fractal',[fres,ftex]); $('raw-fractal').textContent=pp(raw(d,['resonance','texture','dashboard','cycle']));
+ const gravity=merge(section(d,['gravity','spearman','spearman_gravity','b5'],['gravity'])); const pairs=findArray(gravity,['pairs','pair_states','spearman_pairs','results','items']); const tail=pairs.filter(x=>String(x.tail_signal||x.direction||x.state||'').toUpperCase().includes('EXTREME')).slice(0,10); const dist=distribution(pairs,['tail_signal','direction','state','label']);
+ const fg=setCard('card-b5-summary','B5_SPEARMAN','spearman_rank',gravity,`<div class="val ${css(safe(gravity,['state','status','b5_status']))}">${safe(gravity,['state','status','b5_status'])}</div>${metric('avg_rho',safe(gravity,['avg_rho','summary.avg_rho']))}${metric('mixed_resolved',safe(gravity,['mixed_resolved']))}${metric('pairs_count',pairs.length)}`);
+ const ft=setCard('card-b5-extremes','B5_TAIL_EXTREMES','spearman_rank',gravity,`<div class="val">${tail.length?tail.map(x=>val(x.pair||x.symbol||x.name)).join(', '):'MISSING'}</div>${metric('extreme_count',tail.length)}${metric('states','SYNCHRO / DIVERGENT / CODEPENDANT_EXTREME / DIVERGENT_EXTREME / MIXED_PROBABILISTE')}`);
+ const fs=setCard('card-b5-states','B5_STATE_DISTRIBUTION','spearman_rank_distribution',gravity,`<div class="val">state distribution</div>${metric('distribution',dist)}${metric('rho_alive_check',safe(gravity,['bad_static'],'bad_static unknown'))}`); $('b5-table').innerHTML=table(['pair','rho / avg_rho','state','tail','TF'],pairs.slice(0,80).map(x=>`<tr><td>${val(x.pair||x.symbol||x.name)}</td><td>${val(x.spearman_rho??x.rho??x.avg_rho)}</td><td class="${css(x.direction||x.state||x.label)}">${val(x.direction||x.state||x.label)}</td><td>${val(x.tail_signal)}</td><td>${val(x.timeframe||x.tf)}</td></tr>`)); setMeta('meta-gravity',[fg,ft,fs]); $('raw-gravity').textContent=pp(raw(d,['gravity','dashboard','cycle']));
+ const cascade=merge(section(d,['cascade','b2'],['cascade'])); const entropy=merge(section(d,['entropy','alert_entropy','guard_entropy'],['entropy']));
+ const fcas=setCard('card-b2-cascade','B2_CASCADE','event_rate_5min',cascade,`<div class="val ${css(safe(cascade,['cascade_state','state']))}">${safe(cascade,['cascade_state','state'])}</div>${metric('event_rate',safe(cascade,['event_rate']))}${metric('events_count',safe(cascade,['events_count','event_count']))}${metric('cascade_building',safe(cascade,['cascade_building']))}`);
+ const fent=setCard('card-entropy','GUARD_ENTROPY','shannon_entropy',entropy,`<div class="val ${css(safe(entropy,['alert_entropy_state','state']))}">${safe(entropy,['alert_entropy_state','state'])}</div>${metric('duplication_ratio',safe(entropy,['duplication_ratio']))}${metric('burst_score',safe(entropy,['burst_score']))}${metric('shannon_entropy',safe(entropy,['shannon_entropy']))}`); setMeta('meta-cascade',[fcas,fent]); $('raw-cascade').textContent=pp(raw(d,['cascade','entropy','dashboard','cycle']));
+ const session=merge(section(d,['session','session_context'],['session'])); const dq=merge(section(d,['data_quality','data_quality_ltf','dq'],['dq','dq2']));
+ const fses=setCard('card-session','GUARD_SESSION','utc_session_overlay',session,`<div class="val">${safe(session,['session','active_session'])} / ${safe(session,['session_phase','phase'])}</div>${metric('minutes_since_open',safe(session,['minutes_since_open']))}${metric('session_bias',safe(session,['session_bias']))}`);
+ const fdq=setCard('card-dq','GUARD_DATA_QUALITY','stale_gap_no_rows',dq,`<div class="val ${css(safe(dq,['overall_status','status','data_quality_status']))}">${safe(dq,['overall_status','status','data_quality_status'])}</div>${metric('stale',safe(dq,['stale','stale_data']))}${metric('gaps',safe(dq,['gaps','temporal_gap']))}${metric('no_rows',safe(dq,['no_rows']))}`); const dqRows=findArray(dq,['by_tf','tf_status','rows','items','results']).slice(0,80).map(x=>`<tr><td>${val(x.symbol)}</td><td>${val(x.timeframe||x.tf)}</td><td class="${css(x.freshness||x.status)}">${val(x.freshness||x.status)}</td><td>${val(x.age_seconds||x.data_age_seconds)}</td><td>${val(x.rows_count||x.count||x.rows)}</td><td>${val(x.issue||x.error||x.gap||x.no_rows)}</td></tr>`); $('dq-table').innerHTML=table(['symbol','TF','freshness','age','rows','issue'],dqRows); setMeta('meta-session',[fses,fdq]); $('raw-session').textContent=pp(raw(d,['session','dq','dq2','dashboard','cycle']));
+ const memory=merge(section(d,['memory','memory_context','b6'],['memory'])); const alertsRaw=d.alerts?.ok?d.alerts.data:deepFind(merge(sourceObj(d,'dashboard'),sourceObj(d,'cycle'),sourceObj(d,'p0')),['behavioral_alert_queue','alerts'],8); const alerts=arr(alertsRaw); const risks=collectRisks(alerts); $('k-alerts').textContent=alerts.length; $('k-risks').textContent=risks.length;
+ const fmem=setCard('card-memory','B6_MEMORY','pattern_6d_frequency',memory,`<div class="val">hash=${safe(memory,['pattern_hash'])}</div>${metric('occurrence_count',safe(memory,['occurrence_count']))}${metric('median_duration_before_move_bars',safe(memory,['median_duration_before_move_bars']))}${metric('outcome_distribution',pp(safe(memory,['outcome_distribution'],{})))}<div class="mini warn">fréquence historique uniquement — hors prédiction</div>`);
+ const falert=setCard('card-alerts','P2_ALERT_MAPPER','behavioral_alert_queue',alertsRaw||{},`<div class="val">alerts=${alerts.length}</div>${metric('levels','INFO / WATCH / HOT = niveaux attention, pas décisions')}${metric('latest_alert',alerts.length?val(alerts[alerts.length-1].alert_type||alerts[alerts.length-1].type):'MISSING')}`);
+ const frisk=setCard('card-risks','TECHNICAL_RISKS','risk_visibility_no_censorship',alertsRaw||{},`<div class="val warn">risks=${risks.length}</div>${metric('technical_risks',risks.slice(0,12).join(', ')||'MISSING')}${metric('rule','qualifier sans censurer')}`); $('alerts-table').innerHTML=table(['time UTC','level','type','maturity','technical_risks','next_watch'],alerts.slice(-40).reverse().map(x=>`<tr><td>${val(x.timestamp||x.created_at)}</td><td class="${css(x.level)}">${val(x.level)}</td><td>${val(x.alert_type||x.type)}</td><td>${val(x.maturity)}</td><td>${Array.isArray(x.technical_risks)?x.technical_risks.join(', '):val(x.technical_risks)}</td><td>${Array.isArray(x.next_watch)?x.next_watch.join(', '):val(x.next_watch)}</td></tr>`)); setMeta('meta-memory',[fmem,falert,frisk]); $('raw-memory').textContent=pp({memory:raw(d,['memory']),alerts:d.alerts?.ok?d.alerts.data:d.alerts?.error,p0:raw(d,['p0','p0_lower']),node:raw(d,['node'])});
+ updateKpis(); contractAudit(); applyFilter();
+}
+refresh(); setInterval(refresh,30000); setInterval(()=>{$('clock-utc').textContent=new Date().toISOString().replace('T',' ').replace('Z',' UTC')},1000);
+</script>
+</body>
+</html>
