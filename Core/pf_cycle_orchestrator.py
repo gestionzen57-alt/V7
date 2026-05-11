@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 pf_cycle_orchestrator.py
@@ -172,7 +172,7 @@ def build_steps() -> list[StepSpec]:
         StepSpec(1, "STEP_1B_REGIME_HMM", "B1_HMM", "run_hmm_regime_engine_once.py",
                  ("--db", "{db}", "--symbol", "{symbol}", "--pretty", "--out", "output/regime_hmm_{symbol}.json"),
                  60, True, True, False, False, "output/regime_hmm_{symbol}.json"),
-        StepSpec(2, "STEP_2_KINEMATICS", "B3_KALMAN", "run_force_kinematics_once.py",
+        StepSpec(2, "STEP_2_KINEMATICS", "B3_KALMAN", "run_force_kinematics_orchestrator_once.py",
                  ("--db", "{db}", "--symbol", "{symbol}", "--pretty", "--output", "output/kinematics_{symbol}.json"),
                  60, True, True, False, False, "output/kinematics_{symbol}.json"),
         StepSpec(3, "STEP_3A_TEMPORAL_DENSITY_ROLLING", "B4_ROLLING", "run_temporal_density_once.py",
@@ -336,3 +336,4 @@ def main(argv: Optional[list[str]] = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
