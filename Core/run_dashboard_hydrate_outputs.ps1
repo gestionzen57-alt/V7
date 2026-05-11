@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$CorePath = ".",
     [string]$Symbol = "GBPUSD",
     [string]$Since = "2026-05-11T01:15:00",
@@ -21,7 +21,7 @@ if (!(Test-Path ".\output")) { New-Item -ItemType Directory -Path ".\output" | O
 if (!(Test-Path ".\logs")) { New-Item -ItemType Directory -Path ".\logs" | Out-Null }
 
 $stamp = (Get-Date).ToUniversalTime().ToString("yyyyMMdd_HHmmss")
-$logPath = ".\logs\dashboard_hydrate_$stamp.log"
+$logPath = ".\logs\dashboard_hydration_$stamp.log"
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 
 function Append-LogRaw {
@@ -29,7 +29,7 @@ function Append-LogRaw {
     $max = 8
     for ($i = 1; $i -le $max; $i++) {
         try {
-            [System.IO.File]::AppendAllText((Resolve-Path ".").Path + "\" + $logPath.TrimStart(".\"), $Text, $utf8NoBom)
+            [System.IO.File]::AppendAllText((Join-Path (Resolve-Path ".") $logPath.TrimStart(".\")), $Text, $utf8NoBom)
             return
         } catch {
             if ($i -eq $max) { throw }
@@ -65,8 +65,7 @@ function Run-Step {
     try {
         $output = & python ".\$File" @ArgsList 2>&1
         $exitCode = $LASTEXITCODE
-    }
-    catch {
+    } catch {
         $exitCode = 1
         $output = @($_.Exception.Message)
     }
@@ -89,23 +88,62 @@ function Run-Step {
     }
 }
 
-function Write-JsonNoBom {
-    param([string]$Path, [object]$Object)
-    $json = $Object | ConvertTo-Json -Depth 30
-    [System.IO.File]::WriteAllText((Resolve-Path $Path), $json, $utf8NoBom)
+function Normalize-AlertQueue {
+    $queuePaths = @(
+        ".\behavioral_alert_queue.json",
+        ".\output\behavioral_alert_queue.json"
+    )
+
+    foreach ($queuePath in $queuePaths) {
+        $existingAlerts = @()
+
+        if (Test-Path $queuePath) {
+            try {
+                $rawQueue = Get-Content $queuePath -Raw | ConvertFrom-Json
+
+                if ($rawQueue -is [System.Array]) {
+                    $existingAlerts = @($rawQueue)
+                }
+                elseif ($rawQueue.PSObject.Properties.Name -contains "behavioral_alert_queue") {
+                    $existingAlerts = @($rawQueue.behavioral_alert_queue)
+                }
+                elseif ($rawQueue.PSObject.Properties.Name -contains "alerts") {
+                    $existingAlerts = @($rawQueue.alerts)
+                }
+                elseif ($rawQueue.PSObject.Properties.Name -contains "items") {
+                    $existingAlerts = @($rawQueue.items)
+                }
+                elseif ($rawQueue.PSObject.Properties.Name -contains "queue") {
+                    $existingAlerts = @($rawQueue.queue)
+                }
+            } catch {
+                $existingAlerts = @()
+            }
+        }
+
+        $fixedQueue = @{
+            timestamp_utc = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+            source = "run_dashboard_hydrate_outputs_queue_normalizer"
+            behavioral_alert_queue = $existingAlerts
+            alerts = $existingAlerts
+            items = $existingAlerts
+            queue = $existingAlerts
+            technical_risks = @()
+        } | ConvertTo-Json -Depth 50
+
+        $fullQueuePath = Join-Path (Resolve-Path ".") $queuePath.TrimStart(".\")
+        [System.IO.File]::WriteAllText($fullQueuePath, $fixedQueue, $utf8NoBom)
+        Write-Log "OK alert queue normalized: $queuePath"
+    }
 }
 
-Write-Log "PowerFlow Dashboard Hydrate Outputs V4"
+Write-Log "PowerFlow Dashboard Hydrate Outputs CANONICAL"
 Write-Log "CorePath=$Core Symbol=$Symbol Since=$Since TFs=$Tfs"
 
-# Corrected runner calls.
 Run-Step "B1 Legacy Regime" "run_regime_engine_once.py" @("--db", "powerflow.db", "--pretty")
 Run-Step "B1 HMM Regime" "run_hmm_regime_once.py" @("--db", "powerflow.db", "--pretty")
 
-# B3 remains suspicious: runner usage says --db/--symbol, but exits 1.
-# Keep call minimal; doctor will capture full output.
 $endUtc = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
-
 Run-Step "B3 Force Kinematics" "run_force_kinematics_once.py" @(
     "--db", "powerflow.db",
     "--symbol", $Symbol,
@@ -124,40 +162,16 @@ Run-Step "B7 Fractal Resonance" "run_fractal_resonance_once.py" @("--db", "power
 Run-Step "B7 Volatility Texture" "run_volatility_texture_once.py" @("--db", "powerflow.db", "--symbol", $Symbol)
 Run-Step "B2 Cascade" "run_cascade_engine_once.py" @("--pretty")
 
-# These may still fail if alert queue shape is not accepted by their internal contract.
-# moved after P2 mapper: Guard Entropy
-# moved after P2 mapper: Session Overlay
+Normalize-AlertQueue
 
+Run-Step "Guard Entropy" "run_alert_entropy_once.py" @("--pretty")
+Run-Step "Session Overlay" "run_session_overlay_once.py" @("--pretty")
 Run-Step "Data Quality LTF" "run_data_quality_guard_once.py" @("--db", "powerflow.db", "--since", $Since, "--tfs", $Tfs, "--pretty", "--output", "output\data_quality_report.json")
 Run-Step "B6 Memory" "run_memory_query_once.py" @("--queue", "output\behavioral_alert_queue.json", "--limit", "50")
 Run-Step "P2 Behavioral Mapper" "run_behavioral_alert_mapper_once.py" @("--temporal", "output\temporal_density_state.json")
 
-# Normalize alert queue shape after P2 so Entropy and Session Overlay can read it.
-$queuePaths = @(
-    ".\behavioral_alert_queue.json",
-    ".\output\behavioral_alert_queue.json"
-)
+Normalize-AlertQueue
 
-foreach ($queuePath in $queuePaths) {
-    $fixedQueue = @{
-        timestamp_utc = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
-        source = "run_dashboard_hydrate_outputs_post_p2_normalizer"
-        behavioral_alert_queue = @()
-        alerts = @()
-        items = @()
-        queue = @()
-        technical_risks = @()
-    } | ConvertTo-Json -Depth 50
-
-    $utf8NoBomQueue = New-Object System.Text.UTF8Encoding($false)
-    $fullQueuePath = Join-Path (Resolve-Path ".") $queuePath.TrimStart(".\")
-
-    [System.IO.File]::WriteAllText($fullQueuePath, $fixedQueue, $utf8NoBomQueue)
-
-    Write-Log "OK alert queue normalized after P2: $queuePath"
-}
-Run-Step "Guard Entropy" "run_alert_entropy_once.py" @("--pretty")
-Run-Step "Session Overlay" "run_session_overlay_once.py" @("--pretty")
 Run-Step "Temporal Node State" "run_temporal_node_state_once.py" @("--db", "powerflow.db", "--symbol", $Symbol, "--recent-minutes", "60", "--timeframes", "1,5,15,30,60", "--pretty")
 
 $placeholder = @{
@@ -166,7 +180,7 @@ $placeholder = @{
     freshness = "MISSING"
     timestamp_utc = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
     data_age_seconds = 0
-    source = "dashboard_hydrate_v4"
+    source = "dashboard_hydrate_canonical"
     payload = @{
         dashboard = "placeholder"
         note = "Runtime data comes from dashboard_surface, cycle_report, P0 decision and node outputs."
@@ -197,6 +211,3 @@ if ($Serve) {
     Write-Log "SERVE Dashboard"
     & powershell -ExecutionPolicy Bypass -File ".\run_dashboard_live_stack.ps1" -Root . -Html ".\dashboard_live_v7.2_final.html" -Serve
 }
-
-
-
