@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8" />
@@ -43,5 +43,104 @@ function cls(l){l=String(l||'UNKNOWN').toLowerCase();if(l.includes('strong'))ret
 async function loadCross(){try{const j=await loadJson('output/dashboard_surface/cross_validation.json');const cv=j.cross_validation||j;setFresh('crossFresh',cv);const t=ts(cv),a=age(t);document.getElementById('crossDriver').textContent=cv.driver||cv.main_driver||'UNKNOWN';document.getElementById('crossTimestamp').textContent=t||'-';document.getElementById('crossAge').textContent=a!==null?a:'-';document.getElementById('crossSymbols').textContent=(cv.symbols_used||[]).join(', ')||'-';document.getElementById('crossRisks').textContent=(cv.technical_risks||[]).join(', ')||'-';const m=cv.currency_strengths||cv.true_strengths||cv.net_strength||cv.currencies||{};document.getElementById('currencyStrengths').innerHTML=['USD','GBP','EUR','JPY','CAD','CHF','AUD'].map(code=>{let raw=m[code]||m[code.toLowerCase()]||{};let lab=typeof raw==='string'?raw:(raw.label||raw.true_strength||raw.state||'UNKNOWN');let score=(typeof raw==='object'&&raw.score!==undefined)?' · '+raw.score:'';return `<div class="chip"><div class="code">${code}</div><div class="label ${cls(lab)}">${esc(lab)}${esc(score)}</div></div>`}).join('')}catch(e){document.getElementById('crossFresh').className='fresh missing';document.getElementById('crossFresh').textContent='MISSING';document.getElementById('crossDriver').textContent='MISSING';document.getElementById('currencyStrengths').innerHTML=`<div class="error">Missing cross_validation.json<br>${esc(e.message)}</div>`}}
 async function boot(){tabs();status();await Promise.all([loadCross(),loadBlocks(activeSymbol)]);setInterval(loadCross,30000);setInterval(()=>loadBlocks(activeSymbol),30000)}boot();
 </script>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PowerFlow V7.2 — Dual Display Patch</title>
+  <style>
+    :root { --primary:#00ff00; --background:#0a0a0a; --secondary:#1a1a1a; --accent:#00cc00; --warning:#ffaa00; --error:#ff3333; --text:#e0e0e0; --muted:#777; }
+    body { margin:0; background:var(--background); color:var(--text); font-family:Consolas, Monaco, monospace; }
+    main { padding:18px; max-width:1500px; margin:0 auto; }
+    h1 { color:var(--primary); font-size:22px; margin:0 0 14px; }
+    h2 { color:var(--accent); font-size:16px; margin:24px 0 10px; border-bottom:1px solid #174017; padding-bottom:6px; }
+    .pf-dual-row { display:grid; grid-template-columns:repeat(2, minmax(280px, 1fr)); gap:14px; align-items:stretch; }
+    .pf-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px; }
+    .pf-block { background:var(--secondary); border:1px solid #164416; border-radius:10px; padding:12px; box-shadow:0 0 18px rgba(0,255,0,.06); min-height:140px; }
+    .pf-block[data-freshness="STALE"] { border-color:var(--error); background:#201616; opacity:.82; }
+    .pf-block[data-freshness="AGING"] { border-color:var(--warning); }
+    .pf-block[data-freshness="MISSING"] { border-color:#555; background:#141414; opacity:.75; }
+    .pf-block-header { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px; font-size:12px; }
+    .pf-brick-badge { color:#050; background:var(--primary); padding:3px 7px; border-radius:999px; font-weight:700; }
+    .pf-freshness { font-weight:700; padding:2px 6px; border-radius:999px; }
+    .pf-freshness.FRESH { color:#071; background:#b7ffb7; }
+    .pf-freshness.AGING { color:#5a3700; background:#ffd37a; }
+    .pf-freshness.STALE { color:#fff; background:var(--error); }
+    .pf-freshness.MISSING { color:#ddd; background:#555; }
+    .pf-timestamp,.pf-age { color:#aaa; }
+    .pf-kv { display:flex; justify-content:space-between; gap:10px; padding:5px 0; border-bottom:1px solid #252525; font-size:13px; }
+    .pf-kv span { color:#aaa; }
+    .pf-kv strong { color:#fff; text-align:right; overflow-wrap:anywhere; }
+    .pf-insufficient-data,.pf-missing-data { border:1px dashed #666; border-radius:8px; padding:14px; color:#bbb; line-height:1.5; }
+    .pf-insufficient-data { border-color:var(--warning); color:#ffd37a; }
+    .pf-rows-progress { display:block; color:#ddd; margin-top:6px; }
+    .pf-session-display { display:grid; grid-template-columns:repeat(2, minmax(140px,1fr)); gap:10px; }
+    .pf-session-display span { background:#101010; border:1px solid #252525; border-radius:8px; padding:10px; }
+    .pf-session-name { color:var(--primary); font-size:20px; font-weight:800; }
+    .pf-session-phase { color:#fff; font-weight:700; }
+    .pf-session-bias { color:#ffd37a; }
+    .pf-muted { color:var(--muted); }
+    @media (max-width: 860px) { .pf-dual-row { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>PowerFlow V7.2 — Dashboard Dual Display Hardening</h1>
+
+  <h2>Régime HTF — DUAL séparé</h2>
+  <div class="pf-dual-row">
+    <div id="regime-legacy" class="pf-block" data-brick="regime" data-method="B1_LEGACY" data-symbol="GBPUSD" data-source="output/regime_legacy_state.json">
+      <div class="pf-block-header"><span class="pf-brick-badge">B1 LEGACY · HEURISTIQUE</span><span class="pf-freshness MISSING">✕ MISSING</span><span class="pf-timestamp">timestamp missing</span><span class="pf-age">n/a</span></div>
+      <div class="pf-block-content"></div>
+    </div>
+    <div id="regime-hmm" class="pf-block" data-brick="regime" data-method="B1_HMM" data-symbol="GBPUSD" data-source="output/regime_hmm_state.json">
+      <div class="pf-block-header"><span class="pf-brick-badge">B1+ HMM · GAUSSIEN</span><span class="pf-freshness MISSING">✕ MISSING</span><span class="pf-timestamp">timestamp missing</span><span class="pf-age">n/a</span></div>
+      <div class="pf-block-content"><div class="pf-insufficient-data">⏳ En attente TF1440 ≥ 50 rows<span class="pf-rows-progress">Actuellement : -- / 50</span></div></div>
+    </div>
+  </div>
+
+  <h2>Densité Temporelle — DUAL séparé</h2>
+  <div class="pf-dual-row">
+    <div id="density-rolling" class="pf-block" data-brick="density" data-method="B4_ROLLING" data-symbol="GBPUSD" data-source="output/temporal_density_state.json">
+      <div class="pf-block-header"><span class="pf-brick-badge">B4 ROLLING · AUTOCORR</span><span class="pf-freshness MISSING">✕ MISSING</span><span class="pf-timestamp">timestamp missing</span><span class="pf-age">n/a</span></div>
+      <div class="pf-block-content"></div>
+    </div>
+    <div id="density-wavelet" class="pf-block" data-brick="density" data-method="B4_WAVELET" data-symbol="GBPUSD" data-source="output/wavelet_density_state.json">
+      <div class="pf-block-header"><span class="pf-brick-badge">B4+ WAVELET · MORLET</span><span class="pf-freshness MISSING">✕ MISSING</span><span class="pf-timestamp">timestamp missing</span><span class="pf-age">n/a</span></div>
+      <div class="pf-block-content"><div class="pf-insufficient-data">⏳ En attente fenêtre wavelet suffisante<span class="pf-rows-progress">Actuellement : --</span></div></div>
+    </div>
+  </div>
+
+  <h2>Contexte temporel</h2>
+  <div class="pf-grid">
+    <div id="session-card" class="pf-block" data-brick="session" data-method="SESSION_OVERLAY_V2" data-symbol="GBPUSD" data-source="output/session_context.json">
+      <div class="pf-block-header"><span class="pf-brick-badge">SESSION OVERLAY · UTC</span><span class="pf-freshness MISSING">✕ MISSING</span><span class="pf-timestamp">timestamp missing</span><span class="pf-age">n/a</span></div>
+      <div class="pf-block-content pf-session-display"><span class="pf-session-name">--</span><span class="pf-session-phase">--</span><span class="pf-session-bias">--</span><span class="pf-minutes-since-open">-- min depuis ouverture</span></div>
+    </div>
+  </div>
+</main>
+<script src="dashboard_freshness_module.js"></script>
+<script>
+function renderSession(block, data) {
+  block.querySelector('.pf-session-name').textContent = data.session || '--';
+  block.querySelector('.pf-session-phase').textContent = data.session_phase || '--';
+  block.querySelector('.pf-session-bias').textContent = data.session_bias || '--';
+  block.querySelector('.pf-minutes-since-open').textContent = (data.minutes_since_open ?? '--') + ' min depuis ouverture';
+}
+function hydrateAll() {
+  PowerFlowFreshness.loadAndRefreshBlock('output/regime_legacy_state.json', 'regime-legacy');
+  PowerFlowFreshness.loadAndRefreshBlock('output/regime_hmm_state.json', 'regime-hmm');
+  PowerFlowFreshness.loadAndRefreshBlock('output/temporal_density_state.json', 'density-rolling');
+  PowerFlowFreshness.loadAndRefreshBlock('output/wavelet_density_state.json', 'density-wavelet');
+  PowerFlowFreshness.loadAndRefreshBlock('output/session_context.json', 'session-card', renderSession);
+}
+hydrateAll();
+setInterval(hydrateAll, PowerFlowFreshness.REFRESH_INTERVAL_MS);
+</script>
 </body>
 </html>
+
+</body>
+</html>
+
