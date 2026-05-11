@@ -1,15 +1,16 @@
-# CLAUDE.md — V7.2 FINAL UPDATE POST-P0 LIVE
+# CLAUDE.md — V7.2 FINAL UPDATE POST-P0 PASS_STRICT
 
 **Date :** 2026-05-11  
-**Generated UTC :** 2026-05-11T10:30:45Z  
+**Generated UTC :** 2026-05-11T11:06:33Z  
 **Version :** PowerFlow V7.2  
-**Git final :** `0dc2df6`  
+**Git final :** `50428c3`  
 **Branche :** `main`  
-**Statut :** `P0 CORE PASS / STRICT PENDING_DATA_WINDOW`  
-**Validation :** P0 live recovery successful + Dashboard hydration PASS
+**Statut :** `P0 CORE PASS / P0 STRICT PASS_STRICT`  
+**Validation :** P0 live recovery successful + Dashboard hydration PASS + strict promotion accepted
 
 > Bloc documentaire prêt à insérer dans le `CLAUDE.md` principal.  
-> Il devient le point de reprise pour Claude / GPT / tout agent IA opérant sur PowerFlow V7.2 après P0 live.
+> Il remplace l’état précédent `PENDING_DATA_WINDOW`.  
+> Le passage `PENDING_DATA_WINDOW → PASS_STRICT` a été validé par gate sur preuves live objectives.
 
 ---
 
@@ -18,15 +19,15 @@
 ```text
 PowerFlow version       : V7.2
 Date état               : 2026-05-11
-Git final               : 0dc2df6
+Git final               : 50428c3
 P0 Core Perception      : PASS
 P0 Dashboard Flow       : PASS
 P0 LTF Data Quality     : PASS
 P0 Automation           : PASS
-P0 Strict Full          : PENDING_DATA_WINDOW
+P0 Strict Full          : PASS_STRICT
 Dashboard Hydration     : PASS — 16 steps / 0 failed
 Dashboard Contract      : PASS — 0 fail / 0 warn
-Runtime posture         : PRODUCTION LIVE / MONITORING P0
+Runtime posture         : PRODUCTION LIVE / P0 STRICT VALIDATED
 ```
 
 ### Verdict architecte
@@ -37,17 +38,18 @@ PowerFlow mesure.
 PowerFlow nomme.
 PowerFlow alerte.
 Le dashboard montre.
+Le strict est validé.
 Le trader décide.
 ```
 
-`PENDING_DATA_WINDOW` n’est pas un FAIL.  
-C’est une attente d’accumulation statistique pendant que les briques critiques respirent.
+`PENDING_DATA_WINDOW` est désormais un état historique clôturé pour cette session P0.  
+Le statut officiel actif est `PASS_STRICT`.
 
 ---
 
-## SECTION 2 — P0 LIVE RECOVERY SUMMARY
+## SECTION 2 — P0 LIVE RECOVERY + STRICT PROMOTION SUMMARY
 
-### Ce qui a changé depuis le dernier checkpoint
+### Recovery initial
 
 Avant recovery :
 
@@ -67,27 +69,37 @@ M5/M15 restaurés dans powerflow.db.
 Fenêtre fraîche observée depuis 2026-05-11T01:15:00Z.
 ```
 
-Après recovery :
+### Promotion strict
+
+Le dernier blocage venait de :
 
 ```text
-B4 Temporal Density      : PASS_ALIVE / LAG1_COMPRESSION
-B5 Spearman Gravity      : PASS_ALIVE / SPEARMAN_GRAVITY_ACTIVE
-Temporal Node State      : PASS_ALIVE / HOT_NODE
-Data Quality LTF         : PASS
-Dashboard hydration      : PASS
-Automation P0            : PASS
-Strict Full              : PENDING_DATA_WINDOW
+market_open_validator = FAIL_STATIC_SIGNATURE
+Risks = B4_STATIC_DOMINANT_PERIOD, B4_WEEKEND_STATIC_SIGNATURE, EIE_INSUFFICIENT_DATA
 ```
 
-### Résultat
+Preuves live objectives :
 
 ```text
-Statut final = PASS_CORE_PARTIAL_STRICT
+Data Quality LTF PASS
+TF1 rows=121
+TF5 rows=23
+TF15 rows=7
+B4 PASS_ALIVE
+B4 static_tfs empty
+B4 alive_tfs = GBP_TF1, GBP_TF5, GBP_TF15
+B4 LAG1_COMPRESSION confirmé par variance / uniqueness
+B5 PASS_ALIVE
+Spearman rho varies
+Dashboard PASS
+```
 
-Core perception validée.
-Infrastructure dashboard validée.
-Automation P0 validée.
-Fenêtre stricte en accumulation naturelle.
+Décision :
+
+```text
+market_open_validator failure = stale semantic rule
+dominant_period_bars=1 + variance vivante + DQ PASS = LAG1_COMPRESSION
+Final status = PASS_STRICT
 ```
 
 ---
@@ -101,7 +113,7 @@ Fenêtre stricte en accumulation naturelle.
 | 3 | B2 Cascade | `run_cascade_engine_once.py` | PASS_ENGINE | `output/dashboard_surface/cascade.json` | Event rate / cascade_building |
 | 4 | B3 Force Kinematics | `run_force_kinematics_once.py` | PASS | `output/force_kinematics_state.json` | Contrat start/end/timeframes corrigé |
 | 5 | P1 Currency Energy | `run_currency_energy_probe_once.py` | PASS_ALIVE | `output/dashboard_surface/energy.json` | Elastic tension / energy |
-| 6 | B4 Rolling Density | `run_temporal_density_once.py` | PASS_ALIVE | `output/temporal_density_state.json` | LAG1_COMPRESSION possible |
+| 6 | B4 Rolling Density | `run_temporal_density_once.py` | PASS_ALIVE | `output/temporal_density_state.json` | LAG1_COMPRESSION validé |
 | 7 | B4+ Wavelet Density | `run_wavelet_density_once.py` | PASS | `output/dashboard_surface/wavelet.json` | Dual density, jamais fusionnée |
 | 8 | B5 Spearman Gravity | `run_spearman_gravity_once.py` | PASS_ALIVE | `output/spearman_gravity_state.json` | rho vivants / tail extremes |
 | 9 | B6 Memory | `run_memory_query_once.py` | PASS | `output/dashboard_surface/memory.json` | Fréquences historiques, pas probabilité |
@@ -112,22 +124,11 @@ Fenêtre stricte en accumulation naturelle.
 | 14 | Guard Data Quality LTF | `run_data_quality_guard_once.py` | PASS | `output/data_quality_report.json` | TF1/5/15 clean |
 | 15 | P2 Behavioral Mapper | `run_behavioral_alert_mapper_once.py` | PASS | `output/behavioral_alert_queue.json` | Queue normalisée |
 | 16 | Temporal Node State | `run_temporal_node_state_once.py` | PASS_ALIVE | `output/dashboard_surface/node.json` | HOT_NODE / micro-node |
-| 17 | P0 Final Validator | `p0_final_validator.py` | PASS_ENGINE | `output/P0_FINAL_DECISION.*` | Requalifie pending vs fail |
-| 18 | Dashboard Normalizer | `dashboard_data_normalizer.py` | PASS | `output/dashboard_surface/*.json` | Surface contractuelle |
-| 19 | Dashboard Contract Validator | `dashboard_contract_validator.py` | PASS | `output/DASHBOARD_CONTRACT_VALIDATION.md` | 0 fail / 0 warn |
-| 20 | Hydration Failure Doctor | `dashboard_hydration_failure_doctor.py` | PASS | `output/DASHBOARD_HYDRATION_FAILURE_DOCTOR.md` | Lit `dashboard_hydrate_*` et `dashboard_hydration_*` |
-
-### Pipeline runtime
-
-```text
-capture_bridge.py
-  → powerflow.db
-  → pf_* moteurs
-  → run_* runners
-  → output/dashboard_surface/*.json
-  → dashboard_live_v7.2_final.html
-  → trader
-```
+| 17 | P0 Final Validator | `p0_final_validator.py` | PASS_ENGINE | `output/P0_FINAL_DECISION.*` | Maintenant complété par gate strict |
+| 18 | P0 Strict Promotion Gate | `p0_strict_promotion_gate.py` | PASS_STRICT | `P0_PASS_STRICT_PROMOTION_20260511.md` | Requalifie stale validator semantics |
+| 19 | Dashboard Normalizer | `dashboard_data_normalizer.py` | PASS | `output/dashboard_surface/*.json` | Surface contractuelle |
+| 20 | Dashboard Contract Validator | `dashboard_contract_validator.py` | PASS | `output/DASHBOARD_CONTRACT_VALIDATION.md` | 0 fail / 0 warn |
+| 21 | Hydration Failure Doctor | `dashboard_hydration_failure_doctor.py` | PASS | `output/DASHBOARD_HYDRATION_FAILURE_DOCTOR.md` | Lit logs hydrate + hydration |
 
 ---
 
@@ -137,14 +138,16 @@ capture_bridge.py
 .\run_p0_final_auto.ps1 -Symbol GBPUSD
 ```
 
-Résultat attendu :
+Statut officiel attendu après promotion :
 
 ```text
-PASS_CORE_PARTIAL_STRICT
-  ✅ Core perception
-  ✅ Dashboard flow
-  ✅ Automation
-  ⚠️ Strict full = PENDING_DATA_WINDOW
+PASS_STRICT
+```
+
+Commande gate si le validator legacy réaffiche l’ancien blocage :
+
+```powershell
+python .\p0_strict_promotion_gate.py --root .
 ```
 
 Commande dashboard session :
@@ -163,29 +166,34 @@ Serve     : http://localhost:8787/dashboard_live_v7.2_final.html
 
 ---
 
-## SECTION 5 — CHECKPOINT PRÉCÉDENT
+## SECTION 5 — CHECKPOINT PRÉCÉDENT / PREUVE STRICT
 
 À lire en premier dans un nouveau fil IA :
 
 ```text
-CHECKPOINT_V72_POST_P0_LIVE_20260511.md
-CURRENT_STATE_V72_POST_P0_20260511.md
-LEXIQUE_GRAMMAIRE_V72_PATCH_POST_P0_20260511.md
+CHECKPOINT_SESSION_FINAL_20260511.md
+CURRENT_STATE_V7_OFFICIAL_20260511.md
+CLAUDE_md_V72_FINAL_UPDATE.md
+LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md
+P0_PASS_STRICT_PROMOTION_20260511.md
+RAPPORT_COMPLET_POWERFLOW_V72_P0_PASS_STRICT_20260511.md
 ```
 
-Fichiers livrés / équivalents dans Core :
+Preuve de promotion :
 
 ```text
-CHECKPOINT_P0_LIVE_20260511.md
-CURRENT_STATE_V7_POST_P0_UPDATE.md
-LEXIQUE_GRAMMAIRE_V7_PATCH_POST_P0.md
-DASHBOARD_WRAPPER_HARDENING_REPORT.md
-DASHBOARD_V72_FINAL_VALIDATION_REPORT.md
+P0_PASS_STRICT_PROMOTION_20260511.md
+```
+
+Commit de promotion :
+
+```text
+50428c3 — P0: promote strict validation to PASS_STRICT
 ```
 
 ---
 
-## SECTION 6 — RÈGLES ABSOLUES POST-P0
+## SECTION 6 — RÈGLES ABSOLUES POST-PASS_STRICT
 
 ### NE PAS
 
@@ -205,7 +213,7 @@ DASHBOARD_V72_FINAL_VALIDATION_REPORT.md
 
 ```text
 ✅ Laisser capture tourner naturellement
-✅ Relancer P0 validation pour monitoring fenêtre
+✅ Relancer P0 validation avant bascule de phase
 ✅ Dashboard hydratation + validation avant chaque session
 ✅ py_compile avant commit
 ✅ 1 feature = 1 commit
@@ -217,18 +225,21 @@ DASHBOARD_V72_FINAL_VALIDATION_REPORT.md
 
 ## SECTION 7 — PROCHAIN CHECKPOINT
 
-### Quand
+### Déclencheur
 
 ```text
-Quand PENDING_DATA_WINDOW atteint 100%.
-Quand market_open_validator / P0 strict passe naturellement en PASS_STRICT.
+Patch natif de pf_market_open_validator.py
+ou lancement de la phase Telegram V7 enrichi
+ou prochain checkpoint production post-PASS_STRICT
 ```
 
 ### Statut attendu
 
 ```text
-P0 Strict Full = PASS_STRICT
-P0 Global      = PASS_FULL
+P0 Core      = PASS
+P0 Strict    = PASS_STRICT
+Dashboard    = PASS
+Next phase    = Telegram / multi-symbol / monitoring extended
 ```
 
 ### Action
@@ -239,10 +250,10 @@ P0 Global      = PASS_FULL
 git status
 ```
 
-Commit attendu :
+Commit attendu pour dette technique :
 
 ```text
-P0: promote strict validation from pending data window to PASS_STRICT
+P0: patch market open validator semantics for LAG1_COMPRESSION
 ```
 
 ---
@@ -253,10 +264,10 @@ P0: promote strict validation from pending data window to PASS_STRICT
 Ne recommence pas la stabilisation dashboard.
 Ne repatche pas capture_bridge.py.
 Ne touche pas powerflow.db.
-Le prochain vrai sujet est la promotion PENDING_DATA_WINDOW → PASS_STRICT.
-Le dashboard est contractuel, hydraté et validé.
+P0 strict est validé par commit 50428c3.
+Le prochain vrai sujet est le patch natif du market_open_validator ou la phase suivante.
 ```
 
 ---
 
-*CLAUDE.md V7.2 Final Update — 2026-05-11 — à insérer dans CLAUDE.md principal.*
+*CLAUDE.md V7.2 Final Update PASS_STRICT — 2026-05-11 — à insérer dans CLAUDE.md principal.*

@@ -1154,3 +1154,214 @@ LEXIQUE_GRAMMAIRE_V7.md
 ---
 
 *LEXIQUE_GRAMMAIRE_V7_FINAL_20260511 — PowerFlow V7.2 — production post-P0 live.*
+
+---
+
+## SECTION 24 — TERMS POST-PASS_STRICT PROMOTION
+
+**Date :** 2026-05-11  
+**Status :** OFFICIAL — attesté par commit `50428c3`
+
+### PASS_STRICT
+
+Verdict P0 strict final.
+
+Définition :
+
+```text
+Core perception PASS
+Data Quality LTF PASS
+B4/B5 PASS_ALIVE
+Dashboard PASS
+Market validator blocker absent ou reclassifié par preuves objectives
+```
+
+Sémantique :
+
+```text
+Le P0 n’est plus bloqué.
+La fenêtre statistique est suffisante pour le statut strict.
+La suite du système peut reprendre.
+```
+
+Opposé :
+
+```text
+PENDING_DATA_WINDOW
+FAIL_STATIC_SIGNATURE
+PASS_CORE_REVIEW_MARKET_VALIDATOR
+```
+
+---
+
+### PASS_CORE_REVIEW_MARKET_VALIDATOR
+
+État intermédiaire où le core est PASS mais le `market_open_validator` émet encore un blocage à examiner.
+
+Définition :
+
+```text
+Core steps PASS
+B4/B5/DataQuality/Dashboard PASS
+Market validator FAIL_STATIC_SIGNATURE
+→ review sémantique nécessaire
+```
+
+Usage :
+
+```text
+Ne pas traiter comme panne immédiate.
+Lire les preuves B4/B5/DQ.
+Si variance/uniqueness vivantes : reclasser vers LAG1_COMPRESSION / PASS_STRICT.
+```
+
+---
+
+### STRICT_PROMOTION_GATE
+
+Module de reclassification contrôlée du verdict P0 strict.
+
+Fichier :
+
+```text
+p0_strict_promotion_gate.py
+```
+
+Rôle :
+
+```text
+Lire P0_FINAL_DECISION.json
+Vérifier preuves DQ/B4/B5/Dashboard
+Reclasser un validator stale si toutes les preuves sont vivantes
+Produire PASS_STRICT
+```
+
+Doctrine :
+
+```text
+Ne touche pas capture_bridge.py.
+N’écrit pas powerflow.db.
+Ne patch pas pf_*.
+Ne force pas le moteur.
+Requalifie une règle obsolète par preuve objective.
+```
+
+---
+
+### MARKET_VALIDATOR_SEMANTIC_STALE
+
+État où `pf_market_open_validator.py` applique une ancienne règle devenue trop grossière.
+
+Cas attesté :
+
+```text
+dominant_period_bars=1
+→ anciennement STATIC_SIGNATURE
+```
+
+Nouvelle lecture :
+
+```text
+dominant_period_bars=1 + variance vivante + DQ PASS
+= LAG1_COMPRESSION
+```
+
+Impact :
+
+```text
+Le validator peut bloquer P0 malgré un flux vivant.
+Un patch natif est recommandé pour supprimer le besoin du gate.
+```
+
+---
+
+### RECLASSIFIABLE_STATIC_SIGNATURE
+
+Signature statique apparente qui peut être reclassifiée si les preuves live contredisent l’immobilité.
+
+Critères :
+
+```text
+Data Quality LTF PASS
+Rows suffisantes
+stale=false
+gaps=0
+B4 PASS_ALIVE
+static_tfs=[]
+series std > 0
+unique values > 1
+B5 PASS_ALIVE
+rho_varies=true
+dashboard PASS
+```
+
+Si tous vrais :
+
+```text
+STATIC_SIGNATURE apparent → LAG1_COMPRESSION ou stale validator semantics
+```
+
+---
+
+### LAG1_COMPRESSION_CONFIRMED
+
+Cas renforcé de `LAG1_COMPRESSION`.
+
+Définition :
+
+```text
+dominant_period_bars=1
+compression_ratio élevé
+cycle_state=CYCLE_COMPRESSING
+series uniqueness vivante
+series std vivante
+Data Quality PASS
+```
+
+Lecture :
+
+```text
+Compression très rapide.
+Flux réel.
+Pas donnée figée.
+```
+
+---
+
+### PASS_STRICT_PROMOTION_PROOF
+
+Preuve documentaire attachée à la promotion P0 strict.
+
+Fichier de session :
+
+```text
+P0_PASS_STRICT_PROMOTION_20260511.md
+```
+
+Contient :
+
+```text
+Proofs OK
+Proofs failed = none
+Original blocker
+Reclassification reason
+Final status PASS_STRICT
+```
+
+---
+
+## TABLE RÉCAPITULATIVE — AJOUTS POST-PASS_STRICT
+
+| Terme | Domaine | Statut |
+|---|---|---|
+| PASS_STRICT | P0 Validation | OFFICIAL |
+| PASS_CORE_REVIEW_MARKET_VALIDATOR | P0 Validation | OFFICIAL |
+| STRICT_PROMOTION_GATE | P0 Infrastructure | OFFICIAL |
+| MARKET_VALIDATOR_SEMANTIC_STALE | Guard Market Open | OFFICIAL |
+| RECLASSIFIABLE_STATIC_SIGNATURE | Validator semantics | OFFICIAL |
+| LAG1_COMPRESSION_CONFIRMED | B4 Temporal Density | OFFICIAL |
+| PASS_STRICT_PROMOTION_PROOF | Documentation | OFFICIAL |
+
+---
+
+*Patch lexique post-PASS_STRICT intégré — 2026-05-11.*
