@@ -61,12 +61,26 @@ def script_path(script: str) -> Path:
 
 
 def default_steps() -> List[CycleStep]:
-    """V7.1 operational steps, non-destructive and symbol-aware where possible."""
+    """P0 corrected operational steps.
+
+    POWERFLOW_CYCLE_SINCE can be set from PowerShell to validate a tactical window:
+      $env:POWERFLOW_CYCLE_SINCE="2026-05-11T01:15:00+00:00"
+    """
+    cycle_since = os.environ.get("POWERFLOW_CYCLE_SINCE") or datetime.now(timezone.utc).date().isoformat()
+    if cycle_since.endswith("+00:00"):
+        cycle_since = cycle_since[:-6]
+    cycle_end = os.environ.get("POWERFLOW_CYCLE_END") or datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "")
+
     return [
         CycleStep(
             name="data_quality_guard",
             script="run_data_quality_guard_once.py",
-            args=["--pretty", "--output", "output/data_quality_guard_{symbol}.json"],
+            args=[
+                "--since", cycle_since,
+                "--tfs", "1,5,15",
+                "--pretty",
+                "--output", "output/data_quality_guard_{symbol}.json",
+            ],
             timeout_seconds=60,
             optional=True,
             accepts_symbol=False,
@@ -74,15 +88,24 @@ def default_steps() -> List[CycleStep]:
         CycleStep(
             name="market_open_validator",
             script="run_market_open_validator_once.py",
-            args=["--pretty", "--output", "output/market_open_validator_{symbol}.json"],
+            args=[
+                "--since", cycle_since,
+                "--tfs", "1,5,15",
+                "--recent-minutes", "180",
+                "--pretty",
+                "--output", "output/market_open_validator_{symbol}.json",
+            ],
             timeout_seconds=60,
             optional=True,
-            accepts_symbol=False,
+            accepts_symbol=True,
         ),
         CycleStep(
             name="regime_engine",
             script="run_regime_engine_once.py",
-            args=["--pretty", "--output", "output/regime_result_{symbol}.json"],
+            args=[
+                "--pretty",
+                "--out", "output/regime_result_{symbol}.json",
+            ],
             timeout_seconds=60,
             optional=True,
             accepts_symbol=True,
@@ -90,23 +113,37 @@ def default_steps() -> List[CycleStep]:
         CycleStep(
             name="temporal_density",
             script="run_temporal_density_once.py",
-            args=["--tfs", "1,5,15", "--pretty", "--output", "output/temporal_density_{symbol}.json"],
+            args=[
+                "--tfs", "1,5,15",
+                "--summary",
+                "--pretty",
+                "--out", "output/temporal_density_{symbol}.json",
+            ],
             timeout_seconds=60,
             optional=True,
-            accepts_symbol=True,
+            accepts_symbol=False,
         ),
         CycleStep(
             name="spearman_gravity",
             script="run_spearman_gravity_once.py",
-            args=["--tfs", "1,5,15", "--pretty", "--output", "output/spearman_gravity_{symbol}.json"],
+            args=[
+                "--tfs", "1,5,15",
+                "--summary",
+                "--pretty",
+                "--out", "output/spearman_gravity_{symbol}.json",
+            ],
             timeout_seconds=60,
             optional=True,
-            accepts_symbol=True,
+            accepts_symbol=False,
         ),
         CycleStep(
             name="fractal_resonance",
             script="run_fractal_resonance_once.py",
-            args=["--tfs", "1,5,15,30,60", "--pretty", "--output", "output/fractal_resonance_{symbol}.json"],
+            args=[
+                "--tfs", "1,5,15,30,60",
+                "--pretty",
+                "--output", "output/fractal_resonance_{symbol}.json",
+            ],
             timeout_seconds=60,
             optional=True,
             accepts_symbol=True,
@@ -114,7 +151,12 @@ def default_steps() -> List[CycleStep]:
         CycleStep(
             name="temporal_node_state",
             script="run_temporal_node_state_once.py",
-            args=["--recent-minutes", "60", "--timeframes", "1,5,15,30,60", "--pretty", "--output", "output/temporal_node_state_{symbol}.json"],
+            args=[
+                "--recent-minutes", "60",
+                "--timeframes", "1,5,15,30,60",
+                "--pretty",
+                "--out", "output/temporal_node_state.json",
+            ],
             timeout_seconds=90,
             optional=True,
             accepts_symbol=True,
@@ -122,7 +164,10 @@ def default_steps() -> List[CycleStep]:
         CycleStep(
             name="currency_energy_probe",
             script="run_currency_energy_probe_once.py",
-            args=["--pretty", "--output", "output/currency_energy_probe_{symbol}.json"],
+            args=[
+                "--pretty",
+                "--out", "output/currency_energy_probe_{symbol}.json",
+            ],
             timeout_seconds=60,
             optional=True,
             accepts_symbol=True,
@@ -130,29 +175,35 @@ def default_steps() -> List[CycleStep]:
         CycleStep(
             name="confluence_alert",
             script="run_confluence_alert.py",
-            args=["--once", "--dry-run"],
+            args=[
+                "--once",
+                "--dry-run",
+            ],
             timeout_seconds=90,
             optional=True,
-            accepts_symbol=True,
+            accepts_symbol=False,
         ),
         CycleStep(
             name="cascade_engine",
             script="run_cascade_engine_once.py",
-            args=["--pretty", "--output", "output/cascade_engine_{symbol}.json"],
+            args=[],
             timeout_seconds=60,
             optional=True,
-            accepts_symbol=True,
+            accepts_symbol=False,
         ),
         CycleStep(
             name="dashboard_refresh",
             script="run_powerflow_dashboard_refresh_once.py",
-            args=["--pretty"],
+            args=[
+                "--pretty",
+                "--start", cycle_since,
+                "--end", cycle_end,
+            ],
             timeout_seconds=90,
             optional=True,
             accepts_symbol=False,
         ),
     ]
-
 
 def format_args(args: Sequence[str], symbol: str) -> List[str]:
     return [str(a).format(symbol=symbol) for a in args]
