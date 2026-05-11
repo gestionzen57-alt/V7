@@ -1,32 +1,30 @@
-"""Runner PowerFlow V7.2 — B4 Wavelet Density."""
 from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 
-from pf_wavelet_density import analyze_from_db, write_json
-
-DEFAULT_DB = "Core/powerflow.db"
-DEFAULT_OUTPUT = "output/wavelet_density.json"
+from pf_wavelet_density import WaveletDensityEngine
 
 
-def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="PowerFlow B4 Wavelet Density runner")
-    p.add_argument("--db", default=DEFAULT_DB)
-    p.add_argument("--symbol", default="GBPUSD")
-    p.add_argument("--tf", "--timeframe", dest="timeframe", type=int, default=5)
-    p.add_argument("--window", type=int, default=100)
-    p.add_argument("--output", default=DEFAULT_OUTPUT)
-    p.add_argument("--pretty", action="store_true")
-    return p.parse_args()
+def parse_tfs(raw: str):
+    return [int(x.strip()) for x in raw.split(",") if x.strip()]
 
 
 def main() -> int:
-    args = parse_args()
-    payload = analyze_from_db(args.db, symbol=args.symbol, timeframe=args.timeframe, window=args.window)
-    write_json(args.output, payload)
-    if args.pretty:
-        print(json.dumps(payload, ensure_ascii=False, indent=2))
+    parser = argparse.ArgumentParser(description="PowerFlow V7.2 B4+ Wavelet Morlet density snapshot")
+    parser.add_argument("--db", default="powerflow.db")
+    parser.add_argument("--symbol", default="GBPUSD")
+    parser.add_argument("--tfs", default="1,5,15")
+    parser.add_argument("--pretty", action="store_true")
+    parser.add_argument("--output", default="output/dashboard_surface/wavelet.json")
+    args = parser.parse_args()
+
+    result = WaveletDensityEngine().compute(args.db, args.symbol, parse_tfs(args.tfs))
+    out_path = Path(args.output)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(result, indent=2 if args.pretty else None, ensure_ascii=False), encoding="utf-8")
+    print(json.dumps(result, indent=2 if args.pretty else None, ensure_ascii=False))
     return 0
 
 

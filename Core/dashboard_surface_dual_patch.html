@@ -1,0 +1,90 @@
+<!-- PowerFlow V7.2 — Dual dashboard surface patch: B1/B1+ and B4/B4+ side by side. -->
+<style>
+  .pf-dual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .pf-card { background:#111; border:1px solid #263826; color:#e0e0e0; border-radius:12px; padding:14px; }
+  .pf-card[data-freshness="FRESH"] { border-color:#00ff00; }
+  .pf-card[data-freshness="AGING"] { border-color:#ffaa00; }
+  .pf-card[data-freshness="STALE"] { border-color:#ff3333; opacity:.72; }
+  .pf-card.is-waiting { filter: grayscale(1); opacity:.58; }
+  .pf-badge { display:inline-block; padding:3px 8px; border-radius:999px; background:#143314; color:#00ff00; font-size:12px; }
+  .pf-muted { color:#999; font-size:12px; }
+  .pf-value { font-size:22px; font-weight:700; margin:8px 0; }
+</style>
+
+<section id="REGIME_HTF_SECTION" class="pf-section">
+  <h2>Régime HTF — dual</h2>
+  <div class="pf-dual-grid">
+    <article class="pf-card" data-brick="B1_LEGACY" data-json="regime_legacy.json">
+      <span class="pf-badge">B1 LEGACY / HEURISTIQUE</span>
+      <div class="pf-value" data-field="regime">--</div>
+      <div>method: <span data-field="method">--</span></div>
+      <div>status: <span data-field="status">--</span></div>
+      <div>timestamp_utc: <span data-field="timestamp_utc">--</span></div>
+      <div>age_seconds: <span data-field="age_seconds">--</span></div>
+      <div>freshness: <span data-field="freshness">--</span></div>
+    </article>
+
+    <article class="pf-card" data-brick="B1_HMM" data-json="regime_hmm.json">
+      <span class="pf-badge">B1+ HMM MTF / GAUSSIEN</span>
+      <div class="pf-value" data-field="regime_hmm">--</div>
+      <div>method: <span data-field="method">--</span></div>
+      <div>status: <span data-field="status">--</span></div>
+      <div>timestamp_utc: <span data-field="timestamp_utc">--</span></div>
+      <div>age_seconds: <span data-field="age_seconds">--</span></div>
+      <div>freshness: <span data-field="freshness">--</span></div>
+      <p class="pf-muted" data-waiting-message>En attente observations multi-TF H1/M30/M15 ≥ 50</p>
+      <div>scope: <span data-field="regime_scope">--</span></div>
+      <div>timeframes: <span data-field="timeframes_used">--</span></div>
+    </article>
+  </div>
+</section>
+
+<section id="DENSITE_TEMPORELLE_SECTION" class="pf-section">
+  <h2>Densité temporelle — dual</h2>
+  <div class="pf-dual-grid">
+    <article class="pf-card" data-brick="B4_ROLLING" data-json="temporal_density_state.json">
+      <span class="pf-badge">B4 ROLLING / AUTOCORR</span>
+      <div class="pf-value" data-field="cycle_state">--</div>
+      <div>method: <span data-field="method">--</span></div>
+      <div>status: <span data-field="status">--</span></div>
+      <div>timestamp_utc: <span data-field="timestamp_utc">--</span></div>
+      <div>age_seconds: <span data-field="age_seconds">--</span></div>
+      <div>freshness: <span data-field="freshness">--</span></div>
+    </article>
+
+    <article class="pf-card" data-brick="B4_WAVELET" data-json="wavelet.json">
+      <span class="pf-badge">B4+ WAVELET / MORLET</span>
+      <div class="pf-value" data-field="wavelet_state">--</div>
+      <div>method: <span data-field="method">--</span></div>
+      <div>status: <span data-field="status">--</span></div>
+      <div>timestamp_utc: <span data-field="timestamp_utc">--</span></div>
+      <div>age_seconds: <span data-field="age_seconds">--</span></div>
+      <div>freshness: <span data-field="freshness">--</span></div>
+    </article>
+  </div>
+</section>
+
+<script>
+function pfFreshness(ts) {
+  if (!ts) return { age_seconds: null, freshness: "STALE" };
+  const age = Math.max(0, Math.floor((Date.now() - new Date(ts).getTime()) / 1000));
+  return { age_seconds: age, freshness: age < 300 ? "FRESH" : age < 600 ? "AGING" : "STALE" };
+}
+function pfHydrateCard(card, data) {
+  const ts = data.timestamp_utc || data.timestamp || data.generated_at || null;
+  const f = pfFreshness(ts);
+  card.dataset.freshness = f.freshness;
+  card.dataset.ageSeconds = String(f.age_seconds ?? "");
+  if (data.status === "INSUFFICIENT_DATA") card.classList.add("is-waiting");
+  card.querySelectorAll("[data-field]").forEach(el => {
+    const key = el.dataset.field;
+    if (key === "timestamp_utc") el.textContent = ts || "--";
+    else if (key === "age_seconds") el.textContent = f.age_seconds ?? "--";
+    else if (key === "freshness") el.textContent = f.freshness;
+    else {
+      const value = data[key] ?? data.items?.[0]?.[key] ?? "--";
+      el.textContent = Array.isArray(value) ? value.join(",") : value;
+    }
+  });
+}
+</script>

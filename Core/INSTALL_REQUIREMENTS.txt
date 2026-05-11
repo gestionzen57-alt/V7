@@ -1,0 +1,14 @@
+PowerFlow V7.2.1 B1+ HMM MTF / B4+ Wavelet requirements
+
+Python packages:
+  numpy>=1.24
+  hmmlearn>=0.3.2
+  PyWavelets>=1.5.0   # import name: pywt
+
+Install command:
+  python -m pip install numpy hmmlearn PyWavelets --break-system-packages
+
+Notes techniques:
+  - Le module Python s'importe avec `import pywt`, mais le nom pip canonique est `PyWavelets`.
+  - B1+ HMM MTF utilise par défaut H1/M30/M15 (60,30,15).
+  - TF1440/H4 ne sont plus des guards bloquants ; ils enrichissent seulement le contexte s'ils existent.

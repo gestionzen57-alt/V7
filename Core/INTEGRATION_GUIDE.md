@@ -1,128 +1,104 @@
-# PowerFlow V7.2 — MultiSymbol Extension Integration Guide
+# PowerFlow V7.2.1 — Integration Guide B1+ HMM MTF + B4+ Wavelet
 
-## Statut de base lu
+## Position architecture
 
-`CLAUDE.md` indique que PowerFlow V7.2 est en `P0 PASS_STRICT`, commit final `50428c3`, branche `main`, avec dashboard hydraté 16/16 et contract 0 fail / 0 warn.
+- `pf_hmm_regime_engine.py` appartient à la couche 1 `pf_*`.
+- `pf_wavelet_density.py` appartient à la couche 1 `pf_*`.
+- Les deux modules lisent `powerflow.db` en read-only via `sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)`.
+- Aucun module `pf_*` n'importe `cockpit_*`, `dashboard_*` ou `telegram_*`.
+- B1+ HMM ne remplace pas B1 Legacy.
+- B4+ Wavelet ne remplace pas B4 Rolling.
 
-Le pack respecte les frontières PowerFlow:
-- `pf_*` = moteur read-only, aucun cockpit/dashboard/telegram import.
-- `run_*` = runners CLI et écriture JSON.
-- `dashboard_*` = affichage uniquement.
-- `capture_bridge.py` et `powerflow.db` intouchables.
+## Correction V7.2.1 — HMM multi-timeframe
 
-## Accès Git vérifié
+Le guard B1+ HMM n'attend plus `TF1440 >= 50 rows`.
 
-- URL demandée: `https://github.com/gestionzen57-alt/V7.git`
-- Accès web GitHub: OK, dépôt public visible, branche `main`, dossier `Core` visible.
-- Accès `git ls-remote` depuis le conteneur: échec DNS local `Could not resolve host: github.com`.
-- Conséquence: livraison ZIP autonome + script de déploiement. Aucun push réel n'a été effectué depuis cet environnement.
-
-## Audit GBPUSD / symbol scope
-
-Audit réalisé sur les fichiers accessibles via GitHub raw et sur les documents V7.2 fournis.
-
-### Hardcodes ou defaults GBPUSD observés
-
-| Fichier | Constat | Patch livré |
-|---|---|---|
-| `run_temporal_node_state_once.py` | `--symbol default="GBPUSD"`, output legacy `output/temporal_node_state.json` | `PATCHED_RUNNERS/run_temporal_node_state_once.py` |
-| `run_currency_energy_probe_once.py` | `--symbol default="GBPUSD"`, output legacy `output/currency_energy_state.json` | `PATCHED_RUNNERS/run_currency_energy_probe_once.py` |
-| `run_regime_engine_once.py` | `--symbol default="GBPUSD"`, output optionnel non namespacé | `PATCHED_RUNNERS/run_regime_engine_once.py` |
-| `run_powerflow_dashboard_refresh_once.py` | `DEFAULT_SYMBOL = "GBPUSD"` | appelé en scheduler comme step dashboard; pas remplacé pour éviter de casser le dashboard validé |
-
-### Runners sans `--symbol` observés
-
-| Fichier | Risque technique | Patch livré |
-|---|---|---|
-| `run_temporal_density_once.py` | B4 lit toutes les lignes TF sans scope symbol si module non patché | runner + `PATCHED_MODULES/pf_temporal_density.py` |
-| `run_spearman_gravity_once.py` | B5 lit toutes les lignes TF sans scope symbol si module non patché | runner + `PATCHED_MODULES/pf_spearman_gravity.py` |
-| `run_behavioral_alert_mapper_once.py` | paths non namespacés, mélange possible des queues | `PATCHED_RUNNERS/run_behavioral_alert_mapper_once.py` |
-
-### Modules pf_* explicitement paramétriques
-
-`pf_regime_engine.compute_regime(db_path, symbol, ...)` et `pf_currency_energy_probe.build_currency_energy_state(..., symbol="GBPUSD", ...)` acceptent déjà `symbol`; les patches runners exploitent ce paramètre et changent les chemins output.
-
-### Modules pf_* patchés par le pack
-
-- `PATCHED_MODULES/pf_temporal_density.py`: ajoute `symbol` à `_fetch_series`, `compute_temporal_density`, `compute_temporal_density_multi`; SQL filtré par `UPPER(symbol)=?`.
-- `PATCHED_MODULES/pf_spearman_gravity.py`: ajoute `symbol` à `_fetch_two_series`, `compute_spearman_pair`, `compute_spearman_all_pairs`; SQL filtré par `UPPER(symbol)=?`.
-
-## Convention output livrée
-
-Par symbole:
+Doctrine corrigée :
 
 ```text
-output/dashboard_surface/{symbol}/regime_legacy.json
-output/dashboard_surface/{symbol}/regime_hmm.json       # lu par dashboard si présent
-output/dashboard_surface/{symbol}/energy.json
-output/dashboard_surface/{symbol}/cascade.json          # lu par dashboard si présent
-output/dashboard_surface/{symbol}/node.json
-output/temporal_density_state_{symbol}.json
-output/spearman_gravity_state_{symbol}.json
-output/behavioral_alert_queue_{symbol}.json
+B1+ HMM = régime probabiliste multi-TF.
+Default stack : H1 / M30 / M15 = 60,30,15.
+H4 / D = contexte bonus si disponible.
+H4 / D / TF1440 ne bloquent jamais l'activation tactique.
 ```
 
-Cross-symbol séparé:
+Activation :
 
 ```text
-output/dashboard_surface/cross_validation.json
+ACTIVE si observations agrégées multi-TF >= 50
+INSUFFICIENT_DATA seulement si H1+M30+M15 n'apportent pas assez d'observations
+fallback=B1_LEGACY seulement dans ce cas
 ```
 
-Compatibilité GBPUSD:
+Nouveaux champs `regime_hmm.json` :
 
-Les runners patchés écrivent aussi les alias legacy pour `GBPUSD` quand le symbole est `GBPUSD`, par exemple `output/temporal_density_state.json` et `output/behavioral_alert_queue.json`.
+```json
+{
+  "timeframes_requested": [60, 30, 15],
+  "timeframes_used": [15, 30, 60],
+  "rows_used_by_tf": {"15": 20, "30": 20, "60": 20},
+  "observations_used": 60,
+  "regime_scope": "MULTI_TF_TACTICAL | HTF_ENRICHED",
+  "activation_guard": "MIN_MTF_OBSERVATIONS>=50"
+}
+```
 
-## Installation rapide
+## Fichiers à copier dans `Core/`
 
-Depuis le dossier extrait du ZIP:
+```text
+pf_hmm_regime_engine.py
+pf_wavelet_density.py
+run_hmm_regime_once.py
+run_wavelet_density_once.py
+test_hmm_regime.py
+test_wavelet_density.py
+dashboard_surface_dual_patch.html
+INSTALL_REQUIREMENTS.txt
+LEXIQUE_PATCH_B1HMM_B4WAVELET.md
+REGISTRE_BRIQUES_PATCH_B1HMM_B4WAVELET.md
+validation_checklist.md
+```
+
+## Commandes manuelles
 
 ```powershell
-.\git_deploy_multisymbol.ps1 -CorePath "C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT\Core"
+python -m py_compile pf_hmm_regime_engine.py pf_wavelet_density.py run_hmm_regime_once.py run_wavelet_density_once.py
+python test_hmm_regime.py
+python test_wavelet_density.py
+python run_hmm_regime_once.py --db powerflow.db --symbol GBPUSD --tfs 60,30,15 --pretty
+python run_wavelet_density_once.py --db powerflow.db --symbol GBPUSD --tfs 1,5,15 --pretty
 ```
 
-Déploiement manuel minimal:
+## Outputs dashboard surface
 
-```powershell
-Copy-Item .\pf_cross_symbol_validation.py Core\ -Force
-Copy-Item .\run_cross_symbol_validation_once.py Core\ -Force
-Copy-Item .\scheduler_powerflow.py Core\ -Force
-Copy-Item .\scheduler_config.json Core\ -Force
-Copy-Item .\setup_windows_task_scheduler.ps1 Core\ -Force
-Copy-Item .\PATCHED_RUNNERS\*.py Core\ -Force
-Copy-Item .\PATCHED_MODULES\*.py Core\ -Force
+```text
+output/dashboard_surface/regime_hmm.json
+output/dashboard_surface/wavelet.json
 ```
 
-## Tests one-shot
+## Affichage dual
 
-```powershell
-cd Core
-python run_temporal_node_state_once.py --db powerflow.db --symbol GBPUSD --pretty
-python run_currency_energy_probe_once.py --db powerflow.db --symbol EURUSD --pretty
-python run_temporal_density_once.py --db powerflow.db --symbol USDJPY --pretty --summary
-python run_spearman_gravity_once.py --db powerflow.db --symbol XAUUSD --pretty --summary
-python run_cross_symbol_validation_once.py --db powerflow.db --symbols GBPUSD,EURUSD,USDJPY --pretty
-python scheduler_powerflow.py --once --symbols GBPUSD
+Insérer `dashboard_surface_dual_patch.html` dans le dashboard existant en gardant les blocs côte à côte:
+
+```text
+B1 Legacy   : regime_legacy.json
+B1+ HMM MTF : regime_hmm.json
+B4 Rolling  : temporal_density_state.json
+B4+ Wavelet : wavelet.json
 ```
 
-## Scheduler Windows
+Freshness standard:
 
-```powershell
-.\setup_windows_task_scheduler.ps1 -Action enable -CorePath .
-.\setup_windows_task_scheduler.ps1 -Action status
-.\setup_windows_task_scheduler.ps1 -Action disable
+```text
+FRESH si age_seconds < 300
+AGING si 300 <= age_seconds < 600
+STALE si age_seconds >= 600
 ```
 
-## Risques techniques résiduels
+## Risques techniques
 
-- `EUR_DIVERGENT` est mieux qualifié avec `EURGBP` ou `GBPEUR`; avec `GBPUSD+EURUSD+USDJPY`, le moteur peut inférer mais marque `EUR_DIVERGENCE_INFERRED_WITHOUT_EURGBP_DIRECT_CROSS`.
-- `GBP_STRENGTH_GENUINE` est plus fiable avec au moins un second cross GBP (`GBPJPY`, `EURGBP`, etc.).
-- `XAUUSD` dépend de la présence d'une colonne `force_xau` ou `xau`; sinon le module signale `BASE_FORCE_COLUMN_MISSING_XAU`.
-- `run_powerflow_dashboard_refresh_once.py` reste volontairement non patché pour ne pas casser le dashboard PASS_STRICT; le patch HTML multi-symbol lit directement les JSON namespacés.
-
-## Interdits maintenus
-
-- Jamais de DB write dans `pf_*`.
-- Jamais de BUY/SELL dans les outputs.
-- Jamais de fusion cross-symbol avec résultat par symbole.
-- Jamais de logique différente par symbole: le symbole est paramètre.
-- `GBPUSD` reste l'alias principal validé et conserve les sorties legacy.
+- `MULTI_TF_INSUFFICIENT_OBSERVATIONS`: HMM retourne fallback B1_LEGACY seulement si H1/M30/M15 agrégés restent sous le seuil.
+- `HTF_CONTEXT_THIN_BUT_NOT_BLOCKING`: H4/D absents ou trop fins ; le régime reste tactique multi-TF, non bloqué.
+- `TF5_INSUFFICIENT_ROWS`: Wavelet retourne INSUFFICIENT_DATA tant que TF5 < 30 rows.
+- `HMMLEARN_FALLBACK_HEURISTIC_USED`: hmmlearn indisponible ou fit instable ; le module produit une perception softmax de secours mais l'installation de hmmlearn doit être corrigée.
+- `PYWT_FALLBACK_USED`: PyWavelets indisponible ; le module utilise une approximation convolution Morlet locale.

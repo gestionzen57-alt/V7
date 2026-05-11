@@ -1,289 +1,243 @@
-"""PowerFlow V7.2 — B4 Wavelet Density.
-
-Morlet CWT cycle-density perception. Read-only DB. No cockpit/telegram imports.
+"""
+PowerFlow V7.2 — B4+ Wavelet Morlet Density Engine
+Dual architecture: standalone Morlet CWT density perception, never fused with B4 Rolling.
+DB access is read-only only.
 """
 from __future__ import annotations
 
-import json
+from dataclasses import dataclass
+from datetime import datetime, timezone
 import math
 import sqlite3
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence, Tuple
-
-import numpy as np
+from typing import Dict, Iterable, List, Sequence, Tuple
 
 try:
-    import pywt  # type: ignore
-except Exception:  # pragma: no cover - handled at runtime
-    pywt = None
+    import numpy as np
+except Exception as exc:  # pragma: no cover
+    raise RuntimeError("numpy is required for pf_wavelet_density.py") from exc
 
-VERSION = "WaveletDensityV0.1Standalone"
-METHOD = "morlet_cwt"
-DEFAULT_SCALES = np.array([2, 3, 5, 8, 13, 21, 34, 55], dtype=int)
-
-KNOWN_META_COLUMNS = {
-    "id", "timestamp", "time", "datetime", "created_at", "updated_at",
-    "symbol", "timeframe", "tf", "bid", "ask", "spread", "price",
-    "open", "high", "low", "close", "volume", "tick_volume",
-}
-
-CURRENCY_COLUMNS = {
-    "EUR": ["force_eur", "eur", "EUR"],
-    "GBP": ["force_gbp", "gbp", "GBP"],
-    "USD": ["force_usd", "usd", "USD"],
-    "JPY": ["force_jpy", "jpy", "JPY"],
-    "CHF": ["force_chf", "chf", "CHF"],
-    "CAD": ["force_cad", "cad", "CAD"],
-    "AUD": ["force_aud", "aud", "AUD"],
-    "NZD": ["force_nzd", "nzd", "NZD"],
-    "XAU": ["force_xau", "xau", "XAU"],
-}
+CURRENCIES: Tuple[str, ...] = ("gbp", "usd", "eur", "jpy", "chf", "cad", "aud", "nzd")
+VALID_WAVELET_STATES: Tuple[str, ...] = (
+    "WAVELET_COMPRESSING",
+    "WAVELET_EXPANDING",
+    "WAVELET_MULTI_SCALE",
+    "WAVELET_TRANSITIONING",
+    "WAVELET_SILENT",
+)
+VALID_DRIFT: Tuple[str, ...] = ("COMPRESSING", "EXPANDING", "STABLE")
+MIN_TF5_ROWS = 30
 
 
-def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+def _utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
 
-def connect_readonly(db_path: str) -> sqlite3.Connection:
-    return sqlite3.connect(f"file:{Path(db_path).as_posix()}?mode=ro", uri=True)
+def _ro_connect(db_path: str) -> sqlite3.Connection:
+    return sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
 
 
-def normalize_wavelet_name(name: str) -> str:
-    n = (name or "morl").lower().strip()
-    if n in {"morlet", "morl"}:
-        return "morl"
-    return n
-
-
-def clean_signal(signal: Sequence[float]) -> np.ndarray:
-    x = np.asarray(signal, dtype=float)
-    x = np.nan_to_num(x, nan=0.0, posinf=0.0, neginf=0.0)
-    if x.size == 0:
-        return x
-    x = x - float(np.nanmean(x))
-    std = float(np.nanstd(x))
-    if std > 1e-12:
-        x = x / std
-    return x
-
-
-def wavelet_compression_ratio(
-    signal: Sequence[float],
-    mother: str = "morl",
-    scales: Optional[Sequence[int]] = None,
-) -> Tuple[float, Dict[str, Any]]:
-    """Calculate CWT Morlet concentration ratio.
-
-    Metric:
-        dominant_scale_power / total_power
-
-    Higher ratio = energy concentrated on a narrow temporal scale = cycle compression.
-    """
-    if pywt is None:
-        return 0.0, {"technical_risks": ["PYWAVELETS_MISSING"], "power_by_scale": {}}
-
-    x = clean_signal(signal)
-    if x.size < 16:
-        return 0.0, {"technical_risks": ["INSUFFICIENT_DATA_WAVELET"], "power_by_scale": {}}
-    if float(np.nanstd(x)) <= 1e-12:
-        return 0.0, {"technical_risks": ["STATIC_SIGNAL_WAVELET"], "power_by_scale": {}}
-
-    s = np.asarray(scales if scales is not None else DEFAULT_SCALES, dtype=int)
-    s = s[(s >= 1) & (s <= max(2, x.size // 2))]
-    if s.size == 0:
-        s = np.arange(1, min(16, x.size // 2) + 1, dtype=int)
-
-    wavelet_name = normalize_wavelet_name(mother)
-    coeffs, freqs = pywt.cwt(x, s, wavelet_name)
-    power = np.abs(coeffs) ** 2
-    power_by_scale = power.sum(axis=1)
-    total_power = float(power_by_scale.sum())
-
-    if total_power <= 1e-12:
-        return 0.0, {"technical_risks": ["ZERO_WAVELET_POWER"], "power_by_scale": {}}
-
-    dominant_idx = int(np.argmax(power_by_scale))
-    compression_ratio = float(power_by_scale[dominant_idx] / total_power)
-
-    # Secondary quality: whether the dominant scale is gaining power in the last third.
-    last_third = max(1, power.shape[1] // 3)
-    dominant_power_series = power[dominant_idx]
-    early = float(np.mean(dominant_power_series[:-last_third])) if dominant_power_series.size > last_third else 0.0
-    late = float(np.mean(dominant_power_series[-last_third:]))
-    power_slope = float((late - early) / (abs(early) + 1e-12))
-
-    details = {
-        "technical_risks": [],
-        "wavelet": wavelet_name,
-        "dominant_scale": int(s[dominant_idx]),
-        "dominant_period_bars_wavelet": int(s[dominant_idx]),
-        "dominant_power": float(power_by_scale[dominant_idx]),
-        "total_power": total_power,
-        "power_slope_late_vs_early": power_slope,
-        "power_by_scale": {str(int(scale)): float(power_by_scale[i]) for i, scale in enumerate(s)},
-        "frequencies": {str(int(scale)): float(freqs[i]) for i, scale in enumerate(s)},
-    }
-    return compression_ratio, details
-
-
-def classify_cycle_state(compression_ratio: float, power_slope: float = 0.0, min_ratio: float = 0.40, max_ratio: float = 0.75) -> str:
-    if not math.isfinite(compression_ratio):
-        return "CYCLE_NOISY"
-    if compression_ratio >= max_ratio or (compression_ratio >= 0.62 and power_slope > 0.25):
-        return "CYCLE_COMPRESSING"
-    if compression_ratio <= min_ratio and power_slope < -0.10:
-        return "CYCLE_EXPANDING"
-    if compression_ratio <= 0.08:
-        return "CYCLE_NOISY"
-    return "CYCLE_STABLE"
-
-
-def _table_columns(conn: sqlite3.Connection) -> List[str]:
-    return [str(r[1]) for r in conn.execute("PRAGMA table_info(force_snapshots)").fetchall()]
-
-
-def _exists(cols: Sequence[str], name: str) -> bool:
-    return any(c.lower() == name.lower() for c in cols)
-
-
-def _resolve_symbol_columns(symbol: str, cols: Sequence[str]) -> Tuple[Optional[str], Optional[str], List[str]]:
-    symbol = (symbol or "GBPUSD").upper().replace("/", "")
-    base = symbol[:3]
-    quote = symbol[3:6]
-    lower_map = {c.lower(): c for c in cols}
-
-    def find(cur: str) -> Optional[str]:
-        for cand in CURRENCY_COLUMNS.get(cur, []):
-            hit = lower_map.get(cand.lower())
-            if hit:
-                return hit
-        return None
-
-    base_col = find(base)
-    quote_col = find(quote)
-    force_cols = [c for c in cols if c.lower().startswith("force_")]
-    if not force_cols:
-        force_cols = [c for c in cols if c.lower() not in KNOWN_META_COLUMNS]
-    return base_col, quote_col, force_cols
-
-
-def load_force_window(
-    db_path: str,
-    symbol: str = "GBPUSD",
-    timeframe: int = 5,
-    window: int = 100,
-) -> Tuple[np.ndarray, Dict[str, Any]]:
-    meta: Dict[str, Any] = {
-        "db_path": db_path,
-        "symbol": symbol,
-        "timeframe": timeframe,
-        "window": window,
-        "rows": 0,
-        "force_source": "UNKNOWN",
-        "technical_risks": [],
-    }
+def _safe_float(value: object) -> float:
     try:
-        conn = connect_readonly(db_path)
-    except Exception as exc:
-        meta["technical_risks"].append("DB_READ_ERROR")
-        meta["error"] = str(exc)
-        return np.asarray([], dtype=float), meta
+        if value is None:
+            return 0.0
+        out = float(value)
+        if math.isnan(out) or math.isinf(out):
+            return 0.0
+        return out
+    except Exception:
+        return 0.0
 
-    try:
-        cols = _table_columns(conn)
-        if not cols:
-            meta["technical_risks"].append("FORCE_SNAPSHOTS_SCHEMA_MISSING")
-            return np.asarray([], dtype=float), meta
 
-        base_col, quote_col, force_cols = _resolve_symbol_columns(symbol, cols)
-        has_symbol = _exists(cols, "symbol")
-        has_tf = _exists(cols, "timeframe")
-        has_ts = _exists(cols, "timestamp")
+@dataclass(frozen=True)
+class WaveletDensityEngine:
+    """Standalone B4+ Morlet CWT temporal density perception."""
 
-        if base_col and quote_col:
-            select_cols = [base_col, quote_col]
-            meta["force_source"] = f"{base_col}-{quote_col}"
+    min_tf5_rows: int = MIN_TF5_ROWS
+    max_scale_cap: int = 64
+
+    def compute(self, db_path: str, symbol: str = "GBPUSD", timeframes: Sequence[int] = (1, 5, 15)) -> Dict[str, object]:
+        tf5_count = self._count_rows(db_path, symbol, 5)
+        if tf5_count < self.min_tf5_rows:
+            return {
+                "status": "INSUFFICIENT_DATA",
+                "fallback": "B4_ROLLING",
+                "method": "CWT_MORLET",
+                "symbol": symbol,
+                "rows_tf5": tf5_count,
+                "items": [],
+                "timestamp": _utc_now(),
+                "technical_risks": ["TF5_INSUFFICIENT_ROWS"],
+            }
+
+        items: List[Dict[str, object]] = []
+        technical_risks: List[str] = []
+        for tf in timeframes:
+            rows = self._load_rows(db_path, symbol, int(tf))
+            if not rows:
+                technical_risks.append(f"TF{tf}_NO_ROWS")
+                continue
+            for currency in CURRENCIES:
+                series = np.array([r[currency] for r in rows], dtype=float)
+                item = self._compute_one(series, currency, int(tf))
+                items.append(item)
+                technical_risks.extend([r for r in item.get("technical_risks", []) if r not in technical_risks])
+
+        return {
+            "status": "ACTIVE",
+            "fallback": None,
+            "method": "CWT_MORLET",
+            "symbol": symbol,
+            "timeframes": [int(x) for x in timeframes],
+            "items": items,
+            "timestamp": _utc_now(),
+            "technical_risks": technical_risks,
+        }
+
+    def _count_rows(self, db_path: str, symbol: str, timeframe: int) -> int:
+        with _ro_connect(db_path) as conn:
+            row = conn.execute(
+                "SELECT COUNT(*) FROM force_snapshots WHERE timeframe = ? AND symbol = ?",
+                (int(timeframe), symbol),
+            ).fetchone()
+        return int(row[0] if row else 0)
+
+    def _load_rows(self, db_path: str, symbol: str, timeframe: int) -> List[Dict[str, float]]:
+        columns = ", ".join(["timestamp", *CURRENCIES])
+        query = f"""
+            SELECT {columns}
+            FROM force_snapshots
+            WHERE timeframe = ? AND symbol = ?
+            ORDER BY timestamp ASC
+        """
+        with _ro_connect(db_path) as conn:
+            cur = conn.execute(query, (int(timeframe), symbol))
+            rows: List[Dict[str, float]] = []
+            for row in cur.fetchall():
+                d = {"timestamp": row[0]}
+                for idx, c in enumerate(CURRENCIES, start=1):
+                    d[c] = _safe_float(row[idx])
+                rows.append(d)
+        return rows
+
+    def _compute_one(self, series: np.ndarray, currency: str, timeframe: int) -> Dict[str, object]:
+        technical_risks: List[str] = []
+        n = int(series.size)
+        if n < 8:
+            return self._silent(currency, timeframe, 1, ["WINDOW_TOO_SHORT"])
+        clean = series.astype(float)
+        clean = clean - float(np.nanmean(clean))
+        std = float(np.nanstd(clean))
+        if std < 1e-9:
+            return self._silent(currency, timeframe, 1, [])
+        clean = clean / std
+
+        scales = np.arange(2, max(3, min(self.max_scale_cap, n // 2)) + 1, dtype=float)
+        try:
+            power = self._cwt_power(clean, scales)
+        except Exception:
+            technical_risks.append("PYWT_FALLBACK_USED")
+            power = self._fallback_scale_power(clean, scales)
+
+        if power.size == 0 or float(np.max(power)) < 1e-9:
+            return self._silent(currency, timeframe, 1, technical_risks)
+
+        total_by_scale = np.mean(power, axis=1)
+        dominant_idx = int(np.argmax(total_by_scale))
+        dominant_scale = int(round(float(scales[dominant_idx])))
+        max_energy = float(total_by_scale[dominant_idx])
+        total_energy = float(np.sum(total_by_scale)) or 1.0
+
+        short_mask = scales <= max(4.0, np.percentile(scales, 35))
+        long_mask = scales >= max(5.0, np.percentile(scales, 65))
+        high_frequency_energy = float(np.sum(total_by_scale[short_mask]))
+        low_frequency_energy = float(np.sum(total_by_scale[long_mask]))
+        wavelet_energy_ratio = low_frequency_energy / (high_frequency_energy + 1e-12)
+
+        active_scale_count = int(np.sum(total_by_scale >= max_energy * 0.55))
+        multi_scale_flag = bool(active_scale_count >= 2)
+
+        time_dominant = scales[np.argmax(power, axis=0)]
+        cut = max(3, min(10, len(time_dominant) // 3))
+        early = float(np.mean(time_dominant[:cut]))
+        recent = float(np.mean(time_dominant[-cut:]))
+        if recent < early * 0.88:
+            drift = "COMPRESSING"
+        elif recent > early * 1.12:
+            drift = "EXPANDING"
         else:
-            select_cols = force_cols[:8]
-            meta["force_source"] = "mean_force_columns"
+            drift = "STABLE"
 
-        if not select_cols:
-            meta["technical_risks"].append("NO_FORCE_COLUMNS")
-            return np.asarray([], dtype=float), meta
+        recent_short = float(np.mean(np.sum(power[short_mask, -cut:], axis=0)))
+        prior_short = float(np.mean(np.sum(power[short_mask, max(0, power.shape[1] - 2 * cut): max(0, power.shape[1] - cut)], axis=0))) if power.shape[1] >= 2 * cut else 0.0
+        compression_onset = bool(drift == "COMPRESSING" and recent_short > prior_short * 1.15)
 
-        where = []
-        params: List[Any] = []
-        if has_tf:
-            where.append("timeframe = ?")
-            params.append(int(timeframe))
-        if has_symbol:
-            where.append("symbol = ?")
-            params.append(symbol)
-        where_sql = (" WHERE " + " AND ".join(where)) if where else ""
-        order_sql = " ORDER BY timestamp DESC" if has_ts else ""
-        col_sql = ", ".join([f'"{c}"' for c in select_cols])
-        rows = conn.execute(f"SELECT {col_sql} FROM force_snapshots{where_sql}{order_sql} LIMIT ?", params + [int(window)]).fetchall()
-        rows = list(reversed(rows))
-        meta["rows"] = len(rows)
-        if len(rows) < 16:
-            meta["technical_risks"].append("INSUFFICIENT_DATA_WAVELET")
-            return np.asarray([], dtype=float), meta
-
-        arr = np.asarray(rows, dtype=float)
-        if arr.ndim == 1:
-            force = arr
-        elif base_col and quote_col and arr.shape[1] >= 2:
-            force = arr[:, 0] - arr[:, 1]
+        energy_norm = max_energy / (total_energy + 1e-12)
+        if energy_norm < 0.03:
+            state = "WAVELET_SILENT"
+        elif multi_scale_flag and active_scale_count >= 3:
+            state = "WAVELET_MULTI_SCALE"
+        elif compression_onset or (drift == "COMPRESSING" and wavelet_energy_ratio < 0.85):
+            state = "WAVELET_COMPRESSING"
+        elif drift == "EXPANDING" or wavelet_energy_ratio > 1.25:
+            state = "WAVELET_EXPANDING"
+        elif drift != "STABLE":
+            state = "WAVELET_TRANSITIONING"
         else:
-            force = np.nanmean(arr, axis=1)
-        return force.astype(float), meta
-    except Exception as exc:
-        meta["technical_risks"].append("WAVELET_DB_LOAD_ERROR")
-        meta["error"] = str(exc)
-        return np.asarray([], dtype=float), meta
-    finally:
-        conn.close()
+            state = "WAVELET_SILENT" if energy_norm < 0.06 else "WAVELET_TRANSITIONING"
+
+        return {
+            "currency": currency.upper(),
+            "timeframe": int(timeframe),
+            "wavelet_state": state,
+            "dominant_scale_bars": max(1, dominant_scale),
+            "wavelet_energy_ratio": round(float(wavelet_energy_ratio), 6),
+            "scale_drift_direction": drift,
+            "multi_scale_flag": multi_scale_flag,
+            "compression_onset": compression_onset,
+            "method": "CWT_MORLET",
+            "technical_risks": technical_risks,
+            "timestamp": _utc_now(),
+        }
+
+    def _cwt_power(self, clean: np.ndarray, scales: np.ndarray) -> np.ndarray:
+        import pywt  # type: ignore
+        coeffs, _ = pywt.cwt(clean, scales, "morl")
+        return np.abs(coeffs) ** 2
+
+    def _fallback_scale_power(self, clean: np.ndarray, scales: np.ndarray) -> np.ndarray:
+        x = np.arange(clean.size, dtype=float)
+        power = np.zeros((len(scales), clean.size), dtype=float)
+        for i, scale in enumerate(scales):
+            width = max(3, int(round(scale)))
+            t = np.arange(-3 * width, 3 * width + 1, dtype=float)
+            wave = np.cos(5.0 * t / width) * np.exp(-(t ** 2) / (2.0 * width ** 2))
+            wave = wave - np.mean(wave)
+            norm = float(np.sqrt(np.sum(wave ** 2))) or 1.0
+            wave = wave / norm
+            conv = np.convolve(clean, wave, mode="same")
+            if conv.size != clean.size:
+                start = max(0, (conv.size - clean.size) // 2)
+                conv = conv[start:start + clean.size]
+            if conv.size < clean.size:
+                conv = np.pad(conv, (0, clean.size - conv.size), mode="constant")
+            power[i, :] = conv ** 2
+        return power
+
+    def _silent(self, currency: str, timeframe: int, dominant_scale: int, risks: Sequence[str]) -> Dict[str, object]:
+        return {
+            "currency": currency.upper(),
+            "timeframe": int(timeframe),
+            "wavelet_state": "WAVELET_SILENT",
+            "dominant_scale_bars": max(1, int(dominant_scale)),
+            "wavelet_energy_ratio": 0.0,
+            "scale_drift_direction": "STABLE",
+            "multi_scale_flag": False,
+            "compression_onset": False,
+            "method": "CWT_MORLET",
+            "technical_risks": list(risks),
+            "timestamp": _utc_now(),
+        }
 
 
-def analyze_wavelet_density(
-    signal: Sequence[float],
-    symbol: str = "GBPUSD",
-    timeframe: int = 5,
-    scales: Optional[Sequence[int]] = None,
-) -> Dict[str, Any]:
-    ratio, details = wavelet_compression_ratio(signal, scales=scales)
-    state = classify_cycle_state(ratio, float(details.get("power_slope_late_vs_early", 0.0)))
-    return {
-        "timestamp": utc_now_iso(),
-        "symbol": symbol,
-        "timeframe": int(timeframe),
-        "cycle_state": state,
-        "compression_ratio": float(ratio),
-        "dominant_scales": [int(x) for x in (scales if scales is not None else DEFAULT_SCALES)],
-        "power_spectrum": details.get("power_by_scale", {}),
-        "wavelet_details": details,
-        "method": METHOD,
-        "version": VERSION,
-        "valid": True,
-        "technical_risks": details.get("technical_risks", []),
-    }
-
-
-def analyze_from_db(db_path: str, symbol: str = "GBPUSD", timeframe: int = 5, window: int = 100) -> Dict[str, Any]:
-    signal, meta = load_force_window(db_path, symbol=symbol, timeframe=timeframe, window=window)
-    if signal.size == 0:
-        payload = analyze_wavelet_density([], symbol=symbol, timeframe=timeframe)
-        payload["data_meta"] = meta
-        payload["technical_risks"] = sorted(set(payload.get("technical_risks", []) + meta.get("technical_risks", [])))
-        return payload
-    payload = analyze_wavelet_density(signal, symbol=symbol, timeframe=timeframe)
-    payload["data_meta"] = meta
-    payload["technical_risks"] = sorted(set(payload.get("technical_risks", []) + meta.get("technical_risks", [])))
-    return payload
-
-
-def write_json(path: str, payload: Dict[str, Any]) -> None:
-    Path(path).parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
+def compute(db_path: str, symbol: str = "GBPUSD", timeframes: Sequence[int] = (1, 5, 15)) -> Dict[str, object]:
+    return WaveletDensityEngine().compute(db_path=db_path, symbol=symbol, timeframes=timeframes)

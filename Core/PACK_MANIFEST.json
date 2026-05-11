@@ -1,0 +1,32 @@
+{
+  "package": "powerflow_v72_b1hmm_b4wavelet.zip",
+  "powerflow_version": "V7.2.1",
+  "bricks": [
+    "B1+ HMM MTF",
+    "B4+ Wavelet"
+  ],
+  "dual_architecture": true,
+  "generated_files": [
+    "INSTALL_REQUIREMENTS.txt",
+    "INTEGRATION_GUIDE.md",
+    "LEXIQUE_PATCH_B1HMM_B4WAVELET.md",
+    "PACK_MANIFEST.json",
+    "REGISTRE_BRIQUES_PATCH_B1HMM_B4WAVELET.md",
+    "__pycache__",
+    "dashboard_surface_dual_patch.html",
+    "git_deploy_b1hmm_b4wavelet.ps1",
+    "pf_hmm_regime_engine.py",
+    "pf_wavelet_density.py",
+    "run_hmm_regime_once.py",
+    "run_wavelet_density_once.py",
+    "test_hmm_regime.py",
+    "test_wavelet_density.py",
+    "validation_checklist.md"
+  ],
+  "version": "V7.2.1-oneclick",
+  "one_click_script": "powerflow_v721_oneclick_deploy.ps1",
+  "deployment": "single script automates extract/copy/deps/py_compile/tests/runners/json/git commit/git push/report",
+  "files": [
+    "powerflow_v721_oneclick_deploy.ps1"
+  ]
+}

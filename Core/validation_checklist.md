@@ -1,75 +1,28 @@
-# Validation checklist — PowerFlow V7.2 MultiSymbol
+# Validation checklist — B1+ HMM + B4+ Wavelet
 
-## 1. Compile
+- [x] `pf_hmm_regime_engine.py` : py_compile PASS
+- [x] B1+ HMM actif sans TF1440/H4 si H1+M30+M15 >= 50 observations
+- [x] `pf_wavelet_density.py` : py_compile PASS
+- [x] Guard multi-TF H1/M30/M15 < 50 observations → INSUFFICIENT_DATA avec fallback B1_LEGACY
+- [x] Guard TF5 < 30 rows → INSUFFICIENT_DATA pour Wavelet
+- [x] Aucun import `cockpit_*` / `dashboard_*` / `telegram_*` dans `pf_*`
+- [x] DB read-only dans tous les modules `pf_*`
+- [x] Output JSON prévus dans `output/dashboard_surface/`
+- [x] Dual architecture préservée: B1/B1+ et B4/B4+ jamais fusionnés
+- [x] WAVELET_SILENT est un état valide, pas une erreur
+- [x] Freshness display sur chaque bloc dashboard
+- [x] `git_deploy_b1hmm_b4wavelet.ps1` produit rapport PASS/FAIL
+- [x] LEXIQUE_PATCH et REGISTRE_PATCH présents dans ZIP
 
-```powershell
-python -m py_compile pf_cross_symbol_validation.py
-python -m py_compile run_cross_symbol_validation_once.py
-python -m py_compile scheduler_powerflow.py
-python -m py_compile PATCHED_RUNNERS\run_temporal_node_state_once.py
-python -m py_compile PATCHED_RUNNERS\run_currency_energy_probe_once.py
-python -m py_compile PATCHED_RUNNERS\run_regime_engine_once.py
-python -m py_compile PATCHED_RUNNERS\run_temporal_density_once.py
-python -m py_compile PATCHED_RUNNERS\run_spearman_gravity_once.py
-python -m py_compile PATCHED_RUNNERS\run_behavioral_alert_mapper_once.py
-python -m py_compile PATCHED_MODULES\pf_temporal_density.py
-python -m py_compile PATCHED_MODULES\pf_spearman_gravity.py
+## Vérification locale exécutée dans l'environnement de génération
+
+```text
+python -m py_compile pf_hmm_regime_engine.py pf_wavelet_density.py run_hmm_regime_once.py run_wavelet_density_once.py test_hmm_regime.py test_wavelet_density.py
+python test_hmm_regime.py
+python test_wavelet_density.py
+grep imports interdits dans pf_* : PASS
 ```
 
-## 2. Déploiement fichiers
+## Limite externe
 
-- [ ] `pf_cross_symbol_validation.py` copié dans `Core/`
-- [ ] `run_cross_symbol_validation_once.py` copié dans `Core/`
-- [ ] `scheduler_powerflow.py` copié dans `Core/`
-- [ ] `scheduler_config.json` copié dans `Core/`
-- [ ] `PATCHED_RUNNERS/*.py` copiés dans `Core/`
-- [ ] `PATCHED_MODULES/*.py` copiés dans `Core/`
-
-## 3. Tests GBPUSD legacy
-
-- [ ] `python run_temporal_node_state_once.py --db powerflow.db --symbol GBPUSD --pretty`
-- [ ] `output/dashboard_surface/GBPUSD/node.json` existe
-- [ ] `output/temporal_node_state.json` existe encore en alias legacy
-- [ ] `python run_currency_energy_probe_once.py --db powerflow.db --symbol GBPUSD --pretty`
-- [ ] `output/dashboard_surface/GBPUSD/energy.json` existe
-- [ ] alias legacy `output/currency_energy_state.json` existe
-
-## 4. Tests autres symboles
-
-- [ ] `python run_temporal_density_once.py --db powerflow.db --symbol EURUSD --pretty --summary`
-- [ ] `output/temporal_density_state_EURUSD.json` existe
-- [ ] `python run_spearman_gravity_once.py --db powerflow.db --symbol USDJPY --pretty --summary`
-- [ ] `output/spearman_gravity_state_USDJPY.json` existe
-- [ ] `python run_currency_energy_probe_once.py --db powerflow.db --symbol XAUUSD --pretty`
-- [ ] si `force_xau` absent, risque technique explicite, pas crash silencieux
-
-## 5. Cross-validation
-
-- [ ] `python run_cross_symbol_validation_once.py --db powerflow.db --symbols GBPUSD,EURUSD,USDJPY --pretty`
-- [ ] `output/dashboard_surface/cross_validation.json` existe
-- [ ] `driver` présent
-- [ ] `symbols_used` présent
-- [ ] `technical_risks` présent
-
-## 6. Scheduler once
-
-- [ ] `python scheduler_powerflow.py --once --symbols GBPUSD`
-- [ ] `logs/scheduler.log` existe
-- [ ] `output/scheduler_last_cycle_report.json` existe
-- [ ] pas de chevauchement si lock actif
-
-## 7. Dashboard patch
-
-- [ ] `dashboard_multisymbol_patch.html` injecté ou ouvert à côté du dashboard
-- [ ] tabs GBPUSD/EURUSD/USDJPY/XAUUSD visibles
-- [ ] chaque card expose `data-brick` et `data-symbol`
-- [ ] timestamp visible
-- [ ] age_seconds visible
-- [ ] freshness FRESH/AGING/STALE/MISSING visible
-
-## 8. Git
-
-- [ ] `git status` propre avant patch
-- [ ] `git add` fichiers patch
-- [ ] commit `MultiSymbol: parametric symbol extension + cross-validation + scheduler`
-- [ ] `git push`
+L'accès GitHub depuis l'environnement de génération n'a pas pu résoudre `github.com`. Le script PowerShell inclus réalise le commit/push sur la machine cible disposant de l'accès réseau.
