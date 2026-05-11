@@ -1,57 +1,64 @@
-# run_spearman_gravity_once.py — PowerFlow V7 — B5 Runner
-# Usage : python run_spearman_gravity_once.py --db powerflow.db --pretty
-
+# -*- coding: utf-8 -*-
 from __future__ import annotations
+
 import argparse
 import json
+import shutil
 from pathlib import Path
 
-from pf_spearman_gravity import (
-    compute_spearman_all_pairs,
-    format_spearman_summary,
-    CURRENCIES,
-)
+from pf_spearman_gravity import CURRENCIES, compute_spearman_all_pairs, format_spearman_summary
 
 
-def main():
-    p = argparse.ArgumentParser(description="PowerFlow V7 — B5 Spearman Gravity")
+def _default_out(symbol: str) -> str:
+    return f"output/spearman_gravity_state_{symbol.upper()}.json"
+
+
+def _legacy_alias(symbol: str, src: Path) -> None:
+    if symbol.upper() != "GBPUSD" or not src.exists():
+        return
+    legacy = Path("output/spearman_gravity_state.json")
+    legacy.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(src, legacy)
+
+
+def main() -> int:
+    p = argparse.ArgumentParser(description="PowerFlow V7.2 — B5 Spearman Gravity, symbol-parametric")
     p.add_argument("--db", default="powerflow.db")
+    p.add_argument("--symbol", default="GBPUSD")
     p.add_argument("--tfs", default="1,5,15")
     p.add_argument("--bars", type=int, default=30)
     p.add_argument("--out", default=None)
     p.add_argument("--pretty", action="store_true")
     p.add_argument("--summary", action="store_true")
     args = p.parse_args()
-
-    tfs = [int(x) for x in args.tfs.split(",")]
-
-    results = compute_spearman_all_pairs(
-        db_path=args.db,
-        timeframes=tfs,
-        bars=args.bars,
-    )
-
-    summary = format_spearman_summary(results)
-
+    symbol = args.symbol.upper()
+    tfs = [int(x) for x in args.tfs.split(",") if x.strip()]
+    try:
+        results = compute_spearman_all_pairs(
+            db_path=args.db,
+            timeframes=tfs,
+            bars=args.bars,
+            currencies=CURRENCIES,
+            symbol=symbol,
+        )
+        summary = format_spearman_summary(results, symbol=symbol)
+    except TypeError:
+        raise RuntimeError(
+            "pf_spearman_gravity.py is not symbol-parametric yet. "
+            "Deploy PATCHED_MODULES/pf_spearman_gravity.py before this runner."
+        )
+    out_path = Path(args.out or _default_out(symbol))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(summary, indent=2 if args.pretty else None, ensure_ascii=False) + "\n", encoding="utf-8")
+    _legacy_alias(symbol, out_path)
     if args.summary:
-        print(f"\n=== SPEARMAN GRAVITY B5 ===")
-        print(f"SYNCHRO    ({summary['synchro_count']}) : {summary['synchro_pairs']}")
-        print(f"DIVERGENT  ({summary['divergent_count']}) : {summary['divergent_pairs']}")
-        print(f"TAIL EXTREME : {summary['tail_extreme']}")
-        print(f"MIXED RÉSOLU ({summary['mixed_count']}) :")
-        for m in summary['mixed_resolved']:
-            print(f"  {m['pair']} avg_rho={m['avg_rho']}")
-
-    indent = 2 if args.pretty else None
-    out_json = json.dumps(summary, indent=indent, ensure_ascii=False)
-
-    if args.out:
-        Path(args.out).parent.mkdir(parents=True, exist_ok=True)
-        Path(args.out).write_text(out_json, encoding="utf-8")
-        print(f"✅ Written: {args.out}")
-    else:
-        print(out_json)
+        print("SPEARMAN_GRAVITY_OK")
+        print(f"symbol={symbol}")
+        print(f"synchro={summary.get('synchro_count')}")
+        print(f"divergent={summary.get('divergent_count')}")
+    print(f"out={out_path}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

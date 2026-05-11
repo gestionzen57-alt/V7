@@ -1,39 +1,50 @@
-# pf_temporal_density.py — PowerFlow V7 — B4 Temporal Density
-# Autocorrélation rolling — détection compression de cycle
-# Version : 1.0.0 — 2026-05-09
-# Read-only DB. Pas de signal. Perception uniquement.
+# -*- coding: utf-8 -*-
+"""PowerFlow V7.2 — B4 Temporal Density, symbol-parametric patch.
 
+Patch objectif:
+  - Ajouter symbol comme paramètre.
+  - Filtrer force_snapshots par UPPER(symbol)=?.
+  - Conserver l'API existante autant que possible.
+"""
 from __future__ import annotations
+
 import sqlite3
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
 from typing import Dict, List, Optional
+
 import numpy as np
 
-
 CYCLE_STATES = {
-    "CYCLE_COMPRESSING": "Oscillations se répètent plus vite → rupture imminente",
-    "CYCLE_EXPANDING":   "Oscillations s'allongent → respiration / pullback",
-    "CYCLE_STABLE":      "Fréquence stable → range / consolidation",
-    "CYCLE_NOISY":       "Pas de cycle dominant → bruit ou transition",
+    "CYCLE_COMPRESSING": "Oscillations se répètent plus vite -> rupture imminente",
+    "CYCLE_EXPANDING": "Oscillations s'allongent -> respiration / pullback",
+    "CYCLE_STABLE": "Fréquence stable -> range / consolidation",
+    "CYCLE_NOISY": "Pas de cycle dominant -> bruit ou transition",
 }
-
-# Seuils par TF (en barres)
 COMPRESSION_THRESHOLD = {1: 0.65, 5: 0.60, 15: 0.55, 30: 0.50, 60: 0.45}
-WINDOW_BARS = 30  # fenêtre autocorrélation
+WINDOW_BARS = 30
 
 
 @dataclass
 class TemporalDensityResult:
     currency: str
     timeframe: int
-    compression_ratio: float   # 0.0 → 1.0 (1.0 = compression max)
-    dominant_period_bars: int  # période dominante détectée
+    compression_ratio: float
+    dominant_period_bars: int
     cycle_state: str
-    autocorr_peak: float       # valeur max autocorrélation
+    autocorr_peak: float
     bars_analyzed: int
     timestamp: str
+    symbol: str = "GBPUSD"
+
+
+def _timestamp_col(conn: sqlite3.Connection) -> str:
+    cols = [r[1] for r in conn.execute('PRAGMA table_info("force_snapshots")').fetchall()]
+    if "created_at" in cols:
+        return "created_at"
+    if "timestamp" in cols:
+        return "timestamp"
+    return "created_at"
 
 
 def _fetch_series(
@@ -42,24 +53,22 @@ def _fetch_series(
     timeframe: int,
     bars: int,
     lookback_min: Optional[int] = None,
+    symbol: str = "GBPUSD",
 ) -> np.ndarray:
-    """Fetch force series read-only."""
     uri = f"file:{db_path}?mode=ro"
     conn = sqlite3.connect(uri, uri=True)
     try:
+        ts_col = _timestamp_col(conn)
         if lookback_min:
             cutoff = (datetime.now(timezone.utc) - timedelta(minutes=lookback_min)).isoformat()
             rows = conn.execute(
-                f"SELECT {col} FROM force_snapshots "
-                f"WHERE timeframe=? AND created_at >= ? "
-                f"ORDER BY created_at DESC LIMIT ?",
-                (timeframe, cutoff, bars),
+                f'SELECT "{col}" FROM force_snapshots WHERE UPPER(symbol)=? AND timeframe=? AND "{ts_col}" >= ? ORDER BY "{ts_col}" DESC LIMIT ?',
+                (symbol.upper(), timeframe, cutoff, bars),
             ).fetchall()
         else:
             rows = conn.execute(
-                f"SELECT {col} FROM force_snapshots "
-                f"WHERE timeframe=? ORDER BY created_at DESC LIMIT ?",
-                (timeframe, bars),
+                f'SELECT "{col}" FROM force_snapshots WHERE UPPER(symbol)=? AND timeframe=? ORDER BY "{ts_col}" DESC LIMIT ?',
+                (symbol.upper(), timeframe, bars),
             ).fetchall()
         return np.array([r[0] for r in rows if r[0] is not None], dtype=float)
     finally:
@@ -67,39 +76,23 @@ def _fetch_series(
 
 
 def _autocorr_rolling(series: np.ndarray, max_lag: int = 15) -> tuple[int, float, float]:
-    """
-    Autocorrélation sur série.
-    Retourne : (dominant_period, peak_value, compression_ratio)
-    """
     if len(series) < 10:
         return 0, 0.0, 0.0
-
-    # Normaliser
     s = series - np.mean(series)
     std = np.std(s)
     if std < 1e-10:
         return 0, 0.0, 0.0
     s = s / std
-
-    # Calculer autocorrélation lag 1..max_lag
     n = len(s)
     autocorrs = []
     for lag in range(1, min(max_lag + 1, n // 2)):
         c = np.corrcoef(s[:-lag], s[lag:])[0, 1]
         autocorrs.append((lag, abs(c)))
-
     if not autocorrs:
         return 0, 0.0, 0.0
-
-    # Trouver le pic dominant
     best_lag, best_val = max(autocorrs, key=lambda x: x[1])
-
-    # Compression ratio : ratio entre la période dominante et la fenêtre max
-    # Plus la période est courte par rapport à max_lag → plus c'est comprimé
-    compression = 1.0 - (best_lag / max_lag)
-    compression = max(0.0, min(1.0, compression))
-
-    return best_lag, best_val, compression
+    compression = max(0.0, min(1.0, 1.0 - (best_lag / max_lag)))
+    return best_lag, float(best_val), float(compression)
 
 
 def compute_temporal_density(
@@ -108,23 +101,14 @@ def compute_temporal_density(
     timeframe: int,
     bars: int = WINDOW_BARS,
     lookback_min: Optional[int] = None,
+    symbol: str = "GBPUSD",
 ) -> Optional[TemporalDensityResult]:
-    """
-    Compute cycle compression for one currency × timeframe.
-    Returns None if insufficient data.
-    """
     col = f"force_{currency.lower()}"
-    series = _fetch_series(db_path, col, timeframe, bars, lookback_min)
-
+    series = _fetch_series(db_path, col, timeframe, bars, lookback_min, symbol=symbol)
     if len(series) < 10:
         return None
-
-    # Inverser pour ordre chronologique
     series = series[::-1]
-
     dominant_period, peak_val, compression = _autocorr_rolling(series)
-
-    # Déterminer état cycle
     threshold = COMPRESSION_THRESHOLD.get(timeframe, 0.55)
     if peak_val < 0.25:
         state = "CYCLE_NOISY"
@@ -134,7 +118,6 @@ def compute_temporal_density(
         state = "CYCLE_EXPANDING"
     else:
         state = "CYCLE_STABLE"
-
     return TemporalDensityResult(
         currency=currency.upper(),
         timeframe=timeframe,
@@ -144,6 +127,7 @@ def compute_temporal_density(
         autocorr_peak=round(peak_val, 3),
         bars_analyzed=len(series),
         timestamp=datetime.now(timezone.utc).isoformat(),
+        symbol=symbol.upper(),
     )
 
 
@@ -153,28 +137,20 @@ def compute_temporal_density_multi(
     timeframes: List[int],
     bars: int = WINDOW_BARS,
     lookback_min: Optional[int] = None,
+    symbol: str = "GBPUSD",
 ) -> Dict[str, Dict[int, Optional[TemporalDensityResult]]]:
-    """
-    Compute for all currencies × timeframes.
-    Returns {currency: {tf: result}}
-    """
     results = {}
     for ccy in currencies:
         results[ccy.upper()] = {}
         for tf in timeframes:
             results[ccy.upper()][tf] = compute_temporal_density(
-                db_path, ccy, tf, bars, lookback_min
+                db_path, ccy, tf, bars, lookback_min, symbol=symbol
             )
     return results
 
 
-def format_density_summary(results: Dict) -> dict:
-    """Format pour cockpit JSON."""
-    compressing = []
-    expanding = []
-    stable = []
-    noisy = []
-
+def format_density_summary(results: Dict, symbol: str = "GBPUSD") -> dict:
+    compressing, expanding, stable, noisy = [], [], [], []
     flat = {}
     for ccy, tfs in results.items():
         for tf, r in tfs.items():
@@ -182,24 +158,29 @@ def format_density_summary(results: Dict) -> dict:
                 continue
             key = f"{ccy}_TF{tf}"
             flat[key] = {
+                "symbol": getattr(r, "symbol", symbol.upper()),
                 "currency": ccy,
                 "timeframe": tf,
                 "compression_ratio": r.compression_ratio,
                 "dominant_period_bars": r.dominant_period_bars,
                 "cycle_state": r.cycle_state,
                 "autocorr_peak": r.autocorr_peak,
+                "timestamp_utc": r.timestamp,
+                "method": "B4_ROLLING_SYMBOL_PARAMETRIC",
             }
             if r.cycle_state == "CYCLE_COMPRESSING":
-                compressing.append(f"{ccy}_TF{tf}")
+                compressing.append(key)
             elif r.cycle_state == "CYCLE_EXPANDING":
-                expanding.append(f"{ccy}_TF{tf}")
+                expanding.append(key)
             elif r.cycle_state == "CYCLE_STABLE":
-                stable.append(f"{ccy}_TF{tf}")
+                stable.append(key)
             else:
-                noisy.append(f"{ccy}_TF{tf}")
-
+                noisy.append(key)
     return {
         "state": "TEMPORAL_DENSITY_ACTIVE",
+        "symbol": symbol.upper(),
+        "method": "B4_ROLLING_SYMBOL_PARAMETRIC",
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "compressing": compressing,
         "expanding": expanding,
         "stable": stable,

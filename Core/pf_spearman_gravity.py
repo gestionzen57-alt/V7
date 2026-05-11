@@ -1,22 +1,18 @@
-# pf_spearman_gravity.py — PowerFlow V7 — B5 Relational Copula
-# Corrélation de rang Spearman rolling par paire de devises
-# Version : 1.0.0 — 2026-05-09
-# Read-only DB. Remplace heuristique MIXED par probabilité mesurée.
-
+# -*- coding: utf-8 -*-
+"""PowerFlow V7.2 — B5 Spearman Gravity, symbol-parametric patch."""
 from __future__ import annotations
+
 import sqlite3
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
+from datetime import datetime, timezone
 from typing import Dict, List, Optional, Tuple
+
 import numpy as np
 
-
 CURRENCIES = ["GBP", "USD", "EUR", "JPY", "CAD", "CHF", "AUD"]
-
-SYNCHRO_THRESHOLD = 0.70    # rho > 0.70 → SYNCHRO
-DIVERGE_THRESHOLD = -0.50   # rho < -0.50 → DIVERGENT
-TAIL_THRESHOLD = 0.85       # rho > 0.85 → co-dépendance extrême
+SYNCHRO_THRESHOLD = 0.70
+DIVERGE_THRESHOLD = -0.50
+TAIL_THRESHOLD = 0.85
 
 
 @dataclass
@@ -25,11 +21,21 @@ class SpearmanPairResult:
     currency_a: str
     currency_b: str
     timeframe: int
-    spearman_rho: float       # -1.0 → +1.0
-    direction: str            # SYNCHRO / DIVERGENT / NEUTRAL
-    tail_signal: str          # CODEPENDANT_EXTREME / NORMAL / DIVERGENT_EXTREME
+    spearman_rho: float
+    direction: str
+    tail_signal: str
     bars_analyzed: int
     timestamp: str
+    symbol: str = "GBPUSD"
+
+
+def _timestamp_col(conn: sqlite3.Connection) -> str:
+    cols = [r[1] for r in conn.execute('PRAGMA table_info("force_snapshots")').fetchall()]
+    if "created_at" in cols:
+        return "created_at"
+    if "timestamp" in cols:
+        return "timestamp"
+    return "created_at"
 
 
 def _fetch_two_series(
@@ -38,28 +44,28 @@ def _fetch_two_series(
     col_b: str,
     timeframe: int,
     bars: int,
+    symbol: str = "GBPUSD",
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """Fetch two force series aligned by rowid. Read-only."""
     uri = f"file:{db_path}?mode=ro"
     conn = sqlite3.connect(uri, uri=True)
     try:
+        ts_col = _timestamp_col(conn)
         rows = conn.execute(
-            f"SELECT {col_a}, {col_b} FROM force_snapshots "
-            f"WHERE timeframe=? AND {col_a} IS NOT NULL AND {col_b} IS NOT NULL "
-            f"ORDER BY created_at DESC LIMIT ?",
-            (timeframe, bars),
+            f'SELECT "{col_a}", "{col_b}" FROM force_snapshots '
+            f'WHERE UPPER(symbol)=? AND timeframe=? AND "{col_a}" IS NOT NULL AND "{col_b}" IS NOT NULL '
+            f'ORDER BY "{ts_col}" DESC LIMIT ?',
+            (symbol.upper(), timeframe, bars),
         ).fetchall()
         if not rows:
             return np.array([]), np.array([])
         a = np.array([r[0] for r in rows], dtype=float)
         b = np.array([r[1] for r in rows], dtype=float)
-        return a[::-1], b[::-1]  # chronologique
+        return a[::-1], b[::-1]
     finally:
         conn.close()
 
 
 def _spearman_rho(a: np.ndarray, b: np.ndarray) -> float:
-    """Spearman rank correlation — numpy pur, sans scipy."""
     if len(a) < 5:
         return 0.0
     rank_a = np.argsort(np.argsort(a)).astype(float)
@@ -76,33 +82,26 @@ def compute_spearman_pair(
     currency_b: str,
     timeframe: int,
     bars: int = 30,
+    symbol: str = "GBPUSD",
 ) -> Optional[SpearmanPairResult]:
-    """Compute Spearman rho for one pair × TF."""
     col_a = f"force_{currency_a.lower()}"
     col_b = f"force_{currency_b.lower()}"
-
-    a, b = _fetch_two_series(db_path, col_a, col_b, timeframe, bars)
+    a, b = _fetch_two_series(db_path, col_a, col_b, timeframe, bars, symbol=symbol)
     if len(a) < 10:
         return None
-
     rho = _spearman_rho(a, b)
-
-    # Direction
     if rho >= SYNCHRO_THRESHOLD:
         direction = "SYNCHRO"
     elif rho <= DIVERGE_THRESHOLD:
         direction = "DIVERGENT"
     else:
         direction = "NEUTRAL"
-
-    # Tail signal
     if rho >= TAIL_THRESHOLD:
         tail_signal = "CODEPENDANT_EXTREME"
     elif rho <= -TAIL_THRESHOLD:
         tail_signal = "DIVERGENT_EXTREME"
     else:
         tail_signal = "NORMAL"
-
     pair = f"{currency_a.upper()}_{currency_b.upper()}"
     return SpearmanPairResult(
         pair=pair,
@@ -114,6 +113,7 @@ def compute_spearman_pair(
         tail_signal=tail_signal,
         bars_analyzed=len(a),
         timestamp=datetime.now(timezone.utc).isoformat(),
+        symbol=symbol.upper(),
     )
 
 
@@ -121,35 +121,25 @@ def compute_spearman_all_pairs(
     db_path: str,
     timeframes: List[int],
     bars: int = 30,
-    currencies: List[str] = None,
+    currencies: List[str] | None = None,
+    symbol: str = "GBPUSD",
 ) -> Dict[str, Dict[int, Optional[SpearmanPairResult]]]:
-    """Compute all pairs × all TFs."""
     if currencies is None:
         currencies = CURRENCIES
-
-    pairs = []
-    for i, a in enumerate(currencies):
-        for b in currencies[i+1:]:
-            pairs.append((a, b))
-
     results = {}
-    for a, b in pairs:
-        pair_key = f"{a}_{b}"
-        results[pair_key] = {}
-        for tf in timeframes:
-            results[pair_key][tf] = compute_spearman_pair(
-                db_path, a, b, tf, bars
-            )
+    for i, a in enumerate(currencies):
+        for b in currencies[i + 1:]:
+            pair_key = f"{a}_{b}"
+            results[pair_key] = {}
+            for tf in timeframes:
+                results[pair_key][tf] = compute_spearman_pair(
+                    db_path, a, b, tf, bars, symbol=symbol
+                )
     return results
 
 
-def format_spearman_summary(results: Dict) -> dict:
-    """Format pour cockpit JSON + enrichissement RG bridge."""
-    synchro_pairs = []
-    divergent_pairs = []
-    tail_extreme = []
-    mixed_resolved = []
-
+def format_spearman_summary(results: Dict, symbol: str = "GBPUSD") -> dict:
+    synchro_pairs, divergent_pairs, tail_extreme, mixed_resolved = [], [], [], []
     details = {}
     for pair, tfs in results.items():
         pair_tfs = {}
@@ -158,37 +148,31 @@ def format_spearman_summary(results: Dict) -> dict:
             if r is None:
                 continue
             pair_tfs[f"TF{tf}"] = {
+                "symbol": getattr(r, "symbol", symbol.upper()),
                 "spearman_rho": r.spearman_rho,
                 "direction": r.direction,
                 "tail_signal": r.tail_signal,
+                "timestamp_utc": r.timestamp,
+                "method": "B5_SPEARMAN_SYMBOL_PARAMETRIC",
             }
             directions.append(r.direction)
             if r.tail_signal == "CODEPENDANT_EXTREME":
                 tail_extreme.append(f"{pair}_TF{tf}")
-
         if pair_tfs:
             details[pair] = pair_tfs
-            # Consensus multi-TF
-            if all(d == "SYNCHRO" for d in directions):
-                synchro_pairs.append(pair)
-            elif all(d == "DIVERGENT" for d in directions):
-                divergent_pairs.append(pair)
-            elif len(set(directions)) > 1:
-                # Résolution MIXED : mesurée, pas heuristique
-                rhos = [
-                    r.spearman_rho
-                    for r in tfs.values()
-                    if r is not None
-                ]
-                avg_rho = round(float(np.mean(rhos)), 3)
-                mixed_resolved.append({
-                    "pair": pair,
-                    "avg_rho": avg_rho,
-                    "note": "MIXED_PROBABILISTE"
-                })
-
+        if directions and all(d == "SYNCHRO" for d in directions):
+            synchro_pairs.append(pair)
+        elif directions and all(d == "DIVERGENT" for d in directions):
+            divergent_pairs.append(pair)
+        elif len(set(directions)) > 1:
+            rhos = [r.spearman_rho for r in tfs.values() if r is not None]
+            avg_rho = round(float(np.mean(rhos)), 3) if rhos else 0.0
+            mixed_resolved.append({"pair": pair, "avg_rho": avg_rho, "note": "MIXED_PROBABILISTE"})
     return {
         "state": "SPEARMAN_GRAVITY_ACTIVE",
+        "symbol": symbol.upper(),
+        "method": "B5_SPEARMAN_SYMBOL_PARAMETRIC",
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "synchro_pairs": synchro_pairs,
         "divergent_pairs": divergent_pairs,
         "tail_extreme": tail_extreme,

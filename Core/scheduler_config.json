@@ -1,0 +1,14 @@
+{
+  "interval_seconds": 300,
+  "symbols": [
+    "GBPUSD",
+    "EURUSD",
+    "USDJPY"
+  ],
+  "enabled": true,
+  "log_path": "logs/scheduler.log",
+  "db_path": "powerflow.db",
+  "max_consecutive_errors": 3,
+  "continue_after_symbol_error": true,
+  "run_dashboard_refresh": true
+}

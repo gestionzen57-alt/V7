@@ -1,0 +1,85 @@
+<!-- PowerFlow V7.2 Multi-Symbol Dashboard Patch -->
+<section id="multisymbol-dashboard-patch" data-brick="MULTI_SYMBOL_DASHBOARD" data-symbol="GBPUSD">
+  <style>
+    #multisymbol-dashboard-patch{--primary:#00FF00;--background:#0a0a0a;--secondary:#1a1a1a;--accent:#00cc00;--warning:#ffaa00;--error:#ff3333;--text:#e0e0e0;background:var(--background);color:var(--text);font-family:Consolas,monospace;border:1px solid #174217;border-radius:12px;padding:16px;margin:16px 0}
+    #multisymbol-dashboard-patch .pf-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    #multisymbol-dashboard-patch button{background:#101810;color:var(--primary);border:1px solid #246b24;border-radius:8px;padding:8px 12px;cursor:pointer}
+    #multisymbol-dashboard-patch button.active{background:#123312;border-color:var(--primary)}
+    #multisymbol-dashboard-patch .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+    #multisymbol-dashboard-patch .card{background:var(--secondary);border:1px solid #263826;border-radius:10px;padding:12px;min-height:120px}
+    #multisymbol-dashboard-patch .muted{color:#8fae8f;font-size:12px}
+    #multisymbol-dashboard-patch .badge{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #315d31;margin:2px;font-size:12px}
+    #multisymbol-dashboard-patch .FRESH{color:var(--primary)} .AGING{color:var(--warning)} .STALE,.MISSING{color:var(--error)}
+    #multisymbol-dashboard-patch pre{white-space:pre-wrap;word-break:break-word;max-height:280px;overflow:auto;background:#070907;border-radius:8px;padding:8px}
+  </style>
+  <h2>PowerFlow Multi-Symbol Surface</h2>
+  <div class="muted">Tabs: GBPUSD | EURUSD | USDJPY | XAUUSD — aucune fusion cross-symbol avec résultat par symbole.</div>
+  <div class="pf-tabs" id="pf-ms-tabs"></div>
+  <div class="grid" id="pf-ms-grid"></div>
+  <div class="card" data-brick="CROSS_SYMBOL_VALIDATION" data-symbol="ALL">
+    <h3>Cross-Symbol Driver</h3>
+    <div id="pf-cross-driver" class="muted">loading...</div>
+  </div>
+  <script>
+    (() => {
+      const symbols = ["GBPUSD", "EURUSD", "USDJPY", "XAUUSD"];
+      const files = [
+        ["B1_LEGACY", "regime", s => `output/dashboard_surface/${s}/regime_legacy.json`],
+        ["B1_HMM", "regime_hmm", s => `output/dashboard_surface/${s}/regime_hmm.json`],
+        ["P1_ENERGY", "energy", s => `output/dashboard_surface/${s}/energy.json`],
+        ["B2_CASCADE", "cascade", s => `output/dashboard_surface/${s}/cascade.json`],
+        ["NODE", "node", s => `output/dashboard_surface/${s}/node.json`],
+        ["B4_ROLLING", "temporal_density", s => `output/temporal_density_state_${s}.json`],
+        ["B5_SPEARMAN", "spearman", s => `output/spearman_gravity_state_${s}.json`],
+        ["P2_ALERTS", "alerts", s => `output/behavioral_alert_queue_${s}.json`]
+      ];
+      const tabs = document.getElementById("pf-ms-tabs");
+      const grid = document.getElementById("pf-ms-grid");
+      const root = document.getElementById("multisymbol-dashboard-patch");
+      function freshness(ts){
+        if(!ts) return {label:"MISSING", age:null};
+        const t = Date.parse(ts); if(Number.isNaN(t)) return {label:"MISSING", age:null};
+        const age = Math.max(0, Math.round((Date.now()-t)/1000));
+        return {label: age < 300 ? "FRESH" : age < 600 ? "AGING" : "STALE", age};
+      }
+      function findTs(obj){
+        if(!obj || typeof obj !== "object") return null;
+        return obj.timestamp_utc || obj.timestamp || obj.generated_at || obj.generatedAt || obj.meta?.generated_at || obj.cross_validation?.timestamp || null;
+      }
+      async function loadJson(url){
+        try{ const r = await fetch(url, {cache:"no-store"}); if(!r.ok) throw new Error(`${r.status}`); return await r.json(); }
+        catch(e){ return {__missing:true, __error:String(e), timestamp_utc:null}; }
+      }
+      function card(brick, symbol, title, data){
+        const ts = findTs(data); const f = freshness(ts); const method = data.method || data.meta?.method || data.cross_validation?.method || "method:unknown";
+        return `<div class="card" data-brick="${brick}" data-symbol="${symbol}" data-timestamp="${ts||''}" data-age-seconds="${f.age ?? ''}" data-freshness="${f.label}">
+          <h3>${title}</h3>
+          <div class="muted">method: ${method}</div>
+          <div class="muted">timestamp_utc: ${ts || "MISSING"}</div>
+          <div class="muted">age_seconds: ${f.age ?? "MISSING"} <span class="badge ${f.label}">${f.label}</span></div>
+          <pre>${JSON.stringify(data, null, 2)}</pre>
+        </div>`;
+      }
+      async function renderSymbol(symbol){
+        root.dataset.symbol = symbol;
+        [...tabs.children].forEach(b => b.classList.toggle("active", b.dataset.symbol === symbol));
+        const loaded = await Promise.all(files.map(async ([brick,title,path]) => [brick,title,await loadJson(path(symbol))]));
+        grid.innerHTML = loaded.map(([brick,title,data]) => card(brick, symbol, title, data)).join("");
+      }
+      async function renderCross(){
+        const data = await loadJson("output/dashboard_surface/cross_validation.json");
+        const cv = data.cross_validation || {};
+        const ts = findTs(data); const f = freshness(ts);
+        const badges = ["gbp","usd","eur","jpy"].map(c => `<span class="badge">${c.toUpperCase()}: ${cv[`${c}_true_strength`] || "UNKNOWN"}</span>`).join(" ");
+        document.getElementById("pf-cross-driver").innerHTML = `
+          <div>driver: <b>${cv.driver || "MISSING"}</b> confidence: ${cv.confidence ?? "MISSING"}</div>
+          <div>${badges}</div>
+          <div>timestamp_utc: ${ts || "MISSING"}</div>
+          <div>age_seconds: ${f.age ?? "MISSING"} <span class="badge ${f.label}">${f.label}</span></div>
+          <pre>${JSON.stringify(cv, null, 2)}</pre>`;
+      }
+      symbols.forEach(s => { const b = document.createElement("button"); b.textContent = s; b.dataset.symbol = s; b.onclick = () => renderSymbol(s); tabs.appendChild(b); });
+      renderSymbol("GBPUSD"); renderCross(); setInterval(() => { renderSymbol(root.dataset.symbol || "GBPUSD"); renderCross(); }, 30000);
+    })();
+  </script>
+</section>
