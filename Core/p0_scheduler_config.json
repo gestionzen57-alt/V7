@@ -1,0 +1,8 @@
+﻿{
+  "enabled": true,
+  "interval_minutes": 60,
+  "auto_push_git": false,
+  "alert_on_status_change": true,
+  "log_directory": "logs/",
+  "symbol": "GBPUSD"
+}
