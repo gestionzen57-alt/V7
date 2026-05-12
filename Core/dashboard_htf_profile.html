@@ -1,0 +1,116 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>PowerFlow V7.3.7 - LTF Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { margin:0; background:#080b10; color:#e8eef7; font-family:Segoe UI, Arial, sans-serif; }
+    header { padding:18px 24px; border-bottom:1px solid #1f2937; background:#0d1117; }
+    h1 { margin:0; font-size:22px; letter-spacing:.04em; }
+    .sub { color:#93a4b8; margin-top:4px; }
+    main { padding:20px; display:grid; gap:16px; }
+    .hero { border:1px solid #263447; border-radius:16px; padding:18px; background:#101722; }
+    .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+    .card { border:1px solid #223047; border-radius:14px; padding:14px; background:#0d141f; }
+    .title { color:#9fb4d0; font-size:13px; text-transform:uppercase; letter-spacing:.06em; }
+    .value { font-size:20px; font-weight:700; margin-top:6px; }
+    .big { font-size:30px; font-weight:800; }
+    .badge { display:inline-block; padding:4px 9px; border-radius:999px; background:#1f2937; margin-right:6px; font-size:12px; }
+    .wake { background:#4b1111; color:#ffd5d5; }
+    .watch { background:#3b2f0b; color:#ffe8a3; }
+    .quiet { background:#15331f; color:#c9ffd8; }
+    .tf { display:grid; grid-template-columns:90px 1fr; gap:8px; align-items:center; }
+    .muted { color:#93a4b8; }
+    pre { white-space:pre-wrap; margin:0; font-family:Consolas, monospace; color:#cbd5e1; }
+    .events { display:grid; gap:8px; }
+    .event { border-left:3px solid #64748b; padding:8px 10px; background:#0b111b; border-radius:8px; }
+    @media (max-width:900px){ .grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header>
+  <h1>POWERFLOW V7.3.7 - HTF PROFILE</h1>
+  <div class="sub">H1 / H4 / D1 - gravite superieure, structure, contexte</div>
+</header>
+<main>
+  <section class="hero">
+    <div class="title">Etat global</div>
+    <div id="hero" class="big">Chargement...</div>
+    <div id="phrase" class="muted"></div>
+  </section>
+
+  <section class="grid">
+    <div class="card"><div class="title">Attention</div><div id="attention" class="value"></div></div>
+    <div class="card"><div class="title">Bias</div><div id="bias" class="value"></div></div>
+    <div class="card"><div class="title">Fake Risk</div><div id="fake" class="value"></div></div>
+  </section>
+
+  <section class="card">
+    <div class="title">Timeframes</div>
+    <div id="timeframes"></div>
+  </section>
+
+  <section class="card">
+    <div class="title">Moments marquants memorises</div>
+    <div id="events" class="events"></div>
+  </section>
+
+  <section class="card">
+    <div class="title">Risques techniques</div>
+    <pre id="risks"></pre>
+  </section>
+</main>
+
+<script>
+const SYMBOL = "GBPUSD";
+const PROFILE = "HTF";
+const DATA_URL = `output/dashboard_surface/time_profiles_dashboard.json`;
+
+function badgeClass(att){
+  att = String(att || "");
+  if(att.includes("WAKE")) return "badge wake";
+  if(att.includes("WATCH")) return "badge watch";
+  return "badge quiet";
+}
+
+async function load(){
+  const res = await fetch(DATA_URL + "?t=" + Date.now());
+  const data = await res.json();
+  const p = (data.profiles || []).find(x => x.profile === PROFILE) || {};
+  document.getElementById("hero").textContent = p.main_state || "UNKNOWN";
+  document.getElementById("phrase").textContent = p.cockpit_phrase || "";
+  document.getElementById("attention").innerHTML = `<span class="${badgeClass(p.attention)}">${p.attention || "UNKNOWN"}</span>`;
+  document.getElementById("bias").textContent = p.dominant_bias || "UNKNOWN";
+  document.getElementById("fake").textContent = `${p.fake_risk || "UNKNOWN"} / ${p.compression_quality || "UNKNOWN"}`;
+
+  const tfs = p.timeframes || {};
+  document.getElementById("timeframes").innerHTML = Object.keys(tfs).map(tf => {
+    const x = tfs[tf] || {};
+    return `<div class="tf">
+      <div class="value">${tf}</div>
+      <div>
+        <span class="badge">${x.phase || "UNKNOWN"}</span>
+        <span class="badge">${x.bias || "UNKNOWN"}</span>
+        <span class="badge">force=${x.force ?? "n/a"}</span>
+        <div class="muted">price=${x.last_close ?? "n/a"} | rows=${x.rows ?? 0} | fresh=${x.freshness_seconds ?? "?"}s</div>
+      </div>
+    </div>`;
+  }).join("");
+
+  const evs = (p.memory && p.memory.last_events) || [];
+  document.getElementById("events").innerHTML = evs.length ? evs.map(e => `
+    <div class="event">
+      <b>${e.timestamp_utc || ""}</b> | ${e.timeframe || ""} | ${e.event_type || ""}<br>
+      <span class="muted">${e.phase_after || ""} | ${e.bias || ""} | ${e.importance || ""} | price=${e.price ?? "n/a"}</span><br>
+      ${e.machine_phrase || ""}
+    </div>`).join("") : "<div class='muted'>Aucun moment memorise.</div>";
+
+  document.getElementById("risks").textContent = (p.technical_risks || []).join("\n") || "NONE";
+}
+load();
+setInterval(load, 10000);
+</script>
+</body>
+</html>
+
