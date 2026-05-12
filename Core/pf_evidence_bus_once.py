@@ -392,6 +392,20 @@ def derive_global(evidence: list[dict[str, Any]]) -> dict[str, Any]:
         "technical_risks": sorted(set(risks)),
     }
 
+def visual_weight(e: dict[str, Any]) -> tuple[float, str]:
+    layer = str(e.get("layer") or "").upper()
+    state = str(e.get("state") or "").upper()
+    weight = as_float(e.get("weight"), 0.0)
+
+    if layer == "PHASE_SYNTHESIS" and state in {"NO_CLEAR_PHASE", "MIXED_PHASE", "UNKNOWN"}:
+        return 0.0, "neutralized=derived_phase_unclear"
+
+    if layer == "B8_CROSS_SYMBOL" and state in {"DEGRADED", "MISSING", "UNKNOWN"}:
+        return 0.0, "neutralized=cross_coverage_degraded"
+
+    return weight, ""
+
+
 def write_txt(path: str | Path, data: dict[str, Any]) -> None:
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -406,7 +420,11 @@ def write_txt(path: str | Path, data: dict[str, Any]) -> None:
 
     for e in data.get("evidence", []):
         details = e.get("details") or {}
+        vw, neutralized = visual_weight(e)
+
         extra = ""
+        if neutralized:
+            extra += f" {neutralized}"
         if details.get("fake_risk"):
             extra += f" fake={details.get('fake_risk')}"
         if details.get("coverage"):
@@ -414,10 +432,12 @@ def write_txt(path: str | Path, data: dict[str, Any]) -> None:
         if details.get("last_event"):
             le = details.get("last_event") or {}
             extra += f" last={le.get('timeframe')}/{le.get('event_type')}/price={le.get('price')}"
+
         lines.append(
             f"- {e.get('layer')}: {e.get('attention')} | {e.get('state')} | "
-            f"{e.get('bias')} | w={e.get('weight')}{extra}"
+            f"{e.get('bias')} | w={vw}{extra}"
         )
+
         msg = str(e.get("message") or "").strip()
         if msg:
             lines.append(f"  message={msg}")
