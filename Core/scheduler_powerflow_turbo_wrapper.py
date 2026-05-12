@@ -218,6 +218,21 @@ def main(argv: Iterable[str] | None = None) -> int:
         )
         return 1
 
+
+    run_step("gbpusd_live_decision", [
+        sys.executable, "pf_gbpusd_live_decision_once.py",
+    ])
+    run_step("cockpit_live_status", [
+        sys.executable, "pf_cockpit_live_status_once.py",
+    ])
+    run_step("powerflow_live_brief", [
+        sys.executable, "pf_powerflow_live_brief_once.py",
+    ])
+    run_step("live_brief_normalize", [
+        sys.executable, "dashboard_normalize_live_brief.py",
+        "--symbols", symbols,
+        "--output", "output/dashboard_surface/live_brief_dashboard.json",
+    ])
     print(
         "TURBO_V73_CYCLE_OK | "
         f"symbols={symbols} | steps={len(results)} | duration_seconds={elapsed} | "

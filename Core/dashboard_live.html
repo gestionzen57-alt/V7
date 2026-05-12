@@ -496,6 +496,42 @@ setInterval(pfLoadDailyJournalCard, 30000);
 
 
 
+
+<!-- POWERFLOW_V733_LIVE_BRIEF_CARD_START -->
+<section class="pf-card pf-live-brief-card" id="live-brief-card">
+  <div class="pf-card-title">Live Flow Brief — V7.3.3</div>
+  <div class="pf-card-subtitle">Daily / Topdown / Live tension</div>
+  <div id="live-brief-card-content">Loading live brief...</div>
+</section>
+<script>
+async function pfLoadLiveBriefCard() {
+  const el = document.getElementById("live-brief-card-content");
+  if (!el) return;
+  try {
+    const res = await fetch("output/dashboard_surface/live_brief_dashboard.json?ts=" + Date.now());
+    const data = await res.json();
+    const rows = data.symbols || [];
+    if (!rows.length) {
+      el.innerHTML = "<div class='pf-muted'>No live brief available.</div>";
+      return;
+    }
+    el.innerHTML = `<div class="pf-mini-block"><b>Status:</b> ${data.global_status || "UNKNOWN"}</div>` +
+      rows.map(s => `
+        <div class="pf-mini-block">
+          <div><b>${s.symbol}</b> — ${s.status || "UNKNOWN"} — ${s.synthesis || "UNKNOWN"}</div>
+          <div>Packet: ${s.packet || "NONE"} | Level: ${s.level || "NONE"} | Bias: ${s.bias || "NONE"} | TF: ${s.tf ?? "-"}</div>
+          <div>Score: ${s.score ?? "-"} | Live: ${s.live_count ?? "-"} | Old: ${s.old_count ?? "-"}</div>
+          <div class="pf-muted">${s.reading || ""}</div>
+        </div>`).join("");
+  } catch (e) {
+    el.innerHTML = "<div class='pf-risk'>Live brief unavailable.</div>";
+  }
+}
+pfLoadLiveBriefCard();
+setInterval(pfLoadLiveBriefCard, 30000);
+</script>
+<!-- POWERFLOW_V733_LIVE_BRIEF_CARD_END -->
+
 </body>
 </html>
 
