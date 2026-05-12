@@ -363,7 +363,17 @@ def infer_profile_state(profile: str, tf_states: Dict[str, Dict[str, Any]]) -> T
         m1 = tf_states.get("M1", {})
         m5 = tf_states.get("M5", {})
         m15 = tf_states.get("M15", {})
-        if "IGNITION" in str(m1.get("phase")) and str(m5.get("bias")) == str(m1.get("bias")):
+        release_count = sum(1 for p in phases if "RELEASE" in p)
+        active_biases = [b for b in biases if b in ("PAIR_UP", "PAIR_DOWN")]
+        divergent_release = release_count >= 2 and len(set(active_biases)) > 1
+
+        if divergent_release:
+            main = "LTF_DIVERGENT_RELEASE"
+        elif release_count >= 2:
+            main = "LTF_RELEASE_ACTIVE"
+        elif release_count == 1:
+            main = "LTF_PARTIAL_RELEASE"
+        elif "IGNITION" in str(m1.get("phase")) and str(m5.get("bias")) == str(m1.get("bias")):
             main = "M1_IGNITION_WITH_M5_RELAY"
         elif "IGNITION" in str(m1.get("phase")):
             main = "M1_IGNITION_RELAY_WAIT"
@@ -375,6 +385,11 @@ def infer_profile_state(profile: str, tf_states: Dict[str, Dict[str, Any]]) -> T
             main = "M15_BATTLE_WINDOW"
     elif profile == "MTF":
         main = "MTF_QUIET"
+        release_count = sum(1 for p in phases if "RELEASE" in p)
+        if release_count >= 2:
+            main = "MTF_RELEASE_ACTIVE"
+        elif release_count == 1:
+            main = "MTF_PARTIAL_RELEASE"
         if "COMPRESSION" in " ".join(phases):
             main = "MTF_INTRADAY_COMPRESSION"
         if "STRUCTURE_SHIFT" in " ".join(phases):
@@ -383,6 +398,11 @@ def infer_profile_state(profile: str, tf_states: Dict[str, Dict[str, Any]]) -> T
             main = "MTF_REACTION_OR_REJECTION"
     else:
         main = "HTF_QUIET"
+        release_count = sum(1 for p in phases if "RELEASE" in p)
+        if release_count >= 2:
+            main = "HTF_RELEASE_ACTIVE"
+        elif release_count == 1:
+            main = "HTF_PARTIAL_RELEASE"
         if "COMPRESSION" in " ".join(phases):
             main = "HTF_COMPRESSION_OR_INSIDE_RANGE"
         if "STRUCTURE_SHIFT" in " ".join(phases):
