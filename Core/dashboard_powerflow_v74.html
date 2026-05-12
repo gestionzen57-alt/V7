@@ -273,9 +273,64 @@ function safe(v, fallback = "UNKNOWN") {
 }
 
 function esc(v) {
-  return String(safe(v, "")).replace(/[&<>"']/g, m => ({
+  return String(repairMojibake(safe(v, ""))).replace(/[&<>"']/g, m => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
   }[m]));
+}
+
+function repairMojibake(v) {
+  let s = String(v ?? "");
+  const map = {
+    "Ã©": "é",
+    "Ã¨": "è",
+    "Ãª": "ê",
+    "Ã«": "ë",
+    "Ã ": "à",
+    "Ã¢": "â",
+    "Ã´": "ô",
+    "Ã¹": "ù",
+    "Ã»": "û",
+    "Ã§": "ç",
+    "Ã®": "î",
+    "Ã¯": "ï",
+    "â€™": "'",
+    "â€œ": "“",
+    "â€": "”",
+    "â€“": "–",
+    "â€”": "—",
+    "Â°": "°",
+    "Â": ""
+  };
+  for (const [bad, good] of Object.entries(map)) {
+    s = s.split(bad).join(good);
+  }
+  return s;
+}
+
+function recursiveFind(obj, keys) {
+  if (!obj || typeof obj !== "object") return null;
+
+  if (Array.isArray(obj)) {
+    for (const item of obj) {
+      const found = recursiveFind(item, keys);
+      if (found !== null && found !== undefined && found !== "") return found;
+    }
+    return null;
+  }
+
+  for (const key of keys) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const v = obj[key];
+      if (v !== null && v !== undefined && v !== "") return v;
+    }
+  }
+
+  for (const v of Object.values(obj)) {
+    const found = recursiveFind(v, keys);
+    if (found !== null && found !== undefined && found !== "") return found;
+  }
+
+  return null;
 }
 
 function badgeClass(v) {
@@ -376,7 +431,7 @@ function renderHero(reading, bus, cockpit, contract, health, latestTs, age) {
       <span class="badge ${badgeClass(warning)}">${esc(warning)}</span>
     </div>
     <div class="kv">
-      <div class="k">État cockpit</div><div class="v">${esc(cockpit.state || cockpit.etat || cockpit.synthesis)}</div>
+      <div class="k">État cockpit</div><div class="v">${esc(recursiveFind(cockpit, ["state", "etat", "main_state", "market_state", "synthesis"]) || "MISSING_FIELD")}</div>
       <div class="k">Confiance</div><div class="v">${esc(reading.confidence || bus.confidence)}</div>
       <div class="k">Dernière mise à jour</div><div class="v mono">${esc(bus.timestamp_utc || reading.timestamp_utc || cockpit.timestamp_utc)}</div>
     </div>
@@ -499,19 +554,38 @@ function renderRisks(reading, bus, health) {
 }
 
 function renderCockpit(cockpit) {
-  const scenarios = cockpit.scenarios || cockpit.watch_scenarios || [];
-  const risks = cockpit.risks || cockpit.technical_risks || [];
+  const action = recursiveFind(cockpit, ["action", "attention", "status", "decision"]) || "MISSING_FIELD";
+  const state = recursiveFind(cockpit, ["state", "etat", "main_state", "market_state"]) || "MISSING_FIELD";
+  const reading = recursiveFind(cockpit, ["reading", "synthesis", "multiread_synthesis", "reading_type"]) || "MISSING_FIELD";
+
+  const scenarios =
+    recursiveFind(cockpit, ["scenarios", "watch_scenarios"]) ||
+    recursiveFind(cockpit, ["scenario_lines"]) ||
+    [];
+
+  const risks =
+    recursiveFind(cockpit, ["risks", "technical_risks", "useful_risks"]) ||
+    [];
+
+  const normalizedScenarios = Array.isArray(scenarios)
+    ? scenarios
+    : String(scenarios || "").split("|").map(x => x.trim()).filter(Boolean);
+
+  const normalizedRisks = Array.isArray(risks)
+    ? risks
+    : String(risks || "").split("|").map(x => x.trim()).filter(Boolean);
+
   document.getElementById("cockpit").innerHTML = `
     <h2>Cockpit source</h2>
     <div class="kv">
-      <div class="k">Action</div><div class="v">${esc(cockpit.action || cockpit.attention)}</div>
-      <div class="k">State</div><div class="v">${esc(cockpit.state || cockpit.etat)}</div>
-      <div class="k">Reading</div><div class="v">${esc(cockpit.reading || cockpit.synthesis)}</div>
+      <div class="k">Action</div><div class="v">${esc(action)}</div>
+      <div class="k">State</div><div class="v">${esc(state)}</div>
+      <div class="k">Reading</div><div class="v">${esc(reading)}</div>
     </div>
     <h3>Scénarios</h3>
-    <ul>${Array.isArray(scenarios) ? scenarios.map(x => `<li>${esc(x)}</li>`).join("") : `<li>${esc(scenarios)}</li>`}</ul>
+    <ul>${normalizedScenarios.map(x => `<li>${esc(x)}</li>`).join("") || "<li class='muted'>MISSING_FIELD: cockpit.scenarios</li>"}</ul>
     <h3>Risques cockpit</h3>
-    <ul>${Array.isArray(risks) ? risks.map(x => `<li>${esc(x)}</li>`).join("") : `<li>${esc(risks)}</li>`}</ul>
+    <ul>${normalizedRisks.map(x => `<li>${esc(x)}</li>`).join("") || "<li class='muted'>Aucun risque cockpit direct.</li>"}</ul>
   `;
 }
 

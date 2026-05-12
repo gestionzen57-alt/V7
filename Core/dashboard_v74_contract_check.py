@@ -254,6 +254,9 @@ def check_dashboard_html(path: Path, issues: list[str]) -> None:
         "structural_bias",
         "counterflow_bias",
         "semantic_warning",
+        "recursiveFind",
+        "repairMojibake",
+        "MISSING_FIELD",
     ]
 
     for token in required_tokens:
