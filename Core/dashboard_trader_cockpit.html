@@ -3,189 +3,129 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PowerFlow V7.3.5 - Trader Cockpit</title>
+  <title>PowerFlow V7.3.5b - Trader Cockpit</title>
   <style>
-    :root {
-      --bg: #020604;
-      --panel: #06130b;
-      --panel2: #0a1b10;
-      --line: #0b6b2c;
-      --green: #00ff55;
-      --soft: #7ee6a0;
-      --muted: #789987;
-      --yellow: #ffbf00;
-      --red: #ff4d4d;
-      --blue: #7fb7ff;
-      --text: #d7ffe1;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: radial-gradient(circle at 20% 0%, #07180d 0%, var(--bg) 48%, #000 100%);
-      color: var(--text);
-      font-family: Consolas, Monaco, 'Courier New', monospace;
-    }
-    .wrap { max-width: 1480px; margin: 0 auto; padding: 22px; }
-    header {
-      border: 1px solid var(--line);
-      background: rgba(6, 19, 11, 0.92);
-      border-radius: 18px;
-      padding: 18px 22px;
-      box-shadow: 0 0 24px rgba(0, 255, 85, .08);
-      margin-bottom: 18px;
-    }
-    .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-    h1 { margin: 0; color: var(--green); letter-spacing: 1px; font-size: clamp(25px, 3vw, 42px); }
-    .sub { color: var(--muted); margin-top: 8px; font-size: 14px; }
-    .pillrow { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-    .pill { border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; color: var(--soft); background: #021008; font-weight: 700; }
-    .pill.hot { color: var(--yellow); border-color: #9a7500; }
-    .pill.wake { color: var(--red); border-color: var(--red); }
-    .grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 18px; }
-    @media (max-width: 1050px) { .grid { grid-template-columns: 1fr; } }
-    .card {
-      border: 1px solid var(--line);
-      background: rgba(6, 19, 11, .94);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 0 18px rgba(0, 255, 85, .05);
-    }
-    .hero { border-color: var(--green); }
-    .hero.wake { border-color: var(--red); box-shadow: 0 0 28px rgba(255, 77, 77, .12); }
-    .symbolLine { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
-    .symbol { font-size: 34px; color: var(--green); font-weight: 900; letter-spacing: 1px; }
-    .action { font-size: 22px; color: var(--yellow); font-weight: 900; }
-    .action.wake { color: var(--red); }
-    .synthesis { color: var(--blue); font-weight: 800; }
-    .reading {
-      font-size: clamp(18px, 2.1vw, 28px);
-      line-height: 1.35;
-      margin: 16px 0 10px;
-      color: white;
-    }
-    .sectionTitle { color: var(--green); font-size: 15px; margin: 0 0 12px; letter-spacing: .5px; text-transform: uppercase; }
-    .traffic { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    @media (max-width: 720px) { .traffic { grid-template-columns: 1fr; } }
-    .light { border: 1px solid rgba(0,255,85,.32); background: var(--panel2); border-radius: 14px; padding: 13px; min-height: 94px; }
-    .light .k { color: var(--muted); font-size: 12px; text-transform: uppercase; margin-bottom: 7px; }
-    .light .v { color: var(--text); font-size: 18px; font-weight: 900; overflow-wrap: anywhere; }
-    .light .m { color: var(--muted); margin-top: 7px; font-size: 13px; overflow-wrap: anywhere; }
-    .scenarios { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-    .scenarios li { border-left: 4px solid var(--yellow); padding: 10px 12px; background: #110f02; border-radius: 10px; color: #fff4c0; }
-    .risks { color: var(--yellow); font-size: 13px; line-height: 1.45; }
-    .smallSymbols { display: grid; gap: 12px; }
-    .mini { border: 1px solid rgba(0,255,85,.22); background: #041009; border-radius: 14px; padding: 14px; }
-    .miniTop { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
-    .miniSym { color: var(--green); font-size: 20px; font-weight: 900; }
-    .miniAct { color: var(--yellow); font-weight: 900; }
-    .miniAct.wake { color: var(--red); }
-    .miniRead { color: var(--muted); margin-top: 8px; font-size: 13px; line-height: 1.4; }
-    .footer { margin-top: 18px; color: var(--muted); font-size: 12px; text-align: center; }
-    button { cursor: pointer; border: 1px solid var(--line); color: var(--green); background: #031008; border-radius: 999px; padding: 8px 12px; font-weight: 800; }
-    a { color: var(--soft); text-decoration: none; }
-    .error { color: var(--red); white-space: pre-wrap; }
+    :root { --bg:#020806; --panel:#06170d; --panel2:#071f11; --green:#00ff55; --soft:#73ff9a; --muted:#8ab89a; --red:#ff4d4d; --yellow:#ffd33d; --blue:#7cb7ff; --border:#075f28; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(circle at top,#082011 0,#020806 55%,#000 100%); color:#d8ffe1; font-family:Consolas, Monaco, monospace; }
+    .wrap { max-width:1200px; margin:28px auto; padding:0 18px 40px; }
+    header { border:1px solid var(--border); border-radius:14px; padding:20px 24px; background:rgba(6,23,13,.92); box-shadow:0 0 30px rgba(0,255,85,.08); }
+    h1 { margin:0; color:var(--green); font-size:34px; letter-spacing:1px; }
+    .sub { color:var(--muted); margin-top:8px; }
+    .chips { display:flex; flex-wrap:wrap; gap:9px; margin-top:15px; }
+    .chip { border:1px solid var(--border); border-radius:999px; padding:7px 12px; color:var(--soft); background:#031108; font-weight:bold; }
+    .chip.red { color:var(--red); border-color:var(--red); }
+    .chip.yellow { color:var(--yellow); border-color:#876900; }
+    .grid { display:grid; grid-template-columns:1.55fr .95fr; gap:14px; margin-top:14px; }
+    .card { border:1px solid var(--border); border-radius:14px; background:rgba(6,23,13,.94); padding:16px; }
+    .main { border-color:#ff4545; }
+    .symbol { color:var(--green); font-size:28px; font-weight:bold; }
+    .tag { display:inline-block; margin-left:8px; font-size:13px; color:var(--red); font-weight:bold; }
+    .tag.blue { color:var(--blue); }
+    .statebox { margin:14px 0; padding:14px; border-left:5px solid var(--yellow); background:#1a1300; border-radius:10px; }
+    .statebox .state { color:var(--yellow); font-size:20px; font-weight:bold; }
+    .statebox .watch { margin-top:7px; font-size:17px; color:#fff3bd; }
+    .reading { font-size:22px; line-height:1.45; margin:12px 0 14px; color:white; }
+    .quad { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+    .mini { border:1px solid var(--border); border-radius:10px; background:var(--panel2); padding:12px; min-height:94px; }
+    .mini h3 { margin:0 0 8px; color:var(--soft); font-size:12px; letter-spacing:.6px; }
+    .mini .value { color:#fff; font-size:16px; font-weight:bold; }
+    .mini .meta { color:var(--muted); font-size:12px; margin-top:6px; line-height:1.45; }
+    h2 { margin:0 0 12px; color:var(--green); font-size:15px; text-transform:uppercase; }
+    .scenario { margin:8px 0; padding:10px 12px; border-left:4px solid var(--yellow); background:#171200; border-radius:8px; color:#fff5c6; }
+    .risk { color:var(--yellow); font-size:13px; margin:5px 0; }
+    .context-card { border:1px solid var(--border); border-radius:10px; padding:12px; margin:10px 0; background:var(--panel2); }
+    .context-top { display:flex; justify-content:space-between; gap:10px; }
+    .context-symbol { color:var(--green); font-weight:bold; font-size:17px; }
+    .context-badge { color:var(--blue); font-weight:bold; }
+    .context-badge.context { color:var(--muted); }
+    .context-body { color:var(--muted); font-size:12px; line-height:1.45; margin-top:7px; }
+    footer { color:var(--muted); text-align:center; margin-top:18px; font-size:12px; }
+    button { background:#031108; color:var(--green); border:1px solid var(--border); border-radius:999px; padding:8px 12px; font-weight:bold; cursor:pointer; }
+    button:hover { border-color:var(--green); }
+    .audit { display:none; margin-top:14px; white-space:pre-wrap; color:#b9ffca; font-size:12px; max-height:320px; overflow:auto; border:1px solid var(--border); padding:12px; border-radius:10px; background:#020c06; }
+    @media (max-width:900px){ .grid,.quad{grid-template-columns:1fr;} h1{font-size:26px}.reading{font-size:18px} }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="top">
-        <div>
-          <h1>POWERFLOW V7.3.5 - TRADER COCKPIT</h1>
-          <div class="sub">Une page. Lecture du flux. Conflit ou alignement. Scénario à surveiller. Aucun ordre.</div>
-        </div>
-        <div class="pillrow">
-          <span id="statusPill" class="pill">LOADING</span>
-          <span id="timePill" class="pill">--</span>
-          <button onclick="loadCockpit()">refresh</button>
-          <a class="pill" href="dashboard_live_v7_2_final.html" target="_blank">audit technique</a>
-        </div>
-      </div>
-    </header>
-
-    <main id="app"></main>
-    <div class="footer">PowerFlow affiche la perception. Le trader filtre, arbitre et agit.</div>
-  </div>
-
-<script>
-const sourcePath = 'output/dashboard_surface/trader_cockpit.json';
-
-function clsAction(action) {
-  const a = String(action || '').toUpperCase();
-  return a.includes('WAKE') ? 'wake' : '';
-}
-function safe(v, fallback='—') {
-  if (v === null || v === undefined || v === '') return fallback;
-  return String(v);
-}
-function field(title, value, meta='') {
-  return `<div class="light"><div class="k">${title}</div><div class="v">${safe(value)}</div>${meta ? `<div class="m">${meta}</div>` : ''}</div>`;
-}
-function renderMain(s) {
-  const actionClass = clsAction(s.action);
-  const scenarios = (s.scenarios || []).map(x => `<li>${x}</li>`).join('') || '<li>Attendre une lecture exploitable.</li>';
-  const risks = (s.technical_risks || []).length ? (s.technical_risks || []).map(x => `<div>- ${x}</div>`).join('') : '<div>Aucun risque technique bloquant affiché.</div>';
-  return `
-    <section class="card hero ${actionClass}">
-      <div class="symbolLine">
-        <div class="symbol">${safe(s.symbol)}</div>
-        <div class="action ${actionClass}">${safe(s.action)}</div>
-        <div class="synthesis">${safe(s.synthesis)}</div>
-      </div>
-      <div class="reading">${safe(s.trader_line)}</div>
-      <div class="traffic">
-        ${field('HTF / Topdown', s.topdown?.intention, `${safe(s.topdown?.flux)} | ${safe(s.topdown?.window)} | driver=${safe(s.topdown?.driver)}`)}
-        ${field('Daily', s.daily?.intent, `close=${safe(s.daily?.close_position)} | sweeps=${safe(s.daily?.sweeps)} | rejected=${safe(s.daily?.rejected)}`)}
-        ${field('Live', s.live?.bias, `${safe(s.live?.packet)} | level=${safe(s.live?.level)} | TF=${safe(s.live?.tf)} | score=${safe(s.live?.score)}`)}
-        ${field('B6', s.b6?.bias, `${safe(s.b6?.state)} | level=${safe(s.b6?.level)} | tension=${safe(s.b6?.score)}`)}
-      </div>
-    </section>
-    <section class="card">
-      <h2 class="sectionTitle">Scénarios de surveillance</h2>
-      <ol class="scenarios">${scenarios}</ol>
-    </section>
-    <section class="card">
-      <h2 class="sectionTitle">Risques techniques utiles</h2>
-      <div class="risks">${risks}</div>
-    </section>
-  `;
-}
-function renderMini(s) {
-  const c = clsAction(s.action);
-  return `<div class="mini">
-    <div class="miniTop"><span class="miniSym">${safe(s.symbol)}</span><span class="miniAct ${c}">${safe(s.action)}</span></div>
-    <div class="miniRead">${safe(s.synthesis)}<br>${safe(s.trader_line)}</div>
-  </div>`;
-}
-function render(data) {
-  document.getElementById('statusPill').textContent = data.global_status || 'UNKNOWN';
-  document.getElementById('statusPill').className = 'pill ' + (String(data.global_status || '').includes('WAKE') ? 'wake' : 'hot');
-  document.getElementById('timePill').textContent = data.timestamp_utc || '--';
-  const symbols = data.symbols || [];
-  const main = symbols.find(s => s.symbol === data.trade_symbol) || symbols[0] || {};
-  const others = symbols.filter(s => s !== main);
-  document.getElementById('app').innerHTML = `
-    <div class="grid">
-      <div style="display:grid; gap:18px;">${renderMain(main)}</div>
-      <aside class="card">
-        <h2 class="sectionTitle">Contexte paires</h2>
-        <div class="smallSymbols">${others.map(renderMini).join('') || '<div class="mini">Aucune paire contexte.</div>'}</div>
-      </aside>
+<div class="wrap">
+  <header>
+    <h1>POWERFLOW V7.3.5b - TRADER COCKPIT</h1>
+    <div class="sub">Une page. Lecture du flux. Conflit ou alignement. Scenarios a surveiller. Aucun ordre.</div>
+    <div class="chips">
+      <span id="actionChip" class="chip">loading</span>
+      <span id="timeChip" class="chip">--</span>
+      <button onclick="loadData()">refresh</button>
+      <button onclick="toggleAudit()">audit technique</button>
     </div>
-  `;
+  </header>
+
+  <section class="grid">
+    <main>
+      <div class="card main">
+        <div><span id="symbol" class="symbol">---</span><span id="attention" class="tag">---</span><span id="synthesis" class="tag blue">---</span></div>
+        <div class="statebox">
+          <div class="state" id="directState">ETAT=---</div>
+          <div class="watch" id="directWatch">SURVEILLER=---</div>
+        </div>
+        <div id="reading" class="reading">Chargement...</div>
+        <div class="quad">
+          <div class="mini"><h3>HTF / TOPDOWN</h3><div id="topdownValue" class="value">---</div><div id="topdownMeta" class="meta"></div></div>
+          <div class="mini"><h3>DAILY</h3><div id="dailyValue" class="value">---</div><div id="dailyMeta" class="meta"></div></div>
+          <div class="mini"><h3>LIVE</h3><div id="liveValue" class="value">---</div><div id="liveMeta" class="meta"></div></div>
+          <div class="mini"><h3>B6</h3><div id="b6Value" class="value">---</div><div id="b6Meta" class="meta"></div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px"><h2>Scenarios de surveillance</h2><div id="scenarios"></div></div>
+      <div class="card" style="margin-top:14px"><h2>Risques techniques utiles</h2><div id="risks"></div></div>
+      <div id="audit" class="audit"></div>
+    </main>
+    <aside class="card">
+      <h2>Contexte paires</h2>
+      <div id="context"></div>
+    </aside>
+  </section>
+  <footer>PowerFlow affiche la perception. Le trader filtre, arbitre et agit.</footer>
+</div>
+<script>
+const path = 'output/dashboard_surface/trader_cockpit.json?ts=';
+function val(x, fallback='---'){ return (x===undefined || x===null || x==='') ? fallback : x; }
+function first(obj, keys, fallback='---') { for (const k of keys) { if (obj && obj[k] !== undefined && obj[k] !== null && obj[k] !== '') return obj[k]; } return fallback; }
+function riskHtml(r){ return `<div class="risk">- ${val(r.label)} <span style="color:#6d8c75">${val(r.technical_key,'')}</span></div>`; }
+function setChip(action){ const c=document.getElementById('actionChip'); c.textContent=action; c.className='chip ' + (String(action).includes('WAKE')?'red':String(action).includes('WATCH')?'yellow':''); }
+async function loadData(){
+  const res = await fetch(path + Date.now());
+  const data = await res.json();
+  const main = data.main || {};
+  setChip(data.global_action || 'WATCH');
+  document.getElementById('timeChip').textContent = data.timestamp_utc || '--';
+  document.getElementById('symbol').textContent = main.symbol || data.trade_symbol || '---';
+  document.getElementById('attention').textContent = main.attention || '---';
+  document.getElementById('synthesis').textContent = main.synthesis || '---';
+  document.getElementById('directState').textContent = 'ETAT = ' + val(data.direct_state && data.direct_state.state);
+  document.getElementById('directWatch').textContent = 'SURVEILLER = ' + val(data.direct_state && data.direct_state.watch);
+  document.getElementById('reading').textContent = main.reading || '';
+  const daily = main.daily || {}, top = main.topdown || {}, live = main.live || {}, b6 = main.b6 || {};
+  document.getElementById('topdownValue').textContent = first(top, ['machine_intention','flux','window']);
+  document.getElementById('topdownMeta').textContent = `flux=${val(top.flux)} | window=${val(top.window)} | driver=${val(top.driver)}`;
+  document.getElementById('dailyValue').textContent = first(daily, ['intent','daily_intent']);
+  document.getElementById('dailyMeta').textContent = `close=${val(daily.close_position)} | sweeps=${val(daily.sweep_count || daily.sweeps)} | rejected=${val(daily.rejected_count || daily.rejected)}`;
+  document.getElementById('liveValue').textContent = first(live, ['bias','packet','status']);
+  document.getElementById('liveMeta').textContent = `state=${val(live.status || live.state)} | level=${val(live.level)} | tf=${val(live.tf)} | score=${val(live.score)}`;
+  document.getElementById('b6Value').textContent = first(b6, ['bias','state']);
+  document.getElementById('b6Meta').textContent = `state=${val(b6.state)} | level=${val(b6.level || b6.action_level)} | tension=${val(b6.score || (b6.evidence && b6.evidence.tension))}`;
+  document.getElementById('scenarios').innerHTML = (data.scenarios || []).map(s=>`<div class="scenario">${s}</div>`).join('') || '<div class="scenario">Aucun scenario.</div>';
+  document.getElementById('risks').innerHTML = (main.risks || []).map(riskHtml).join('') || '<div class="risk">Aucun risque technique utile.</div>';
+  document.getElementById('context').innerHTML = (data.context_symbols || []).map(c=>`
+    <div class="context-card">
+      <div class="context-top"><span class="context-symbol">${c.symbol}</span><span class="context-badge context">${c.attention || 'WATCH_CONTEXT'}</span></div>
+      <div class="context-body">${val(c.synthesis)}<br>Daily=${val(c.daily && c.daily.intent)} | Topdown=${val(c.topdown && c.topdown.machine_intention)} | LiveBrief=${val(c.live_brief && c.live_brief.synthesis)} | B6=${val(c.b6 && c.b6.state)}/${val(c.b6 && c.b6.bias)}<br>Alignment=${val(c.alignment)}</div>
+    </div>`).join('');
+  document.getElementById('audit').textContent = JSON.stringify(data, null, 2);
 }
-async function loadCockpit() {
-  const app = document.getElementById('app');
-  try {
-    const res = await fetch(sourcePath + '?t=' + Date.now(), { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status + ' on ' + sourcePath);
-    render(await res.json());
-  } catch (err) {
-    app.innerHTML = `<section class="card"><h2 class="sectionTitle">Cockpit non prêt</h2><div class="error">${err}\n\nLance : python pf_trader_cockpit_once.py --symbols GBPUSD,EURUSD,USDJPY --trade-symbol GBPUSD --pretty</div></section>`;
-  }
-}
-loadCockpit();
-setInterval(loadCockpit, 30000);
+function toggleAudit(){ const a=document.getElementById('audit'); a.style.display = a.style.display === 'block' ? 'none' : 'block'; }
+loadData();
+setInterval(loadData, 60000);
 </script>
 </body>
 </html>
