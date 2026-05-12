@@ -923,6 +923,25 @@ setInterval(pf75CleanVisibleLeaks, 1500);
 setTimeout(pf75CleanVisibleLeaks, 500);
 setTimeout(pf75CleanVisibleLeaks, 2000);
 
+
+function pf75eForceSessionOrder() {
+  const session = document.getElementById("sessionMemory");
+  const cockpit = document.getElementById("cockpit");
+  const footer = document.querySelector("footer");
+
+  if (session && cockpit && cockpit.parentNode) {
+    cockpit.parentNode.insertBefore(session, cockpit);
+  }
+
+  if (footer && footer.parentNode) {
+    footer.parentNode.appendChild(footer);
+  }
+}
+
+setTimeout(pf75eForceSessionOrder, 300);
+setTimeout(pf75eForceSessionOrder, 1200);
+setInterval(pf75eForceSessionOrder, 5000);
+
 </script>
 </body>
 </html>
