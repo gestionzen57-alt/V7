@@ -255,8 +255,17 @@ def main(argv: Iterable[str] | None = None) -> int:
     print(
         "TURBO_V73_CYCLE_OK | "
         f"symbols={symbols} | steps={len(results)} | duration_seconds={elapsed} | "
-        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,live_brief,b6,multiread,daily_journal"
+        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,live_brief,b6,multiread,trader_cockpit,daily_journal"
     )
+
+    run_step("trader_cockpit", [
+        sys.executable, "pf_trader_cockpit_once.py",
+        "--symbols", symbols,
+        "--trade-symbol", "GBPUSD",
+        "--output", "output/dashboard_surface/trader_cockpit.json",
+        "--txt", "output/dashboard_surface/trader_cockpit.txt",
+    ], core)
+
     return 0
 
 
