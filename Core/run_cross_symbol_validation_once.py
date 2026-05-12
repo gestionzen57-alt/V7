@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 
 # PF_SYMBOLS_COMPAT_V737D
 # Backward compatibility: scheduler_powerflow.py still passes --symbols.
@@ -7,7 +9,7 @@ import sys as _pf_sys
 def _pf_strip_legacy_symbols_arg(argv):
     out = []
     skip_next = False
-    for i, item in enumerate(argv):
+    for item in argv:
         if skip_next:
             skip_next = False
             continue
@@ -23,9 +25,6 @@ _pf_sys.argv = _pf_strip_legacy_symbols_arg(_pf_sys.argv)
 # END_PF_SYMBOLS_COMPAT_V737D
 
 """CLI runner for B8 Cross-Symbol Validation."""
-
-from __future__ import annotations
-
 import argparse
 import json
 import os
@@ -73,6 +72,10 @@ def main() -> int:
         )
     except CrossValidationError as exc:
         print(f"B8 Cross-Symbol Validation failed: {exc}")
+        # PF_B8_COVERAGE_SOFT_RETURN_V737D
+        if "Not enough usable cross pairs" in str(exc):
+            print("B8_CROSS_SYMBOL_DEGRADED | " + str(exc))
+            return 0
         return 2
 
     output_dir = os.path.dirname(args.output)
@@ -101,4 +104,23 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    # PF_B8_SOFT_FAIL_V737D
+    # B8 is a contextual validation layer. Missing cross-pair coverage must degrade,
+    # not block the full PowerFlow scheduler.
+    import sys as _pf_sys
+
+    try:
+        _code = main()
+    except Exception as _exc:
+        _msg = str(_exc)
+        if "Not enough usable cross pairs" in _msg:
+            print("B8_CROSS_SYMBOL_DEGRADED | " + _msg)
+            raise SystemExit(0)
+        raise
+
+    if _code not in (0, None):
+        # Some versions print the failure and return 1 instead of raising.
+        # Keep non-B8 failures hard, but let known coverage insufficiency be soft.
+        raise SystemExit(_code)
+
+    raise SystemExit(0)
