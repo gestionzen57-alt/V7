@@ -22,6 +22,134 @@
 <article class="card third" data-brick="TEMPORAL_NODE" data-method="node_state" id="card-node"><div class="head"><div><div class="title">Node</div><div class="method">temporal node</div></div><span class="fresh missing" id="fresh-node">MISSING</span></div><div id="body-node"></div></article>
 <article class="card third" data-brick="B2_CASCADE" data-method="sequence_velocity" id="card-cascade"><div class="head"><div><div class="title">Cascade</div><div class="method">sequence velocity</div></div><span class="fresh missing" id="fresh-cascade">MISSING</span></div><div id="body-cascade"></div></article>
 </section>
+<!-- PowerFlow V7.2.1 — FLOW_ONTOLOGY Dashboard Card
+     Reads:
+       1) output/flow_ontology_report.json
+       2) output/dashboard_surface/flow_ontology_report.json fallback
+     Doctrine:
+       Ontology names flow behavior. It does not decide.
+-->
+<section class="card wide"
+         data-brick="FLOW_ONTOLOGY_V0"
+         data-method="ONTOLOGY_COVERAGE"
+         data-symbol="GLOBAL">
+  <div class="card-head">
+    <div>
+      <div class="card-title">Flow Ontology</div>
+      <div class="method">P4 — comportement du flux / couverture ontologique</div>
+    </div>
+    <span class="fresh missing" id="flowOntologyFresh">MISSING</span>
+  </div>
+
+  <div id="flowOntologyBody">
+    <div class="mini">loading...</div>
+  </div>
+</section>
+
+<script>
+async function loadFlowOntologyCard() {
+  const body = document.getElementById("flowOntologyBody");
+  const badge = document.getElementById("flowOntologyFresh");
+  if (!body || !badge) return;
+
+  function esc(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+
+  function ageSeconds(ts) {
+    if (!ts) return null;
+    const ms = Date.parse(ts);
+    if (Number.isNaN(ms)) return null;
+    return Math.max(0, Math.round((Date.now() - ms) / 1000));
+  }
+
+  function freshClass(age) {
+    if (age === null) return "missing";
+    if (age < 300) return "fresh";
+    if (age < 600) return "aging";
+    return "stale";
+  }
+
+  async function fetchFirst(paths) {
+    let lastErr = null;
+    for (const path of paths) {
+      try {
+        const res = await fetch(path + "?t=" + Date.now(), {cache: "no-store"});
+        if (!res.ok) throw new Error(path + " :: " + res.status + " " + res.statusText);
+        return await res.json();
+      } catch (err) {
+        lastErr = err;
+      }
+    }
+    throw lastErr || new Error("no source");
+  }
+
+  try {
+    const data = await fetchFirst([
+      "output/flow_ontology_report.json",
+      "output/dashboard_surface/flow_ontology_report.json"
+    ]);
+
+    const age = ageSeconds(data.timestamp_utc);
+    const f = freshClass(age);
+    badge.className = "fresh " + f;
+    badge.textContent = f.toUpperCase() + (age !== null ? " · " + age + "s" : "");
+
+    const counts = data.alerts_by_category || {};
+    const total = data.alerts_total ?? 0;
+    const classified = data.alerts_classified ?? 0;
+    const unmapped = data.alerts_unmapped ?? 0;
+    const coverage = data.ontology_coverage ?? 0;
+    const coveragePct = Math.round(Number(coverage) * 100);
+
+    const dominant = Object.entries(counts)
+      .sort((a, b) => Number(b[1]) - Number(a[1]))[0] || ["UNKNOWN", 0];
+
+    const categories = ["INFLEXION", "COMPRESSION", "RELEASE", "ABSORPTION", "TENSION", "ROTATION", "STRUCTURE"];
+
+    body.innerHTML = `
+      <div class="metric-grid" data-brick="FLOW_ONTOLOGY_SUMMARY">
+        <div class="metric">
+          <div class="metric-label">Coverage</div>
+          <div class="metric-value">${esc(coveragePct)}%</div>
+          <div class="mini">${esc(classified)} / ${esc(total)} classified</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Dominant behavior</div>
+          <div class="metric-value">${esc(dominant[0])}</div>
+          <div class="mini">${esc(dominant[1])} alert(s)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Unmapped</div>
+          <div class="metric-value">${esc(unmapped)}</div>
+          <div class="mini">${unmapped > 0 ? "enrich ontology" : "none"}</div>
+        </div>
+      </div>
+      <div class="currency-row" style="margin-top:12px;">
+        ${categories.map(cat => `
+          <div class="currency-chip" data-brick="FLOW_ONTOLOGY_CATEGORY">
+            <div class="currency-code">${esc(cat)}</div>
+            <div class="currency-label">${esc(counts[cat] ?? 0)}</div>
+          </div>
+        `).join("")}
+      </div>
+      ${(data.technical_risks || []).length ? `
+        <div class="mini" style="margin-top:10px;">technical_risks: ${esc((data.technical_risks || []).join(", "))}</div>
+      ` : `<div class="mini" style="margin-top:10px;">technical_risks: none</div>`}
+    `;
+  } catch (err) {
+    badge.className = "fresh missing";
+    badge.textContent = "MISSING";
+    body.innerHTML = `<div class="error">Flow ontology report missing: ${esc(err.message)}</div>`;
+  }
+}
+
+loadFlowOntologyCard();
+setInterval(loadFlowOntologyCard, 30000);
+</script>
+
 </main>
 <!-- FRESH AGING STALE -->
 <script>
