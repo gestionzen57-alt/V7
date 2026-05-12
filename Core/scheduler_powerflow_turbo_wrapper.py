@@ -285,6 +285,20 @@ def main(argv: Iterable[str] | None = None) -> int:
         "--time-profiles", "output/dashboard_surface/time_profiles_dashboard.json",
     ], core)
 
+    run_step("b8_cross_surface", [
+        sys.executable, "pf_b8_cross_surface_once.py",
+        "--symbols", symbols,
+        "--output", "output/dashboard_surface/b8_cross_surface.json",
+        "--txt", "output/dashboard_surface/b8_cross_surface.txt",
+    ], core)
+
+    run_step("trader_cockpit_b8_enrich", [
+        sys.executable, "pf_trader_cockpit_b8_enrich.py",
+        "--cockpit-json", "output/dashboard_surface/trader_cockpit.json",
+        "--cockpit-txt", "output/dashboard_surface/trader_cockpit.txt",
+        "--b8", "output/dashboard_surface/b8_cross_surface.json",
+    ], core)
+
     run_step("trader_journal_j1", [
         sys.executable, "pf_trader_journal_j1.py",
         "--symbols", symbols,
@@ -295,7 +309,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     print(
         "TURBO_V73_CYCLE_OK | "
         f"symbols={symbols} | steps={len(results)} | duration_seconds={elapsed} | "
-        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,daily_journal"
+        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,b8,daily_journal"
     )
 
 
