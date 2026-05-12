@@ -253,12 +253,36 @@ def main(argv: Iterable[str] | None = None) -> int:
         "--output", "output/dashboard_surface/multiread_synthesis_dashboard.json",
     ], core)
 
+    run_step("time_profile_ltf", [
+        sys.executable, "run_ltf_profile_once.py",
+        "--symbol", "GBPUSD",
+    ], core)
+    run_step("time_profile_mtf", [
+        sys.executable, "run_mtf_profile_once.py",
+        "--symbol", "GBPUSD",
+    ], core)
+    run_step("time_profile_htf", [
+        sys.executable, "run_htf_profile_once.py",
+        "--symbol", "GBPUSD",
+    ], core)
+    run_step("time_profiles_normalize", [
+        sys.executable, "dashboard_normalize_time_profiles.py",
+        "--symbol", "GBPUSD",
+        "--output", "output/dashboard_surface/time_profiles_dashboard.json",
+    ], core)
+
     run_step("trader_cockpit", [
         sys.executable, "pf_trader_cockpit_once.py",
         "--symbols", symbols,
         "--trade-symbol", "GBPUSD",
         "--output", "output/dashboard_surface/trader_cockpit.json",
         "--txt", "output/dashboard_surface/trader_cockpit.txt",
+    ], core)
+    run_step("trader_cockpit_time_profiles_enrich", [
+        sys.executable, "pf_trader_cockpit_time_profiles_enrich.py",
+        "--cockpit-json", "output/dashboard_surface/trader_cockpit.json",
+        "--cockpit-txt", "output/dashboard_surface/trader_cockpit.txt",
+        "--time-profiles", "output/dashboard_surface/time_profiles_dashboard.json",
     ], core)
 
     run_step("trader_journal_j1", [
@@ -271,7 +295,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     print(
         "TURBO_V73_CYCLE_OK | "
         f"symbols={symbols} | steps={len(results)} | duration_seconds={elapsed} | "
-        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,live_brief,b6,multiread,trader_cockpit,daily_journal"
+        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,daily_journal"
     )
 
 
