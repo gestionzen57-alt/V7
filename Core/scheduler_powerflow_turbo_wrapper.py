@@ -221,22 +221,41 @@ def main(argv: Iterable[str] | None = None) -> int:
 
     run_step("gbpusd_live_decision", [
         sys.executable, "pf_gbpusd_live_decision_once.py",
-    ])
+    ], core)
     run_step("cockpit_live_status", [
         sys.executable, "pf_cockpit_live_status_once.py",
-    ])
+    ], core)
     run_step("powerflow_live_brief", [
         sys.executable, "pf_powerflow_live_brief_once.py",
-    ])
+    ], core)
     run_step("live_brief_normalize", [
         sys.executable, "dashboard_normalize_live_brief.py",
         "--symbols", symbols,
         "--output", "output/dashboard_surface/live_brief_dashboard.json",
-    ])
+    ], core)
+
+    run_step("b6_live_fusion", [
+        sys.executable, "pf_b6_live_fusion_once.py",
+    ], core)
+    run_step("b6_live_fusion_normalize", [
+        sys.executable, "dashboard_normalize_b6_live_fusion.py",
+        "--symbols", symbols,
+        "--output", "output/dashboard_surface/b6_live_fusion_dashboard.json",
+    ], core)
+    run_step("multiread_synthesis", [
+        sys.executable, "pf_powerflow_multiread_synthesis_once.py",
+        "--symbols", symbols,
+        "--output", "output/dashboard_surface/powerflow_multiread_synthesis.json",
+    ], core)
+    run_step("multiread_synthesis_normalize", [
+        sys.executable, "dashboard_normalize_multiread_synthesis.py",
+        "--input", "output/dashboard_surface/powerflow_multiread_synthesis.json",
+        "--output", "output/dashboard_surface/multiread_synthesis_dashboard.json",
+    ], core)
     print(
         "TURBO_V73_CYCLE_OK | "
         f"symbols={symbols} | steps={len(results)} | duration_seconds={elapsed} | "
-        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader"
+        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,live_brief,b6,multiread,daily_journal"
     )
     return 0
 
@@ -249,9 +268,9 @@ if __name__ == "__main__":
         "--db", "powerflow.db",
         "--symbols", symbols,
         "--output", "output/dashboard_surface/daily_journal.json",
-    ])
+    ], core)
     run_step("daily_journal_normalize", [
         sys.executable, "dashboard_normalize_daily_journal.py",
         "--input", "output/dashboard_surface/daily_journal.json",
         "--output", "output/dashboard_surface/daily_journal_dashboard.json",
-    ])
+    ], core)

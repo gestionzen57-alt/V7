@@ -1,0 +1,35 @@
+<!-- POWERFLOW_V734_MULTIREAD_SYNTHESIS_CARD_START -->
+<section class="pf-card pf-multiread-synthesis-card" id="multiread-synthesis-card">
+  <div class="pf-card-title">PowerFlow Multi-Read Synthesis — V7.3.4</div>
+  <div class="pf-card-subtitle">Daily + Topdown + Live Brief + B6</div>
+  <div id="multiread-synthesis-card-content">Loading multi-read synthesis...</div>
+</section>
+<script>
+async function pfLoadMultireadSynthesisCard() {
+  const el = document.getElementById("multiread-synthesis-card-content");
+  if (!el) return;
+  try {
+    const res = await fetch("output/dashboard_surface/multiread_synthesis_dashboard.json?ts=" + Date.now());
+    const data = await res.json();
+    const rows = data.symbols || [];
+    if (!rows.length) {
+      el.innerHTML = "<div class='pf-muted'>No multi-read synthesis available.</div>";
+      return;
+    }
+    el.innerHTML = `<div class="pf-mini-block"><b>Status:</b> ${data.global_status || "UNKNOWN"}</div>` +
+      rows.map(s => `
+        <div class="pf-mini-block">
+          <div><b>${s.symbol}</b> — ${s.attention || "UNKNOWN"} — ${s.synthesis || "UNKNOWN"}</div>
+          <div>Align: ${s.alignment || "UNKNOWN"}</div>
+          <div>Daily: ${s.daily_intent || "-"} | Topdown: ${s.topdown_intention || "-"}</div>
+          <div>Live: ${s.live_brief || "-"} | B6: ${s.b6_state || "-"} / ${s.b6_bias || "-"} / ${s.b6_action || "-"}</div>
+          <div class="pf-muted">${s.reading || ""}</div>
+        </div>`).join("");
+  } catch (e) {
+    el.innerHTML = "<div class='pf-risk'>Multi-read synthesis unavailable.</div>";
+  }
+}
+pfLoadMultireadSynthesisCard();
+setInterval(pfLoadMultireadSynthesisCard, 30000);
+</script>
+<!-- POWERFLOW_V734_MULTIREAD_SYNTHESIS_CARD_END -->
