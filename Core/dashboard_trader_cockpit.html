@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PowerFlow V7.3.5 - Trader Cockpit</title>
+  <style>
+    :root {
+      --bg: #020604;
+      --panel: #06130b;
+      --panel2: #0a1b10;
+      --line: #0b6b2c;
+      --green: #00ff55;
+      --soft: #7ee6a0;
+      --muted: #789987;
+      --yellow: #ffbf00;
+      --red: #ff4d4d;
+      --blue: #7fb7ff;
+      --text: #d7ffe1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 20% 0%, #07180d 0%, var(--bg) 48%, #000 100%);
+      color: var(--text);
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+    }
+    .wrap { max-width: 1480px; margin: 0 auto; padding: 22px; }
+    header {
+      border: 1px solid var(--line);
+      background: rgba(6, 19, 11, 0.92);
+      border-radius: 18px;
+      padding: 18px 22px;
+      box-shadow: 0 0 24px rgba(0, 255, 85, .08);
+      margin-bottom: 18px;
+    }
+    .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    h1 { margin: 0; color: var(--green); letter-spacing: 1px; font-size: clamp(25px, 3vw, 42px); }
+    .sub { color: var(--muted); margin-top: 8px; font-size: 14px; }
+    .pillrow { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .pill { border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; color: var(--soft); background: #021008; font-weight: 700; }
+    .pill.hot { color: var(--yellow); border-color: #9a7500; }
+    .pill.wake { color: var(--red); border-color: var(--red); }
+    .grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 18px; }
+    @media (max-width: 1050px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      border: 1px solid var(--line);
+      background: rgba(6, 19, 11, .94);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 0 18px rgba(0, 255, 85, .05);
+    }
+    .hero { border-color: var(--green); }
+    .hero.wake { border-color: var(--red); box-shadow: 0 0 28px rgba(255, 77, 77, .12); }
+    .symbolLine { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .symbol { font-size: 34px; color: var(--green); font-weight: 900; letter-spacing: 1px; }
+    .action { font-size: 22px; color: var(--yellow); font-weight: 900; }
+    .action.wake { color: var(--red); }
+    .synthesis { color: var(--blue); font-weight: 800; }
+    .reading {
+      font-size: clamp(18px, 2.1vw, 28px);
+      line-height: 1.35;
+      margin: 16px 0 10px;
+      color: white;
+    }
+    .sectionTitle { color: var(--green); font-size: 15px; margin: 0 0 12px; letter-spacing: .5px; text-transform: uppercase; }
+    .traffic { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    @media (max-width: 720px) { .traffic { grid-template-columns: 1fr; } }
+    .light { border: 1px solid rgba(0,255,85,.32); background: var(--panel2); border-radius: 14px; padding: 13px; min-height: 94px; }
+    .light .k { color: var(--muted); font-size: 12px; text-transform: uppercase; margin-bottom: 7px; }
+    .light .v { color: var(--text); font-size: 18px; font-weight: 900; overflow-wrap: anywhere; }
+    .light .m { color: var(--muted); margin-top: 7px; font-size: 13px; overflow-wrap: anywhere; }
+    .scenarios { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .scenarios li { border-left: 4px solid var(--yellow); padding: 10px 12px; background: #110f02; border-radius: 10px; color: #fff4c0; }
+    .risks { color: var(--yellow); font-size: 13px; line-height: 1.45; }
+    .smallSymbols { display: grid; gap: 12px; }
+    .mini { border: 1px solid rgba(0,255,85,.22); background: #041009; border-radius: 14px; padding: 14px; }
+    .miniTop { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .miniSym { color: var(--green); font-size: 20px; font-weight: 900; }
+    .miniAct { color: var(--yellow); font-weight: 900; }
+    .miniAct.wake { color: var(--red); }
+    .miniRead { color: var(--muted); margin-top: 8px; font-size: 13px; line-height: 1.4; }
+    .footer { margin-top: 18px; color: var(--muted); font-size: 12px; text-align: center; }
+    button { cursor: pointer; border: 1px solid var(--line); color: var(--green); background: #031008; border-radius: 999px; padding: 8px 12px; font-weight: 800; }
+    a { color: var(--soft); text-decoration: none; }
+    .error { color: var(--red); white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="top">
+        <div>
+          <h1>POWERFLOW V7.3.5 - TRADER COCKPIT</h1>
+          <div class="sub">Une page. Lecture du flux. Conflit ou alignement. Scénario à surveiller. Aucun ordre.</div>
+        </div>
+        <div class="pillrow">
+          <span id="statusPill" class="pill">LOADING</span>
+          <span id="timePill" class="pill">--</span>
+          <button onclick="loadCockpit()">refresh</button>
+          <a class="pill" href="dashboard_live_v7_2_final.html" target="_blank">audit technique</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="app"></main>
+    <div class="footer">PowerFlow affiche la perception. Le trader filtre, arbitre et agit.</div>
+  </div>
+
+<script>
+const sourcePath = 'output/dashboard_surface/trader_cockpit.json';
+
+function clsAction(action) {
+  const a = String(action || '').toUpperCase();
+  return a.includes('WAKE') ? 'wake' : '';
+}
+function safe(v, fallback='—') {
+  if (v === null || v === undefined || v === '') return fallback;
+  return String(v);
+}
+function field(title, value, meta='') {
+  return `<div class="light"><div class="k">${title}</div><div class="v">${safe(value)}</div>${meta ? `<div class="m">${meta}</div>` : ''}</div>`;
+}
+function renderMain(s) {
+  const actionClass = clsAction(s.action);
+  const scenarios = (s.scenarios || []).map(x => `<li>${x}</li>`).join('') || '<li>Attendre une lecture exploitable.</li>';
+  const risks = (s.technical_risks || []).length ? (s.technical_risks || []).map(x => `<div>- ${x}</div>`).join('') : '<div>Aucun risque technique bloquant affiché.</div>';
+  return `
+    <section class="card hero ${actionClass}">
+      <div class="symbolLine">
+        <div class="symbol">${safe(s.symbol)}</div>
+        <div class="action ${actionClass}">${safe(s.action)}</div>
+        <div class="synthesis">${safe(s.synthesis)}</div>
+      </div>
+      <div class="reading">${safe(s.trader_line)}</div>
+      <div class="traffic">
+        ${field('HTF / Topdown', s.topdown?.intention, `${safe(s.topdown?.flux)} | ${safe(s.topdown?.window)} | driver=${safe(s.topdown?.driver)}`)}
+        ${field('Daily', s.daily?.intent, `close=${safe(s.daily?.close_position)} | sweeps=${safe(s.daily?.sweeps)} | rejected=${safe(s.daily?.rejected)}`)}
+        ${field('Live', s.live?.bias, `${safe(s.live?.packet)} | level=${safe(s.live?.level)} | TF=${safe(s.live?.tf)} | score=${safe(s.live?.score)}`)}
+        ${field('B6', s.b6?.bias, `${safe(s.b6?.state)} | level=${safe(s.b6?.level)} | tension=${safe(s.b6?.score)}`)}
+      </div>
+    </section>
+    <section class="card">
+      <h2 class="sectionTitle">Scénarios de surveillance</h2>
+      <ol class="scenarios">${scenarios}</ol>
+    </section>
+    <section class="card">
+      <h2 class="sectionTitle">Risques techniques utiles</h2>
+      <div class="risks">${risks}</div>
+    </section>
+  `;
+}
+function renderMini(s) {
+  const c = clsAction(s.action);
+  return `<div class="mini">
+    <div class="miniTop"><span class="miniSym">${safe(s.symbol)}</span><span class="miniAct ${c}">${safe(s.action)}</span></div>
+    <div class="miniRead">${safe(s.synthesis)}<br>${safe(s.trader_line)}</div>
+  </div>`;
+}
+function render(data) {
+  document.getElementById('statusPill').textContent = data.global_status || 'UNKNOWN';
+  document.getElementById('statusPill').className = 'pill ' + (String(data.global_status || '').includes('WAKE') ? 'wake' : 'hot');
+  document.getElementById('timePill').textContent = data.timestamp_utc || '--';
+  const symbols = data.symbols || [];
+  const main = symbols.find(s => s.symbol === data.trade_symbol) || symbols[0] || {};
+  const others = symbols.filter(s => s !== main);
+  document.getElementById('app').innerHTML = `
+    <div class="grid">
+      <div style="display:grid; gap:18px;">${renderMain(main)}</div>
+      <aside class="card">
+        <h2 class="sectionTitle">Contexte paires</h2>
+        <div class="smallSymbols">${others.map(renderMini).join('') || '<div class="mini">Aucune paire contexte.</div>'}</div>
+      </aside>
+    </div>
+  `;
+}
+async function loadCockpit() {
+  const app = document.getElementById('app');
+  try {
+    const res = await fetch(sourcePath + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status + ' on ' + sourcePath);
+    render(await res.json());
+  } catch (err) {
+    app.innerHTML = `<section class="card"><h2 class="sectionTitle">Cockpit non prêt</h2><div class="error">${err}\n\nLance : python pf_trader_cockpit_once.py --symbols GBPUSD,EURUSD,USDJPY --trade-symbol GBPUSD --pretty</div></section>`;
+  }
+}
+loadCockpit();
+setInterval(loadCockpit, 30000);
+</script>
+</body>
+</html>
