@@ -228,3 +228,15 @@ def main(argv: Iterable[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+    run_step("daily_journal_all", [
+        sys.executable, "run_daily_journal_all_once.py",
+        "--db", "powerflow.db",
+        "--symbols", symbols,
+        "--output", "output/dashboard_surface/daily_journal.json",
+    ])
+    run_step("daily_journal_normalize", [
+        sys.executable, "dashboard_normalize_daily_journal.py",
+        "--input", "output/dashboard_surface/daily_journal.json",
+        "--output", "output/dashboard_surface/daily_journal_dashboard.json",
+    ])
