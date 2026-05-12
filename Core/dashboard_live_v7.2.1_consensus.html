@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>PowerFlow V7.2.1 — Consensus / Divergence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #080b12;
+      --panel: #111827;
+      --panel2: #0f172a;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --line: #273449;
+      --good: #22c55e;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+      --accent: #38bdf8;
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #111827, var(--bg));
+      color: var(--text);
+      font-family: Segoe UI, Arial, sans-serif;
+    }
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 4px;
+    }
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+    .card-title {
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .method {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .badge {
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 12px;
+      border: 1px solid var(--line);
+      background: #0b1220;
+      white-space: nowrap;
+    }
+    .consensus {
+      color: var(--good);
+      border-color: rgba(34,197,94,.4);
+    }
+    .divergence {
+      color: var(--warn);
+      border-color: rgba(245,158,11,.5);
+    }
+    .missing {
+      color: var(--bad);
+      border-color: rgba(239,68,68,.45);
+    }
+    .single {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .dual {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .mini-card {
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .k {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .v {
+      font-size: 22px;
+      font-weight: 750;
+    }
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      margin-top: 8px;
+      word-break: break-word;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .chip {
+      background: #0b1220;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #050814;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      color: #cbd5e1;
+      max-height: 240px;
+      overflow: auto;
+    }
+    @media (max-width: 760px) {
+      .single, .dual { grid-template-columns: 1fr; }
+      main { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>PowerFlow V7.2.1 — Consensus / Divergence UI</h1>
+  <div class="subtitle">
+    Default = consensus synthétique. Divergence significative = deux blocs côte à côte.
+  </div>
+
+  <section class="card" data-brick="consensus_divergence_regime" data-method="LEGACY_HMM_DUALITY">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Regime — Legacy / HMM</div>
+        <div class="method">Consensus si régime aligné et gap confiance &lt; 0.15</div>
+      </div>
+      <span class="badge missing" id="regimeMode">MISSING</span>
+    </div>
+    <div id="regimeContent"></div>
+  </section>
+
+  <section class="card" data-brick="consensus_divergence_density" data-method="ROLLING_WAVELET_DUALITY">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Density — Rolling / Wavelet</div>
+        <div class="method">Consensus si au moins 75% des devises convergent</div>
+      </div>
+      <span class="badge missing" id="densityMode">MISSING</span>
+    </div>
+    <div id="densityContent"></div>
+  </section>
+
+  <section class="card" data-brick="consensus_divergence_debug" data-method="JSON_SOURCE">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Technical Trace</div>
+        <div class="method">Source: output/dashboard_surface/consensus_divergence.json</div>
+      </div>
+      <span class="badge" id="ageBadge">—</span>
+    </div>
+    <pre id="trace">loading...</pre>
+  </section>
+</main>
+
+<script>
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+function cls(mode) {
+  if (mode === "CONSENSUS") return "badge consensus";
+  if (mode === "DIVERGENCE") return "badge divergence";
+  return "badge missing";
+}
+function pct(x) {
+  if (typeof x !== "number") return "—";
+  return Math.round(x * 100) + "%";
+}
+function ageSeconds(ts) {
+  const ms = Date.parse(ts || "");
+  if (Number.isNaN(ms)) return null;
+  return Math.max(0, Math.round((Date.now() - ms) / 1000));
+}
+function renderList(title, arr) {
+  const items = (arr || []).map(x => `<span class="chip">${esc(x)}</span>`).join("");
+  return `<div class="k">${esc(title)}</div><div class="chips">${items || '<span class="chip">none</span>'}</div>`;
+}
+
+function renderRegime(data) {
+  const mode = data.regime_display_mode;
+  const badge = document.getElementById("regimeMode");
+  badge.className = cls(mode);
+  badge.textContent = mode || "MISSING";
+
+  if (mode === "CONSENSUS") {
+    const b = data.regime_block || {};
+    return `<div class="single">
+      <div class="mini-card">
+        <div class="k">Regime</div>
+        <div class="v">${esc(b.regime)}</div>
+        <div class="small">source: ${esc(b.source)}</div>
+      </div>
+      <div class="mini-card">
+        <div class="k">Confidence</div>
+        <div class="v">${esc(b.confidence)}</div>
+        <div class="small">gap: ${esc(b.confidence_gap)}</div>
+      </div>
+      <div class="mini-card">
+        <div class="k">Display</div>
+        <div class="v">1 bloc</div>
+        <div class="small">Legacy et HMM alignés.</div>
+      </div>
+    </div>`;
+  }
+
+  const blocks = data.regime_blocks || [];
+  return `<div class="dual">${blocks.map(b => `<div class="mini-card">
+      <div class="k">${esc(b.source)}</div>
+      <div class="v">${esc(b.regime)}</div>
+      <div class="small">confidence: ${esc(b.confidence)}</div>
+    </div>`).join("")}</div>
+    <div class="small">Divergence: ${esc(JSON.stringify(data.regime_divergence || {}))}</div>`;
+}
+
+function renderDensity(data) {
+  const mode = data.density_display_mode;
+  const badge = document.getElementById("densityMode");
+  badge.className = cls(mode);
+  badge.textContent = mode || "MISSING";
+
+  if (mode === "CONSENSUS") {
+    const b = data.density_block || {};
+    return `<div class="single">
+      <div class="mini-card">
+        <div class="k">Dominant State</div>
+        <div class="v">${esc(b.dominant_state)}</div>
+        <div class="small">source: ${esc(b.source)}</div>
+      </div>
+      <div class="mini-card">
+        <div class="k">Currencies aligned</div>
+        <div class="v">${esc(b.currencies_count)}</div>
+        <div class="small">compared: ${esc(b.compared_count)}</div>
+      </div>
+      <div class="mini-card">
+        <div class="k">Alignment</div>
+        <div class="v">${pct(b.alignment_ratio)}</div>
+        <div class="small">threshold: 75%</div>
+      </div>
+    </div>`;
+  }
+
+  const blocks = data.density_blocks || [];
+  return `<div class="dual">${blocks.map(b => `<div class="mini-card">
+      <div class="k">${esc(b.source)}</div>
+      ${renderList("compressing", b.compressing)}
+      ${renderList("expanding", b.expanding)}
+      ${renderList("stable", b.stable)}
+      ${renderList("unknown", b.unknown)}
+    </div>`).join("")}</div>
+    <div class="small">Divergence: ${esc(JSON.stringify(data.density_divergence || {}))}</div>`;
+}
+
+async function loadConsensusDivergence() {
+  const trace = document.getElementById("trace");
+  try {
+    const res = await fetch("output/dashboard_surface/consensus_divergence.json?t=" + Date.now(), {cache: "no-store"});
+    if (!res.ok) throw new Error(res.status + " " + res.statusText);
+    const data = await res.json();
+
+    document.getElementById("regimeContent").innerHTML = renderRegime(data);
+    document.getElementById("densityContent").innerHTML = renderDensity(data);
+    trace.textContent = JSON.stringify(data, null, 2);
+
+    const age = ageSeconds(data.timestamp_utc);
+    document.getElementById("ageBadge").textContent = age === null ? "age unknown" : age + "s";
+  } catch (err) {
+    document.getElementById("regimeMode").className = "badge missing";
+    document.getElementById("regimeMode").textContent = "MISSING";
+    document.getElementById("densityMode").className = "badge missing";
+    document.getElementById("densityMode").textContent = "MISSING";
+    trace.textContent = "Consensus divergence source missing: " + err.message;
+  }
+}
+
+loadConsensusDivergence();
+setInterval(loadConsensusDivergence, 30000);
+</script>
+</body>
+</html>
