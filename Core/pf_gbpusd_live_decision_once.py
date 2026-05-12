@@ -4,6 +4,11 @@ import sys
 from pathlib import Path
 from datetime import datetime, timezone
 
+def safe_console_text(value):
+    text = str(value)
+    return text.encode("ascii", "replace").decode("ascii")
+
+
 SYMBOL = "GBPUSD"
 FLOW_PACKET = Path(f"output/dashboard_surface/{SYMBOL}/flow_packet.json")
 LIVE_DECISION = Path(f"output/dashboard_surface/{SYMBOL}/live_decision.json")
@@ -105,4 +110,4 @@ write_decision(decision)
 print("\n=== DECISION ===")
 print(f"{SYMBOL} | {state} | {ptype} | {bias} | TF={tf} | score={score}")
 for n in notes[:3]:
-    print("-", str(n).replace("\n", " | "))
+    print("-", safe_console_text(str(n).replace("\n", " | ")))
