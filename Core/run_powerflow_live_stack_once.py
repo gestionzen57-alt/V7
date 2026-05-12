@@ -34,12 +34,19 @@ def run_cmd(label: str, args: list[str], timeout: int = 120) -> dict[str, Any]:
     print(" ".join(args))
 
     try:
+        env = dict(__import__("os").environ)
+        env.setdefault("PYTHONIOENCODING", "utf-8")
+        env.setdefault("PYTHONUTF8", "1")
+
         p = subprocess.run(
             args,
             cwd=ROOT,
             text=True,
             capture_output=True,
             timeout=timeout,
+            env=env,
+            encoding="utf-8",
+            errors="replace",
         )
         stdout = p.stdout or ""
         stderr = p.stderr or ""
@@ -152,19 +159,19 @@ def summarize_state(primary: str) -> dict[str, Any]:
             "reading": live_brief.get("reading"),
         },
         "b6": {
-            "state": b6.get("state"),
+            "state": (b6.get("microstructure") or {}).get("state") or b6.get("state"),
             "level": b6.get("level"),
-            "tension": b6.get("tension_score") or b6.get("tension"),
-            "delta": b6.get("proxy_delta") or b6.get("delta"),
-            "direction": b6.get("direction"),
-            "absorption": b6.get("absorption_state") or b6.get("absorption"),
-            "imbalance": b6.get("imbalance_state") or b6.get("imbalance"),
-            "alerts": len(b6.get("alerts", []) or []) if isinstance(b6.get("alerts", []), list) else b6.get("alerts"),
+            "tension": (b6.get("microstructure") or {}).get("tension_score") or b6.get("tension_score") or b6.get("tension"),
+            "delta": (b6.get("microstructure") or {}).get("delta_cumulative") or b6.get("proxy_delta") or b6.get("delta"),
+            "direction": ((b6.get("microstructure") or {}).get("absorption") or {}).get("direction") or b6.get("direction"),
+            "absorption": ((b6.get("microstructure") or {}).get("absorption") or {}).get("interpretation") or b6.get("absorption_state") or b6.get("absorption"),
+            "imbalance": ((b6.get("microstructure") or {}).get("imbalance") or {}).get("direction") or b6.get("imbalance_state") or b6.get("imbalance"),
+            "alerts": len((b6.get("microstructure") or {}).get("alerts", []) or []),
         },
         "b6_fusion": {
-            "action": b6_fusion.get("action"),
-            "synthesis": b6_fusion.get("synthesis"),
-            "message": b6_fusion.get("message"),
+            "action": b6_fusion.get("action") or b6_fusion.get("state"),
+            "synthesis": b6_fusion.get("synthesis") or b6_fusion.get("reason") or b6_fusion.get("status"),
+            "message": b6_fusion.get("message") or b6_fusion.get("reading"),
         },
         "files": [
             file_info(base / "daily_flow_packet.json"),
