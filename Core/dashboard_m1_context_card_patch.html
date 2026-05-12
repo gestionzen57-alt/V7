@@ -1,0 +1,78 @@
+<!-- PowerFlow V7.2.1 — M1_CONTEXT_SCORE Dashboard Card
+     Reads: output/dashboard_surface/m1_context_score.json
+     Doctrine: M1 is qualified, never censored.
+-->
+<section class="card wide"
+         data-brick="M1_CONTEXT_SCORE"
+         data-method="contextual_exploitability"
+         data-symbol="GLOBAL">
+  <div class="card-head">
+    <div>
+      <div class="card-title">M1 Context Score</div>
+      <div class="method">P2 — exploitabilité contextuelle M1 / jamais censure</div>
+    </div>
+    <span class="fresh missing" id="m1ContextFresh">MISSING</span>
+  </div>
+  <div id="m1ContextBody" class="currency-row"></div>
+</section>
+
+<script>
+async function loadM1ContextScore() {
+  const body = document.getElementById("m1ContextBody");
+  const badge = document.getElementById("m1ContextFresh");
+  if (!body || !badge) return;
+
+  function esc(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+
+  function ageSeconds(ts) {
+    if (!ts) return null;
+    const ms = Date.parse(ts);
+    if (Number.isNaN(ms)) return null;
+    return Math.max(0, Math.round((Date.now() - ms) / 1000));
+  }
+
+  function freshness(age) {
+    if (age === null) return "missing";
+    if (age < 300) return "fresh";
+    if (age < 600) return "aging";
+    return "stale";
+  }
+
+  try {
+    const res = await fetch("output/dashboard_surface/m1_context_score.json?t=" + Date.now(), {cache: "no-store"});
+    if (!res.ok) throw new Error(res.status + " " + res.statusText);
+    const json = await res.json();
+
+    const age = ageSeconds(json.timestamp_utc);
+    const label = freshness(age);
+    badge.className = "fresh " + label;
+    badge.textContent = label.toUpperCase() + (age !== null ? " · " + age + "s" : "");
+
+    const currencies = json.currencies || [];
+    body.innerHTML = currencies.map(item => {
+      const score = item.m1_score ?? "—";
+      const exp = item.exploitability || "UNKNOWN";
+      const win = item.intervention_window || "UNKNOWN";
+      const risks = (item.technical_risks || []).join(", ") || "none";
+      const expClass = String(exp).toLowerCase();
+      return `<div class="currency-chip" data-brick="M1_CONTEXT_SCORE_CURRENCY" data-symbol="${esc(json.symbol || "GLOBAL")}">
+        <div class="currency-code">${esc(item.currency)}</div>
+        <div class="currency-label ${esc(expClass)}">${esc(score)} · ${esc(exp)}</div>
+        <div class="mini">${esc(win)}</div>
+        <div class="mini">risks: ${esc(risks)}</div>
+      </div>`;
+    }).join("");
+  } catch (err) {
+    badge.className = "fresh missing";
+    badge.textContent = "MISSING";
+    body.innerHTML = `<div class="error">M1 context missing: ${esc(err.message)}</div>`;
+  }
+}
+
+loadM1ContextScore();
+setInterval(loadM1ContextScore, 30000);
+</script>
