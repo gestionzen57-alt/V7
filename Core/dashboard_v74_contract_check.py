@@ -238,6 +238,31 @@ def check_phase(data: dict[str, Any], issues: list[str]) -> None:
         issues.append("MISSING_OR_EMPTY_LIST:phase_synthesis.evidence")
 
 
+def scan_visual_leaks(label: str, data: Any, issues: list[str]) -> None:
+    """Detect values that would leak badly into the dashboard."""
+    bad_fragments = [
+        "[object Object]",
+        "undefined",
+        "NaN",
+        "Aucune phrase Evidence Reading disponible",
+    ]
+
+    def walk(prefix: str, v: Any) -> None:
+        if isinstance(v, dict):
+            for k, val in v.items():
+                walk(f"{prefix}.{k}" if prefix else str(k), val)
+        elif isinstance(v, list):
+            for i, val in enumerate(v):
+                walk(f"{prefix}[{i}]", val)
+        else:
+            s = str(v)
+            for frag in bad_fragments:
+                if frag in s:
+                    issues.append(f"VISUAL_LEAK:{label}:{prefix}:{frag}")
+
+    walk("", data)
+
+
 def check_dashboard_html(path: Path, issues: list[str]) -> None:
     if not path.exists():
         issues.append(f"MISSING_DASHBOARD_HTML:{path.as_posix()}")
@@ -311,6 +336,10 @@ def main() -> int:
 
     if data.get("phase_synthesis"):
         check_phase(data["phase_synthesis"], issues)
+
+    for name, obj in data.items():
+        if obj:
+            scan_visual_leaks(name, obj, issues)
 
     result = {
         "method": "DASHBOARD_V74_CONTRACT_CHECK",
