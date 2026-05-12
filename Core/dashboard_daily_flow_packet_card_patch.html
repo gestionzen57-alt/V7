@@ -1,0 +1,36 @@
+<!-- POWERFLOW_V731_DAILY_FLOW_PACKET_CARD_START -->
+<section class="pf-card pf-daily-flow-packet-card" id="daily-flow-packet-card">
+  <div class="pf-card-title">Daily Flow Packet — V7.3.1</div>
+  <div class="pf-card-subtitle">HTF zones → MTF day plan → LTF conditions</div>
+  <div id="daily-flow-packet-content">Loading daily packet...</div>
+</section>
+
+<script>
+async function pfLoadDailyFlowPacketCard() {
+  const el = document.getElementById("daily-flow-packet-content");
+  if (!el) return;
+  try {
+    const res = await fetch("output/dashboard_surface/daily_flow_packet.json?ts=" + Date.now());
+    const data = await res.json();
+    const symbols = data.symbols || [];
+    if (!symbols.length) {
+      el.innerHTML = "<div class='pf-muted'>No daily flow packet available.</div>";
+      return;
+    }
+    el.innerHTML = symbols.map(s => `
+      <div class="pf-mini-block">
+        <div><b>${s.symbol}</b> — ${s.intent_detected || "UNKNOWN"}</div>
+        <div>HTF: ${s.htf_read || "UNKNOWN"}</div>
+        <div>Close: ${s.close_position || "UNKNOWN"} | H/L: ${s.high_of_day ?? "-"} / ${s.low_of_day ?? "-"}</div>
+        <div>Tested: ${s.tested_count} | Rejected: ${s.rejected_count} | Sweeps: ${s.sweep_count}</div>
+        <div class="pf-muted">Next: ${s.prediction_next_session || "WAIT_FOR_REACTION"}</div>
+      </div>
+    `).join("");
+  } catch (e) {
+    el.innerHTML = "<div class='pf-risk'>Daily flow packet unavailable.</div>";
+  }
+}
+pfLoadDailyFlowPacketCard();
+setInterval(pfLoadDailyFlowPacketCard, 30000);
+</script>
+<!-- POWERFLOW_V731_DAILY_FLOW_PACKET_CARD_END -->
