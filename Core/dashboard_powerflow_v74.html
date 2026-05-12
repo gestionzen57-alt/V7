@@ -691,17 +691,8 @@ async function pf75LoadJson(path) {
 }
 
 function pf75Esc(v) {
-  if (v === null || v === undefined) return "";
-  if (typeof v === "object") {
-    try {
-      if (v.label) return String(v.label);
-      if (v.message) return String(v.message);
-      return JSON.stringify(v);
-    } catch (e) {
-      return "";
-    }
-  }
-  return String(v)
+  const clean = (typeof pf75HumanText === "function") ? pf75HumanText(v) : (v === null || v === undefined ? "" : String(v));
+  return String(clean)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -829,6 +820,64 @@ async function renderSessionMemory() {
 setTimeout(() => {
   try { renderSessionMemory(); } catch (e) { console.error("session memory render failed", e); }
 }, 800);
+
+
+function pf75HumanText(v) {
+  if (v === null || v === undefined) return "";
+  if (typeof v === "object") {
+    if (v.label) return pf75HumanText(v.label);
+    if (v.message) return pf75HumanText(v.message);
+    if (v.code) return pf75HumanText(v.code);
+    try { return JSON.stringify(v); } catch (e) { return ""; }
+  }
+
+  let s = String(v);
+  s = s.replace(/^label=/i, "");
+  s = s.replace(/^message=/i, "");
+  s = s.replace(/^code=/i, "");
+  s = s.replaceAll("Ã¨", "è")
+       .replaceAll("Ã©", "é")
+       .replaceAll("Ãª", "ê")
+       .replaceAll("Ã ", "à")
+       .replaceAll("Ã§", "ç")
+       .replaceAll("Ã´", "ô")
+       .replaceAll("â€™", "'")
+       .replaceAll("â€œ", '"')
+       .replaceAll("â€", '"');
+  return s;
+}
+
+
+function pf75CleanVisibleLeaks() {
+  const root = document.body;
+  if (!root) return;
+
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+
+  for (const n of nodes) {
+    if (!n.nodeValue) continue;
+    let s = n.nodeValue;
+    s = s.replace(/\blabel=/gi, "");
+    s = s.replace(/\bmessage=/gi, "");
+    s = s.replace(/\bcode=/gi, "");
+    s = s.replaceAll("Ã¨", "è")
+         .replaceAll("Ã©", "é")
+         .replaceAll("Ãª", "ê")
+         .replaceAll("Ã ", "à")
+         .replaceAll("Ã§", "ç")
+         .replaceAll("Ã´", "ô")
+         .replaceAll("â€™", "'")
+         .replaceAll("â€œ", '"')
+         .replaceAll("â€", '"');
+    if (s !== n.nodeValue) n.nodeValue = s;
+  }
+}
+
+setInterval(pf75CleanVisibleLeaks, 1500);
+setTimeout(pf75CleanVisibleLeaks, 500);
+setTimeout(pf75CleanVisibleLeaks, 2000);
 
 </script>
 </body>
