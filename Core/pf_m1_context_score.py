@@ -2,15 +2,22 @@
 """
 PowerFlow V7.2.1 — M1_CONTEXT_SCORE
 
-M1 is never censored.
-This module qualifies contextual exploitability of M1 microfilm signals.
+Final schema-flex version.
 
-Architecture:
-- pf_* module
-- read-only DB access
-- no BUY/SELL
-- no DB writes
-- no dependency on cockpit/dashboard/telegram
+Mission:
+- Qualify M1 contextual exploitability.
+- M1 is never censored.
+- Score is not financial risk.
+- DB is read-only.
+- No BUY/SELL.
+- No cockpit/dashboard dependency from pf_*.
+
+Inputs:
+- powerflow.db / force_snapshots TF1
+- output/force_kinematics_state.json
+- output/dashboard_surface/{symbol}/node.json
+- output/session_overlay.json
+- output/dashboard_surface/{symbol}/regime_hmm.json or regime_legacy.json
 """
 
 from __future__ import annotations
@@ -18,13 +25,13 @@ from __future__ import annotations
 import json
 import math
 import sqlite3
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple
 
 
-CURRENCY_COLUMNS = ("GBP", "EUR", "USD", "JPY", "CAD", "CHF", "AUD", "NZD", "XAU")
+CURRENCIES = ("GBP", "EUR", "USD", "JPY", "CAD", "CHF", "AUD", "NZD", "XAU")
 
 CAPTURE_QUALITY_SCORE = {
     "FULL_STACK_VISIBLE": 1.0,
@@ -36,8 +43,11 @@ CAPTURE_QUALITY_SCORE = {
 
 RELAY_QUALITY_SCORE = {
     "M5_RELAY_CLEAN": 1.0,
+    "CLEAN": 1.0,
     "M5_THIN": 0.6,
+    "THIN": 0.6,
     "M5_MISSING": 0.3,
+    "MISSING": 0.3,
 }
 
 SESSION_PHASE_SCORE = {
@@ -57,6 +67,7 @@ REGIME_SCORE = {
     "TREND": 0.5,
     "RANGE": 0.4,
     "REGIME_RANGE": 0.4,
+    "UNKNOWN": 0.4,
 }
 
 WEIGHTS = {
@@ -113,28 +124,27 @@ def default_paths(symbol: str) -> Dict[str, str]:
     }
 
 
-def normalize_upper(value: Any) -> Optional[str]:
+def u(value: Any) -> Optional[str]:
     if value is None:
         return None
     text = str(value).strip()
-    if not text:
-        return None
-    return text.upper()
+    return text.upper() if text else None
 
 
-def nested_get(obj: Any, keys: Iterable[str]) -> Any:
-    current = obj
-    for key in keys:
-        if not isinstance(current, Mapping):
-            return None
-        if key not in current:
-            return None
-        current = current[key]
-    return current
+def ci_get(mapping: Any, key: str, default: Any = None) -> Any:
+    """Case-insensitive dict get."""
+    if not isinstance(mapping, Mapping):
+        return default
+    if key in mapping:
+        return mapping[key]
+    lk = key.lower()
+    for k, v in mapping.items():
+        if str(k).lower() == lk:
+            return v
+    return default
 
 
 def find_first_key(obj: Any, key_names: Iterable[str]) -> Any:
-    """Depth-first search for the first matching key."""
     targets = {k.lower() for k in key_names}
     if isinstance(obj, Mapping):
         for k, v in obj.items():
@@ -152,100 +162,121 @@ def find_first_key(obj: Any, key_names: Iterable[str]) -> Any:
     return None
 
 
-def currency_candidates(currency: str) -> List[str]:
-    c = currency.upper()
-    return [c, c.lower(), f"force_{c.lower()}", f"{c.lower()}_force"]
-
-
 def find_currency_section(obj: Any, currency: str) -> Optional[Mapping[str, Any]]:
-    """Find a dict section specific to a currency in heterogeneous PowerFlow JSON."""
-    if not isinstance(obj, (Mapping, list)):
-        return None
-
-    cands = set(currency_candidates(currency))
+    cur = currency.upper()
+    keys = {
+        cur,
+        cur.lower(),
+        f"force_{cur.lower()}",
+        f"{cur.lower()}_force",
+        f"{cur.lower()}_state",
+    }
 
     if isinstance(obj, Mapping):
-        for key in cands:
-            value = obj.get(key)
-            if isinstance(value, Mapping):
-                return value
+        for k in keys:
+            v = obj.get(k)
+            if isinstance(v, Mapping):
+                return v
 
-        for collection_key in ("currencies", "currency_states", "states", "nodes", "kinematics"):
-            value = obj.get(collection_key)
-            if isinstance(value, Mapping):
-                for key in cands:
-                    section = value.get(key)
-                    if isinstance(section, Mapping):
-                        return section
-            elif isinstance(value, list):
-                for item in value:
-                    if isinstance(item, Mapping) and normalize_upper(item.get("currency")) == currency.upper():
+        for coll in ("currencies", "currency_states", "states", "nodes", "kinematics", "per_currency"):
+            v = obj.get(coll)
+            if isinstance(v, Mapping):
+                for k in keys:
+                    sec = v.get(k)
+                    if isinstance(sec, Mapping):
+                        return sec
+            elif isinstance(v, list):
+                for item in v:
+                    if isinstance(item, Mapping) and u(item.get("currency")) == cur:
                         return item
 
-        if normalize_upper(obj.get("currency")) == currency.upper():
+        if u(obj.get("currency")) == cur:
             return obj
 
-        for value in obj.values():
-            section = find_currency_section(value, currency)
-            if section:
-                return section
+        for v in obj.values():
+            sec = find_currency_section(v, cur)
+            if sec:
+                return sec
 
     elif isinstance(obj, list):
         for item in obj:
-            section = find_currency_section(item, currency)
-            if section:
-                return section
+            sec = find_currency_section(item, cur)
+            if sec:
+                return sec
 
     return None
 
 
 def scalar_for_currency(obj: Mapping[str, Any], currency: str, keys: Iterable[str]) -> Any:
-    section = find_currency_section(obj, currency)
-    if isinstance(section, Mapping):
-        for key in keys:
-            if key in section:
-                return section[key]
-        found = find_first_key(section, keys)
+    sec = find_currency_section(obj, currency)
+    if isinstance(sec, Mapping):
+        for k in keys:
+            value = ci_get(sec, k)
+            if value is not None:
+                return value
+        found = find_first_key(sec, keys)
         if found is not None:
             return found
 
-    # fallback global value
-    for key in keys:
-        if key in obj:
-            return obj[key]
+    for k in keys:
+        value = ci_get(obj, k)
+        if value is not None:
+            return value
     return find_first_key(obj, keys)
 
 
-def infer_currencies_from_db(db_path: str, symbol: str, bars: int = 120) -> Tuple[List[str], Dict[str, Any], List[str]]:
-    """Read TF1 rows to infer available currency columns for the symbol."""
-    risks: List[str] = []
-    currencies: List[str] = []
-    latest_row: Dict[str, Any] = {}
+def detect_db_columns(cols: List[str]) -> Tuple[Optional[str], Optional[str], Optional[str], Dict[str, str]]:
+    lower = {c.lower(): c for c in cols}
 
+    symbol_col = lower.get("symbol")
+    tf_col = lower.get("timeframe") or lower.get("tf")
+    ts_col = (
+        lower.get("timestamp")
+        or lower.get("timestamp_utc")
+        or lower.get("time")
+        or lower.get("datetime")
+        or lower.get("created_at")
+        or lower.get("ts")
+    )
+
+    currency_cols: Dict[str, str] = {}
+    for cur in CURRENCIES:
+        candidates = [
+            cur.lower(),
+            cur.upper(),
+            f"force_{cur.lower()}",
+            f"{cur.lower()}_force",
+            f"{cur.lower()}_zscore",
+            f"z_{cur.lower()}",
+        ]
+        for cand in candidates:
+            real = lower.get(cand.lower())
+            if real:
+                currency_cols[cur] = real
+                break
+
+    return symbol_col, tf_col, ts_col, currency_cols
+
+
+def infer_currencies_from_db(db_path: str, symbol: str, bars: int = 120) -> Tuple[List[str], Dict[str, Any], List[str]]:
+    risks: List[str] = []
     try:
         conn = connect_readonly(db_path)
     except Exception as exc:
         return [], {}, [f"DB_OPEN_FAILED:{exc}"]
 
     try:
-        columns = [row[1] for row in conn.execute("PRAGMA table_info(force_snapshots)").fetchall()]
-        lower_to_real = {c.lower(): c for c in columns}
+        cols = [row[1] for row in conn.execute("PRAGMA table_info(force_snapshots)").fetchall()]
+        symbol_col, tf_col, ts_col, currency_map = detect_db_columns(cols)
 
-        currency_cols = []
-        for c in CURRENCY_COLUMNS:
-            real = lower_to_real.get(c.lower())
-            if real:
-                currency_cols.append(real)
-
-        if not currency_cols:
+        if not currency_map:
             risks.append("NO_CURRENCY_COLUMNS_DETECTED")
             return [], {}, risks
 
-        symbol_col = lower_to_real.get("symbol")
-        timeframe_col = lower_to_real.get("timeframe")
-        timestamp_col = lower_to_real.get("timestamp") or lower_to_real.get("timestamp_utc") or lower_to_real.get("time")
-
-        select_cols = ", ".join([timestamp_col] + currency_cols) if timestamp_col else ", ".join(currency_cols)
+        select_cols = []
+        if ts_col:
+            select_cols.append(ts_col)
+        select_cols.extend(currency_map.values())
 
         where = []
         params: List[Any] = []
@@ -255,15 +286,18 @@ def infer_currencies_from_db(db_path: str, symbol: str, bars: int = 120) -> Tupl
         else:
             risks.append("SYMBOL_COLUMN_MISSING")
 
-        if timeframe_col:
-            where.append(f"{timeframe_col} = ?")
+        if tf_col:
+            where.append(f"{tf_col} = ?")
             params.append(1)
         else:
             risks.append("TIMEFRAME_COLUMN_MISSING")
 
-        where_sql = " WHERE " + " AND ".join(where) if where else ""
-        order_sql = f" ORDER BY {timestamp_col} DESC" if timestamp_col else ""
-        sql = f"SELECT {select_cols} FROM force_snapshots{where_sql}{order_sql} LIMIT ?"
+        sql = f"SELECT {', '.join(select_cols)} FROM force_snapshots"
+        if where:
+            sql += " WHERE " + " AND ".join(where)
+        if ts_col:
+            sql += f" ORDER BY {ts_col} DESC"
+        sql += " LIMIT ?"
         params.append(int(bars))
 
         old_factory = conn.row_factory
@@ -275,15 +309,18 @@ def infer_currencies_from_db(db_path: str, symbol: str, bars: int = 120) -> Tupl
 
         if not rows:
             risks.append("NO_TF1_ROWS_FOR_SYMBOL")
-            return [c.upper() for c in currency_cols], {}, risks
+            return list(currency_map.keys()), {}, risks
 
-        latest_row = dict(rows[0])
-        currencies = [c.upper() for c in currency_cols if latest_row.get(c) is not None]
+        latest = dict(rows[0])
+        currencies = []
+        for cur, col in currency_map.items():
+            if latest.get(col) is not None:
+                currencies.append(cur)
 
         if len(rows) < 30:
             risks.append("THIN_TF1_WINDOW")
 
-        return currencies, latest_row, risks
+        return currencies, latest, risks
 
     except Exception as exc:
         return [], {}, [f"DB_QUERY_FAILED:{exc}"]
@@ -291,8 +328,56 @@ def infer_currencies_from_db(db_path: str, symbol: str, bars: int = 120) -> Tupl
         conn.close()
 
 
+def infer_capture_from_dict(value: Mapping[str, Any]) -> str:
+    relay_available = ci_get(value, "relay_tf_available", ci_get(value, "RELAY_TF_AVAILABLE"))
+
+    tf_fresh = ci_get(value, "tf_freshness", ci_get(value, "TF_FRESHNESS", {}))
+    if not isinstance(tf_fresh, Mapping):
+        tf_fresh = {}
+
+    def tf_status(tf: str) -> str:
+        section = ci_get(tf_fresh, tf, {})
+        if not isinstance(section, Mapping):
+            return "MISSING"
+        return u(ci_get(section, "status", ci_get(section, "STATUS", "MISSING"))) or "MISSING"
+
+    def tf_rows(tf: str) -> int:
+        section = ci_get(tf_fresh, tf, {})
+        if not isinstance(section, Mapping):
+            return 0
+        try:
+            return int(ci_get(section, "rows", ci_get(section, "ROWS", 0)) or 0)
+        except Exception:
+            return 0
+
+    m1_live = tf_status("M1") == "LIVE"
+    m5_live = tf_status("M5") == "LIVE"
+    m15_live = tf_status("M15") == "LIVE"
+
+    if m1_live and m5_live and m15_live and relay_available is True:
+        return "FULL_STACK_VISIBLE"
+    if m1_live and m5_live:
+        return "TACTICAL_OK"
+    if m1_live and tf_rows("M1") > 0:
+        return "MINIMAL"
+    return "DEGRADED"
+
+
+def extract_global_capture_dict(temporal_node: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
+    value = ci_get(temporal_node, "capture_quality")
+    if isinstance(value, Mapping):
+        return value
+    value = find_first_key(temporal_node, ("capture_quality", "CAPTURE_QUALITY"))
+    if isinstance(value, Mapping):
+        return value
+    return None
+
+
 def score_capture_quality(value: Any) -> Tuple[float, str]:
-    label = normalize_upper(value) or "MINIMAL"
+    if isinstance(value, Mapping):
+        label = infer_capture_from_dict(value)
+    else:
+        label = u(value) or "MINIMAL"
     return CAPTURE_QUALITY_SCORE.get(label, 0.3), label
 
 
@@ -314,17 +399,36 @@ def score_noise_ratio(value: Any) -> Tuple[float, Optional[float]]:
 
 
 def score_relay_quality(value: Any) -> Tuple[float, str]:
-    label = normalize_upper(value) or "M5_MISSING"
+    if isinstance(value, Mapping):
+        raw = (
+            ci_get(value, "relay_sample_state")
+            or ci_get(value, "RELAY_SAMPLE_STATE")
+            or ci_get(value, "m5_role_capture")
+            or ci_get(value, "M5_ROLE_CAPTURE")
+            or ci_get(value, "relay_quality")
+            or ci_get(value, "RELAY_QUALITY")
+        )
+    else:
+        raw = value
+
+    label = u(raw) or "M5_MISSING"
+    if label == "CLEAN":
+        label = "M5_RELAY_CLEAN"
+    elif label == "THIN":
+        label = "M5_THIN"
+    elif label == "MISSING":
+        label = "M5_MISSING"
+
     return RELAY_QUALITY_SCORE.get(label, 0.3), label
 
 
 def score_session_phase(value: Any) -> Tuple[float, str]:
-    label = normalize_upper(value) or "DEAD_ZONE"
+    label = u(value) or "DEAD_ZONE"
     return SESSION_PHASE_SCORE.get(label, 0.3), label
 
 
 def score_regime(value: Any) -> Tuple[float, str]:
-    label = normalize_upper(value) or "UNKNOWN"
+    label = u(value) or "UNKNOWN"
     return REGIME_SCORE.get(label, 0.4), label
 
 
@@ -337,9 +441,8 @@ def exploitability_label(score: float) -> str:
 
 
 def intervention_window(session_phase: str, noise_score: float, relay_label: str) -> str:
-    phase = normalize_upper(session_phase) or "DEAD_ZONE"
-    relay = normalize_upper(relay_label) or "M5_MISSING"
-
+    phase = u(session_phase) or "DEAD_ZONE"
+    relay = u(relay_label) or "M5_MISSING"
     if phase == "DEAD_ZONE":
         return "DEAD_ZONE"
     if phase == "IGNITION" and noise_score >= 0.7 and relay == "M5_RELAY_CLEAN":
@@ -375,7 +478,6 @@ def compute_m1_context_score(inputs: M1ContextInputs) -> Dict[str, Any]:
 
     currencies, latest_row, db_risks = infer_currencies_from_db(inputs.db_path, symbol, inputs.bars)
     if not currencies:
-        # Pair fallback if DB is missing or no rows.
         currencies = sorted(set([symbol[:3], symbol[3:]]))
 
     report: Dict[str, Any] = {
@@ -394,7 +496,7 @@ def compute_m1_context_score(inputs: M1ContextInputs) -> Dict[str, Any]:
         },
         "db_snapshot": {
             "timeframe": 1,
-            "latest_row_timestamp": latest_row.get("timestamp") or latest_row.get("timestamp_utc") or latest_row.get("time"),
+            "latest_row_timestamp": latest_row.get("timestamp") or latest_row.get("timestamp_utc") or latest_row.get("time") or latest_row.get("datetime"),
             "currencies_detected": currencies,
         },
         "currencies": {},
@@ -411,35 +513,54 @@ def compute_m1_context_score(inputs: M1ContextInputs) -> Dict[str, Any]:
     if not regime_source:
         report["technical_risks"].append("REGIME_JSON_MISSING")
 
+    global_capture = extract_global_capture_dict(temporal_node)
+
     for currency in currencies:
         crisk: List[str] = []
 
-        capture_raw = scalar_for_currency(temporal_node, currency, ("capture_quality", "captureQuality"))
+        capture_raw = scalar_for_currency(temporal_node, currency, (
+            "capture_quality", "captureQuality", "CAPTURE_QUALITY",
+            "capture", "CAPTURE", "capture_state", "CAPTURE_STATE",
+        ))
+        if not isinstance(capture_raw, Mapping) and global_capture is not None:
+            capture_raw = global_capture
+
         capture_score, capture_label = score_capture_quality(capture_raw)
         if capture_raw is None:
             crisk.append("CAPTURE_QUALITY_MISSING_DEFAULT_MINIMAL")
 
-        noise_raw = scalar_for_currency(kinematics, currency, ("noise_ratio", "noiseRatio", "kalman_noise_ratio"))
+        noise_raw = scalar_for_currency(kinematics, currency, (
+            "noise_ratio", "noiseRatio", "kalman_noise_ratio", "NOISE_RATIO",
+        ))
         noise_score, noise_ratio = score_noise_ratio(noise_raw)
         if noise_raw is None:
             crisk.append("NOISE_RATIO_MISSING_DEFAULT_0_4")
 
-        first_detachment = scalar_for_currency(kinematics, currency, ("first_detachment", "firstDetachment"))
-        relay_raw = scalar_for_currency(temporal_node, currency, ("relay_quality", "relayQuality"))
+        first_detachment = scalar_for_currency(kinematics, currency, (
+            "first_detachment", "firstDetachment", "FIRST_DETACHMENT",
+        ))
+
+        relay_raw = scalar_for_currency(temporal_node, currency, (
+            "relay_quality", "relayQuality", "RELAY_QUALITY",
+            "RELAY_SAMPLE_STATE", "relay_sample_state",
+            "M5_ROLE_CAPTURE", "m5_role_capture",
+            "relay",
+        ))
+        if relay_raw is None and isinstance(capture_raw, Mapping):
+            relay_raw = capture_raw
+
         relay_score, relay_label = score_relay_quality(relay_raw)
         if relay_raw is None:
             crisk.append("RELAY_QUALITY_MISSING_DEFAULT_M5_MISSING")
 
-        session_raw = scalar_for_currency(session_overlay, currency, ("session_phase", "phase"))
+        session_raw = scalar_for_currency(session_overlay, currency, ("session_phase", "phase", "SESSION_PHASE"))
+        if session_raw is None:
+            session_raw = find_first_key(session_overlay, ("session_phase", "phase", "SESSION_PHASE"))
         session_score, session_label = score_session_phase(session_raw)
         if session_raw is None:
-            # fallback: global session field commonly used by session overlay.
-            session_raw = find_first_key(session_overlay, ("session_phase", "phase"))
-            session_score, session_label = score_session_phase(session_raw)
-            if session_raw is None:
-                crisk.append("SESSION_PHASE_MISSING_DEFAULT_DEAD_ZONE")
+            crisk.append("SESSION_PHASE_MISSING_DEFAULT_DEAD_ZONE")
 
-        regime_raw = scalar_for_currency(regime_source, currency, ("regime", "regime_state", "state"))
+        regime_raw = scalar_for_currency(regime_source, currency, ("regime", "regime_state", "state", "REGIME"))
         regime_score, regime_label = score_regime(regime_raw)
         if regime_raw is None:
             crisk.append("REGIME_MISSING_DEFAULT_UNKNOWN")
@@ -484,8 +605,4 @@ def write_json(data: Mapping[str, Any], output_path: str) -> None:
     out.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
-__all__ = [
-    "M1ContextInputs",
-    "compute_m1_context_score",
-    "write_json",
-]
+__all__ = ["M1ContextInputs", "compute_m1_context_score", "write_json"]
