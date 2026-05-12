@@ -338,6 +338,11 @@ def main(argv: Iterable[str] | None = None) -> int:
         "--evidence-bus", "output/dashboard_surface/evidence_bus.json",
     ], core)
 
+    run_step("dashboard_v74_contract_check", [
+        sys.executable, "dashboard_v74_contract_check.py",
+        "--html", "dashboard_powerflow_v74.html",
+    ], core, required=False)
+
     run_step("trader_journal_j1", [
         sys.executable, "pf_trader_journal_j1.py",
         "--symbols", symbols,
