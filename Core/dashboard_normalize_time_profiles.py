@@ -1,9 +1,23 @@
-﻿from __future__ import annotations
+# PF_BROKER_TIME_ALIGNMENT_V737E
+from __future__ import annotations
 
 import argparse
 import json
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional
+
+
+def _pf_compact_tf_time(tf_data):
+    proj = {}
+    if isinstance(tf_data, dict):
+        proj = tf_data.get("time_projection") or {}
+    return {
+        "broker": proj.get("timestamp_broker") or tf_data.get("last_timestamp_utc") if isinstance(tf_data, dict) else None,
+        "local_reference": proj.get("timestamp_local_reference"),
+        "broker_offset_hours": proj.get("broker_offset_hours"),
+        "freshness_seconds_local": proj.get("freshness_seconds_local"),
+    }
+
 
 
 PROFILES = ["LTF", "MTF", "HTF"]

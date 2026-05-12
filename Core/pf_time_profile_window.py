@@ -1,14 +1,69 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import json
 import math
 import sqlite3
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from statistics import mean
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
+
+
+# PF_BROKER_TIME_ALIGNMENT_SAFE_V737E
+def _pf_parse_iso_utc_v737e(value):
+    if value is None:
+        return None
+    s = str(value).strip()
+    if not s:
+        return None
+    try:
+        if s.endswith("Z"):
+            s = s[:-1] + "+00:00"
+        dt = datetime.fromisoformat(s)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc)
+    except Exception:
+        return None
+
+
+def _pf_time_projection_v737e(value, broker_offset_hours=1.0):
+    dt = _pf_parse_iso_utc_v737e(value)
+    if dt is None:
+        return {
+            "timestamp_broker": value,
+            "timestamp_local_reference": None,
+            "broker_offset_hours": broker_offset_hours,
+            "freshness_seconds_local": None,
+        }
+
+    local_dt = dt - timedelta(hours=float(broker_offset_hours))
+    now_utc = datetime.now(timezone.utc)
+
+    return {
+        "timestamp_broker": dt.replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "timestamp_local_reference": local_dt.replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "broker_offset_hours": broker_offset_hours,
+        "freshness_seconds_local": round((now_utc - local_dt).total_seconds(), 1),
+    }
+
+
+def _pf_apply_broker_time_projection_v737e(obj, broker_offset_hours=1.0):
+    if isinstance(obj, dict):
+        if "last_timestamp_utc" in obj and "time_projection" not in obj:
+            obj["time_projection"] = _pf_time_projection_v737e(
+                obj.get("last_timestamp_utc"),
+                broker_offset_hours,
+            )
+        for value in obj.values():
+            _pf_apply_broker_time_projection_v737e(value, broker_offset_hours)
+    elif isinstance(obj, list):
+        for value in obj:
+            _pf_apply_broker_time_projection_v737e(value, broker_offset_hours)
+    return obj
+
 
 
 TF_LABEL_TO_MIN = {
@@ -486,16 +541,18 @@ def build_profile(db: Path, symbol: str, profile: str, limit: Optional[int] = No
     }
 
 
-def write_json(path: Path, data: Dict[str, Any], pretty: bool = False) -> None:
+def write_json(path: Path, data: dict, pretty: bool = False, broker_offset_hours: float = 1.0) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        json.dumps(data, indent=2 if pretty else None, ensure_ascii=False),
+        json.dumps(_pf_apply_broker_time_projection_v737e(data, broker_offset_hours), indent=2 if pretty else None, ensure_ascii=False),
         encoding="utf-8",
     )
 
 
 def main(argv: Optional[Iterable[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="PowerFlow V7.3.7 time profile window")
+    
+    parser.add_argument('--broker-offset-hours', type=float, default=1.0, help='Broker clock offset vs local reference. Broker H+1 => 1.')
     parser.add_argument("--db", default="powerflow.db")
     parser.add_argument("--symbol", default="GBPUSD")
     parser.add_argument("--profile", choices=sorted(PROFILES), required=True)
@@ -504,11 +561,13 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     parser.add_argument("--pretty", action="store_true")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
+    
+    broker_offset_hours = getattr(args, 'broker_offset_hours', 1.0)
     db = Path(args.db)
     profile = build_profile(db=db, symbol=args.symbol, profile=args.profile, limit=args.limit)
 
     out = Path(args.output or f"output/dashboard_surface/{args.symbol}/{args.profile.lower()}_profile.json")
-    write_json(out, profile, pretty=args.pretty)
+    write_json(out, profile, pretty=args.pretty, broker_offset_hours=broker_offset_hours)
 
     print(
         f"TIME_PROFILE_WINDOW_OK | symbol={args.symbol} | profile={args.profile} | "

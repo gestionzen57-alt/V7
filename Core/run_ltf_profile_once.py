@@ -1,4 +1,5 @@
-﻿from __future__ import annotations
+# PF_BROKER_TIME_ALIGNMENT_V737E
+from __future__ import annotations
 
 import argparse
 import subprocess
@@ -19,6 +20,8 @@ def run(cmd: list[str]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    
+    parser.add_argument('--broker-offset-hours', type=float, default=1.0)
     parser.add_argument("--db", default="powerflow.db")
     parser.add_argument("--symbol", default="GBPUSD")
     parser.add_argument("--pretty", action="store_true")
@@ -29,7 +32,8 @@ def main() -> int:
     mem = base / "ltf_session_memory.json"
     md = base / "ltf_session_memory.md"
 
-    cmd = [sys.executable, "pf_time_profile_window.py", "--db", args.db, "--symbol", args.symbol, "--profile", "LTF", "--output", str(profile)]
+    cmd = [sys.executable, "pf_time_profile_window.py", "--db", args.db, "--symbol", args.symbol, "--profile", "LTF", "--broker-offset-hours", str(getattr(args, "broker_offset_hours", 1.0)),
+        "--output", str(profile)]
     if args.pretty:
         cmd.append("--pretty")
     run(cmd)

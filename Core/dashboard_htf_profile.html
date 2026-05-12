@@ -1,3 +1,4 @@
+<!-- PF_BROKER_TIME_ALIGNMENT_V737E -->
 ﻿<!doctype html>
 <html lang="fr">
 <head>
@@ -63,6 +64,15 @@
 </main>
 
 <script>
+
+function pfTimeView(tf) {
+  const tv = tf.time_view || {};
+  const broker = tv.broker || tf.last_timestamp_utc || 'n/a';
+  const local = tv.local_reference || 'n/a';
+  const off = tv.broker_offset_hours ?? 'n/a';
+  return `<div class="muted">Broker: ${broker}</div><div class="muted">Local ref: ${local} | offset H+${off}</div>`;
+}
+
 const SYMBOL = "GBPUSD";
 const PROFILE = "HTF";
 const DATA_URL = `output/dashboard_surface/time_profiles_dashboard.json`;
