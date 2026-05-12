@@ -1,0 +1,34 @@
+<!-- POWERFLOW_V732_DAILY_JOURNAL_CARD_START -->
+<section class="pf-card pf-daily-journal-card" id="daily-journal-card">
+  <div class="pf-card-title">Daily Journal — V7.3.2</div>
+  <div class="pf-card-subtitle">Levels → Sweeps → Intent → Next session watch</div>
+  <div id="daily-journal-card-content">Loading daily journal...</div>
+</section>
+<script>
+async function pfLoadDailyJournalCard() {
+  const el = document.getElementById("daily-journal-card-content");
+  if (!el) return;
+  try {
+    const res = await fetch("output/dashboard_surface/daily_journal_dashboard.json?ts=" + Date.now());
+    const data = await res.json();
+    const symbols = data.symbols || [];
+    if (!symbols.length) {
+      el.innerHTML = "<div class='pf-muted'>No daily journal available.</div>";
+      return;
+    }
+    el.innerHTML = `<div class="pf-mini-block"><b>Status:</b> ${data.global_status || "UNKNOWN"}</div>` +
+      symbols.map(s => `
+        <div class="pf-mini-block">
+          <div><b>${s.symbol}</b> — ${s.intent || "UNKNOWN"}</div>
+          <div>Close: ${s.close_position || "UNKNOWN"} | Robustness: ${s.robustness ?? "-"}</div>
+          <div>Tested: ${s.tested ?? 0} | Rejected: ${s.rejected ?? 0} | Accepted: ${s.accepted ?? 0} | Sweeps: ${s.sweeps ?? 0}</div>
+          <div class="pf-muted">Next: ${s.prediction || "WAIT_FOR_REACTION"}</div>
+        </div>`).join("");
+  } catch (e) {
+    el.innerHTML = "<div class='pf-risk'>Daily journal unavailable.</div>";
+  }
+}
+pfLoadDailyJournalCard();
+setInterval(pfLoadDailyJournalCard, 30000);
+</script>
+<!-- POWERFLOW_V732_DAILY_JOURNAL_CARD_END -->
