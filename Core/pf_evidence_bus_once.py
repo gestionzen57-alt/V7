@@ -382,10 +382,39 @@ def derive_global(evidence: list[dict[str, Any]]) -> dict[str, Any]:
     if dominant_bias == "CONFLICT":
         risks.append("EVIDENCE_BUS_DIRECTIONAL_CONFLICT")
 
+    structural_bias = dominant_bias
+    counterflow_bias = "UNKNOWN"
+    dashboard_bias = dominant_bias
+    semantic_warning = "NONE"
+
+    if dominant_phase == "STRUCTURAL_BEARISH_WITH_LTF_MTF_COUNTERFLOW":
+        structural_bias = "PAIR_DOWN"
+        counterflow_bias = "PAIR_UP"
+        dashboard_bias = "PAIR_DOWN"
+        semantic_warning = "LTF_MTF_COUNTERFLOW_ACTIVE"
+        if "EVIDENCE_BUS_LTF_MTF_COUNTERFLOW_ACTIVE" not in risks:
+            risks.append("EVIDENCE_BUS_LTF_MTF_COUNTERFLOW_ACTIVE")
+
+    elif dominant_phase == "STRUCTURAL_BULLISH_WITH_LTF_MTF_COUNTERFLOW":
+        structural_bias = "PAIR_UP"
+        counterflow_bias = "PAIR_DOWN"
+        dashboard_bias = "PAIR_UP"
+        semantic_warning = "LTF_MTF_COUNTERFLOW_ACTIVE"
+        if "EVIDENCE_BUS_LTF_MTF_COUNTERFLOW_ACTIVE" not in risks:
+            risks.append("EVIDENCE_BUS_LTF_MTF_COUNTERFLOW_ACTIVE")
+
+    elif dominant_bias == "CONFLICT":
+        dashboard_bias = "CONFLICT"
+        semantic_warning = "DIRECTIONAL_CONFLICT_ACTIVE"
+
     return {
         "global_attention": max_attention,
         "dominant_phase": dominant_phase,
         "dominant_bias": dominant_bias,
+        "structural_bias": structural_bias,
+        "counterflow_bias": counterflow_bias,
+        "dashboard_bias": dashboard_bias,
+        "semantic_warning": semantic_warning,
         "confidence": round(confidence, 4),
         "bias_weights": {k: round(v, 4) for k, v in sorted(bias_weights.items())},
         "bias_votes": layer_votes,
@@ -413,6 +442,10 @@ def write_txt(path: str | Path, data: dict[str, Any]) -> None:
     lines = [
         f"EVIDENCE BUS | {data.get('symbol')} | {data.get('global_attention')} | {data.get('dominant_phase')}",
         f"bias={data.get('dominant_bias')}",
+        f"structural_bias={data.get('structural_bias')}",
+        f"counterflow_bias={data.get('counterflow_bias')}",
+        f"dashboard_bias={data.get('dashboard_bias')}",
+        f"semantic_warning={data.get('semantic_warning')}",
         f"confidence={data.get('confidence')}",
         "",
         "EVIDENCE",

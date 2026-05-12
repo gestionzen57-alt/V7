@@ -29,6 +29,9 @@ def write_txt(path: str | Path, data: dict[str, Any]) -> None:
     lines = [
         f"EVIDENCE READING | {data.get('symbol')} | {data.get('attention')} | {data.get('phase')}",
         f"bias={data.get('bias')}",
+        f"structural_bias={data.get('structural_bias')}",
+        f"counterflow_bias={data.get('counterflow_bias')}",
+        f"semantic_warning={data.get('semantic_warning')}",
         f"confidence={data.get('confidence')}",
         "",
         f"PHRASE={data.get('phrase')}",
@@ -59,7 +62,11 @@ def find_layer(bus: dict[str, Any], layer: str) -> dict[str, Any]:
 def build_phrase(bus: dict[str, Any]) -> dict[str, Any]:
     symbol = str(bus.get("symbol") or "GBPUSD").upper()
     phase = str(bus.get("dominant_phase") or "UNKNOWN").upper()
-    bias = str(bus.get("dominant_bias") or "UNKNOWN").upper()
+    bias = str(bus.get("dashboard_bias") or bus.get("dominant_bias") or "UNKNOWN").upper()
+    dominant_bias = str(bus.get("dominant_bias") or "UNKNOWN").upper()
+    structural_bias = str(bus.get("structural_bias") or bias or "UNKNOWN").upper()
+    counterflow_bias = str(bus.get("counterflow_bias") or "UNKNOWN").upper()
+    semantic_warning = str(bus.get("semantic_warning") or "NONE").upper()
     attention = str(bus.get("global_attention") or "INFO").upper()
     confidence = bus.get("confidence")
 
@@ -145,6 +152,10 @@ def build_phrase(bus: dict[str, Any]) -> dict[str, Any]:
         "attention": attention,
         "phase": phase,
         "bias": bias,
+        "dominant_bias": dominant_bias,
+        "structural_bias": structural_bias,
+        "counterflow_bias": counterflow_bias,
+        "semantic_warning": semantic_warning,
         "confidence": confidence,
         "phrase": phrase,
         "watch": watch,
