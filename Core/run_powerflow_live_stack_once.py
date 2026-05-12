@@ -350,7 +350,7 @@ def main() -> int:
 
     if args.send_telegram:
         plan.extend([
-            ("powerflow_telegram_gate", [py, "pf_powerflow_telegram_gate_once.py"], 120),
+            ("powerflow_telegram_gate_dedup", [py, "pf_powerflow_telegram_gate_dedup_once.py", "--symbol", str(args.symbols).split(",")[0].strip()], 120),
             ("b6_telegram_gate", [py, "pf_b6_telegram_gate_once.py"], 120),
         ])
 
