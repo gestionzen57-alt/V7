@@ -1,0 +1,293 @@
+{
+  "created_at": "2026-05-12T14:54:59.581444+00:00",
+  "mode": "ONE_SHOT_RUNNER",
+  "db": "powerflow.db",
+  "symbols": [
+    "GBPUSD",
+    "EURUSD",
+    "USDJPY"
+  ],
+  "primary": "GBPUSD",
+  "runs": [
+    {
+      "label": "daily_flow_packet_all",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "run_daily_flow_packet_all_once.py",
+        "--db",
+        "powerflow.db",
+        "--symbols",
+        "GBPUSD,EURUSD,USDJPY",
+        "--output",
+        "output/dashboard_surface/daily_flow_packets.json",
+        "--pretty"
+      ],
+      "started_at": "2026-05-12T14:54:57.859287+00:00",
+      "ended_at": "2026-05-12T14:54:58.039867+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "651,\n            \"source\": \"H1_RECENT_WINDOW\",\n            \"timestamp_utc\": \"2026-05-12T17:00:00Z\"\n          },\n          {\n            \"name\": \"RECENT_H1_LOW\",\n            \"price\": 157.525,\n            \"source\": \"H1_RECENT_WINDOW\",\n            \"timestamp_utc\": \"2026-05-12T17:00:00Z\"\n          }\n        ],\n        \"tested_levels\": [\n          {\n            \"level\": \"CURRENT_DAY_HIGH\",\n            \"price\": 157.601,\n            \"source\": \"M1_DERIVED_CURRENT_DAY\",\n            \"test_type\": \"CROSSED\",\n            \"tolerance\": 0.0394\n          },\n          {\n            \"level\": \"CURRENT_DAY_LOW\",\n            \"price\": 157.504,\n            \"source\": \"M1_DERIVED_CURRENT_DAY\",\n            \"test_type\": \"CROSSED\",\n            \"tolerance\": 0.039376\n          },\n          {\n            \"level\": \"RECENT_H4_HIGH\",\n            \"price\": 157.667,\n            \"source\": \"H4_RECENT_WINDOW\",\n            \"test_type\": \"CROSSED\",\n            \"tolerance\": 0.039417\n          },\n          {\n            \"level\": \"RECENT_H4_LOW\",\n            \"price\": 157.525,\n            \"source\": \"H4_RECENT_WINDOW\",\n            \"test_type\": \"CROSSED\",\n            \"tolerance\": 0.039381\n          },\n          {\n            \"level\": \"RECENT_H1_HIGH\",\n            \"price\": 157.651,\n            \"source\": \"H1_RECENT_WINDOW\",\n            \"test_type\": \"CROSSED\",\n            \"tolerance\": 0.039413\n          },\n          {\n            \"level\": \"RECENT_H1_LOW\",\n            \"price\": 157.525,\n            \"source\": \"H1_RECENT_WINDOW\",\n            \"test_type\": \"CROSSED\",\n            \"tolerance\": 0.039381\n          }\n        ],\n        \"rejected_levels\": [],\n        \"sweep_candidates\": [],\n        \"intent_detected\": \"BUY_PRESSURE_OR_HIGH_ACCEPTANCE\",\n        \"prediction_next_session\": \"WATCH_CONTINUATION_OR_FAILED_HIGH_ACCEPTANCE\",\n        \"htf_read\": \"HTF_NEAR_REACTION_ZONE\",\n        \"mtf_day_plan\": \"WATCH_REJECTION_OR_TRAP_CONTINUATION\",\n        \"ltf_conditions\": [\n          \"M1_TACTICAL_THIN_HTF\",\n          \"ALLOW_M1_QUALIFIED\",\n          \"DATA_HTF_INCOMPLETE\",\n          \"USDJPY_HTF_INCOMPLETE\",\n          \"USDJPY_TEMPORAL_GAPS\"\n        ],\n        \"ontology_context\": {},\n        \"trader_comparison_notes\": [\n          \"Fill manually: what I see on Weekly/Daily/H4.\",\n          \"Fill manually: zones/rotations/correlation/coalition I disagree with.\",\n          \"Fill next session: prediction result and lesson.\"\n        ]\n      },\n      \"dashboard_summary\": {\n        \"line_1\": \"USDJPY | BUY_PRESSURE_OR_HIGH_ACCEPTANCE\",\n        \"line_2\": \"Close=HIGH_THIRD | HTF=HTF_NEAR_REACTION_ZONE\",\n        \"line_3\": \"tested=6 rejected=0 sweeps=0\"\n      },\n      \"technical_risks\": [\n        \"PREVIOUS_DAY_REFERENCE_MISSING\"\n      ],\n      \"note\": \"Daily packet names observable market behavior. It does not produce trade decisions.\"\n    }\n  },\n  \"reports\": [\n    {\n      \"symbol\": \"GBPUSD\",\n      \"intent_detected\": \"SHORT_ACCUMULATION_OR_DISTRIBUTION_TRAP\",\n      \"sweeps\": 1,\n      \"tested_levels\": 8,\n      \"rejected_levels\": 2,\n      \"technical_risks\": [],\n      \"written\": \"output\\\\dashboard_surface\\\\GBPUSD\\\\daily_flow_packet.json\"\n    },\n    {\n      \"symbol\": \"EURUSD\",\n      \"intent_detected\": \"TACTICAL_ACCUMULATION_WITH_THIN_STRUCTURE\",\n      \"sweeps\": 0,\n      \"tested_levels\": 8,\n      \"rejected_levels\": 0,\n      \"technical_risks\": [],\n      \"written\": \"output\\\\dashboard_surface\\\\EURUSD\\\\daily_flow_packet.json\"\n    },\n    {\n      \"symbol\": \"USDJPY\",\n      \"intent_detected\": \"BUY_PRESSURE_OR_HIGH_ACCEPTANCE\",\n      \"sweeps\": 0,\n      \"tested_levels\": 6,\n      \"rejected_levels\": 0,\n      \"technical_risks\": [\n        \"PREVIOUS_DAY_REFERENCE_MISSING\"\n      ],\n      \"written\": \"output\\\\dashboard_surface\\\\USDJPY\\\\daily_flow_packet.json\"\n    }\n  ]\n}\nDAILY_FLOW_PACKET_ALL_OK | GBPUSD intent=SHORT_ACCUMULATION_OR_DISTRIBUTION_TRAP sweeps=1 | EURUSD intent=TACTICAL_ACCUMULATION_WITH_THIN_STRUCTURE sweeps=0 | USDJPY intent=BUY_PRESSURE_OR_HIGH_ACCEPTANCE sweeps=0 | out=output\\dashboard_surface\\daily_flow_packets.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "label": "daily_flow_packet_normalize",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "dashboard_normalize_daily_flow_packet.py",
+        "--input",
+        "output/dashboard_surface/daily_flow_packets.json",
+        "--output",
+        "output/dashboard_surface/daily_flow_packet.json",
+        "--pretty"
+      ],
+      "started_at": "2026-05-12T14:54:58.039986+00:00",
+      "ended_at": "2026-05-12T14:54:58.150494+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "{\n  \"method\": \"DAILY_FLOW_PACKET_NORMALIZED_V731\",\n  \"global_status\": \"SWEEP_CONTEXT_PRESENT\",\n  \"symbols\": [\n    {\n      \"symbol\": \"EURUSD\",\n      \"intent_detected\": \"TACTICAL_ACCUMULATION_WITH_THIN_STRUCTURE\",\n      \"prediction_next_session\": \"NO_DIRECTIONAL_PREDICTION_PACKET_NEEDS_NEXT_REACTION\",\n      \"htf_read\": \"HTF_INSIDE_RANGE_OR_NEUTRAL\",\n      \"mtf_day_plan\": \"WATCH_REJECTION_OR_TRAP_CONTINUATION\",\n      \"close_position\": \"MIDDLE_THIRD\",\n      \"high_of_day\": 1.17477,\n      \"low_of_day\": 1.1741,\n      \"tested_count\": 8,\n      \"rejected_count\": 0,\n      \"sweep_count\": 0,\n      \"technical_risks\": []\n    },\n    {\n      \"symbol\": \"GBPUSD\",\n      \"intent_detected\": \"SHORT_ACCUMULATION_OR_DISTRIBUTION_TRAP\",\n      \"prediction_next_session\": \"WATCH_NEXT_SESSION_FOR_DOWNSIDE_ACCEPTANCE_AFTER_HIGH_SWEEP\",\n      \"htf_read\": \"HTF_INSIDE_RANGE_OR_NEUTRAL\",\n      \"mtf_day_plan\": \"WATCH_REJECTION_OR_TRAP_CONTINUATION\",\n      \"close_position\": \"LOW_THIRD\",\n      \"high_of_day\": 1.36111,\n      \"low_of_day\": 1.35025,\n      \"tested_count\": 8,\n      \"rejected_count\": 2,\n      \"sweep_count\": 1,\n      \"technical_risks\": []\n    },\n    {\n      \"symbol\": \"USDJPY\",\n      \"intent_detected\": \"BUY_PRESSURE_OR_HIGH_ACCEPTANCE\",\n      \"prediction_next_session\": \"WATCH_CONTINUATION_OR_FAILED_HIGH_ACCEPTANCE\",\n      \"htf_read\": \"HTF_NEAR_REACTION_ZONE\",\n      \"mtf_day_plan\": \"WATCH_REJECTION_OR_TRAP_CONTINUATION\",\n      \"close_position\": \"HIGH_THIRD\",\n      \"high_of_day\": 157.601,\n      \"low_of_day\": 157.504,\n      \"tested_count\": 6,\n      \"rejected_count\": 0,\n      \"sweep_count\": 0,\n      \"technical_risks\": [\n        \"PREVIOUS_DAY_REFERENCE_MISSING\"\n      ]\n    }\n  ],\n  \"critical_issues\": [\n    \"PREVIOUS_DAY_REFERENCE_MISSING\"\n  ],\n  \"source\": \"output/dashboard_surface/daily_flow_packets.json\"\n}\nDAILY_FLOW_PACKET_NORMALIZE_OK | global_status=SWEEP_CONTEXT_PRESENT | symbols=3 | out=output\\dashboard_surface\\daily_flow_packet.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "label": "topdown_market_reader",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "run_topdown_market_reader_once.py",
+        "--db",
+        "powerflow.db",
+        "--symbol",
+        "GBPUSD",
+        "--pretty"
+      ],
+      "started_at": "2026-05-12T14:54:58.150588+00:00",
+      "ended_at": "2026-05-12T14:54:58.406210+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "price\": 1.35111,\n        \"status\": \"ZONE_TESTED\",\n        \"touch_count\": 1,\n        \"rejection_count\": 0\n      }\n    ],\n    \"niveaux_rejetes\": [\n      {\n        \"timeframe\": \"h4\",\n        \"type\": \"SUPPORT\",\n        \"price\": 1.35342,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 2,\n        \"rejection_count\": 1\n      },\n      {\n        \"timeframe\": \"h4\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.36433,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 2,\n        \"rejection_count\": 2\n      },\n      {\n        \"timeframe\": \"h4\",\n        \"type\": \"SUPPORT\",\n        \"price\": 1.35785,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 4,\n        \"rejection_count\": 2\n      },\n      {\n        \"timeframe\": \"h4\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.36325,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 4,\n        \"rejection_count\": 2\n      },\n      {\n        \"timeframe\": \"h4\",\n        \"type\": \"SUPPORT\",\n        \"price\": 1.35455,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 3,\n        \"rejection_count\": 1\n      },\n      {\n        \"timeframe\": \"h4\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.36365,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 3,\n        \"rejection_count\": 1\n      },\n      {\n        \"timeframe\": \"h4\",\n        \"type\": \"SUPPORT\",\n        \"price\": 1.35498,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 5,\n        \"rejection_count\": 2\n      },\n      {\n        \"timeframe\": \"h1\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.36012,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 1,\n        \"rejection_count\": 1\n      },\n      {\n        \"timeframe\": \"h1\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.36146,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 1,\n        \"rejection_count\": 1\n      },\n      {\n        \"timeframe\": \"h1\",\n        \"type\": \"SUPPORT\",\n        \"price\": 1.35859,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 5,\n        \"rejection_count\": 2\n      },\n      {\n        \"timeframe\": \"h1\",\n        \"type\": \"SUPPORT\",\n        \"price\": 1.358,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 4,\n        \"rejection_count\": 1\n      },\n      {\n        \"timeframe\": \"m30\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.35487,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 3,\n        \"rejection_count\": 2\n      },\n      {\n        \"timeframe\": \"m30\",\n        \"type\": \"SUPPORT\",\n        \"price\": 1.35229,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 6,\n        \"rejection_count\": 3\n      },\n      {\n        \"timeframe\": \"m30\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.35383,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 5,\n        \"rejection_count\": 2\n      },\n      {\n        \"timeframe\": \"m15\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.35363,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 1,\n        \"rejection_count\": 1\n      },\n      {\n        \"timeframe\": \"m15\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.35417,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 4,\n        \"rejection_count\": 1\n      },\n      {\n        \"timeframe\": \"m15\",\n        \"type\": \"SUPPORT\",\n        \"price\": 1.35232,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 3,\n        \"rejection_count\": 2\n      },\n      {\n        \"timeframe\": \"m15\",\n        \"type\": \"RESISTANCE\",\n        \"price\": 1.35383,\n        \"status\": \"ZONE_REJECTED\",\n        \"touch_count\": 3,\n        \"rejection_count\": 1\n      }\n    ],\n    \"close_position\": \"LOWER_RANGE\",\n    \"intention_detectee_machine\": \"REJECTION_OR_TRAP_WATCH\",\n    \"prediction_demain_trader\": \"MANUAL_TO_FILL\",\n    \"resultat_reel_j_plus_1\": \"MANUAL_TO_FILL\",\n    \"apprentissage\": \"MANUAL_TO_FILL\"\n  },\n  \"technical_risks\": [\n    \"DAILY_LOW_SAMPLE_FOR_ROTATION\",\n    \"WEEKLY_LOW_SAMPLE_FOR_ROTATION\"\n  ],\n  \"note\": \"PowerFlow reads HTF -> MTF -> LTF. It qualifies perception; the trader analyzes and decides.\"\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "label": "gbpusd_live_decision",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "pf_gbpusd_live_decision_once.py"
+      ],
+      "started_at": "2026-05-12T14:54:58.406309+00:00",
+      "ended_at": "2026-05-12T14:54:58.764236+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "\n=== GBPUSD COMMANDO LIVE DECISION ===\nRUN: C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe pf_packet_live_gate_once.py\nFLOW_PACKET_OK | symbol=GBPUSD | type=SLINGSHOT_PACKET | level=WATCH | bias=PAIR_DOWN | tf=5 | score=5.4 | events=1 | out=output\\dashboard_surface\\GBPUSD\\flow_packet.json\nRUN packetizer...\n\n=== LIVE PACKET GATE ===\nlive_count= 2\nexpired_count= 0\ntype= SLINGSHOT_PACKET\nlevel= WATCH\nbias= PAIR_DOWN\ntf= 5\nscore= 5.4\nevents= 1\nage_min= 4.66 / 8\ntypes= ['SLINGSHOT']\nfirst= 2026-05-12T14:50:19.296999+00:00\nlast= 2026-05-12T14:50:19.296999+00:00\nTELEGRAM_NOT_SENT level not HOT/ACTIVE\nLIVE_DECISION_WRITTEN: output\\dashboard_surface\\GBPUSD\\live_decision.json\n\n=== DECISION ===\nGBPUSD | LIVE_INFO | SLINGSHOT_PACKET | PAIR_DOWN | TF=5 | score=5.4\n- ? USD explose apr?s repli conjoint\n",
+      "stderr_tail": ""
+    },
+    {
+      "label": "cockpit_live_status",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "pf_cockpit_live_status_once.py"
+      ],
+      "started_at": "2026-05-12T14:54:58.764318+00:00",
+      "ended_at": "2026-05-12T14:54:58.833680+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "GBPUSD | LIVE_INFO | WATCH | PAIR_DOWN\nlive=2 old=0\nACTION=WAKE_TRADER\nwritten= output\\dashboard_surface\\GBPUSD\\cockpit_live_status.txt\n",
+      "stderr_tail": ""
+    },
+    {
+      "label": "powerflow_live_brief",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "pf_powerflow_live_brief_once.py"
+      ],
+      "started_at": "2026-05-12T14:54:58.833759+00:00",
+      "ended_at": "2026-05-12T14:54:58.910513+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "POWERFLOW_LIVE_BRIEF_OK\njson= output\\dashboard_surface\\GBPUSD\\powerflow_live_brief.json\ntxt = output\\dashboard_surface\\GBPUSD\\powerflow_live_brief.txt\n\nGBPUSD | WAKE_TRADER | TRAP_CONTEXT_ALIGNED\nreading=Daily et topdown convergent vers un contexte piège/rejet. Attendre un paquet live plus chaud pour alerte forte.\n\nDAILY\nintent=SHORT_ACCUMULATION_OR_DISTRIBUTION_TRAP\nprediction=WATCH_NEXT_SESSION_FOR_DOWNSIDE_ACCEPTANCE_AFTER_HIGH_SWEEP\nclose_position=LOW_THIRD\nhigh=1.36111 low=1.35025 close=1.35353\ntested=8 rejected=2 sweeps=1\n\nTOPDOWN\nflux=HTF_INSIDE_RANGE_OR_NEUTRAL\ndriver=USD_WEAKNESS_DOMINANT\ncondition=HOT_ATTENTION_CONDITION_PRESENT\nmachine_intention=REJECTION_OR_TRAP_WATCH\nontology=INFLEXION\nplan_bias=WATCH_REJECTION_OR_TRAP_CONTINUATION\nH1=WATCH_HTF_ZONE_REACTION\nM30=MAP_INTRADAY_COMPRESSION_OR_ROTATION\nM15=WAIT_REJECTION_ABSORPTION_OR_RELAY\nLTF_M15=M15_BREAK_PRESSURE_DOWN_VISIBLE\nLTF_M5=M5_RELAY_CLEAN\nLTF_M1=M1_MICROFILM_ACTIVE\nnode=HOT_NODE\n\nLIVE\nstate=LIVE_INFO\npacket=SLINGSHOT_PACKET\nlevel=WATCH\nbias=PAIR_DOWN\ntf=5\nscore=5.4\nlive=2\nold=0\n\nRISKS\n- DAILY_LOW_SAMPLE_FOR_ROTATION\n- WEEKLY_LOW_SAMPLE_FOR_ROTATION\n\n",
+      "stderr_tail": ""
+    },
+    {
+      "label": "order_flow_proxy_all",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "run_order_flow_proxy_all_once.py",
+        "--db",
+        "powerflow.db",
+        "--symbols",
+        "GBPUSD,EURUSD,USDJPY",
+        "--pretty"
+      ],
+      "started_at": "2026-05-12T14:54:58.910583+00:00",
+      "ended_at": "2026-05-12T14:54:59.040871+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "29,\n            \"low\": 157.529,\n            \"close\": 157.529,\n            \"range_pips_proxy\": 0.0,\n            \"body_pips_proxy\": 0.0,\n            \"close_position\": 0.5,\n            \"body_ratio\": 0.0,\n            \"raw_pressure\": 0.0,\n            \"volume\": null,\n            \"spread\": null,\n            \"proxy_delta\": 0.0,\n            \"direction\": \"NEUTRAL\"\n          },\n          {\n            \"timestamp\": \"2026-05-12T14:54:00+00:00\",\n            \"open\": 157.549,\n            \"high\": 157.549,\n            \"low\": 157.549,\n            \"close\": 157.549,\n            \"range_pips_proxy\": 0.0,\n            \"body_pips_proxy\": 0.0,\n            \"close_position\": 0.5,\n            \"body_ratio\": 0.0,\n            \"raw_pressure\": 0.0,\n            \"volume\": null,\n            \"spread\": null,\n            \"proxy_delta\": 0.0,\n            \"direction\": \"NEUTRAL\"\n          },\n          {\n            \"timestamp\": \"2026-05-12T14:55:00+00:00\",\n            \"open\": 157.561,\n            \"high\": 157.564,\n            \"low\": 157.561,\n            \"close\": 157.562,\n            \"range_pips_proxy\": 0.3,\n            \"body_pips_proxy\": 0.1,\n            \"close_position\": 0.3333,\n            \"body_ratio\": 0.3333,\n            \"raw_pressure\": 0.0333,\n            \"volume\": null,\n            \"spread\": null,\n            \"proxy_delta\": 3.6678,\n            \"direction\": \"BUY_PROXY\"\n          },\n          {\n            \"timestamp\": \"2026-05-12T14:56:00+00:00\",\n            \"open\": 157.572,\n            \"high\": 157.572,\n            \"low\": 157.572,\n            \"close\": 157.572,\n            \"range_pips_proxy\": 0.0,\n            \"body_pips_proxy\": 0.0,\n            \"close_position\": 0.5,\n            \"body_ratio\": 0.0,\n            \"raw_pressure\": 0.0,\n            \"volume\": null,\n            \"spread\": null,\n            \"proxy_delta\": 0.0,\n            \"direction\": \"NEUTRAL\"\n          },\n          {\n            \"timestamp\": \"2026-05-12T14:57:00+00:00\",\n            \"open\": 157.562,\n            \"high\": 157.564,\n            \"low\": 157.562,\n            \"close\": 157.562,\n            \"range_pips_proxy\": 0.2,\n            \"body_pips_proxy\": 0.0,\n            \"close_position\": 0.0,\n            \"body_ratio\": 0.0,\n            \"raw_pressure\": -0.45,\n            \"volume\": null,\n            \"spread\": null,\n            \"proxy_delta\": -49.5154,\n            \"direction\": \"SELL_PROXY\"\n          },\n          {\n            \"timestamp\": \"2026-05-12T14:58:00+00:00\",\n            \"open\": 157.563,\n            \"high\": 157.564,\n            \"low\": 157.563,\n            \"close\": 157.564,\n            \"range_pips_proxy\": 0.1,\n            \"body_pips_proxy\": 0.1,\n            \"close_position\": 1.0,\n            \"body_ratio\": 1.0,\n            \"raw_pressure\": 1.0,\n            \"volume\": null,\n            \"spread\": null,\n            \"proxy_delta\": 110.0343,\n            \"direction\": \"BUY_PROXY\"\n          },\n          {\n            \"timestamp\": \"2026-05-12T14:59:00+00:00\",\n            \"open\": 157.574,\n            \"high\": 157.574,\n            \"low\": 157.574,\n            \"close\": 157.574,\n            \"range_pips_proxy\": 0.0,\n            \"body_pips_proxy\": 0.0,\n            \"close_position\": 0.5,\n            \"body_ratio\": 0.0,\n            \"raw_pressure\": 0.0,\n            \"volume\": null,\n            \"spread\": null,\n            \"proxy_delta\": 0.0,\n            \"direction\": \"NEUTRAL\"\n          }\n        ]\n      },\n      \"fusion_with_powerflow\": {\n        \"b6_microstructure_proxy\": true,\n        \"can_elevate_confidence\": false,\n        \"recommended_fusion\": \"Injecter dans powerflow_live_brief comme contexte précoce, pas comme ordre.\"\n      },\n      \"technical_risks\": [\n        \"ORDER_FLOW_PROXY_NOT_TRUE_LEVEL2\",\n        \"MT4_NATIVE_BID_ASK_VOLUME_ABSENT\",\n        \"M1_OHLC_PROXY_CAN_CREATE_FALSE_POSITIVES\"\n      ]\n    }\n  }\n}\nB6_ORDER_FLOW_PROXY_ALL_OK | GBPUSD state=RELEASED tension=32.2 alerts=0 | EURUSD state=LOADING tension=60.36 alerts=1 | USDJPY state=RELEASED tension=6.59 alerts=0 | out=output\\dashboard_surface\\microstructure_states.json\n",
+      "stderr_tail": ""
+    },
+    {
+      "label": "b6_live_fusion",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "pf_b6_live_fusion_once.py"
+      ],
+      "started_at": "2026-05-12T14:54:59.040950+00:00",
+      "ended_at": "2026-05-12T14:54:59.131731+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "B6_LIVE_FUSION_OK\njson= output\\dashboard_surface\\GBPUSD\\b6_live_fusion.json\ntxt = output\\dashboard_surface\\GBPUSD\\b6_live_fusion.txt\n\nGBPUSD | B6.1 | NO_ALERT | B6_NO_IMMEDIATE_PRESSURE\nmessage=B6 ne justifie pas de réveil trader. Flux proxy relâché ou absorbé.\n\nB6\nstate=RELEASED level=INFO tension=32.2 delta=-375.6886\ndirection=SELL_SIDE absorption=PARTIAL_ABSORPTION imbalance=SELL_DOMINANT alerts=0\n\nDAILY\nintent=SHORT_ACCUMULATION_OR_DISTRIBUTION_TRAP\nprediction=WATCH_NEXT_SESSION_FOR_DOWNSIDE_ACCEPTANCE_AFTER_HIGH_SWEEP\nclose_position=LOW_THIRD\n\nTOPDOWN\nflux=HTF_INSIDE_RANGE_OR_NEUTRAL\ndriver=USD_WEAKNESS_DOMINANT\ncondition=HOT_ATTENTION_CONDITION_PRESENT\nmachine_intention=REJECTION_OR_TRAP_WATCH\n\nLIVE\nstate=LIVE_INFO\npacket=None\nbias=PAIR_DOWN\nscore=None\n",
+      "stderr_tail": ""
+    },
+    {
+      "label": "powerflow_telegram_gate",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "pf_powerflow_telegram_gate_once.py"
+      ],
+      "started_at": "2026-05-12T14:54:59.131821+00:00",
+      "ended_at": "2026-05-12T14:54:59.446079+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "TELEGRAM_SEND_OK\nPOWERFLOW_TELEGRAM_GATE_DONE\naction= WAKE_TRADER\nsynthesis= TRAP_CONTEXT_ALIGNED\n",
+      "stderr_tail": ""
+    },
+    {
+      "label": "b6_telegram_gate",
+      "args": [
+        "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+        "pf_b6_telegram_gate_once.py"
+      ],
+      "started_at": "2026-05-12T14:54:59.446214+00:00",
+      "ended_at": "2026-05-12T14:54:59.578480+00:00",
+      "returncode": 0,
+      "ok": true,
+      "stdout_tail": "B6_TELEGRAM_NOT_SENT\naction= NO_ALERT\nlevel= INFO\nsynthesis= B6_NO_IMMEDIATE_PRESSURE\n",
+      "stderr_tail": ""
+    }
+  ],
+  "summary": {
+    "primary_symbol": "GBPUSD",
+    "daily": {
+      "method": "DAILY_FLOW_PACKET_V731",
+      "intent": "SHORT_ACCUMULATION_OR_DISTRIBUTION_TRAP",
+      "prediction": "WATCH_NEXT_SESSION_FOR_DOWNSIDE_ACCEPTANCE_AFTER_HIGH_SWEEP",
+      "close_position": "LOW_THIRD",
+      "high": 1.36111,
+      "low": 1.35025,
+      "close": 1.35353,
+      "tested": 8,
+      "rejected": 2,
+      "sweeps": 1,
+      "technical_risks": []
+    },
+    "topdown": {
+      "flux": "HTF_INSIDE_RANGE_OR_NEUTRAL",
+      "zone": "INSIDE_HTF_RANGE",
+      "driver": "USD_WEAKNESS_DOMINANT",
+      "condition": "HOT_ATTENTION_CONDITION_PRESENT",
+      "machine_intention": "REJECTION_OR_TRAP_WATCH",
+      "ontology": "INFLEXION",
+      "technical_fragility": [
+        "DAILY_LOW_SAMPLE_FOR_ROTATION",
+        "WEEKLY_LOW_SAMPLE_FOR_ROTATION"
+      ]
+    },
+    "live": {
+      "state": "LIVE_INFO",
+      "level": "WATCH",
+      "bias": "PAIR_DOWN",
+      "message": null,
+      "live_count": 2,
+      "expired_count": 0
+    },
+    "brief": {
+      "action": "WAKE_TRADER",
+      "synthesis": "TRAP_CONTEXT_ALIGNED",
+      "reading": "Daily et topdown convergent vers un contexte piège/rejet. Attendre un paquet live plus chaud pour alerte forte."
+    },
+    "b6": {
+      "state": "RELEASED",
+      "level": null,
+      "tension": 32.2,
+      "delta": -375.6886,
+      "direction": "SELL_SIDE",
+      "absorption": "PARTIAL_ABSORPTION",
+      "imbalance": "SELL_DOMINANT",
+      "alerts": 0
+    },
+    "b6_fusion": {
+      "action": null,
+      "synthesis": null,
+      "message": null
+    },
+    "files": [
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\daily_flow_packet.json",
+        "exists": true,
+        "size": 5754
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\topdown_market_reader.json",
+        "exists": true,
+        "size": 32737
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\topdown_market_reading.json",
+        "exists": true,
+        "size": 32989
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\live_decision.json",
+        "exists": true,
+        "size": 428
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\cockpit_live_status.txt",
+        "exists": true,
+        "size": 72
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\powerflow_live_brief.json",
+        "exists": true,
+        "size": 1718
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\powerflow_live_brief.txt",
+        "exists": true,
+        "size": 1025
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\microstructure_state.json",
+        "exists": true,
+        "size": 7074
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\microstructure_state.txt",
+        "exists": true,
+        "size": 184
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\b6_live_fusion.json",
+        "exists": true,
+        "size": 1517
+      },
+      {
+        "path": "output\\dashboard_surface\\GBPUSD\\b6_live_fusion.txt",
+        "exists": true,
+        "size": 660
+      },
+      {
+        "path": "output\\dashboard_surface\\daily_flow_packet.json",
+        "exists": true,
+        "size": 1856
+      },
+      {
+        "path": "output\\dashboard_surface\\daily_flow_packets.json",
+        "exists": true,
+        "size": 17897
+      },
+      {
+        "path": "output\\dashboard_surface\\microstructure_states.json",
+        "exists": true,
+        "size": 26044
+      }
+    ]
+  }
+}
