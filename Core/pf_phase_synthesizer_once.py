@@ -175,6 +175,36 @@ def classify_phase(
     }
 
 
+def _cockpit_evidence(cockpit: dict) -> str:
+    if not isinstance(cockpit, dict):
+        return "UNKNOWN"
+
+    action = (
+        cockpit.get("action")
+        or cockpit.get("attention")
+        or cockpit.get("status")
+        or cockpit.get("decision")
+        or "UNKNOWN"
+    )
+
+    state = (
+        cockpit.get("state")
+        or cockpit.get("etat")
+        or cockpit.get("main_state")
+        or cockpit.get("market_state")
+        or "UNKNOWN"
+    )
+
+    synthesis = (
+        cockpit.get("synthesis")
+        or cockpit.get("live_synthesis")
+        or cockpit.get("multiread_synthesis")
+        or cockpit.get("reading_type")
+        or "UNKNOWN"
+    )
+
+    return f"{action} | {state} | synthesis={synthesis}"
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--symbol", default="GBPUSD")
