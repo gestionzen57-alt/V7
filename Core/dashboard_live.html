@@ -361,6 +361,65 @@ setInterval(hydrateAll, PowerFlowFreshness.REFRESH_INTERVAL_MS);
 </body>
 </html>
 
+
+<!-- PowerFlow V7.3 TopDown Market Reader Card -->
+<section id="pf-topdown-reader-card" class="pf-card" data-brick="topdown_market_reader" data-symbol="ALL" style="border:1px solid rgba(148,163,184,.35); border-radius:14px; padding:14px; margin:12px 0; background:rgba(15,23,42,.04);">
+  <header style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+    <div>
+      <h2 style="margin:0; font-size:18px;">Top-Down Market Reader</h2>
+      <div style="font-size:12px; opacity:.75;">method: TOPDOWN_MARKET_READER_NORMALIZED_V73</div>
+    </div>
+    <div id="pf-topdown-global" style="font-weight:700; padding:4px 10px; border-radius:999px; background:rgba(148,163,184,.18);">LOADING</div>
+  </header>
+  <div id="pf-topdown-timestamp" style="font-size:12px; opacity:.75; margin-top:6px;">timestamp_utc: loading</div>
+  <div id="pf-topdown-symbols" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px; margin-top:12px;"></div>
+  <details style="margin-top:10px;">
+    <summary>Fragilites techniques</summary>
+    <ul id="pf-topdown-issues"></ul>
+  </details>
+</section>
+<script>
+(function(){
+  const url = 'output/dashboard_surface/topdown_reader.json';
+  const root = document.getElementById('pf-topdown-reader-card');
+  const globalEl = document.getElementById('pf-topdown-global');
+  const tsEl = document.getElementById('pf-topdown-timestamp');
+  const symbolsEl = document.getElementById('pf-topdown-symbols');
+  const issuesEl = document.getElementById('pf-topdown-issues');
+  function esc(x){ return String(x ?? '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
+  function badge(v){
+    const val = String(v || 'UNKNOWN');
+    let bg = 'rgba(148,163,184,.18)';
+    if (val.includes('HOT')) bg = 'rgba(239,68,68,.18)';
+    if (val.includes('WATCH')) bg = 'rgba(245,158,11,.18)';
+    if (val.includes('WAIT')) bg = 'rgba(59,130,246,.14)';
+    return `<span style="font-weight:700; padding:3px 8px; border-radius:999px; background:${bg};">${esc(val)}</span>`;
+  }
+  fetch(url + '?t=' + Date.now()).then(r => r.json()).then(data => {
+    globalEl.innerHTML = esc(data.global_window || 'UNKNOWN');
+    tsEl.textContent = 'timestamp_utc: ' + (data.timestamp_utc || 'UNKNOWN');
+    symbolsEl.innerHTML = (data.symbols || []).map(s => `
+      <article data-brick="topdown_symbol" data-symbol="${esc(s.symbol)}" style="border:1px solid rgba(148,163,184,.25); border-radius:12px; padding:10px;">
+        <div style="display:flex; justify-content:space-between; gap:8px; align-items:center;">
+          <strong>${esc(s.symbol)}</strong>${badge(s.window)}
+        </div>
+        <div style="margin-top:8px; font-size:13px;"><b>Flux</b>: ${esc(s.flux)}</div>
+        <div style="font-size:13px;"><b>Zone</b>: ${esc(s.zone)}</div>
+        <div style="font-size:13px;"><b>Driver</b>: ${esc(s.driver)}</div>
+        <div style="font-size:13px;"><b>MTF</b>: ${esc(s.mtf_plan)}</div>
+        <div style="font-size:13px;"><b>LTF</b>: ${esc(s.condition)}</div>
+        <div style="font-size:13px;"><b>Intention machine</b>: ${esc(s.machine_intention)}</div>
+        <div style="font-size:12px; opacity:.8; margin-top:6px;">close_position: ${esc(s.close_position)} | sweep: ${esc(s.ltf_sweep)}</div>
+      </article>
+    `).join('');
+    issuesEl.innerHTML = (data.critical_issues || []).slice(0, 30).map(x => `<li>${esc(x)}</li>`).join('') || '<li>Aucune fragilite critique remontee.</li>';
+  }).catch(err => {
+    globalEl.textContent = 'UNAVAILABLE';
+    symbolsEl.innerHTML = '<div>topdown_reader.json indisponible: ' + esc(err.message) + '</div>';
+  });
+})();
+</script>
+
 </body>
 </html>
 
