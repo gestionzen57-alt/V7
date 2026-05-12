@@ -182,15 +182,20 @@ def check_time_profiles(data: dict[str, Any], issues: list[str]) -> None:
             if not isinstance(row, dict):
                 issues.append(f"BAD_TIMEFRAME_ROW:{name}.{tf}")
                 continue
+            phase = upper(row.get("phase"))
+            bias = upper(row.get("bias"))
+            risks = row.get("technical_risks") or []
+
             add_if_bad(issues, f"time_profiles.{name}.{tf}.phase", row.get("phase"))
-            add_if_bad(issues, f"time_profiles.{name}.{tf}.bias", row.get("bias"))
             add_if_bad(issues, f"time_profiles.{name}.{tf}.important_event", row.get("important_event"))
 
-            # D1 can be thin; it must say so explicitly.
-            if upper(tf) == "D1" and upper(row.get("phase")) == "THIN_DATA":
-                risks = row.get("technical_risks") or []
+            # Thin higher-timeframe data is an explicit data-health state, not a silent dashboard failure.
+            # D1 can legitimately have UNKNOWN bias when phase=THIN_DATA and D1_THIN_ROWS is present.
+            if upper(tf) == "D1" and phase == "THIN_DATA":
                 if "D1_THIN_ROWS" not in risks:
                     issues.append("D1_THIN_DATA_WITHOUT_RISK:D1_THIN_ROWS")
+            else:
+                add_if_bad(issues, f"time_profiles.{name}.{tf}.bias", row.get("bias"))
 
 
 def check_cockpit(data: dict[str, Any], issues: list[str]) -> None:
