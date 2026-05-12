@@ -333,6 +333,35 @@
 }
 </style>
 
+
+<style id="pf75h-quick-nav-autohide-style">
+#pfQuickNav {
+  opacity: 0.42;
+  transform: translateY(8px);
+  transition: opacity .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+#pfQuickNav:hover,
+#pfQuickNav.pf-nav-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#pfQuickNav button {
+  min-width: 58px;
+}
+
+@media (max-width: 1200px) {
+  #pfQuickNav {
+    left: 18px;
+    right: 18px;
+    bottom: 12px;
+    max-width: none;
+    justify-content: center;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -1116,6 +1145,26 @@ function pf75gEnsureQuickNav() {
 setTimeout(pf75gEnsureQuickNav, 300);
 setTimeout(pf75gEnsureQuickNav, 1200);
 setInterval(pf75gEnsureQuickNav, 5000);
+
+
+function pf75hNavActivity() {
+  const nav = document.getElementById("pfQuickNav");
+  if (!nav) return;
+
+  let t = null;
+  const wake = () => {
+    nav.classList.add("pf-nav-active");
+    clearTimeout(t);
+    t = setTimeout(() => nav.classList.remove("pf-nav-active"), 1800);
+  };
+
+  window.addEventListener("mousemove", wake, { passive: true });
+  window.addEventListener("scroll", wake, { passive: true });
+  nav.addEventListener("mouseenter", wake);
+  wake();
+}
+
+setTimeout(pf75hNavActivity, 500);
 
 </script>
 </body>
