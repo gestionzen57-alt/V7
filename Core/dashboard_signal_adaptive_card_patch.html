@@ -1,0 +1,91 @@
+<!-- PowerFlow V7.2.1 — Signal Adaptive Profile Card
+     Reads output/dashboard_surface/signal_adaptive.json
+     Doctrine: M1 is qualified, never censored.
+-->
+<section class="card wide"
+         data-brick="SIGNAL_ADAPTIVE_PROFILE"
+         data-method="M1_HTF_AUTO_ADAPTIVE"
+         data-symbol="MULTI">
+  <div class="card-head">
+    <div>
+      <div class="card-title">Signal Adaptive Profile</div>
+      <div class="method">M1 tactique / HTF thin qualifié</div>
+    </div>
+    <span class="fresh missing" id="signalAdaptiveFresh">MISSING</span>
+  </div>
+  <div id="signalAdaptiveBody">
+    <div class="mini">loading...</div>
+  </div>
+</section>
+
+<script>
+async function loadSignalAdaptiveCard() {
+  const body = document.getElementById("signalAdaptiveBody");
+  const badge = document.getElementById("signalAdaptiveFresh");
+  if (!body || !badge) return;
+
+  function esc(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+
+  function ageSeconds(ts) {
+    if (!ts) return null;
+    const ms = Date.parse(ts);
+    if (Number.isNaN(ms)) return null;
+    return Math.max(0, Math.round((Date.now() - ms) / 1000));
+  }
+
+  function freshClass(age) {
+    if (age === null) return "missing";
+    if (age < 300) return "fresh";
+    if (age < 600) return "aging";
+    return "stale";
+  }
+
+  try {
+    const res = await fetch("output/dashboard_surface/signal_adaptive.json?t=" + Date.now(), {cache: "no-store"});
+    if (!res.ok) throw new Error(res.status + " " + res.statusText);
+    const data = await res.json();
+
+    const age = ageSeconds(data.timestamp_utc);
+    const f = freshClass(age);
+    badge.className = "fresh " + f;
+    badge.textContent = f.toUpperCase() + (age !== null ? " · " + age + "s" : "");
+
+    const symbols = data.symbols || [];
+
+    body.innerHTML = `
+      <div class="metric-grid">
+        <div class="metric">
+          <div class="metric-label">Global mode</div>
+          <div class="metric-value">${esc(data.global_mode || "UNKNOWN")}</div>
+          <div class="mini">M1 qualified, not censored</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Critical issues</div>
+          <div class="metric-value">${esc((data.critical_issues || []).length)}</div>
+          <div class="mini">${esc((data.critical_issues || []).slice(0, 3).join(", ") || "none")}</div>
+        </div>
+      </div>
+
+      <div class="currency-row" style="margin-top:12px;">
+        ${symbols.map(s => `
+          <div class="currency-chip" data-brick="SIGNAL_ADAPTIVE_SYMBOL" data-symbol="${esc(s.symbol)}">
+            <div class="currency-code">${esc(s.symbol)}</div>
+            <div class="currency-label">${esc(s.mode)}</div>
+            <div class="mini">${esc(s.signal_permission)} · conf ${esc(s.context_confidence)}</div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  } catch (err) {
+    badge.className = "fresh missing";
+    badge.textContent = "MISSING";
+    body.innerHTML = `<div class="error">Signal adaptive profile missing: ${esc(err.message)}</div>`;
+  }
+}
+loadSignalAdaptiveCard();
+setInterval(loadSignalAdaptiveCard, 30000);
+</script>
