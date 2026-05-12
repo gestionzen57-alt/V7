@@ -1,407 +1,497 @@
-# -*- coding: utf-8 -*-
-"""PowerFlow V7.2 — Cross-Symbol Validation.
+"""B8 Cross-Symbol Validation — PowerFlow V7.
 
-Mission:
-  - Lire powerflow.db en READ ONLY.
-  - Comparer les forces de devises sur plusieurs symboles sans écrire en DB.
-  - Distinguer force propre d'une devise vs faiblesse dominante d'une devise opposée.
+Purpose
+-------
+Validate whether a currency move observed on one pair is a true global
+currency driver or only the inverse leg of another currency weakness.
 
-Doctrine:
-  - Aucune décision BUY/SELL.
-  - Aucune fusion avec les outputs par symbole.
-  - Output cross-symbol dédié: output/dashboard_surface/cross_validation.json.
+Doctrine
+--------
+This module is a perception engine. It names and qualifies a driver.
+It never emits BUY/SELL instructions and never writes to the database.
 """
+
 from __future__ import annotations
 
 import json
 import math
 import sqlite3
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from statistics import mean
-from typing import Any, Iterable
+from typing import Dict, List, Optional, Sequence, Tuple
 
-DEFAULT_SYMBOLS = ["GBPUSD", "EURUSD", "USDJPY"]
-DEFAULT_CURRENCIES = ["GBP", "EUR", "USD", "JPY", "XAU", "CAD", "CHF", "AUD"]
-MAJOR_3 = {"GBP", "EUR", "USD", "JPY", "CAD", "CHF", "AUD", "NZD", "XAU"}
+try:
+    import numpy as np
+except Exception:  # pragma: no cover - numpy should be available in runtime
+    np = None
 
 
-@dataclass(frozen=True)
-class SymbolEvidence:
+DEFAULT_CROSS_MAP: Dict[str, List[str]] = {
+    "GBP": ["GBPUSD", "GBPEUR", "GBPJPY", "GBPCHF", "GBPCAD", "GBPAUD"],
+    "EUR": ["EURUSD", "EURGBP", "EURJPY", "EURCHF", "EURCAD", "EURAUD"],
+    "USD": ["USDJPY", "USDCHF", "USDCAD", "AUDUSD", "GBPUSD", "EURUSD"],
+    "JPY": ["GBPJPY", "EURJPY", "USDJPY", "CHFJPY", "CADJPY", "AUDJPY"],
+    "CHF": ["GBPCHF", "EURCHF", "USDCHF", "CHFJPY", "CADCHF", "AUDCHF"],
+    "CAD": ["GBPCAD", "EURCAD", "USDCAD", "CADJPY", "CADCHF", "AUDCAD"],
+    "AUD": ["GBPAUD", "EURAUD", "AUDUSD", "AUDJPY", "AUDCHF", "AUDCAD"],
+}
+
+# Classification thresholds are intentionally named and centralized.
+VERY_STRONG_ANGLE = 60.0
+STRONG_ANGLE = 45.0
+NEUTRAL_ANGLE = 20.0
+HIGH_CONSISTENCY = 0.80
+MEDIUM_CONSISTENCY = 0.70
+MINIMUM_USABLE_PAIRS = 2
+
+
+@dataclass
+class CrossValidationMetrics:
+    """Metrics for one validated currency, for example GBP."""
+
     symbol: str
-    base: str
-    quote: str
-    timestamp: str | None
-    rows: int
-    timeframe: int | None
-    base_force: float | None
-    quote_force: float | None
-    pair_diff: float | None
-    currency_forces: dict[str, float]
-    technical_risks: list[str]
+    angles: Dict[str, float]
+    mean_angle: float
+    std_angle: float
+    consistency_score: float
+    global_strength: str
+    confidence: float
 
-    def to_dict(self) -> dict[str, Any]:
-        return {
-            "symbol": self.symbol,
-            "base": self.base,
-            "quote": self.quote,
-            "timestamp": self.timestamp,
-            "rows": self.rows,
-            "timeframe": self.timeframe,
-            "base_force": self.base_force,
-            "quote_force": self.quote_force,
-            "pair_diff": self.pair_diff,
-            "currency_forces": self.currency_forces,
-            "technical_risks": self.technical_risks,
-        }
+
+@dataclass
+class DriverDetection:
+    """Verdict on the real observed driver."""
+
+    primary_driver: str
+    secondary_driver: Optional[str]
+    confidence: float
+    evidence: Dict
+
+
+@dataclass
+class CrossValidationState:
+    """Complete B8 state output."""
+
+    timestamp: str
+    symbol: str
+    timeframe: int
+    metrics: CrossValidationMetrics
+    driver_detection: DriverDetection
+    cross_pair_details: Dict[str, float]
+    alert_triggered: bool
+    alert_type: Optional[str]
+
+
+class CrossValidationError(RuntimeError):
+    """Raised when B8 cannot compute a usable state."""
 
 
 def _utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def _connect_ro(db_path: str | Path) -> sqlite3.Connection:
-    return sqlite3.connect(f"file:{Path(db_path)}?mode=ro", uri=True)
+def _open_readonly(db_path: str) -> sqlite3.Connection:
+    """Open SQLite DB in read-only mode, as required for pf_* modules."""
+
+    path = Path(db_path)
+    if not path.exists():
+        raise CrossValidationError(f"Database not found: {db_path}")
+    return sqlite3.connect(f"file:{path.resolve()}?mode=ro", uri=True)
 
 
-def _tables(conn: sqlite3.Connection) -> set[str]:
-    rows = conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
-    return {str(r[0]) for r in rows}
+def _table_columns(conn: sqlite3.Connection, table_name: str) -> List[str]:
+    rows = conn.execute(f"PRAGMA table_info({table_name})").fetchall()
+    return [str(row[1]) for row in rows]
 
 
-def _columns(conn: sqlite3.Connection, table: str) -> list[str]:
-    return [str(r[1]) for r in conn.execute(f'PRAGMA table_info("{table}")').fetchall()]
-
-
-def _pick_table(conn: sqlite3.Connection) -> str:
-    tables = _tables(conn)
-    for candidate in ("force_snapshots", "force_snapshots_v2"):
-        if candidate in tables:
+def _detect_time_column(columns: Sequence[str]) -> str:
+    for candidate in ("timestamp", "created_at", "time", "datetime"):
+        if candidate in columns:
             return candidate
-    raise RuntimeError("No force_snapshots table found")
-
-
-def _timestamp_column(cols: Iterable[str]) -> str | None:
-    lower = {c.lower(): c for c in cols}
-    for name in ("created_at", "timestamp", "time", "ts", "datetime"):
-        if name in lower:
-            return lower[name]
-    return None
-
-
-def _timeframe_column(cols: Iterable[str]) -> str | None:
-    lower = {c.lower(): c for c in cols}
-    for name in ("timeframe", "tf"):
-        if name in lower:
-            return lower[name]
-    return None
-
-
-def _symbol_column(cols: Iterable[str]) -> str | None:
-    lower = {c.lower(): c for c in cols}
-    return lower.get("symbol")
-
-
-def _force_columns(cols: Iterable[str]) -> dict[str, str]:
-    out: dict[str, str] = {}
-    lower = {c.lower(): c for c in cols}
-    for ccy in DEFAULT_CURRENCIES:
-        force_name = f"force_{ccy.lower()}"
-        raw_name = ccy.lower()
-        if force_name in lower:
-            out[ccy] = lower[force_name]
-        elif raw_name in lower:
-            out[ccy] = lower[raw_name]
-    return out
-
-
-def _parse_symbol(symbol: str) -> tuple[str, str]:
-    s = symbol.strip().upper().replace("/", "").replace("_", "")
-    if len(s) < 6:
-        raise ValueError(f"Invalid symbol: {symbol}")
-    for base_len in (3, 4):
-        base = s[:base_len]
-        quote = s[base_len:]
-        if base in MAJOR_3 and quote in MAJOR_3:
-            return base, quote
-    return s[:3], s[3:6]
-
-
-def _safe_float(value: Any) -> float | None:
-    if value is None:
-        return None
-    try:
-        x = float(value)
-    except Exception:
-        return None
-    if math.isnan(x) or math.isinf(x):
-        return None
-    return x
-
-
-def _mean_non_null(values: list[Any]) -> float | None:
-    xs = [_safe_float(v) for v in values]
-    ys = [x for x in xs if x is not None]
-    return float(mean(ys)) if ys else None
-
-
-def _fetch_symbol_evidence(
-    conn: sqlite3.Connection,
-    table: str,
-    symbol: str,
-    timeframe: int,
-    bars: int,
-) -> SymbolEvidence:
-    cols = _columns(conn, table)
-    sym_col = _symbol_column(cols)
-    tf_col = _timeframe_column(cols)
-    ts_col = _timestamp_column(cols)
-    force_cols = _force_columns(cols)
-    base, quote = _parse_symbol(symbol)
-    risks: list[str] = []
-
-    if sym_col is None:
-        risks.append("SYMBOL_COLUMN_MISSING")
-    if tf_col is None:
-        risks.append("TIMEFRAME_COLUMN_MISSING")
-    if ts_col is None:
-        risks.append("TIMESTAMP_COLUMN_MISSING")
-    if base not in force_cols:
-        risks.append(f"BASE_FORCE_COLUMN_MISSING_{base}")
-    if quote not in force_cols:
-        risks.append(f"QUOTE_FORCE_COLUMN_MISSING_{quote}")
-
-    select_cols = []
-    if ts_col:
-        select_cols.append(f'"{ts_col}"')
-    for col in force_cols.values():
-        select_cols.append(f'"{col}"')
-    if not select_cols:
-        return SymbolEvidence(symbol, base, quote, None, 0, timeframe, None, None, None, {}, risks)
-
-    where = []
-    params: list[Any] = []
-    if sym_col:
-        where.append(f'UPPER("{sym_col}") = ?')
-        params.append(symbol.upper())
-    if tf_col:
-        where.append(f'"{tf_col}" = ?')
-        params.append(timeframe)
-    where_sql = " WHERE " + " AND ".join(where) if where else ""
-    order_sql = f' ORDER BY "{ts_col}" DESC' if ts_col else ""
-    sql = f'SELECT {", ".join(select_cols)} FROM "{table}"{where_sql}{order_sql} LIMIT ?'
-    params.append(int(bars))
-
-    try:
-        rows = conn.execute(sql, params).fetchall()
-    except Exception as exc:
-        risks.append(f"SQL_ERROR_{type(exc).__name__}")
-        return SymbolEvidence(symbol, base, quote, None, 0, timeframe, None, None, None, {}, risks)
-
-    if not rows:
-        risks.append("NO_ROWS_FOR_SYMBOL_TIMEFRAME")
-        return SymbolEvidence(symbol, base, quote, None, 0, timeframe, None, None, None, {}, risks)
-
-    # Rows are DESC by timestamp. The first row is latest.
-    latest_timestamp = str(rows[0][0]) if ts_col else None
-    offset = 1 if ts_col else 0
-    col_order = list(force_cols.items())
-    currency_forces: dict[str, float] = {}
-    for idx, (ccy, _col_name) in enumerate(col_order):
-        values = [r[offset + idx] for r in rows]
-        avg = _mean_non_null(values)
-        if avg is not None:
-            currency_forces[ccy] = round(avg, 6)
-
-    base_force = currency_forces.get(base)
-    quote_force = currency_forces.get(quote)
-    pair_diff = None
-    if base_force is not None and quote_force is not None:
-        pair_diff = round(base_force - quote_force, 6)
-    else:
-        risks.append("PAIR_DIFF_UNAVAILABLE")
-
-    return SymbolEvidence(
-        symbol=symbol.upper(),
-        base=base,
-        quote=quote,
-        timestamp=latest_timestamp,
-        rows=len(rows),
-        timeframe=timeframe,
-        base_force=base_force,
-        quote_force=quote_force,
-        pair_diff=pair_diff,
-        currency_forces=currency_forces,
-        technical_risks=risks,
+    raise CrossValidationError(
+        "force_snapshots requires a timestamp-like column: timestamp or created_at"
     )
 
 
-def _label_strength(score: float | None, evidence_count: int) -> str:
-    if score is None or evidence_count <= 0:
-        return "UNKNOWN"
-    if score >= 0.40:
-        return "STRONG"
-    if score >= 0.12:
-        return "MODERATE"
-    if score <= -0.12:
-        return "WEAK"
-    return "UNKNOWN"
+def _value_at(row: sqlite3.Row, column_names: Sequence[str], fallback: float = 0.0) -> float:
+    for column in column_names:
+        if column in row.keys() and row[column] is not None:
+            try:
+                value = float(row[column])
+                if math.isfinite(value):
+                    return value
+            except (TypeError, ValueError):
+                continue
+    return fallback
 
 
-def _normalize_net_scores(raw_scores: dict[str, float]) -> dict[str, float]:
-    if not raw_scores:
-        return {}
-    max_abs = max(abs(v) for v in raw_scores.values()) or 1.0
-    if max_abs < 1e-9:
-        return {k: 0.0 for k in raw_scores}
-    return {k: round(v / max_abs, 6) for k, v in raw_scores.items()}
+def _signed_angle_for_pair(base_symbol: str, pair: str, raw_angle: float) -> float:
+    """Normalize pair angle so positive means base_symbol strength.
 
-
-def _driver_detection(
-    labels: dict[str, str],
-    normalized: dict[str, float],
-    sign_evidence: dict[str, list[float]],
-    symbols: list[str],
-) -> tuple[str, float, list[str]]:
-    risks: list[str] = []
-
-    usd_values = sign_evidence.get("USD", [])
-    gbp_values = sign_evidence.get("GBP", [])
-    eur_values = sign_evidence.get("EUR", [])
-    jpy_values = sign_evidence.get("JPY", [])
-
-    def mostly_negative(vals: list[float], minimum: int = 2) -> bool:
-        return len(vals) >= minimum and sum(1 for x in vals if x < 0) >= minimum
-
-    def mostly_positive(vals: list[float], minimum: int = 2) -> bool:
-        return len(vals) >= minimum and sum(1 for x in vals if x > 0) >= minimum
-
-    if labels.get("USD") == "WEAK" and mostly_negative(usd_values, 2):
-        return "USD_WEAKNESS_DOMINANT", 0.82, risks
-
-    if labels.get("GBP") in {"STRONG", "MODERATE"} and mostly_positive(gbp_values, 2):
-        return "GBP_STRENGTH_GENUINE", 0.78, risks
-
-    # EUR divergence: EURUSD positive while EUR is not broadly strong or GBP dominates EUR.
-    eurusd_present = "EURUSD" in symbols
-    eur_score = normalized.get("EUR")
-    gbp_score = normalized.get("GBP")
-    if eurusd_present and eur_score is not None and gbp_score is not None:
-        if eur_score > 0.10 and gbp_score > eur_score + 0.15:
-            risks.append("EUR_DIVERGENCE_INFERRED_WITHOUT_EURGBP_DIRECT_CROSS")
-            return "EUR_DIVERGENT", 0.64, risks
-
-    if labels.get("JPY") in {"STRONG", "MODERATE"} and mostly_positive(jpy_values, 2):
-        return "JPY_SAFE_HAVEN", 0.74, risks
-
-    if len(symbols) < 3:
-        risks.append("CROSS_COVERAGE_THIN_DRIVER_MIXED")
-    return "MIXED", 0.50, risks
-
-
-class CrossSymbolValidator:
-    """Cross-symbol force validator for PowerFlow.
-
-    Public API:
-        CrossSymbolValidator().compute("powerflow.db", ["GBPUSD", "EURUSD", "USDJPY"])
+    If validating USD and the available pair is GBPUSD, a positive pair angle
+    expresses GBP vs USD, therefore USD strength is the inverse.
     """
 
-    def __init__(self, timeframe: int = 1, bars: int = 60) -> None:
-        self.timeframe = int(timeframe)
-        self.bars = int(bars)
+    symbol = base_symbol.upper()
+    pair = pair.upper()
+    if pair.startswith(symbol):
+        return raw_angle
+    if pair.endswith(symbol):
+        return -raw_angle
+    return raw_angle
 
-    def compute(self, db_path: str | Path, symbols: list[str] | None = None) -> dict[str, Any]:
-        symbols = [s.strip().upper() for s in (symbols or DEFAULT_SYMBOLS) if s.strip()]
-        technical_risks: list[str] = []
-        evidence: list[SymbolEvidence] = []
 
-        try:
-            with _connect_ro(db_path) as conn:
-                table = _pick_table(conn)
-                for sym in symbols:
-                    evidence.append(_fetch_symbol_evidence(conn, table, sym, self.timeframe, self.bars))
-        except Exception as exc:
-            technical_risks.append(f"DB_READ_ERROR_{type(exc).__name__}")
-            table = None
+def _fallback_angle_from_prices(rows: Sequence[sqlite3.Row]) -> Optional[float]:
+    """Estimate an angle from close/open when B3 angle columns are absent.
 
-        used = [e.symbol for e in evidence if e.rows > 0 and e.pair_diff is not None]
-        if len(used) < 2:
-            technical_risks.append("INSUFFICIENT_SYMBOLS_USED_FOR_CROSS_VALIDATION")
+    This is a graceful fallback for tests or older DB snapshots. Production B8
+    should preferably consume B3 angle columns if present.
+    """
 
-        raw_net: dict[str, float] = {}
-        evidence_count: dict[str, int] = {}
-        sign_evidence: dict[str, list[float]] = {}
+    if len(rows) < 2:
+        return None
+    first = rows[-1]
+    last = rows[0]
+    keys = set(last.keys())
+    close_col = "close" if "close" in keys else None
+    open_col = "open" if "open" in keys else None
+    if close_col is None and open_col is None:
+        return None
+    try:
+        start = float(first[close_col or open_col])
+        end = float(last[close_col or open_col])
+    except (TypeError, ValueError):
+        return None
+    if start == 0:
+        return None
+    pct_change = (end - start) / abs(start)
+    # Scale percentage change into a bounded perceptive angle.
+    return max(-89.0, min(89.0, math.degrees(math.atan(pct_change * 1000.0))))
 
-        for e in evidence:
-            technical_risks.extend(e.technical_risks)
-            if e.pair_diff is None:
+
+def extract_angles_for_symbol(
+    symbol: str,
+    db_path: str,
+    timeframe: int,
+    window: int = 20,
+    cross_map: Optional[Dict[str, List[str]]] = None,
+) -> Dict[str, float]:
+    """Read latest B3-like angles for all available crosses of a currency.
+
+    The function first looks for angle columns produced by the kinematics layer.
+    Supported column names include angle_kalman, angle, force_angle,
+    slope_angle, and kalman_angle. When no angle column exists, it estimates a
+    fallback angle from price movement if OHLC fields are present.
+    """
+
+    symbol = symbol.upper()
+    pairs = (cross_map or DEFAULT_CROSS_MAP).get(symbol)
+    if not pairs:
+        raise CrossValidationError(f"No cross-pair map configured for symbol {symbol}")
+
+    conn = _open_readonly(db_path)
+    conn.row_factory = sqlite3.Row
+    try:
+        columns = _table_columns(conn, "force_snapshots")
+        if not columns:
+            raise CrossValidationError("Table force_snapshots not found or has no columns")
+        time_column = _detect_time_column(columns)
+        placeholders = ",".join("?" for _ in pairs)
+        query = (
+            f"SELECT * FROM force_snapshots "
+            f"WHERE symbol IN ({placeholders}) AND timeframe = ? "
+            f"ORDER BY {time_column} DESC"
+        )
+        rows = conn.execute(query, [*pairs, timeframe]).fetchall()
+    finally:
+        conn.close()
+
+    by_pair: Dict[str, List[sqlite3.Row]] = {pair: [] for pair in pairs}
+    for row in rows:
+        pair = str(row["symbol"]).upper()
+        if pair in by_pair and len(by_pair[pair]) < window:
+            by_pair[pair].append(row)
+
+    angle_columns = (
+        "angle_kalman",
+        "kalman_angle",
+        "angle",
+        "force_angle",
+        "slope_angle",
+        "angle_deg",
+        "angle_degrees",
+    )
+
+    angles: Dict[str, float] = {}
+    for pair, pair_rows in by_pair.items():
+        if not pair_rows:
+            continue
+        latest = pair_rows[0]
+        if any(col in latest.keys() for col in angle_columns):
+            raw = _value_at(latest, angle_columns)
+        else:
+            fallback = _fallback_angle_from_prices(pair_rows)
+            if fallback is None:
                 continue
-            # Pair decomposition: base receives +diff, quote receives -diff.
-            raw_net[e.base] = raw_net.get(e.base, 0.0) + e.pair_diff
-            raw_net[e.quote] = raw_net.get(e.quote, 0.0) - e.pair_diff
-            evidence_count[e.base] = evidence_count.get(e.base, 0) + 1
-            evidence_count[e.quote] = evidence_count.get(e.quote, 0) + 1
-            sign_evidence.setdefault(e.base, []).append(e.pair_diff)
-            sign_evidence.setdefault(e.quote, []).append(-e.pair_diff)
+            raw = fallback
+        angles[pair] = round(_signed_angle_for_pair(symbol, pair, raw), 4)
 
-        normalized = _normalize_net_scores(raw_net)
-        labels = {
-            c: _label_strength(normalized.get(c), evidence_count.get(c, 0))
-            for c in ("GBP", "USD", "EUR", "JPY")
+    if len(angles) < MINIMUM_USABLE_PAIRS:
+        raise CrossValidationError(
+            f"Not enough usable cross pairs for {symbol}: {len(angles)} found, "
+            f"minimum {MINIMUM_USABLE_PAIRS} required"
+        )
+    return angles
+
+
+def calculate_consistency_score(angles: Dict[str, float]) -> float:
+    """Return 0-1 score measuring whether all normalized angles cohere."""
+
+    values = [float(v) for v in angles.values() if math.isfinite(float(v))]
+    if not values:
+        return 0.0
+    if len(values) == 1:
+        return 1.0
+    if np is not None:
+        mean_abs = float(np.mean(np.abs(values)))
+        std = float(np.std(values))
+    else:  # pragma: no cover
+        mean_abs = sum(abs(v) for v in values) / len(values)
+        mean = sum(values) / len(values)
+        std = math.sqrt(sum((v - mean) ** 2 for v in values) / len(values))
+    if mean_abs < 1e-9:
+        return 1.0 if std < 1e-9 else 0.0
+    score = 1.0 - (std / mean_abs)
+    return round(max(0.0, min(1.0, score)), 4)
+
+
+def classify_global_strength(mean_angle: float, consistency_score: float) -> str:
+    """Classify global currency strength from mean angle and coherence."""
+
+    if mean_angle > VERY_STRONG_ANGLE and consistency_score > HIGH_CONSISTENCY:
+        return "VERY_STRONG"
+    if mean_angle > STRONG_ANGLE and consistency_score > MEDIUM_CONSISTENCY:
+        return "STRONG"
+    if abs(mean_angle) < NEUTRAL_ANGLE and consistency_score > 0.60:
+        return "NEUTRAL"
+    if mean_angle < -VERY_STRONG_ANGLE and consistency_score > HIGH_CONSISTENCY:
+        return "VERY_WEAK"
+    if mean_angle < -STRONG_ANGLE and consistency_score > MEDIUM_CONSISTENCY:
+        return "WEAK"
+    return "MIXED_SIGNAL"
+
+
+def _driver_from_global_strength(symbol: str, global_strength: str) -> str:
+    if global_strength in {"VERY_STRONG", "STRONG"}:
+        return f"{symbol}_STRENGTH"
+    if global_strength in {"VERY_WEAK", "WEAK"}:
+        return f"{symbol}_WEAKNESS"
+    return "MIXED"
+
+
+def _detect_counter_currency_outlier(symbol: str, angles: Dict[str, float]) -> Tuple[Optional[str], Dict]:
+    """Detect cases like GBPUSD high while other GBP crosses are weak.
+
+    Returns a likely counter-currency driver such as USD_WEAKNESS when a single
+    counter currency explains the outlier better than global base strength.
+    """
+
+    evidence: Dict[str, object] = {}
+    if len(angles) < 3:
+        return None, {"outlier_check": "insufficient_pairs"}
+
+    values = list(angles.values())
+    median = sorted(values)[len(values) // 2]
+    best_pair: Optional[str] = None
+    best_gap = 0.0
+    for pair, angle in angles.items():
+        gap = angle - median
+        if gap > best_gap:
+            best_gap = gap
+            best_pair = pair
+
+    if not best_pair:
+        return None, {"outlier_check": "none"}
+
+    other_angles = [angle for pair, angle in angles.items() if pair != best_pair]
+    other_mean = sum(other_angles) / len(other_angles)
+    outlier_angle = angles[best_pair]
+
+    evidence.update(
+        {
+            "outlier_pair": best_pair,
+            "outlier_angle": round(outlier_angle, 4),
+            "other_pairs_mean_angle": round(other_mean, 4),
+            "outlier_gap_vs_other_mean": round(outlier_angle - other_mean, 4),
         }
+    )
 
-        # Coverage risks: these do not block output; they qualify perception.
-        if evidence_count.get("GBP", 0) < 2:
-            technical_risks.append("GBP_TRUE_STRENGTH_REQUIRES_MORE_GBP_CROSSES")
-        if evidence_count.get("EUR", 0) < 2:
-            technical_risks.append("EUR_TRUE_STRENGTH_REQUIRES_MORE_EUR_CROSSES")
-        if evidence_count.get("JPY", 0) < 2:
-            technical_risks.append("JPY_TRUE_STRENGTH_REQUIRES_MORE_JPY_CROSSES")
-        if evidence_count.get("USD", 0) < 2:
-            technical_risks.append("USD_COVERAGE_THIN")
+    # If validating GBP and GBPUSD is strongly positive while the rest of GBP
+    # crosses are flat/negative, the clean perceptive label is USD_WEAKNESS.
+    if outlier_angle >= STRONG_ANGLE and other_mean < NEUTRAL_ANGLE:
+        if best_pair.startswith(symbol):
+            counter = best_pair[len(symbol) :]
+            evidence["reasoning"] = f"{best_pair} outlier: {symbol} strong mainly versus {counter}"
+            return f"{counter}_WEAKNESS", evidence
+        if best_pair.endswith(symbol):
+            counter = best_pair[: -len(symbol)]
+            evidence["reasoning"] = f"{best_pair} outlier: {symbol} move mostly reflects {counter} strength"
+            return f"{counter}_STRENGTH", evidence
 
-        driver, driver_confidence, driver_risks = _driver_detection(labels, normalized, sign_evidence, used)
-        technical_risks.extend(driver_risks)
-
-        confidence = min(1.0, round(driver_confidence * (0.65 + 0.10 * min(len(used), 3)), 3))
-        technical_risks = sorted(set(r for r in technical_risks if r))
-
-        output = {
-            "cross_validation": {
-                "gbp_true_strength": labels.get("GBP", "UNKNOWN"),
-                "usd_true_strength": labels.get("USD", "UNKNOWN"),
-                "eur_true_strength": labels.get("EUR", "UNKNOWN"),
-                "jpy_true_strength": labels.get("JPY", "UNKNOWN"),
-                "driver": driver,
-                "confidence": confidence,
-                "symbols_used": used,
-                "technical_risks": technical_risks,
-                "timestamp": _utc_now(),
-                "method": "CROSS_SYMBOL_PAIR_DIFF_V1",
-                "timeframe": self.timeframe,
-                "bars": self.bars,
-                "net_strength": {
-                    c: {
-                        "score": normalized.get(c),
-                        "raw_score": round(raw_net.get(c, 0.0), 6),
-                        "label": _label_strength(normalized.get(c), evidence_count.get(c, 0)),
-                        "evidence_count": evidence_count.get(c, 0),
-                    }
-                    for c in sorted(set(list(raw_net.keys()) + ["GBP", "USD", "EUR", "JPY"]))
-                },
-                "symbol_evidence": [e.to_dict() for e in evidence],
-                "db_table": table,
-            }
-        }
-        return output
+    return None, evidence
 
 
-def compute(db_path: str | Path, symbols: list[str] | None = None) -> dict[str, Any]:
-    return CrossSymbolValidator().compute(db_path, symbols or DEFAULT_SYMBOLS)
+def detect_driver(symbol: str, angles: Dict[str, float], consistency_score: float) -> DriverDetection:
+    """Detect the most plausible driver without turning it into an order."""
+
+    symbol = symbol.upper()
+    values = [float(v) for v in angles.values()]
+    mean_angle = sum(values) / len(values) if values else 0.0
+    global_strength = classify_global_strength(mean_angle, consistency_score)
+
+    evidence: Dict[str, object] = {
+        "angles": angles,
+        "mean_angle": round(mean_angle, 4),
+        "consistency_score": round(consistency_score, 4),
+        "global_strength": global_strength,
+        "all_pairs_positive": all(v > 0 for v in values),
+        "all_pairs_negative": all(v < 0 for v in values),
+        "method": "B8_cross_symbol_validation",
+    }
+
+    if global_strength in {"VERY_STRONG", "STRONG", "VERY_WEAK", "WEAK"}:
+        driver = _driver_from_global_strength(symbol, global_strength)
+        confidence = min(1.0, max(0.0, 0.55 + 0.45 * consistency_score))
+        evidence["reasoning"] = f"{symbol} coherent across crosses; global_strength={global_strength}"
+        return DriverDetection(driver, None, round(confidence, 4), evidence)
+
+    outlier_driver, outlier_evidence = _detect_counter_currency_outlier(symbol, angles)
+    evidence.update(outlier_evidence)
+    if outlier_driver:
+        # Outlier cases are useful but less robust than coherent global strength.
+        dispersion_confidence = max(0.0, min(1.0, 1.0 - consistency_score))
+        confidence = max(0.55, min(0.9, 0.50 + 0.40 * dispersion_confidence))
+        return DriverDetection(outlier_driver, f"{symbol}_NOT_CONFIRMED", round(confidence, 4), evidence)
+
+    evidence["reasoning"] = "Cross-pair angles are dispersed; no clean driver named."
+    confidence = max(0.0, min(0.65, 1.0 - consistency_score))
+    return DriverDetection("MIXED", None, round(confidence, 4), evidence)
 
 
-def write_cross_validation_state(state: dict[str, Any], out_path: str | Path, pretty: bool = True) -> None:
-    out = Path(out_path)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(state, ensure_ascii=False, indent=2 if pretty else None) + "\n", encoding="utf-8")
+def _confidence_from_metrics(mean_angle: float, consistency_score: float) -> float:
+    magnitude_score = min(1.0, abs(mean_angle) / 75.0)
+    return round(max(0.0, min(1.0, 0.35 * magnitude_score + 0.65 * consistency_score)), 4)
+
+
+def validate_cross_symbol(
+    symbol: str,
+    db_path: str,
+    timeframe: int,
+    window: int = 20,
+    cross_map: Optional[Dict[str, List[str]]] = None,
+) -> CrossValidationState:
+    """Full B8 pipeline: extract angles, compute metrics, detect driver."""
+
+    symbol = symbol.upper()
+    angles = extract_angles_for_symbol(symbol, db_path, timeframe, window, cross_map)
+    values = [float(v) for v in angles.values()]
+    mean_angle = float(np.mean(values)) if np is not None else sum(values) / len(values)
+    std_angle = float(np.std(values)) if np is not None else math.sqrt(
+        sum((v - mean_angle) ** 2 for v in values) / len(values)
+    )
+    consistency_score = calculate_consistency_score(angles)
+    global_strength = classify_global_strength(mean_angle, consistency_score)
+    confidence = _confidence_from_metrics(mean_angle, consistency_score)
+
+    metrics = CrossValidationMetrics(
+        symbol=symbol,
+        angles=angles,
+        mean_angle=round(mean_angle, 4),
+        std_angle=round(std_angle, 4),
+        consistency_score=consistency_score,
+        global_strength=global_strength,
+        confidence=confidence,
+    )
+    driver_detection = detect_driver(symbol, angles, consistency_score)
+
+    state = CrossValidationState(
+        timestamp=_utc_now(),
+        symbol=symbol,
+        timeframe=timeframe,
+        metrics=metrics,
+        driver_detection=driver_detection,
+        cross_pair_details=angles,
+        alert_triggered=False,
+        alert_type=None,
+    )
+
+    alert = trigger_alert_if_needed(state)
+    if alert:
+        state.alert_triggered = True
+        state.alert_type = alert.get("b8_alert_type")
+    return state
+
+
+def trigger_alert_if_needed(state: CrossValidationState) -> Optional[Dict]:
+    """Return a perception alert when B8 has a useful named driver."""
+
+    metrics = state.metrics
+    driver = state.driver_detection
+
+    alert_type: Optional[str] = None
+    level = "INFO"
+    if (
+        driver.primary_driver.endswith("_STRENGTH")
+        or driver.primary_driver.endswith("_WEAKNESS")
+    ) and driver.confidence >= 0.80:
+        alert_type = "DRIVER_CONFIRMED"
+    elif driver.primary_driver != "MIXED" and driver.secondary_driver:
+        alert_type = "DRIVER_CONTRADICTION"
+    elif metrics.consistency_score < 0.50:
+        alert_type = "MIXED_SIGNAL"
+        level = "WATCH"
+
+    if alert_type is None:
+        return None
+
+    readable = {
+        "DRIVER_CONFIRMED": f"Driver confirmed: {driver.primary_driver}",
+        "DRIVER_CONTRADICTION": f"Driver contradiction/context: {driver.primary_driver}",
+        "MIXED_SIGNAL": "Mixed cross-symbol signal: no clean global driver",
+    }[alert_type]
+
+    return {
+        "alert_type": "DRIVER_DETECTION_CONFIRMED" if alert_type == "DRIVER_CONFIRMED" else alert_type,
+        "b8_alert_type": alert_type,
+        "level": level,
+        "maturity": "CONFIRMED" if alert_type != "MIXED_SIGNAL" else "CANDIDATE",
+        "timestamp": state.timestamp,
+        "symbol": state.symbol,
+        "timeframe": state.timeframe,
+        "message": readable,
+        "driver": driver.primary_driver,
+        "confidence": driver.confidence,
+        "cross_validation_context": {
+            "mean_angle": metrics.mean_angle,
+            "std_angle": metrics.std_angle,
+            "consistency_score": metrics.consistency_score,
+            "global_strength": metrics.global_strength,
+            "angles_by_pair": state.cross_pair_details,
+            "evidence": driver.evidence,
+        },
+        "technical_risks": [],
+        "note": "Perception context only. Trader filters and decides.",
+    }
+
+
+def state_to_dict(state: CrossValidationState) -> Dict:
+    """Convert dataclass state to plain dict."""
+
+    return asdict(state)
+
+
+def state_to_json(state: CrossValidationState, pretty: bool = False) -> str:
+    """Serialize state to JSON."""
+
+    return json.dumps(state_to_dict(state), indent=2 if pretty else None, ensure_ascii=False)

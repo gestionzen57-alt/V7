@@ -1,0 +1,100 @@
+<!-- B8 Cross-Symbol Validation card — paste into dashboard_live_v7.2.html -->
+<div class="card cross-validation-card" data-brick="B8_CROSS_SYMBOL_VALIDATION" data-freshness="MISSING">
+  <h3>Cross-Symbol Validation (B8)</h3>
+
+  <div class="metrics">
+    <div class="metric">
+      <label>Symbol</label>
+      <span class="value" data-b8="symbol">--</span>
+    </div>
+    <div class="metric">
+      <label>Mean Angle</label>
+      <span class="value" data-b8="mean_angle">--</span>
+    </div>
+    <div class="metric">
+      <label>Consistency</label>
+      <span class="value" data-b8="consistency_score">--</span>
+      <span class="interpretation" data-b8="consistency_label">--</span>
+    </div>
+    <div class="metric">
+      <label>Global Strength</label>
+      <span class="value" data-b8="global_strength">--</span>
+    </div>
+  </div>
+
+  <div class="driver-detection">
+    <h4>Driver Detection</h4>
+    <div class="verdict">
+      <span class="driver" data-b8="primary_driver">--</span>
+      <span class="confidence" data-b8="driver_confidence">--</span>
+    </div>
+    <div class="evidence" data-b8="evidence_reasoning">No B8 state loaded.</div>
+  </div>
+
+  <div class="pair-details">
+    <h4>Cross-Pair Angles</h4>
+    <table data-b8="pair_table">
+      <thead>
+        <tr>
+          <th>Pair</th>
+          <th>Angle</th>
+          <th>Perception</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="alerts" data-b8="alert_box"></div>
+</div>
+
+<script>
+function b8StrengthLabel(angle) {
+  if (angle >= 60) return 'VERY_STRONG';
+  if (angle >= 45) return 'STRONG';
+  if (angle <= -60) return 'VERY_WEAK';
+  if (angle <= -45) return 'WEAK';
+  if (Math.abs(angle) < 20) return 'NEUTRAL';
+  return 'MIXED';
+}
+
+function updateB8CrossValidationCard(state) {
+  if (!state || !state.metrics || !state.driver_detection) return;
+  const root = document.querySelector('[data-brick="B8_CROSS_SYMBOL_VALIDATION"]');
+  if (!root) return;
+  root.dataset.freshness = 'LIVE';
+  root.dataset.timestamp = state.timestamp || '';
+
+  const metrics = state.metrics;
+  const driver = state.driver_detection;
+  root.querySelector('[data-b8="symbol"]').textContent = state.symbol || metrics.symbol || '--';
+  root.querySelector('[data-b8="mean_angle"]').textContent = `${Number(metrics.mean_angle || 0).toFixed(1)}°`;
+  root.querySelector('[data-b8="consistency_score"]').textContent = `${Math.round(Number(metrics.consistency_score || 0) * 100)}%`;
+  root.querySelector('[data-b8="consistency_label"]').textContent = Number(metrics.consistency_score || 0) >= 0.8 ? 'STRONG_COHERENCE' : 'DISPERSED';
+  root.querySelector('[data-b8="global_strength"]').textContent = metrics.global_strength || '--';
+  root.querySelector('[data-b8="primary_driver"]').textContent = driver.primary_driver || '--';
+  root.querySelector('[data-b8="driver_confidence"]').textContent = `${Math.round(Number(driver.confidence || 0) * 100)}%`;
+  root.querySelector('[data-b8="evidence_reasoning"]').textContent = (driver.evidence && driver.evidence.reasoning) || 'Evidence available in drill-down JSON.';
+
+  const tbody = root.querySelector('[data-b8="pair_table"] tbody');
+  tbody.innerHTML = '';
+  const pairs = state.cross_pair_details || metrics.angles || {};
+  Object.keys(pairs).sort().forEach((pair) => {
+    const angle = Number(pairs[pair]);
+    const tr = document.createElement('tr');
+    tr.dataset.pair = pair;
+    tr.innerHTML = `<td>${pair}</td><td class="value">${angle.toFixed(1)}°</td><td>${b8StrengthLabel(angle)}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  const alertBox = root.querySelector('[data-b8="alert_box"]');
+  alertBox.innerHTML = '';
+  if (state.alert_triggered) {
+    const div = document.createElement('div');
+    div.className = `alert INFO`;
+    div.dataset.alertType = state.alert_type || 'B8_ALERT';
+    div.textContent = `Driver context: ${driver.primary_driver || 'UNKNOWN'} (${Math.round(Number(driver.confidence || 0) * 100)}%)`;
+    alertBox.appendChild(div);
+  }
+}
+</script>
