@@ -224,6 +224,36 @@
       header { position: relative; }
     }
   </style>
+
+<style id="pf75c-session-compact-style">
+.session-memory-card details {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 14px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(15, 23, 42, 0.35);
+}
+.session-memory-card summary {
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: .05em;
+  color: #dbeafe;
+}
+.session-memory-card .mini-note {
+  color: #94a3b8;
+  font-size: 12px;
+  margin-left: 8px;
+}
+.session-memory-card table {
+  margin-top: 10px;
+}
+.session-memory-card .review-line {
+  margin-top: 8px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+</style>
+
 </head>
 
 <body>
@@ -253,7 +283,7 @@
   <div class="footer">
     PowerFlow lit le flux. Le trader filtre, arbitre et agit.
   </div>
-  <section class="card wide" id="sessionMemory"></section>
+  <section class="card wide session-memory-card" id="sessionMemory"></section>
 </main>
 
 <script>
@@ -751,8 +781,10 @@ function pf75ProfileMemory(name, mem) {
   const events = pf75Events(mem);
   const total = pf75Find(mem, ["events_total"]) ?? events.length;
   const updated = pf75Find(mem, ["updated_utc", "timestamp_utc", "last_update_utc"]) || "";
+  const visible = events.slice(0, 3);
+  const hidden = events.length > 3 ? events.slice(3) : [];
 
-  const rows = events.map(e => {
+  function row(e) {
     const ts = e.timestamp_broker || e.timestamp_local_reference || e.timestamp_utc || "";
     const tf = e.timeframe || "";
     const event = e.event_type || e.important_event || "";
@@ -772,11 +804,18 @@ function pf75ProfileMemory(name, mem) {
         <td class="muted">${pf75Esc(phrase)}</td>
       </tr>
     `;
-  }).join("");
+  }
+
+  const visibleRows = visible.map(row).join("");
+  const hiddenRows = hidden.map(row).join("");
 
   return `
-    <div class="profile-memory" style="margin-top:14px">
-      <h3>${pf75Esc(name)} Session Memory <span class="muted">events=${pf75Esc(total)} updated=${pf75Esc(updated)}</span></h3>
+    <details class="profile-memory" ${name === "LTF" ? "open" : ""}>
+      <summary>
+        ${pf75Esc(name)} Session Memory
+        <span class="mini-note">events=${pf75Esc(total)} · updated=${pf75Esc(updated)} · visible=${visible.length}/${events.length}</span>
+      </summary>
+
       <table>
         <thead>
           <tr>
@@ -790,11 +829,15 @@ function pf75ProfileMemory(name, mem) {
           </tr>
         </thead>
         <tbody>
-          ${rows || `<tr><td colspan="7" class="muted">Aucun moment marquant en mémoire.</td></tr>`}
+          ${visibleRows || `<tr><td colspan="7" class="muted">Aucun moment marquant en mémoire.</td></tr>`}
+          ${hiddenRows ? `<tr><td colspan="7" class="muted">— événements plus anciens —</td></tr>${hiddenRows}` : ""}
         </tbody>
       </table>
-      ${pf75ReviewBlock(mem)}
-    </div>
+
+      <div class="review-line">
+        Revue trader prête : Ce que j'ai vu · Ce que j'ai ressenti · Ce que PowerFlow a vu avant moi · Ce que PowerFlow a raté · Leçon
+      </div>
+    </details>
   `;
 }
 
