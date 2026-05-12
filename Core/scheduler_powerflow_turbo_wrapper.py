@@ -1,80 +1,228 @@
 #!/usr/bin/env python3
 """
-PowerFlow V7.2.1 — Turbo cycle wrapper.
+PowerFlow V7.3 turbo scheduler wrapper.
 
-Runs:
-1. scheduler_powerflow.py --once
-2. data health monitor
-3. flow ontology cycle
-4. signal adaptive profiles
-5. signal adaptive normalizer
+Purpose:
+- Run the existing multi-symbol PowerFlow scheduler once.
+- Then refresh the auxiliary surface layers:
+  data health, ontology, signal adaptive, price schema, topdown reader.
 
-This wrapper does not replace the existing scheduler unless you explicitly point
-Windows Task Scheduler to it.
+Doctrine:
+- Read-only analytical layers after the scheduler core.
+- No trade decision, no BUY/SELL output.
+- M1 is qualified, never censored.
+- V7.3 topdown stack: HTF_CONTEXT -> MTF_DAY_PLAN -> LTF_EXECUTION_CONDITIONS.
 """
 
 from __future__ import annotations
 
 import argparse
-import json
 import subprocess
 import sys
+import time
+from dataclasses import dataclass
 from pathlib import Path
-from typing import List
+from typing import Iterable, List, Sequence
 
 
-def load_symbols(default: str) -> str:
-    cfg = Path("scheduler_config.json")
-    if not cfg.exists():
-        return default
-    try:
-        data = json.loads(cfg.read_text(encoding="utf-8"))
-        symbols = data.get("symbols")
-        if isinstance(symbols, list) and symbols:
-            return ",".join(str(s).upper() for s in symbols)
-    except Exception:
-        pass
-    return default
+TAIL_LIMIT = 12000
 
 
-def run(cmd: List[str]) -> int:
-    print(">", " ".join(cmd), flush=True)
-    proc = subprocess.run(cmd, text=True)
-    return int(proc.returncode)
+@dataclass
+class StepResult:
+    label: str
+    returncode: int
+    elapsed_seconds: float
+    stdout: str
+    stderr: str
+
+    @property
+    def ok(self) -> bool:
+        return self.returncode == 0
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Run PowerFlow turbo scheduler cycle.")
-    parser.add_argument("--symbols", default=None)
-    parser.add_argument("--db", default="powerflow.db")
-    parser.add_argument("--skip-scheduler", action="store_true")
-    parser.add_argument("--pretty", action="store_true")
-    args = parser.parse_args()
+def _now_seconds() -> float:
+    return time.perf_counter()
 
-    symbols = args.symbols or load_symbols("GBPUSD,EURUSD,USDJPY")
 
-    steps: List[List[str]] = []
+def _emit_tail(label: str, stream_name: str, text: str, limit: int = TAIL_LIMIT) -> None:
+    if not text:
+        return
+    clean = text.strip()
+    if not clean:
+        return
+    if len(clean) > limit:
+        clean = "[...TRUNCATED_TO_TAIL...]\n" + clean[-limit:]
+    print(f"{stream_name} {label}: {clean}")
 
-    if not args.skip_scheduler:
-        steps.append([sys.executable, "scheduler_powerflow.py", "--once", "--symbols", symbols])
 
-    steps.extend([
-        [sys.executable, "run_data_health_monitor_once.py", "--db", args.db, "--symbols", symbols, "--output", "output/data_health_monitor.json"],
-        [sys.executable, "dashboard_normalize_data_health.py", "--input", "output/data_health_monitor.json", "--output", "output/dashboard_surface/data_health.json"],
-        [sys.executable, "run_flow_ontology_cycle_once.py", "--symbols", symbols],
-        [sys.executable, "run_signal_adaptive_all_once.py", "--symbols", symbols, "--data-health", "output/data_health_monitor.json"],
-        [sys.executable, "dashboard_normalize_signal_adaptive.py", "--input", "output/dashboard_surface/signal_adaptive_profiles.json", "--output", "output/dashboard_surface/signal_adaptive.json"],
-    ])
+def run_step(label: str, command: Sequence[str], cwd: Path, required: bool = True) -> StepResult:
+    started = _now_seconds()
+    printable = " ".join(str(part) for part in command)
+    print(f"> {printable}")
 
-    for step in steps:
-        if args.pretty:
-            step.append("--pretty")
-        code = run(step)
-        if code != 0:
-            print(f"TURBO_CYCLE_FAIL returncode={code} step={' '.join(step)}", file=sys.stderr)
-            return code
+    proc = subprocess.run(
+        list(command),
+        cwd=str(cwd),
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
 
-    print(f"TURBO_CYCLE_OK | symbols={symbols}")
+    elapsed = round(_now_seconds() - started, 3)
+    result = StepResult(
+        label=label,
+        returncode=proc.returncode,
+        elapsed_seconds=elapsed,
+        stdout=proc.stdout or "",
+        stderr=proc.stderr or "",
+    )
+
+    status = "OK" if result.ok else "FAIL"
+    print(f"STEP_END {label} status={status} returncode={result.returncode} elapsed={elapsed}s")
+    _emit_tail(label, "STDOUT", result.stdout)
+    _emit_tail(label, "STDERR", result.stderr)
+
+    if required and not result.ok:
+        raise RuntimeError(f"required step failed: {label} returncode={result.returncode}")
+
+    return result
+
+
+def parse_symbols(raw: str) -> str:
+    symbols = [part.strip().upper() for part in raw.split(",") if part.strip()]
+    if not symbols:
+        raise ValueError("no symbols provided")
+    return ",".join(symbols)
+
+
+def build_steps(py: str, symbols: str) -> List[tuple[str, List[str]]]:
+    return [
+        (
+            "scheduler_core",
+            [py, "scheduler_powerflow.py", "--once", "--symbols", symbols],
+        ),
+        (
+            "data_health_monitor",
+            [
+                py,
+                "run_data_health_monitor_once.py",
+                "--db",
+                "powerflow.db",
+                "--symbols",
+                symbols,
+                "--output",
+                "output/data_health_monitor.json",
+            ],
+        ),
+        (
+            "data_health_normalize",
+            [
+                py,
+                "dashboard_normalize_data_health.py",
+                "--input",
+                "output/data_health_monitor.json",
+                "--output",
+                "output/dashboard_surface/data_health.json",
+            ],
+        ),
+        (
+            "flow_ontology_cycle",
+            [py, "run_flow_ontology_cycle_once.py", "--symbols", symbols],
+        ),
+        (
+            "signal_adaptive_all",
+            [
+                py,
+                "run_signal_adaptive_all_once.py",
+                "--symbols",
+                symbols,
+                "--data-health",
+                "output/data_health_monitor.json",
+            ],
+        ),
+        (
+            "signal_adaptive_normalize",
+            [
+                py,
+                "dashboard_normalize_signal_adaptive.py",
+                "--input",
+                "output/dashboard_surface/signal_adaptive_profiles.json",
+                "--output",
+                "output/dashboard_surface/signal_adaptive.json",
+            ],
+        ),
+        (
+            "price_schema_probe",
+            [py, "pf_price_schema_probe.py"],
+        ),
+        (
+            "topdown_market_reader_all",
+            [py, "run_topdown_market_reader_all_once.py", "--symbols", symbols],
+        ),
+        (
+            "topdown_reader_normalize",
+            [
+                py,
+                "dashboard_normalize_topdown_reader.py",
+                "--input",
+                "output/dashboard_surface/topdown_market_reader.json",
+                "--output",
+                "output/dashboard_surface/topdown_reader.json",
+            ],
+        ),
+    ]
+
+
+def main(argv: Iterable[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="PowerFlow V7.3 turbo wrapper")
+    parser.add_argument("--symbols", default="GBPUSD,EURUSD,USDJPY")
+    parser.add_argument("--continue-on-error", action="store_true")
+    args = parser.parse_args(list(argv) if argv is not None else None)
+
+    core = Path(__file__).resolve().parent
+    symbols = parse_symbols(args.symbols)
+    py = sys.executable
+
+    started = _now_seconds()
+    results: List[StepResult] = []
+    errors: List[str] = []
+
+    print(f"TURBO_V73_CYCLE_START | symbols={symbols} | core={core}")
+
+    for label, command in build_steps(py, symbols):
+        try:
+            results.append(run_step(label, command, cwd=core, required=not args.continue_on_error))
+        except Exception as exc:
+            errors.append(f"{label}:{exc}")
+            print(f"STEP_EXCEPTION {label}: {exc}")
+            if not args.continue_on_error:
+                elapsed = round(_now_seconds() - started, 3)
+                print(
+                    "TURBO_V73_CYCLE_FAIL | "
+                    f"symbols={symbols} | completed_steps={len(results)} | "
+                    f"errors={len(errors)} | duration_seconds={elapsed}"
+                )
+                return 1
+
+    failed = [result.label for result in results if not result.ok]
+    errors.extend(failed)
+    elapsed = round(_now_seconds() - started, 3)
+
+    if errors:
+        print(
+            "TURBO_V73_CYCLE_FAIL | "
+            f"symbols={symbols} | steps={len(results)} | errors={errors} | "
+            f"duration_seconds={elapsed}"
+        )
+        return 1
+
+    print(
+        "TURBO_V73_CYCLE_OK | "
+        f"symbols={symbols} | steps={len(results)} | duration_seconds={elapsed} | "
+        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader"
+    )
     return 0
 
 
