@@ -333,6 +333,67 @@ function recursiveFind(obj, keys) {
   return null;
 }
 
+function humanizeValue(v) {
+  if (v === null || v === undefined || v === "") return "MISSING_FIELD";
+
+  if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
+    return String(v);
+  }
+
+  if (Array.isArray(v)) {
+    return v.map(humanizeValue).filter(Boolean).join(" | ");
+  }
+
+  if (typeof v === "object") {
+    const priority = [
+      "risk",
+      "code",
+      "label",
+      "name",
+      "type",
+      "message",
+      "detail",
+      "reason",
+      "status",
+      "field",
+      "source"
+    ];
+
+    const parts = [];
+    for (const k of priority) {
+      if (v[k] !== null && v[k] !== undefined && v[k] !== "") {
+        parts.push(`${k}=${humanizeValue(v[k])}`);
+      }
+    }
+
+    if (parts.length) return parts.join(" | ");
+
+    return Object.entries(v)
+      .filter(([_, val]) => val !== null && val !== undefined && val !== "")
+      .map(([k, val]) => `${k}=${humanizeValue(val)}`)
+      .join(" | ") || "EMPTY_OBJECT";
+  }
+
+  return String(v);
+}
+
+function normalizeList(v) {
+  if (v === null || v === undefined || v === "") return [];
+
+  if (Array.isArray(v)) {
+    return v.map(humanizeValue).filter(x => x && x !== "EMPTY_OBJECT");
+  }
+
+  if (typeof v === "object") {
+    return [humanizeValue(v)].filter(Boolean);
+  }
+
+  return String(v || "")
+    .split("|")
+    .map(x => x.trim())
+    .filter(Boolean);
+}
+
 function badgeClass(v) {
   const s = String(v || "").toUpperCase();
   if (s.includes("WAKE") || s.includes("ALERT")) return "wake";
@@ -567,13 +628,8 @@ function renderCockpit(cockpit) {
     recursiveFind(cockpit, ["risks", "technical_risks", "useful_risks"]) ||
     [];
 
-  const normalizedScenarios = Array.isArray(scenarios)
-    ? scenarios
-    : String(scenarios || "").split("|").map(x => x.trim()).filter(Boolean);
-
-  const normalizedRisks = Array.isArray(risks)
-    ? risks
-    : String(risks || "").split("|").map(x => x.trim()).filter(Boolean);
+  const normalizedScenarios = normalizeList(scenarios);
+  const normalizedRisks = normalizeList(risks);
 
   document.getElementById("cockpit").innerHTML = `
     <h2>Cockpit source</h2>
