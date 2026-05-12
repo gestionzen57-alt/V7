@@ -176,32 +176,52 @@ def classify_phase(
 
 
 def _cockpit_evidence(cockpit: dict) -> str:
-    if not isinstance(cockpit, dict):
-        return "UNKNOWN"
+    def walk(obj):
+        if isinstance(obj, dict):
+            yield obj
+            for v in obj.values():
+                yield from walk(v)
+        elif isinstance(obj, list):
+            for v in obj:
+                yield from walk(v)
 
-    action = (
-        cockpit.get("action")
-        or cockpit.get("attention")
-        or cockpit.get("status")
-        or cockpit.get("decision")
-        or "UNKNOWN"
-    )
+    def first(keys, default="UNKNOWN"):
+        for d in walk(cockpit):
+            for k in keys:
+                v = d.get(k)
+                if v is not None and str(v).strip() not in {"", "None", "null"}:
+                    return str(v).strip()
+        return default
 
-    state = (
-        cockpit.get("state")
-        or cockpit.get("etat")
-        or cockpit.get("main_state")
-        or cockpit.get("market_state")
-        or "UNKNOWN"
-    )
+    action = first([
+        "action",
+        "attention",
+        "status",
+        "global_status",
+        "decision",
+        "wake_state",
+        "trade_action",
+    ])
 
-    synthesis = (
-        cockpit.get("synthesis")
-        or cockpit.get("live_synthesis")
-        or cockpit.get("multiread_synthesis")
-        or cockpit.get("reading_type")
-        or "UNKNOWN"
-    )
+    state = first([
+        "state",
+        "etat",
+        "main_state",
+        "market_state",
+        "phase",
+        "context",
+        "label",
+    ])
+
+    synthesis = first([
+        "synthesis",
+        "live_synthesis",
+        "multiread_synthesis",
+        "reading_type",
+        "reading",
+        "alignment",
+        "summary",
+    ])
 
     return f"{action} | {state} | synthesis={synthesis}"
 
