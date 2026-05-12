@@ -316,6 +316,13 @@ def main(argv: Iterable[str] | None = None) -> int:
         "--phase", "output/dashboard_surface/phase_synthesis.json",
     ], core)
 
+    run_step("evidence_bus", [
+        sys.executable, "pf_evidence_bus_once.py",
+        "--symbol", "GBPUSD",
+        "--output", "output/dashboard_surface/evidence_bus.json",
+        "--txt", "output/dashboard_surface/evidence_bus.txt",
+    ], core)
+
     run_step("trader_journal_j1", [
         sys.executable, "pf_trader_journal_j1.py",
         "--symbols", symbols,
@@ -326,7 +333,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     print(
         "TURBO_V73_CYCLE_OK | "
         f"symbols={symbols} | steps={len(results)} | duration_seconds={elapsed} | "
-        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,b8,phase_synthesis,daily_journal"
+        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,b8,phase_synthesis,evidence_bus,daily_journal"
     )
 
 
