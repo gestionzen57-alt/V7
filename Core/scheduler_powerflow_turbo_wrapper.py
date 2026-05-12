@@ -252,11 +252,6 @@ def main(argv: Iterable[str] | None = None) -> int:
         "--input", "output/dashboard_surface/powerflow_multiread_synthesis.json",
         "--output", "output/dashboard_surface/multiread_synthesis_dashboard.json",
     ], core)
-    print(
-        "TURBO_V73_CYCLE_OK | "
-        f"symbols={symbols} | steps={len(results)} | duration_seconds={elapsed} | "
-        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,live_brief,b6,multiread,trader_cockpit,daily_journal"
-    )
 
     run_step("trader_cockpit", [
         sys.executable, "pf_trader_cockpit_once.py",
@@ -265,6 +260,20 @@ def main(argv: Iterable[str] | None = None) -> int:
         "--output", "output/dashboard_surface/trader_cockpit.json",
         "--txt", "output/dashboard_surface/trader_cockpit.txt",
     ], core)
+
+    run_step("trader_journal_j1", [
+        sys.executable, "pf_trader_journal_j1.py",
+        "--symbols", symbols,
+        "--output", "output/dashboard_surface/trader_journal_j1.json",
+        "--md", "output/dashboard_surface/trader_journal_j1.md",
+    ], core)
+
+    print(
+        "TURBO_V73_CYCLE_OK | "
+        f"symbols={symbols} | steps={len(results)} | duration_seconds={elapsed} | "
+        "layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,live_brief,b6,multiread,trader_cockpit,daily_journal"
+    )
+
 
     return 0
 
