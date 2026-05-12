@@ -92,7 +92,7 @@ def main() -> int:
     if d.get("send") and not args.send:
         telegram_status = "WOULD_SEND_DRY_RUN"
         # V7.4 dry-run must also mark memory so dedup can be tested without real Telegram spam.
-        mark_sent(d, d.get("reason") or "DRY_RUN_MARK_SEEN")
+        mark_sent(d.get("packet") or {}, d.get("reason") or "DRY_RUN_MARK_SEEN")
 
     write_json_atomic(OUT_JSON, {**d, "telegram_status": telegram_status})
     write_txt(d, telegram_status)
