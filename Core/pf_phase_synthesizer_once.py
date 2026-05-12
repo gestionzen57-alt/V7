@@ -101,7 +101,7 @@ def classify_phase(
     evidence.append(f"LTF={ltf_state} bias={ltf_bias} fake={ltf_fake}")
     evidence.append(f"MTF={mtf_state} bias={mtf_bias} fake={mtf_fake}")
     evidence.append(f"HTF={htf_state} bias={htf_bias} fake={htf_fake}")
-    evidence.append(f"Cockpit={cockpit_action} {cockpit_state}")
+    evidence.append(f"Cockpit={_cockpit_evidence(cockpit)}")
     evidence.append(f"B8={b8_state} ({b8_phrase})")
 
     directional_votes = [b for b in [ltf_bias, mtf_bias, htf_bias] if b in {"PAIR_UP", "PAIR_DOWN"}]
