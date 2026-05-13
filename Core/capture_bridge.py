@@ -22,6 +22,54 @@ from system_config import (
 
 CURRENCIES = ("GBP", "USD", "EUR", "JPY", "CAD", "CHF", "AUD", "NZD")
 
+# Ordre de préférence pour dater un évènement live legacy :
+# 1) server_time / capture_time si fournis par l'EA (tick réel / réception EA)
+# 2) bar_close_time / bar_time si on traite une bougie fermée
+# 3) heure locale de réception Python en fallback
+EVENT_TIME_FIELDS = ("server_time", "capture_time", "bar_close_time", "bar_time", "timestamp", "time")
+
+
+def _parse_event_datetime(raw: dict) -> datetime:
+    """Retourne une datetime timezone-aware pour comparer les alertes legacy sur graphique.
+
+    Le bridge V5 posait avant tick.timestamp=datetime.now(), ce qui datait la
+    réception Python et non forcément l'évènement marché. Cette fonction essaye
+    d'abord d'utiliser les horodatages envoyés par l'EA.
+    """
+    for field in EVENT_TIME_FIELDS:
+        value = raw.get(field)
+        if value in (None, "", 0, "0"):
+            continue
+
+        # Epoch numérique : accepte secondes ou millisecondes.
+        try:
+            if isinstance(value, (int, float)) or str(value).replace(".", "", 1).isdigit():
+                ts = float(value)
+                if ts > 10_000_000_000:  # millisecondes
+                    ts = ts / 1000.0
+                return datetime.fromtimestamp(ts, tz=timezone.utc)
+        except Exception:
+            pass
+
+        # ISO string : accepte Z ou offset explicite.
+        try:
+            s = str(value).strip().replace("Z", "+00:00")
+            dt = datetime.fromisoformat(s)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt.astimezone(timezone.utc)
+        except Exception:
+            pass
+
+    return datetime.now(timezone.utc)
+
+
+def _format_event_time_debug(dt: datetime) -> str:
+    try:
+        return dt.astimezone(timezone.utc).isoformat()
+    except Exception:
+        return datetime.now(timezone.utc).isoformat()
+
 # Clé = (symbol, tf, bar_time) → évite les doublons par bougie fermée
 _SNAPSHOT_SEEN = {}
 
@@ -71,8 +119,10 @@ def parse_tick(raw: dict):
         volume = int(raw.get("tick_volume", raw.get("volume", 0)) or 0)
         atr    = safe_f(raw.get("atr", 0.0)) or 0.0
 
+        event_dt = _parse_event_datetime(raw)
+
         return Tick(
-            symbol=symbol, timeframe=tf, timestamp=datetime.now(),
+            symbol=symbol, timeframe=tf, timestamp=event_dt,
             dev_a=dev_a, dev_b=dev_b, val_a=val_a, val_b=val_b,
             bid=bid, spread=spread, volume=volume, atr=atr,
         )
@@ -199,6 +249,9 @@ async def handle_connection(reader, writer, brain, on_tick):
                     "tf=", raw.get("tf"),
                     "timeframe=", raw.get("timeframe"),
                     "bar_time=", raw.get("bar_time"),
+                    "server_time=", raw.get("server_time"),
+                    "capture_time=", raw.get("capture_time"),
+                    "event_time=", _format_event_time_debug(_parse_event_datetime(raw)),
                     "close=", raw.get("close"),
                     "bid=", raw.get("bid"),
                     "ask=", raw.get("ask"),
@@ -246,7 +299,8 @@ async def start_bridge(brain, on_tick):
 from engine import process_tick
 
 async def dummy_send_alert(sig, htf, brain):
-    print(f"🔔 ALERT {sig.signal_type} {sig.symbol} M{sig.timeframe}")
+    ts = getattr(sig, "timestamp", None) or getattr(sig, "time", None) or datetime.now(timezone.utc)
+    print(f"🔔 ALERT {sig.signal_type} {sig.symbol} M{sig.timeframe} event_at={ts}")
 
 async def on_tick(tick, prev, brain):
     await process_tick(tick, prev, brain, dummy_send_alert)

@@ -11,6 +11,9 @@
 # ============================================================
 
 import time
+import os
+import json
+from datetime import datetime, timezone
 from collections import deque, defaultdict
 from models import Tick, HTFContext, Signal, Brain
 from system_config import (
@@ -82,6 +85,328 @@ squeeze_states       = {}
 time_compression_states = {}
 
 TF_LABELS = {1: "M1", 5: "M5", 15: "M15", 30: "M30", 60: "H1", 240: "H4"}
+
+
+# ============================================================
+# LEGACY BEHAVIORAL BUS V7
+# ============================================================
+def _pfv7_utc_iso(dt) -> str:
+    """Normalize datetime-like values to UTC ISO string for V7 proof traces."""
+    try:
+        if dt is None:
+            return datetime.now(timezone.utc).isoformat()
+        if hasattr(dt, "tzinfo"):
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt.astimezone(timezone.utc).isoformat()
+        return str(dt)
+    except Exception:
+        return datetime.now(timezone.utc).isoformat()
+
+
+def _pfv7_symbol_dir(symbol: str) -> str:
+    out_dir = os.path.join("output", "dashboard_surface", str(symbol).upper())
+    os.makedirs(out_dir, exist_ok=True)
+    return out_dir
+
+
+def _pfv7_behavioral_jsonl_path(symbol: str) -> str:
+    return os.path.join(_pfv7_symbol_dir(symbol), "legacy_behavioral_events.jsonl")
+
+
+def _pfv7_timecomp_jsonl_path(symbol: str) -> str:
+    return os.path.join(_pfv7_symbol_dir(symbol), "legacy_timecomp_events.jsonl")
+
+
+def _pfv7_event_time_risks(event_at: str, detected_at: str) -> list[str]:
+    risks: list[str] = []
+    try:
+        ea = datetime.fromisoformat(str(event_at).replace("Z", "+00:00"))
+        da = datetime.fromisoformat(str(detected_at).replace("Z", "+00:00"))
+        if ea.tzinfo is None:
+            ea = ea.replace(tzinfo=timezone.utc)
+        if da.tzinfo is None:
+            da = da.replace(tzinfo=timezone.utc)
+        delta = (ea.astimezone(timezone.utc) - da.astimezone(timezone.utc)).total_seconds()
+        if delta > 120:
+            risks.append("EVENT_TIME_AHEAD_OF_DETECTED_AT")
+        elif delta < -7200:
+            risks.append("EVENT_TIME_STALE_VS_DETECTED_AT")
+    except Exception:
+        risks.append("EVENT_TIME_PARSE_UNCLEAR")
+    return risks
+
+
+def _pfv7_signal_layer(signal_type: str) -> str:
+    st = str(signal_type or "").upper()
+    if st in {"TIME_COMP_LOCK", "TIME_COMP_BREAK"}:
+        return "TEMPORAL"
+    if st in {"COMPRESSION", "COMPRESSION_BREAK", "COMPRESSION_SQUEEZE"}:
+        return "ENERGY"
+    if st in {"SLINGSHOT", "APPROACH", "CROSS", "CONVERGENCE", "SUPER_SWITCH", "FAKEOUT"}:
+        return "TACTICAL"
+    if st in {"KISS_REJECT", "EXTREME_HIGH", "EXTREME_LOW"}:
+        return "ZONE_REACTION"
+    return "LEGACY"
+
+
+def _pfv7_event_role(signal_type: str) -> str:
+    st = str(signal_type or "").upper()
+    return {
+        "TIME_COMP_LOCK": "TEMPORAL_LOCK",
+        "TIME_COMP_BREAK": "TEMPORAL_RELEASE",
+        "SLINGSHOT": "TACTICAL_REARM_RELEASE",
+        "KISS_REJECT": "ZONE_REPULSION",
+        "COMPRESSION": "ELASTIC_LOADING_LEGACY",
+        "COMPRESSION_BREAK": "ELASTIC_RELEASE_LEGACY",
+        "COMPRESSION_SQUEEZE": "PRESSURE_SQUEEZE",
+        "APPROACH": "CROSS_OR_REJECT_IMMINENT",
+        "EXTREME_HIGH": "ZONE_PRESSURE_HIGH",
+        "EXTREME_LOW": "ZONE_PRESSURE_LOW",
+        "FAKEOUT": "TRAP_OR_REINTEGRATION",
+        "SUPER_SWITCH": "FORCE_SWITCH",
+        "CONVERGENCE": "MULTI_TF_CONVERGENCE",
+        "CROSS": "DOMINANCE_CROSS",
+    }.get(st, st or "UNKNOWN")
+
+
+def _pfv7_pair_bias_from_signal(sig) -> str:
+    try:
+        symbol = str(getattr(sig, "symbol", "")).upper()
+        strong = str(getattr(sig, "dev_strong", "")).upper()
+        weak = str(getattr(sig, "dev_weak", "")).upper()
+        if len(symbol) >= 6 and strong and weak:
+            base = symbol[:3]
+            quote = symbol[3:6]
+            if strong == base and weak == quote:
+                return "PAIR_UP"
+            if strong == quote and weak == base:
+                return "PAIR_DOWN"
+    except Exception:
+        pass
+    return "UNKNOWN"
+
+
+def _pfv7_write_jsonl(path: str, record: dict) -> None:
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+
+
+def _write_legacy_behavioral_event(record: dict) -> dict:
+    """Append one V7 legacy behavioral proof record."""
+    try:
+        symbol = str(record.get("symbol", "UNKNOWN")).upper()
+        event_at = str(record.get("event_at") or datetime.now(timezone.utc).isoformat())
+        detected_at = str(record.get("detected_at") or datetime.now(timezone.utc).isoformat())
+        risks = list(record.get("technical_risks") or [])
+        for risk in _pfv7_event_time_risks(event_at, detected_at):
+            if risk not in risks:
+                risks.append(risk)
+        record["technical_risks"] = risks
+        record.setdefault("source", "legacy_engine")
+        record.setdefault("method", "LEGACY_BEHAVIORAL_BUS_V7A")
+        _pfv7_write_jsonl(_pfv7_behavioral_jsonl_path(symbol), record)
+    except Exception as exc:
+        print(f"[engine] legacy behavioral bus ignored: {exc}")
+    return record
+
+
+def _write_legacy_behavioral_signal(sig, htf=None, tick=None) -> dict:
+    """Mirror an existing legacy Signal into V7 JSONL. Does not affect alert flow."""
+    detected_at = datetime.now(timezone.utc).isoformat()
+    event_at = _pfv7_utc_iso(getattr(sig, "timestamp", None) or getattr(tick, "timestamp", None))
+    signal_type = str(getattr(sig, "signal_type", "UNKNOWN")).upper()
+    symbol = str(getattr(sig, "symbol", getattr(tick, "symbol", "UNKNOWN"))).upper()
+    tf = int(getattr(sig, "timeframe", getattr(tick, "timeframe", 0)) or 0)
+    tf_label = TF_LABELS.get(tf, f"M{tf}")
+    record = {
+        "source": "legacy_engine",
+        "method": "LEGACY_BEHAVIORAL_BUS_V7A",
+        "symbol": symbol,
+        "timeframe": tf,
+        "tf_label": tf_label,
+        "event": signal_type,
+        "event_role": _pfv7_event_role(signal_type),
+        "layer": _pfv7_signal_layer(signal_type),
+        "event_at": event_at,
+        "detected_at": detected_at,
+        "bias": _pfv7_pair_bias_from_signal(sig),
+        "score_hint": getattr(sig, "score", None),
+        "level": getattr(sig, "level", None),
+        "price": getattr(sig, "price", None) or getattr(tick, "bid", None),
+        "dev_strong": getattr(sig, "dev_strong", None),
+        "dev_weak": getattr(sig, "dev_weak", None),
+        "spread_ok": getattr(sig, "spread_ok", None),
+        "volume_badge": getattr(sig, "volume_badge", None),
+        "note": getattr(sig, "note", ""),
+        "htf_bias": getattr(htf, "bias", None),
+        "htf_bias_state": getattr(htf, "bias_state", None),
+        "htf_scenario": getattr(htf, "scenario", None),
+        "technical_risks": [],
+    }
+    return _write_legacy_behavioral_event(record)
+
+
+def _pfv7_timecomp_event_type(tc_ev: dict) -> str:
+    phase = str(tc_ev.get("phase", "")).upper()
+    if phase == "LOCK":
+        return "TIME_COMP_LOCK"
+    if phase == "BREAK":
+        return "TIME_COMP_BREAK"
+    return f"TIME_COMP_{phase or 'UNKNOWN'}"
+
+
+def _pfv7_timecomp_direction(tc_ev: dict) -> str:
+    if str(tc_ev.get("phase", "")).upper() != "BREAK":
+        return "NONE"
+    try:
+        start = float(tc_ev.get("from_bid", tc_ev.get("center", 0.0)) or 0.0)
+        end = float(tc_ev.get("bid", 0.0) or 0.0)
+        if end > start:
+            return "PAIR_UP"
+        if end < start:
+            return "PAIR_DOWN"
+    except Exception:
+        pass
+    return "UNKNOWN"
+
+
+def _write_legacy_timecomp_event_v7bus(symbol: str, tf: int, tf_label: str, tick: Tick, tc_ev: dict) -> dict:
+    """Write TIME-COMP into both dedicated temporal JSONL and common behavioral bus."""
+    event_at = _pfv7_utc_iso(getattr(tick, "timestamp", None))
+    detected_at = datetime.now(timezone.utc).isoformat()
+    phase = str(tc_ev.get("phase", "")).upper()
+    event_name = _pfv7_timecomp_event_type(tc_ev)
+    direction = _pfv7_timecomp_direction(tc_ev)
+    price_from = tc_ev.get("from_bid", tc_ev.get("center"))
+    price_to = tc_ev.get("bid")
+    risks = _pfv7_event_time_risks(event_at, detected_at)
+
+    temporal = {
+        "source": "legacy_engine",
+        "method": "LEGACY_TIMECOMP_BRIDGE_V7A",
+        "layer": "TEMPORAL",
+        "symbol": str(symbol).upper(),
+        "timeframe": int(tf),
+        "tf_label": tf_label,
+        "event": event_name,
+        "phase": phase,
+        "direction": direction,
+        "event_at": event_at,
+        "detected_at": detected_at,
+        "price_from": price_from,
+        "price_to": price_to,
+        "center": tc_ev.get("center"),
+        "band": tc_ev.get("band"),
+        "ticks": tc_ev.get("ticks"),
+        "bid": tc_ev.get("bid"),
+        "from_bid": tc_ev.get("from_bid"),
+        "technical_risks": risks,
+    }
+    try:
+        _pfv7_write_jsonl(_pfv7_timecomp_jsonl_path(symbol), temporal)
+    except Exception as exc:
+        print(f"[engine] legacy timecomp jsonl ignored: {exc}")
+
+    behavioral = dict(temporal)
+    behavioral.update({
+        "method": "LEGACY_BEHAVIORAL_BUS_V7A",
+        "event_role": _pfv7_event_role(event_name),
+        "bias": direction if direction in ("PAIR_UP", "PAIR_DOWN") else "UNKNOWN",
+        "score_hint": 2.0 if phase == "LOCK" else 3.5,
+        "price": price_to,
+        "note": f"TIME-COMP {phase} {tf_label} ticks={tc_ev.get('ticks')}",
+    })
+    _write_legacy_behavioral_event(behavioral)
+    return temporal
+
+
+# ============================================================
+# LEGACY TIME-COMP → V7 TEMPORAL BRIDGE
+# ============================================================
+def _utc_iso(dt) -> str:
+    """Normalize datetime-like values to UTC ISO string."""
+    if dt is None:
+        return datetime.now(timezone.utc).isoformat()
+    try:
+        if hasattr(dt, "tzinfo"):
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt.astimezone(timezone.utc).isoformat()
+    except Exception:
+        pass
+    try:
+        return str(dt)
+    except Exception:
+        return datetime.now(timezone.utc).isoformat()
+
+def _legacy_timecomp_event_type(tc_ev: dict) -> str:
+    phase = str(tc_ev.get("phase", "")).upper()
+    if phase == "LOCK":
+        return "TIME_COMP_LOCK"
+    if phase == "BREAK":
+        return "TIME_COMP_BREAK"
+    return f"TIME_COMP_{phase or 'UNKNOWN'}"
+
+def _legacy_timecomp_direction(tc_ev: dict) -> str:
+    if str(tc_ev.get("phase", "")).upper() != "BREAK":
+        return "NONE"
+    try:
+        start = float(tc_ev.get("from_bid", tc_ev.get("center", 0.0)) or 0.0)
+        end = float(tc_ev.get("bid", 0.0) or 0.0)
+        if end > start:
+            return "PAIR_UP"
+        if end < start:
+            return "PAIR_DOWN"
+    except Exception:
+        pass
+    return "UNKNOWN"
+
+def _legacy_timecomp_jsonl_path(symbol: str) -> str:
+    out_dir = os.path.join("output", "dashboard_surface", symbol.upper())
+    os.makedirs(out_dir, exist_ok=True)
+    return os.path.join(out_dir, "legacy_timecomp_events.jsonl")
+
+def _write_legacy_timecomp_event(symbol: str, tf: int, tf_label: str, tick: Tick, tc_ev: dict) -> dict:
+    """Write one legacy TIME-COMP event as a V7-readable JSONL proof.
+
+    This does not change the legacy detection. It only turns console perception
+    into a TEMPORAL proof consumable by V7 readers / Spine.
+    """
+    event_at = _utc_iso(getattr(tick, "timestamp", None))
+    detected_at = datetime.now(timezone.utc).isoformat()
+    phase = str(tc_ev.get("phase", "")).upper()
+    direction = _legacy_timecomp_direction(tc_ev)
+
+    price_from = tc_ev.get("from_bid", tc_ev.get("center"))
+    price_to = tc_ev.get("bid")
+
+    event = {
+        "source": "legacy_engine",
+        "layer": "TEMPORAL",
+        "symbol": symbol.upper(),
+        "timeframe": int(tf),
+        "tf_label": tf_label,
+        "event": _legacy_timecomp_event_type(tc_ev),
+        "phase": phase,
+        "direction": direction,
+        "event_at": event_at,
+        "detected_at": detected_at,
+        "price_from": price_from,
+        "price_to": price_to,
+        "center": tc_ev.get("center"),
+        "band": tc_ev.get("band"),
+        "ticks": tc_ev.get("ticks"),
+        "bid": tc_ev.get("bid"),
+        "from_bid": tc_ev.get("from_bid"),
+        "technical_risks": [],
+    }
+
+    path = _legacy_timecomp_jsonl_path(symbol)
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(event, ensure_ascii=False, sort_keys=True) + "\n")
+    return event
+
 
 # ============================================================
 # MAPPING Signal / HTFContext → DB
@@ -591,15 +916,19 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
         print(f"⚙️ V5 process_tick {pair} M{tf} | "
               f"A={tick.val_a:.1f} {dev_a.upper()} | B={tick.val_b:.1f} {dev_b.upper()}")
 
-    # --- Compression temporelle (observation console) ---
+    # --- Compression temporelle legacy -> preuve TEMPORAL V7 ---
     try:
         tc_ev = detect_time_compression(tick, uid)
         if tc_ev:
             tf_lbl = TF_LABELS.get(tf, f"M{tf}")
+            tc_record = _write_legacy_timecomp_event_v7bus(pair, tf, tf_lbl, tick, tc_ev)
+            stamp = f"[event_at={tc_record['event_at']} detected_at={tc_record['detected_at']}]"
             if tc_ev["phase"] == "LOCK":
+                print(stamp)
                 print(f"🔒 TIME-COMP LOCK | {pair} {tf_lbl} | "
                       f"bid {tc_ev['bid']} ±{tc_ev['band']} | {tc_ev['ticks']} ticks")
             else:
+                print(stamp)
                 print(f"💨 TIME-COMP BREAK | {pair} {tf_lbl} | "
                       f"bid {tc_ev['from_bid']}→{tc_ev['bid']} | {tc_ev['ticks']} ticks")
     except Exception as e:
@@ -624,7 +953,7 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
                          dev_weak=approach["challenger"], score=sc, level=lv,
                          htf=htf, volume_badge=volume_badge, note=note_ap, spread_ok=spread_ok)
             await send_alert(sig, htf, brain)
-            persist_signal(sig, htf)
+            persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)
 
     # --- ZONE BATTLE ---
     zone = detect_zone_battle(tick, prev, uid)
@@ -644,7 +973,7 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
                          dev_weak=zone["opponent"], score=sc, level=lv,
                          htf=htf, volume_badge=volume_badge, note=note_z, spread_ok=spread_ok)
             await send_alert(sig, htf, brain)
-            persist_signal(sig, htf)
+            persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)
 
     # --- EXTREME LEVELS ---
     if ALERT_EXTREME_LEVELS:
@@ -665,7 +994,7 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
                                  score=sc, level=lv, htf=htf, volume_badge=volume_badge,
                                  note=f"🔴 {dev.upper()} en surchauffe ({val:.1f} ≥ {lvl_h})",
                                  spread_ok=spread_ok)
-                    await send_alert(sig, htf, brain); persist_signal(sig, htf)
+                    await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)
             elif val <= lvl_l and prev_state != "BAS":
                 cross_states[key_ex] = "BAS"
                 spam_key = f"EXTREME_LOW_{uid}_{dev}"
@@ -678,7 +1007,7 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
                                  score=sc, level=lv, htf=htf, volume_badge=volume_badge,
                                  note=f"🟢 {dev.upper()} en survente ({val:.1f} ≤ {lvl_l})",
                                  spread_ok=spread_ok)
-                    await send_alert(sig, htf, brain); persist_signal(sig, htf)
+                    await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)
             elif lvl_l < val < lvl_h:
                 cross_states[key_ex] = "NEUTRE"
 
@@ -705,7 +1034,7 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
                              score=sc, level=lv, htf=htf, volume_badge=volume_badge,
                              note=f"🎯 {exploding.upper()} explose après repli conjoint{seq_tag}",
                              spread_ok=spread_ok)
-                await send_alert(sig, htf, brain); persist_signal(sig, htf)
+                await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)
 
     # --- COMPRESSION ---
     if ALERT_COMPRESSION:
@@ -741,7 +1070,7 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
                              timestamp=tick.timestamp, dev_strong=dev_c, dev_weak=opp_c,
                              score=sc, level=lv, htf=htf, volume_badge=volume_badge,
                              note=note_c, spread_ok=spread_ok)
-                await send_alert(sig, htf, brain); persist_signal(sig, htf)
+                await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)
 
     # --- COMPRESSION SQUEEZE ---
     if ALERT_COMPRESSION_SQUEEZE:
@@ -762,7 +1091,7 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
                              dev_strong=sq["pressure_dev"], dev_weak=sq["compressed_dev"],
                              score=sc, level=lv, htf=htf, volume_badge=volume_badge,
                              note=note_sq, spread_ok=spread_ok)
-                await send_alert(sig, htf, brain); persist_signal(sig, htf)
+                await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)
 
     # --- CROSS / FAKEOUT / SUPER_SWITCH / KISS_REJECT ---
     signal_type = detect_cross(tick, prev, uid)
@@ -798,7 +1127,7 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
                      timestamp=tick.timestamp, dev_strong=strong, dev_weak=weak,
                      score=sc, level=lv, htf=htf, volume_badge=volume_badge,
                      note=note, spread_ok=spread_ok)
-        await send_alert(sig, htf, brain); persist_signal(sig, htf); return
+        await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick); return
 
     # --- CROSS PRINCIPAL ---
     register_cross(pair, tf, strong, weak)
@@ -846,7 +1175,7 @@ async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):
     print(f"🔥 V5 signal : {sig.signal_type} {pair} M{tf} "
           f"{strong.upper()}>{weak.upper()} score={sc} {lv}")
     await send_alert(sig, htf, brain)
-    persist_signal(sig, htf)
+    persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)
 
 # ============================================================
 # MODULE C — TEMPORAL NODES INTEGRATION
