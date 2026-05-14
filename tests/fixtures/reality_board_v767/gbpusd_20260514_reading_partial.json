@@ -1,0 +1,46 @@
+{
+  "terrain_packet": {
+    "symbol": "GBPUSD",
+    "film_state": "LOWER_ZONE_RANGE_ACTIVE",
+    "last_structural_event": "COUNTER_BREATH_REJECTED",
+    "raw_bias": "PAIR_DOWN",
+    "qualified_bias": "SECOND_LEG_DOWN",
+    "packet_quality": "STRUCTURAL_REACTION",
+    "price_confirmation": "PRICE_REJECTED_HIGH",
+    "propagation_state": "LTF_MTF_RELAY",
+    "detachment_texture": "REJECTION_DETACHMENT",
+    "data_visibility": "READING_PARTIAL",
+    "technical_risks": [
+      "PACKETS_STALE",
+      "MICROFILM_MISSING"
+    ]
+  },
+  "film_memory_match": {
+    "memory_match": "LOWER_ZONE_RANGE_WITH_COUNTER_BREATH_REJECTED_READING_PARTIAL",
+    "memory_confidence": 0.62,
+    "memory_confidence_bucket": "MEDIUM",
+    "memory_reason_fr": "MÃ©moire B6: rapprochement avec le 2026-05-14.",
+    "similar_historical_days": [
+      {
+        "day": "2026-05-14",
+        "rule_fr": "Counter-breath rejetÃ© devient carburant potentiel du second leg."
+      }
+    ],
+    "input_features": {
+      "film_state": "LOWER_ZONE_RANGE_ACTIVE",
+      "data_visibility": "READING_PARTIAL"
+    }
+  },
+  "ltf_session_memory": {
+    "state": "PAIR_DOWN",
+    "summary_fr": "LTF pousse dans le sens du second leg."
+  },
+  "mtf_session_memory": {
+    "state": "RELAY_PARTIAL",
+    "summary_fr": "MTF relaie partiellement le mouvement."
+  },
+  "htf_session_memory": {
+    "state": "CONTEXT_PARTIAL",
+    "summary_fr": "HTF donne le cadre, lecture partielle."
+  }
+}

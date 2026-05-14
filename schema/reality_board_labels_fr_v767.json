@@ -1,0 +1,62 @@
+{
+  "footer": "PowerFlow Ã©claire le terrain. Le trader arbitre.",
+  "film_state": {
+    "HIGH_ZONE_REJECTION": "Rejet de zone haute",
+    "POST_HIGH_UNWIND": "Unwind aprÃ¨s rejet haut",
+    "LOWER_ZONE_RANGE_ACTIVE": "Range en zone basse",
+    "READING_PARTIAL": "Lecture partielle"
+  },
+  "current_move_role": {
+    "HIGH_ZONE_EXHAUSTION_RISK": "Risque dâ€™Ã©puisement en zone haute",
+    "POST_HIGH_UNWIND": "DÃ©roulement aprÃ¨s rejet du haut",
+    "COUNTER_BREATH_UP": "Counter-breath haussier fragile",
+    "SECOND_LEG_DOWN": "Second leg baissier possible",
+    "POST_LOW_REACTION": "RÃ©action de zone basse",
+    "PRESSURE_PENDING": "Pression visible, prix non tranchÃ©"
+  },
+  "qualified_bias": {
+    "HIGH_ZONE_EXHAUSTION_RISK": "Risque dâ€™Ã©puisement en zone haute",
+    "POST_HIGH_UNWIND": "Unwind aprÃ¨s rejet haut",
+    "COUNTER_BREATH_UP": "Counter-breath UP",
+    "POST_LOW_REACTION": "RÃ©action post-low",
+    "SECOND_LEG_DOWN": "Second leg DOWN",
+    "UP_CONTINUATION_ACCEPTED": "Continuation UP acceptÃ©e par le prix",
+    "PRESSURE_PENDING": "Pression en attente"
+  },
+  "packet_quality": {
+    "EXHAUSTION_RISK": "Risque dâ€™Ã©puisement",
+    "STRUCTURAL_REACTION": "RÃ©action structurelle",
+    "REACTION_NOT_RELEASE": "RÃ©action, pas release propre",
+    "PRESSURE_PENDING": "Pression en attente",
+    "DEGRADED": "Lecture dÃ©gradÃ©e",
+    "HONEST_UNKNOWN": "Inconnu honnÃªte"
+  },
+  "price_confirmation": {
+    "PRICE_REJECTED_LOW": "Prix rejetÃ© en bas",
+    "PRICE_REJECTED_HIGH": "Prix rejetÃ© en haut",
+    "PENDING": "Prix non tranchÃ©",
+    "CONFIRMED": "Prix confirme",
+    "REJECTED": "Prix rejette"
+  },
+  "propagation_state": {
+    "LTF_ONLY": "Local LTF seulement",
+    "LTF_MTF_RELAY": "Relais LTF â†’ MTF",
+    "MTF_HTF_RELAY": "Relais MTF â†’ HTF",
+    "FAILED_PROPAGATION": "Propagation Ã©chouÃ©e",
+    "RELAY_DEGRADING": "Relais qui se dÃ©grade"
+  },
+  "detachment_texture": {
+    "REJECTION_DETACHMENT": "DÃ©tachement de rejet",
+    "EXHAUSTION_DETACHMENT": "DÃ©tachement dâ€™Ã©puisement",
+    "STRUCTURAL_DETACHMENT": "DÃ©tachement structurel",
+    "NOISY_DETACHMENT": "DÃ©tachement bruitÃ©",
+    "COUNTER_BREATH_DETACHMENT": "DÃ©tachement de counter-breath"
+  },
+  "data_visibility": {
+    "FULL_STACK_VISIBLE": "Pile complÃ¨te visible",
+    "TACTICAL_OK": "Lecture tactique exploitable",
+    "READING_PARTIAL": "Lecture partielle",
+    "MICROFILM_MISSING": "Microfilm manquant",
+    "PACKETS_STALE": "Packets stale"
+  }
+}

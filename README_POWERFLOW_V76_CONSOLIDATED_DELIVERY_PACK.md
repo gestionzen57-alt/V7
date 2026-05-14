@@ -44,3 +44,13 @@ Résultat : 13 tests OK.
 - Pas de stratégie de trading.
 - Le raw bias reste audité mais ne domine pas le cockpit.
 - Le prix, la zone, la propagation, la texture, la mémoire et la data visibility requalifient le packet.
+
+## V7.6.7 Reality Board minimal
+
+Output: `output/dashboard_surface/GBPUSD/reality_board_state.json`.
+
+Profils temps: HTF = Analyse, MTF = Plan, LTF = Action.
+
+Fallback session memory: `output/...` puis `Core/output/...`.
+
+Telegram live: NO GO. Candidate only.
