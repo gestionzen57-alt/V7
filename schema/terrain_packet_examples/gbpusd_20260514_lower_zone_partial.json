@@ -1,0 +1,34 @@
+{
+  "schema_version": "terrain_packet_v76_0",
+  "symbol": "GBPUSD",
+  "generated_at": "2026-05-14T12:00:00Z",
+  "market_time": "2026-05-14T12:00:00Z",
+  "film_state": "LOWER_ZONE_ACTIVE",
+  "last_structural_event": "COUNTER_BREATH_REJECTED",
+  "last_structural_direction": "DOWN",
+  "last_structural_time": "2026-05-14T10:45:00Z",
+  "current_zone": "1.3504-1.3532",
+  "current_zone_low": 1.3504,
+  "current_zone_high": 1.3532,
+  "current_zone_status": "LOWER_RANGE_ACTIVE",
+  "current_move_role": "POST_LOW_REACTION",
+  "raw_bias": "PAIR_UP",
+  "qualified_bias": "POST_LOW_COUNTER_BREATH",
+  "packet_quality": "REACTION_NOT_RELEASE",
+  "price_confirmation": "PRICE_PENDING",
+  "propagation_state": "LTF_ONLY",
+  "detachment_texture": "COUNTER_BREATH_DETACHMENT",
+  "data_visibility": "M1_MISSING_PACKETS_STALE",
+  "watch_condition": "ACCEPTANCE_ABOVE_1.3532_OR_BREAK_BELOW_1.3504",
+  "invalidation_condition": "NEW_LOWER_LOW_OR_REJECTION_BELOW_1.3504",
+  "technical_risks": [
+    "M1_MISSING",
+    "PACKETS_STALE",
+    "READING_PARTIAL"
+  ],
+  "evidence_refs": [
+    "film:GBPUSD:2026-05-14",
+    "zone:1.3504-1.3532",
+    "rule:R_PAIR_UP_AFTER_LOWER_LOW_POST_LOW_REACTION"
+  ]
+}

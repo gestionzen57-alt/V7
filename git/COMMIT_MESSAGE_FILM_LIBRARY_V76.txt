@@ -1,0 +1,7 @@
+Docs: add GBPUSD V7.6 film library memory cards
+
+- Add final GBPUSD film library for seven calibrated V7.6 days
+- Add B6 memory cards and JSON memory dataset
+- Add recurring film pattern index
+- Add QA cases for film requalification checks
+- Keep scope documentation-only: no dashboard, no Telegram, no trade signals
