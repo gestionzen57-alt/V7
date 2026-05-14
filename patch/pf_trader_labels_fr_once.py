@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
-
 
 DEFAULT_LABELS_PATH = Path("schema") / "terrain_packet_labels_fr_v76.json"
 
@@ -14,11 +14,84 @@ def load_labels(path: str | Path = DEFAULT_LABELS_PATH) -> Dict[str, Any]:
         return json.load(handle)
 
 
+def _humanize_unknown_enum(value: Any) -> str:
+    """Return a readable fallback without changing the internal enum.
+
+    Internal PowerFlow values stay in English. This is display-only.
+    """
+    if value is None:
+        return "inconnu"
+
+    text = str(value).strip()
+    if not text:
+        return "inconnu"
+
+    # Keep existing French/free text readable.
+    if " " in text and "_" not in text:
+        return text
+
+    # Strip common technical prefixes before rendering a trader-readable fallback.
+    prefixes = (
+        "WATCH_FOR_",
+        "WATCH_",
+        "INVALIDATION_",
+        "INVALIDATE_IF_",
+        "IF_",
+    )
+    human = text
+    for prefix in prefixes:
+        if human.upper().startswith(prefix):
+            human = human[len(prefix):]
+            break
+
+    human = human.replace("_", " ").replace("-", " ").lower()
+    human = re.sub(r"\s+", " ", human).strip()
+    return human or "inconnu"
+
+
+def _sentence(text: str) -> str:
+    text = str(text).strip()
+    if not text:
+        return "Inconnu."
+    if text[-1] not in ".!?":
+        text += "."
+    return text
+
+
 def label_value(value: Any, labels: Dict[str, Any]) -> str:
     if value is None:
         return "Inconnu"
     text = str(value)
-    return labels.get("values", {}).get(text, text)
+    translated = labels.get("values", {}).get(text)
+    if translated:
+        return translated
+    return _humanize_unknown_enum(text)
+
+
+def label_condition(value: Any, labels: Dict[str, Any], *, kind: str) -> str:
+    """Translate watch_condition / invalidation_condition for display only.
+
+    kind must be "watch" or "invalidation". Unknown enums are rendered as clean
+    French fallback phrases instead of leaking raw uppercase enum names to Telegram.
+    """
+    if value is None or value == "":
+        return "condition non renseignée."
+
+    if isinstance(value, list):
+        rendered = [label_condition(v, labels, kind=kind).rstrip(".") for v in value if str(v).strip()]
+        return _sentence(" ; ".join(rendered)) if rendered else "condition non renseignée."
+
+    text = str(value).strip()
+    translated = labels.get("values", {}).get(text)
+    if translated:
+        return _sentence(translated[:1].lower() + translated[1:])
+
+    fallback = _humanize_unknown_enum(text)
+    if kind == "watch":
+        return _sentence(f"condition à surveiller non traduite : {fallback}")
+    if kind == "invalidation":
+        return _sentence(f"condition d'invalidation non traduite : {fallback}")
+    return _sentence(fallback)
 
 
 def label_list(values: Any, labels: Dict[str, Any]) -> str:
@@ -40,6 +113,10 @@ def format_terrain_packet_fr(packet: Dict[str, Any], labels: Dict[str, Any] | No
 
     symbol = packet.get("symbol", "UNKNOWN")
     risks = label_list(packet.get("technical_risks", []), labels)
+    watch_condition = label_condition(packet.get("watch_condition"), labels, kind="watch")
+    invalidation_condition = label_condition(
+        packet.get("invalidation_condition"), labels, kind="invalidation"
+    )
 
     lines = [
         f"{symbol} — {v('film_state')}",
@@ -55,8 +132,8 @@ def format_terrain_packet_fr(packet: Dict[str, Any], labels: Dict[str, Any] | No
         f"Texture : {v('detachment_texture')}",
         f"Data : {v('data_visibility')}",
         f"Risques : {risks}",
-        f"À surveiller : {packet.get('watch_condition', 'UNKNOWN')}",
-        f"Invalidation : {packet.get('invalidation_condition', 'UNKNOWN')}",
+        f"À surveiller : {watch_condition}",
+        f"Invalidation : {invalidation_condition}",
     ]
 
     memory = packet.get("memory_match")
@@ -75,7 +152,9 @@ def _read_json(path: str | Path) -> Dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Format a terrain_packet in French for trader/Telegram display.")
+    parser = argparse.ArgumentParser(
+        description="Format a terrain_packet in French for trader/Telegram display."
+    )
     parser.add_argument("--input", required=True, help="Path to terrain_packet.json")
     parser.add_argument("--output", help="Optional output .txt path")
     parser.add_argument("--labels", default=str(DEFAULT_LABELS_PATH), help="French labels JSON")
@@ -91,7 +170,6 @@ def main() -> int:
         out.write_text(text, encoding="utf-8")
     else:
         print(text)
-
     return 0
 
 

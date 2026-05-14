@@ -1,0 +1,8 @@
+V7.6.5: force operational cycle to GBPUSD only
+
+- Default telegram cycle runner symbol scope to GBPUSD
+- Export POWERFLOW_SYMBOL and POWERFLOW_SYMBOLS as GBPUSD for legacy compatibility
+- Normalize scheduler wrapper symbols defensively to GBPUSD only
+- Preserve Telegram dry-run/send modes and terrain packet logic
+- Add GBPUSD-only cycle report and copy-paste PowerShell validation test
+

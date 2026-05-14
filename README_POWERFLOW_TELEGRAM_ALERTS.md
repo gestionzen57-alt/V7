@@ -1,12 +1,11 @@
-﻿# PowerFlow — Alertes Telegram
+# PowerFlow — Alertes Telegram FR
 
-Ce README explique comment lancer les alertes Telegram PowerFlow en français.
+Ce README explique comment lancer les alertes Telegram PowerFlow en français trader.
 
 ## Objectif
 
-PowerFlow ne doit pas te rendre esclave du dashboard.
-
-Le cycle Telegram sert à :
+PowerFlow ne doit pas rendre le trader esclave du dashboard.
+Le cycle Telegram sert à transmettre une lecture qualifiée et lisible :
 
 ```text
 legacy_behavioral_state.json
@@ -32,18 +31,13 @@ condition à surveiller
 condition d’invalidation
 ```
 
-Telegram ne doit pas envoyer :
+Les enums internes restent en anglais dans `terrain_packet.json`.
+La traduction FR se fait uniquement à l’affichage via :
 
 ```text
-PAIR_UP / PAIR_DOWN brut
-HONEST_UNKNOWN seul
-du spam à chaque cycle
-un ordre automatique
+schema/terrain_packet_labels_fr_v76.json
+patch/pf_trader_labels_fr_once.py
 ```
-
-Le trader reste souverain.
-
----
 
 ## Commande quotidienne
 
@@ -64,17 +58,11 @@ Cette commande :
 5. envoie Telegram si le packet est qualifié.
 ```
 
----
-
 ## Alerte Telegram sans relancer le scheduler
-
-Si les sorties PowerFlow existent déjà et que tu veux seulement envoyer l’alerte sur le dernier packet :
 
 ```powershell
 .\run_powerflow_v76_telegram_cycle.ps1 -TelegramMode send
 ```
-
----
 
 ## Test sans envoyer Telegram
 
@@ -89,44 +77,24 @@ telegram_mode=dry-run
 telegram_returncode=0
 ```
 
----
-
 ## Forcer un test réel Telegram
 
 ```powershell
 .\run_powerflow_v76_telegram_cycle.ps1 -TelegramMode send -ForceAlert
 ```
 
-À utiliser seulement pour vérifier que Telegram fonctionne.
-
----
+À utiliser seulement pour vérifier la transmission Telegram.
 
 ## Anti-spam / cooldown
 
-PowerFlow calcule un fingerprint du terrain_packet.
-
+PowerFlow calcule un fingerprint du `terrain_packet`.
 Si le même packet a déjà été envoyé récemment, Telegram répond :
 
 ```text
 cooldown active for fingerprint ...
 ```
 
-C’est normal.
-
-Cela veut dire :
-
-```text
-le packet est qualifié,
-mais PowerFlow ne répète pas la même alerte.
-```
-
-Pour forcer un test malgré le cooldown :
-
-```powershell
-.\run_powerflow_v76_telegram_cycle.ps1 -TelegramMode send -ForceAlert
-```
-
----
+Cela signifie que le packet est qualifié, mais que PowerFlow ne répète pas la même alerte.
 
 ## Configuration Telegram
 
@@ -147,71 +115,42 @@ Format :
 
 Ce fichier est ignoré par Git. Ne jamais committer un token.
 
-Si tu as déjà un `.env`, le fichier local peut être généré avec :
+## Nettoyage FR des conditions
 
-```powershell
-powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\AutoPilot-V76-TelegramFromEnv.ps1"
-```
+Depuis ce patch, `watch_condition` et `invalidation_condition` sont traduits avant affichage Telegram.
 
----
-
-## Vérifier que les secrets ne sont pas trackés
-
-```powershell
-git check-ignore -v "config\telegram_alerts.local.json"
-git ls-files "Core\.env"
-git ls-files "config\telegram_alerts.local.json"
-```
-
-Résultat souhaité :
+Exemples :
 
 ```text
-config\telegram_alerts.local.json est ignoré
-git ls-files Core\.env ne retourne rien
-git ls-files config\telegram_alerts.local.json ne retourne rien
+WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION
+→ À surveiller : vraie acceptation prix, pas extension tardive.
+
+HIGH_REJECTION_OR_UNWIND
+→ Invalidation : rejet haut confirmé ou déroulement inverse.
 ```
 
----
-
-## Lock scheduler
-
-Si la commande avec `-RunCoreScheduler` affiche :
+Si une valeur inconnue apparaît, le formatter n’affiche pas l’enum brute.
+Il produit une phrase propre :
 
 ```text
-OVERLAP_SKIP previous lock active
+WATCH_FOR_PULLBACK_CONFIRMATION
+→ À surveiller : condition à surveiller non traduite : pullback confirmation.
+
+INVALIDATION_PRICE_REENTERS_OLD_ZONE
+→ Invalidation : condition d'invalidation non traduite : price reenters old zone.
 ```
-
-cela signifie qu’un lock scheduler existe encore.
-
-Vérifier les processus actifs :
-
-```powershell
-Get-CimInstance Win32_Process |
-  Where-Object { $_.CommandLine -match "scheduler_powerflow|powerflow_turbo|scheduler_powerflow_turbo_wrapper" } |
-  Select-Object ProcessId, CommandLine
-```
-
-S’il n’y a aucun processus actif, le lock est stale.
-
-Dans notre cas, le fichier trouvé était :
-
-```text
-Core\logs\scheduler_powerflow (1).lock
-```
-
-Il peut être déplacé hors du repo pour débloquer le scheduler.
-
----
 
 ## Message Telegram exemple
 
 ```text
-🔔 PowerFlow — alerte qualifiée
+PowerFlow — alerte qualifiée
 
 GBPUSD — Rejet de zone haute
 
 Film : Rejet de zone haute
 Dernier événement : Rejet de zone haute
+Zone : 1.34840-1.34977 / Rejet de zone haute
+Rôle du mouvement : Déroulement baissier après rejet haut
 Lecture : Signal brut baissier → Déroulement baissier après rejet haut
 Qualité : Réaction structurelle
 Prix : Prix rejeté en haut
@@ -219,35 +158,22 @@ Propagation : Relais petit timeframe vers moyen timeframe
 Texture : Détachement de rejet
 Data : Lecture partielle
 Risques : Décalage temporel événement
+À surveiller : vraie acceptation prix, pas extension tardive.
+Invalidation : rejet haut confirmé ou déroulement inverse.
 
 Résumé technique : GBPUSD | POST_HIGH_UNWIND | PRICE_REJECTED_HIGH | DATA=READING_PARTIAL
-Rappel : alerte de contexte, pas ordre automatique.
+Nature : alerte de contexte PowerFlow.
 ```
 
----
-
-## Commandes utiles
-
-### Usage quotidien
+## Tests
 
 ```powershell
-.\run_powerflow_v76_telegram_cycle.ps1 -RunCoreScheduler -TelegramMode send
+python -m unittest tests/test_trader_labels_fr_v76.py
 ```
 
-### Alerte seule
+Ou :
 
 ```powershell
-.\run_powerflow_v76_telegram_cycle.ps1 -TelegramMode send
+python -m unittest discover -s tests -p "test_*.py"
 ```
 
-### Dry-run
-
-```powershell
-.\run_powerflow_v76_telegram_cycle.ps1 -TelegramMode dry-run
-```
-
-### Test forcé
-
-```powershell
-.\run_powerflow_v76_telegram_cycle.ps1 -TelegramMode send -ForceAlert
-```

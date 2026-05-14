@@ -11,8 +11,19 @@ $ErrorActionPreference = "Stop"
 
 Set-Location $RepoPath
 
+# PowerFlow V7.6.5 operational scope: GBPUSD only.
+$ActiveSymbol = "GBPUSD"
+if ($Symbol -and $Symbol.Trim().ToUpperInvariant() -ne "GBPUSD") {
+    Write-Warning "PowerFlow V7.6.5 operational scope is GBPUSD only. Requested '$Symbol' ignored."
+}
+
+$env:POWERFLOW_SYMBOL = $ActiveSymbol
+$env:POWERFLOW_SYMBOLS = $ActiveSymbol
+
+Write-Host "[PowerFlow V7.6.5] Operational symbol scope: $ActiveSymbol" -ForegroundColor Cyan
+
 if ($RunCoreScheduler) {
-    Write-Host "=== RUN CORE SCHEDULER ===" -ForegroundColor Cyan
+    Write-Host "=== RUN CORE SCHEDULER GBPUSD ONLY ===" -ForegroundColor Cyan
     python "Core\scheduler_powerflow_turbo_wrapper.py"
     if ($LASTEXITCODE -ne 0) {
         throw "Core scheduler failed with exit code $LASTEXITCODE"
@@ -23,7 +34,7 @@ Write-Host "=== RUN V7.6 TELEGRAM CYCLE TAIL ===" -ForegroundColor Cyan
 
 $argsList = @(
     "patch\pf_v76_telegram_cycle_once.py",
-    "--symbol", $Symbol,
+    "--symbol", $ActiveSymbol,
     "--telegram-mode", $TelegramMode
 )
 

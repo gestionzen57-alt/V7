@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import hashlib
@@ -10,7 +10,6 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any, Dict, Tuple
-
 
 # PowerFlow Windows UTF-8 stdout guard
 try:
@@ -24,9 +23,9 @@ DEFAULT_TEXT = Path("output") / "dashboard_surface" / "GBPUSD" / "terrain_packet
 DEFAULT_STATE = Path("output") / "telegram_alerts" / "state.json"
 DEFAULT_LOCAL_CONFIG = Path("config") / "telegram_alerts.local.json"
 
-
 QUALIFIED_BIAS_BLOCKLIST = {"UNKNOWN", "HONEST_UNKNOWN", "", None}
 RAW_ONLY_BIAS = {"PAIR_UP", "PAIR_DOWN", "HOT", "WATCH", "ACTIVE", "MIXED", "NEUTRAL"}
+
 IMPORTANT_PRICE = {
     "PRICE_CONFIRMED",
     "PRICE_REJECTED_HIGH",
@@ -35,6 +34,7 @@ IMPORTANT_PRICE = {
     "PRICE_ACCEPTED_BELOW_ZONE",
     "PRICE_INVALIDATED",
 }
+
 IMPORTANT_QUALITY = {
     "STRUCTURAL_REACTION",
     "STRUCTURAL_CONTINUATION",
@@ -42,6 +42,7 @@ IMPORTANT_QUALITY = {
     "EXHAUSTION_RISK",
     "REACTION_NOT_RELEASE",
 }
+
 IMPORTANT_FILMS = {
     "HIGH_ZONE_REJECTION",
     "LOWER_LOCK",
@@ -128,7 +129,6 @@ def should_alert(packet: Dict[str, Any], state: Dict[str, Any], cooldown_seconds
         or data not in ("FULL_READING", "UNKNOWN", None, "")
         or bool(risks)
     )
-
     if not important:
         return False, "packet is not important enough"
 
@@ -142,12 +142,11 @@ def should_alert(packet: Dict[str, Any], state: Dict[str, Any], cooldown_seconds
 
 
 def build_message(packet: Dict[str, Any], text_fr: str) -> str:
-    header = "🔔 PowerFlow — alerte qualifiée"
+    header = "PowerFlow — alerte qualifiée"
     symbol = packet.get("symbol", "UNKNOWN")
     qualified = packet.get("qualified_bias", "UNKNOWN")
     price = packet.get("price_confirmation", "UNKNOWN")
     data = packet.get("data_visibility", "UNKNOWN")
-
     footer = (
         "\n\n"
         f"Résumé technique : {symbol} | {qualified} | {price} | DATA={data}\n"
@@ -165,7 +164,6 @@ def send_telegram(token: str, chat_id: str, message: str) -> Dict[str, Any]:
             "disable_web_page_preview": "true",
         }
     ).encode("utf-8")
-
     request = urllib.request.Request(url, data=payload, method="POST")
     with urllib.request.urlopen(request, timeout=20) as response:
         data = response.read().decode("utf-8")
@@ -173,7 +171,9 @@ def send_telegram(token: str, chat_id: str, message: str) -> Dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Send qualified PowerFlow terrain_packet alerts to Telegram in French.")
+    parser = argparse.ArgumentParser(
+        description="Send qualified PowerFlow terrain_packet alerts to Telegram in French."
+    )
     parser.add_argument("--packet", default=str(DEFAULT_PACKET), help="terrain_packet.json path")
     parser.add_argument("--text-fr", default=str(DEFAULT_TEXT), help="terrain_packet_fr.txt path")
     parser.add_argument("--state", default=str(DEFAULT_STATE), help="alert state JSON path")
@@ -225,20 +225,20 @@ def main() -> int:
     token, chat_id = _token_and_chat(args)
     if not token or not chat_id:
         raise SystemExit(
-            "Missing Telegram credentials. Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID, "
+            "Missing Telegram credentials. "
+            "Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID, "
             "or create config/telegram_alerts.local.json with bot_token/chat_id."
         )
 
     response = send_telegram(token, chat_id, message)
     result["telegram_response"] = response
-
     state[fp] = int(time.time())
     _write_json(state_path, state)
-
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 
