@@ -172,5 +172,21 @@ def main() -> int:
     return 0
 
 
+
+# V7.6.2 legacy evidence adapter wrapper
+try:
+    _v76_original_build_terrain_context = build_terrain_context
+
+    def build_terrain_context(evidence):
+        base_context = _v76_original_build_terrain_context(evidence)
+        try:
+            from pf_legacy_evidence_adapter_once import enrich_terrain_context_from_legacy
+            return enrich_terrain_context_from_legacy(evidence, base_context)
+        except Exception:
+            return base_context
+except NameError:
+    pass
+
+
 if __name__ == "__main__":
     raise SystemExit(main())
