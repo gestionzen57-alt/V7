@@ -378,6 +378,22 @@
           #pf-v767-reality-board pre{max-height:240px;overflow:auto;background:rgba(0,0,0,.18);border-radius:10px;padding:10px}
           #pf-v767-reality-board h2{font-size:20px;line-height:1.2}
           @media (max-width:1100px){#pf-v767-reality-board .pf-v767-grid{grid-template-columns:1fr}}
+
+          /* PF_V767_READABILITY_POLISH_V2 */
+          #pf-v767-reality-board{display:block!important;width:auto!important;max-width:calc(100vw - 36px)!important;margin:18px!important;padding:16px!important;box-sizing:border-box!important;overflow:hidden!important;clear:both!important}
+          #pf-v767-reality-board h2{font-size:20px!important;line-height:1.2!important;margin:0 0 10px 0!important;white-space:normal!important}
+          #pf-v767-reality-board .pf-v767-banner{display:block!important;white-space:normal!important;word-break:break-word!important;margin:8px 0 12px 0!important}
+          #pf-v767-reality-board .pf-v767-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important}
+          #pf-v767-reality-board .pf-v767-card{min-height:auto!important;overflow:hidden!important;padding:12px!important}
+          #pf-v767-reality-board .pf-v767-card h3{margin:0 0 8px 0!important;font-size:12px!important}
+          #pf-v767-reality-board .pf-v767-line{display:block!important;margin:0 0 8px 0!important;padding-bottom:6px!important;border-bottom:1px solid rgba(255,255,255,.055)!important}
+          #pf-v767-reality-board .pf-v767-k{display:block!important;font-size:11px!important;line-height:1.2!important;text-transform:uppercase!important;letter-spacing:.05em!important;opacity:.65!important;margin-bottom:3px!important}
+          #pf-v767-reality-board .pf-v767-v{display:block!important;text-align:left!important;font-size:13px!important;line-height:1.25!important;font-weight:700!important;white-space:normal!important;word-break:break-word!important}
+          #pf-v767-reality-board .pf-v767-text{font-size:13px!important;line-height:1.35!important;white-space:normal!important;word-break:break-word!important}
+          #pf-v767-reality-board .pf-v767-wide{grid-column:1/-1!important}
+          #pf-v767-reality-board pre{max-height:220px!important;overflow:auto!important;background:rgba(0,0,0,.22)!important;border-radius:10px!important;padding:10px!important;white-space:pre-wrap!important;word-break:break-word!important}
+          @media (max-width:1250px){#pf-v767-reality-board .pf-v767-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+          @media (max-width:850px){#pf-v767-reality-board .pf-v767-grid{grid-template-columns:1fr!important}}
 </style><h2>POWERFLOW V7.6.7 - REALITY BOARD GBPUSD</h2>${banner}<div class="pf-v767-grid"><div class="pf-v767-card"><h3>FILM ACTIF</h3>${line("Film",l.film_state_fr||x.film_state)}${line("RÃ´le",l.move_role_fr||x.current_move_role)}${line("Moment clef",x.last_structural_time||x.last_structural_event)}</div><div class="pf-v767-card"><h3>PROFILS TEMPS</h3>${line("HTF - Analyse",h.summary_fr||h.state)}${line("MTF - Plan",m.summary_fr||m.state)}${line("LTF - Action",f.summary_fr||f.state)}</div><div class="pf-v767-card"><h3>LECTURE DOMINANTE</h3>${esc((x.dominant_strategy||{}).label_fr||"")}</div><div class="pf-v767-card"><h3>ALTERNATIVE</h3>${esc((x.alternative_strategy||{}).label_fr||"")}</div><div class="pf-v767-card"><h3>PIÃˆGE PROBABLE</h3>${esc((x.trap||{}).label_fr||"")}</div><div class="pf-v767-card"><h3>B6 / SESSION</h3>${line("B6",x.b6_nearest_film)}${line("Session",x.session_alignment)}</div><div class="pf-v767-card pf-v767-wide"><h3>TELEGRAM CANDIDATE</h3><pre style="white-space:pre-wrap;font-family:inherit">${esc(tg.text_fr||"")}</pre></div></div><div style="opacity:.75;font-size:12px;margin-top:10px">${esc(l.footer||"PowerFlow Ã©claire le terrain. Le trader arbitre.")}</div></section>`; (document.querySelector("main")||document.body).insertAdjacentHTML("afterbegin",html);}
   document.addEventListener("DOMContentLoaded",async()=>render(await load()));
 })();
