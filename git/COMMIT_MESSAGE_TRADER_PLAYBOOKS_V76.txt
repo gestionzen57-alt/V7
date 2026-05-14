@@ -1,0 +1,15 @@
+V7.6: add GBPUSD trader playbooks layer
+
+Add a minimal non-executing playbook runner for GBPUSD terrain packets.
+
+- add patch/pf_trader_playbook_once.py
+- add schema/playbook_labels_fr_v76.json
+- add tests/test_trader_playbook_v76.py
+- add Docs/POWERFLOW_V76_TRADER_PLAYBOOKS_REPORT.md
+
+The playbook layer reads terrain_packet fields and outputs scenario attention fields:
+playbook_state, playbook_label_fr, playbook_context_fr, watch_plan_fr,
+invalidation_fr and no_trade_warning_fr.
+
+No BUY/SELL, no execution, no Telegram activation, GBPUSD only.
+

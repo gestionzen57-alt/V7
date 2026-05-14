@@ -154,6 +154,23 @@ def format_terrain_packet_fr(packet: Dict[str, Any], labels: Dict[str, Any] | No
         if short_days:
             lines.append("Films proches : " + " | ".join(short_days))
 
+    playbook_label = packet.get("playbook_label_fr")
+    if playbook_label:
+        lines.append("")
+        lines.append(f"Scénario trader : {playbook_label}")
+    playbook_context = packet.get("playbook_context_fr")
+    if playbook_context:
+        lines.append(f"Contexte scénario : {playbook_context}")
+    watch_plan = packet.get("watch_plan_fr")
+    if watch_plan:
+        lines.append(f"Plan de surveillance : {watch_plan}")
+    playbook_invalidation = packet.get("invalidation_fr")
+    if playbook_invalidation:
+        lines.append(f"Invalidation scénario : {playbook_invalidation}")
+    no_trade_warning = packet.get("no_trade_warning_fr")
+    if no_trade_warning:
+        lines.append(f"Avertissement : {no_trade_warning}")
+
     return "\n".join(lines).strip() + "\n"
 
 

@@ -77,6 +77,32 @@ def write_dashboard_surface(symbol: str, context: Dict[str, Any], packet: Dict[s
     write_json(packet_path, packet)
     write_json(memory_path, memory)
 
+    # PowerFlow V7.6 trader playbook enrichment
+    playbook_path = out_dir / "trader_playbook.json"
+    playbook_cmd = [
+        sys.executable,
+        str(ROOT / "patch" / "pf_trader_playbook_once.py"),
+        "--symbol",
+        symbol,
+        "--input",
+        str(packet_path),
+        "--labels",
+        str(ROOT / "schema" / "playbook_labels_fr_v76.json"),
+        "--output",
+        str(playbook_path),
+        "--packet-output",
+        str(packet_path),
+    ]
+    subprocess.run(playbook_cmd, cwd=str(ROOT), check=True)
+
+    # Reload enriched packet so the result summary and downstream formatter share the same payload.
+    try:
+        enriched_packet = read_json(packet_path)
+        packet.clear()
+        packet.update(enriched_packet)
+    except Exception:
+        pass
+
     cmd = [
         sys.executable,
         str(ROOT / "patch" / "pf_trader_labels_fr_once.py"),
@@ -91,6 +117,7 @@ def write_dashboard_surface(symbol: str, context: Dict[str, Any], packet: Dict[s
         "context": str(context_path.relative_to(ROOT)),
         "packet": str(packet_path.relative_to(ROOT)),
         "memory": str(memory_path.relative_to(ROOT)),
+        "playbook": str(playbook_path.relative_to(ROOT)),
         "text_fr": str(fr_path.relative_to(ROOT)),
     }
 
