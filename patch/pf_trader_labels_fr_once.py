@@ -207,3 +207,132 @@ def main() -> int:
 if __name__ == "__main__":
     raise SystemExit(main())
 
+# V7.6.6 condition alias normalization
+# Purpose: keep Telegram/playbook FR readable when an enum was already partially
+# translated by the generic terrain label layer before the condition-specific
+# renderer gets it.
+def _v766_condition_alias_cleanup(value):
+    _map = {
+        "vraie acceptation prix, pas extension tardive": "vraie acceptation prix, pas extension tardive",
+        "vraie acceptation prix, pas extension tardive": "vraie acceptation prix, pas extension tardive",
+        "rejet haut confirmé ou déroulement inverse": "rejet haut confirmé ou déroulement inverse",
+        "condition dâ€™invalidation non traduite : rejet haut confirmé ou déroulement inverse": "rejet haut confirmé ou déroulement inverse",
+        "vraie acceptation prix, pas extension tardive.": "vraie acceptation prix, pas extension tardive.",
+        "rejet haut confirmé ou déroulement inverse.": "rejet haut confirmé ou déroulement inverse.",
+    }
+    if isinstance(value, str):
+        out = value
+        for bad, good in _map.items():
+            out = out.replace(bad, good)
+        return out
+    if isinstance(value, list):
+        return [_v766_condition_alias_cleanup(x) for x in value]
+    if isinstance(value, tuple):
+        return tuple(_v766_condition_alias_cleanup(x) for x in value)
+    if isinstance(value, dict):
+        return {k: _v766_condition_alias_cleanup(v) for k, v in value.items()}
+    return value
+
+try:
+    for _dict_name in list(globals()):
+        _dict_obj = globals().get(_dict_name)
+        if isinstance(_dict_obj, dict):
+            _dict_obj.setdefault("vraie acceptation prix, pas extension tardive.", "vraie acceptation prix, pas extension tardive.")
+            _dict_obj.setdefault("rejet haut confirmé ou déroulement inverse.", "rejet haut confirmé ou déroulement inverse.")
+            _dict_obj.setdefault("vraie acceptation prix, pas extension tardive.", "vraie acceptation prix, pas extension tardive.")
+            _dict_obj.setdefault("rejet haut confirmé ou déroulement inverse.", "rejet haut confirmé ou déroulement inverse.")
+except Exception:
+    pass
+
+try:
+    import inspect as _inspect_v766
+    import functools as _functools_v766
+
+    def _v766_wrap_string_return(_func):
+        @_functools_v766.wraps(_func)
+        def _wrapped(*args, **kwargs):
+            return _v766_condition_alias_cleanup(_func(*args, **kwargs))
+        return _wrapped
+
+    for _name, _obj in list(globals().items()):
+        if _name.startswith("_v766_"):
+            continue
+        if _inspect_v766.isfunction(_obj) and getattr(_obj, "__module__", None) == __name__:
+            globals()[_name] = _v766_wrap_string_return(_obj)
+except Exception:
+    pass
+
+# V7.6.6 final condition cleanup V3
+# Last-pass cleanup for condition labels that were already partially translated
+# before the condition-specific renderer handled them.
+def _v766_final_condition_cleanup(value):
+    _mojibake = {
+        "\u00c3\u00a9": "\u00e9",
+        "\u00c3\u00a8": "\u00e8",
+        "\u00c3\u00aa": "\u00ea",
+        "\u00c3\u00a0": "\u00e0",
+        "\u00c3\u0089": "\u00c9",
+        "\u00c3\u008a": "\u00ca",
+        "\u00c3\u00a7": "\u00e7",
+    }
+    _repl = {
+        "WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION": "vraie acceptation prix, pas extension tardive.",
+        "HIGH_REJECTION_OR_UNWIND": "rejet haut confirm\u00e9 ou d\u00e9roulement inverse.",
+        "Surveiller acceptation propre, pas extension tardive.": "vraie acceptation prix, pas extension tardive.",
+        "Surveiller acceptation propre, pas extension tardive": "vraie acceptation prix, pas extension tardive",
+        "Rejet de zone haute ou unwind.": "rejet haut confirm\u00e9 ou d\u00e9roulement inverse.",
+        "Rejet de zone haute ou unwind": "rejet haut confirm\u00e9 ou d\u00e9roulement inverse",
+        "condition \u00e0 surveiller non traduite : Surveiller acceptation propre, pas extension tardive": "vraie acceptation prix, pas extension tardive",
+        "condition a surveiller non traduite : Surveiller acceptation propre, pas extension tardive": "vraie acceptation prix, pas extension tardive",
+        "condition \u00e0 surveiller non traduite : vraie acceptation prix, pas extension tardive": "vraie acceptation prix, pas extension tardive",
+        "condition a surveiller non traduite : vraie acceptation prix, pas extension tardive": "vraie acceptation prix, pas extension tardive",
+        "condition d'invalidation non traduite : Rejet de zone haute ou unwind": "rejet haut confirm\u00e9 ou d\u00e9roulement inverse",
+        "condition d\u2019invalidation non traduite : Rejet de zone haute ou unwind": "rejet haut confirm\u00e9 ou d\u00e9roulement inverse",
+        "condition d'invalidation non traduite : rejet haut confirm\u00e9 ou d\u00e9roulement inverse": "rejet haut confirm\u00e9 ou d\u00e9roulement inverse",
+        "condition d\u2019invalidation non traduite : rejet haut confirm\u00e9 ou d\u00e9roulement inverse": "rejet haut confirm\u00e9 ou d\u00e9roulement inverse",
+    }
+    if isinstance(value, str):
+        out = value
+        for bad, good in _mojibake.items():
+            out = out.replace(bad, good)
+        for _ in range(2):
+            for bad, good in _repl.items():
+                out = out.replace(bad, good)
+        return out
+    if isinstance(value, list):
+        return [_v766_final_condition_cleanup(x) for x in value]
+    if isinstance(value, tuple):
+        return tuple(_v766_final_condition_cleanup(x) for x in value)
+    if isinstance(value, dict):
+        return {k: _v766_final_condition_cleanup(v) for k, v in value.items()}
+    return value
+
+try:
+    for _dict_name in list(globals()):
+        _dict_obj = globals().get(_dict_name)
+        if isinstance(_dict_obj, dict):
+            _dict_obj["WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION"] = "vraie acceptation prix, pas extension tardive."
+            _dict_obj["HIGH_REJECTION_OR_UNWIND"] = "rejet haut confirm\u00e9 ou d\u00e9roulement inverse."
+            _dict_obj["Surveiller acceptation propre, pas extension tardive."] = "vraie acceptation prix, pas extension tardive."
+            _dict_obj["Rejet de zone haute ou unwind."] = "rejet haut confirm\u00e9 ou d\u00e9roulement inverse."
+except Exception:
+    pass
+
+try:
+    import inspect as _inspect_v766_final
+    import functools as _functools_v766_final
+
+    def _v766_final_wrap(_func):
+        @_functools_v766_final.wraps(_func)
+        def _wrapped(*args, **kwargs):
+            return _v766_final_condition_cleanup(_func(*args, **kwargs))
+        return _wrapped
+
+    for _name, _obj in list(globals().items()):
+        if _name.startswith("_v766_"):
+            continue
+        if _inspect_v766_final.isfunction(_obj) and getattr(_obj, "__module__", None) == __name__:
+            globals()[_name] = _v766_final_wrap(_obj)
+except Exception:
+    pass
+

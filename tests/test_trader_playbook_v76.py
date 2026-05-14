@@ -31,7 +31,7 @@ def test_high_zone_exhaustion_with_partial_data():
     }
     out = build(p)
     assert out["playbook_state"] == "HIGH_ZONE_EXHAUSTION_RISK"
-    assert out["playbook_label_fr"] == "Risque d'epuisement en zone haute"
+    assert out["playbook_label_fr"] == "Risque d’épuisement en zone haute"
     assert "Ne pas chase" in out["watch_plan_fr"]
     assert "zone haute" in out["invalidation_fr"]
     assert "Lecture partielle" in out["no_trade_warning_fr"]

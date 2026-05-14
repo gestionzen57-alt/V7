@@ -116,9 +116,9 @@ Output extrait :
 ```json
 {
   "playbook_state": "HIGH_ZONE_EXHAUSTION_RISK",
-  "playbook_label_fr": "Risque d'epuisement en zone haute",
-  "watch_plan_fr": "Ne pas chase. Surveiller acceptation propre au-dessus de la zone haute ou rejet confirme avec perte de tenue du prix.",
-  "invalidation_fr": "Acceptation propre au-dessus de la zone haute avec propagation non degradee et prix qui tient la zone.",
+  "playbook_label_fr": "Risque d’épuisement en zone haute",
+  "watch_plan_fr": "Ne pas chase. Surveiller acceptation propre au-dessus de la zone haute ou rejet confirmé avec perte de tenue du prix.",
+  "invalidation_fr": "Acceptation propre au-dessus de la zone haute avec propagation non dégradée et prix qui tient la zone.",
   "no_trade_warning_fr": "Lecture partielle : prudence analytique, ne pas traiter comme lecture complete."
 }
 ```

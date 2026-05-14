@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
+r"""
 PowerFlow V7.6 - Trader Playbook GBPUSD Only
 
 Lit un terrain_packet GBPUSD et produit une couche playbook d'attention trader.
@@ -68,14 +68,14 @@ PLAYBOOK_ORDER = [
 
 DEFAULT_LABELS_FR: Dict[str, Dict[str, str]] = {
     "HIGH_ZONE_EXHAUSTION_RISK": {
-        "playbook_label_fr": "Risque d'epuisement en zone haute",
-        "playbook_context_fr": "Le flux arrive ou reste en zone haute avec signes de consommation, rejet ou extension tardive. Le playbook ne valide pas une continuation brute; il signale que le mouvement peut etre mature ou consomme.",
-        "watch_plan_fr": "Ne pas chase. Surveiller acceptation propre au-dessus de la zone haute ou rejet confirme avec perte de tenue du prix.",
-        "invalidation_fr": "Acceptation propre au-dessus de la zone haute avec propagation non degradee et prix qui tient la zone.",
+        "playbook_label_fr": "Risque d’épuisement en zone haute",
+        "playbook_context_fr": "Le flux arrive ou reste en zone haute avec signes de consommation, rejet ou extension tardive. Le playbook ne valide pas une continuation brute; il signale que le mouvement peut être mature ou consomme.",
+        "watch_plan_fr": "Ne pas chase. Surveiller acceptation propre au-dessus de la zone haute ou rejet confirmé avec perte de tenue du prix.",
+        "invalidation_fr": "Acceptation propre au-dessus de la zone haute avec propagation non dégradée et prix qui tient la zone.",
     },
     "POST_HIGH_UNWIND": {
         "playbook_label_fr": "Deroulement apres rejet de zone haute",
-        "playbook_context_fr": "Le dernier film dominant est un rejet ou une fatigue de zone haute. Un biais descendant brut doit etre lu comme unwind post-high, pas comme nouvelle structure isolee.",
+        "playbook_context_fr": "Le dernier film dominant est un rejet ou une fatigue de zone haute. Un biais descendant brut doit être lu comme unwind post-high, pas comme nouvelle structure isolee.",
         "watch_plan_fr": "Surveiller si le prix accepte sous la zone de rejet et si la propagation descendante reste propre.",
         "invalidation_fr": "Reintegration claire de la zone haute puis acceptation au-dessus de la zone rejetee.",
     },
@@ -88,12 +88,12 @@ DEFAULT_LABELS_FR: Dict[str, Dict[str, str]] = {
     "POST_RELEASE_COUNTER_BREATH": {
         "playbook_label_fr": "Respiration inverse apres release",
         "playbook_context_fr": "Apres une release structurelle, le mouvement inverse est d'abord une respiration/counter-breath tant que le prix ne reintegre pas proprement la structure precedente.",
-        "watch_plan_fr": "Surveiller si le counter-breath est absorbe, rejete ou accepte. Le role principal est reaction, pas nouvelle phase tant que le prix ne confirme pas.",
+        "watch_plan_fr": "Surveiller si le counter-breath est absorbe, rejete ou accepte. Le role principal est reaction, pas nouvelle phase tant que le prix ne confirmé pas.",
         "invalidation_fr": "Reintegration propre avec acceptation prix et propagation qui transforme la reaction en nouvelle phase.",
     },
     "POST_LOW_COUNTER_BREATH": {
         "playbook_label_fr": "Reaction depuis zone basse",
-        "playbook_context_fr": "Le prix reagit depuis une zone basse ou apres retest de low. Le biais haussier brut doit etre lu comme reaction/counter-breath post-low tant que l'acceptation haute n'est pas visible.",
+        "playbook_context_fr": "Le prix reagit depuis une zone basse ou apres retest de low. Le biais haussier brut doit être lu comme reaction/counter-breath post-low tant que l'acceptation haute n'est pas visible.",
         "watch_plan_fr": "Surveiller acceptation au-dessus de la borne haute de zone ou rejet rapide de la reaction.",
         "invalidation_fr": "Cassure ou acceptation sous la zone basse, ou rejet net du counter-breath.",
     },
@@ -101,7 +101,7 @@ DEFAULT_LABELS_FR: Dict[str, Dict[str, str]] = {
         "playbook_label_fr": "Lecture limitee / inconnue honnete",
         "playbook_context_fr": "Les champs terrain ne permettent pas de nommer un scenario prioritaire sans surinterpreter. La sortie expose la limite plutot qu'une fausse certitude.",
         "watch_plan_fr": "Attendre un indice terrain plus net: prix, propagation, texture ou data visibility meilleure.",
-        "invalidation_fr": "Nouveau packet avec prix confirme, data visible et role terrain coherent.",
+        "invalidation_fr": "Nouveau packet avec prix confirmé, data visible et role terrain coherent.",
     },
 }
 

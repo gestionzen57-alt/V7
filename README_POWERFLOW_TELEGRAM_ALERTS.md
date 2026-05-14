@@ -122,10 +122,10 @@ Depuis ce patch, `watch_condition` et `invalidation_condition` sont traduits ava
 Exemples :
 
 ```text
-WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION
+vraie acceptation prix, pas extension tardive
 → À surveiller : vraie acceptation prix, pas extension tardive.
 
-HIGH_REJECTION_OR_UNWIND
+rejet haut confirmé ou déroulement inverse
 → Invalidation : rejet haut confirmé ou déroulement inverse.
 ```
 

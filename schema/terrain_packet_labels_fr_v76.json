@@ -156,8 +156,8 @@
     "ACCEPTANCE_ABOVE_ZONE": "Acceptation au-dessus de la zone",
     "ACCEPTANCE_BELOW_ZONE": "Acceptation sous la zone",
     "RANGE_MID_NOISE": "Bruit de milieu de range",
-    "WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION": "vraie acceptation prix, pas extension tardive",
-    "HIGH_REJECTION_OR_UNWIND": "rejet haut confirmé ou déroulement inverse",
+    "WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION": "vraie acceptation prix, pas extension tardive.",
+    "HIGH_REJECTION_OR_UNWIND": "rejet haut confirmé ou déroulement inverse.",
     "WATCH_FOR_PRICE_ACCEPTANCE_ABOVE_ZONE": "acceptation prix au-dessus de la zone",
     "WATCH_FOR_PRICE_ACCEPTANCE_BELOW_ZONE": "acceptation prix sous la zone",
     "WATCH_FOR_COUNTER_BREATH_REJECTION": "rejet du contre-souffle",
@@ -192,5 +192,12 @@
       "À surveiller : {watch_condition}",
       "Invalidation : {invalidation_condition}"
     ]
-  }
+  },
+  "WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION": "vraie acceptation prix, pas extension tardive.",
+  "HIGH_REJECTION_OR_UNWIND": "rejet haut confirmé ou déroulement inverse.",
+  "HIGH_ZONE_EXHAUSTION_RISK": "Risque d’épuisement en zone haute",
+  "READING_PARTIAL": "Lecture partielle",
+  "PRICE_REJECTED_LOW": "Prix rejeté en bas",
+  "PRICE_REJECTED_HIGH": "Prix rejeté en haut",
+  "LATE_HIGH_REJECTION_WITH_DEEP_UNWIND": "High rejeté puis unwind profond"
 }

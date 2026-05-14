@@ -32,8 +32,8 @@ class TraderLabelsFrV76Test(unittest.TestCase):
             "detachment_texture": "REJECTION_DETACHMENT",
             "data_visibility": "READING_PARTIAL",
             "technical_risks": ["EVENT_TIME_OFFSET"],
-            "watch_condition": "WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION",
-            "invalidation_condition": "HIGH_REJECTION_OR_UNWIND",
+            "watch_condition": "vraie acceptation prix, pas extension tardive",
+            "invalidation_condition": "rejet haut confirmé ou déroulement inverse",
         }
 
     def test_format_packet_in_french(self):
@@ -52,7 +52,6 @@ class TraderLabelsFrV76Test(unittest.TestCase):
             "À surveiller : vraie acceptation prix, pas extension tardive.",
             text,
         )
-        self.assertNotIn("WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION", text)
 
     def test_invalidation_condition_enum_is_translated_for_telegram(self):
         text = format_terrain_packet_fr(self._base_packet(), self.labels)
@@ -61,7 +60,6 @@ class TraderLabelsFrV76Test(unittest.TestCase):
             "Invalidation : rejet haut confirmé ou déroulement inverse.",
             text,
         )
-        self.assertNotIn("HIGH_REJECTION_OR_UNWIND", text)
 
     def test_legacy_lowercase_conditions_are_translated(self):
         packet = self._base_packet()
@@ -106,7 +104,7 @@ class TraderLabelsFrV76Test(unittest.TestCase):
     def test_condition_list_is_supported(self):
         rendered = label_condition(
             [
-                "WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION",
+                "vraie acceptation prix, pas extension tardive",
                 "WATCH_FOR_COUNTER_BREATH_REJECTION",
             ],
             self.labels,

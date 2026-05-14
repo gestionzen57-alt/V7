@@ -39,6 +39,12 @@
       "watch_plan_fr": "Attendre un indice terrain plus net: prix, propagation, texture ou data visibility meilleure.",
       "invalidation_fr": "Nouveau packet avec prix confirme, data visible et role terrain coherent."
     }
-  }
+  },
+  "WATCH_FOR_TRUE_ACCEPTANCE_NOT_LATE_EXTENSION": "vraie acceptation prix, pas extension tardive.",
+  "HIGH_REJECTION_OR_UNWIND": "rejet haut confirmé ou déroulement inverse.",
+  "HIGH_ZONE_EXHAUSTION_RISK": "Risque d’épuisement en zone haute",
+  "READING_PARTIAL": "Lecture partielle",
+  "PRICE_REJECTED_LOW": "Prix rejeté en bas",
+  "PRICE_REJECTED_HIGH": "Prix rejeté en haut",
+  "LATE_HIGH_REJECTION_WITH_DEEP_UNWIND": "High rejeté puis unwind profond"
 }
-
