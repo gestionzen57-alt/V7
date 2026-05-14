@@ -1,0 +1,176 @@
+{
+  "fields": {
+    "film_state": {
+      "label": "Film du marché",
+      "description": "Contexte global actuel du marché."
+    },
+    "last_structural_event": {
+      "label": "Dernier événement structurel",
+      "description": "Dernier événement important qui change la lecture."
+    },
+    "current_zone": {
+      "label": "Zone active",
+      "description": "Zone de prix actuellement travaillée."
+    },
+    "current_zone_status": {
+      "label": "Statut de la zone",
+      "description": "Ce que le prix fait dans cette zone."
+    },
+    "current_move_role": {
+      "label": "Rôle du mouvement",
+      "description": "À quoi sert le mouvement actuel."
+    },
+    "raw_bias": {
+      "label": "Signal brut",
+      "description": "Ce que les briques voient avant interprétation."
+    },
+    "qualified_bias": {
+      "label": "Lecture qualifiée",
+      "description": "Ce que le signal signifie dans le film."
+    },
+    "packet_quality": {
+      "label": "Qualité du packet",
+      "description": "Fiabilité, maturité ou limite du signal."
+    },
+    "price_confirmation": {
+      "label": "Confirmation prix",
+      "description": "Ce que le prix confirme ou invalide."
+    },
+    "propagation_state": {
+      "label": "Propagation",
+      "description": "Le mouvement reste local ou se propage."
+    },
+    "detachment_texture": {
+      "label": "Texture du détachement",
+      "description": "Nature du mouvement : propre, bruité, tardif, rejeté."
+    },
+    "data_visibility": {
+      "label": "Visibilité data",
+      "description": "Ce que PowerFlow voit ou ne voit pas."
+    },
+    "technical_risks": {
+      "label": "Risques techniques",
+      "description": "Données manquantes, décalages, packets périmés."
+    },
+    "watch_condition": {
+      "label": "À surveiller",
+      "description": "Ce qui doit réveiller l’attention."
+    },
+    "invalidation_condition": {
+      "label": "Invalidation",
+      "description": "Ce qui annule la lecture actuelle."
+    }
+  },
+  "values": {
+    "LOWER_ZONE_ACTIVE": "Zone basse active",
+    "HIGH_ZONE_ACTIVE": "Zone haute active",
+    "HIGH_ZONE_REJECTION": "Rejet de zone haute",
+    "LOWER_LOCK": "Verrouillage bas",
+    "RANGE_ACTIVE": "Range actif",
+    "POST_RELEASE_UNWIND": "Déroulement après libération",
+    "POST_RELEASE_REBUILD": "Reconstruction après libération",
+    "PRE_LONDON_FALSE_BIRTHS": "Fausses naissances pré-London",
+    "READING_PARTIAL": "Lecture partielle",
+    "UNKNOWN": "Inconnu",
+    "HONEST_UNKNOWN": "Inconnu honnête",
+    "RELEASE_UP_VALIDATED": "Libération haussière validée",
+    "RELEASE_DOWN_VALIDATED": "Libération baissière validée",
+    "COUNTER_BREATH_REJECTED": "Contre-souffle rejeté",
+    "LOWER_LOCK_CONFIRMED": "Verrouillage bas confirmé",
+    "SECOND_LEG_DOWN": "Deuxième jambe baissière",
+    "SECOND_LEG_UP": "Deuxième jambe haussière",
+    "PULLBACK_ABSORBED": "Pullback absorbé",
+    "FALSE_BIRTH": "Fausse naissance",
+    "EXHAUSTION": "Épuisement",
+    "RELEASE_CANDIDATE": "Candidat à la libération",
+    "RELEASE_VALIDATED": "Libération validée",
+    "RELEASE_CONSUMED": "Libération consommée",
+    "PRESSURE_PENDING": "Pression en attente",
+    "COUNTER_BREATH": "Contre-souffle",
+    "POST_RELEASE_PULLBACK": "Pullback après libération",
+    "POST_HIGH_UNWIND": "Déroulement baissier après rejet haut",
+    "POST_LOW_REACTION": "Réaction après bas",
+    "SECOND_LEG": "Deuxième jambe",
+    "LATE_THIN_BOUNCE": "Rebond tardif fragile",
+    "PAIR_UP": "Signal brut haussier",
+    "PAIR_DOWN": "Signal brut baissier",
+    "MIXED": "Signal mixte",
+    "NEUTRAL": "Neutre",
+    "HOT": "Pression chaude",
+    "WATCH": "À surveiller",
+    "ACTIVE": "Actif",
+    "POST_RELEASE_COUNTER_BREATH": "Contre-souffle après libération",
+    "POST_LOW_COUNTER_BREATH": "Contre-souffle depuis zone basse",
+    "UP_CONTINUATION_ACCEPTED": "Continuation haussière acceptée",
+    "HIGH_ZONE_EXHAUSTION_RISK": "Risque d’épuisement en zone haute",
+    "EXHAUSTION_OR_CONSUMED": "Épuisé ou déjà consommé",
+    "FRESH": "Frais",
+    "CANDIDATE": "Candidat",
+    "CONFIRMED": "Confirmé",
+    "PENDING": "En attente",
+    "INVALIDATED": "Invalidé",
+    "CONSUMED": "Consommé",
+    "LATE": "Tardif",
+    "REACTION_NOT_RELEASE": "Réaction, pas libération",
+    "STRUCTURAL_REACTION": "Réaction structurelle",
+    "STRUCTURAL_CONTINUATION": "Continuation structurelle",
+    "CONTINUATION_ACCEPTED": "Continuation acceptée",
+    "EXHAUSTION_RISK": "Risque d’épuisement",
+    "DATA_LIMITED": "Data limitée",
+    "PRICE_CONFIRMED": "Prix confirmé",
+    "PRICE_PENDING": "Prix en attente",
+    "PRICE_FAILED": "Prix échoué",
+    "PRICE_INVALIDATED": "Prix invalidé",
+    "PRICE_REJECTED_HIGH": "Prix rejeté en haut",
+    "PRICE_REJECTED_LOW": "Prix rejeté en bas",
+    "PRICE_ACCEPTED_ABOVE_ZONE": "Prix accepté au-dessus de la zone",
+    "PRICE_ACCEPTED_BELOW_ZONE": "Prix accepté sous la zone",
+    "PRICE_ABSORBED_PULLBACK": "Pullback absorbé par le prix",
+    "LTF_ONLY": "Local seulement",
+    "LTF_MTF_RELAY": "Relais petit timeframe vers moyen timeframe",
+    "MTF_HTF_RELAY": "Relais moyen timeframe vers grand timeframe",
+    "FAILED_PROPAGATION": "Propagation échouée",
+    "RELAY_DEGRADING": "Relais qui se dégrade",
+    "COUNTERFLOW_AGAINST_STRUCTURE": "Contre-flux contre structure",
+    "STRUCTURAL_DETACHMENT": "Détachement structurel",
+    "NOISY_DETACHMENT": "Détachement bruité",
+    "COUNTER_BREATH_DETACHMENT": "Détachement de contre-souffle",
+    "POST_RELEASE_DETACHMENT": "Détachement post-libération",
+    "LATE_SESSION_DETACHMENT": "Détachement tardif",
+    "EXHAUSTION_DETACHMENT": "Détachement d’épuisement",
+    "REJECTION_DETACHMENT": "Détachement de rejet",
+    "FALSE_REACTION_DETACHMENT": "Fausse réaction",
+    "FULL_READING": "Lecture complète",
+    "MICROFILM_MISSING": "Microfilm manquant",
+    "M1_MISSING": "M1 manquant",
+    "PACKETS_STALE": "Packets périmés",
+    "B8_DEGRADED": "B8 dégradé",
+    "B5_B8_HONEST_UNKNOWN": "Relationnel inconnu honnête",
+    "TEMPORAL_GAPS": "Trous temporels",
+    "EVENT_TIME_OFFSET": "Décalage temporel événement",
+    "EVENT_TIME_AHEAD_OF_DETECTED_AT": "Event_at devant detected_at",
+    "REJECTION_HIGH": "Rejet de zone haute",
+    "REJECTION_LOW": "Rejet de zone basse",
+    "LOWER_RANGE_ACTIVE": "Range bas actif",
+    "HIGH_RANGE_ACTIVE": "Range haut actif",
+    "ACCEPTANCE_ABOVE_ZONE": "Acceptation au-dessus de la zone",
+    "ACCEPTANCE_BELOW_ZONE": "Acceptation sous la zone",
+    "RANGE_MID_NOISE": "Bruit de milieu de range"
+  },
+  "telegram_templates": {
+    "title": "{symbol} — {film_state_fr}",
+    "body_lines": [
+      "Film : {film_state_fr}",
+      "Dernier événement : {last_structural_event_fr}",
+      "Lecture : {raw_bias_fr} → {qualified_bias_fr}",
+      "Qualité : {packet_quality_fr}",
+      "Prix : {price_confirmation_fr}",
+      "Propagation : {propagation_state_fr}",
+      "Texture : {detachment_texture_fr}",
+      "Data : {data_visibility_fr}",
+      "Risques : {technical_risks_fr}",
+      "À surveiller : {watch_condition}",
+      "Invalidation : {invalidation_condition}"
+    ]
+  }
+}
