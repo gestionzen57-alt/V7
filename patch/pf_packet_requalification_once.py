@@ -534,7 +534,7 @@ def requalify_packet(raw_packet: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def _load_json(path: str) -> Dict[str, Any]:
-    with open(path, "r", encoding="utf-8") as handle:
+    with open(path, "r", encoding="utf-8-sig") as handle:
         data = json.load(handle)
     if not isinstance(data, dict):
         raise ValueError("input JSON must be an object")
