@@ -60,3 +60,6 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+# PowerFlow local Telegram secrets and alert state
+config/telegram_alerts.local.json
+output/telegram_alerts/
