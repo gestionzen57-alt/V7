@@ -139,6 +139,20 @@ def format_terrain_packet_fr(packet: Dict[str, Any], labels: Dict[str, Any] | No
     memory = packet.get("memory_match")
     if memory:
         lines.append(f"Mémoire B6 : {label_value(memory, labels)}")
+    memory_reason = packet.get("memory_reason_fr")
+    if memory_reason:
+        lines.append(f"Raison B6 : {memory_reason}")
+    similar_days = packet.get("similar_historical_days") or []
+    if similar_days:
+        short_days = []
+        for item in similar_days[:3]:
+            if isinstance(item, dict):
+                day = item.get("day", "?")
+                label = item.get("label_fr") or item.get("film_id", "?")
+                confidence = item.get("confidence", "?")
+                short_days.append(f"{day} — {label} ({confidence})")
+        if short_days:
+            lines.append("Films proches : " + " | ".join(short_days))
 
     return "\n".join(lines).strip() + "\n"
 

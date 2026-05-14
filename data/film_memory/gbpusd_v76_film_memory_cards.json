@@ -1,241 +1,473 @@
-[
-  {
-    "date": "2026-05-06",
-    "film_name": "RELEASE_UP_FROM_LOW_THEN_HIGH_ZONE_EXHAUSTION",
-    "film_state": "HIGH_ZONE_EXHAUSTION_AFTER_RELEASE_UP",
-    "last_structural_event": "RELEASE_UP_VALIDATED_THEN_HIGH_ZONE_EXHAUSTION",
-    "dominant_zone_status": "LOW_ZONE_BUILDING_TO_HIGH_ZONE_CONSUMED",
-    "dominant_move_role": "UP_RELEASE_THEN_LATE_UP_CONSUMED",
-    "raw_bias_risks": [
-      "PAIR_UP_AFTER_HIGH_ALREADY_DONE",
-      "HOT_AFTER_EXTENSION",
-      "UP_SIGNAL_CONSUMED"
-    ],
-    "expected_qualified_bias": [
-      "RELEASE_UP_VALIDATED",
-      "HIGH_ZONE_EXHAUSTION",
-      "UP_CONSUMED",
-      "POST_RELEASE_UNWIND"
-    ],
-    "packet_quality_expected": "FRESH_WHEN_PRICE_ACCEPTS_UP_THEN_CONSUMED_AFTER_HIGH_ZONE",
-    "price_confirmation_expected": "UP accepted while price holds/extends; late UP invalidated if high zone rejects or no further acceptance",
-    "data_visibility_notes": "Data must expose price acceptance, zone transition and propagation before release validation.",
-    "memory_signature": "LOW_ZONE_BUILDING -> RELEASE_UP_VALIDATED -> HIGH_ZONE_EXHAUSTION -> POST_RELEASE_UNWIND",
-    "false_positive_risks": [
-      "Treating late PAIR_UP as fresh release",
-      "Ignoring consumed high zone",
-      "HOT after extension misread as new birth"
-    ],
-    "qa_targets": [
-      "QA-FILM-20260506",
-      "QA-PATTERN-EXHAUSTION-CONSUMED",
-      "QA-PATTERN-RELEASE-VALIDATED"
-    ]
+{
+  "version": "v76_b6_gbpusd_film_memory_cards_20260514",
+  "symbol": "GBPUSD",
+  "scope": "GBPUSD_ONLY",
+  "doctrine": {
+    "purpose": "B6 film memory matches terrain packets against calibrated GBPUSD films. It exposes historical similarity, not prediction.",
+    "no_trade_decision": true,
+    "no_buy_sell": true,
+    "no_heavy_ml": true,
+    "if_doubt": "return low confidence with clear French reason"
   },
-  {
-    "date": "2026-05-07",
-    "film_name": "LATE_HIGH_REJECTION_WITH_DEEP_UNWIND",
-    "film_state": "POST_HIGH_UNWIND_AFTER_LATE_HIGH_REJECTION",
-    "last_structural_event": "HIGH_ZONE_REJECTION",
-    "dominant_zone_status": "HIGH_ZONE_REJECTED_LATE_SESSION",
-    "dominant_move_role": "DEEP_POST_HIGH_UNWIND",
-    "raw_bias_risks": [
-      "PAIR_DOWN_GENERIC",
-      "LATE_UP_EXTENSION_MISREAD",
-      "HOT_WITHOUT_ACCEPTANCE"
-    ],
-    "expected_qualified_bias": [
-      "HIGH_ZONE_REJECTION",
-      "POST_HIGH_UNWIND",
-      "DEEP_POST_HIGH_UNWIND"
-    ],
-    "packet_quality_expected": "DOWN_PACKET_VALID_AS_UNWIND_ONLY_AFTER_HIGH_REJECTION_AND_PRICE_CONFIRMATION",
-    "price_confirmation_expected": "High rejected; downside accepted by lower closes / unwind continuation.",
-    "data_visibility_notes": "Need enough price and zone visibility to distinguish rejection from normal pullback.",
-    "memory_signature": "POST_RELEASE_REBUILD -> LATE_UP_EXTENSION -> HIGH_ZONE_REJECTION -> DEEP_POST_HIGH_UNWIND",
-    "false_positive_risks": [
-      "Calling every PAIR_DOWN fresh release",
-      "Missing late high rejection",
-      "Overweighting B3/B2 without price"
-    ],
-    "qa_targets": [
-      "QA-FILM-20260507",
-      "QA-PATTERN-HIGH-REJECTION",
-      "QA-PATTERN-POST-HIGH-UNWIND"
-    ]
-  },
-  {
-    "date": "2026-05-08",
-    "film_name": "RELEASE_UP_VALIDATED_CLOSE_NEAR_HIGH",
-    "film_state": "RELEASE_UP_ACCEPTED_CONTINUATION",
-    "last_structural_event": "RELEASE_UP_VALIDATED",
-    "dominant_zone_status": "LOW_ZONE_REBUILD_TO_HIGH_ACCEPTANCE",
-    "dominant_move_role": "UP_CONTINUATION_AFTER_PULLBACK_ABSORBED",
-    "raw_bias_risks": [
-      "PAIR_UP_GENERIC",
-      "PAIR_DOWN_PULLBACK_MISREAD_AS_REVERSAL",
-      "HOT_NEEDS_PRICE_ACCEPTANCE"
-    ],
-    "expected_qualified_bias": [
-      "RELEASE_UP_VALIDATED",
-      "PULLBACK_ABSORBED",
-      "UP_CONTINUATION_ACCEPTED",
-      "CLOSE_NEAR_HIGH"
-    ],
-    "packet_quality_expected": "HIGH_QUALITY_WHEN_PULLBACK_ABSORBED_AND_CLOSE_REMAINS_NEAR_HIGH",
-    "price_confirmation_expected": "Higher acceptance; pullback fails to invalidate; close near high validates continuation.",
-    "data_visibility_notes": "Requires price acceptance plus propagation; no release validation from B3+B4+P1 alone.",
-    "memory_signature": "LOW_ZONE_REBUILD -> RELEASE_UP_VALIDATED -> PULLBACK_ABSORBED -> CONTINUATION_UP -> CLOSE_NEAR_HIGH",
-    "false_positive_risks": [
-      "Treating pullback as structural reversal",
-      "Validating release without close/acceptance",
-      "Ignoring propagation state"
-    ],
-    "qa_targets": [
-      "QA-FILM-20260508",
-      "QA-PATTERN-PULLBACK-ABSORBED",
-      "QA-PATTERN-UP-CONTINUATION-ACCEPTED"
-    ]
-  },
-  {
-    "date": "2026-05-11",
-    "film_name": "RELEASE_UP_FROM_COMPRESSION_THEN_SECOND_LEG_UP_AND_EXHAUSTION",
-    "film_state": "COMPRESSION_RELEASE_SECOND_LEG_EXHAUSTION",
-    "last_structural_event": "SECOND_LEG_UP_THEN_HIGH_ZONE_EXHAUSTION",
-    "dominant_zone_status": "COMPRESSION_TO_HIGH_ZONE_CONSUMED",
-    "dominant_move_role": "RELEASE_UP_THEN_SECOND_LEG_UP_THEN_EXHAUSTION",
-    "raw_bias_risks": [
-      "B3_B2_FALSE_BIRTH",
-      "EVENT_STACK_MISREAD_AS_BIRTH",
-      "LATE_UP_AFTER_SECOND_LEG"
-    ],
-    "expected_qualified_bias": [
-      "EVENT_STACK",
-      "FALSE_BIRTH",
-      "RELEASE_UP_VALIDATED",
-      "POST_RELEASE_PULLBACK",
-      "SECOND_LEG_UP",
-      "HIGH_ZONE_EXHAUSTION"
-    ],
-    "packet_quality_expected": "B3+B2_ONLY_EVENT_STACK; RELEASE_ONLY_AFTER_B4_P1_PRICE_B7; LATE_SECOND_LEG_CONSUMED",
-    "price_confirmation_expected": "False births invalidated before London; later release requires acceptance; exhaustion after high zone consumes UP.",
-    "data_visibility_notes": "Need pre-London segmentation; session context matters; false births must stay labelled.",
-    "memory_signature": "PRE_LONDON_FALSE_BIRTHS -> MIDDAY_RELEASE_UP -> POST_RELEASE_PULLBACK -> SECOND_LEG_UP -> HIGH_ZONE_EXHAUSTION -> LATE_UNWIND",
-    "false_positive_risks": [
-      "B3+B2 over-validation",
-      "Second leg mistaken for new fresh release",
-      "Late unwind ignored"
-    ],
-    "qa_targets": [
-      "QA-FILM-20260511",
-      "QA-PATTERN-FALSE-BIRTH",
-      "QA-PATTERN-SECOND-LEG",
-      "QA-PATTERN-EXHAUSTION-CONSUMED"
-    ]
-  },
-  {
-    "date": "2026-05-12",
-    "film_name": "LONDON_RELEASE_DOWN_WITH_LOWER_LOCK_AND_LATE_COUNTER_BREATH",
-    "film_state": "RELEASE_DOWN_LOWER_LOCK_COUNTER_BREATH",
-    "last_structural_event": "LONDON_RELEASE_DOWN_WITH_LOWER_LOCK",
-    "dominant_zone_status": "LOWER_ZONE_ACCEPTED_LOCKED",
-    "dominant_move_role": "DOWN_RELEASE_THEN_COUNTER_BREATH_UP",
-    "raw_bias_risks": [
-      "PAIR_UP_AFTER_RELEASE_DOWN",
-      "POST_LOW_REACTION_MISREAD_AS_FRESH_UP",
-      "LATE_COUNTER_BOUNCE"
-    ],
-    "expected_qualified_bias": [
-      "RELEASE_DOWN_VALIDATED",
-      "LOWER_LOCK",
-      "COUNTER_BREATH_UP",
-      "SECOND_LOW_TEST",
-      "LATE_COUNTER_BOUNCE"
-    ],
-    "packet_quality_expected": "PAIR_UP_AFTER_RELEASE_DOWN_REACTION_NOT_NEW_RELEASE_UNLESS_PRICE_REINTEGRATES",
-    "price_confirmation_expected": "Lower acceptance confirms down; PAIR_UP remains counter-breath until reintegration is accepted.",
-    "data_visibility_notes": "Must preserve last_structural_event; without it PAIR_UP becomes misleading.",
-    "memory_signature": "ASIA_HIGH_FAILURE -> LONDON_RELEASE_DOWN -> LOWER_PRICE_ACCEPTANCE -> POST_RELEASE_COUNTER_BREATH -> SECOND_LOW_TEST -> LATE_COUNTER_BOUNCE",
-    "false_positive_risks": [
-      "Calling counter-breath a fresh UP release",
-      "Forgetting lower lock",
-      "Missing second low test"
-    ],
-    "qa_targets": [
-      "QA-FILM-20260512",
-      "QA-PATTERN-LOWER-LOCK",
-      "QA-PATTERN-COUNTER-BREATH"
-    ]
-  },
-  {
-    "date": "2026-05-13",
-    "film_name": "POST_RELEASE_COUNTER_BREATH_REJECTED_THEN_SECOND_LEG_DOWN",
-    "film_state": "COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
-    "last_structural_event": "COUNTER_BREATH_REJECTED",
-    "dominant_zone_status": "LOWER_ACCEPTANCE_THEN_LOWER_LOW",
-    "dominant_move_role": "SECOND_LEG_DOWN_AFTER_REJECTED_COUNTER_BREATH",
-    "raw_bias_risks": [
-      "PAIR_UP_COUNTER_BREATH_MISREAD",
-      "PAIR_DOWN_GENERIC",
-      "LOWER_LOW_AFTER_REJECTION_UNQUALIFIED"
-    ],
-    "expected_qualified_bias": [
-      "COUNTER_BREATH_UP",
-      "COUNTER_BREATH_REJECTED",
-      "SECOND_LEG_DOWN",
-      "LOWER_LOW",
-      "POST_LOW_COUNTER_BREATH",
-      "LATE_THIN_BOUNCE"
-    ],
-    "packet_quality_expected": "DOWN_AFTER_COUNTER_BREATH_REJECTED_QUALIFIES_AS_SECOND_LEG_DOWN_IF_PRICE_BREAKS_LOWER",
-    "price_confirmation_expected": "Counter-breath fails; lower acceptance / lower low confirms second leg down.",
-    "data_visibility_notes": "Need price arbitration and last structural state; data weakness should degrade confidence.",
-    "memory_signature": "POST_RELEASE_LOWER_ACCEPTANCE -> LONDON_COUNTER_BREATH_UP -> COUNTER_BREATH_REJECTED -> SECOND_LEG_DOWN -> LOWER_LOW -> POST_LOW_COUNTER_BREATH -> LATE_THIN_BOUNCE",
-    "false_positive_risks": [
-      "Treating rejected counter-breath as neutral noise",
-      "Not upgrading to second leg after lower low",
-      "Late thin bounce overread"
-    ],
-    "qa_targets": [
-      "QA-FILM-20260513",
-      "QA-PATTERN-COUNTER-BREATH-REJECTED",
-      "QA-PATTERN-SECOND-LEG-DOWN"
-    ]
-  },
-  {
-    "date": "2026-05-14",
-    "film_name": "LOWER_ZONE_RANGE_WITH_COUNTER_BREATH_REJECTED_READING_PARTIAL",
-    "film_state": "LOWER_ZONE_RANGE_READING_PARTIAL",
-    "last_structural_event": "COUNTER_BREATH_REJECTED_IN_LOWER_ZONE_RANGE",
-    "dominant_zone_status": "LOWER_ZONE_RANGE_ACTIVE",
-    "dominant_move_role": "POST_LOW_REACTION_AFTER_REJECTED_COUNTER_BREATH",
-    "raw_bias_risks": [
-      "PAIR_UP_IN_LOWER_RANGE",
-      "STALE_PACKET",
-      "M1_MISSING",
-      "HOT_WITH_WEAK_VISIBILITY"
-    ],
-    "expected_qualified_bias": [
-      "LOWER_ZONE_RANGE_ACTIVE",
-      "COUNTER_BREATH_UP",
-      "COUNTER_BREATH_REJECTED",
-      "LOW_RETEST",
-      "POST_LOW_REACTION",
-      "READING_PARTIAL"
-    ],
-    "packet_quality_expected": "DEGRADED_WHEN_M1_MISSING_OR_PACKETS_STALE; OUTPUT_READING_PARTIAL_VISIBLE",
-    "price_confirmation_expected": "Pending unless lower-zone break or reintegration acceptance; stale data prevents hard validation.",
-    "data_visibility_notes": "READING_PARTIAL / MICROFILM_MISSING / PACKETS_STALE must be visible at top of packet.",
-    "memory_signature": "LOWER_ZONE_RANGE_ACTIVE -> COUNTER_BREATH_UP -> COUNTER_BREATH_REJECTED -> LOW_RETEST -> POST_LOW_REACTION",
-    "false_positive_risks": [
-      "Suppressing data warning",
-      "Reading PAIR_UP as fresh release despite lower range",
-      "Over-confirming with stale packet"
-    ],
-    "qa_targets": [
-      "QA-FILM-20260514",
-      "QA-PATTERN-READING-PARTIAL",
-      "QA-PATTERN-LOWER-ZONE-RANGE"
-    ]
-  }
-]
+  "scoring_fields": [
+    "film_state",
+    "last_structural_event",
+    "qualified_bias",
+    "price_confirmation",
+    "propagation_state",
+    "detachment_texture",
+    "data_visibility"
+  ],
+  "cards": [
+    {
+      "day": "2026-05-06",
+      "film_id": "RELEASE_UP_FROM_LOW_THEN_HIGH_ZONE_EXHAUSTION",
+      "label_fr": "Release UP depuis zone basse puis exhaustion en zone haute",
+      "sequence": [
+        "LOW_ZONE_BUILDING",
+        "RELEASE_UP_VALIDATED",
+        "HIGH_ZONE_EXHAUSTION",
+        "POST_RELEASE_UNWIND"
+      ],
+      "terrain_rule_fr": "UP après high-zone = suspect / consumed.",
+      "expected": {
+        "film_state": [
+          "LOW_ZONE_BUILDING",
+          "HIGH_ZONE_ACTIVE",
+          "HIGH_ZONE_REJECTION",
+          "POST_RELEASE_UNWIND"
+        ],
+        "last_structural_event": [
+          "RELEASE_UP_VALIDATED",
+          "HIGH_ZONE_REJECTION",
+          "EXHAUSTION"
+        ],
+        "qualified_bias": [
+          "RELEASE_UP_VALIDATED",
+          "UP_CONTINUATION_ACCEPTED",
+          "HIGH_ZONE_EXHAUSTION",
+          "POST_RELEASE_UNWIND",
+          "UP_CONSUMED"
+        ],
+        "price_confirmation": [
+          "CONFIRMED",
+          "ACCEPTED_THEN_CONSUMED",
+          "CONSUMED",
+          "REJECTED_AFTER_HIGH"
+        ],
+        "propagation_state": [
+          "LTF_MTF_RELAY",
+          "MTF_HTF_RELAY",
+          "RELAY_DEGRADING"
+        ],
+        "detachment_texture": [
+          "STRUCTURAL_DETACHMENT",
+          "EXHAUSTION_DETACHMENT",
+          "POST_RELEASE_DETACHMENT"
+        ],
+        "data_visibility": [
+          "FULL_STACK_VISIBLE",
+          "TACTICAL_OK"
+        ]
+      },
+      "aliases": {
+        "LOW_ZONE_BUILDING": [
+          "LOW_ZONE_REBUILD",
+          "LOWER_ZONE_BUILDING"
+        ],
+        "POST_RELEASE_UNWIND": [
+          "LATE_UNWIND",
+          "POST_HIGH_UNWIND"
+        ],
+        "HIGH_ZONE_EXHAUSTION": [
+          "EXHAUSTION",
+          "RELEASE_CONSUMED"
+        ]
+      },
+      "outcome_fr": "Release acceptée puis mouvement consommé en haut."
+    },
+    {
+      "day": "2026-05-07",
+      "film_id": "LATE_HIGH_REJECTION_WITH_DEEP_UNWIND",
+      "label_fr": "High tardif rejeté puis unwind profond",
+      "sequence": [
+        "POST_RELEASE_REBUILD",
+        "LATE_UP_EXTENSION",
+        "HIGH_ZONE_REJECTION",
+        "DEEP_POST_HIGH_UNWIND"
+      ],
+      "terrain_rule_fr": "DOWN après high rejeté = post-high unwind, pas PAIR_DOWN générique.",
+      "expected": {
+        "film_state": [
+          "POST_RELEASE_REBUILD",
+          "HIGH_ZONE_ACTIVE",
+          "HIGH_ZONE_REJECTION",
+          "POST_HIGH_UNWIND"
+        ],
+        "last_structural_event": [
+          "HIGH_ZONE_REJECTION",
+          "EXHAUSTION",
+          "FAILED_REINTEGRATION"
+        ],
+        "qualified_bias": [
+          "POST_HIGH_UNWIND",
+          "DEEP_POST_HIGH_UNWIND",
+          "PAIR_DOWN_REQUALIFIED_POST_HIGH_UNWIND"
+        ],
+        "price_confirmation": [
+          "REJECTED",
+          "CONFIRMED",
+          "ACCEPTANCE_BELOW_ZONE"
+        ],
+        "propagation_state": [
+          "LTF_MTF_RELAY",
+          "MTF_HTF_RELAY",
+          "RELAY_DEGRADING"
+        ],
+        "detachment_texture": [
+          "REJECTION_DETACHMENT",
+          "POST_RELEASE_DETACHMENT",
+          "STRUCTURAL_DETACHMENT"
+        ],
+        "data_visibility": [
+          "FULL_STACK_VISIBLE",
+          "TACTICAL_OK"
+        ]
+      },
+      "aliases": {
+        "DEEP_POST_HIGH_UNWIND": [
+          "POST_HIGH_UNWIND",
+          "POST_RELEASE_UNWIND"
+        ],
+        "HIGH_ZONE_REJECTION": [
+          "HIGH_REJECTION",
+          "REJECTION_HIGH"
+        ]
+      },
+      "outcome_fr": "Rejet haut puis unwind directionnel."
+    },
+    {
+      "day": "2026-05-08",
+      "film_id": "RELEASE_UP_VALIDATED_CLOSE_NEAR_HIGH",
+      "label_fr": "Release UP validée avec clôture proche des hauts",
+      "sequence": [
+        "LOW_ZONE_REBUILD",
+        "RELEASE_UP_VALIDATED",
+        "PULLBACK_ABSORBED",
+        "CONTINUATION_UP",
+        "CLOSE_NEAR_HIGH"
+      ],
+      "terrain_rule_fr": "Close near high valide l'acceptation.",
+      "expected": {
+        "film_state": [
+          "HIGH_ZONE_ACTIVE",
+          "LOW_ZONE_BUILDING",
+          "POST_RELEASE_REBUILD"
+        ],
+        "last_structural_event": [
+          "PULLBACK_ABSORBED",
+          "RELEASE_UP_VALIDATED",
+          "SECOND_LEG_UP"
+        ],
+        "qualified_bias": [
+          "PULLBACK_ABSORBED",
+          "RELEASE_UP_VALIDATED",
+          "UP_CONTINUATION_ACCEPTED",
+          "CONTINUATION_UP"
+        ],
+        "price_confirmation": [
+          "CLOSE_NEAR_HIGH",
+          "CONFIRMED",
+          "ACCEPTED"
+        ],
+        "propagation_state": [
+          "RESONANT",
+          "LTF_MTF_RELAY",
+          "MTF_HTF_RELAY"
+        ],
+        "detachment_texture": [
+          "POST_RELEASE_DETACHMENT",
+          "STRUCTURAL_DETACHMENT"
+        ],
+        "data_visibility": [
+          "FULL_STACK_VISIBLE",
+          "TACTICAL_OK"
+        ]
+      },
+      "aliases": {
+        "LOW_ZONE_REBUILD": [
+          "LOW_ZONE_BUILDING",
+          "LOWER_ZONE_ACTIVE"
+        ],
+        "CONTINUATION_UP": [
+          "UP_CONTINUATION_ACCEPTED",
+          "SECOND_LEG_UP"
+        ]
+      },
+      "outcome_fr": "Release acceptée, pullback absorbé, continuation propre."
+    },
+    {
+      "day": "2026-05-11",
+      "film_id": "RELEASE_UP_FROM_COMPRESSION_THEN_SECOND_LEG_UP_AND_EXHAUSTION",
+      "label_fr": "False births pré-London puis release UP, second leg, exhaustion",
+      "sequence": [
+        "PRE_LONDON_FALSE_BIRTHS",
+        "MIDDAY_RELEASE_UP",
+        "POST_RELEASE_PULLBACK",
+        "SECOND_LEG_UP",
+        "HIGH_ZONE_EXHAUSTION",
+        "LATE_UNWIND"
+      ],
+      "terrain_rule_fr": "B3+B2 seul produit des false births ; la release utile exige prix + zone + propagation.",
+      "expected": {
+        "film_state": [
+          "PRE_LONDON_FALSE_BIRTHS",
+          "POST_RELEASE_UNWIND",
+          "HIGH_ZONE_ACTIVE",
+          "HIGH_ZONE_REJECTION"
+        ],
+        "last_structural_event": [
+          "FALSE_BIRTH",
+          "RELEASE_UP_VALIDATED",
+          "SECOND_LEG_UP",
+          "EXHAUSTION"
+        ],
+        "qualified_bias": [
+          "RELEASE_CANDIDATE",
+          "RELEASE_UP_VALIDATED",
+          "POST_RELEASE_PULLBACK",
+          "SECOND_LEG_UP",
+          "HIGH_ZONE_EXHAUSTION"
+        ],
+        "price_confirmation": [
+          "PENDING",
+          "CONFIRMED",
+          "CONSUMED",
+          "REJECTED_AFTER_HIGH"
+        ],
+        "propagation_state": [
+          "LTF_ONLY",
+          "LTF_MTF_RELAY",
+          "MTF_HTF_RELAY",
+          "RELAY_DEGRADING"
+        ],
+        "detachment_texture": [
+          "NOISY_DETACHMENT",
+          "STRUCTURAL_DETACHMENT",
+          "EXHAUSTION_DETACHMENT",
+          "FALSE_REACTION_DETACHMENT"
+        ],
+        "data_visibility": [
+          "FULL_STACK_VISIBLE",
+          "TACTICAL_OK"
+        ]
+      },
+      "aliases": {
+        "MIDDAY_RELEASE_UP": [
+          "RELEASE_UP_VALIDATED"
+        ],
+        "LATE_UNWIND": [
+          "POST_RELEASE_UNWIND",
+          "POST_HIGH_UNWIND"
+        ]
+      },
+      "outcome_fr": "Naissances faibles puis vraie release et exhaustion tardive."
+    },
+    {
+      "day": "2026-05-12",
+      "film_id": "LONDON_RELEASE_DOWN_WITH_LOWER_LOCK_AND_LATE_COUNTER_BREATH",
+      "label_fr": "Release DOWN London avec lower lock puis counter-breath tardif",
+      "sequence": [
+        "ASIA_HIGH_FAILURE",
+        "LONDON_RELEASE_DOWN",
+        "LOWER_PRICE_ACCEPTANCE",
+        "POST_RELEASE_COUNTER_BREATH",
+        "SECOND_LOW_TEST",
+        "LATE_COUNTER_BOUNCE"
+      ],
+      "terrain_rule_fr": "PAIR_UP après release down = counter-breath par défaut.",
+      "expected": {
+        "film_state": [
+          "LOWER_LOCK",
+          "LOWER_ZONE_ACTIVE",
+          "POST_RELEASE_UNWIND"
+        ],
+        "last_structural_event": [
+          "RELEASE_DOWN_VALIDATED",
+          "LOWER_LOCK_CONFIRMED",
+          "SECOND_LOW_TEST"
+        ],
+        "qualified_bias": [
+          "RELEASE_DOWN_VALIDATED",
+          "LOWER_LOCK_RETEST",
+          "POST_RELEASE_COUNTER_BREATH",
+          "COUNTER_BREATH",
+          "LATE_THIN_BOUNCE"
+        ],
+        "price_confirmation": [
+          "CONFIRMED",
+          "ACCEPTANCE_BELOW_ZONE",
+          "PENDING",
+          "LOWER_PRICE_ACCEPTANCE"
+        ],
+        "propagation_state": [
+          "LTF_MTF_RELAY",
+          "MTF_HTF_RELAY",
+          "LTF_ONLY"
+        ],
+        "detachment_texture": [
+          "STRUCTURAL_DETACHMENT",
+          "COUNTER_BREATH_DETACHMENT",
+          "LATE_SESSION_DETACHMENT"
+        ],
+        "data_visibility": [
+          "FULL_STACK_VISIBLE",
+          "TACTICAL_OK"
+        ]
+      },
+      "aliases": {
+        "LONDON_RELEASE_DOWN": [
+          "RELEASE_DOWN_VALIDATED"
+        ],
+        "LOWER_PRICE_ACCEPTANCE": [
+          "ACCEPTANCE_BELOW_ZONE",
+          "LOWER_LOCK_CONFIRMED"
+        ]
+      },
+      "outcome_fr": "Release down acceptée, zone basse verrouillée, respiration inverse tardive."
+    },
+    {
+      "day": "2026-05-13",
+      "film_id": "POST_RELEASE_COUNTER_BREATH_REJECTED_THEN_SECOND_LEG_DOWN",
+      "label_fr": "Counter-breath post-release rejeté puis second leg down",
+      "sequence": [
+        "POST_RELEASE_LOWER_ACCEPTANCE",
+        "LONDON_COUNTER_BREATH_UP",
+        "COUNTER_BREATH_REJECTED",
+        "SECOND_LEG_DOWN",
+        "LOWER_LOW",
+        "POST_LOW_COUNTER_BREATH",
+        "LATE_THIN_BOUNCE"
+      ],
+      "terrain_rule_fr": "Counter-breath rejeté devient carburant du second leg.",
+      "expected": {
+        "film_state": [
+          "LOWER_ZONE_ACTIVE",
+          "LOWER_LOCK",
+          "POST_RELEASE_UNWIND",
+          "LOWER_ZONE_RANGE_ACTIVE"
+        ],
+        "last_structural_event": [
+          "COUNTER_BREATH_REJECTED",
+          "SECOND_LEG_DOWN",
+          "LOWER_LOCK_CONFIRMED"
+        ],
+        "qualified_bias": [
+          "COUNTER_BREATH_REJECTED",
+          "SECOND_LEG_DOWN",
+          "LOWER_LOW",
+          "POST_LOW_COUNTER_BREATH",
+          "LATE_THIN_BOUNCE"
+        ],
+        "price_confirmation": [
+          "REJECTED",
+          "CONFIRMED",
+          "ACCEPTANCE_BELOW_ZONE"
+        ],
+        "propagation_state": [
+          "LTF_MTF_RELAY",
+          "MTF_HTF_RELAY",
+          "RELAY_DEGRADING"
+        ],
+        "detachment_texture": [
+          "COUNTER_BREATH_DETACHMENT",
+          "REJECTION_DETACHMENT",
+          "STRUCTURAL_DETACHMENT"
+        ],
+        "data_visibility": [
+          "FULL_STACK_VISIBLE",
+          "TACTICAL_OK"
+        ]
+      },
+      "aliases": {
+        "LONDON_COUNTER_BREATH_UP": [
+          "COUNTER_BREATH"
+        ],
+        "LOWER_LOW": [
+          "SECOND_LEG_DOWN",
+          "LOWER_LOCK_CONFIRMED"
+        ]
+      },
+      "outcome_fr": "La tentative inverse échoue puis le flux fait second leg down."
+    },
+    {
+      "day": "2026-05-14",
+      "film_id": "LOWER_ZONE_RANGE_WITH_COUNTER_BREATH_REJECTED_READING_PARTIAL",
+      "label_fr": "Range de zone basse, counter-breath rejeté, lecture partielle",
+      "sequence": [
+        "LOWER_ZONE_RANGE_ACTIVE",
+        "COUNTER_BREATH_UP",
+        "COUNTER_BREATH_REJECTED",
+        "LOW_RETEST",
+        "POST_LOW_REACTION"
+      ],
+      "terrain_rule_fr": "M1 absent + packets stale = reading partial visible en haut.",
+      "expected": {
+        "film_state": [
+          "LOWER_ZONE_RANGE_ACTIVE",
+          "READING_PARTIAL",
+          "LOWER_ZONE_ACTIVE",
+          "RANGE_ACTIVE"
+        ],
+        "last_structural_event": [
+          "COUNTER_BREATH_REJECTED",
+          "LOWER_LOCK_CONFIRMED",
+          "UNKNOWN"
+        ],
+        "qualified_bias": [
+          "POST_LOW_COUNTER_BREATH",
+          "POST_LOW_REACTION",
+          "COUNTER_BREATH_REJECTED",
+          "LATE_THIN_BOUNCE"
+        ],
+        "price_confirmation": [
+          "PENDING",
+          "REJECTED",
+          "LOW_RETEST",
+          "UNKNOWN"
+        ],
+        "propagation_state": [
+          "LTF_ONLY",
+          "FAILED_PROPAGATION",
+          "RELAY_DEGRADING",
+          "UNKNOWN"
+        ],
+        "detachment_texture": [
+          "COUNTER_BREATH_DETACHMENT",
+          "NOISY_DETACHMENT",
+          "FALSE_REACTION_DETACHMENT",
+          "UNKNOWN"
+        ],
+        "data_visibility": [
+          "READING_PARTIAL",
+          "MICROFILM_MISSING",
+          "PACKETS_STALE",
+          "DATA_PARTIAL",
+          "CROSS_VALIDATION_DEGRADED"
+        ]
+      },
+      "aliases": {
+        "LOW_RETEST": [
+          "SECOND_LOW_TEST",
+          "POST_LOW_REACTION"
+        ],
+        "DATA_PARTIAL": [
+          "READING_PARTIAL",
+          "PACKETS_STALE",
+          "MICROFILM_MISSING"
+        ]
+      },
+      "outcome_fr": "Lecture exploitable mais partielle : zone basse active, réaction post-low sans certitude dure."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+V7.6: improve GBPUSD B6 film memory matching
+
+- Add GBPUSD V7.6 calibrated film memory cards for 2026-05-06/07/08/11/12/13/14.
+- Add explainable B6 film memory reader for terrain_packet matching.
+- Score film_state, last_structural_event, qualified_bias, price_confirmation,
+  propagation_state, detachment_texture and data_visibility.
+- Return memory_match, memory_confidence, memory_reason_fr and similar_historical_days.
+- Keep scope GBPUSD only; no heavy ML, no Telegram token change, no trading signal.
+- Add pytest coverage for the 7 calibrated GBPUSD films and real terrain_packet if present.
+

@@ -28,12 +28,16 @@ def write_json(path: str | Path, data: Dict[str, Any]) -> None:
         handle.write("\n")
 
 
-def load_memory_cards(path: Path) -> List[Dict[str, Any]]:
+def load_memory_cards(path: Path) -> Any:
     if not path.exists():
-        return []
+        return {"version": "missing", "symbol": "GBPUSD", "cards": []}
     with path.open("r", encoding="utf-8-sig") as handle:
         data = json.load(handle)
-    return data if isinstance(data, list) else []
+    if isinstance(data, dict):
+        return data
+    if isinstance(data, list):
+        return {"version": "legacy_list_wrapped", "symbol": "GBPUSD", "cards": data}
+    return {"version": "invalid", "symbol": "GBPUSD", "cards": []}
 
 
 def build_packet_from_evidence(evidence: Dict[str, Any], symbol: str = DEFAULT_SYMBOL, memory_cards: Optional[List[Dict[str, Any]]] = None) -> Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any]]:
