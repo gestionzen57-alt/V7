@@ -1,6 +1,233 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
+
+# PF_V767_DIRECT_OUTPUT_CLEANUP_V8
+# Output-level cleanup for Reality Board display fields.
+# Registered with atexit near the top of the file so it runs after direct CLI generation.
+
+def _pf_v767_v8_text_clean(value):
+    out = str(value or "")
+    replacements = {
+        "GBPUSD Ã¢â‚¬â€ Reality Board": "GBPUSD - Reality Board",
+        "GBPUSD â€” Reality Board": "GBPUSD - Reality Board",
+        "GBPUSD — Reality Board": "GBPUSD - Reality Board",
+        "GBPUSD ÔÇö Reality Board": "GBPUSD - Reality Board",
+        "GBPUSD “” Reality Board": "GBPUSD - Reality Board",
+        "GBPUSD ”” Reality Board": "GBPUSD - Reality Board",
+        "Ã¢â‚¬â€": "-",
+        "Ã¢â‚¬â€™": "->",
+        "Ã¢â€â€™": "->",
+        "Ã¢â‚¬â„¢": "'",
+        "â€™": "'",
+        "â€”": "-",
+        "ÔÇö": "-",
+        "“”": "-",
+        "””": "-",
+        "ÃƒÂ©": "é",
+        "ÃƒÂ¨": "è",
+        "ÃƒÂª": "ê",
+        "ÃƒÂ ": "à",
+        "ÃƒÂ´": "ô",
+        "ÃƒÂ®": "î",
+        "ÃƒÂ§": "ç",
+        "Alternative : Alternative :": "Alternative :",
+        "Piège : Piège :": "Piège :",
+        "Piege : Piege :": "Piege :",
+    }
+    for old, new in replacements.items():
+        out = out.replace(old, new)
+    return out
+
+
+def _pf_v767_v8_scalar(value):
+    if value in (None, "", [], {}):
+        return ""
+    if isinstance(value, (dict, list, tuple, set)):
+        return ""
+    return str(value)
+
+
+def _pf_v767_v8_parse_profile(value):
+    import ast as _ast
+
+    if isinstance(value, dict):
+        return value
+    raw = str(value or "").strip()
+    if raw.startswith("{") and raw.endswith("}"):
+        try:
+            parsed = _ast.literal_eval(raw)
+            if isinstance(parsed, dict):
+                return parsed
+        except Exception:
+            return {}
+    return {}
+
+
+def _pf_v767_v8_enum(value):
+    raw = _pf_v767_v8_scalar(value)
+    if not raw:
+        return ""
+    mapping = {
+        "ABSORPTION_OR_REJECTION": "absorption / rejet",
+        "RELEASE_ACTIVE": "release active",
+        "HIGH_ZONE_REJECTION": "rejet zone haute",
+        "HIGH_ZONE_EXHAUSTION_RISK": "risque epuisement zone haute",
+        "PAIR_UP": "pression UP",
+        "PAIR_DOWN": "pression DOWN",
+        "UNKNOWN": "inconnu",
+        "LOW": "faible",
+        "MEDIUM": "moyen",
+        "HIGH": "fort",
+        "PARTIAL_STALE": "partiel / stale",
+        "READING_PARTIAL": "lecture partielle",
+    }
+    return mapping.get(raw, raw.replace("_", " ").lower())
+
+
+def _pf_v767_v8_short_time(value):
+    raw = _pf_v767_v8_scalar(value)
+    if not raw:
+        return ""
+    if "T" in raw:
+        try:
+            return raw.split("T", 1)[1][:5]
+        except Exception:
+            return raw
+    return raw
+
+
+def _pf_v767_v8_compact_profile(value, fallback_label):
+    src = _pf_v767_v8_parse_profile(value)
+    if src and isinstance(src.get("last_event"), dict):
+        src = src["last_event"]
+
+    if not src:
+        raw = _pf_v767_v8_text_clean(value)
+        if not raw:
+            return "non disponible"
+        if "events_total" in raw or "{" in raw:
+            return "profil actif, detail brut masque"
+        return raw[:220]
+
+    ctx = src.get("context") if isinstance(src.get("context"), dict) else {}
+    tf = _pf_v767_v8_scalar(src.get("timeframe") or src.get("tf") or src.get("profile"))
+    event = _pf_v767_v8_enum(src.get("event_type") or src.get("event") or src.get("last_event"))
+    phase = _pf_v767_v8_enum(src.get("phase_after") or src.get("phase") or src.get("state") or ctx.get("tf_phase") or ctx.get("profile_state"))
+    bias = _pf_v767_v8_enum(src.get("bias") or ctx.get("dominant_bias"))
+    fake = _pf_v767_v8_enum(src.get("fake_risk") or ctx.get("fake_risk"))
+    price = _pf_v767_v8_scalar(src.get("price"))
+    ts = _pf_v767_v8_short_time(src.get("timestamp_utc") or src.get("updated_at"))
+
+    parts = []
+    head = " ".join(x for x in [tf, event or phase] if x).strip()
+    if head:
+        parts.append(head)
+    if bias:
+        parts.append("biais " + bias)
+    if fake:
+        parts.append("fake " + fake)
+    if price:
+        parts.append("prix " + price)
+    if ts:
+        parts.append("temps " + ts)
+
+    return " | ".join(parts[:5]) if parts else (fallback_label + " non disponible")
+
+
+def _pf_v767_v8_strip_prefix(text, prefixes):
+    out = str(text or "").strip()
+    for prefix in prefixes:
+        if out.lower().startswith(prefix.lower()):
+            return out[len(prefix):].strip()
+    return out
+
+
+def _pf_v767_v8_clean_state_file(path):
+    import json as _json
+    from pathlib import Path as _Path
+
+    p = _Path(path)
+    if not p.exists():
+        return False
+
+    state = _json.loads(p.read_text(encoding="utf-8", errors="replace"))
+
+    labels = {
+        "htf": "HTF - Analyse",
+        "mtf": "MTF - Plan",
+        "ltf": "LTF - Action",
+    }
+
+    roles = state.get("time_profile_roles")
+    if isinstance(roles, dict):
+        for key, label in labels.items():
+            item = roles.get(key)
+            if isinstance(item, dict):
+                raw = item.get("summary_fr") or item.get("summary") or item
+                item["label_fr"] = label
+                item["summary_fr"] = _pf_v767_v8_compact_profile(raw, label)
+                item["state"] = _pf_v767_v8_scalar(item.get("state")) or "ACTIVE"
+                roles[key] = item
+
+    telegram = state.get("telegram_candidate")
+    if isinstance(telegram, dict):
+        text = _pf_v767_v8_text_clean(telegram.get("text_fr", ""))
+        if "Reality Board" in text:
+            lines = text.splitlines()
+            if lines:
+                lines[0] = "GBPUSD - Reality Board"
+                text = "\n".join(lines)
+        text = text.replace("Alternative : Alternative :", "Alternative :")
+        telegram["text_fr"] = text
+        state["telegram_candidate"] = telegram
+
+    for k in ("alternative_strategy", "alternative"):
+        item = state.get(k)
+        if isinstance(item, dict) and isinstance(item.get("label_fr"), str):
+            clean = _pf_v767_v8_text_clean(item["label_fr"])
+            item["label_fr"] = _pf_v767_v8_strip_prefix(clean, ("Alternative :", "Alternative:"))
+
+    item = state.get("trap")
+    if isinstance(item, dict) and isinstance(item.get("label_fr"), str):
+        clean = _pf_v767_v8_text_clean(item["label_fr"])
+        item["label_fr"] = _pf_v767_v8_strip_prefix(clean, ("Piège :", "Piege :", "Piège:", "Piege:"))
+
+    for container_key in ("dominant_strategy", "labels_fr"):
+        item = state.get(container_key)
+        if isinstance(item, dict):
+            for k, v in list(item.items()):
+                if isinstance(v, str):
+                    item[k] = _pf_v767_v8_text_clean(v)
+
+    state["semantic_display_cleanup"] = "V8_DIRECT_OUTPUT"
+
+    p.write_text(_json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
+    return True
+
+
+def _pf_v767_v8_postprocess_outputs():
+    try:
+        from pathlib import Path as _Path
+
+        root = _Path.cwd()
+        paths = list((root / "output" / "dashboard_surface").glob("*/reality_board_state.json"))
+        for path in paths:
+            _pf_v767_v8_clean_state_file(path)
+    except Exception as exc:
+        print("[WARN] V7.6.7 direct output cleanup failed:", exc)
+
+
+try:
+    import atexit as _pf_v767_v8_atexit
+
+    _pf_v767_v8_atexit.register(_pf_v767_v8_postprocess_outputs)
+except Exception as exc:
+    print("[WARN] V7.6.7 atexit cleanup registration failed:", exc)
+
+# PF_V767_DIRECT_OUTPUT_CLEANUP_V8_END
+
 import argparse,json
 from pathlib import Path
 from datetime import datetime,timezone
