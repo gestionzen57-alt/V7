@@ -4,12 +4,20 @@ import argparse
 import hashlib
 import json
 import os
+import sys
 import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any, Dict, Tuple
 
+
+# PowerFlow Windows UTF-8 stdout guard
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 DEFAULT_PACKET = Path("output") / "dashboard_surface" / "GBPUSD" / "terrain_packet.json"
 DEFAULT_TEXT = Path("output") / "dashboard_surface" / "GBPUSD" / "terrain_packet_fr.txt"
