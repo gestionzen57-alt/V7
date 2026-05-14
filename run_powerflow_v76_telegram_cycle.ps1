@@ -48,3 +48,30 @@ if ($LASTEXITCODE -ne 0) {
     throw "V7.6 Telegram cycle failed with exit code $LASTEXITCODE"
 }
 
+# PF_V767_REALITY_BOARD_CYCLE_HOOK_BEGIN
+Write-Host ""
+Write-Host "=== V7.6.7 REALITY BOARD REFRESH ==="
+$pfV767RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$pfV767RealityBoardRunner = Join-Path $pfV767RepoRoot "patch\pf_reality_board_state_once.py"
+
+if (Test-Path $pfV767RealityBoardRunner) {
+    Push-Location $pfV767RepoRoot
+    try {
+        $pfV767PythonCommand = Get-Command python -ErrorAction SilentlyContinue
+        if ($pfV767PythonCommand) {
+            & $pfV767PythonCommand.Source $pfV767RealityBoardRunner --symbol "GBPUSD"
+        } else {
+            & python $pfV767RealityBoardRunner --symbol "GBPUSD"
+        }
+
+        if ($LASTEXITCODE -ne 0) {
+            throw ("Reality Board refresh failed with exit code " + $LASTEXITCODE)
+        }
+    }
+    finally {
+        Pop-Location
+    }
+} else {
+    Write-Host "Reality Board runner missing; refresh skipped." -ForegroundColor Yellow
+}
+# PF_V767_REALITY_BOARD_CYCLE_HOOK_END
