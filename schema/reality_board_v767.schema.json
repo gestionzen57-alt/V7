@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PowerFlow Reality Board V7.6.7",
+  "type": "object",
+  "required": [
+    "symbol",
+    "timestamp",
+    "board_version",
+    "reading_status",
+    "film_state",
+    "time_profile_roles",
+    "telegram_candidate",
+    "qualified_bias",
+    "data_visibility",
+    "labels_fr"
+  ],
+  "additionalProperties": true
+}
