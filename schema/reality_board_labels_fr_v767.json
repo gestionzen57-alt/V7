@@ -58,5 +58,20 @@
     "READING_PARTIAL": "Lecture partielle",
     "MICROFILM_MISSING": "Microfilm manquant",
     "PACKETS_STALE": "Packets stale"
-  }
+  },
+  "final_fr_labels_v767": {
+    "DATA FIRST": "LECTURE TERRAIN",
+    "REALITY BOARD": "RÉALITÉ MARCHÉ",
+    "Reality Board": "Réalité marché",
+    "ALIGNED_OR_PARTIAL": "alignement partiel",
+    "LATE_HIGH_REJECTION_WITH_DEEP_UNWIND": "high tardif rejeté puis unwind profond",
+    "READING_PARTIAL": "lecture partielle",
+    "HIGH_ZONE_EXHAUSTION_RISK": "risque d’épuisement en zone haute",
+    "HIGH_ZONE_REJECTION": "rejet de zone haute",
+    "EXHAUSTION_RISK": "risque d’épuisement",
+    "PRICE_REJECTED_LOW": "prix rejeté en bas",
+    "LTF_MTF_RELAY": "relais LTF vers MTF",
+    "REJECTION_DETACHMENT": "détachement de rejet"
+  },
+  "final_fr_labels_policy": "display_only_keep_raw_machine_enums"
 }

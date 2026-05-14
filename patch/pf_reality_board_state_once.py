@@ -3,6 +3,104 @@
 from __future__ import annotations
 
 
+# PF_V767_FINAL_FR_LABELS_V1
+# Trader-facing French labels only. Raw machine enums remain unchanged.
+
+_PF_V767_FR = {
+    "DATA FIRST": "LECTURE TERRAIN",
+    "REALITY BOARD": "RÉALITÉ MARCHÉ",
+    "Reality Board": "Réalité marché",
+    "ALIGNED_OR_PARTIAL": "alignement partiel",
+    "LATE_HIGH_REJECTION_WITH_DEEP_UNWIND": "high tardif rejeté puis unwind profond",
+    "READING_PARTIAL": "lecture partielle",
+    "HIGH_ZONE_EXHAUSTION_RISK": "risque d’épuisement en zone haute",
+    "HIGH_ZONE_REJECTION": "rejet de zone haute",
+    "EXHAUSTION_RISK": "risque d’épuisement",
+    "PRICE_REJECTED_LOW": "prix rejeté en bas",
+    "LTF_MTF_RELAY": "relais LTF vers MTF",
+    "REJECTION_DETACHMENT": "détachement de rejet",
+}
+
+def _pf_v767_fr(value):
+    out = str(value or "")
+    fixes = {"Ã©":"é","Ã¨":"è","Ãª":"ê","Ã ":"à","Ã´":"ô","Ã®":"î","Ã§":"ç","â€™":"’","â€”":"-","â†’":"→"}
+    for old, new in fixes.items():
+        out = out.replace(old, new)
+    for old, new in _PF_V767_FR.items():
+        out = out.replace(old, new)
+    return out
+
+def _pf_v767_fr_state_file(path):
+    import json as _json
+    from pathlib import Path as _Path
+    p = _Path(path)
+    if not p.exists():
+        return False
+    state = _json.loads(p.read_text(encoding="utf-8", errors="replace"))
+
+    labels = state.get("labels_fr")
+    if not isinstance(labels, dict):
+        labels = {}
+
+    def tr(raw, fallback=""):
+        return _PF_V767_FR.get(str(raw or ""), _pf_v767_fr(raw or fallback))
+
+    labels.update({
+        "board_title_fr": "RÉALITÉ MARCHÉ",
+        "priority_label_fr": "LECTURE TERRAIN",
+        "reading_status_fr": tr(state.get("reading_status") or state.get("data_visibility"), "lecture partielle"),
+        "data_visibility_fr": tr(state.get("data_visibility"), "lecture partielle"),
+        "session_alignment_fr": tr(state.get("session_alignment"), "alignement partiel"),
+        "film_sequence_fr": tr(state.get("film_sequence") or state.get("b6_nearest_film")),
+        "b6_nearest_film_fr": tr(state.get("b6_nearest_film") or state.get("film_sequence")),
+        "qualified_bias_fr": tr(state.get("qualified_bias") or state.get("current_move_role")),
+        "move_role_fr": tr(state.get("current_move_role") or state.get("qualified_bias")),
+    })
+    for k, v in list(labels.items()):
+        if isinstance(v, str):
+            labels[k] = _pf_v767_fr(v)
+    state["labels_fr"] = labels
+
+    state["display_fr"] = {
+        "titre": "RÉALITÉ MARCHÉ",
+        "priorité": "LECTURE TERRAIN",
+        "statut_lecture": labels.get("reading_status_fr", "lecture partielle"),
+        "alignement_session": labels.get("session_alignment_fr", "alignement partiel"),
+        "film_mémoire": labels.get("film_sequence_fr") or labels.get("b6_nearest_film_fr"),
+        "lecture_active": labels.get("qualified_bias_fr") or labels.get("move_role_fr"),
+    }
+
+    telegram = state.get("telegram_candidate")
+    if isinstance(telegram, dict):
+        text = _pf_v767_fr(telegram.get("text_fr", ""))
+        text = text.replace("GBPUSD - RÉALITÉ MARCHÉ", "GBPUSD - Réalité marché")
+        text = text.replace("GBPUSD — Réalité marché", "GBPUSD - Réalité marché")
+        telegram["text_fr"] = text
+        state["telegram_candidate"] = telegram
+
+    state["final_fr_labels_polish"] = "V1_DISPLAY_ONLY"
+    p.write_text(_json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
+    return True
+
+def _pf_v767_fr_postprocess_outputs():
+    try:
+        from pathlib import Path as _Path
+        root = _Path.cwd()
+        for path in (root / "output" / "dashboard_surface").glob("*/reality_board_state.json"):
+            _pf_v767_fr_state_file(path)
+    except Exception as exc:
+        print("[WARN] V7.6.7 final FR label polish failed:", exc)
+
+try:
+    import atexit as _pf_v767_fr_atexit
+    _pf_v767_fr_atexit.register(_pf_v767_fr_postprocess_outputs)
+except Exception as exc:
+    print("[WARN] V7.6.7 final FR label registration failed:", exc)
+
+# PF_V767_FINAL_FR_LABELS_V1_END
+
+
+
 # PF_V767_DIRECT_OUTPUT_CLEANUP_V8
 # Output-level cleanup for Reality Board display fields.
 # Registered with atexit near the top of the file so it runs after direct CLI generation.
