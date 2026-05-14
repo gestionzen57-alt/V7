@@ -394,6 +394,14 @@
           #pf-v767-reality-board pre{max-height:220px!important;overflow:auto!important;background:rgba(0,0,0,.22)!important;border-radius:10px!important;padding:10px!important;white-space:pre-wrap!important;word-break:break-word!important}
           @media (max-width:1250px){#pf-v767-reality-board .pf-v767-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
           @media (max-width:850px){#pf-v767-reality-board .pf-v767-grid{grid-template-columns:1fr!important}}
+
+          /* PF_V767_SEMANTIC_DISPLAY_CLEANUP_V4 */
+          #pf-v767-reality-board .pf-v767-line span:first-child{display:block!important;font-size:11px!important;line-height:1.2!important;text-transform:uppercase!important;letter-spacing:.05em!important;opacity:.65!important;margin-bottom:3px!important}
+          #pf-v767-reality-board .pf-v767-line span:first-child::after{content:" :"}
+          #pf-v767-reality-board .pf-v767-line strong{display:block!important;text-align:left!important;font-size:13px!important;line-height:1.28!important;white-space:normal!important;word-break:break-word!important}
+          #pf-v767-reality-board .pf-v767-k::after{content:" :"}
+          #pf-v767-reality-board .pf-v767-v{padding-top:2px!important}
+          #pf-v767-reality-board pre{font-size:13px!important;line-height:1.35!important}
 </style><h2>POWERFLOW V7.6.7 - REALITY BOARD GBPUSD</h2>${banner}<div class="pf-v767-grid"><div class="pf-v767-card"><h3>FILM ACTIF</h3>${line("Film",l.film_state_fr||x.film_state)}${line("RÃ´le",l.move_role_fr||x.current_move_role)}${line("Moment clef",x.last_structural_time||x.last_structural_event)}</div><div class="pf-v767-card"><h3>PROFILS TEMPS</h3>${line("HTF - Analyse",h.summary_fr||h.state)}${line("MTF - Plan",m.summary_fr||m.state)}${line("LTF - Action",f.summary_fr||f.state)}</div><div class="pf-v767-card"><h3>LECTURE DOMINANTE</h3>${esc((x.dominant_strategy||{}).label_fr||"")}</div><div class="pf-v767-card"><h3>ALTERNATIVE</h3>${esc((x.alternative_strategy||{}).label_fr||"")}</div><div class="pf-v767-card"><h3>PIÃˆGE PROBABLE</h3>${esc((x.trap||{}).label_fr||"")}</div><div class="pf-v767-card"><h3>B6 / SESSION</h3>${line("B6",x.b6_nearest_film)}${line("Session",x.session_alignment)}</div><div class="pf-v767-card pf-v767-wide"><h3>TELEGRAM CANDIDATE</h3><pre style="white-space:pre-wrap;font-family:inherit">${esc(tg.text_fr||"")}</pre></div></div><div style="opacity:.75;font-size:12px;margin-top:10px">${esc(l.footer||"PowerFlow Ã©claire le terrain. Le trader arbitre.")}</div></section>`; (document.querySelector("main")||document.body).insertAdjacentHTML("afterbegin",html);}
   document.addEventListener("DOMContentLoaded",async()=>render(await load()));
 })();

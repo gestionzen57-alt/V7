@@ -92,3 +92,156 @@ def write_state(root:Path,symbol="GBPUSD"):
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--symbol",default="GBPUSD"); ap.add_argument("--root",default="."); a=ap.parse_args(); out=write_state(Path(a.root).resolve(),a.symbol); print(f"[OK] reality board written: {out}")
 if __name__=="__main__": main()
+
+# PF_V767_SEMANTIC_DISPLAY_CLEANUP_V4
+# Output-level semantic cleanup for Reality Board display.
+# Does not change packet detection logic.
+
+import ast as _pf_v767_ast
+from typing import Any as _PFV767Any, Dict as _PFV767Dict
+
+def _pf_v767_scalar(value: _PFV767Any) -> str:
+    if value in (None, "", [], {}):
+        return ""
+    if isinstance(value, (dict, list, tuple, set)):
+        return ""
+    return str(value)
+
+def _pf_v767_parse_dict_like(value: _PFV767Any) -> _PFV767Dict[str, _PFV767Any]:
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str):
+        raw = value.strip()
+        if raw.startswith("{") and raw.endswith("}"):
+            try:
+                parsed = _pf_v767_ast.literal_eval(raw)
+                if isinstance(parsed, dict):
+                    return parsed
+            except Exception:
+                return {}
+    return {}
+
+def _pf_v767_enum_fr(value: _PFV767Any) -> str:
+    raw = _pf_v767_scalar(value)
+    if not raw:
+        return ""
+    mapping = {
+        "ABSORPTION_OR_REJECTION": "absorption / rejet",
+        "RELEASE_ACTIVE": "release active",
+        "HIGH_ZONE_REJECTION": "rejet zone haute",
+        "HIGH_ZONE_EXHAUSTION_RISK": "risque epuisement zone haute",
+        "PAIR_UP": "pression UP",
+        "PAIR_DOWN": "pression DOWN",
+        "UNKNOWN": "inconnu",
+        "LOW": "faible",
+        "MEDIUM": "moyen",
+        "HIGH": "fort",
+        "PARTIAL_STALE": "partiel / stale",
+        "READING_PARTIAL": "lecture partielle",
+    }
+    return mapping.get(raw, raw.replace("_", " ").lower())
+
+def _pf_v767_short_time(value: _PFV767Any) -> str:
+    raw = _pf_v767_scalar(value)
+    if not raw:
+        return ""
+    if "T" in raw:
+        try:
+            return raw.split("T", 1)[1][:5]
+        except Exception:
+            return raw
+    return raw
+
+def _pf_v767_compact_profile(value: _PFV767Any, fallback_label: str) -> str:
+    src = _pf_v767_parse_dict_like(value)
+    if not src:
+        s = _pf_v767_scalar(value)
+        if not s:
+            return "non disponible"
+        if "events_total" in s or "{" in s:
+            return "profil actif, detail brut masque"
+        return s[:220]
+
+    tf = _pf_v767_scalar(src.get("timeframe") or src.get("tf") or src.get("profile") or src.get("layer"))
+    event = _pf_v767_enum_fr(src.get("event_type") or src.get("event") or src.get("last_event"))
+    phase = _pf_v767_enum_fr(src.get("phase_after") or src.get("phase") or src.get("state") or src.get("profile_state"))
+    bias = _pf_v767_enum_fr(src.get("bias") or src.get("dominant_bias"))
+    fake = _pf_v767_enum_fr(src.get("fake_risk") or src.get("risk") or src.get("fake_risk_level"))
+    price = _pf_v767_scalar(src.get("price"))
+    ts = _pf_v767_short_time(src.get("timestamp_utc") or src.get("last_event_time") or src.get("updated_at"))
+
+    parts = []
+    head = " ".join(x for x in [tf, event or phase] if x).strip()
+    if head:
+        parts.append(head)
+    if bias:
+        parts.append("biais " + bias)
+    if fake:
+        parts.append("fake " + fake)
+    if price:
+        parts.append("prix " + price)
+    if ts:
+        parts.append("temps " + ts)
+
+    return " | ".join(parts[:5]) if parts else (fallback_label + " non disponible")
+
+def _pf_v767_strip_prefix(text: str, prefixes: tuple[str, ...]) -> str:
+    out = str(text or "").strip()
+    for prefix in prefixes:
+        if out.lower().startswith(prefix.lower()):
+            return out[len(prefix):].strip()
+    return out
+
+def _pf_v767_clean_text(text: str) -> str:
+    out = str(text or "")
+    replacements = {
+        "GBPUSD â€œâ€ Reality Board": "GBPUSD - Reality Board",
+        "GBPUSD â€â€ Reality Board": "GBPUSD - Reality Board",
+        "GBPUSD â€” Reality Board": "GBPUSD - Reality Board",
+        "GBPUSD Ã”Ã‡Ã¶ Reality Board": "GBPUSD - Reality Board",
+        "Alternative : Alternative :": "Alternative :",
+        "PiÃ¨ge : PiÃ¨ge :": "PiÃ¨ge :",
+        "Piege : Piege :": "Piege :",
+    }
+    for old, new in replacements.items():
+        out = out.replace(old, new)
+    return out
+
+_pf_v767_original_build_state = build_state
+
+def build_state(root, symbol):
+    state = _pf_v767_original_build_state(root, symbol)
+
+    roles = state.get("time_profile_roles")
+    if isinstance(roles, dict):
+        labels = {
+            "htf": "HTF - Analyse",
+            "mtf": "MTF - Plan",
+            "ltf": "LTF - Action",
+        }
+        for key, label in labels.items():
+            item = roles.get(key)
+            if isinstance(item, dict):
+                raw_summary = item.get("summary_fr") or item.get("summary") or item
+                item["label_fr"] = label
+                item["summary_fr"] = _pf_v767_compact_profile(raw_summary, label)
+                item["state"] = _pf_v767_scalar(item.get("state")) or "ACTIVE"
+                roles[key] = item
+
+    telegram = state.get("telegram_candidate")
+    if isinstance(telegram, dict):
+        text = _pf_v767_clean_text(telegram.get("text_fr", ""))
+        text = text.replace("Alternative : Alternative :", "Alternative :")
+        telegram["text_fr"] = text
+        state["telegram_candidate"] = telegram
+
+    alt = state.get("alternative")
+    if isinstance(alt, dict) and isinstance(alt.get("label_fr"), str):
+        alt["label_fr"] = _pf_v767_strip_prefix(alt["label_fr"], ("Alternative :", "Alternative:"))
+
+    trap = state.get("trap")
+    if isinstance(trap, dict) and isinstance(trap.get("label_fr"), str):
+        trap["label_fr"] = _pf_v767_strip_prefix(trap["label_fr"], ("PiÃ¨ge :", "Piege :", "PiÃ¨ge:", "Piege:"))
+
+    return state
+
