@@ -1,0 +1,18 @@
+feat(powerflow): add V7.6 terrain packet requalification rules
+
+Add minimal, fallback-safe V7.6 packet requalification assets:
+
+- final doctrine and strict requalification rules
+- terrain_packet_v76_0 JSON schema
+- GBPUSD 2026-05-14 partial lower-zone example
+- standalone requalification patch module
+- standalone terrain context builder
+- standalone B6 film memory reader
+- QA grid and unittest coverage
+
+The patch preserves raw_bias for audit but promotes qualified_bias,
+packet_quality, price_confirmation, data_visibility, watch_condition and
+invalidation_condition as the terrain packet contract.
+
+No dashboard refactor, no Telegram activation, no trading strategy, no buy/sell
+or entry/exit generation.

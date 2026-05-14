@@ -1,0 +1,13 @@
+docs: add PowerFlow V7.6 terrain grammar pack
+
+Add the final V7.6 terrain grammar deliverables:
+
+- Docs/POWERFLOW_TERRAIN_GRAMMAR_V76_FINAL.md
+- Docs/POWERFLOW_TERRAIN_LEXICON_UPDATES_V76.md
+- Docs/POWERFLOW_TRADER_PACKET_REQUIREMENTS_V76.md
+- schema/terrain_packet_enums_v76.json
+
+This pack formalizes the cockpit terrain grammar so raw PAIR_UP/PAIR_DOWN/HOT/WATCH packets are no longer the primary reading.
+It defines film_state, last_structural_event, current_move_role, zone status, qualified_bias, packet_quality, price_confirmation, propagation_state, detachment_texture and data_visibility.
+
+No trading automation, Telegram activation, dashboard refactor or new spine is introduced.

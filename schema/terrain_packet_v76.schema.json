@@ -1,0 +1,339 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://powerflow.local/schema/terrain_packet_v76.schema.json",
+  "title": "PowerFlow terrain_packet_v76_0",
+  "description": "Contrat JSON canonique V7.6. additionalProperties=true est volontaire pour migration douce, mais les champs obligatoires doivent utiliser les enums canoniques.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "symbol",
+    "generated_at",
+    "market_time",
+    "film_state",
+    "last_structural_event",
+    "last_structural_direction",
+    "last_structural_time",
+    "current_zone",
+    "current_zone_low",
+    "current_zone_high",
+    "current_zone_status",
+    "current_move_role",
+    "raw_bias",
+    "qualified_bias",
+    "packet_quality",
+    "price_confirmation",
+    "propagation_state",
+    "detachment_texture",
+    "data_visibility",
+    "watch_condition",
+    "invalidation_condition",
+    "technical_risks",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "terrain_packet_v76_0"
+    },
+    "symbol": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "market_time": {
+      "type": "string",
+      "minLength": 1
+    },
+    "film_state": {
+      "type": "string",
+      "enum": [
+        "LOW_ZONE_BUILDING",
+        "LOWER_ZONE_ACTIVE",
+        "HIGH_ZONE_ACTIVE",
+        "RANGE_ACTIVE",
+        "LOWER_LOCK",
+        "HIGH_ZONE_REJECTION",
+        "POST_HIGH_UNWIND",
+        "POST_RELEASE_UNWIND",
+        "POST_RELEASE_REBUILD",
+        "PRE_LONDON_FALSE_BIRTHS",
+        "LOWER_ZONE_RANGE_ACTIVE",
+        "READING_PARTIAL",
+        "UNKNOWN"
+      ]
+    },
+    "last_structural_event": {
+      "type": "string",
+      "enum": [
+        "RELEASE_UP_VALIDATED",
+        "RELEASE_DOWN_VALIDATED",
+        "COUNTER_BREATH_REJECTED",
+        "HIGH_ZONE_REJECTION",
+        "LOWER_LOCK_CONFIRMED",
+        "LOWER_LOCK",
+        "SECOND_LEG_UP",
+        "SECOND_LEG_DOWN",
+        "PULLBACK_ABSORBED",
+        "FAILED_REINTEGRATION",
+        "FALSE_BIRTH",
+        "FALSE_BIRTH_REJECTED",
+        "EXHAUSTION",
+        "LOW_RETEST",
+        "UNKNOWN"
+      ]
+    },
+    "last_structural_direction": {
+      "type": "string",
+      "enum": [
+        "UP",
+        "DOWN",
+        "MIXED",
+        "NONE",
+        "UNKNOWN"
+      ]
+    },
+    "last_structural_time": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_zone": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_zone_low": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "current_zone_high": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "current_zone_status": {
+      "type": "string",
+      "enum": [
+        "LOWER_RANGE_ACTIVE",
+        "HIGH_RANGE_ACTIVE",
+        "ACCEPTANCE_ABOVE_ZONE",
+        "ACCEPTANCE_BELOW_ZONE",
+        "REJECTION_HIGH",
+        "REJECTION_LOW",
+        "RANGE_MID_NOISE",
+        "UNKNOWN"
+      ]
+    },
+    "current_move_role": {
+      "type": "string",
+      "enum": [
+        "RELEASE_CANDIDATE",
+        "RELEASE_VALIDATED",
+        "RELEASE_CONSUMED",
+        "PRESSURE_PENDING",
+        "LOCAL_PRESSURE_VALID",
+        "COUNTER_BREATH",
+        "COUNTER_BREATH_REJECTED",
+        "POST_RELEASE_PULLBACK",
+        "PULLBACK_ABSORBED",
+        "SECOND_LEG",
+        "SECOND_LOW_TEST",
+        "POST_LOW_REACTION",
+        "LATE_THIN_BOUNCE",
+        "REINTEGRATION_ATTEMPT",
+        "FAILED_REINTEGRATION",
+        "EXHAUSTION",
+        "POST_HIGH_UNWIND",
+        "UNKNOWN"
+      ]
+    },
+    "raw_bias": {
+      "type": "string",
+      "enum": [
+        "PAIR_UP",
+        "PAIR_DOWN",
+        "MIXED",
+        "NEUTRAL",
+        "HOT",
+        "WATCH",
+        "ACTIVE",
+        "B3_B2",
+        "B3_B4_P1",
+        "UNKNOWN"
+      ]
+    },
+    "qualified_bias": {
+      "type": "string",
+      "enum": [
+        "FRESH_RELEASE_UP",
+        "FRESH_RELEASE_DOWN",
+        "FRESH_RELEASE",
+        "RELEASE_CANDIDATE",
+        "RELEASE_VALIDATED",
+        "RELEASE_UP_VALIDATED",
+        "RELEASE_DOWN_VALIDATED",
+        "RELEASE_CONSUMED",
+        "UP_CONTINUATION_ACCEPTED",
+        "DOWN_CONTINUATION_ACCEPTED",
+        "POST_LOW_COUNTER_BREATH",
+        "POST_HIGH_COUNTER_BREATH",
+        "COUNTER_BREATH_UP",
+        "COUNTER_BREATH_DOWN",
+        "COUNTER_BREATH_REJECTED",
+        "POST_RELEASE_COUNTER_BREATH",
+        "POST_RELEASE_PULLBACK",
+        "PULLBACK_ABSORBED",
+        "POST_HIGH_UNWIND",
+        "POST_RELEASE_UNWIND",
+        "SECOND_LEG_UP",
+        "SECOND_LEG_DOWN",
+        "SECOND_LOW_TEST",
+        "POST_LOW_REACTION",
+        "LOWER_LOCK_RETEST",
+        "REINTEGRATION_ATTEMPT",
+        "FAILED_REINTEGRATION",
+        "FAILED_RELEASE",
+        "FAILED_PRESSURE",
+        "PRESSURE_PENDING",
+        "LOCAL_PRESSURE_VALID",
+        "EVENT_CONFIRMED",
+        "EVENT_STACK",
+        "LATE_THIN_BOUNCE",
+        "LATE_UP_EXHAUSTION_RISK",
+        "HIGH_ZONE_EXHAUSTION_RISK",
+        "EXHAUSTION_OR_CONSUMED",
+        "READING_PARTIAL",
+        "HONEST_UNKNOWN",
+        "UNKNOWN"
+      ]
+    },
+    "packet_quality": {
+      "type": "string",
+      "enum": [
+        "FRESH",
+        "FRESH_STRUCTURE",
+        "CANDIDATE",
+        "CANDIDATE_NOT_VALIDATED",
+        "CONFIRMED",
+        "CONFIRMED_EVENT",
+        "PENDING",
+        "FAILED",
+        "FAILED_RELEASE",
+        "INVALIDATED",
+        "CONSUMED",
+        "LATE",
+        "REACTION",
+        "REACTION_NOT_RELEASE",
+        "RELEASE_CANDIDATE_ONLY",
+        "RELEASE_VALIDATED",
+        "PULLBACK_CONTEXT",
+        "SECOND_LEG_CONTEXT",
+        "STRUCTURAL_REACTION",
+        "STRUCTURAL_CONTINUATION",
+        "CONTINUATION_ACCEPTED",
+        "PRESSURE_NOT_RELEASE",
+        "EXHAUSTION_RISK",
+        "CONSUMED_OR_LATE",
+        "PARTIAL",
+        "DATA_LIMITED",
+        "CROSS_VALIDATION_DEGRADED",
+        "DEGRADED",
+        "STALE",
+        "LOW_QUALITY_REACTION",
+        "EVENT_STACK_NOT_RELEASE",
+        "HONEST_UNKNOWN",
+        "UNKNOWN"
+      ]
+    },
+    "price_confirmation": {
+      "type": "string",
+      "enum": [
+        "PRICE_CONFIRMED",
+        "PRICE_PENDING",
+        "PRICE_FAILED",
+        "PRICE_INVALIDATED",
+        "PRICE_CONSUMED",
+        "PRICE_ACCEPTED_ABOVE_ZONE",
+        "PRICE_ACCEPTED_BELOW_ZONE",
+        "PRICE_REJECTED_HIGH",
+        "PRICE_REJECTED_LOW",
+        "PRICE_REJECTED",
+        "PRICE_ABSORBED_PULLBACK",
+        "UNKNOWN"
+      ]
+    },
+    "propagation_state": {
+      "type": "string",
+      "enum": [
+        "LTF_ONLY",
+        "LTF_MTF_RELAY",
+        "MTF_HTF_RELAY",
+        "FAILED_PROPAGATION",
+        "RELAY_DEGRADING",
+        "COUNTERFLOW_AGAINST_STRUCTURE",
+        "UNKNOWN"
+      ]
+    },
+    "detachment_texture": {
+      "type": "string",
+      "enum": [
+        "STRUCTURAL_DETACHMENT",
+        "NOISY_DETACHMENT",
+        "COUNTER_BREATH_DETACHMENT",
+        "POST_RELEASE_DETACHMENT",
+        "LATE_SESSION_DETACHMENT",
+        "EXHAUSTION_DETACHMENT",
+        "REJECTION_DETACHMENT",
+        "FALSE_REACTION_DETACHMENT",
+        "UNKNOWN"
+      ]
+    },
+    "data_visibility": {
+      "type": "string",
+      "enum": [
+        "FULL_READING",
+        "READING_PARTIAL",
+        "MICROFILM_MISSING",
+        "M1_MISSING",
+        "PACKETS_STALE",
+        "M1_MISSING_PACKETS_STALE",
+        "CROSS_VALIDATION_DEGRADED",
+        "B8_DEGRADED",
+        "B5_B8_HONEST_UNKNOWN",
+        "TEMPORAL_GAPS",
+        "EVENT_TIME_OFFSET",
+        "UNKNOWN"
+      ]
+    },
+    "watch_condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "invalidation_condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "technical_risks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "audit_entry": {
+      "type": "object"
+    }
+  }
+}

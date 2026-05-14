@@ -1,0 +1,15 @@
+feat(powerflow): add consolidated V7.6 terrain calibration pack
+
+Add consolidated V7.6 terrain calibration deliverables:
+
+- terrain grammar, lexicon, and trader packet requirements
+- brick audit and false-positive contracts
+- GBPUSD film library and B6 memory cards
+- packet requalification rules and QA grid
+- canonical terrain packet enums and JSON schema
+- fallback-safe context, requalification, and film memory modules
+- unit tests for requalification and alias normalization
+
+This commit keeps the V7.6 doctrine intact:
+no new spine, no dashboard refactor, no Telegram activation, no trading strategy.
+Raw bias is preserved for audit, while qualified terrain fields become cockpit truth.

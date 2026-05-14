@@ -1,0 +1,18 @@
+docs(v76): add terrain brick audit contracts
+
+Add PowerFlow V7.6 terrain brick audit deliverables:
+
+- final terrain audit for B2/B3/B4/P1/B5/B8/B6/B7/B7+/guards
+- brick to terrain_packet field mapping contract
+- critical false positive register
+- textual QA cases QA-BRICK-01 to QA-BRICK-20
+- git apply steps for feature/v76-brick-audit
+
+Key doctrine:
+- bricks see, grammar names, price arbitrates
+- B2+B3 is not RELEASE_VALIDATED
+- B3+B4+P1 is RELEASE_CANDIDATE only
+- release validation requires price + zone + B7 propagation + acceptable data visibility
+- Guards must expose partial/stale/missing data first
+- Dashboard remains read-only
+- Telegram remains OFF until QA passes
