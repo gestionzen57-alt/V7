@@ -315,12 +315,32 @@
     `;
   }
 
+
+  async function resolveV76Base() {
+    const candidates = [
+      "../output/dashboard_surface/GBPUSD/",
+      "output/dashboard_surface/GBPUSD/",
+      "/output/dashboard_surface/GBPUSD/",
+      "Core/output/dashboard_surface/GBPUSD/",
+      "/Core/output/dashboard_surface/GBPUSD/"
+    ];
+
+    for (const base of candidates) {
+      const probe = await fetchJson(base + "terrain_packet.json");
+      if (probe && (probe.symbol || probe.film_state || probe.qualified_bias)) {
+        return base;
+      }
+    }
+
+    return "../output/dashboard_surface/GBPUSD/";
+  }
+
   async function loadAndRender() {
     installShell();
     const content = byId(PANEL_ID).querySelector("[data-pf-v76-content]");
     content.textContent = "Chargement V7.6...";
 
-    const base = "output/dashboard_surface/GBPUSD/";
+    const base = await resolveV76Base();
     const packet = await fetchJson(base + "terrain_packet.json") || {};
     const memory = await fetchJson(base + "film_memory_match.json") || {};
     const playbook = await fetchJson(base + "trader_playbook.json") || {};
