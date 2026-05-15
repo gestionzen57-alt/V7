@@ -1,4 +1,4 @@
-﻿# T008/T009 Scheduler Telegram Safety Audit
+# T008/T009 Scheduler Telegram Safety Audit
 
 Date: 2026-05-15 19:28:25 +02:00
 
@@ -23,8 +23,8 @@ Forbidden:
 
 ## Verdict
 
-Failures: 1  
-Warnings: 1  
+Failures: 0  
+Warnings: 2  
 Passes: 25
 
 ## Passes
@@ -61,7 +61,7 @@ Passes: 25
 
 ## Failures
 
-- FAIL: Potential DB write pattern found in Scheduler/Telegram target files
+- None
 
 ## Telegram network call inventory
 
@@ -159,3 +159,25 @@ Collected refs:
   - Core/output/dashboard_surface for Dashboard live surfaces.
   - output/dashboard_surface/GBPUSD for Telegram/cycle-tail artifacts.
 
+## Correction note — DB scan false positive
+
+A follow-up SQL-focused scan was run after the initial report.
+
+Initial scanner pattern was too broad:
+- INSERT matched Python sys.path.insert(...)
+- UPDATE matched Python dict.update(...)
+
+Corrected SQL-focused scan pattern searched only for:
+- INSERT INTO
+- UPDATE <table> SET
+- DELETE FROM
+- CREATE TABLE
+- DROP TABLE
+- ALTER TABLE
+- COMMIT / ROLLBACK
+- .execute(...)
+
+Corrected result:
+- No direct DB write pattern found in Scheduler/Telegram target files.
+- The previous DB write failure is reclassified as a static-scan false positive.
+- T008/T009 operational verdict remains PASS with warnings only.
