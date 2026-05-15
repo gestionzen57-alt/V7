@@ -1,0 +1,1466 @@
+{
+  "created_at": "2026-05-15T15:27:40Z",
+  "engine_file": "Core/engine.py",
+  "process_tick": {
+    "line": 896,
+    "end_line": 1178,
+    "line_count": 283,
+    "args": [
+      "tick",
+      "prev",
+      "brain",
+      "send_alert"
+    ],
+    "statement_count": 45,
+    "category_counts": {
+      "TICK_PRICE": 14,
+      "OTHER": 14,
+      "FLOW_COMPUTE": 4,
+      "BRAIN_MEMORY": 1,
+      "ALERT_TRANSMISSION": 11,
+      "SCENE_CONTEXT": 1
+    },
+    "top_calls": [
+      [
+        "mark_alerted",
+        9
+      ],
+      [
+        "score_signal",
+        9
+      ],
+      [
+        "Signal",
+        9
+      ],
+      [
+        "persist_signal",
+        9
+      ],
+      [
+        "_write_legacy_behavioral_signal",
+        9
+      ],
+      [
+        "can_alert",
+        9
+      ],
+      [
+        "send_alert",
+        9
+      ],
+      [
+        "get_level_high",
+        7
+      ],
+      [
+        "print",
+        7
+      ],
+      [
+        "get_level_low",
+        6
+      ],
+      [
+        "TF_LABELS.get",
+        6
+      ],
+      [
+        "strong.upper",
+        4
+      ],
+      [
+        "dev_c.upper",
+        4
+      ],
+      [
+        "weak.upper",
+        2
+      ],
+      [
+        "last.get",
+        2
+      ],
+      [
+        "dev.upper",
+        2
+      ],
+      [
+        "check_volume",
+        1
+      ],
+      [
+        "build_htf_context",
+        1
+      ],
+      [
+        "detect_approach",
+        1
+      ],
+      [
+        "detect_zone_battle",
+        1
+      ],
+      [
+        "detect_cross",
+        1
+      ],
+      [
+        "register_cross",
+        1
+      ],
+      [
+        "detect_convergence",
+        1
+      ],
+      [
+        "build_note",
+        1
+      ],
+      [
+        "detect_time_compression",
+        1
+      ],
+      [
+        "detect_slingshot",
+        1
+      ],
+      [
+        "detect_compression",
+        1
+      ],
+      [
+        "detect_compression_squeeze",
+        1
+      ],
+      [
+        "get_kiss_frolement",
+        1
+      ],
+      [
+        "get_kiss_force_rejet",
+        1
+      ],
+      [
+        "_write_legacy_timecomp_event_v7bus",
+        1
+      ],
+      [
+        "cross_states.get",
+        1
+      ],
+      [
+        "max",
+        1
+      ],
+      [
+        "approach['challenger'].upper",
+        1
+      ],
+      [
+        "approach['dominant'].upper",
+        1
+      ],
+      [
+        "time.time",
+        1
+      ],
+      [
+        "slingshot_sequence.get",
+        1
+      ],
+      [
+        "htf.bias.upper",
+        1
+      ],
+      [
+        "dev_a.upper",
+        1
+      ],
+      [
+        "dev_b.upper",
+        1
+      ]
+    ],
+    "assigned_names": [
+      [
+        "sc",
+        15
+      ],
+      [
+        "lv",
+        12
+      ],
+      [
+        "spam_key",
+        9
+      ],
+      [
+        "sig",
+        9
+      ],
+      [
+        "tf_lbl",
+        6
+      ],
+      [
+        "weak",
+        4
+      ],
+      [
+        "extreme_tag",
+        4
+      ],
+      [
+        "final_type",
+        4
+      ],
+      [
+        "strong",
+        3
+      ],
+      [
+        "note",
+        3
+      ],
+      [
+        "lvl_h",
+        3
+      ],
+      [
+        "bonus_extreme",
+        3
+      ],
+      [
+        "stype",
+        3
+      ],
+      [
+        "lvl_l",
+        2
+      ],
+      [
+        "seq_tag",
+        2
+      ],
+      [
+        "note_c",
+        2
+      ],
+      [
+        "uid",
+        1
+      ],
+      [
+        "pair",
+        1
+      ],
+      [
+        "tf",
+        1
+      ],
+      [
+        "dev_a",
+        1
+      ],
+      [
+        "dev_b",
+        1
+      ],
+      [
+        "lvl_surcht_max",
+        1
+      ],
+      [
+        "lvl_surcht_debut",
+        1
+      ],
+      [
+        "lvl_survente_max",
+        1
+      ],
+      [
+        "lvl_survente_debut",
+        1
+      ],
+      [
+        "spread_ok",
+        1
+      ],
+      [
+        "volume_badge",
+        1
+      ],
+      [
+        "htf",
+        1
+      ],
+      [
+        "approach",
+        1
+      ],
+      [
+        "zone",
+        1
+      ],
+      [
+        "signal_type",
+        1
+      ],
+      [
+        "conv",
+        1
+      ],
+      [
+        "tc_ev",
+        1
+      ],
+      [
+        "sling",
+        1
+      ],
+      [
+        "comp_events",
+        1
+      ],
+      [
+        "sq",
+        1
+      ],
+      [
+        "kf",
+        1
+      ],
+      [
+        "kfr",
+        1
+      ],
+      [
+        "val_s",
+        1
+      ],
+      [
+        "note_zone",
+        1
+      ],
+      [
+        "ct",
+        1
+      ],
+      [
+        "titre",
+        1
+      ],
+      [
+        "tc_record",
+        1
+      ],
+      [
+        "stamp",
+        1
+      ],
+      [
+        "ch",
+        1
+      ],
+      [
+        "dom",
+        1
+      ],
+      [
+        "note_ap",
+        1
+      ],
+      [
+        "note_z",
+        1
+      ],
+      [
+        "key_ex",
+        1
+      ],
+      [
+        "prev_state",
+        1
+      ],
+      [
+        "exploding",
+        1
+      ],
+      [
+        "ev",
+        1
+      ],
+      [
+        "dev_c",
+        1
+      ],
+      [
+        "opp_c",
+        1
+      ],
+      [
+        "now_ts",
+        1
+      ],
+      [
+        "seq_key",
+        1
+      ],
+      [
+        "last",
+        1
+      ],
+      [
+        "note_sq",
+        1
+      ],
+      [
+        "arrow",
+        1
+      ],
+      [
+        "sens",
+        1
+      ]
+    ],
+    "side_effects": [
+      {
+        "line": 896,
+        "type": "Alert call",
+        "text": "async def process_tick(tick: Tick, prev: Tick, brain: Brain, send_alert):"
+      },
+      {
+        "line": 916,
+        "type": "Print",
+        "text": "print(f\"⚙️ V5 process_tick {pair} M{tf} | \""
+      },
+      {
+        "line": 927,
+        "type": "Print",
+        "text": "print(stamp)"
+      },
+      {
+        "line": 928,
+        "type": "Print",
+        "text": "print(f\"🔒 TIME-COMP LOCK | {pair} {tf_lbl} | \""
+      },
+      {
+        "line": 931,
+        "type": "Print",
+        "text": "print(stamp)"
+      },
+      {
+        "line": 932,
+        "type": "Print",
+        "text": "print(f\"💨 TIME-COMP BREAK | {pair} {tf_lbl} | \""
+      },
+      {
+        "line": 935,
+        "type": "Print",
+        "text": "print(f\"[engine] detect_time_compression ignoré : {e}\")"
+      },
+      {
+        "line": 955,
+        "type": "Alert call",
+        "text": "await send_alert(sig, htf, brain)"
+      },
+      {
+        "line": 975,
+        "type": "Alert call",
+        "text": "await send_alert(sig, htf, brain)"
+      },
+      {
+        "line": 997,
+        "type": "Alert call",
+        "text": "await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)"
+      },
+      {
+        "line": 1010,
+        "type": "Alert call",
+        "text": "await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)"
+      },
+      {
+        "line": 1037,
+        "type": "Alert call",
+        "text": "await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)"
+      },
+      {
+        "line": 1073,
+        "type": "Alert call",
+        "text": "await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)"
+      },
+      {
+        "line": 1094,
+        "type": "Alert call",
+        "text": "await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick)"
+      },
+      {
+        "line": 1130,
+        "type": "Alert call",
+        "text": "await send_alert(sig, htf, brain); persist_signal(sig, htf); _write_legacy_behavioral_signal(sig, htf, tick=tick); return"
+      },
+      {
+        "line": 1175,
+        "type": "Print",
+        "text": "print(f\"🔥 V5 signal : {sig.signal_type} {pair} M{tf} \""
+      },
+      {
+        "line": 1177,
+        "type": "Alert call",
+        "text": "await send_alert(sig, htf, brain)"
+      }
+    ],
+    "statement_map": [
+      {
+        "type": "If",
+        "line": 897,
+        "end_line": 898,
+        "category": "TICK_PRICE",
+        "preview": "if tick.timeframe not in TIMEFRAMES: return"
+      },
+      {
+        "type": "Assign",
+        "line": 900,
+        "end_line": 900,
+        "category": "TICK_PRICE",
+        "preview": "uid = f\"{tick.symbol}M{tick.timeframe}\""
+      },
+      {
+        "type": "Assign",
+        "line": 901,
+        "end_line": 901,
+        "category": "TICK_PRICE",
+        "preview": "pair = tick.symbol"
+      },
+      {
+        "type": "Assign",
+        "line": 902,
+        "end_line": 902,
+        "category": "TICK_PRICE",
+        "preview": "tf = tick.timeframe"
+      },
+      {
+        "type": "Assign",
+        "line": 903,
+        "end_line": 903,
+        "category": "TICK_PRICE",
+        "preview": "dev_a, dev_b = tick.dev_a, tick.dev_b"
+      },
+      {
+        "type": "Assign",
+        "line": 906,
+        "end_line": 906,
+        "category": "OTHER",
+        "preview": "lvl_surcht_max = get_level_high(tf)"
+      },
+      {
+        "type": "Assign",
+        "line": 907,
+        "end_line": 907,
+        "category": "OTHER",
+        "preview": "lvl_surcht_debut = get_level_high(tf)"
+      },
+      {
+        "type": "Assign",
+        "line": 908,
+        "end_line": 908,
+        "category": "OTHER",
+        "preview": "lvl_survente_max = get_level_low(tf)"
+      },
+      {
+        "type": "Assign",
+        "line": 909,
+        "end_line": 909,
+        "category": "OTHER",
+        "preview": "lvl_survente_debut = get_level_low(tf)"
+      },
+      {
+        "type": "Assign",
+        "line": 911,
+        "end_line": 911,
+        "category": "FLOW_COMPUTE",
+        "preview": "spread_ok = tick.spread <= MAX_SPREAD"
+      },
+      {
+        "type": "Assign",
+        "line": 912,
+        "end_line": 912,
+        "category": "TICK_PRICE",
+        "preview": "volume_badge = check_volume(tick, uid)"
+      },
+      {
+        "type": "Assign",
+        "line": 913,
+        "end_line": 913,
+        "category": "BRAIN_MEMORY",
+        "preview": "htf = build_htf_context(pair, tf, dev_a, dev_b, brain)"
+      },
+      {
+        "type": "If",
+        "line": 915,
+        "end_line": 917,
+        "category": "TICK_PRICE",
+        "preview": "if DEBUG_CROSS: print(f\"⚙️ V5 process_tick {pair} M{tf} | \" f\"A={tick.val_a:.1f} {dev_a.upper()} | B={tick.val_b:.1f} {dev_b.upper()}\")"
+      },
+      {
+        "type": "Try",
+        "line": 920,
+        "end_line": 935,
+        "category": "TICK_PRICE",
+        "preview": "try: tc_ev = detect_time_compression(tick, uid) if tc_ev: tf_lbl = TF_LABELS.get(tf, f\"M{tf}\") tc_record = _write_legacy_timecomp_event_v7bus(pair, tf, tf_lbl, tick, tc_ev) stamp ="
+      },
+      {
+        "type": "Assign",
+        "line": 938,
+        "end_line": 938,
+        "category": "TICK_PRICE",
+        "preview": "approach = detect_approach(tick, prev, uid)"
+      },
+      {
+        "type": "If",
+        "line": 939,
+        "end_line": 956,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "if approach: spam_key = f\"APPROACH_{uid}_{approach['challenger']}\" if can_alert(spam_key): mark_alerted(spam_key) tf_lbl = TF_LABELS.get(tf, f\"M{tf}\") ch, dom = approach[\"challenge"
+      },
+      {
+        "type": "Assign",
+        "line": 959,
+        "end_line": 959,
+        "category": "SCENE_CONTEXT",
+        "preview": "zone = detect_zone_battle(tick, prev, uid)"
+      },
+      {
+        "type": "If",
+        "line": 960,
+        "end_line": 976,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "if zone: spam_key = f\"ZONE_{uid}_{zone['actor']}\" if can_alert(spam_key): mark_alerted(spam_key) tf_lbl = TF_LABELS.get(tf, f\"M{tf}\") stype = \"EXTREME_HIGH\" if zone[\"zone\"]==\"HAUTE"
+      },
+      {
+        "type": "If",
+        "line": 979,
+        "end_line": 1012,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "if ALERT_EXTREME_LEVELS: for dev, val in [(dev_a, tick.val_a), (dev_b, tick.val_b)]: key_ex = f\"{uid}_{dev}_extreme\" prev_state = cross_states.get(key_ex, \"NEUTRE\") lvl_h = get_lev"
+      },
+      {
+        "type": "If",
+        "line": 1015,
+        "end_line": 1037,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "if ALERT_SLINGSHOT: sling = detect_slingshot(tick, prev, uid) if sling: exploding = dev_a if sling==\"SLINGSHOT_A\" else dev_b weak = dev_b if exploding==dev_a else dev_a spam_key = "
+      },
+      {
+        "type": "If",
+        "line": 1040,
+        "end_line": 1073,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "if ALERT_COMPRESSION: comp_events = detect_compression(tick, uid) if comp_events: ev = max(comp_events, key=lambda e: abs(e[\"val\"]-50.0)) dev_c = ev[\"dev\"] opp_c = dev_b if dev_c=="
+      },
+      {
+        "type": "If",
+        "line": 1076,
+        "end_line": 1094,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "if ALERT_COMPRESSION_SQUEEZE: sq = detect_compression_squeeze(tick, prev, uid) if sq: spam_key = f\"SQUEEZE_{uid}_{sq['compressed_dev']}_{sq['pressure_dev']}\" if can_alert(spam_key)"
+      },
+      {
+        "type": "Assign",
+        "line": 1097,
+        "end_line": 1097,
+        "category": "TICK_PRICE",
+        "preview": "signal_type = detect_cross(tick, prev, uid)"
+      },
+      {
+        "type": "If",
+        "line": 1098,
+        "end_line": 1099,
+        "category": "OTHER",
+        "preview": "if signal_type is None: return"
+      },
+      {
+        "type": "Assign",
+        "line": 1101,
+        "end_line": 1101,
+        "category": "TICK_PRICE",
+        "preview": "strong = dev_a if tick.val_a >= tick.val_b else dev_b"
+      },
+      {
+        "type": "Assign",
+        "line": 1102,
+        "end_line": 1102,
+        "category": "OTHER",
+        "preview": "weak = dev_b if strong==dev_a else dev_a"
+      },
+      {
+        "type": "If",
+        "line": 1104,
+        "end_line": 1130,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "if signal_type == \"KISS_REJECT\": if not ALERT_KISS_REJECT: return spam_key = f\"KISS_REJECT_{uid}_{strong}\" if not can_alert(spam_key): return mark_alerted(spam_key) tf_lbl = TF_LAB"
+      },
+      {
+        "type": "Expr",
+        "line": 1133,
+        "end_line": 1133,
+        "category": "OTHER",
+        "preview": "register_cross(pair, tf, strong, weak)"
+      },
+      {
+        "type": "Assign",
+        "line": 1134,
+        "end_line": 1134,
+        "category": "OTHER",
+        "preview": "conv = detect_convergence(pair, tf, strong, weak, htf)"
+      },
+      {
+        "type": "If",
+        "line": 1136,
+        "end_line": 1140,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "if signal_type==\"FAKEOUT\" and ALERT_FAKEOUT: final_type=\"FAKEOUT\" elif signal_type==\"SUPER_SWITCH\" and ALERT_SUPER_SWITCH: final_type=\"SUPER_SWITCH\" elif conv and ALERT_CONVERGENCE"
+      },
+      {
+        "type": "Assign",
+        "line": 1142,
+        "end_line": 1142,
+        "category": "OTHER",
+        "preview": "spam_key = f\"{final_type}_{uid}_{strong}\""
+      },
+      {
+        "type": "If",
+        "line": 1143,
+        "end_line": 1143,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "if not can_alert(spam_key): return"
+      },
+      {
+        "type": "Expr",
+        "line": 1144,
+        "end_line": 1144,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "mark_alerted(spam_key)"
+      },
+      {
+        "type": "Assign",
+        "line": 1146,
+        "end_line": 1146,
+        "category": "FLOW_COMPUTE",
+        "preview": "sc, lv = score_signal(final_type, tf, volume_badge, htf.htf_bonus, spread_ok)"
+      },
+      {
+        "type": "Assign",
+        "line": 1149,
+        "end_line": 1149,
+        "category": "OTHER",
+        "preview": "extreme_tag = \"\""
+      },
+      {
+        "type": "If",
+        "line": 1150,
+        "end_line": 1163,
+        "category": "TICK_PRICE",
+        "preview": "if tf in (5,15) and final_type in (\"CROSS\",\"SUPER_SWITCH\",\"FAKEOUT\"): lvl_l = get_level_low(tf) lvl_h = get_level_high(tf) bonus_extreme = 0 if (strong==dev_a and prev.val_a<=lvl_l"
+      },
+      {
+        "type": "If",
+        "line": 1164,
+        "end_line": 1164,
+        "category": "OTHER",
+        "preview": "if conv: sc += conv[\"bonus\"]"
+      },
+      {
+        "type": "Assign",
+        "line": 1165,
+        "end_line": 1165,
+        "category": "OTHER",
+        "preview": "lv = \"PREMIUM\" if sc>=8 else (\"CONFIRM\" if sc>=5 else \"STANDARD\")"
+      },
+      {
+        "type": "Assign",
+        "line": 1167,
+        "end_line": 1167,
+        "category": "TICK_PRICE",
+        "preview": "note = build_note(signal_type, tick, htf, conv)"
+      },
+      {
+        "type": "If",
+        "line": 1168,
+        "end_line": 1168,
+        "category": "OTHER",
+        "preview": "if extreme_tag: note += extreme_tag"
+      },
+      {
+        "type": "Assign",
+        "line": 1170,
+        "end_line": 1173,
+        "category": "FLOW_COMPUTE",
+        "preview": "sig = Signal(symbol=pair, timeframe=tf, signal_type=final_type, timestamp=tick.timestamp, dev_strong=strong, dev_weak=weak, score=sc, level=lv, htf=htf, volume_badge=volume_badge, "
+      },
+      {
+        "type": "Expr",
+        "line": 1175,
+        "end_line": 1176,
+        "category": "FLOW_COMPUTE",
+        "preview": "print(f\"🔥 V5 signal : {sig.signal_type} {pair} M{tf} \" f\"{strong.upper()}>{weak.upper()} score={sc} {lv}\")"
+      },
+      {
+        "type": "Expr",
+        "line": 1177,
+        "end_line": 1177,
+        "category": "ALERT_TRANSMISSION",
+        "preview": "await send_alert(sig, htf, brain)"
+      },
+      {
+        "type": "Expr",
+        "line": 1178,
+        "end_line": 1178,
+        "category": "OTHER",
+        "preview": "persist_signal(sig, htf)"
+      },
+      {
+        "type": "Expr",
+        "line": 1178,
+        "end_line": 1178,
+        "category": "TICK_PRICE",
+        "preview": "_write_legacy_behavioral_signal(sig, htf, tick=tick)"
+      }
+    ],
+    "local_helpers": [
+      {
+        "name": "mark_alerted",
+        "line": 550,
+        "end_line": 551,
+        "args": [
+          "key"
+        ],
+        "calls_from_process_tick": 9
+      },
+      {
+        "name": "score_signal",
+        "line": 534,
+        "end_line": 542,
+        "args": [
+          "signal_type",
+          "tf",
+          "volume_badge",
+          "htf_bonus",
+          "spread_ok"
+        ],
+        "calls_from_process_tick": 9
+      },
+      {
+        "name": "persist_signal",
+        "line": 448,
+        "end_line": 460,
+        "args": [
+          "sig",
+          "htf"
+        ],
+        "calls_from_process_tick": 9
+      },
+      {
+        "name": "_write_legacy_behavioral_signal",
+        "line": 214,
+        "end_line": 247,
+        "args": [
+          "sig",
+          "htf",
+          "tick"
+        ],
+        "calls_from_process_tick": 9
+      },
+      {
+        "name": "can_alert",
+        "line": 547,
+        "end_line": 548,
+        "args": [
+          "key"
+        ],
+        "calls_from_process_tick": 9
+      },
+      {
+        "name": "check_volume",
+        "line": 468,
+        "end_line": 485,
+        "args": [
+          "tick",
+          "uid"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "build_htf_context",
+        "line": 490,
+        "end_line": 529,
+        "args": [
+          "pair",
+          "tf",
+          "dev_a",
+          "dev_b",
+          "brain"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "detect_approach",
+        "line": 771,
+        "end_line": 790,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "detect_zone_battle",
+        "line": 795,
+        "end_line": 815,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "detect_cross",
+        "line": 681,
+        "end_line": 743,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "register_cross",
+        "line": 561,
+        "end_line": 565,
+        "args": [
+          "pair",
+          "tf",
+          "strong",
+          "weak"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "detect_convergence",
+        "line": 567,
+        "end_line": 593,
+        "args": [
+          "pair",
+          "tf",
+          "strong",
+          "weak",
+          "htf"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "build_note",
+        "line": 875,
+        "end_line": 891,
+        "args": [
+          "signal_type",
+          "tick",
+          "htf",
+          "conv"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "detect_time_compression",
+        "line": 833,
+        "end_line": 870,
+        "args": [
+          "tick",
+          "uid"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "detect_slingshot",
+        "line": 748,
+        "end_line": 762,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "detect_compression",
+        "line": 601,
+        "end_line": 639,
+        "args": [
+          "tick",
+          "uid"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "detect_compression_squeeze",
+        "line": 641,
+        "end_line": 674,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ],
+        "calls_from_process_tick": 1
+      },
+      {
+        "name": "_write_legacy_timecomp_event_v7bus",
+        "line": 274,
+        "end_line": 321,
+        "args": [
+          "symbol",
+          "tf",
+          "tf_label",
+          "tick",
+          "tc_ev"
+        ],
+        "calls_from_process_tick": 1
+      }
+    ]
+  },
+  "top_level": {
+    "imports": [
+      {
+        "line": 13,
+        "text": "import time"
+      },
+      {
+        "line": 14,
+        "text": "import os"
+      },
+      {
+        "line": 15,
+        "text": "import json"
+      },
+      {
+        "line": 16,
+        "text": "from datetime import datetime, timezone"
+      },
+      {
+        "line": 17,
+        "text": "from collections import deque, defaultdict"
+      },
+      {
+        "line": 18,
+        "text": "from models import Tick, HTFContext, Signal, Brain"
+      },
+      {
+        "line": 19,
+        "text": "from system_config import ( HTF_RADAR_ENABLED, VOLUME_FILTER_ENABLED, VOLUME_SPIKE_RATIO, VOLUME_SPIKE_MIN_TICKS, MAX_SPREAD, ANTISPAM_SECONDS, ALERT_CROSS_BASIC, ALERT_SUPER_SWITC"
+      },
+      {
+        "line": 40,
+        "text": "from db import init_db, log_signal"
+      }
+    ],
+    "functions": [
+      {
+        "name": "_pfv7_utc_iso",
+        "line": 93,
+        "end_line": 104,
+        "args": [
+          "dt"
+        ]
+      },
+      {
+        "name": "_pfv7_symbol_dir",
+        "line": 107,
+        "end_line": 110,
+        "args": [
+          "symbol"
+        ]
+      },
+      {
+        "name": "_pfv7_behavioral_jsonl_path",
+        "line": 113,
+        "end_line": 114,
+        "args": [
+          "symbol"
+        ]
+      },
+      {
+        "name": "_pfv7_timecomp_jsonl_path",
+        "line": 117,
+        "end_line": 118,
+        "args": [
+          "symbol"
+        ]
+      },
+      {
+        "name": "_pfv7_event_time_risks",
+        "line": 121,
+        "end_line": 137,
+        "args": [
+          "event_at",
+          "detected_at"
+        ]
+      },
+      {
+        "name": "_pfv7_signal_layer",
+        "line": 140,
+        "end_line": 150,
+        "args": [
+          "signal_type"
+        ]
+      },
+      {
+        "name": "_pfv7_event_role",
+        "line": 153,
+        "end_line": 170,
+        "args": [
+          "signal_type"
+        ]
+      },
+      {
+        "name": "_pfv7_pair_bias_from_signal",
+        "line": 173,
+        "end_line": 187,
+        "args": [
+          "sig"
+        ]
+      },
+      {
+        "name": "_pfv7_write_jsonl",
+        "line": 190,
+        "end_line": 192,
+        "args": [
+          "path",
+          "record"
+        ]
+      },
+      {
+        "name": "_write_legacy_behavioral_event",
+        "line": 195,
+        "end_line": 211,
+        "args": [
+          "record"
+        ]
+      },
+      {
+        "name": "_write_legacy_behavioral_signal",
+        "line": 214,
+        "end_line": 247,
+        "args": [
+          "sig",
+          "htf",
+          "tick"
+        ]
+      },
+      {
+        "name": "_pfv7_timecomp_event_type",
+        "line": 250,
+        "end_line": 256,
+        "args": [
+          "tc_ev"
+        ]
+      },
+      {
+        "name": "_pfv7_timecomp_direction",
+        "line": 259,
+        "end_line": 271,
+        "args": [
+          "tc_ev"
+        ]
+      },
+      {
+        "name": "_write_legacy_timecomp_event_v7bus",
+        "line": 274,
+        "end_line": 321,
+        "args": [
+          "symbol",
+          "tf",
+          "tf_label",
+          "tick",
+          "tc_ev"
+        ]
+      },
+      {
+        "name": "_utc_iso",
+        "line": 327,
+        "end_line": 341,
+        "args": [
+          "dt"
+        ]
+      },
+      {
+        "name": "_legacy_timecomp_event_type",
+        "line": 343,
+        "end_line": 349,
+        "args": [
+          "tc_ev"
+        ]
+      },
+      {
+        "name": "_legacy_timecomp_direction",
+        "line": 351,
+        "end_line": 363,
+        "args": [
+          "tc_ev"
+        ]
+      },
+      {
+        "name": "_legacy_timecomp_jsonl_path",
+        "line": 365,
+        "end_line": 368,
+        "args": [
+          "symbol"
+        ]
+      },
+      {
+        "name": "_write_legacy_timecomp_event",
+        "line": 370,
+        "end_line": 408,
+        "args": [
+          "symbol",
+          "tf",
+          "tf_label",
+          "tick",
+          "tc_ev"
+        ]
+      },
+      {
+        "name": "signal_to_db_dict",
+        "line": 414,
+        "end_line": 432,
+        "args": [
+          "sig"
+        ]
+      },
+      {
+        "name": "htf_to_db_dict",
+        "line": 434,
+        "end_line": 446,
+        "args": [
+          "htf"
+        ]
+      },
+      {
+        "name": "persist_signal",
+        "line": 448,
+        "end_line": 460,
+        "args": [
+          "sig",
+          "htf"
+        ]
+      },
+      {
+        "name": "log_flow_regime",
+        "line": 462,
+        "end_line": 463,
+        "args": [
+          "htf",
+          "sig"
+        ]
+      },
+      {
+        "name": "check_volume",
+        "line": 468,
+        "end_line": 485,
+        "args": [
+          "tick",
+          "uid"
+        ]
+      },
+      {
+        "name": "build_htf_context",
+        "line": 490,
+        "end_line": 529,
+        "args": [
+          "pair",
+          "tf",
+          "dev_a",
+          "dev_b",
+          "brain"
+        ]
+      },
+      {
+        "name": "score_signal",
+        "line": 534,
+        "end_line": 542,
+        "args": [
+          "signal_type",
+          "tf",
+          "volume_badge",
+          "htf_bonus",
+          "spread_ok"
+        ]
+      },
+      {
+        "name": "can_alert",
+        "line": 547,
+        "end_line": 548,
+        "args": [
+          "key"
+        ]
+      },
+      {
+        "name": "mark_alerted",
+        "line": 550,
+        "end_line": 551,
+        "args": [
+          "key"
+        ]
+      },
+      {
+        "name": "register_cross",
+        "line": 561,
+        "end_line": 565,
+        "args": [
+          "pair",
+          "tf",
+          "strong",
+          "weak"
+        ]
+      },
+      {
+        "name": "detect_convergence",
+        "line": 567,
+        "end_line": 593,
+        "args": [
+          "pair",
+          "tf",
+          "strong",
+          "weak",
+          "htf"
+        ]
+      },
+      {
+        "name": "get_compression_band",
+        "line": 598,
+        "end_line": 599,
+        "args": [
+          "tick"
+        ]
+      },
+      {
+        "name": "detect_compression",
+        "line": 601,
+        "end_line": 639,
+        "args": [
+          "tick",
+          "uid"
+        ]
+      },
+      {
+        "name": "detect_compression_squeeze",
+        "line": 641,
+        "end_line": 674,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ]
+      },
+      {
+        "name": "detect_cross",
+        "line": 681,
+        "end_line": 743,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ]
+      },
+      {
+        "name": "detect_slingshot",
+        "line": 748,
+        "end_line": 762,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ]
+      },
+      {
+        "name": "detect_approach",
+        "line": 771,
+        "end_line": 790,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ]
+      },
+      {
+        "name": "detect_zone_battle",
+        "line": 795,
+        "end_line": 815,
+        "args": [
+          "tick",
+          "prev",
+          "uid"
+        ]
+      },
+      {
+        "name": "_pip_size",
+        "line": 825,
+        "end_line": 826,
+        "args": [
+          "symbol"
+        ]
+      },
+      {
+        "name": "_time_comp_band",
+        "line": 828,
+        "end_line": 831,
+        "args": [
+          "tick"
+        ]
+      },
+      {
+        "name": "detect_time_compression",
+        "line": 833,
+        "end_line": 870,
+        "args": [
+          "tick",
+          "uid"
+        ]
+      },
+      {
+        "name": "build_note",
+        "line": 875,
+        "end_line": 891,
+        "args": [
+          "signal_type",
+          "tick",
+          "htf",
+          "conv"
+        ]
+      },
+      {
+        "name": "process_tick",
+        "line": 896,
+        "end_line": 1178,
+        "args": [
+          "tick",
+          "prev",
+          "brain",
+          "send_alert"
+        ]
+      },
+      {
+        "name": "process_temporal_nodes_cycle",
+        "line": 1184,
+        "end_line": 1227,
+        "args": [
+          "symbols",
+          "db_path"
+        ]
+      }
+    ],
+    "classes": []
+  }
+}
