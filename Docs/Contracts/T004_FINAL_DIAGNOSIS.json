@@ -92,8 +92,26 @@
     "Not a SQLite/path issue after active DB was resolved to Core/powerflow.db.",
     "Not a total USDJPY absence historically; USDJPY has rows but is thin and not advancing in active insertion windows."
   ],
-  "recommended_dispatch_state": "DIAGNOSED_BLOCKED_ON_CAPTURE_ROUTING_OR_SOURCE_FEED",
+  "recommended_dispatch_state": "DIAGNOSED_REQUALIFIED_FEED_CAPTURE_INTERMITTENT",
   "runtime_wired": false,
   "db_written": false,
-  "engine_change_required": false
+  "engine_change_required": false,
+  "post_close_requalification": {
+    "created_at": "2026-05-15T18:44:46Z",
+    "source": "Docs/Contracts/T004_REQUALIFICATION_AFTER_USD_BASE_COHORT.json",
+    "cohort_verdict": "USD_BASE_AND_USD_QUOTE_BOTH_ADVANCE",
+    "requalification_status": "GLOBAL_USD_BASE_BLOCKAGE_INVALIDATED",
+    "updated_cause": "FEED_EA_CAPTURE_INTERMITTENT_OR_INITIAL_SETUP_INCOMPLETE",
+    "symbol_deltas": {
+      "USDJPY": 4,
+      "USDCAD": 2,
+      "USDCHF": 2,
+      "GBPUSD": 13,
+      "EURUSD": 3,
+      "AUDUSD": 2
+    },
+    "interpretation": "Expanded cohort with USDCAD/USDCHF/AUDUSD invalidates a global USD-base blockage if USD-base symbols advanced.",
+    "engine_change_required": false
+  },
+  "status_requalified_after_t004n": "GLOBAL_USD_BASE_BLOCKAGE_INVALIDATED"
 }

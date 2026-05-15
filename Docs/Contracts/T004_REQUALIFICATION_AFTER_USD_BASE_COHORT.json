@@ -1,0 +1,50 @@
+{
+  "contract": "POWERFLOW_T004_REQUALIFICATION_AFTER_USD_BASE_COHORT",
+  "created_at": "2026-05-15T18:44:46Z",
+  "source_cohort_contract": "Docs/Contracts/T004_USD_BASE_POLARITY_COHORT.json",
+  "source_final_diagnosis_contract": "Docs/Contracts/T004_FINAL_DIAGNOSIS.json",
+  "previous_final_status": "CAPTURE_ROUTING_USDJPY_ABSENT_FROM_ACTIVE_TABLES",
+  "cohort_verdict": "USD_BASE_AND_USD_QUOTE_BOTH_ADVANCE",
+  "requalification_status": "GLOBAL_USD_BASE_BLOCKAGE_INVALIDATED",
+  "updated_cause": "FEED_EA_CAPTURE_INTERMITTENT_OR_INITIAL_SETUP_INCOMPLETE",
+  "recommended_dispatch_status": "DIAGNOSED_REQUALIFIED_FEED_CAPTURE_INTERMITTENT",
+  "symbol_deltas": {
+    "USDJPY": 4,
+    "USDCAD": 2,
+    "USDCHF": 2,
+    "GBPUSD": 13,
+    "EURUSD": 3,
+    "AUDUSD": 2
+  },
+  "usd_base_deltas": {
+    "USDJPY": 4,
+    "USDCAD": 2,
+    "USDCHF": 2
+  },
+  "usd_quote_deltas": {
+    "GBPUSD": 13,
+    "EURUSD": 3,
+    "AUDUSD": 2
+  },
+  "polarity_risk_hit_count": null,
+  "operator_actions": [
+    "Keep all active EAs running on USDJPY, USDCAD, USDCHF, GBPUSD, EURUSD, and AUDUSD during validation windows.",
+    "Rerun T004-N during an active market window if feed cadence changes.",
+    "Do not patch PowerFlow engine/scoring/dashboard based on the initial USDJPY absence.",
+    "Use per-symbol live deltas as the primary validation signal after EA/feed changes."
+  ],
+  "engineering_actions": [
+    "Keep polarity risk hits for later interpretation audit, not as proven capture blockers.",
+    "Add a lightweight capture health surface per symbol if this intermittence recurs.",
+    "Treat the previous USDJPY absence as window/setup dependent unless repeated with all EAs active."
+  ],
+  "not_causes": [
+    "Global USD-base capture blockage is not confirmed after expanded cohort.",
+    "A simple XXXUSD-only pipeline bug is not supported by the latest live deltas.",
+    "No engine/scoring/dashboard patch is justified."
+  ],
+  "engine_change_required": false,
+  "dashboard_change_required": false,
+  "db_change_required": false,
+  "runtime_wired": false
+}
