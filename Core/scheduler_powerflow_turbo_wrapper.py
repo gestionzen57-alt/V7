@@ -102,6 +102,11 @@ def parse_symbols(raw: str) -> str:
     return ",".join(symbols)
 
 
+
+
+def is_overlap_skip(result: StepResult) -> bool:
+    text = f"{result.stdout}\n{result.stderr}".upper()
+    return result.label == "scheduler_core" and "OVERLAP_SKIP" in text
 def build_steps(py: str, symbols: str) -> List[tuple[str, List[str]]]:
     return [
         (
