@@ -216,7 +216,14 @@ def main(argv: Iterable[str] | None = None) -> int:
                 )
                 return 1
 
-    failed = [result.label for result in results if not result.ok]
+    overlap_skips = [result.label for result in results if is_overlap_skip(result)]
+    if overlap_skips and args.continue_on_error:
+        print("TURBO_V73_OVERLAP_SKIP_CONTINUE | scheduler_core lock active; continuing analytical layers")
+    failed = [
+        result.label
+        for result in results
+        if not result.ok and not (args.continue_on_error and is_overlap_skip(result))
+    ]
     errors.extend(failed)
     elapsed = round(_now_seconds() - started, 3)
 
