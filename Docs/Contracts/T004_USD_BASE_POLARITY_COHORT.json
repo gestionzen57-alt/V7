@@ -1,16 +1,18 @@
 {
   "contract": "POWERFLOW_T004_USD_BASE_POLARITY_COHORT",
-  "created_at": "2026-05-15T18:18:01Z",
+  "created_at": "2026-05-15T18:23:20Z",
   "db_path": "Core/powerflow.db",
-  "watch_seconds": 120,
+  "watch_seconds": 180,
   "interval_seconds": 10,
   "usd_base_symbols": [
     "USDJPY",
-    "USDCAD"
+    "USDCAD",
+    "USDCHF"
   ],
   "usd_quote_symbols": [
     "GBPUSD",
-    "EURUSD"
+    "EURUSD",
+    "AUDUSD"
   ],
   "symbol_models": {
     "USDJPY": {
@@ -27,6 +29,13 @@
       "polarity": "USD_BASE",
       "usd_strength_sign": 1
     },
+    "USDCHF": {
+      "symbol": "USDCHF",
+      "base": "USD",
+      "quote": "CHF",
+      "polarity": "USD_BASE",
+      "usd_strength_sign": 1
+    },
     "GBPUSD": {
       "symbol": "GBPUSD",
       "base": "GBP",
@@ -40,22 +49,33 @@
       "quote": "USD",
       "polarity": "USD_QUOTE",
       "usd_strength_sign": -1
+    },
+    "AUDUSD": {
+      "symbol": "AUDUSD",
+      "base": "AUD",
+      "quote": "USD",
+      "polarity": "USD_QUOTE",
+      "usd_strength_sign": -1
     }
   },
-  "verdict": "USD_BASE_COHORT_NOT_ADVANCING_WHILE_USD_QUOTE_ADVANCES",
+  "verdict": "USD_BASE_AND_USD_QUOTE_BOTH_ADVANCE",
   "symbol_deltas": {
-    "USDJPY": 0,
-    "USDCAD": 0,
-    "GBPUSD": 4,
-    "EURUSD": 0
+    "USDJPY": 4,
+    "USDCAD": 2,
+    "USDCHF": 2,
+    "GBPUSD": 13,
+    "EURUSD": 3,
+    "AUDUSD": 2
   },
   "usd_base_deltas": {
-    "USDJPY": 0,
-    "USDCAD": 0
+    "USDJPY": 4,
+    "USDCAD": 2,
+    "USDCHF": 2
   },
   "usd_quote_deltas": {
-    "GBPUSD": 4,
-    "EURUSD": 0
+    "GBPUSD": 13,
+    "EURUSD": 3,
+    "AUDUSD": 2
   },
   "final_symbol_state": {
     "USDJPY": {
@@ -64,11 +84,11 @@
       "quote": "JPY",
       "polarity": "USD_BASE",
       "usd_strength_sign": 1,
-      "total_count": 4114,
-      "latest_time": "2026-05-15T21:15:00+00:00",
-      "latest_age_seconds": -10497.888843,
+      "total_count": 4121,
+      "latest_time": "2026-05-15T21:25:00+00:00",
+      "latest_age_seconds": -10719.694533,
       "near_symbol_candidates": [],
-      "delta": 0
+      "delta": 4
     },
     "USDCAD": {
       "symbol": "USDCAD",
@@ -76,11 +96,23 @@
       "quote": "CAD",
       "polarity": "USD_BASE",
       "usd_strength_sign": 1,
-      "total_count": 1024,
-      "latest_time": "2026-05-15T21:15:00+00:00",
-      "latest_age_seconds": -10497.883666,
+      "total_count": 1028,
+      "latest_time": "2026-05-15T21:25:00+00:00",
+      "latest_age_seconds": -10719.68955,
       "near_symbol_candidates": [],
-      "delta": 0
+      "delta": 2
+    },
+    "USDCHF": {
+      "symbol": "USDCHF",
+      "base": "USD",
+      "quote": "CHF",
+      "polarity": "USD_BASE",
+      "usd_strength_sign": 1,
+      "total_count": 967,
+      "latest_time": "2026-05-15T21:25:00+00:00",
+      "latest_age_seconds": -10719.683957,
+      "near_symbol_candidates": [],
+      "delta": 2
     },
     "GBPUSD": {
       "symbol": "GBPUSD",
@@ -88,11 +120,11 @@
       "quote": "USD",
       "polarity": "USD_QUOTE",
       "usd_strength_sign": -1,
-      "total_count": 36279,
-      "latest_time": "2026-05-15T21:19:00+00:00",
-      "latest_age_seconds": -10737.877086,
+      "total_count": 36303,
+      "latest_time": "2026-05-15T21:26:00+00:00",
+      "latest_age_seconds": -10779.675432,
       "near_symbol_candidates": [],
-      "delta": 4
+      "delta": 13
     },
     "EURUSD": {
       "symbol": "EURUSD",
@@ -100,86 +132,152 @@
       "quote": "USD",
       "polarity": "USD_QUOTE",
       "usd_strength_sign": -1,
-      "total_count": 5413,
-      "latest_time": "2026-05-15T21:15:00+00:00",
-      "latest_age_seconds": -10497.870063,
+      "total_count": 5418,
+      "latest_time": "2026-05-15T21:25:00+00:00",
+      "latest_age_seconds": -10719.668312,
       "near_symbol_candidates": [],
-      "delta": 0
+      "delta": 3
+    },
+    "AUDUSD": {
+      "symbol": "AUDUSD",
+      "base": "AUD",
+      "quote": "USD",
+      "polarity": "USD_QUOTE",
+      "usd_strength_sign": -1,
+      "total_count": 974,
+      "latest_time": "2026-05-15T21:25:00+00:00",
+      "latest_age_seconds": -10719.662616,
+      "near_symbol_candidates": [],
+      "delta": 2
     }
   },
   "active_tables": [
     {
-      "table": "force_snapshots",
-      "row_delta": 2,
+      "table": "context_htf",
+      "row_delta": 7,
+      "symbol_col": null,
+      "time_col": null,
+      "per_symbol_delta": {
+        "USDJPY": 0,
+        "USDCAD": 0,
+        "USDCHF": 0,
+        "GBPUSD": 0,
+        "EURUSD": 0,
+        "AUDUSD": 0
+      }
+    },
+    {
+      "table": "flow_packets",
+      "row_delta": 1,
       "symbol_col": "symbol",
       "time_col": "created_at",
       "per_symbol_delta": {
         "USDJPY": 0,
         "USDCAD": 0,
-        "GBPUSD": 2,
-        "EURUSD": 0
+        "USDCHF": 0,
+        "GBPUSD": 1,
+        "EURUSD": 0,
+        "AUDUSD": 0
+      }
+    },
+    {
+      "table": "force_snapshots",
+      "row_delta": 9,
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol_delta": {
+        "USDJPY": 1,
+        "USDCAD": 1,
+        "USDCHF": 1,
+        "GBPUSD": 4,
+        "EURUSD": 1,
+        "AUDUSD": 1
       }
     },
     {
       "table": "force_snapshots_v2",
-      "row_delta": 2,
+      "row_delta": 9,
       "symbol_col": "symbol",
       "time_col": "created_at",
       "per_symbol_delta": {
-        "USDJPY": 0,
+        "USDJPY": 1,
+        "USDCAD": 1,
+        "USDCHF": 1,
+        "GBPUSD": 4,
+        "EURUSD": 1,
+        "AUDUSD": 1
+      }
+    },
+    {
+      "table": "signals",
+      "row_delta": 7,
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol_delta": {
+        "USDJPY": 2,
         "USDCAD": 0,
-        "GBPUSD": 2,
-        "EURUSD": 0
+        "USDCHF": 0,
+        "GBPUSD": 4,
+        "EURUSD": 1,
+        "AUDUSD": 0
       }
     }
   ],
   "table_deltas": [
     {
       "table": "context_htf",
-      "row_delta": 0,
+      "row_delta": 7,
       "symbol_col": null,
       "time_col": null,
       "per_symbol_delta": {
         "USDJPY": 0,
         "USDCAD": 0,
+        "USDCHF": 0,
         "GBPUSD": 0,
-        "EURUSD": 0
+        "EURUSD": 0,
+        "AUDUSD": 0
       }
     },
     {
       "table": "flow_packets",
-      "row_delta": 0,
+      "row_delta": 1,
       "symbol_col": "symbol",
       "time_col": "created_at",
       "per_symbol_delta": {
         "USDJPY": 0,
         "USDCAD": 0,
-        "GBPUSD": 0,
-        "EURUSD": 0
+        "USDCHF": 0,
+        "GBPUSD": 1,
+        "EURUSD": 0,
+        "AUDUSD": 0
       }
     },
     {
       "table": "force_snapshots",
-      "row_delta": 2,
+      "row_delta": 9,
       "symbol_col": "symbol",
       "time_col": "created_at",
       "per_symbol_delta": {
-        "USDJPY": 0,
-        "USDCAD": 0,
-        "GBPUSD": 2,
-        "EURUSD": 0
+        "USDJPY": 1,
+        "USDCAD": 1,
+        "USDCHF": 1,
+        "GBPUSD": 4,
+        "EURUSD": 1,
+        "AUDUSD": 1
       }
     },
     {
       "table": "force_snapshots_v2",
-      "row_delta": 2,
+      "row_delta": 9,
       "symbol_col": "symbol",
       "time_col": "created_at",
       "per_symbol_delta": {
-        "USDJPY": 0,
-        "USDCAD": 0,
-        "GBPUSD": 2,
-        "EURUSD": 0
+        "USDJPY": 1,
+        "USDCAD": 1,
+        "USDCHF": 1,
+        "GBPUSD": 4,
+        "EURUSD": 1,
+        "AUDUSD": 1
       }
     },
     {
@@ -190,20 +288,24 @@
       "per_symbol_delta": {
         "USDJPY": 0,
         "USDCAD": 0,
+        "USDCHF": 0,
         "GBPUSD": 0,
-        "EURUSD": 0
+        "EURUSD": 0,
+        "AUDUSD": 0
       }
     },
     {
       "table": "signals",
-      "row_delta": 0,
+      "row_delta": 7,
       "symbol_col": "symbol",
       "time_col": "created_at",
       "per_symbol_delta": {
-        "USDJPY": 0,
+        "USDJPY": 2,
         "USDCAD": 0,
-        "GBPUSD": 0,
-        "EURUSD": 0
+        "USDCHF": 0,
+        "GBPUSD": 4,
+        "EURUSD": 1,
+        "AUDUSD": 0
       }
     },
     {
@@ -214,8 +316,10 @@
       "per_symbol_delta": {
         "USDJPY": 0,
         "USDCAD": 0,
+        "USDCHF": 0,
         "GBPUSD": 0,
-        "EURUSD": 0
+        "EURUSD": 0,
+        "AUDUSD": 0
       }
     },
     {
@@ -226,8 +330,10 @@
       "per_symbol_delta": {
         "USDJPY": 0,
         "USDCAD": 0,
+        "USDCHF": 0,
         "GBPUSD": 0,
-        "EURUSD": 0
+        "EURUSD": 0,
+        "AUDUSD": 0
       }
     }
   ],
@@ -620,6 +726,26 @@
         "USDCAD"
       ],
       "text": "$content += \"Focus: T004-N USD base polarity cohort using USDCAD\""
+    },
+    {
+      "risk": "BASE_USD_PRESENT",
+      "file": "tests/test_t004_usd_base_polarity_cohort_contract.py",
+      "line": 19,
+      "patterns": [
+        "USDJPY",
+        "symbols"
+      ],
+      "text": "assert \"USDJPY\" in data[\"usd_base_symbols\"]"
+    },
+    {
+      "risk": "BASE_USD_PRESENT",
+      "file": "tests/test_t004_usd_base_polarity_cohort_contract.py",
+      "line": 20,
+      "patterns": [
+        "USDCAD",
+        "symbols"
+      ],
+      "text": "assert \"USDCAD\" in data[\"usd_base_symbols\"]"
     }
   ],
   "code_hits": [
@@ -1872,11 +1998,11 @@
           "text": "\"symbol\": \"GBPUSD\","
         },
         {
-          "line": 166,
+          "line": 167,
           "patterns": [
             "GBPUSD"
           ],
-          "text": "\"line\": \"GBPUSD | GRAVITY_RESPRING_NODE | FRACTAL_CONTRADICTION_FIELD | temps compressé puis étiré | HTF=HTF_SILENT_OR_FLAT | NEXT=WATCH_SECOND_LEG\""
+          "text": "\"line\": \"GBPUSD | POST_NODE_GRAVITY_CONFIRMATION_LEG | FRACTAL_CONTRADICTION_FIELD | temps compressé puis étiré | HTF=HTF_SILENT_OR_FLAT | NEXT=WATCH_SECOND_LEG\""
         }
       ]
     },
@@ -6277,8 +6403,7 @@
     }
   ],
   "recommendations": [
-    "Strong suspicion: capture/routing logic favors USD-quote pairs (XXXUSD) and does not pass USD-base pairs.",
-    "Search and audit any symbol.endswith('USD') / quote == 'USD' filters before changing engine logic.",
+    "Both USD-base and USD-quote cohorts advance. The prior USDJPY defect may be intermittent or symbol-specific.",
     "Keep engine/scoring untouched. This test targets capture routing and USD base/quote normalization."
   ],
   "read_only": true,
