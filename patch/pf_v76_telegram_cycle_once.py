@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -145,7 +146,16 @@ def run_telegram(packet_path: str, text_fr_path: str, mode: str, force: bool = F
     if force:
         cmd.append("--force")
 
-    proc = subprocess.run(cmd, cwd=str(ROOT), text=True, capture_output=True)
+    env = {**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1"}
+    proc = subprocess.run(
+        cmd,
+        cwd=str(ROOT),
+        text=True,
+        capture_output=True,
+        encoding="utf-8",
+        errors="replace",
+        env=env,
+    )
     return {
         "telegram_mode": mode,
         "force": force,
