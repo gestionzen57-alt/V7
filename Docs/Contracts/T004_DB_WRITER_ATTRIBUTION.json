@@ -1,0 +1,895 @@
+{
+  "contract": "POWERFLOW_T004_DB_WRITER_ATTRIBUTION",
+  "created_at": "2026-05-15T17:36:47Z",
+  "db_path": "Core/powerflow.db",
+  "watch_seconds": 60,
+  "interval_seconds": 5,
+  "status": "DB_ROWS_ADVANCED_DURING_WATCH",
+  "row_delta": 2,
+  "db_file_changed": false,
+  "wal_or_journal_seen": true,
+  "table_delta": [
+    {
+      "table": "context_htf",
+      "before": 9917,
+      "after": 9917,
+      "delta": 0
+    },
+    {
+      "table": "flow_packets",
+      "before": 825,
+      "after": 825,
+      "delta": 0
+    },
+    {
+      "table": "force_snapshots",
+      "before": 19882,
+      "after": 19883,
+      "delta": 1
+    },
+    {
+      "table": "force_snapshots_v2",
+      "before": 16442,
+      "after": 16443,
+      "delta": 1
+    },
+    {
+      "table": "nodes_v6",
+      "before": 34,
+      "after": 34,
+      "delta": 0
+    },
+    {
+      "table": "signals",
+      "before": 9917,
+      "after": 9917,
+      "delta": 0
+    },
+    {
+      "table": "sqlite_sequence",
+      "before": 7,
+      "after": 7,
+      "delta": 0
+    },
+    {
+      "table": "zone_diagnostics",
+      "before": 1368,
+      "after": 1368,
+      "delta": 0
+    }
+  ],
+  "db_samples": [
+    {
+      "taken_at": "2026-05-15T17:36:47Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:36:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19882
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16442
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58392,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:36:52Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:36:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19882
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16442
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58392,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:36:57Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:36:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19882
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16442
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58392,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:02Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:36:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19882
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16442
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58392,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:07Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:36:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19882
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16442
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58392,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:12Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:36:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19882
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16442
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58392,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:17Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:37:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19883
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16443
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58394,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:22Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:37:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19883
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16443
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58394,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:27Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:37:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19883
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16443
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58394,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:32Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:37:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19883
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16443
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58394,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:37Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:37:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19883
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16443
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58394,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:42Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:37:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19883
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16443
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58394,
+      "error": null
+    },
+    {
+      "taken_at": "2026-05-15T17:37:47Z",
+      "db_file": {
+        "path": "Core/powerflow.db",
+        "exists": true,
+        "size_bytes": 17133568,
+        "modified_at": "2026-05-15T17:30:16Z"
+      },
+      "wal_file": {
+        "path": "Core/powerflow.db-wal",
+        "exists": true,
+        "size_bytes": 4152992,
+        "modified_at": "2026-05-15T17:37:15Z"
+      },
+      "shm_file": {
+        "path": "Core/powerflow.db-shm",
+        "exists": true,
+        "size_bytes": 32768,
+        "modified_at": "2026-05-13T22:17:06Z"
+      },
+      "journal_file": {
+        "path": "Core/powerflow.db-journal",
+        "exists": false,
+        "size_bytes": null,
+        "modified_at": null
+      },
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9917
+        },
+        {
+          "table": "flow_packets",
+          "rows": 825
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19883
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16443
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9917
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58394,
+      "error": null
+    }
+  ],
+  "process_watch": "Docs/Audits/T004_DB_WRITER_PROCESS_WATCH_20260515_193545.json",
+  "scheduled_tasks_snapshot": "Docs/Audits/T004_DB_WRITER_SCHEDULED_TASKS_20260515_193545.json",
+  "capture_process_observations": [],
+  "scheduler_process_observations": [],
+  "db_writer_hint_processes": [],
+  "python_process_observations": [],
+  "scheduled_task_candidates": [],
+  "recommendations": [
+    "Rows advanced during the watch. Use table_delta to identify active insertion target and rerun symbol health if needed.",
+    "Do not change engine/scoring modules until a live writer and row deltas are confirmed."
+  ],
+  "read_only": true,
+  "runtime_wired": false
+}
