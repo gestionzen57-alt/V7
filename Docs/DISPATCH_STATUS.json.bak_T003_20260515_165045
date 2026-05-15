@@ -1,6 +1,6 @@
 {
   "version": "7.6.7",
-  "last_update": "2026-05-15T14:50:45Z",
+  "last_update": "2026-05-15T10:30:00Z",
   "active_workspace": "Claude Sonnet 4.5",
   "session_context": {
     "session_id": "SESS_20260515_103000",
@@ -74,6 +74,18 @@
         "blockers": []
       },
       {
+        "id": "T003",
+        "title": "Résoudre signature mismatch pf_normalizer.py",
+        "priority": "MEDIUM",
+        "owner": null,
+        "assigned_to": "GPT_1_Core_Engine",
+        "status": "pending",
+        "created_by": "Claude_Sonnet_4_5",
+        "created_at": "2026-05-15T10:30:00Z",
+        "context": "detect_tf_alignment signature error in /api/cockpit-state",
+        "blockers": []
+      },
+      {
         "id": "T004",
         "title": "Diagnostic USDJPY thin data bottleneck",
         "priority": "MEDIUM",
@@ -132,27 +144,7 @@
         ]
       }
     ],
-    "completed": [
-      {
-        "id": "T003",
-        "title": "Résoudre signature mismatch pf_normalizer.py",
-        "priority": "MEDIUM",
-        "owner": "GPT_1_Core_Engine",
-        "assigned_to": "GPT_1_Core_Engine",
-        "status": "completed",
-        "created_by": "Claude_Sonnet_4_5",
-        "created_at": "2026-05-15T10:30:00Z",
-        "context": "detect_tf_alignment signature error in /api/cockpit-state",
-        "blockers": [],
-        "completed_at": "2026-05-15T14:50:45Z",
-        "output": "T003 hotfix: detect_tf_alignment compatibility wrapper in pf_normalizer.py",
-        "technical_notes": [
-          "Legacy implementation preserved as _detect_tf_alignment_impl",
-          "Wrapper absorbs extra args/kwargs from /api/cockpit-state call drift",
-          "No DB write, no dashboard contract change, no BUY/SELL semantics"
-        ]
-      }
-    ],
+    "completed": [],
     "blocked": [],
     "archived": []
   },
@@ -191,10 +183,10 @@
     "total_tasks": 6,
     "pending": 4,
     "in_progress": 1,
-    "completed": 1,
+    "completed": 0,
     "blocked": 0,
     "archived": 0,
-    "completion_rate": 16.67
+    "completion_rate": 0
   },
   "notes": [
     "PowerFlow V7.6.7 LIVE PRODUCTION",
