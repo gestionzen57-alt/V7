@@ -148,61 +148,6 @@
     [/age/gi, "âge"],
     [/freshness/gi, "fraîcheur"]
   ];
-  const PF_FR_V4_PATCHES = [
-    // Enums encore visibles
-    [/LTF_DIVERGENT_RELEASE/g, "Relâchement divergent LTF"],
-    [/MTF_REACTION_OR_REJECTION/g, "Réaction ou rejet MTF"],
-    [/HTF_REACTION_OR_REJECTION/g, "Réaction ou rejet HTF"],
-    [/ABSORPTION_OR_REJECTION/g, "Absorption ou rejet"],
-    [/TRAP_CONTEXT_ALIGNED/g, "Contexte de piège aligné"],
-    [/LIVE_INFO/g, "Info live"],
-    [/LIVE_Cha[uû]d/gi, "Live chaud"],
-    [/NO_IMMEDIATE_PRESSURE/g, "Pas de pression immédiate"],
-    [/B6_NO_IMMEDIATE_PRESSURE/g, "B6 sans pression immédiate"],
-
-    // Headers composites
-    [/FAKE=MEDIUM/g, "risque faux moyen"],
-    [/FAKE=LOW/g, "risque faux faible"],
-    [/FAKE=HIGH/g, "risque faux élevé"],
-    [/FAKE=FAIBLE/gi, "risque faux faible"],
-    [/FAKE=MOYEN/gi, "risque faux moyen"],
-
-    // Fragments anglais / hybrides
-    [/Daily=/g, "Journalier="],
-    [/LiveBrief=/g, "Brief live="],
-    [/Topdown=/g, "Top-down="],
-    [/alignment=/gi, "alignement="],
-    [/counterflow=/gi, "contre-respiration="],
-    [/dashboard_bias=/gi, "biais dashboard="],
-    [/structure=/gi, "structure="],
-    [/dominant_bias=/gi, "biais dominant="],
-    [/semantic_warning=/gi, "alerte sémantique="],
-
-    // Timeframes langage trader
-    [/Daily peu profond/gi, "Journalier peu profond"],
-    [/Weekly peu profond/gi, "Hebdomadaire peu profond"],
-    [/Daily_/g, "Journalier_"],
-    [/Weekly_/g, "Hebdomadaire_"],
-
-    // Pressions résiduelles
-    [/pression DOWN/gi, "pression baissière"],
-    [/pression UP/gi, "pression haussière"],
-    [/bias=Pression baissière brute/gi, "biais=pression baissière brute"],
-    [/bias=Pression haussière brute/gi, "biais=pression haussière brute"],
-
-    // États / détails
-    [/MEDIUM/g, "moyen"],
-    [/LOW/g, "faible"],
-    [/HIGH/g, "élevé"],
-    [/NONE/g, "aucun"],
-
-    // Libellés cockpit
-    [/CONFLIT MULTI-LECTURE/g, "Conflit multi-lecture"],
-    [/Cockpit source/gi, "Source cockpit"],
-    [/Action/gi, "Action"],
-    [/State/gi, "État"],
-    [/Reading/gi, "Lecture"]
-  ];
 
   function translateText(s) {
     if (!s || typeof s !== "string") return s;
@@ -216,13 +161,7 @@
 
     for (const pair of PHRASE_FR) {
       out = out.replace(pair[0], pair[1]);
-    }    if (typeof PF_FR_V4_PATCHES !== "undefined") {
-      for (const pair of PF_FR_V4_PATCHES) {
-        out = out.replace(pair[0], pair[1]);
-      }
     }
-
-
 
     return out;
   }
@@ -308,4 +247,3 @@
     boot();
   }
 })();
-

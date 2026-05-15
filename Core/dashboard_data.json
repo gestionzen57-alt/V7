@@ -51,30 +51,29 @@
   "behavioral_summary": {
     "behavioral_count": 3,
     "degraded_count": 0,
-    "top_alert": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-    "top_level": "INFO",
+    "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+    "top_level": "HOT",
     "has_degraded": false,
-    "has_hot_behavioral": false
+    "has_hot_behavioral": true
   },
   "behavioral_alerts": [
     {
-      "name": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-      "level": "INFO",
-      "reason": "Pas de premier détachement détecté",
+      "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+      "level": "HOT",
+      "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_UP) avec relais M5 propre — GBP pressure up / USD pressure down",
       "source_fields": [
-        "kinematics_state.release_candidate.release_state",
-        "kinematics_state.release_candidate.reasons_nok"
+        "kinematics_state.first_detachment",
+        "telegram_gating.relay_quality"
       ],
-      "dashboard_badge": "ℹ RELEASE✗",
-      "telegram_text": "ℹ RELEASE REJETÉE\nPas de premier détachement détecté"
+      "dashboard_badge": "🔥 DETACH+RELAY",
+      "telegram_text": "⚡ FIRST DETACHMENT + RELAY CLEAN\nGBP pressure up / USD pressure down\nKinematics: M1_FIRST_DETACHMENT_GBP_UP"
     },
     {
       "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
       "level": "INFO",
-      "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9) — champ energy thin/mixed",
+      "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9)",
       "source_fields": [
-        "kinematics_state.tight_gravity_cluster",
-        "energy_context.field_quality"
+        "kinematics_state.tight_gravity_cluster"
       ],
       "dashboard_badge": "ℹ GRAVITY CLUSTER",
       "telegram_text": "ℹ TIGHT GRAVITY CLUSTER\nM15_TIGHT_GRAVITY_GROUP\nDevises: USD+CHF+EUR | Spread: 13.9"
@@ -95,51 +94,52 @@
     "[FRACTAL] LTF_NODE_INSIDE_HTF_BATTLE_FIELD",
     "[NODE] HOT_NODE @ M1 — GBP pressure up / USD pressure down",
     "[RELAY] M5 relais propre — confirmation tactique disponible",
-    "[KINEM] angle=M1_GBP_USD_DIVERGING|M5_GBP_USD_DIVERGING | speed=MODERATE | accel=M1_USD_ACCEL_UP|M1_ENERGY_BUILD_LAST3",
-    "[DETACH] NO_DETACHMENT — pas de détachement",
-    "[RELEASE] RELEASE_REJECTED | ok=m1_acceleration_present,relay_clean | nok=no_first_detachment",
-    "[ENERGY_CONTEXT] OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_LOW | relation=NEUTRAL | field=ENERGY_THIN_OR_MIXED",
+    "[KINEM] angle=M1_GBP_USD_DIVERGING|M5_GBP_USD_DIVERGING | speed=M1_GBP_FAST_UP|M1_USD_FAST_DOWN | accel=M1_USD_ACCEL_UP",
+    "[DETACH] M1_FIRST_DETACHMENT_GBP_UP — détachement actif",
+    "[RELEASE] RELEASE_CANDIDATE | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean,m5_direction_support | nok=—",
+    "[ENERGY_CONTEXT] OBSERVATION_ONLY | GBP=ENERGY_MEDIUM | USD=ENERGY_LOW | relation=NEUTRAL | field=MIXED_BIPOLAR_FIELD",
     "[MATURITY] CONFIRMING → surveiller ABSORBING",
     "[RG] TOPLINE_UNRELIABLE | cross=RELATIONAL_GRAVITY_MISSING | state=RELATIONAL_GRAVITY_TOPLINE_PARTIAL | direction=UNKNOWN | leader=UNKNOWN | aligned_tfs=[] | read=tf_details"
   ],
   "next_watch_enriched": [
     "WATCH_MICROSTRUCTURE_CONFIRMATION",
     "WATCH_SECOND_LEG",
+    "WATCH_REPULSION_CONTINUATION",
     "WATCH_PRICE_CATCHUP",
     "WATCH_FRACTAL_CONFIRMATION",
     "WATCH_M1_RESPRING",
     "WATCH_M15_ENERGY_RELAY",
     "WATCH_HTF_BATTLE_RESOLUTION",
     "WATCH_EXTENDED_MICRO_WINDOW",
-    "WATCH_FIRST_DETACHMENT — pas encore de détachement confirmé",
+    "WATCH_RELEASE_CONFIRMATION — détachement + relay clean actif",
     "WATCH_GRAVITY_BREAK — cluster serré, surveiller rupture"
   ],
   "behavioral_flow": {
     "title": "BEHAVIORAL FLOW",
-    "status": "INFO",
-    "level": "INFO",
-    "top_alert": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-    "line": "NO_DETACHMENT — pas de détachement | RELEASE_REJECTED | ok=m1_acceleration_present,relay_clean | nok=no_first_detachment | OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_LOW | relation=NEUTRAL | field=ENERGY_THIN_OR_MIXED",
+    "status": "HOT_DETACHMENT",
+    "level": "HOT",
+    "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+    "line": "M1_FIRST_DETACHMENT_GBP_UP — détachement actif | RELEASE_CANDIDATE | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean,m5_direction_support | nok=— | OBSERVATION_ONLY | GBP=ENERGY_MEDIUM | USD=ENERGY_LOW | relation=NEUTRAL | field=MIXED_BIPOLAR_FIELD",
     "summary": {
       "behavioral_count": 3,
       "degraded_count": 0,
-      "top_alert": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-      "top_level": "INFO",
+      "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+      "top_level": "HOT",
       "has_degraded": false,
-      "has_hot_behavioral": false
+      "has_hot_behavioral": true
     },
     "alerts": [
       {
-        "name": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-        "level": "INFO",
-        "badge": "ℹ RELEASE✗",
-        "reason": "Pas de premier détachement détecté"
+        "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+        "level": "HOT",
+        "badge": "🔥 DETACH+RELAY",
+        "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_UP) avec relais M5 propre — GBP pressure up / USD pressure down"
       },
       {
         "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
         "level": "INFO",
         "badge": "ℹ GRAVITY CLUSTER",
-        "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9) — champ energy thin/mixed"
+        "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9)"
       },
       {
         "name": "SAME_ANGLE_CLUSTER_ALERT",
@@ -177,30 +177,30 @@
     },
     {
       "title": "BEHAVIORAL FLOW",
-      "status": "INFO",
-      "level": "INFO",
-      "top_alert": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-      "line": "NO_DETACHMENT — pas de détachement | RELEASE_REJECTED | ok=m1_acceleration_present,relay_clean | nok=no_first_detachment | OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_LOW | relation=NEUTRAL | field=ENERGY_THIN_OR_MIXED",
+      "status": "HOT_DETACHMENT",
+      "level": "HOT",
+      "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+      "line": "M1_FIRST_DETACHMENT_GBP_UP — détachement actif | RELEASE_CANDIDATE | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean,m5_direction_support | nok=— | OBSERVATION_ONLY | GBP=ENERGY_MEDIUM | USD=ENERGY_LOW | relation=NEUTRAL | field=MIXED_BIPOLAR_FIELD",
       "summary": {
         "behavioral_count": 3,
         "degraded_count": 0,
-        "top_alert": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-        "top_level": "INFO",
+        "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+        "top_level": "HOT",
         "has_degraded": false,
-        "has_hot_behavioral": false
+        "has_hot_behavioral": true
       },
       "alerts": [
         {
-          "name": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-          "level": "INFO",
-          "badge": "ℹ RELEASE✗",
-          "reason": "Pas de premier détachement détecté"
+          "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
+          "level": "HOT",
+          "badge": "🔥 DETACH+RELAY",
+          "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_UP) avec relais M5 propre — GBP pressure up / USD pressure down"
         },
         {
           "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
           "level": "INFO",
           "badge": "ℹ GRAVITY CLUSTER",
-          "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9) — champ energy thin/mixed"
+          "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9)"
         },
         {
           "name": "SAME_ANGLE_CLUSTER_ALERT",
