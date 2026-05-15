@@ -1,0 +1,329 @@
+{
+  "contract": "POWERFLOW_T004_USDJPY_THIN_ROOT_CAUSE",
+  "created_at": "2026-05-15T17:18:48Z",
+  "active_db": "Core/powerflow.db",
+  "thin_symbol": "USDJPY",
+  "reference_symbols": [
+    "GBPUSD",
+    "EURUSD"
+  ],
+  "source_density_contract": "Docs/Contracts/T004_ACTIVE_DB_SYMBOL_DENSITY.json",
+  "likely_cause": "relative_sparsity",
+  "vote_counts": {
+    "symbol_absent_in_symbol_table": 3,
+    "relative_sparsity": 3
+  },
+  "tables": [
+    {
+      "table": "context_htf",
+      "row_count": 9881,
+      "symbol_col": null,
+      "time_col": null,
+      "per_symbol": {},
+      "thin_ratio_vs_ref_avg": null,
+      "thin_status": "NO_SYMBOL_COLUMN",
+      "latest_gap_seconds_vs_ref_best": null,
+      "top_symbols": []
+    },
+    {
+      "table": "flow_packets",
+      "row_count": 820,
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "age_seconds": null
+        },
+        "GBPUSD": {
+          "count": 821,
+          "min_time": "2026-05-12T12:05:17.751846+00:00",
+          "max_time": "2026-05-15T17:14:31.694106+00:00",
+          "age_seconds": 257.061937
+        },
+        "EURUSD": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "age_seconds": null
+        }
+      },
+      "thin_ratio_vs_ref_avg": 0.0,
+      "thin_status": "ZERO_WHILE_REFERENCES_PRESENT",
+      "latest_gap_seconds_vs_ref_best": null,
+      "top_symbols": [
+        {
+          "symbol": "GBPUSD",
+          "count": 821
+        }
+      ]
+    },
+    {
+      "table": "force_snapshots",
+      "row_count": 19812,
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 1625,
+          "min_time": "2026-05-04T12:20:00+00:00",
+          "max_time": "2026-05-15T20:15:00+00:00",
+          "age_seconds": -10571.241913
+        },
+        "GBPUSD": {
+          "count": 14848,
+          "min_time": "2026-04-26T00:00:00+00:00",
+          "max_time": "2026-05-15T20:18:00+00:00",
+          "age_seconds": -10751.24049
+        },
+        "EURUSD": {
+          "count": 2188,
+          "min_time": "2026-05-11T01:25:00+00:00",
+          "max_time": "2026-05-15T20:15:00+00:00",
+          "age_seconds": -10571.240273
+        }
+      },
+      "thin_ratio_vs_ref_avg": 0.1907724818032402,
+      "thin_status": "THIN_UNDER_25_PERCENT_REF_AVG",
+      "latest_gap_seconds_vs_ref_best": 179.9985770000003,
+      "top_symbols": [
+        {
+          "symbol": "GBPUSD",
+          "count": 14848
+        },
+        {
+          "symbol": "EURUSD",
+          "count": 2188
+        },
+        {
+          "symbol": "USDJPY",
+          "count": 1625
+        },
+        {
+          "symbol": "AUDUSD",
+          "count": 388
+        },
+        {
+          "symbol": "USDCAD",
+          "count": 388
+        },
+        {
+          "symbol": "USDCHF",
+          "count": 388
+        },
+        {
+          "symbol": "EURGBP",
+          "count": 1
+        },
+        {
+          "symbol": "EURJPY",
+          "count": 1
+        },
+        {
+          "symbol": "GBPJPY",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "table": "force_snapshots_v2",
+      "row_count": 16372,
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 1601,
+          "min_time": "2026-05-12T12:00:00+00:00",
+          "max_time": "2026-05-15T20:15:00+00:00",
+          "age_seconds": -10571.238829
+        },
+        "GBPUSD": {
+          "count": 11458,
+          "min_time": "2026-04-26T00:00:00+00:00",
+          "max_time": "2026-05-15T20:18:00+00:00",
+          "age_seconds": -10751.237002
+        },
+        "EURUSD": {
+          "count": 2165,
+          "min_time": "2026-05-11T01:25:00+00:00",
+          "max_time": "2026-05-15T20:15:00+00:00",
+          "age_seconds": -10571.236666
+        }
+      },
+      "thin_ratio_vs_ref_avg": 0.23504367613594657,
+      "thin_status": "THIN_UNDER_25_PERCENT_REF_AVG",
+      "latest_gap_seconds_vs_ref_best": 179.99817299999995,
+      "top_symbols": [
+        {
+          "symbol": "GBPUSD",
+          "count": 11458
+        },
+        {
+          "symbol": "EURUSD",
+          "count": 2165
+        },
+        {
+          "symbol": "USDJPY",
+          "count": 1601
+        },
+        {
+          "symbol": "AUDUSD",
+          "count": 388
+        },
+        {
+          "symbol": "USDCAD",
+          "count": 388
+        },
+        {
+          "symbol": "USDCHF",
+          "count": 388
+        }
+      ]
+    },
+    {
+      "table": "nodes_v6",
+      "row_count": 34,
+      "symbol_col": "symbol",
+      "time_col": "detected_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "age_seconds": null
+        },
+        "GBPUSD": {
+          "count": 34,
+          "min_time": "2026-04-29T12:06:00",
+          "max_time": "2026-04-29T15:40:00",
+          "age_seconds": 1388328.763501
+        },
+        "EURUSD": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "age_seconds": null
+        }
+      },
+      "thin_ratio_vs_ref_avg": 0.0,
+      "thin_status": "ZERO_WHILE_REFERENCES_PRESENT",
+      "latest_gap_seconds_vs_ref_best": null,
+      "top_symbols": [
+        {
+          "symbol": "GBPUSD",
+          "count": 34
+        }
+      ]
+    },
+    {
+      "table": "signals",
+      "row_count": 9881,
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 840,
+          "min_time": "2026-05-12T10:39:07.674012+00:00",
+          "max_time": "2026-05-15T17:15:15.461249+00:00",
+          "age_seconds": 213.30378
+        },
+        "GBPUSD": {
+          "count": 7547,
+          "min_time": "2026-04-29T08:52:18.965306+00:00",
+          "max_time": "2026-05-15T17:18:22.304321+00:00",
+          "age_seconds": 26.46436
+        },
+        "EURUSD": {
+          "count": 1014,
+          "min_time": "2026-05-10T22:28:13.759605+00:00",
+          "max_time": "2026-05-15T17:15:20.340556+00:00",
+          "age_seconds": 208.428609
+        }
+      },
+      "thin_ratio_vs_ref_avg": 0.19623875715453803,
+      "thin_status": "THIN_UNDER_25_PERCENT_REF_AVG",
+      "latest_gap_seconds_vs_ref_best": 186.83942,
+      "top_symbols": [
+        {
+          "symbol": "GBPUSD",
+          "count": 7547
+        },
+        {
+          "symbol": "EURUSD",
+          "count": 1014
+        },
+        {
+          "symbol": "USDJPY",
+          "count": 840
+        },
+        {
+          "symbol": "USDCAD",
+          "count": 201
+        },
+        {
+          "symbol": "AUDUSD",
+          "count": 147
+        },
+        {
+          "symbol": "USDCHF",
+          "count": 144
+        }
+      ]
+    },
+    {
+      "table": "sqlite_sequence",
+      "row_count": 7,
+      "symbol_col": null,
+      "time_col": null,
+      "per_symbol": {},
+      "thin_ratio_vs_ref_avg": null,
+      "thin_status": "NO_SYMBOL_COLUMN",
+      "latest_gap_seconds_vs_ref_best": null,
+      "top_symbols": []
+    },
+    {
+      "table": "zone_diagnostics",
+      "row_count": 1368,
+      "symbol_col": "symbol",
+      "time_col": "logged_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "age_seconds": null
+        },
+        "GBPUSD": {
+          "count": 1368,
+          "min_time": "2026-05-02T17:01:00+00:00",
+          "max_time": "2026-05-02T17:01:09+00:00",
+          "age_seconds": 1124259.771761
+        },
+        "EURUSD": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "age_seconds": null
+        }
+      },
+      "thin_ratio_vs_ref_avg": 0.0,
+      "thin_status": "ZERO_WHILE_REFERENCES_PRESENT",
+      "latest_gap_seconds_vs_ref_best": null,
+      "top_symbols": [
+        {
+          "symbol": "GBPUSD",
+          "count": 1368
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    "USDJPY is present but materially sparse versus references. Inspect upstream symbol stream/filter, not DB path.",
+    "Check capture bridge symbol allowlist and MT4 Market Watch subscription for USDJPY.",
+    "Do not change engine logic. This is capture/routing/data-density territory."
+  ],
+  "read_only": true,
+  "runtime_wired": false
+}
