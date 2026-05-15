@@ -1,6 +1,6 @@
 {
   "contract": "POWERFLOW_T004_CAPTURE_SYMBOL_ROUTING_AUDIT",
-  "created_at": "2026-05-15T17:23:13Z",
+  "created_at": "2026-05-15T17:24:36Z",
   "thin_symbol": "USDJPY",
   "reference_symbols": [
     "GBPUSD",
@@ -23118,11 +23118,11 @@
     {
       "file": "Core/logs/scheduler.log",
       "symbol_counts": {
-        "USDJPY": 54313,
-        "GBPUSD": 57112,
-        "EURUSD": 54620
+        "USDJPY": 54360,
+        "GBPUSD": 57114,
+        "EURUSD": 54663
       },
-      "size_bytes": 15640992
+      "size_bytes": 15650502
     },
     {
       "file": "Core/logs/scheduler_powerflow_v731_20260512_132650.log",
