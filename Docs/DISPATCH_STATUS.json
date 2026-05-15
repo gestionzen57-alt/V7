@@ -79,11 +79,21 @@
         "priority": "MEDIUM",
         "owner": null,
         "assigned_to": "GPT_Pro",
-        "status": "pending",
+        "status": "DIAGNOSED_BLOCKED_ON_CAPTURE_ROUTING_OR_SOURCE_FEED",
         "created_by": "Claude_Sonnet_4_5",
         "created_at": "2026-05-15T10:30:00Z",
         "context": "USDJPY verdict THIN, data stale/sparse, investigate MT4 stream vs bridge vs DB",
-        "blockers": []
+        "blockers": [],
+        "state": "DIAGNOSED_BLOCKED_ON_CAPTURE_ROUTING_OR_SOURCE_FEED",
+        "verdict": "CAPTURE_ROUTING_USDJPY_ABSENT_FROM_ACTIVE_TABLES",
+        "updated_at": "2026-05-15T18:02:01Z",
+        "last_update": "2026-05-15T18:02:01Z",
+        "owner_note": "Diagnosed: USDJPY thin data is capture/routing/source-feed side. No engine/scoring/dashboard patch.",
+        "next_action": "Operator: verify USDJPY source feed, exact broker symbol naming, Market Watch/subscription, and capture allowlist. Then rerun t004_active_insertion_symbol_delta.ps1.",
+        "evidence_contract": "Docs/Contracts/T004_FINAL_DIAGNOSIS.json",
+        "evidence_report_glob": "Docs/Reports/T004_FINAL_DIAGNOSIS_*.md",
+        "blocked_by": "USDJPY source feed / capture routing / symbol normalization",
+        "engine_change_required": false
       },
       {
         "id": "T006",
