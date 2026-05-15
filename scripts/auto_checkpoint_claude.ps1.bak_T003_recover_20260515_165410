@@ -168,18 +168,9 @@ function Update-ClaudeMd {
 "@
         
         if ($content -match "## Last Session") {
-
-# T003_SAFE_REGEX_REPLACE_PATCH: normalize replacement text before regex replacement.
-function Convert-ToCheckpointText {
-    param([AllowNull()][object]$Value)
-    if ($null -eq $Value) { return "" }
-    if ($Value -is [array]) { return ($Value -join [Environment]::NewLine) }
-    return [string]$Value
-}
-
-            $content = [regex]::Replace($content, "(?s)## Last Session.*?(?=##|\Z)", (Convert-ToCheckpointText -Value ($newSession + "`n`n")))  # T003_SAFE_REGEX_REPLACE_PATCH
+            $content = $content -replace "(?s)## Last Session.*?(?=##|\Z)", $newSession + "`n`n"
         } else {
-            $content = [regex]::Replace($content, "(?s)(# PowerFlow.*?`n`n)", (Convert-ToCheckpointText -Value ("`$1$newSession`n`n")))  # T003_SAFE_REGEX_REPLACE_PATCH
+            $content = $content -replace "(?s)(# PowerFlow.*?`n`n)", "`$1$newSession`n`n"
         }
         
         Set-Content -Path $ClaudeMdPath -Value $content -Encoding ASCII

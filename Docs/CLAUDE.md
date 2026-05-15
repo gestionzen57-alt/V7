@@ -2,14 +2,10 @@
 
 ## Last Session
 
-- Date: 2026-05-15 15:32
+- Date: 2026-05-15 16:54
 - AI: Claude Sonnet 4.5
-- Focus: Dashboard Updates
-- Checkpoint: Checkpoints\CHECKPOINT_20260515_153239.md
-
-**[G??n??r?? auto : 2026-05-15 10:30]**
-
----
+- Focus: T003 pf_normalizer signature hotfix / checkpoint repair
+- Checkpoint: Checkpoints\CHECKPOINT_20260515_165411.md
 
 ## Derni??re session
 
@@ -268,4 +264,5 @@ Prochaine priorit??: [indiquer]
 *Document vivant auto-g??n??r?? ??? Ne pas ??diter manuellement*  
 *Mis ?? jour automatiquement par `auto_checkpoint_claude.ps1`*  
 *Derni??re modification: 2026-05-15 10:30*
+
 
