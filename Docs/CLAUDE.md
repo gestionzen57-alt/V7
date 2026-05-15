@@ -1,4 +1,4 @@
-# PowerFlow V7.6.7 ??? ??tat Central
+﻿# PowerFlow V7.6.7 ??? ??tat Central
 
 ## Last Session
 
@@ -264,6 +264,7 @@ Prochaine priorit??: [indiquer]
 *Document vivant auto-g??n??r?? ??? Ne pas ??diter manuellement*  
 *Mis ?? jour automatiquement par `auto_checkpoint_claude.ps1`*  
 *Derni??re modification: 2026-05-15 10:30*
+
 
 
 
