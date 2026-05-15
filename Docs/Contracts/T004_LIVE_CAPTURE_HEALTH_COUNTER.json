@@ -1,0 +1,381 @@
+{
+  "contract": "POWERFLOW_T004_LIVE_CAPTURE_HEALTH_COUNTER",
+  "created_at": "2026-05-15T17:28:43Z",
+  "duration_seconds": 30,
+  "db_path": "Core/powerflow.db",
+  "thin_symbol": "USDJPY",
+  "reference_symbols": [
+    "GBPUSD",
+    "EURUSD"
+  ],
+  "status": "NO_LIVE_DELTA_CAPTURE_INACTIVE_OR_IDLE",
+  "before": {
+    "taken_at": "2026-05-15T17:28:43Z",
+    "db_exists": true,
+    "tables": [
+      {
+        "table": "context_htf",
+        "row_count": 9906,
+        "symbol_col": null,
+        "time_col": null,
+        "per_symbol": {}
+      },
+      {
+        "table": "flow_packets",
+        "row_count": 823,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 0,
+            "max_time": null
+          },
+          "GBPUSD": {
+            "count": 823,
+            "max_time": "2026-05-15T17:24:38.782536+00:00"
+          },
+          "EURUSD": {
+            "count": 0,
+            "max_time": null
+          }
+        }
+      },
+      {
+        "table": "force_snapshots",
+        "row_count": 19850,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 1627,
+            "max_time": "2026-05-15T20:25:00+00:00"
+          },
+          "GBPUSD": {
+            "count": 14860,
+            "max_time": "2026-05-15T20:28:00+00:00"
+          },
+          "EURUSD": {
+            "count": 2190,
+            "max_time": "2026-05-15T20:25:00+00:00"
+          }
+        }
+      },
+      {
+        "table": "force_snapshots_v2",
+        "row_count": 16410,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 1603,
+            "max_time": "2026-05-15T20:25:00+00:00"
+          },
+          "GBPUSD": {
+            "count": 11470,
+            "max_time": "2026-05-15T20:28:00+00:00"
+          },
+          "EURUSD": {
+            "count": 2167,
+            "max_time": "2026-05-15T20:25:00+00:00"
+          }
+        }
+      },
+      {
+        "table": "nodes_v6",
+        "row_count": 34,
+        "symbol_col": "symbol",
+        "time_col": "detected_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 0,
+            "max_time": null
+          },
+          "GBPUSD": {
+            "count": 34,
+            "max_time": "2026-04-29T15:40:00"
+          },
+          "EURUSD": {
+            "count": 0,
+            "max_time": null
+          }
+        }
+      },
+      {
+        "table": "signals",
+        "row_count": 9906,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 842,
+            "max_time": "2026-05-15T17:25:15.348048+00:00"
+          },
+          "GBPUSD": {
+            "count": 7554,
+            "max_time": "2026-05-15T17:28:21.660466+00:00"
+          },
+          "EURUSD": {
+            "count": 1014,
+            "max_time": "2026-05-15T17:15:20.340556+00:00"
+          }
+        }
+      },
+      {
+        "table": "sqlite_sequence",
+        "row_count": 7,
+        "symbol_col": null,
+        "time_col": null,
+        "per_symbol": {}
+      },
+      {
+        "table": "zone_diagnostics",
+        "row_count": 1368,
+        "symbol_col": "symbol",
+        "time_col": "logged_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 0,
+            "max_time": null
+          },
+          "GBPUSD": {
+            "count": 1368,
+            "max_time": "2026-05-02T17:01:09+00:00"
+          },
+          "EURUSD": {
+            "count": 0,
+            "max_time": null
+          }
+        }
+      }
+    ],
+    "symbol_totals": {
+      "USDJPY": 4072,
+      "GBPUSD": 36109,
+      "EURUSD": 5371
+    },
+    "error": null
+  },
+  "after": {
+    "taken_at": "2026-05-15T17:29:13Z",
+    "db_exists": true,
+    "tables": [
+      {
+        "table": "context_htf",
+        "row_count": 9906,
+        "symbol_col": null,
+        "time_col": null,
+        "per_symbol": {}
+      },
+      {
+        "table": "flow_packets",
+        "row_count": 823,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 0,
+            "max_time": null
+          },
+          "GBPUSD": {
+            "count": 823,
+            "max_time": "2026-05-15T17:24:38.782536+00:00"
+          },
+          "EURUSD": {
+            "count": 0,
+            "max_time": null
+          }
+        }
+      },
+      {
+        "table": "force_snapshots",
+        "row_count": 19850,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 1627,
+            "max_time": "2026-05-15T20:25:00+00:00"
+          },
+          "GBPUSD": {
+            "count": 14860,
+            "max_time": "2026-05-15T20:28:00+00:00"
+          },
+          "EURUSD": {
+            "count": 2190,
+            "max_time": "2026-05-15T20:25:00+00:00"
+          }
+        }
+      },
+      {
+        "table": "force_snapshots_v2",
+        "row_count": 16410,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 1603,
+            "max_time": "2026-05-15T20:25:00+00:00"
+          },
+          "GBPUSD": {
+            "count": 11470,
+            "max_time": "2026-05-15T20:28:00+00:00"
+          },
+          "EURUSD": {
+            "count": 2167,
+            "max_time": "2026-05-15T20:25:00+00:00"
+          }
+        }
+      },
+      {
+        "table": "nodes_v6",
+        "row_count": 34,
+        "symbol_col": "symbol",
+        "time_col": "detected_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 0,
+            "max_time": null
+          },
+          "GBPUSD": {
+            "count": 34,
+            "max_time": "2026-04-29T15:40:00"
+          },
+          "EURUSD": {
+            "count": 0,
+            "max_time": null
+          }
+        }
+      },
+      {
+        "table": "signals",
+        "row_count": 9906,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 842,
+            "max_time": "2026-05-15T17:25:15.348048+00:00"
+          },
+          "GBPUSD": {
+            "count": 7554,
+            "max_time": "2026-05-15T17:28:21.660466+00:00"
+          },
+          "EURUSD": {
+            "count": 1014,
+            "max_time": "2026-05-15T17:15:20.340556+00:00"
+          }
+        }
+      },
+      {
+        "table": "sqlite_sequence",
+        "row_count": 7,
+        "symbol_col": null,
+        "time_col": null,
+        "per_symbol": {}
+      },
+      {
+        "table": "zone_diagnostics",
+        "row_count": 1368,
+        "symbol_col": "symbol",
+        "time_col": "logged_at",
+        "per_symbol": {
+          "USDJPY": {
+            "count": 0,
+            "max_time": null
+          },
+          "GBPUSD": {
+            "count": 1368,
+            "max_time": "2026-05-02T17:01:09+00:00"
+          },
+          "EURUSD": {
+            "count": 0,
+            "max_time": null
+          }
+        }
+      }
+    ],
+    "symbol_totals": {
+      "USDJPY": 4072,
+      "GBPUSD": 36109,
+      "EURUSD": 5371
+    },
+    "error": null
+  },
+  "deltas": {
+    "USDJPY": 0,
+    "GBPUSD": 0,
+    "EURUSD": 0
+  },
+  "table_deltas": [
+    {
+      "table": "context_htf",
+      "per_symbol_delta": {
+        "USDJPY": 0,
+        "GBPUSD": 0,
+        "EURUSD": 0
+      }
+    },
+    {
+      "table": "flow_packets",
+      "per_symbol_delta": {
+        "USDJPY": 0,
+        "GBPUSD": 0,
+        "EURUSD": 0
+      }
+    },
+    {
+      "table": "force_snapshots",
+      "per_symbol_delta": {
+        "USDJPY": 0,
+        "GBPUSD": 0,
+        "EURUSD": 0
+      }
+    },
+    {
+      "table": "force_snapshots_v2",
+      "per_symbol_delta": {
+        "USDJPY": 0,
+        "GBPUSD": 0,
+        "EURUSD": 0
+      }
+    },
+    {
+      "table": "nodes_v6",
+      "per_symbol_delta": {
+        "USDJPY": 0,
+        "GBPUSD": 0,
+        "EURUSD": 0
+      }
+    },
+    {
+      "table": "signals",
+      "per_symbol_delta": {
+        "USDJPY": 0,
+        "GBPUSD": 0,
+        "EURUSD": 0
+      }
+    },
+    {
+      "table": "sqlite_sequence",
+      "per_symbol_delta": {
+        "USDJPY": 0,
+        "GBPUSD": 0,
+        "EURUSD": 0
+      }
+    },
+    {
+      "table": "zone_diagnostics",
+      "per_symbol_delta": {
+        "USDJPY": 0,
+        "GBPUSD": 0,
+        "EURUSD": 0
+      }
+    }
+  ],
+  "recommendations": [
+    "No symbol row deltas during the window. Capture may be stopped, market/feed idle, or DB writes are not active.",
+    "Do not change engine/scoring logic based on this check alone; this is capture health evidence."
+  ],
+  "read_only": true,
+  "runtime_wired": false
+}
