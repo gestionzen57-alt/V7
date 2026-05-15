@@ -1,0 +1,99 @@
+{
+  "contract": "POWERFLOW_T004_FINAL_DIAGNOSIS",
+  "created_at": "2026-05-15T17:54:14Z",
+  "status": "CAPTURE_ROUTING_USDJPY_ABSENT_FROM_ACTIVE_TABLES",
+  "missing_source_contracts": [],
+  "evidence": {
+    "active_db": "Core/powerflow.db",
+    "historical_symbol_totals": {
+      "USDJPY": 4060,
+      "GBPUSD": 36059,
+      "EURUSD": 5361
+    },
+    "density_status": "USDJPY_THIN_RELATIVE",
+    "root_cause": "relative_sparsity",
+    "root_cause_votes": {
+      "symbol_absent_in_symbol_table": 3,
+      "relative_sparsity": 3
+    },
+    "routing_risk_flags": [
+      "LOGS_CONTAIN_USDJPY",
+      "POSSIBLE_SYMBOL_ALLOWLIST_EXCLUDES_USDJPY",
+      "USDJPY_REFERENCED_IN_CODE_SCAN"
+    ],
+    "live_health_status": "NO_LIVE_DELTA_CAPTURE_INACTIVE_OR_IDLE",
+    "live_health_deltas": {
+      "USDJPY": 0,
+      "GBPUSD": 0,
+      "EURUSD": 0
+    },
+    "runtime_status": "NO_CAPTURE_PROCESS_DETECTED_BUT_DB_RECENT",
+    "writer_status": "DB_ROWS_ADVANCED_DURING_WATCH",
+    "writer_row_delta": 2,
+    "active_insertion_status": "REFERENCES_ADVANCED_THIN_SYMBOL_ZERO",
+    "active_insertion_symbol_deltas": {
+      "USDJPY": 0,
+      "GBPUSD": 5,
+      "EURUSD": 0
+    },
+    "active_tables": [
+      {
+        "table": "flow_packets",
+        "row_delta": 1,
+        "per_symbol_delta": {
+          "EURUSD": 0,
+          "GBPUSD": 1,
+          "USDJPY": 0
+        }
+      },
+      {
+        "table": "force_snapshots",
+        "row_delta": 2,
+        "per_symbol_delta": {
+          "EURUSD": 0,
+          "GBPUSD": 2,
+          "USDJPY": 0
+        }
+      },
+      {
+        "table": "force_snapshots_v2",
+        "row_delta": 2,
+        "per_symbol_delta": {
+          "EURUSD": 0,
+          "GBPUSD": 2,
+          "USDJPY": 0
+        }
+      }
+    ],
+    "horizon_verdict": "USDJPY_ABSENT_FROM_ACTIVE_INSERTION_TABLES",
+    "horizon_votes": {
+      "absent_in_active_tables": 1,
+      "historically_sparse": 2
+    },
+    "suffix_candidates": []
+  },
+  "operator_actions": [
+    "Verify USDJPY is enabled in MT4 Market Watch / source feed.",
+    "Verify exact broker symbol naming: USDJPY versus USDJPYm / USDJPY.pro / suffix variants.",
+    "Inspect capture symbol allowlist or routing normalization for USDJPY.",
+    "Verify the bridge emits USDJPY ticks into the same stream as GBPUSD.",
+    "Run the live capture health counter during an active market window after feed/routing correction.",
+    "Do not patch Core/engine.py, pf_engine_v6_core.py, scoring modules, or dashboard logic for T004."
+  ],
+  "engineering_actions": [
+    "Add a lightweight per-symbol capture health monitor before DB insertion if the issue recurs.",
+    "Expose per-symbol live tick deltas as an operational health surface, not as a trading signal.",
+    "Keep Core/powerflow.db as the active diagnostic DB unless runtime configuration changes.",
+    "Retain T004 contracts as regression evidence for future capture/routing changes."
+  ],
+  "not_causes": [
+    "Not a PowerFlow engine/scoring issue.",
+    "Not a dashboard issue.",
+    "Not a SQLite/path issue after active DB was resolved to Core/powerflow.db.",
+    "Not a total USDJPY absence historically; USDJPY has rows but is thin and not advancing in active insertion windows."
+  ],
+  "recommended_dispatch_state": "DIAGNOSED_BLOCKED_ON_CAPTURE_ROUTING_OR_SOURCE_FEED",
+  "runtime_wired": false,
+  "db_written": false,
+  "engine_change_required": false
+}
