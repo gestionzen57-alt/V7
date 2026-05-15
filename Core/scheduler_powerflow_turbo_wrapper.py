@@ -27,7 +27,7 @@ from typing import Iterable, List, Sequence
 
 # PowerFlow V7.6.7 core multi-symbol environment guard
 os.environ.setdefault('POWERFLOW_SYMBOL', 'GBPUSD')
-os.environ.setdefault('POWERFLOW_SYMBOLS', 'GBPUSD,EURUSD,USDJPY,USDCAD,USDCHF,AUDUSD')
+os.environ.setdefault('POWERFLOW_SYMBOLS', 'GBPUSD,EURUSD,AUDUSD,NZDUSD,USDJPY,USDCAD,USDCHF,EURGBP,GBPJPY,GBPAUD,GBPCAD,GBPCHF,GBPNZD')
 
 
 TAIL_LIMIT = 12000
@@ -187,7 +187,7 @@ def build_steps(py: str, symbols: str) -> List[tuple[str, List[str]]]:
 
 def main(argv: Iterable[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="PowerFlow V7.3 turbo wrapper")
-    parser.add_argument("--symbols", default=os.environ.get("POWERFLOW_SYMBOLS", "GBPUSD,EURUSD,USDJPY,USDCAD,USDCHF,AUDUSD"))
+    parser.add_argument("--symbols", default=os.environ.get("POWERFLOW_SYMBOLS", "GBPUSD,EURUSD,AUDUSD,NZDUSD,USDJPY,USDCAD,USDCHF,EURGBP,GBPJPY,GBPAUD,GBPCAD,GBPCHF,GBPNZD"))
     parser.add_argument("--continue-on-error", action="store_true")
     args = parser.parse_args(list(argv) if argv is not None else None)
 

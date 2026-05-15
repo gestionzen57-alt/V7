@@ -3,10 +3,17 @@
     "symbols":  [
                     "GBPUSD",
                     "EURUSD",
+                    "AUDUSD",
+                    "NZDUSD",
                     "USDJPY",
                     "USDCAD",
                     "USDCHF",
-                    "AUDUSD"
+                    "EURGBP",
+                    "GBPJPY",
+                    "GBPAUD",
+                    "GBPCAD",
+                    "GBPCHF",
+                    "GBPNZD"
                 ],
     "enabled":  true,
     "log_path":  "logs/scheduler.log",

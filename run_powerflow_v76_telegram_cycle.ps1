@@ -1,7 +1,7 @@
 param(
     [string]$RepoPath = "C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT",
     [string]$Symbol = "GBPUSD",
-    [string]$CoreSymbols = "GBPUSD,EURUSD,USDJPY,USDCAD,USDCHF,AUDUSD",
+    [string]$CoreSymbols = "GBPUSD,EURUSD,AUDUSD,NZDUSD,USDJPY,USDCAD,USDCHF,EURGBP,GBPJPY,GBPAUD,GBPCAD,GBPCHF,GBPNZD",
     [ValidateSet("off", "dry-run", "send")]
     [string]$TelegramMode = "dry-run",
     [switch]$ForceAlert,
