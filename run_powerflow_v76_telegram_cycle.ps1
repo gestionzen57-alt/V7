@@ -2,7 +2,7 @@ param(
     [string]$RepoPath = "C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT",
     [string]$Symbol = "GBPUSD",
     [ValidateSet("off", "dry-run", "send")]
-    [string]$TelegramMode = "send",
+    [string]$TelegramMode = "dry-run",
     [switch]$ForceAlert,
     [switch]$RunCoreScheduler
 )
