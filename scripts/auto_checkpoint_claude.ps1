@@ -1,0 +1,268 @@
+# ============================================================================
+# AUTO_CHECKPOINT_CLAUDE.ps1 — PowerFlow V7.6.7
+# Automatic checkpoint generation on Claude session end
+# ENCODING: ASCII-safe (no emojis, no accents)
+# ============================================================================
+# Usage:
+#   .\auto_checkpoint_claude.ps1                    # Auto checkpoint
+#   .\auto_checkpoint_claude.ps1 -Focus "engine"    # Custom focus
+#   .\auto_checkpoint_claude.ps1 -NoGit             # Skip Git commit
+# ============================================================================
+
+param(
+    [string]$Focus = "auto-detect",
+    [switch]$NoGit = $false,
+    [switch]$Verbose = $false
+)
+
+$ErrorActionPreference = "Stop"
+$RepoPath = "C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT"
+$DocsPath = "$RepoPath\Docs"
+$CheckpointDir = "$DocsPath\Checkpoints"
+$ClaudeMdPath = "$DocsPath\CLAUDE.md"
+$CurrentVersion = "V7.6.7"
+
+# Create directories
+@($DocsPath, $CheckpointDir) | ForEach-Object {
+    if (!(Test-Path $_)) {
+        New-Item -ItemType Directory -Path $_ -Force | Out-Null
+    }
+}
+
+function Get-SessionFocus {
+    # Detect session focus from Git
+    $recentChanges = git -C $RepoPath diff --name-only HEAD~1 2>$null
+    
+    if ($recentChanges -match "pf_engine") { return "Core Engine Refactor" }
+    if ($recentChanges -match "dashboard") { return "Dashboard Updates" }
+    if ($recentChanges -match "pf_.*_gate") { return "Alert Gates" }
+    if ($recentChanges -match "scheduler") { return "Scheduler Orchestration" }
+    if ($recentChanges -match "patch") { return "Runtime Patches" }
+    if ($recentChanges -match "LEXIQUE|TERRAIN|GRAMMAR") { return "Documentation Sync" }
+    if ($recentChanges -match "auto_|cleanup_") { return "Infrastructure Admin" }
+    
+    return "Multi-aspect Session"
+}
+
+function Get-ModifiedFiles {
+    # List files modified since last commit
+    $files = git -C $RepoPath diff --name-only HEAD~1 2>$null
+    if (!$files) {
+        $files = git -C $RepoPath status --short | ForEach-Object { $_.Substring(3) }
+    }
+    return $files
+}
+
+function Get-TodosFromCode {
+    # Extract TODOs from recently modified Python files
+    $todos = @()
+    $pythonFiles = Get-ModifiedFiles | Where-Object { $_ -match "\.py$" }
+    
+    foreach ($file in $pythonFiles) {
+        $fullPath = "$RepoPath\$file"
+        if (Test-Path $fullPath) {
+            $content = Get-Content $fullPath -Raw
+            $matches = [regex]::Matches($content, "# TODO: (.+)")
+            foreach ($match in $matches) {
+                $todos += "- [ ] $($match.Groups[1].Value) ($file)"
+            }
+        }
+    }
+    return $todos
+}
+
+function New-CheckpointFile {
+    param([string]$focus, [array]$modifiedFiles)
+    
+    $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+    $date = Get-Date -Format "yyyy-MM-dd HH:mm"
+    $checkpointFile = "$CheckpointDir\CHECKPOINT_$timestamp.md"
+    
+    # Get last commit
+    $lastCommit = git -C $RepoPath log -1 --pretty=format:"%s" 2>$null
+    if (!$lastCommit) { $lastCommit = "Initial session" }
+    
+    # Get TODOs
+    $todos = Get-TodosFromCode
+    $todoSection = if ($todos.Count -gt 0) {
+        "`n## Next Actions`n`n" + ($todos -join "`n")
+    } else {
+        ""
+    }
+    
+    # Build content
+    $content = @"
+# CHECKPOINT Claude Pro - $date
+
+Version PowerFlow: $CurrentVersion
+Focus session: $focus
+Last commit: $lastCommit
+
+---
+
+## Session Context
+
+This Claude session worked on: $focus
+
+### Modified Files ($($modifiedFiles.Count))
+
+$(($modifiedFiles -join "`n") | ForEach-Object { "- $_" })
+
+### Git Status
+
+Last 3 commits:
+$(git -C $RepoPath log -3 --oneline)
+
+---
+
+## Session Summary
+
+Work completed on: $focus
+
+Key decisions:
+- [Document key decisions here]
+
+Status:
+- [Current state]
+
+$todoSection
+
+---
+
+## Session Resume
+
+To resume this session, use:
+
+Topic: $focus
+Last commit: $lastCommit
+Files modified: $($modifiedFiles.Count)
+
+Key context from CLAUDE.md and DISPATCH_STATUS.json
+
+---
+
+Session checkpoint auto-generated: $timestamp
+"@
+
+    Set-Content -Path $checkpointFile -Value $content -Encoding ASCII
+    return $checkpointFile
+}
+
+function Update-ClaudeMd {
+    param([string]$checkpointFile, [string]$focus)
+    
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
+    $checkpointName = Split-Path $checkpointFile -Leaf
+    
+    if (Test-Path $ClaudeMdPath) {
+        $content = Get-Content $ClaudeMdPath -Raw
+        
+        # Update "Last session" section
+        $newSession = @"
+## Last Session
+
+- Date: $timestamp
+- AI: Claude Sonnet 4.5
+- Focus: $focus
+- Checkpoint: Checkpoints\$checkpointName
+"@
+        
+        if ($content -match "## Last Session") {
+            $content = $content -replace "(?s)## Last Session.*?(?=##|\Z)", $newSession + "`n`n"
+        } else {
+            $content = $content -replace "(?s)(# PowerFlow.*?`n`n)", "`$1$newSession`n`n"
+        }
+        
+        Set-Content -Path $ClaudeMdPath -Value $content -Encoding ASCII
+    } else {
+        # Create initial CLAUDE.md
+        $content = @"
+# PowerFlow $CurrentVersion - Central State
+
+Generated auto: $timestamp
+
+---
+
+## Last Session
+
+- Date: $timestamp
+- AI: Claude Sonnet 4.5
+- Focus: $focus
+- Checkpoint: Checkpoints\$checkpointName
+
+---
+
+## Active Architecture
+
+Core modules:
+- pf_*.py - Flow perception engine
+- dashboard_*.html/.py - Trader interface
+- scheduler_*.py - Real-time orchestration
+- patch_*.py - Runtime patches
+
+---
+
+## Collaborative Workflow
+
+- Claude Sonnet 4.5 - Orchestrator, architecture
+- GPT-1 - Core engine Python
+- GPT-2 - Dashboard UI
+- GPT-3 - Scheduler & Telegram
+- GPT-4 - Field Memory & GBPUSD analysis
+- GPT Pro - Refactoring & complex issues
+
+---
+
+Next priorities: See DISPATCH_STATUS.json
+
+---
+
+Auto-generated live document
+Last update: $timestamp
+"@
+        Set-Content -Path $ClaudeMdPath -Value $content -Encoding ASCII
+    }
+}
+
+# ============================================================================
+# MAIN SCRIPT
+# ============================================================================
+
+Write-Host "[INFO] PowerFlow Checkpoint Auto-Generator V7.6.7" -ForegroundColor Cyan
+
+# Detect focus if auto
+if ($Focus -eq "auto-detect") {
+    $Focus = Get-SessionFocus
+}
+
+Write-Host "[INFO] Focus detected: $Focus" -ForegroundColor Yellow
+
+# Get modified files
+$modifiedFiles = Get-ModifiedFiles
+Write-Host "[INFO] $($modifiedFiles.Count) file(s) modified" -ForegroundColor Cyan
+
+# Generate checkpoint
+Write-Host "[INFO] Generating checkpoint..." -ForegroundColor Yellow
+$checkpointFile = New-CheckpointFile -focus $Focus -modifiedFiles $modifiedFiles
+Write-Host "[OK] Checkpoint created: $(Split-Path $checkpointFile -Leaf)" -ForegroundColor Green
+
+# Update CLAUDE.md
+Write-Host "[INFO] Updating CLAUDE.md..." -ForegroundColor Yellow
+Update-ClaudeMd -checkpointFile $checkpointFile -focus $Focus
+Write-Host "[OK] CLAUDE.md updated" -ForegroundColor Green
+
+# Commit Git if requested
+if (!$NoGit) {
+    Write-Host "[INFO] Syncing Git..." -ForegroundColor Yellow
+    & "$RepoPath\scripts\auto_git_sync.ps1" -Message "[CHECKPOINT] Auto-session checkpoint: $Focus" -Verbose:$Verbose
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "[OK] Git sync complete" -ForegroundColor Green
+    } else {
+        Write-Host "[WARN] Git sync failed (code $LASTEXITCODE)" -ForegroundColor Yellow
+    }
+}
+
+Write-Host "`n[OK] CHECKPOINT COMPLETE" -ForegroundColor Green
+Write-Host "[INFO] File: $checkpointFile" -ForegroundColor Cyan
+
+exit 0

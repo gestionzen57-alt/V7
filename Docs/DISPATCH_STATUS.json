@@ -1,0 +1,197 @@
+{
+  "version": "7.6.7",
+  "last_update": "2026-05-15T10:30:00Z",
+  "active_workspace": "Claude Sonnet 4.5",
+  "session_context": {
+    "session_id": "SESS_20260515_103000",
+    "focus": "Infrastructure Admin & Consolidation",
+    "started_at": "2026-05-15T09:00:00Z",
+    "checkpoint_file": "Checkpoints/CHECKPOINT_20260515_103000.md"
+  },
+  "git_sync": {
+    "last_commit": "initial",
+    "last_push": "2026-05-15T10:25:00Z",
+    "pending_changes": false,
+    "branch": "main",
+    "repo_url": "https://github.com/gestionzen57-alt/V7.git"
+  },
+  "workspace_status": {
+    "Claude_Sonnet_4_5": {
+      "role": "Chef orchestre, architecture, stratégie",
+      "status": "ACTIVE",
+      "current_task": "T001 - Infrastructure automation",
+      "last_activity": "2026-05-15T10:30:00Z",
+      "output": "Scripts automation + structure Docs/"
+    },
+    "GPT_1_Core_Engine": {
+      "role": "Moteur Python pf_*, requêtes SQL",
+      "status": "IDLE",
+      "current_task": null,
+      "last_activity": "2026-05-14T23:58:00Z",
+      "output": "pf_perception_spine_once.py patched"
+    },
+    "GPT_2_Dashboard": {
+      "role": "Interface HTML/JS, normalizers",
+      "status": "IDLE",
+      "current_task": null,
+      "last_activity": "2026-05-14T23:58:00Z",
+      "output": "dashboard_v74.html live"
+    },
+    "GPT_3_Scheduler": {
+      "role": "Orchestration temps réel, Telegram",
+      "status": "IDLE",
+      "current_task": null,
+      "last_activity": "2026-05-14T23:58:00Z",
+      "output": "scheduler_powerflow_turbo_wrapper.py"
+    },
+    "GPT_4_Field_Memory": {
+      "role": "Analyses GBPUSD, film library",
+      "status": "IDLE",
+      "current_task": null,
+      "last_activity": "2026-05-14T20:09:00Z",
+      "output": "ANALYSE_COMPARATIVE_GBPUSD_20260514"
+    },
+    "GPT_Pro": {
+      "role": "Refactoring majeur, problèmes complexes",
+      "status": "IDLE",
+      "current_task": null,
+      "last_activity": "2026-05-13T15:42:00Z",
+      "output": "RAPPORT_SESSION_POWERFLOW_V76"
+    }
+  },
+  "tasks": {
+    "pending": [
+      {
+        "id": "T002",
+        "title": "Refactor pf_engine.py legacy → pf_engine.py V6",
+        "priority": "HIGH",
+        "owner": null,
+        "assigned_to": "GPT_1_Core_Engine",
+        "status": "pending",
+        "created_by": "Claude_Sonnet_4_5",
+        "created_at": "2026-05-15T10:30:00Z",
+        "context": "engine.py V5 ~900 lignes, besoin refonte modulaire V6",
+        "blockers": []
+      },
+      {
+        "id": "T003",
+        "title": "Résoudre signature mismatch pf_normalizer.py",
+        "priority": "MEDIUM",
+        "owner": null,
+        "assigned_to": "GPT_1_Core_Engine",
+        "status": "pending",
+        "created_by": "Claude_Sonnet_4_5",
+        "created_at": "2026-05-15T10:30:00Z",
+        "context": "detect_tf_alignment signature error in /api/cockpit-state",
+        "blockers": []
+      },
+      {
+        "id": "T004",
+        "title": "Diagnostic USDJPY thin data bottleneck",
+        "priority": "MEDIUM",
+        "owner": null,
+        "assigned_to": "GPT_Pro",
+        "status": "pending",
+        "created_by": "Claude_Sonnet_4_5",
+        "created_at": "2026-05-15T10:30:00Z",
+        "context": "USDJPY verdict THIN, data stale/sparse, investigate MT4 stream vs bridge vs DB",
+        "blockers": []
+      },
+      {
+        "id": "T005",
+        "title": "Dashboard V7.4 → V7.5 harmonisation",
+        "priority": "LOW",
+        "owner": null,
+        "assigned_to": "GPT_2_Dashboard",
+        "status": "pending",
+        "created_by": "Claude_Sonnet_4_5",
+        "created_at": "2026-05-15T10:30:00Z",
+        "context": "Audit dashboard_v74.html, normalizers, terrain panel",
+        "blockers": []
+      },
+      {
+        "id": "T006",
+        "title": "Consolidation LEXIQUE_MASTER.md",
+        "priority": "HIGH",
+        "owner": "Claude_Sonnet_4_5",
+        "assigned_to": "Claude_Sonnet_4_5",
+        "status": "in_progress",
+        "created_by": "Claude_Sonnet_4_5",
+        "created_at": "2026-05-15T10:30:00Z",
+        "context": "Fusion 28 LEXIQUE_PATCH_*.md en un master unifié",
+        "blockers": []
+      }
+    ],
+    "in_progress": [
+      {
+        "id": "T001",
+        "title": "Infrastructure automation (Git, Checkpoints, Lexique, Cleanup)",
+        "priority": "CRITICAL",
+        "owner": "Claude_Sonnet_4_5",
+        "assigned_to": "Claude_Sonnet_4_5",
+        "status": "in_progress",
+        "created_by": "Claude_Sonnet_4_5",
+        "created_at": "2026-05-15T09:00:00Z",
+        "progress": 80,
+        "blockers": [],
+        "deliverables": [
+          "auto_git_sync.ps1",
+          "auto_checkpoint_claude.ps1",
+          "sync_lexique.ps1",
+          "cleanup_backups.ps1",
+          "DISPATCH_STATUS.json",
+          "CLAUDE.md"
+        ]
+      }
+    ],
+    "completed": [],
+    "blocked": [],
+    "archived": []
+  },
+  "priorities": {
+    "P0": [
+      "T001 - Infrastructure automation"
+    ],
+    "P1": [
+      "T002 - Refactor pf_engine.py V6",
+      "T006 - LEXIQUE_MASTER.md"
+    ],
+    "P2": [
+      "T003 - pf_normalizer signature fix",
+      "T004 - USDJPY diagnostic"
+    ],
+    "P3": [
+      "T005 - Dashboard harmonisation"
+    ]
+  },
+  "workflow_rules": {
+    "task_assignment": "Tâche assignée → owner prend possession → statut 'in_progress'",
+    "task_completion": "Owner commit code → statut 'completed' → Claude valide → archive",
+    "git_sync": "Auto-sync après chaque commit majeur via auto_git_sync.ps1",
+    "checkpoint": "Auto-checkpoint Claude après session via auto_checkpoint_claude.ps1",
+    "lexique_sync": "Consolidation lexique hebdomadaire via sync_lexique.ps1",
+    "backup_cleanup": "Cleanup backups mensuel via cleanup_backups.ps1"
+  },
+  "communication": {
+    "primary_channel": "DISPATCH_STATUS.json",
+    "secondary_channel": "CLAUDE.md",
+    "checkpoint_dir": "Docs/Checkpoints/",
+    "git_repo": "https://github.com/gestionzen57-alt/V7.git",
+    "drive_folder": "https://drive.google.com/drive/folders/13n3N2JDUcwf9AXwj7iV9VZkiH9e6bihw"
+  },
+  "metrics": {
+    "total_tasks": 6,
+    "pending": 4,
+    "in_progress": 1,
+    "completed": 0,
+    "blocked": 0,
+    "archived": 0,
+    "completion_rate": 0
+  },
+  "notes": [
+    "PowerFlow V7.6.7 LIVE PRODUCTION",
+    "P0 PASS_STRICT OK / Dashboard V7.4 LIVE / GBPUSD OK / EURUSD HTF incomplete / USDJPY THIN",
+    "Forbidden: powerflow.db modifications, P0 violations, Dashboard contract breaks",
+    "Extension/consolidation V7.6.7 only — no V7.7 until stability confirmed"
+  ]
+}

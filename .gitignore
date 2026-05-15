@@ -63,3 +63,13 @@ venv/
 # PowerFlow local Telegram secrets and alert state
 config/telegram_alerts.local.json
 output/telegram_alerts/
+# PowerFlow auto-generated
+*.db-shm
+*.db-wal
+powerflow.db
+.pytest_cache/
+logs/*.log
+output/*.json
+git/sync.log
+*_backup_*/
+GPT*_BACKUP_*/
