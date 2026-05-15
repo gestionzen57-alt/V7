@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-05-15T15:33:39Z",
+  "source_map": "Docs\\Audits\\T002_ENGINE_INTERNAL_MAP_20260515_172740.json",
+  "plan": "Docs\\Plans\\T002_ENGINE_EXTRACTION_PLAN_20260515_173339.md",
+  "process_tick_line_count": 283,
+  "statement_count": 45,
+  "category_counts": {
+    "TICK_PRICE": 14,
+    "OTHER": 14,
+    "FLOW_COMPUTE": 4,
+    "BRAIN_MEMORY": 1,
+    "ALERT_TRANSMISSION": 11,
+    "SCENE_CONTEXT": 1
+  },
+  "local_helper_count": 18,
+  "side_effect_count": 17,
+  "recommendation": "Create detached pure-helper module pf_engine_v6_core.py before moving runtime code."
+}
