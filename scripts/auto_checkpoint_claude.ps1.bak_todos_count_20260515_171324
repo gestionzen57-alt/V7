@@ -1,5 +1,5 @@
-﻿# ============================================================================
-# AUTO_CHECKPOINT_CLAUDE.ps1 â€” PowerFlow V7.6.7
+# ============================================================================
+# AUTO_CHECKPOINT_CLAUDE.ps1 — PowerFlow V7.6.7
 # Automatic checkpoint generation on Claude session end
 # ENCODING: ASCII-safe (no emojis, no accents)
 # ============================================================================
@@ -84,7 +84,7 @@ function New-CheckpointFile {
     
     # Get TODOs
     $todos = Get-TodosFromCode
-    $todoSection = if (@($todos).Count -gt 0) {
+    $todoSection = if ($todos.Count -gt 0) {
         "`n## Next Actions`n`n" + ($todos -join "`n")
     } else {
         ""
@@ -104,7 +104,7 @@ Last commit: $lastCommit
 
 This Claude session worked on: $focus
 
-### Modified Files ($(@($modifiedFiles).Count))
+### Modified Files ($($modifiedFiles.Count))
 
 $(($modifiedFiles -join "`n") | ForEach-Object { "- $_" })
 
@@ -135,7 +135,7 @@ To resume this session, use:
 
 Topic: $focus
 Last commit: $lastCommit
-Files modified: $(@($modifiedFiles).Count)
+Files modified: $($modifiedFiles.Count)
 
 Key context from CLAUDE.md and DISPATCH_STATUS.json
 
@@ -248,7 +248,7 @@ Write-Host "[INFO] Focus detected: $Focus" -ForegroundColor Yellow
 
 # Get modified files
 $modifiedFiles = Get-ModifiedFiles
-Write-Host "[INFO] $(@($modifiedFiles).Count) file(s) modified" -ForegroundColor Cyan
+Write-Host "[INFO] $($modifiedFiles.Count) file(s) modified" -ForegroundColor Cyan
 
 # Generate checkpoint
 Write-Host "[INFO] Generating checkpoint..." -ForegroundColor Yellow
@@ -275,4 +275,3 @@ Write-Host "`n[OK] CHECKPOINT COMPLETE" -ForegroundColor Green
 Write-Host "[INFO] File: $checkpointFile" -ForegroundColor Cyan
 
 exit 0
-
