@@ -106,3 +106,11 @@ def test_pf_engine_v6_core_has_no_runtime_side_effect_tokens_outside_comments():
     for token in forbidden_tokens:
         assert token not in code
 
+
+
+def test_pf_engine_v6_core_version_is_legacy_surface_v2():
+    sys.path.insert(0, str(_core()))
+
+    from pf_engine_v6_core import CORE_VERSION
+
+    assert CORE_VERSION == "T002_V6_CORE_DETACHED_V2_LEGACY_SURFACE"

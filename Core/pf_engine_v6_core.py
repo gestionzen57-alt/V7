@@ -18,7 +18,7 @@ from dataclasses import asdict, dataclass
 from typing import Any
 
 
-CORE_VERSION = "T002_V6_CORE_DETACHED_V1"
+CORE_VERSION = "T002_V6_CORE_DETACHED_V2_LEGACY_SURFACE"
 
 
 @dataclass(frozen=True)
@@ -33,6 +33,20 @@ class EngineTickContext:
     price_delta: float | None
     bid: float | None
     ask: float | None
+    spread: float | None
+
+
+@dataclass(frozen=True)
+class LegacyTickSurface:
+    # Static legacy field surface seen in engine.process_tick.
+    # This is a compatibility measurement object only.
+
+    dev_a: str | None
+    dev_b: str | None
+    val_a: float | None
+    val_b: float | None
+    gap: float | None
+    timeframe: Any
     spread: float | None
 
 
@@ -108,13 +122,45 @@ def derive_tick_context(tick: Any, prev: Any, symbol: str | None = None) -> Engi
     )
 
 
+def derive_legacy_tick_surface(tick: Any) -> LegacyTickSurface:
+    # Build the static legacy tick surface used by engine.process_tick.
+    # It supports object-like ticks and dict-like ticks.
+
+    explicit_spread = _to_float(_read_attr(tick, "spread"))
+    bid = _to_float(_read_attr(tick, "bid"))
+    ask = _to_float(_read_attr(tick, "ask"))
+
+    derived_spread = None
+    if bid is not None and ask is not None:
+        derived_spread = ask - bid
+
+    spread = explicit_spread if explicit_spread is not None else derived_spread
+
+    return LegacyTickSurface(
+        dev_a=_read_attr(tick, "dev_a", None),
+        dev_b=_read_attr(tick, "dev_b", None),
+        val_a=_to_float(_read_attr(tick, "val_a", None)),
+        val_b=_to_float(_read_attr(tick, "val_b", None)),
+        gap=_to_float(_read_attr(tick, "gap", None)),
+        timeframe=_read_attr(tick, "timeframe", None),
+        spread=spread,
+    )
+
+
 def tick_context_to_dict(context: EngineTickContext) -> dict[str, Any]:
     return asdict(context)
+
+
+def legacy_tick_surface_to_dict(surface: LegacyTickSurface) -> dict[str, Any]:
+    return asdict(surface)
 
 
 __all__ = [
     "CORE_VERSION",
     "EngineTickContext",
+    "LegacyTickSurface",
     "derive_tick_context",
+    "derive_legacy_tick_surface",
     "tick_context_to_dict",
+    "legacy_tick_surface_to_dict",
 ]
