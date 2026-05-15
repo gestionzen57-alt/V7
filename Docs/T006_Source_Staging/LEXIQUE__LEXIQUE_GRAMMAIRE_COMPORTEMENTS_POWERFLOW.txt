@@ -1,0 +1,2082 @@
+# Lexique, Grammaire et Comportements PowerFlow
+## Le dictionnaire vivant du langage PowerFlow — V6
+
+**Statut :** document de consolidation du corpus fourni  
+**Rôle :** extraire le vocabulaire, les règles d’addition et les scènes comportementales propres à PowerFlow.  
+**Règle suivie :** ne pas transformer PowerFlow en dictionnaire de trading classique. Les termes ci-dessous viennent du langage, des Labs, des rapports et des doctrines fournis.
+
+---
+
+# 0. Phrase noyau du langage PowerFlow
+
+PowerFlow n’est pas une usine à signaux. C’est un moteur de perception multi-devises et multi-timeframes.
+
+La phrase complète du langage PowerFlow peut se lire ainsi :
+
+```text
+acteur + comportement + contexte + timing + qualité + conséquence
+```
+
+Exemple PowerFlow :
+
+```text
+GBP pousse proprement pendant que USD plie en extrême H4, mais le cross M1 arrive tard.
+```
+
+Traduction opérationnelle :
+
+```text
+leader      = GBP
+devise faible = USD
+contexte    = pliure / extrême H4
+timing      = node tardif
+qualité     = danger late
+discipline  = ne pas courir après le mouvement
+```
+
+Chaîne officielle :
+
+```text
+Flux
+→ Événements
+→ Alertes / Signaux
+→ Mémoire
+→ Relations
+→ Zones
+→ Scènes
+→ Film
+→ Décision trader
+```
+
+Hiérarchie stricte :
+
+```text
+PowerFlow perçoit, calcule, mesure, mémorise.
+ORION affiche, synthétise, protège la lecture.
+Le trader décide.
+```
+
+---
+
+# 1. VOCABULAIRE ET LEXIQUE — Le dictionnaire PowerFlow
+
+## 1.1 Acteurs fondamentaux
+
+### Acteur
+Une devise considérée comme un personnage du film. Les acteurs principaux du langage actuel sont :
+
+```text
+GBP, USD, EUR, JPY, CAD, CHF, AUD, NZD
+```
+
+Une devise n’est pas seulement une valeur numérique. Elle a un comportement, un tempo, un rôle, une signature et parfois un leadership.
+
+Questions associées :
+
+```text
+Qui mène ?
+Qui suit ?
+Qui résiste ?
+Qui abandonne ?
+Qui confirme ?
+Qui contredit ?
+Qui absorbe ?
+Qui se désynchronise ?
+```
+
+### Leader
+Devise qui porte le mouvement principal ou qui impose la direction du champ. Un leader peut être directionnel, pivot, refuge, ou leader de rotation.
+
+### Follower
+Devise qui suit un leader avec retard, souvent identifiable par corrélation décalée ou comportement de relais.
+
+### Relay / Relais
+Devise qui confirme sans forcément mener. EUR est souvent décrit comme relais ou devise de synchronisation.
+
+### Challenger
+Devise qui approche ou conteste le leader. Elle n’a pas encore pris la main, mais elle réduit l’écart, change d’angle ou prépare une rotation.
+
+### Devise pivot
+Devise qui pèse sur tout le champ sans forcément être un leader directionnel pur. USD est souvent pivot / gravité / contexte.
+
+### Devise refuge
+Devise qui réagit dans les phases risk-off ou de fuite. JPY et CHF sont les références principales.
+
+### Devise risque
+Devise plus liée au flux directionnel et au risk-on/risk-off : GBP, EUR, AUD, NZD selon contexte.
+
+---
+
+## 1.2 Profils comportementaux des devises
+
+### GBP — leader directionnel
+GBP est décrit comme expressive, directionnelle, vive, parfois brutale. Quand GBP est propre, les paires GBP s’alignent et le flux porte. GBPUSD devient alors paire prioritaire.
+
+Signature :
+
+```text
+grandes phases
+cassures nettes
+coalition visible
+mouvement rarement ambigu quand propre
+```
+
+Piège :
+
+```text
+GBP tardif après un fort mouvement matinal peut devenir EXHAUST_NODE déguisé.
+```
+
+### USD — pivot / gravité
+USD exprime souvent une pression globale du marché. Il peut valider ou invalider les autres devises. Il n’est pas toujours une cible directe ; parfois il est le poids de fond.
+
+Signature :
+
+```text
+inertie
+gravité
+appel d’air
+pression globale
+validation ou invalidation des autres devises
+```
+
+### JPY — oscillatoire / nerveux
+JPY est très actif, rapide, violent, souvent lisible sur M1-M5. Sa présence ne signifie pas toujours leadership propre : il peut produire beaucoup d’activité avec faible cohérence.
+
+Signature :
+
+```text
+verticalité
+retournements rapides
+clusters volatiles
+signal fort sur M5, parfois déjà vieux sur M15+
+```
+
+### EUR — relais / synchronisation
+EUR valide ou invalide souvent ce que GBP ou USD initient. Il peut confirmer une lecture initiale par synchronisation.
+
+Signature :
+
+```text
+oscillation régulière
+cycles propres
+réponse avec délai
+synchronisation après GBP ou USD
+```
+
+### CAD — leader différé potentiel sur USD
+CAD peut devancer USD d’une à deux barres dans certains contextes. Cette lecture devient une validation de l’authenticité d’un mouvement USD.
+
+Signature :
+
+```text
+CAD tourne avant USD
+CAD confirme ou invalide un début de rebond USD
+corrélation décalée à surveiller
+```
+
+### AUD / NZD — challengers risk-on / rotation
+AUD est plus réactif et volatil. NZD peut suivre AUD avec retard. Ils peuvent être importants en rotation, mais doivent être lus avec leur tempo et leur contexte.
+
+### CHF — refuge lent / friction HTF
+CHF est lent, structurel, souvent moins bruyant mais significatif lorsqu’il apparaît dans un contexte HTF tendu. Un signal CHF isolé peut être plus important qu’il ne semble.
+
+---
+
+## 1.3 Tempo natif
+
+### Tempo natif
+Timeframe où une devise parle le plus naturellement.
+
+Définition :
+
+```text
+Le tempo natif est le timeframe où la devise donne son signal le plus frais, le plus lisible et le moins périmé.
+```
+
+Grille actuelle du corpus :
+
+```text
+JPY : M1-M5
+CHF : M15-M30
+EUR : M15-M30
+GBP : M15-M30
+USD : M15-M30, parfois M30 par inertie
+AUD : M5-M15
+NZD : M10-M20 / suit AUD avec retard
+CAD : M10-M30 / peut devancer USD
+```
+
+Loi :
+
+```text
+Un signal n’a pas la même fraîcheur selon la devise.
+Un croisement JPY vu sur M30 peut être déjà vieux.
+Un croisement EUR vu sur M30 peut rester frais.
+```
+
+---
+
+## 1.4 Comportements racines
+
+### Push / Pousser
+Une devise augmente sa pression. Elle avance, prend de l’angle, réduit un gap ou force une autre devise à répondre.
+
+### Fold / Plier
+Une devise forte ou en extrême perd son angle. Le pli peut être le début d’un essoufflement, d’une rotation ou d’une absorption.
+
+### Fake fold / Fausse pliure
+Pli apparent qui ne confirme pas. Le marché semble céder, mais la réaction suivante montre que ce n’était qu’une préparation, un piège ou une respiration.
+
+### Charge / Charger
+Énergie qui s’accumule avant libération possible.
+
+Forme typique :
+
+```text
+zone extrême
+maintien
+pullbacks refusés
+micro-oscillations
+compression
+augmentation de densité
+```
+
+### Compress / Compresser
+Deux forces restent proches, avec faible gap, ou une devise reste enfermée dans un couloir / palier. La compression peut être spatiale, temporelle, ou comportementale.
+
+### Release / Libérer
+Ouverture claire d’une compression ou d’une tension. La libération peut être continuation, rotation ou rééquilibrage.
+
+### Lie / Mentir
+Un signal apparent ne confirme pas. Exemple : cross séduisant sans suite, faux départ, fakeout, mouvement local qui ne tient pas dans le contexte.
+
+### Clean / Nettoyer
+Le marché piège, vide ou purge avant de rendre la structure plus lisible. Clean ne veut pas dire calme : cela veut dire que le film devient plus cohérent.
+
+### Absorb / Absorber
+La pression est reçue mais pas encore cassée. L’absorption retarde la libération. Elle peut charger l’élastique.
+
+### Reject / Rejeter
+Deux forces s’approchent puis se repoussent franchement.
+
+### Exhaust / S’épuiser
+Le mouvement existe encore mais son potentiel utile se dégrade. Ce n’est pas forcément la fin immédiate, mais le risque de poursuivre augmente.
+
+### Pressure / Pression
+Une devise pousse sans forcément avoir encore switché complètement. Une pression peut devenir approche, réduction de gap, accélération de challenger.
+
+### Delay / Retard
+Signal réel mais opérationnellement tardif. Dans PowerFlow, un bon signal trop tard devient un mauvais signal.
+
+### Sync / Synchronisation
+Plusieurs paires, devises ou timeframes racontent le même film.
+
+### Desync / Désynchronisation
+Une devise quitte le groupe, casse une harmonie, change d’angle ou refuse la coalition. La première devise qui se désynchronise après une grappe de nodes peut donner le premier acteur de la phase.
+
+### Relay / Relais
+Devise confirmatrice qui ne mène pas forcément mais valide le film.
+
+### Gravity / Gravité
+Contexte HTF qui attire, limite ou pondère la portée d’un signal inférieur.
+
+### Clean wave / Vague propre
+Flux dense et structuré.
+
+### Dirty wave / Vague sale
+Flux dense mais incohérent : beaucoup d’activité, faible qualité, fakeouts possibles.
+
+---
+
+## 1.5 Pullure, pullback et respiration
+
+### Pullure
+Terme du trader pour les petits creux, micro-retours, micro-pullbacks ou petites oscillations internes dans une zone extrême.
+
+Définition PowerFlow :
+
+```text
+Une pullure est une micro-respiration visible dans une zone extrême.
+Elle n’est pas forcément du bruit.
+Elle peut représenter un mouvement impulsif miniature dans une construction plus large.
+```
+
+Interprétation :
+
+```text
+pullure refusée
+→ absorption
+→ tension qui monte
+→ élastique qui se charge
+```
+
+Si les pullures deviennent de plus en plus profondes et durent plus longtemps, la zone peut être en fuite ou en désynchronisation naissante.
+
+### Pullback écrasé
+Retour temporaire vers la neutralité qui est vite absorbé. Plus les pullbacks sont écrasés, plus la zone conserve son pouvoir d’absorption.
+
+### Respiration saine
+Micro-oscillations qui restent dans le bassin de la zone. Les profondeurs diminuent ou restent stables, les retours sont rapides, la zone absorbe.
+
+### Désynchronisation naissante
+Les pullbacks deviennent plus profonds, plus longs, moins bien réintégrés. La zone perd son pouvoir d’absorption avant même de casser visiblement.
+
+---
+
+## 1.6 Élastique
+
+### Élastique chargé
+Devise écrasée ou maintenue en extrême, mais vivante en microstructure.
+
+Signature :
+
+```text
+valeur moyenne plate ou extrême
+micro-oscillations présentes
+pullbacks avortés
+asymétrie des micro-mouvements
+durée en zone
+tension_signature élevée
+```
+
+Formule conceptuelle :
+
+```text
+ÉLASTIQUE_CHARGÉ =
+extrême relatif
++ durée
++ micro-variance
++ pullbacks refusés
++ absorption
+```
+
+### Élastique cassé
+La zone ne retient plus. Les pullbacks s’approfondissent, l’absorption ne fonctionne plus, la trajectoire sort du bassin ou la rupture s’accélère.
+
+### Devise morte
+Devise plate à toutes les échelles : peu de micro-oscillation, faible entropie, faible mouvement. À distinguer d’un élastique chargé.
+
+### Bruit blanc
+Activité sans structure ni asymétrie exploitable. Ne pas confondre avec compression chargée.
+
+---
+
+## 1.7 Index comportemental borné
+
+### Index comportemental borné
+Mesure relative d’une devise par rapport à sa propre norme et à l’USD comme pivot.
+
+Formule :
+
+```text
+spread(t) = force_devise(t) - force_usd(t)
+Z(t)      = (spread(t) - moyenne(spread, lookback)) / écart_type(spread, lookback)
+Index(t)  = clip(Z(t), -3, +3)
+```
+
+Interprétation :
+
+```text
+Index > +2  = comportement extrême haut vs USD
+Index ≈ 0   = comportement normal
+Index < -2  = comportement extrême bas / élastique potentiellement chargé
+```
+
+Rôle :
+
+```text
+ne plus lire une valeur brute 0-100,
+mais lire un comportement relatif et anormal.
+```
+
+---
+
+## 1.8 Tension accumulée
+
+### Tension accumulée
+Énergie potentielle construite par une devise dans une zone ou un état extrême.
+
+Formule actuelle :
+
+```text
+tension_score = |Z_current| × log(1 + bars_in_extreme) × absorption_factor
+```
+
+Facteurs :
+
+```text
+ACCUMULATING → 1.5
+NEUTRAL      → 1.0
+LEAKING      → 0.6
+RUPTURE      → 0.2
+```
+
+Formule complète candidate :
+
+```text
+tension_score =
+behavioral_index
+× log(1 + barres_en_extreme)
+× tension_signature
+× pullback_asymmetry
+```
+
+Lecture :
+
+```text
+plus la devise reste longtemps en zone extrême
+et plus les pullbacks sont absorbés,
+plus la libération potentielle devient violente.
+```
+
+---
+
+## 1.9 Tension signature
+
+### Tension signature
+Rapport entre micro-variance et macro-variance.
+
+```text
+tension_signature = micro_variance / (macro_variance + ε)
+```
+
+Interprétation :
+
+```text
+tension_signature >> 1 → devise plate en moyenne mais agitée en micro = élastique chargé
+tension_signature ≈ 1  → devise vraiment morte / bruit blanc
+```
+
+---
+
+## 1.10 Compression du temps / extension du temps
+
+### Compression de temps
+Beaucoup d’information ou de mouvement en peu de barres. Le marché accélère son langage.
+
+Exemple conceptuel :
+
+```text
+GBP passe de 12 à 52 en 3 barres.
+```
+
+### Extension de temps
+Le marché flotte, les barres semblent vides, le temps s’allonge.
+
+Exemple conceptuel :
+
+```text
+USD reste à 9-10 pendant 15 barres.
+```
+
+### Densité temporelle
+Métrique proposée :
+
+```text
+densité_temporelle = abs(delta_force) / nombre_de_barres
+```
+
+Interprétation :
+
+```text
+même distance en 3 barres ≠ même distance en 30 barres.
+Le temps devient lui-même une information.
+```
+
+### Temps informationnel
+Temps mesuré par la quantité de changement, de tension, de retournements et de densité — pas seulement par l’horloge.
+
+### Entropie locale
+Outil candidat pour distinguer compression chargée et session creuse.
+
+```text
+E = entropie locale
+V = volatilité réalisée
+T = taux de retournement
+```
+
+Lecture :
+
+```text
+compression chargée = E élevée, V modérée, T élevé
+session creuse      = E faible, V faible, T faible
+```
+
+---
+
+## 1.11 Vibration
+
+### Vibration
+Perception visuelle encore non totalement formalisée : rythme interne, régularité d’oscillation, fréquence dominante, sensation que la séquence “sonne juste”.
+
+Statut :
+
+```text
+à observer avant de coder.
+```
+
+Hypothèse :
+
+```text
+certaines séquences sont cohérentes parce que leur fréquence dominante est stable ou signifiante.
+```
+
+---
+
+## 1.12 Nodes et événements
+
+### Node
+Point ou fenêtre où le film change d’état. Un node n’est pas forcément un croisement.
+
+Définition élargie :
+
+```text
+un node est une séquence comportementale construite par prix, force, temps et contexte.
+```
+
+Un cross peut être :
+
+```text
+départ
+confirmation
+objectif de bataille atteint
+retard
+piège
+fin de jambe
+```
+
+Question centrale :
+
+```text
+ce node ouvre-t-il le film ou le termine-t-il ?
+```
+
+### Node building sequence
+Séquence de construction d’un node :
+
+```text
+cross initial
+→ divergence prix / force
+→ fake fold
+→ mèche / mur / prise de liquidité
+→ collage ou distance maintenue
+→ absorption
+→ désynchronisation
+→ séparation significative
+→ node actif
+→ extrême
+→ re-cross / équilibre orchestré
+```
+
+### Active node
+Moment où la synchronisation casse ou où l’écartement devient significatif. Le contact n’est pas forcément le vrai node.
+
+### Post-cross behavior
+Comportement après croisement. Loi :
+
+```text
+Le cross pose la question.
+Le comportement post-cross donne la réponse.
+```
+
+### GAP_BEHAVIOR
+Comportement de l’écart entre deux devises : maintien, fermeture, extension, plateau, tension, recollage.
+
+### GAP_HOLD_TIME
+Durée pendant laquelle un écart se maintient. Peut signaler une opposition structurée ou une compression.
+
+### Recollage / Collage
+Rapprochement ou maintien proche de deux forces. Peut être préparation et non validation.
+
+### Séparation angle
+Angle de séparation après contact, recollage ou désynchronisation. Plus l’angle est propre, plus le comportement devient lisible.
+
+### Orchestrated equilibrium
+Équilibre construit après bataille : retour ou re-cross où plusieurs forces se réorganisent.
+
+---
+
+## 1.13 Types de nodes
+
+### CROSS_NODE
+Croisement réel entre forces.
+
+### NO_TOUCH_STRETCH_NODE
+Les forces ne se touchent pas mais gardent distance, opposition ou étirement significatif.
+
+### PINCH_FOLD_NODE
+Les forces se croisent, se pincent puis se plient.
+
+### PARALLEL_CANCEL_NODE
+Forces parallèles à distance qui s’annulent ou temporisent.
+
+### TEMPORAL_EVENT_NODE
+Fenêtre où quelque chose se passe dans les flux même sans contact exact.
+
+### TRIPLE_NODE
+Concentration / croisement de trois forces ou trois acteurs significatifs.
+
+### TRIPLE_CROSS_CLUSTER
+Deux ou plusieurs préparations de triple node dans une même fenêtre fractale. Le node devient une grappe temporelle chargée d’énergie.
+
+### NODE_ENERGY
+Charge du node. Loi :
+
+```text
+Un node n’a pas seulement une forme.
+Il a une charge.
+```
+
+### EXTREME_BOUND_NODE
+Node lié à une zone extrême ou à un retour d’extrême.
+
+### MULTI_NODE_SEQUENCE
+Suite de nodes proches qui indique réorganisation forte de la structure.
+
+---
+
+## 1.14 Temporal Nodes
+
+### TEMPORAL_NODE
+Lecture événementielle multi-timeframe. Il regroupe des signaux dans une fenêtre temporelle et les classe selon leur combinaison.
+
+Types validés :
+
+```text
+NODE_COMPLET_FULL = CONVERGENCE + KISS_REJECT / combinaison rare
+NODE_COMPLET      = CONVERGENCE active
+NODE_REPULSION    = répulsion forte, à améliorer
+NODE_CROSS        = croisement confirmé
+NODE_SIMPLE       = bruit filtrable
+```
+
+### Grammaire pondérée Module A
+
+```text
+COMPRESSION          = 1
+COMPRESSION_BREAK    = 2
+CONVERGENCE          = 5
+CROSS                = 2
+KISS_REJECT          = 3
+COMPRESSION_SQUEEZE  = 3
+SLINGSHOT            = 2
+REPULSION            = 4
+```
+
+Interprétation :
+
+```text
+CONVERGENCE rare = très fort
+NODE_CROSS fréquent = bruit normal si isolé
+M1 peut préparer M15
+Fractalité confirmée si plusieurs TF s’alignent
+```
+
+---
+
+## 1.15 Signaux V6
+
+### CROSS
+Croisement. Ne vaut rien seul. Il pose une question.
+
+### KISS_REJECT
+Les forces s’approchent, se frôlent, puis rejet fort. Peut être aligné ou contre-tendance HTF.
+
+### FAKEOUT
+Signal séduisant qui piège. En V6, il dégrade l’intérêt d’un cran.
+
+### SUPER_SWITCH
+Switch de domination plus fort qu’un cross simple.
+
+### CONVERGENCE
+Plusieurs éléments ou timeframes se rejoignent. Rare. Signal fort s’il s’inscrit dans une scène.
+
+### COMPRESSION
+Palier, couloir, zone d’attente. Souvent utile pour DB / Lab plutôt que Telegram direct.
+
+### COMPRESSION_BREAK
+Sortie de palier. Peut devenir déclencheur brut si filtré par scène, HTF et alignement.
+
+### COMPRESSION_SQUEEZE
+Une devise déjà comprimée subit la poussée adverse d’une autre devise ; le gap se resserre et l’écrase.
+
+### COMPRESSION_SQUEEZE_CONTINUATION
+Repli compressé dans une zone extrême de timeframe inférieur qui repart dans le sens du leader H1/H4/D1.
+
+### COMPRESSION_SQUEEZE_REVERSAL
+Compression en fin de cycle HTF où l’ancienne victime reprend la main. Peut être setup de rotation ou warning.
+
+### SLINGSHOT
+Énergie de fronde après repli ; peut annoncer relance si contexte cohérent.
+
+### APPROACH
+Approche imminente, souvent avant contact ou seuil.
+
+### ZONE_BATTLE
+Bataille dans une zone dynamique.
+
+### EXTREME_HIGH / EXTREME_LOW
+Extrême relatif ou contextuel ; pas seulement seuil fixe.
+
+### REPULSION
+Deux forces se repoussent, divergent continuellement, sans inversion rapide. Inverse comportemental du cross.
+
+---
+
+## 1.16 Zones
+
+### Zone dynamique
+Une zone n’est pas une ligne fixe. Elle est un comportement.
+
+Dimensions d’une zone :
+
+```text
+position actuelle
+phase
+temps passé
+durée réelle selon timeframe
+sortie
+cross / changement de rang
+tension opposée
+session
+```
+
+### Zone mémoire
+Zone où les acteurs ont déjà combattu. Elle garde un vécu.
+
+### Zone extrême
+Zone de tension, excès, mémoire ou préparation. Les zones 20/30/80/90 sont des zones de travail dynamiques, pas des lignes absolues.
+
+### LOW_ZONE_WORK
+Devise qui travaille la cave / zone basse.
+
+### LOW_ZONE_RELEASE_TO_CENTER
+Sortie de zone basse vers centre.
+
+### HIGH_ZONE_HOLD
+Maintien en zone haute.
+
+### HIGH_ZONE_DECELERATION
+Décélération en zone haute, possible fatigue.
+
+### HIGH_ZONE_DOMINANCE_LOSS
+Perte de rang après zone haute ; peut peser dans une scène de rotation.
+
+### CENTER_BATTLE_ZONE
+Bataille dans la zone centrale ; souvent zone de validation plutôt que zone d’entrée.
+
+### ZONE_TIME_WEIGHT
+Poids donné au temps vécu dans une zone.
+
+Une zone prend du poids si :
+
+```text
+elle dure longtemps
+elle sort ou rejette
+elle confirme par cross
+elle confirme par changement de rang
+elle fait double top / double bottom
+elle a une tension opposée
+```
+
+### SESSION_ZONE_MEMORY
+Mémoire de zone liée à la session.
+
+---
+
+## 1.17 Scènes ORION / PowerFlow
+
+### Scène
+Contexte interprété à partir des courbes, relations, zones, nodes et temps.
+
+Formule :
+
+```text
+relation + node + zone vécue + temps de zone = scène PowerFlow
+```
+
+### COALITION_PUSH
+Plusieurs devises ou paires poussent dans la même direction, souvent contre une cible commune.
+
+### ROTATION_BUILDING
+Construction d’une rotation. Un ancien leader fatigue, un challenger répond, le champ se réorganise.
+
+### OPPOSITION_REBALANCE
+Opposition qui rééquilibre le champ.
+
+### TREND_CONTINUATION
+Continuation propre après respiration / zone / confirmation.
+
+### COMPRESSION_BUILD
+Énergie stockée dans compression.
+
+### COMPRESSION_RELEASE
+Libération de compression.
+
+### CENTER_BATTLE
+Bataille centrale, zone de validation, hésitation ou transition.
+
+### CHAOS_NO_TRADE
+Trop de bruit, faible cohérence, pas de structure exploitable.
+
+---
+
+## 1.18 Niveaux d’intérêt
+
+### IGNORE
+Bruit.
+
+### WATCH_ZONE
+Zone intéressante mais pas encore structure active.
+
+### STRUCTURE_BUILDING
+Le film raconte quelque chose ; la scène est en construction.
+
+### TACTICAL_READY
+Confirmation tactique possible ; chercher la jambe / validation.
+
+### SIGNAL_VALIDATED
+Confluence forte. Telegram possible seulement si les conditions V6 sont réunies.
+
+---
+
+## 1.19 Timing
+
+### EARLY
+Naissance possible. À observer ; pas une confirmation.
+
+### ACTIVE
+Film structuré et actif.
+
+### LATE
+Signal réel mais tardif. Danger.
+
+### EXHAUST
+Risque de fin de mouvement.
+
+Loi :
+
+```text
+Un bon signal trop tard devient un mauvais signal.
+```
+
+### Node timing Pattern 1
+
+```text
+EARLY_NODE
+ACTIVE_NODE
+LATE_NODE
+EXHAUST_NODE
+```
+
+---
+
+## 1.20 Timeframes
+
+### M1
+Capteur nerveux, naissance, microstructure, microfilm. M1 ne commande jamais seul.
+
+### M5
+Scout / timing / confirmation tactique.
+
+### M15
+Intention / scénario / structure tactique majeure.
+
+### M30
+Transition / structure intraday.
+
+### H1
+Régime / switch / état de séance.
+
+### H4
+Gravité, respiration, zone majeure, structure lourde.
+
+### Daily
+Cycle, pente mère, mémoire structurelle, poids probabiliste.
+
+### Weekly
+Intention lente, gravité profonde, régime long terme.
+
+Loi synthétique :
+
+```text
+Daily pèse.
+H4 autorise.
+H1 raconte.
+M15 structure.
+M5 déclenche.
+M1 affine.
+```
+
+---
+
+## 1.21 Régimes et qualités de flow
+
+### Flow propre
+Leader clair, cohérence multi-paires, propagation lower timeframe, peu de danger late.
+
+### Flow structurel
+Flux lisible, cadré par zone / HTF / scène.
+
+### Flow fragile
+Signal local séduisant mais contexte supérieur, régime ou structure insuffisante.
+
+### Flow sale
+Activité dense, faible cohérence, fakeouts possibles.
+
+### FLOW_CONTINUATION_PROPRE
+Continuation dans le sens d’un leader stable et alignement suffisant.
+
+### FLOW_PULLBACK_TENDANCE
+Repli dans tendance, potentiellement exploitable si la recharge est propre.
+
+### FLOW_RANGE_SALE
+Croisements fréquents, peu d’extension, valeurs proches de 50, absence de leader net.
+
+### FLOW_ROTATION
+Ancienne domination qui se fatigue ; challenger ou ancienne victime reprend la main.
+
+### FLOW_EXHAUSTION
+Flux tardif ou en fin de phase.
+
+### FLOW_INCONNU
+Pas assez de matière ou incohérence.
+
+---
+
+## 1.22 Notions Lab / Mémoire
+
+### Lab
+Espace de traduction : vision humaine → mot Flow → hypothèse → trace DB → variable manquante → future spec → code.
+
+### NOTE
+Observation brute.
+
+### VOCABULARY
+Terme à ajouter au langage.
+
+### HYPOTHESIS
+Hypothèse comportementale.
+
+### TEST_DB
+Hypothèse testable sur DB.
+
+### SPEC_FUTURE
+À transformer plus tard en spécification.
+
+### PATTERN_CANDIDATE
+Pattern candidat, pas encore loi.
+
+### REJECTED
+Hypothèse rejetée.
+
+---
+
+# 2. LA GRAMMAIRE DES SIGNAUX — Comment les éléments s’additionnent
+
+## 2.1 Grammaire principale
+
+```text
+Acteur + Comportement + Contexte + Timing + Qualité + Conséquence
+```
+
+Exemple :
+
+```text
+EUR relaie GBP contre USD, en M15 scénario, après compression, mais le node est late.
+```
+
+Lecture :
+
+```text
+acteur      = EUR / GBP / USD
+comportement= relais + coalition
+contexte    = M15 scénario + compression
+timing      = late
+qualité     = danger
+conséquence = ne pas poursuivre
+```
+
+---
+
+## 2.2 Grammaire du film
+
+```text
+Flux → Événement → Mémoire → Relation → Zone → Scène → Film → Décision
+```
+
+Explication :
+
+```text
+Flux       = forces vivantes
+Événement  = cross, compression, rupture, kiss, fakeout
+Mémoire    = zone déjà travaillée, durée, vécu
+Relation   = coalition, opposition, leader/follower
+Zone       = champ comportemental
+Scène      = contexte lisible
+Film       = récit multi-TF
+Décision   = acte humain
+```
+
+---
+
+## 2.3 Grammaire V6 des signaux
+
+```text
+Le signal pose la question.
+La scène donne le contexte.
+L’alignement TF valide ou invalide.
+ORION synthétise.
+Le trader décide.
+```
+
+En V6, les signaux se divisent en trois familles :
+
+```text
+Déclencheurs :
+CROSS, SUPER_SWITCH, KISS_REJECT, COMPRESSION_BREAK, COMPRESSION_SQUEEZE
+
+Filtres négatifs :
+FAKEOUT
+
+Microfilm interne / DB uniquement :
+COMPRESSION, SLINGSHOT, APPROACH, ZONE_BATTLE, CONVERGENCE, EXTREME_HIGH/LOW
+```
+
+Règle :
+
+```text
+Un déclencheur seul n’est pas une décision.
+Un microfilm peut être précieux pour la DB mais inutile en Telegram.
+Un filtre négatif dégrade la lecture.
+```
+
+---
+
+## 2.4 Grammaire du cross
+
+```text
+CROSS = question
+POST_CROSS_BEHAVIOR = réponse
+```
+
+Formules :
+
+```text
+CROSS + absorption + séparation propre = node actif potentiel
+CROSS + recollage sans séparation = préparation ou temporisation
+CROSS + fake fold + wick/liquidity grab = piège possible
+CROSS + zone vécue + confirmation rang = valeur renforcée
+CROSS isolé + aucune structure = bruit / signal pauvre
+```
+
+---
+
+## 2.5 Grammaire de la compression
+
+```text
+COMPRESSION = énergie stockée
+COMPRESSION_BREAK = libération
+COMPRESSION_SQUEEZE = pression adverse maximale
+```
+
+Formules :
+
+```text
+COMPRESSION + durée + gap faible = palier / attente
+COMPRESSION + pullbacks refusés = absorption
+COMPRESSION + squeeze + HTF leader = continuation possible
+COMPRESSION + fin de cycle HTF + ancienne victime reprend = reversal warning
+COMPRESSION seule en live = souvent DB / Lab, pas Telegram
+```
+
+---
+
+## 2.6 Grammaire de l’élastique
+
+```text
+Extrême relatif
++ durée en zone
++ micro-oscillations
++ pullbacks avortés
++ asymétrie
+= ÉLASTIQUE_CHARGÉ
+```
+
+Formule de tension complète :
+
+```text
+behavioral_index
+× log(1 + barres_en_extreme)
+× tension_signature
+× pullback_asymmetry
+= tension_score complet
+```
+
+Interprétation :
+
+```text
+Si tous les facteurs s’alignent, PowerFlow lit une énergie potentielle.
+Si un facteur manque, le signal est qualifié plus fragile.
+```
+
+---
+
+## 2.7 Grammaire de la zone
+
+```text
+Zone = comportement + temps + mémoire
+```
+
+Formules :
+
+```text
+Zone haute tenue + décélération = fatigue possible
+Zone haute tenue + perte de rang = rotation possible
+Zone basse travaillée + sortie vers centre = rebalance possible
+Zone + cross de confirmation = poids renforcé
+Zone + durée longue = ZONE_TIME_WEIGHT
+Zone centrale + triple/cross = validation ou bataille
+```
+
+Loi :
+
+```text
+Une zone n’est pas un niveau.
+Une zone est un comportement.
+```
+
+---
+
+## 2.8 Grammaire multi-devise
+
+```text
+Une devise parle vraiment quand elle apparaît sur plusieurs paires.
+```
+
+Formules :
+
+```text
+GBP > USD + GBP > JPY + GBP > EUR = GBP leader probable
+EUR après GBP/USD = relais / synchronisation possible
+JPY très actif + faible cohérence = flux nerveux, pas forcément leader propre
+CAD bouge avant USD = validation ou invalidation future du signal USD
+```
+
+---
+
+## 2.9 Grammaire multi-timeframe
+
+```text
+M1 = naissance / microfilm
+M5 = timing / jambe tactique
+M15 = scénario
+M30/H1 = structure intraday / transition
+H4/D1/W1 = gravité
+```
+
+Formules :
+
+```text
+M1 fort seul = bruit ou pré-signal
+M1 + M5 + M15 alignés = fractalité utile
+M5 déclenche mais M15 n’a pas de scénario = fragile
+M15 scénario + M5 jambe + M1 microstructure = setup lisible
+Signal M30 contre H4 en accumulation = prématuré / respiration intra-phase
+```
+
+---
+
+## 2.10 Grammaire de l’alignement TF
+
+Verdicts V6 :
+
+```text
+ALIGNEMENT_COMPLET
+ALIGNEMENT_PARTIEL
+STRUCTURE_NAISSANTE
+CONFLIT_STRUCTURE
+CONFLIT_DIRECT
+NEUTRE
+```
+
+Règles :
+
+```text
+TF courts alignés + TF longs vides = STRUCTURE_NAISSANTE
+TF courts contre TF longs = CONFLIT_STRUCTURE
+Alignement complet fort = TACTICAL_READY minimum
+Conflit TF = plafonne à WATCH_ZONE
+```
+
+---
+
+## 2.11 Grammaire des Temporal Nodes
+
+```text
+CONVERGENCE rare + KISS_REJECT = NODE_COMPLET_FULL
+CONVERGENCE active = NODE_COMPLET
+REPULSION + BREAK = NODE_REPULSION
+CROSS + BREAK = NODE_CROSS
+Faible combinaison = NODE_SIMPLE
+```
+
+Pondération :
+
+```text
+CONVERGENCE 5 > REPULSION 4 > KISS_REJECT / SQUEEZE 3 > BREAK / CROSS / SLINGSHOT 2 > COMPRESSION 1
+```
+
+Lecture :
+
+```text
+NODE_COMPLET_FULL = alerte critique
+NODE_COMPLET = signal fort
+NODE_CROSS = structure, fréquent
+NODE_SIMPLE = bruit à filtrer
+```
+
+---
+
+## 2.12 Grammaire des scènes
+
+```text
+Relation + Node + Zone vécue + Temps de zone = Scène ORION
+```
+
+Exemples :
+
+```text
+COALITION_PUSH + zone confirmée + alignement M5/M15 = TACTICAL_READY
+ROTATION_BUILDING + conflit H1 = STRUCTURE_NAISSANTE / WATCH
+TREND_CONTINUATION + LOW_ZONE_EXIT + alignement = continuation après respiration
+CHAOS_NO_TRADE + fakeout + faible cohérence = ne pas agir
+```
+
+---
+
+## 2.13 Grammaire des régimes
+
+```text
+Régime précède pattern.
+```
+
+Formules :
+
+```text
+Trend propre + leader stable + alignement = revalorisation du signal
+Range structuré + signal local = surveiller, pas surcharger
+Flow sale + cross fréquent = danger fakeout
+Rotation + ancienne victime qui reprend = changement possible
+News/toxique + pattern standard = dégradation ou suspension
+```
+
+---
+
+## 2.14 Grammaire de la décision
+
+```text
+Voir le flux.
+Détecter l’événement.
+Alerter vite.
+Filtrer humainement.
+Décider clairement.
+```
+
+Le système peut afficher :
+
+```text
+WATCH
+ARMED
+CONFIRM
+DANGER
+```
+
+Mais il ne doit pas produire BUY/SELL.
+
+---
+
+# 3. INTERPRÉTATION DES COMPORTEMENTS — Les scènes du marché
+
+## 3.1 Devise plate en zone basse avec micro-sauts
+
+Lecture PowerFlow :
+
+```text
+Ce n’est pas automatiquement une devise morte.
+Cela peut être un élastique chargé.
+```
+
+Conditions qui renforcent la lecture “élastique chargé” :
+
+```text
+zone extrême relative
+durée en zone
+micro-oscillations
+pullures / pullbacks refusés
+asymétrie des micro-mouvements
+entropie locale non nulle
+tension_signature élevée
+```
+
+Conditions qui affaiblissent :
+
+```text
+faible micro-variance
+faible entropie
+aucune tentative
+aucune absorption visible
+contexte de session creuse
+```
+
+Interprétation finale :
+
+```text
+plate + vivante = tension
+plate + lisse = morte / bruit blanc
+```
+
+---
+
+## 3.2 Pullures en zone extrême
+
+Les petits creux et micro-retours dans une zone extrême sont des respirations. Ils peuvent être représentatifs de mouvements impulsifs internes.
+
+Scène :
+
+```text
+La devise est tenue en extrême.
+Elle tente de respirer.
+Chaque pullure refusée confirme que la zone absorbe.
+La tension s’accumule.
+```
+
+Danger :
+
+```text
+si les pullures deviennent plus profondes et plus longues,
+la respiration saine devient désynchronisation naissante.
+```
+
+---
+
+## 3.3 CAD qui tourne avant USD
+
+Lecture PowerFlow :
+
+```text
+CAD peut être leader différé de USD.
+Si CAD a bougé 1-2 barres avant USD, le rebond USD est plus authentique.
+Si USD bouge sans confirmation CAD, il peut être prématuré ou faux départ.
+```
+
+Workflow :
+
+```text
+M5 USD montre un début de rebond.
+PowerFlow vérifie CAD sur les 1-2 barres précédentes.
+CAD confirme → signal USD renforcé.
+CAD ne confirme pas → signal USD reclassé fragile / false start.
+```
+
+---
+
+## 3.4 Alignement angulaire simultané
+
+Lecture PowerFlow :
+
+```text
+Quand plusieurs devises changent de direction au même angle et au même moment,
+ce n’est pas une coïncidence : c’est une convergence d’intentions.
+```
+
+Signal rare :
+
+```text
+EUR + GBP + USD changent ensemble
+angle commun
+fenêtre 1-2 barres
+pic de courbure ou convergence de phase
+```
+
+Interprétation :
+
+```text
+moment clé
+libération possible
+qualité maximale si le contexte confirme
+```
+
+Garde-fou :
+
+```text
+à valider par scène, zone, HTF et fraîcheur ; ne jamais transformer en BUY/SELL automatique.
+```
+
+---
+
+## 3.5 JPY très actif mais peu cohérent
+
+Lecture :
+
+```text
+JPY peut produire beaucoup d’événements sans être un leader propre.
+```
+
+Interprétation :
+
+```text
+activité ≠ qualité
+nervosité ≠ leadership
+volatile ≠ tradable sans contexte
+```
+
+Si JPY est actif sur plusieurs paires avec faible cohérence :
+
+```text
+flux nerveux
+danger de surinterprétation
+exécution difficile
+```
+
+---
+
+## 3.6 GBP propre multi-paires
+
+Lecture :
+
+```text
+Quand GBP se confirme sur plusieurs paires, il peut devenir leader directionnel prioritaire.
+```
+
+Scène :
+
+```text
+GBPUSD + GBPJPY + GBPEUR / autres paires alignées
+→ coalition GBP
+→ leader clair
+→ paire GBPUSD prioritaire
+```
+
+Danger :
+
+```text
+si le cluster GBP arrive tard, il peut être EXHAUST_NODE déguisé.
+```
+
+---
+
+## 3.7 EUR en relais
+
+Lecture :
+
+```text
+EUR apparaît après GBP ou USD pour confirmer ou invalider la lecture initiale.
+```
+
+Scène :
+
+```text
+GBP initie
+USD pivote ou oppose
+EUR répond avec délai
+→ synchronisation ou contradiction
+```
+
+---
+
+## 3.8 Triple node / triple cross cluster
+
+Lecture :
+
+```text
+Deux ou plusieurs préparations de triple node dans une fenêtre courte signalent une grappe temporelle chargée d’énergie.
+```
+
+Interprétation :
+
+```text
+les forces se regroupent
+se rejettent
+se recroisent
+la structure se réorganise
+la première désynchronisation donne souvent le premier acteur de la phase
+```
+
+Action ORION :
+
+```text
+M1 seul = STRUCTURE_BUILDING max
+M5/M15 confirmé = TACTICAL_READY possible
+pas de Telegram automatique en V1.1
+```
+
+---
+
+## 3.9 Refused cross / cross attendu qui ne vient pas
+
+Lecture :
+
+```text
+Le marché prépare un croisement attendu, mais une force refuse de céder.
+```
+
+Interprétation :
+
+```text
+bataille
+temporisation
+distant parallel battle
+fausse attente
+préparation d’un changement plus tardif
+```
+
+---
+
+## 3.10 Center validation cross
+
+Lecture :
+
+```text
+Les croisements importants peuvent apparaître en zone centrale, pas seulement aux extrêmes.
+```
+
+Interprétation :
+
+```text
+la zone centrale valide que la structure a payé
+le marché revient à l’équilibre
+la bataille se transforme en récit final
+```
+
+---
+
+## 3.11 Compression puis break
+
+Scène :
+
+```text
+une devise reste en palier
+l’autre pousse ou le contexte se charge
+la sortie de palier devient COMPRESSION_BREAK
+```
+
+Lecture :
+
+```text
+COMPRESSION = silence / attente / énergie stockée
+BREAK = reprise de parole
+```
+
+Danger :
+
+```text
+compression simple peut spammer ; en live elle doit être filtrée ou gardée en DB.
+```
+
+---
+
+## 3.12 Compression squeeze continuation
+
+Scène :
+
+```text
+une devise se replie en zone extrême inférieure
+reste compressée
+puis repart dans le sens du leader H1/H4/D1
+```
+
+Lecture :
+
+```text
+recharge avant continuation
+```
+
+---
+
+## 3.13 Compression squeeze reversal
+
+Scène :
+
+```text
+fin de cycle HTF
+ancienne victime comprimée commence à reprendre la main
+```
+
+Lecture :
+
+```text
+warning de rotation
+ne plus charger dans l’ancien sens sans confirmation
+```
+
+---
+
+## 3.14 Zone haute tenue puis décélération
+
+Lecture :
+
+```text
+la devise domine mais fatigue.
+```
+
+Si elle perd son rang après zone haute :
+
+```text
+rotation possible
+HIGH_ZONE_DOMINANCE_LOSS
+```
+
+---
+
+## 3.15 Zone basse travaillée puis sortie
+
+Lecture :
+
+```text
+la devise a travaillé la cave.
+La sortie vers le centre peut signaler reconstruction ou rebalance.
+```
+
+Si sortie + cross/rang :
+
+```text
+LOW_ZONE_EXIT_RANK_CONFIRMATION
+```
+
+---
+
+## 3.16 Opposition différée
+
+Lecture :
+
+```text
+une devise réagit avec retard à la poussée adverse.
+```
+
+Scène :
+
+```text
+USD déclenche
+EUR répond après délai
+GBP se synchronise ou contredit
+```
+
+---
+
+## 3.17 Coalition multiple
+
+Lecture :
+
+```text
+la paire n’est plus seule.
+Le mouvement vient d’un camp.
+```
+
+Exemple :
+
+```text
+GBP + EUR contre USD
+```
+
+Interprétation :
+
+```text
+la coalition donne le poids
+le timeframe donne l’échelle
+la zone donne le vécu
+la scène donne le film
+```
+
+---
+
+## 3.18 Rotation depuis extrêmes
+
+Scène :
+
+```text
+ancienne force à l’extrême fatigue
+challenger sort de sa zone
+opposition se recompose
+centre devient validation
+```
+
+Lecture :
+
+```text
+rotation active ou rotation building selon confirmation.
+```
+
+---
+
+## 3.19 Flow propre vs flow sale
+
+### Flow propre
+```text
+leader clair
+multi-pair coherence
+propagation lower TF
+pas de danger late
+zone/context alignés
+```
+
+### Flow sale
+```text
+beaucoup d’événements
+faible cohérence
+cross fréquents
+fakeouts
+leaders contradictoires
+```
+
+Interprétation :
+
+```text
+un marché actif n’est pas forcément tradable.
+```
+
+---
+
+## 3.20 Signal tardif
+
+Lecture :
+
+```text
+le signal peut être vrai mais trop tardif pour être utile.
+```
+
+Scène :
+
+```text
+le mouvement a déjà payé
+le cluster revient après la fenêtre active
+liquidité plus faible
+risque fakeout / fin de jambe
+```
+
+---
+
+## 3.21 Local contre global
+
+Lecture :
+
+```text
+un signal local peut être propre mais fragile si le HTF le contredit.
+```
+
+Interprétation :
+
+```text
+M1/M5 peuvent montrer une respiration dans une bougie H4,
+pas nécessairement une nouvelle histoire.
+```
+
+---
+
+## 3.22 News / toxique
+
+Lecture :
+
+```text
+les news créent un régime spécial.
+La lecture standard est déformée.
+```
+
+Phases :
+
+```text
+pré-news = signaux séduisants mais fragiles
+pendant news = lecture standard suspendue
+post-news immédiat = redistribution / faux retour au normal
+reconstruction = patterns reprennent du poids progressivement
+```
+
+---
+
+## 3.23 Vibration non formalisée
+
+Lecture :
+
+```text
+si la séquence semble cohérente visuellement mais pas encore mesurable,
+elle va en Lab, pas directement en code.
+```
+
+Règle :
+
+```text
+observer
+nommer
+documenter
+attendre répétition
+ensuite seulement formaliser
+```
+
+---
+
+# 4. ÉQUATIONS CONCEPTUELLES POWERFLOW
+
+## 4.1 Équations de base
+
+```text
+Signal isolé ≠ vérité
+```
+
+```text
+Cross + post-cross behavior = réponse
+```
+
+```text
+Zone + durée + mémoire = poids
+```
+
+```text
+Devise + tempo natif = fraîcheur réelle
+```
+
+```text
+M1 + sans contexte = bruit possible
+```
+
+```text
+M1 + M5 + M15 = fractalité utile
+```
+
+```text
+HTF + zone + scène = portée réelle
+```
+
+---
+
+## 4.2 Équations d’accumulation
+
+```text
+Extrême relatif + durée = tension de base
+```
+
+```text
+Tension de base + pullbacks refusés = accumulation
+```
+
+```text
+Accumulation + micro-variance = élastique chargé
+```
+
+```text
+Élastique chargé + alignement + libération = mouvement potentiel
+```
+
+---
+
+## 4.3 Équations de scène
+
+```text
+Relation + Node + Zone vécue + Temps = Scène
+```
+
+```text
+Coalition + leader clair + cohérence = flux propre
+```
+
+```text
+Opposition + retard + zone = rebalance / rotation
+```
+
+```text
+Compression + squeeze + HTF aligné = continuation candidate
+```
+
+```text
+Compression + fin cycle HTF + ancienne victime = reversal candidate
+```
+
+---
+
+## 4.4 Équations de qualité
+
+```text
+Timing tardif + signal réel = danger
+```
+
+```text
+Convergence rare + multi-TF + zone = signal renforcé
+```
+
+```text
+Fakeout + conflit TF = dégradation
+```
+
+```text
+Signal + scène confirmée + zone confirmée + 2 TF alignés = SIGNAL_VALIDATED possible
+```
+
+---
+
+## 4.5 Équations de décision
+
+```text
+PowerFlow voit.
+ORION synthétise.
+Le trader filtre.
+Le trader décide.
+```
+
+```text
+Alerte ≠ ordre.
+Signal ≠ trade.
+Scène ≠ certitude.
+Film ≠ automatisme.
+```
+
+---
+
+# 5. ANNEXE — Liste brute des termes PowerFlow
+
+```text
+ABSORPTION_BEFORE_RELEASE
+ABSORPTION_REPULSION_NODE
+ACTIVE_NODE
+ACTIVE_ROTATION_RESPONSE
+ALIGNEMENT_ANGULAIRE_MULTI_DEVISES
+ALIGNEMENT_COMPLET
+ALIGNEMENT_PARTIEL
+APPROACH
+ASYMETRIE_DES_MICRO_MOUVEMENTS
+BEHAVIORAL_INDEX
+BIRTH_OF_SITUATION
+BRUIT_BLANC
+CAD_LEADS_USD
+CENTER_BATTLE
+CENTER_BATTLE_ZONE
+CENTER_VALIDATION_CROSS
+CHAOS_NO_TRADE
+CHARGE
+CLEAN_WAVE
+COALITION_PUSH
+COMPRESSION
+COMPRESSION_BREAK
+COMPRESSION_BUILD
+COMPRESSION_RELEASE
+COMPRESSION_SQUEEZE
+COMPRESSION_SQUEEZE_CONTINUATION
+COMPRESSION_SQUEEZE_REVERSAL
+COMPRESSION_DE_TEMPS
+CONFLIT_DIRECT
+CONFLIT_STRUCTURE
+CONVERGENCE
+CROSS
+CROSS_NODE
+CURRENCY_COALITION_NODE
+CYCLE_POSITION_AMPLITUDE
+DELAY
+DENSITE_TEMPORELLE
+DESYNC
+DESYNCHRONISATION_NAISSANTE
+DIRTY_WAVE
+DOUBLE_BOTTOM_LOW_ZONE
+DOUBLE_TOP_HIGH_ZONE
+ELASTIQUE_CASSE
+ELASTIQUE_CHARGE
+ENTROPIE_LOCALE
+EXHAUST_NODE
+EXTENSION_DE_TEMPS
+EXTREME_BOUND_NODE
+EXTREME_BOUND_WINDOW
+EXTREME_HIGH
+EXTREME_LOW
+EXTREME_ZONE_BREATHING
+EXTREME_ZONE_MEMORY
+FAKE_FOLD
+FAKEOUT
+FLOW_EXHAUSTION
+FLOW_FRAGILE
+FLOW_PROPRE
+FLOW_ROTATION
+FLOW_SALE
+FLOW_STRUCTUREL
+FOLD
+FRACTAL_NODE_BEHAVIOR
+GAP_BEHAVIOR
+GAP_HOLD_TIME
+GAP_SYNC_FAMILY
+GRAVITY
+HIGH_ZONE_DECELERATION
+HIGH_ZONE_DOMINANCE_LOSS
+HIGH_ZONE_HOLD
+HTF_CANDLE_RESPIRATION
+INDEX_COMPORTEMENTAL_BORNE
+KISS_REJECT
+LATE_NODE
+LEADER_FOLLOWER
+LOW_ZONE_RELEASE_TO_CENTER
+LOW_ZONE_WORK
+M1_MICROSTRUCTURE_SUPPORT
+M5_TACTICAL_CONFIRMATION_LEG
+M15_SCENARIO_NODE
+MICRO_VARIANCE
+MULTI_NODE_SEQUENCE
+MULTI_TF_CURRENCY_COALITION
+NODE
+NODE_BUILDING_SEQUENCE
+NODE_CROSS
+NODE_ENERGY
+NODE_REPULSION
+NO_TOUCH_STRETCH_NODE
+OPPOSITION_DIFFEREE
+OPPOSITION_DIRECTE
+OPPOSITION_REBALANCE
+ORCHESTRATED_EQUILIBRIUM
+PARALLEL_CANCEL_NODE
+PINCH_FOLD_NODE
+POSITIVE_DISTANCE_SYNC
+POST_CROSS_BEHAVIOR
+PRE_EXTREME
+PRESSURE
+PULLBACK_ECRASE
+PULLURE
+RECOLLAGE
+REFUSED_CROSS
+REJECT
+RELEASE
+REPULSION
+RESPIRATION_SAINE
+ROTATION_BUILDING
+SESSION_ZONE_MEMORY
+SEPARATION_ANGLE
+SIGNAL_VALIDATED
+SLINGSHOT
+SUPER_SWITCH
+SYNC
+TEMPO_NATIF
+TEMPORAL_DENSITY
+TEMPORAL_EVENT_NODE
+TEMPORAL_NODE
+TENSION_ACCUMULEE
+TENSION_SIGNATURE
+THIRD_CURRENCY_ROTATION_CONTEXT
+TIME_INFORMATIONNEL
+TRIPLE_CROSS_CLUSTER
+TRIPLE_NODE
+VIBRATION
+WATCH_ZONE
+ZONE_BATTLE
+ZONE_DYNAMIC
+ZONE_MEMORY
+ZONE_TIME_WEIGHT
+```
+
+---
+
+# 6. Règle finale du dictionnaire
+
+Le langage PowerFlow doit rester vivant.
+
+```text
+Nommer avant de coder.
+Observer avant de figer.
+Mesurer avant de croire.
+Afficher seulement ce qui aide.
+Décider humainement.
+```
+
