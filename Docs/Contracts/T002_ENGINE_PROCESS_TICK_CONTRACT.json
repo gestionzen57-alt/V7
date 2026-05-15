@@ -1,0 +1,66 @@
+{
+  "contract": "POWERFLOW_T002_ENGINE_PROCESS_TICK_CONTRACT",
+  "created_at": "2026-05-15T15:17:22Z",
+  "engine_file": "Core/engine.py",
+  "callable": "engine.process_tick",
+  "signature": "(tick: models.Tick, prev: models.Tick, brain: dict, send_alert)",
+  "source_sha256": "632b49c80c23aa68635fc5989cedd0963ff6467c15cd451f615c33eee7ff6db9",
+  "source_start_line": 896,
+  "source_end_line": 1178,
+  "hard_callers": [
+    {
+      "file": "Core/capture_bridge.py",
+      "line": 299,
+      "pattern": "from engine import process_tick",
+      "text": "from engine import process_tick"
+    },
+    {
+      "file": "Core/capture_bridge.py",
+      "line": 299,
+      "pattern": "from engine import",
+      "text": "from engine import process_tick"
+    }
+  ],
+  "side_effect_hits": [
+    {
+      "line_in_function": 21,
+      "pattern": "print(",
+      "text": "print(f\"⚙️ V5 process_tick {pair} M{tf} | \""
+    },
+    {
+      "line_in_function": 32,
+      "pattern": "print(",
+      "text": "print(stamp)"
+    },
+    {
+      "line_in_function": 33,
+      "pattern": "print(",
+      "text": "print(f\"🔒 TIME-COMP LOCK | {pair} {tf_lbl} | \""
+    },
+    {
+      "line_in_function": 36,
+      "pattern": "print(",
+      "text": "print(stamp)"
+    },
+    {
+      "line_in_function": 37,
+      "pattern": "print(",
+      "text": "print(f\"💨 TIME-COMP BREAK | {pair} {tf_lbl} | \""
+    },
+    {
+      "line_in_function": 40,
+      "pattern": "print(",
+      "text": "print(f\"[engine] detect_time_compression ignoré : {e}\")"
+    },
+    {
+      "line_in_function": 280,
+      "pattern": "print(",
+      "text": "print(f\"🔥 V5 signal : {sig.signal_type} {pair} M{tf} \""
+    }
+  ],
+  "notes": [
+    "This contract freezes the current runtime boundary used by capture_bridge.py.",
+    "It does not validate trading behavior.",
+    "It prevents accidental interface drift before T002 refactor/extraction."
+  ]
+}
