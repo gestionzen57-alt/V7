@@ -2,10 +2,10 @@
 
 ## Last Session
 
-- Date: 2026-05-15 17:21
+- Date: 2026-05-15 17:27
 - AI: Claude Sonnet 4.5
-- Focus: T002 adapter boundary test repair
-- Checkpoint: Checkpoints\CHECKPOINT_20260515_172140.md
+- Focus: T002-B engine internal map
+- Checkpoint: Checkpoints\CHECKPOINT_20260515_172748.md
 
 ## Derni??re session
 
@@ -264,6 +264,7 @@ Prochaine priorit??: [indiquer]
 *Document vivant auto-g??n??r?? ??? Ne pas ??diter manuellement*  
 *Mis ?? jour automatiquement par `auto_checkpoint_claude.ps1`*  
 *Derni??re modification: 2026-05-15 10:30*
+
 
 
 
