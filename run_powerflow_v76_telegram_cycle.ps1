@@ -1,6 +1,7 @@
 param(
     [string]$RepoPath = "C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT",
     [string]$Symbol = "GBPUSD",
+    [string]$CoreSymbols = "GBPUSD,EURUSD,USDJPY,USDCAD,USDCHF,AUDUSD",
     [ValidateSet("off", "dry-run", "send")]
     [string]$TelegramMode = "dry-run",
     [switch]$ForceAlert,
@@ -20,11 +21,12 @@ if ($Symbol -and $Symbol.Trim().ToUpperInvariant() -ne "GBPUSD") {
 $env:POWERFLOW_SYMBOL = $ActiveSymbol
 $env:POWERFLOW_SYMBOLS = $ActiveSymbol
 
-Write-Host "[PowerFlow V7.6.5] Operational symbol scope: $ActiveSymbol" -ForegroundColor Cyan
+Write-Host "[PowerFlow V7.6.5] Trader symbol scope: $ActiveSymbol" -ForegroundColor Cyan
+Write-Host "[PowerFlow V7.6.5] Core/B8 symbol scope: $CoreSymbolScope" -ForegroundColor Cyan
 
 if ($RunCoreScheduler) {
-    Write-Host "=== RUN CORE SCHEDULER GBPUSD ONLY ===" -ForegroundColor Cyan
-    python "Core\scheduler_powerflow_turbo_wrapper.py"
+    Write-Host "=== RUN CORE SCHEDULER MULTI-SYMBOL FOR B8 / DB ANALYSIS ===" -ForegroundColor Cyan
+    python "Core\scheduler_powerflow_turbo_wrapper.py" --symbols $CoreSymbolScope
     if ($LASTEXITCODE -ne 0) {
         throw "Core scheduler failed with exit code $LASTEXITCODE"
     }
