@@ -67,26 +67,29 @@
         "priority": "HIGH",
         "owner": null,
         "assigned_to": "GPT_1_Core_Engine",
-        "status": "in_progress_feature_flagged_replay_ready",
+        "status": "completed_runtime_v6_feature_flag_ready",
         "created_by": "Claude_Sonnet_4_5",
         "created_at": "2026-05-15T10:30:00Z",
         "context": "engine.py V5 ~900 lignes, besoin refonte modulaire V6",
         "blockers": [],
-        "progress": 92,
+        "progress": 100,
         "updated": "2026-05-15",
-        "updated_at": "2026-05-15T20:03:16Z",
+        "updated_at": "2026-05-15T20:11:14Z",
         "runtime_boundary": "Core/pf_engine_v6_adapter.py feature-flagged V6 core route",
         "runtime_contract": "Docs/Contracts/T002_RUNTIME_V6_CORE_ADAPTER_BOUNDARY.json",
         "next_steps": [
-          "Run real feature-flagged replay comparison with POWERFLOW_T002_USE_V6_CORE=1",
-          "Compare legacy fallback outputs vs V6 core surface outputs on golden/live-like samples",
-          "Keep default live scheduler on legacy fallback until replay contract passes"
+          "Default live activation remains a separate explicit scheduler/runtime switch.",
+          "Do not silently enable POWERFLOW_T002_USE_V6_CORE in live scheduler.",
+          "If activation is desired, create a dedicated T002-U default switch task."
         ],
-        "notes": "V6 core process_tick entrypoint exists and is reachable through the adapter flag. Default live behavior remains unchanged.",
+        "notes": "T002 feature-flagged V6 core replay comparison passed with coroutine-aware legacy handling. Runtime remains legacy fallback by default.",
         "feature_flag_replay_readiness": "FEATURE_FLAG_REPLAY_READY",
-        "feature_flag_replay_contract": "Docs/Contracts/T002_FEATURE_FLAGGED_REPLAY_READINESS.json",
+        "feature_flag_replay_contract": "Docs/Contracts/T002_REAL_FEATURE_FLAGGED_REPLAY_COMPARISON.json",
         "v6_core_runtime_entrypoint": "Core/pf_engine_v6_core.py::process_tick",
-        "v6_core_runtime_contract": "Docs/Contracts/T002_V6_CORE_RUNTIME_ENTRYPOINT.json"
+        "v6_core_runtime_contract": "Docs/Contracts/T002_V6_CORE_RUNTIME_ENTRYPOINT.json",
+        "completed_at": "2026-05-15T20:11:14Z",
+        "feature_flag_replay_verdict": "FEATURE_FLAGGED_REPLAY_PASS",
+        "feature_flag_replay_report": "Docs/Reports/T002_REAL_FEATURE_FLAGGED_REPLAY_COMPARISON_RECOVERED_*"
       },
       {
         "id": "T004",

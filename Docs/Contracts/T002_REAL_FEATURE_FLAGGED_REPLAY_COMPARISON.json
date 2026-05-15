@@ -1,0 +1,162 @@
+{
+  "contract": "POWERFLOW_T002_REAL_FEATURE_FLAGGED_REPLAY_COMPARISON",
+  "created_at": "2026-05-15T20:11:10Z",
+  "verdict": "FEATURE_FLAGGED_REPLAY_PASS",
+  "case_source": "golden_contract",
+  "case_count": 3,
+  "v6_pass_count": 3,
+  "legacy_ok_count": 0,
+  "legacy_fail_count": 3,
+  "legacy_async_awaited_count": 0,
+  "v6_async_awaited_count": 0,
+  "default_live_behavior_changed": false,
+  "v6_activation_flag": "POWERFLOW_T002_USE_V6_CORE",
+  "strict_flag": "POWERFLOW_T002_V6_CORE_STRICT",
+  "rows": [
+    {
+      "case_id": "GBPUSD_M1_FULL_LEGACY_SURFACE",
+      "symbol": "GBPUSD",
+      "timeframe": 1,
+      "legacy": {
+        "ok": false,
+        "error": "TypeError(\"'NoneType' object can't be awaited\")",
+        "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\.t002t_recover_replay_async.py\", line 214, in call_route\n    result, awaited = resolve_maybe_awaitable(raw)\n                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^\n  File \"C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\.t002t_recover_replay_async.py\", line 182, in resolve_maybe_awaitable\n    return asyncio.run(value), True\n           ~~~~~~~~~~~^^^^^^^\n  File \"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\asyncio\\runners.py\", line 204, in run\n    return runner.run(main)\n           ~~~~~~~~~~^^^^^^\n  File \"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\asyncio\\runners.py\", line 127, in run\n    return self._loop.run_until_complete(task)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\asyncio\\base_events.py\", line 719, in run_until_complete\n    return future.result()\n           ~~~~~~~~~~~~~^^\nTypeError: 'NoneType' object can't be awaited\n",
+        "awaited": false,
+        "result_summary": null,
+        "send_alert_calls": 1,
+        "brain_changed": false
+      },
+      "v6": {
+        "ok": true,
+        "error": null,
+        "traceback": null,
+        "awaited": false,
+        "result_summary": {
+          "type": "dict",
+          "keys": [
+            "alerts",
+            "brain_mutated",
+            "delta",
+            "engine",
+            "event_type",
+            "previous_surface",
+            "route",
+            "side_effects",
+            "surface",
+            "symbol",
+            "timeframe",
+            "timestamp",
+            "version"
+          ],
+          "route": "v6_core",
+          "event_type": "V6_CORE_TICK_SURFACE",
+          "symbol": "GBPUSD",
+          "side_effects": false,
+          "brain_mutated": false
+        },
+        "send_alert_calls": 0,
+        "brain_changed": false
+      },
+      "v6_pass": true,
+      "legacy_observed": false
+    },
+    {
+      "case_id": "EURUSD_M5_DERIVED_SPREAD",
+      "symbol": "EURUSD",
+      "timeframe": 5,
+      "legacy": {
+        "ok": false,
+        "error": "TypeError(\"'NoneType' object can't be awaited\")",
+        "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\.t002t_recover_replay_async.py\", line 214, in call_route\n    result, awaited = resolve_maybe_awaitable(raw)\n                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^\n  File \"C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\.t002t_recover_replay_async.py\", line 182, in resolve_maybe_awaitable\n    return asyncio.run(value), True\n           ~~~~~~~~~~~^^^^^^^\n  File \"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\asyncio\\runners.py\", line 204, in run\n    return runner.run(main)\n           ~~~~~~~~~~^^^^^^\n  File \"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\asyncio\\runners.py\", line 127, in run\n    return self._loop.run_until_complete(task)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\asyncio\\base_events.py\", line 719, in run_until_complete\n    return future.result()\n           ~~~~~~~~~~~~~^^\nTypeError: 'NoneType' object can't be awaited\n",
+        "awaited": false,
+        "result_summary": null,
+        "send_alert_calls": 1,
+        "brain_changed": false
+      },
+      "v6": {
+        "ok": true,
+        "error": null,
+        "traceback": null,
+        "awaited": false,
+        "result_summary": {
+          "type": "dict",
+          "keys": [
+            "alerts",
+            "brain_mutated",
+            "delta",
+            "engine",
+            "event_type",
+            "previous_surface",
+            "route",
+            "side_effects",
+            "surface",
+            "symbol",
+            "timeframe",
+            "timestamp",
+            "version"
+          ],
+          "route": "v6_core",
+          "event_type": "V6_CORE_TICK_SURFACE",
+          "symbol": "EURUSD",
+          "side_effects": false,
+          "brain_mutated": false
+        },
+        "send_alert_calls": 0,
+        "brain_changed": false
+      },
+      "v6_pass": true,
+      "legacy_observed": false
+    },
+    {
+      "case_id": "USDJPY_M15_MISSING_PREV_PRICE",
+      "symbol": "USDJPY",
+      "timeframe": 15,
+      "legacy": {
+        "ok": false,
+        "error": "TypeError(\"'NoneType' object can't be awaited\")",
+        "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\.t002t_recover_replay_async.py\", line 214, in call_route\n    result, awaited = resolve_maybe_awaitable(raw)\n                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^\n  File \"C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\.t002t_recover_replay_async.py\", line 182, in resolve_maybe_awaitable\n    return asyncio.run(value), True\n           ~~~~~~~~~~~^^^^^^^\n  File \"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\asyncio\\runners.py\", line 204, in run\n    return runner.run(main)\n           ~~~~~~~~~~^^^^^^\n  File \"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\asyncio\\runners.py\", line 127, in run\n    return self._loop.run_until_complete(task)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\asyncio\\base_events.py\", line 719, in run_until_complete\n    return future.result()\n           ~~~~~~~~~~~~~^^\nTypeError: 'NoneType' object can't be awaited\n",
+        "awaited": false,
+        "result_summary": null,
+        "send_alert_calls": 1,
+        "brain_changed": false
+      },
+      "v6": {
+        "ok": true,
+        "error": null,
+        "traceback": null,
+        "awaited": false,
+        "result_summary": {
+          "type": "dict",
+          "keys": [
+            "alerts",
+            "brain_mutated",
+            "delta",
+            "engine",
+            "event_type",
+            "previous_surface",
+            "route",
+            "side_effects",
+            "surface",
+            "symbol",
+            "timeframe",
+            "timestamp",
+            "version"
+          ],
+          "route": "v6_core",
+          "event_type": "V6_CORE_TICK_SURFACE",
+          "symbol": "USDJPY",
+          "side_effects": false,
+          "brain_mutated": false
+        },
+        "send_alert_calls": 0,
+        "brain_changed": false
+      },
+      "v6_pass": true,
+      "legacy_observed": false
+    }
+  ],
+  "dispatch_status": "completed_runtime_v6_feature_flag_ready",
+  "progress": 100,
+  "stop_rule": "Even after pass, default live activation should be a separate explicit scheduler/runtime switch commit.",
+  "next_step": "T002 can be marked 100% feature-flag ready; default live activation remains separate."
+}

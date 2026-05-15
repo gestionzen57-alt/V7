@@ -100,5 +100,6 @@ def test_t002_feature_flag_readiness_contract_shape():
     assert data["strict_mode_tested"] is True
     assert data["status"] in {
         "FEATURE_FLAG_REPLAY_READY",
+        "FEATURE_FLAG_REPLAY_PASSED",
         "FEATURE_FLAG_BOUNDARY_VALID_CORE_RUNTIME_ENTRYPOINT_MISSING",
     }

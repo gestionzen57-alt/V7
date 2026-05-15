@@ -107,5 +107,5 @@ def test_t002_readiness_now_sees_runtime_entrypoint():
     path = _repo() / "Docs" / "Contracts" / "T002_FEATURE_FLAGGED_REPLAY_READINESS.json"
     data = json.loads(path.read_text(encoding="utf-8"))
 
-    assert data["status"] == "FEATURE_FLAG_REPLAY_READY"
+    assert data["status"] in {"FEATURE_FLAG_REPLAY_READY", "FEATURE_FLAG_REPLAY_PASSED"}
     assert "process_tick" in data["runtime_candidates_detected"]
