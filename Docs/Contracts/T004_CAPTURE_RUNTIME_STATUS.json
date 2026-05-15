@@ -1,0 +1,2023 @@
+{
+  "contract": "POWERFLOW_T004_CAPTURE_RUNTIME_STATUS",
+  "created_at": "2026-05-15T17:32:36Z",
+  "db_path": "Core/powerflow.db",
+  "status": "NO_CAPTURE_PROCESS_DETECTED_BUT_DB_RECENT",
+  "process_snapshot": "Docs/Audits/T004_CAPTURE_RUNTIME_PROCESS_SNAPSHOT_20260515_193231.json",
+  "network_snapshot": "Docs/Audits/T004_CAPTURE_RUNTIME_NETWORK_SNAPSHOT_20260515_193231.json",
+  "capture_processes": [],
+  "scheduler_processes": [],
+  "python_processes": [],
+  "network_rows_sample": [],
+  "db_status": {
+    "path": "Core/powerflow.db",
+    "exists": true,
+    "size_bytes": 17133568,
+    "modified_at": "2026-05-15T17:30:16Z",
+    "tables": [
+      {
+        "table": "context_htf",
+        "row_count": 9914,
+        "symbol_col": null,
+        "time_col": null,
+        "max_time": null
+      },
+      {
+        "table": "flow_packets",
+        "row_count": 824,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "max_time": "2026-05-15T17:29:29.665103+00:00"
+      },
+      {
+        "table": "force_snapshots",
+        "row_count": 19872,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "max_time": "2026-05-15T20:32:00+00:00"
+      },
+      {
+        "table": "force_snapshots_v2",
+        "row_count": 16432,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "max_time": "2026-05-15T20:32:00+00:00"
+      },
+      {
+        "table": "nodes_v6",
+        "row_count": 34,
+        "symbol_col": "symbol",
+        "time_col": "detected_at",
+        "max_time": "2026-04-29T15:40:00"
+      },
+      {
+        "table": "signals",
+        "row_count": 9914,
+        "symbol_col": "symbol",
+        "time_col": "created_at",
+        "max_time": "2026-05-15T17:30:19.423018+00:00"
+      },
+      {
+        "table": "sqlite_sequence",
+        "row_count": 7,
+        "symbol_col": null,
+        "time_col": null,
+        "max_time": null
+      },
+      {
+        "table": "zone_diagnostics",
+        "row_count": 1368,
+        "symbol_col": "symbol",
+        "time_col": "logged_at",
+        "max_time": "2026-05-02T17:01:09+00:00"
+      }
+    ],
+    "total_rows": 58365,
+    "error": null,
+    "modified_age_seconds": 143.272762
+  },
+  "latest_logs": [
+    {
+      "path": "Core/logs/scheduler.log",
+      "size_bytes": 15664618,
+      "modified_at": "2026-05-15T17:32:36Z"
+    },
+    {
+      "path": "Core/logs/task_scheduler.log",
+      "size_bytes": 30363540,
+      "modified_at": "2026-05-15T17:29:37Z"
+    },
+    {
+      "path": "Core/logs/p0_run_2026-05-15.log",
+      "size_bytes": 3845,
+      "modified_at": "2026-05-15T17:23:05Z"
+    },
+    {
+      "path": "Core/logs/p0_run_2026-05-14.log",
+      "size_bytes": 4293,
+      "modified_at": "2026-05-14T23:23:04Z"
+    },
+    {
+      "path": "Core/logs/p0_run_2026-05-13.log",
+      "size_bytes": 4291,
+      "modified_at": "2026-05-13T23:22:59Z"
+    },
+    {
+      "path": "Core/logs/telegram_v7.log",
+      "size_bytes": 3665460,
+      "modified_at": "2026-05-13T06:27:25Z"
+    },
+    {
+      "path": "Core/logs/p0_run_2026-05-12.log",
+      "size_bytes": 5123,
+      "modified_at": "2026-05-12T23:23:17Z"
+    },
+    {
+      "path": "Core/logs/scheduler_powerflow_v731_20260512_132650.log",
+      "size_bytes": 18765,
+      "modified_at": "2026-05-12T13:26:51Z"
+    },
+    {
+      "path": "Core/logs/scheduler_powerflow_v731_latest.log",
+      "size_bytes": 18765,
+      "modified_at": "2026-05-12T13:26:51Z"
+    },
+    {
+      "path": "Core/logs/p0_run_2026-05-11.log",
+      "size_bytes": 6759,
+      "modified_at": "2026-05-11T23:22:59Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydration_20260511_105043.log",
+      "size_bytes": 516569,
+      "modified_at": "2026-05-11T10:51:32Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydration_20260511_101339.log",
+      "size_bytes": 481064,
+      "modified_at": "2026-05-11T10:14:30Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydration_20260511_101057.log",
+      "size_bytes": 480888,
+      "modified_at": "2026-05-11T10:11:46Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydration_20260511_100259.log",
+      "size_bytes": 473489,
+      "modified_at": "2026-05-11T10:03:51Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_093327.log",
+      "size_bytes": 448113,
+      "modified_at": "2026-05-11T09:34:15Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_092455.log",
+      "size_bytes": 439179,
+      "modified_at": "2026-05-11T09:25:50Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_092150.log",
+      "size_bytes": 438105,
+      "modified_at": "2026-05-11T09:22:39Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_091957.log",
+      "size_bytes": 434777,
+      "modified_at": "2026-05-11T09:20:46Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_091410.log",
+      "size_bytes": 428882,
+      "modified_at": "2026-05-11T09:15:04Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_091122.log",
+      "size_bytes": 428279,
+      "modified_at": "2026-05-11T09:12:10Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_090720.log",
+      "size_bytes": 30337,
+      "modified_at": "2026-05-11T09:08:10Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_090452.log",
+      "size_bytes": 4344,
+      "modified_at": "2026-05-11T09:05:04Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_085941.log",
+      "size_bytes": 21775,
+      "modified_at": "2026-05-11T09:00:32Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_085320.log",
+      "size_bytes": 27289,
+      "modified_at": "2026-05-11T08:54:10Z"
+    },
+    {
+      "path": "Core/logs/dashboard_hydrate_20260511_085215.log",
+      "size_bytes": 27492,
+      "modified_at": "2026-05-11T08:53:10Z"
+    },
+    {
+      "path": "Core/logs/p0_last_status.json",
+      "size_bytes": 116,
+      "modified_at": "2026-05-11T08:16:59Z"
+    }
+  ],
+  "entry_files": [
+    {
+      "file": "Core/analyze_powerflow_from_0600_today.py",
+      "hits": [
+        {
+          "line": 8,
+          "text": "DB      = powerflow.db"
+        },
+        {
+          "line": 15,
+          "text": "python analyze_powerflow_from_0600_today.py --db powerflow.db --symbol GBPUSD --start 2026-05-04T06:00:00+00:00"
+        },
+        {
+          "line": 16,
+          "text": "python analyze_powerflow_from_0600_today.py --db powerflow.db --symbol GBPUSD --start-hour 6 --out report_0600.md"
+        },
+        {
+          "line": 412,
+          "text": "ap.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/audit_usdjpy_capture.py",
+      "hits": [
+        {
+          "line": 42,
+          "text": "def audit_usdjpy_capture(db_path='powerflow.db', symbol='USDJPY', max_rows_preview=500) -> Dict[str,Any]:"
+        },
+        {
+          "line": 92,
+          "text": "ap.add_argument('--db', default='powerflow.db'); ap.add_argument('--symbol', default='USDJPY'); ap.add_argument('--out', default='output/audit_usdjpy_report.json'); ap.add_argument('--pretty', action='store_true'); ap.add_argument('--max-rows-preview', type=in"
+        }
+      ]
+    },
+    {
+      "file": "Core/audit_usdjpy_fast.py",
+      "hits": [
+        {
+          "line": 8,
+          "text": "Does not write powerflow.db."
+        },
+        {
+          "line": 206,
+          "text": "lines.append(\"Read-only audit. No DB write. No capture_bridge patch.\")"
+        },
+        {
+          "line": 212,
+          "text": "ap.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/capture_bridge.py",
+      "hits": [
+        {
+          "line": 229,
+          "text": "async def handle_connection(reader, writer, brain, on_tick):"
+        },
+        {
+          "line": 274,
+          "text": "await on_tick(tick, prev, brain)"
+        },
+        {
+          "line": 284,
+          "text": "async def start_bridge(brain, on_tick):"
+        },
+        {
+          "line": 286,
+          "text": "lambda r, w: handle_connection(r, w, brain, on_tick),"
+        },
+        {
+          "line": 305,
+          "text": "async def on_tick(tick, prev, brain):"
+        },
+        {
+          "line": 311,
+          "text": "asyncio.run(start_bridge(brain, on_tick))"
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECKPOINT_P0_LIVE_20260511.md",
+      "hits": [
+        {
+          "line": 12,
+          "text": "2026-05-11 01:15Z → Résultat : M5/M15 reviennent dans powerflow.db."
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECKPOINT_POWERFLOW_V76_20260513.md",
+      "hits": [
+        {
+          "line": 17,
+          "text": "capture_bridge.py"
+        },
+        {
+          "line": 19,
+          "text": "scheduler_powerflow_turbo_wrapper.py       # patch tenté, attention ancienne erreur indentation puis fix partiel"
+        },
+        {
+          "line": 53,
+          "text": "capture_bridge.py"
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECKPOINT_SESSION_FINAL_20260511.md",
+      "hits": [
+        {
+          "line": 16,
+          "text": "2026-05-11 01:15Z     : M5/M15 reviennent dans powerflow.db"
+        },
+        {
+          "line": 142,
+          "text": "✅ Aucune modification capture_bridge.py"
+        },
+        {
+          "line": 143,
+          "text": "✅ Aucune écriture manuelle powerflow.db"
+        },
+        {
+          "line": 183,
+          "text": "Il ne faut pas toucher capture_bridge.py ni powerflow.db."
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECKPOINT_V73.md",
+      "hits": [
+        {
+          "line": 48,
+          "text": "python pf_price_schema_probe.py --db powerflow.db --symbols GBPUSD,EURUSD,USDJPY --pretty"
+        },
+        {
+          "line": 49,
+          "text": "python run_topdown_market_reader_all_once.py --db powerflow.db --symbols GBPUSD,EURUSD,USDJPY --pretty"
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECKPOINT_V731_DAILY_FLOW_PACKET.md",
+      "hits": [
+        {
+          "line": 34,
+          "text": "Intégrer V7.3.1 dans `scheduler_powerflow_turbo_wrapper.py` après validation manuelle."
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECKPOINT_V736_TRADER_JOURNAL_J1.md",
+      "hits": [
+        {
+          "line": 43,
+          "text": "python -m py_compile scheduler_powerflow_turbo_wrapper.py"
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECKPOINT_V73_TURBO_WRAPPER.md",
+      "hits": [
+        {
+          "line": 9,
+          "text": "- `scheduler_powerflow_turbo_wrapper.py`"
+        },
+        {
+          "line": 19,
+          "text": "python -m py_compile scheduler_powerflow_turbo_wrapper.py"
+        },
+        {
+          "line": 20,
+          "text": "python scheduler_powerflow_turbo_wrapper.py --symbols GBPUSD,EURUSD,USDJPY"
+        },
+        {
+          "line": 40,
+          "text": "python scheduler_powerflow_turbo_wrapper.py --symbols GBPUSD,EURUSD,USDJPY"
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECKPOINT_V74_DASHBOARD_FINAL.md",
+      "hits": [
+        {
+          "line": 42,
+          "text": "python -m py_compile dashboard_v74_contract_check.py scheduler_powerflow_turbo_wrapper.py pf_powerflow_telegram_gate_dedup_once.py"
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECKPOINT_V75_FINAL_DASHBOARD.md",
+      "hits": [
+        {
+          "line": 25,
+          "text": "- scheduler_powerflow_turbo_wrapper.py = orchestration"
+        }
+      ]
+    },
+    {
+      "file": "Core/check_db.py",
+      "hits": [
+        {
+          "line": 4,
+          "text": "db_path = \"powerflow.db\""
+        },
+        {
+          "line": 7,
+          "text": "print(f\"❌ powerflow.db introuvable dans : {os.getcwd()}\")"
+        },
+        {
+          "line": 10,
+          "text": "print(f\"✅ powerflow.db trouvé\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECK_DB_SCHEMA_POWERFLOW.py",
+      "hits": [
+        {
+          "line": 4,
+          "text": "paths = [\"powerflow.db\", \"db/powerflow.db\"]"
+        }
+      ]
+    },
+    {
+      "file": "Core/CHECK_EXTENDED_DB_V2.py",
+      "hits": [
+        {
+          "line": 9,
+          "text": "db = Path(\"powerflow.db\")"
+        },
+        {
+          "line": 13,
+          "text": "raise SystemExit(\"Missing powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/check_recent_signals.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "conn = sqlite3.connect(\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/check_table_freshness.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "conn = sqlite3.connect(\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/check_tf_by_table.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "conn = sqlite3.connect(\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/check_tf_counts.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "conn = sqlite3.connect(\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/CLAUDE_md_V7.1.md",
+      "hits": [
+        {
+          "line": 35,
+          "text": "capture_bridge.py              ← bridge MT4 live"
+        },
+        {
+          "line": 36,
+          "text": "powerflow.db                   ← mémoire SQLite"
+        },
+        {
+          "line": 204,
+          "text": "python run_regime_engine_once.py --db powerflow.db --pretty"
+        },
+        {
+          "line": 210,
+          "text": "python run_temporal_density_once.py --db powerflow.db --tfs 1,5,15 --summary --pretty"
+        },
+        {
+          "line": 213,
+          "text": "python run_spearman_gravity_once.py --db powerflow.db --tfs 1,5,15 --summary --pretty"
+        },
+        {
+          "line": 216,
+          "text": "python run_temporal_node_state_once.py --db powerflow.db --symbol GBPUSD --recent-minutes 180 --timeframes 1,5,15,30,60 --pretty"
+        },
+        {
+          "line": 219,
+          "text": "python run_currency_energy_probe_once.py --db powerflow.db --symbol GBPUSD --timeframe 1 --bars 50 --pretty"
+        },
+        {
+          "line": 228,
+          "text": "python run_orchestral_loop.py --db powerflow.db --symbol GBPUSD --tfs \"1,5,15,30\" --once --pretty"
+        },
+        {
+          "line": 231,
+          "text": "python run_powerflow_dashboard_refresh_once.py --db powerflow.db --symbol GBPUSD --pretty"
+        },
+        {
+          "line": 242,
+          "text": "capture_bridge.py"
+        },
+        {
+          "line": 243,
+          "text": "powerflow.db"
+        },
+        {
+          "line": 257,
+          "text": "❌ Ne pas modifier capture_bridge.py"
+        },
+        {
+          "line": 258,
+          "text": "❌ Ne pas écrire dans powerflow.db"
+        },
+        {
+          "line": 290,
+          "text": "python .\\run_data_quality_guard_once.py --db .\\powerflow.db --since 2026-05-12 --pretty --output .\\output\\data_quality_guard.json"
+        },
+        {
+          "line": 291,
+          "text": "python .\\run_market_open_validator_once.py --db .\\powerflow.db --since 2026-05-12 --recent-minutes 180 --pretty --output .\\output\\market_open_validator.json"
+        },
+        {
+          "line": 292,
+          "text": "python .\\run_entropy_engine_once.py --db .\\powerflow.db --symbol GBPUSD --pretty"
+        },
+        {
+          "line": 311,
+          "text": "9. run_powerflow_dashboard_refresh_once.py"
+        }
+      ]
+    },
+    {
+      "file": "Core/CLAUDE_md_V72_FINAL_UPDATE.md",
+      "hits": [
+        {
+          "line": 68,
+          "text": "M5/M15 restaurés dans powerflow.db."
+        },
+        {
+          "line": 201,
+          "text": "❌ NE PAS modifier capture_bridge.py sans accord explicite"
+        },
+        {
+          "line": 202,
+          "text": "❌ NE PAS écrire manuellement dans powerflow.db"
+        },
+        {
+          "line": 265,
+          "text": "Ne repatche pas capture_bridge.py."
+        },
+        {
+          "line": 266,
+          "text": "Ne touche pas powerflow.db."
+        }
+      ]
+    },
+    {
+      "file": "Core/CLAUDE_REBASE_POWERFLOW_V721_20260511.md",
+      "hits": [
+        {
+          "line": 38,
+          "text": "Ne pas toucher capture_bridge.py."
+        },
+        {
+          "line": 39,
+          "text": "Ne pas écrire powerflow.db."
+        },
+        {
+          "line": 102,
+          "text": "scheduler_powerflow.py"
+        },
+        {
+          "line": 112,
+          "text": "python scheduler_powerflow.py --once --symbols GBPUSD,EURUSD,USDJPY"
+        },
+        {
+          "line": 124,
+          "text": "Remove-Item .\\logs\\scheduler_powerflow.lock -Force"
+        },
+        {
+          "line": 138,
+          "text": "Mode      : python scheduler_powerflow.py --once"
+        },
+        {
+          "line": 319,
+          "text": "python run_audit_usdjpy_once.py --db powerflow.db --pretty"
+        },
+        {
+          "line": 353,
+          "text": "✅ capture_bridge.py intouchable"
+        },
+        {
+          "line": 354,
+          "text": "✅ powerflow.db read-only dans pf_*"
+        },
+        {
+          "line": 383,
+          "text": "python scheduler_powerflow.py --once --symbols GBPUSD,EURUSD,USDJPY"
+        },
+        {
+          "line": 389,
+          "text": "python run_audit_usdjpy_once.py --db powerflow.db --pretty"
+        }
+      ]
+    },
+    {
+      "file": "Core/cockpit_reader.py",
+      "hits": [
+        {
+          "line": 235,
+          "text": "db_path        = request.args.get('db', 'powerflow.db')"
+        },
+        {
+          "line": 274,
+          "text": "db_path = request.args.get('db', 'powerflow.db')"
+        }
+      ]
+    },
+    {
+      "file": "Core/cockpit_terminal.py",
+      "hits": [
+        {
+          "line": 6,
+          "text": "- Lire la DB powerflow.db."
+        },
+        {
+          "line": 12,
+          "text": "python cockpit_terminal.py --db powerflow.db --symbols GBPUSD --timeframes 1,5,15,30 --once"
+        },
+        {
+          "line": 13,
+          "text": "python cockpit_terminal.py --db powerflow.db --symbols GBPUSD --timeframes 1,5,15,30 --loop-seconds 60"
+        },
+        {
+          "line": 35,
+          "text": "DB_PATH = \"powerflow.db\""
+        },
+        {
+          "line": 353,
+          "text": "parser.add_argument(\"--db\", default=DB_PATH, help=\"Chemin powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/COMMIT_PREP_DASHBOARD_V72_FINAL.md",
+      "hits": [
+        {
+          "line": 81,
+          "text": "powerflow.db"
+        },
+        {
+          "line": 82,
+          "text": "powerflow.db-shm"
+        },
+        {
+          "line": 83,
+          "text": "powerflow.db-wal"
+        }
+      ]
+    },
+    {
+      "file": "Core/create_v74_eie_docs.py",
+      "hits": [
+        {
+          "line": 21,
+          "text": "python run_confluence_alert.py --db powerflow.db --symbol GBPUSD --zone-tf 15 --once --dry-run"
+        },
+        {
+          "line": 26,
+          "text": "python run_confluence_alert.py --db powerflow.db --symbol GBPUSD --zone-tf 15 --once --send"
+        },
+        {
+          "line": 59,
+          "text": "5. Brancher dans run_powerflow_live_stack_once.py."
+        }
+      ]
+    },
+    {
+      "file": "Core/CURRENT_STATE_POWERFLOW_V721_CENTRALISE_20260511.md",
+      "hits": [
+        {
+          "line": 46,
+          "text": "Command: python scheduler_powerflow.py --once"
+        },
+        {
+          "line": 69,
+          "text": "python run_audit_usdjpy_once.py --db powerflow.db --pretty"
+        }
+      ]
+    },
+    {
+      "file": "Core/CURRENT_STATE_V7_OFFICIAL_20260511.md",
+      "hits": [
+        {
+          "line": 159,
+          "text": "capture_bridge.py                  ✅ LIVE — intouchable"
+        },
+        {
+          "line": 160,
+          "text": "powerflow.db                       ✅ mémoire centrale — aucune écriture manuelle"
+        },
+        {
+          "line": 249,
+          "text": "7. Ne jamais modifier capture_bridge.py / powerflow.db sans décision architecte"
+        }
+      ]
+    },
+    {
+      "file": "Core/CURRENT_STATE_V7_POST_P0_UPDATE.md",
+      "hits": [
+        {
+          "line": 44,
+          "text": "Effet                       : M5/M15 reviennent dans powerflow.db"
+        },
+        {
+          "line": 76,
+          "text": "capture_bridge.py             PASS   Bridge MT4 → powerflow.db LIVE"
+        },
+        {
+          "line": 77,
+          "text": "powerflow.db                  PASS   Mémoire SQLite centrale respirante"
+        },
+        {
+          "line": 202,
+          "text": "--db .\\powerflow.db `"
+        },
+        {
+          "line": 216,
+          "text": "capture_bridge.py"
+        },
+        {
+          "line": 217,
+          "text": "powerflow.db"
+        },
+        {
+          "line": 232,
+          "text": "Ne pas écrire dans powerflow.db manuellement."
+        }
+      ]
+    },
+    {
+      "file": "Core/dashboard_hydration_failure_doctor.py",
+      "hits": [
+        {
+          "line": 10,
+          "text": "Does not modify engine files or powerflow.db."
+        }
+      ]
+    },
+    {
+      "file": "Core/DASHBOARD_HYDRATION_RUNNER_GUIDE.md",
+      "hits": [
+        {
+          "line": 11,
+          "text": "Il ne modifie pas les `pf_*` et n’écrit jamais dans `powerflow.db`."
+        },
+        {
+          "line": 38,
+          "text": "--db powerflow.db --symbol GBPUSD --start <utc> --end <utc> --timeframes 1,5,15 --out output\\force_kinematics_state.json --json"
+        },
+        {
+          "line": 41,
+          "text": "--db powerflow.db --symbol GBPUSD"
+        },
+        {
+          "line": 44,
+          "text": "--db powerflow.db --symbol GBPUSD"
+        },
+        {
+          "line": 47,
+          "text": "--db powerflow.db --symbol GBPUSD"
+        }
+      ]
+    },
+    {
+      "file": "Core/DASHBOARD_HYDRATION_RUNNER_README.md",
+      "hits": [
+        {
+          "line": 32,
+          "text": "Le script ne modifie pas `powerflow.db`, n’importe pas de `pf_*`, et ne touche pas aux fichiers moteur."
+        }
+      ]
+    },
+    {
+      "file": "Core/dashboard_output_coverage_doctor.py",
+      "hits": [
+        {
+          "line": 7,
+          "text": "pf_* and does not write to powerflow.db."
+        },
+        {
+          "line": 20,
+          "text": "'regime_legacy': 'python run_regime_engine_once.py --db powerflow.db --pretty',"
+        },
+        {
+          "line": 21,
+          "text": "'regime_hmm': 'python run_hmm_regime_engine_once.py --db powerflow.db --pretty',"
+        },
+        {
+          "line": 22,
+          "text": "'kinematics': 'python run_force_kinematics_once.py --db powerflow.db --symbol GBPUSD --pretty',"
+        },
+        {
+          "line": 23,
+          "text": "'force_kinematics': 'python run_force_kinematics_once.py --db powerflow.db --symbol GBPUSD --pretty',"
+        },
+        {
+          "line": 24,
+          "text": "'energy': 'python run_currency_energy_probe_once.py --db powerflow.db --symbol GBPUSD --pretty',"
+        },
+        {
+          "line": 25,
+          "text": "'density': 'python run_temporal_density_once.py --db powerflow.db --tfs 1,5,15 --summary --pretty',"
+        },
+        {
+          "line": 26,
+          "text": "'wavelet': 'python run_wavelet_density_once.py --db powerflow.db --tfs 1,5,15 --summary --pretty',"
+        },
+        {
+          "line": 27,
+          "text": "'spearman': 'python run_spearman_gravity_once.py --db powerflow.db --tfs 1,5,15 --summary --pretty',"
+        },
+        {
+          "line": 28,
+          "text": "'fractal': 'python run_fractal_resonance_once.py --db powerflow.db --summary --pretty',"
+        },
+        {
+          "line": 29,
+          "text": "'texture': 'python run_volatility_texture_once.py --db powerflow.db --summary --pretty',"
+        },
+        {
+          "line": 33,
+          "text": "'dq': 'python run_data_quality_guard_once.py --db powerflow.db --since 2026-05-11T01:15:00 --tfs 1,5,15 --pretty --output output/data_quality_report.json',"
+        },
+        {
+          "line": 34,
+          "text": "'memory': 'python run_memory_engine_once.py --db powerflow.db --summary --pretty',"
+        },
+        {
+          "line": 36,
+          "text": "'node': 'python run_temporal_node_state_once.py --db powerflow.db --symbol GBPUSD --recent-minutes 60 --timeframes 1,5,15,30,60 --pretty',"
+        },
+        {
+          "line": 84,
+          "text": "lines += ['', '## Interpretation', '', '- MISSING is acceptable when the runtime did not produce that brick output yet.', '- DEGRADED means payload exists but no source UTC timestamp was found.', '- This doctor does not modify the engine and does not write to "
+        }
+      ]
+    },
+    {
+      "file": "Core/dashboard_server.py",
+      "hits": [
+        {
+          "line": 45,
+          "text": "def __init__(self, db_path: str = \"powerflow.db\"):"
+        },
+        {
+          "line": 56,
+          "text": "\"\"\"Retourne le statut DB sans jamais ecrire dans powerflow.db.\"\"\""
+        },
+        {
+          "line": 295,
+          "text": "parser.add_argument(\"--db\", type=str, default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/db.py",
+      "hits": [
+        {
+          "line": 467,
+          "text": "conn = init_db(\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/diagnose_usdjpy_thin_bottleneck.py",
+      "hits": [
+        {
+          "line": 15,
+          "text": "- Opens powerflow.db with uri mode=ro when possible"
+        },
+        {
+          "line": 416,
+          "text": "\"Inspect capture_bridge symbol normalization for USDJPY broker suffix.\","
+        },
+        {
+          "line": 559,
+          "text": "\"Do not patch capture_bridge.py until this diagnostic is reviewed.\","
+        },
+        {
+          "line": 560,
+          "text": "\"Do not write powerflow.db.\","
+        },
+        {
+          "line": 572,
+          "text": "ap.add_argument(\"--db\", default=\"powerflow.db\")"
+        },
+        {
+          "line": 604,
+          "text": "\"next_fix\": [\"Start from correct Core directory or restore powerflow.db.\"],"
+        }
+      ]
+    },
+    {
+      "file": "Core/engine.py",
+      "hits": [
+        {
+          "line": 51,
+          "text": "DB_CONN = init_db(\"powerflow.db\")"
+        },
+        {
+          "line": 1184,
+          "text": "async def process_temporal_nodes_cycle(symbols=None, db_path=\"powerflow.db\"):"
+        }
+      ]
+    },
+    {
+      "file": "Core/engine_temporal_nodes.py",
+      "hits": [
+        {
+          "line": 294,
+          "text": "db_path=\"powerflow.db\","
+        },
+        {
+          "line": 353,
+          "text": "db_path=\"powerflow.db\","
+        },
+        {
+          "line": 363,
+          "text": "db_path=\"powerflow.db\","
+        }
+      ]
+    },
+    {
+      "file": "Core/film.py",
+      "hits": [
+        {
+          "line": 4,
+          "text": "Testé sur powerflow.db 06/05/2026."
+        },
+        {
+          "line": 23,
+          "text": "DB_DEFAULT = \"powerflow.db\""
+        }
+      ]
+    },
+    {
+      "file": "Core/git_deploy_multisymbol.ps1",
+      "hits": [
+        {
+          "line": 32,
+          "text": "\"scheduler_powerflow.py\""
+        },
+        {
+          "line": 53,
+          "text": "Copy-Item \"scheduler_powerflow.py\" (Join-Path $Core \"scheduler_powerflow.py\") -Force"
+        },
+        {
+          "line": 69,
+          "text": "& $PythonPath run_temporal_node_state_once.py --db powerflow.db --symbol GBPUSD --pretty"
+        },
+        {
+          "line": 73,
+          "text": "& $PythonPath run_cross_symbol_validation_once.py --db powerflow.db --symbols GBPUSD --pretty"
+        },
+        {
+          "line": 77,
+          "text": "& $PythonPath scheduler_powerflow.py --once --symbols GBPUSD"
+        },
+        {
+          "line": 92,
+          "text": "git add pf_cross_symbol_validation.py run_cross_symbol_validation_once.py scheduler_powerflow.py scheduler_config.json setup_windows_task_scheduler.ps1 `"
+        }
+      ]
+    },
+    {
+      "file": "Core/inspect_db.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "conn = sqlite3.connect(\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/INSPECT_FORCE_SNAPSHOTS_V2.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "con = sqlite3.connect(\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/install_powerflow_pack.ps1",
+      "hits": [
+        {
+          "line": 14,
+          "text": "- Never touches powerflow.db or capture_bridge.py"
+        }
+      ]
+    },
+    {
+      "file": "Core/lab.py",
+      "hits": [
+        {
+          "line": 4,
+          "text": "Testé sur powerflow.db 06/05/2026."
+        },
+        {
+          "line": 21,
+          "text": "DB_DEFAULT = \"powerflow.db\""
+        }
+      ]
+    },
+    {
+      "file": "Core/lab_elastic.py",
+      "hits": [
+        {
+          "line": 19,
+          "text": "DB_DEFAULT = Path(\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/lab_powerflow.py",
+      "hits": [
+        {
+          "line": 297,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\", help=\"Chemin powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/LAB_POWERFLOW_README.md",
+      "hits": [
+        {
+          "line": 52,
+          "text": "python lab_powerflow.py --list-tfs --symbol GBPUSD --db powerflow.db"
+        },
+        {
+          "line": 53,
+          "text": "python lab_powerflow.py --probe-db --symbol GBPUSD --db powerflow.db"
+        },
+        {
+          "line": 59,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 66,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 79,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 91,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 104,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 109,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 122,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 133,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 145,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 158,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 169,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 180,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 209,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 245,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 252,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 261,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        },
+        {
+          "line": 329,
+          "text": "powerflow.db                ← données"
+        },
+        {
+          "line": 339,
+          "text": "--db powerflow.db --symbol GBPUSD `"
+        }
+      ]
+    },
+    {
+      "file": "Core/lab_replay.py",
+      "hits": [
+        {
+          "line": 18,
+          "text": "default=\"powerflow.db\","
+        },
+        {
+          "line": 19,
+          "text": "help=\"Path to SQLite DB. Default: powerflow.db\","
+        }
+      ]
+    },
+    {
+      "file": "Core/launcher.py",
+      "hits": [
+        {
+          "line": 186,
+          "text": "help='Mode démo (sans powerflow.db)'"
+        }
+      ]
+    },
+    {
+      "file": "Core/LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md",
+      "hits": [
+        {
+          "line": 1242,
+          "text": "Ne touche pas capture_bridge.py."
+        },
+        {
+          "line": 1243,
+          "text": "N’écrit pas powerflow.db."
+        }
+      ]
+    },
+    {
+      "file": "Core/note.py",
+      "hits": [
+        {
+          "line": 26,
+          "text": "DB_PATH = Path(\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/P0_AUTOMATION_INTEGRATION_REPORT.md",
+      "hits": [
+        {
+          "line": 35,
+          "text": "capture_bridge visible : process python contenant capture_bridge.py"
+        },
+        {
+          "line": 113,
+          "text": "→ Vérifier capture_bridge.py / EA / connexion MT4."
+        },
+        {
+          "line": 143,
+          "text": "Les scripts sont livrés prêts à copier dans `Core/`. Ils doivent être validés localement avec le vrai `powerflow.db`, le vrai `run_p0_final_auto.ps1` et les vrais outputs. Aucun accès runtime local n'était disponible dans cet espace de génération."
+        }
+      ]
+    },
+    {
+      "file": "Core/P0_FINAL_ARCHITECT_DECISION.md",
+      "hits": [
+        {
+          "line": 107,
+          "text": "NE PAS modifier capture_bridge.py."
+        },
+        {
+          "line": 108,
+          "text": "NE PAS écrire dans powerflow.db manuellement."
+        }
+      ]
+    },
+    {
+      "file": "Core/p0_final_validator.py",
+      "hits": [
+        {
+          "line": 335,
+          "text": "ap.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/P0_PASS_STRICT_PROMOTION_20260511.md",
+      "hits": [
+        {
+          "line": 57,
+          "text": "This gate does not patch `capture_bridge.py`, does not write `powerflow.db`, and does not modify `pf_*`."
+        }
+      ]
+    },
+    {
+      "file": "Core/p0_strict_promotion_gate.py",
+      "hits": [
+        {
+          "line": 18,
+          "text": "This script does not touch powerflow.db and does not patch pf_*."
+        },
+        {
+          "line": 263,
+          "text": "\"This gate does not patch `capture_bridge.py`, does not write `powerflow.db`, and does not modify `pf_*`.\","
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_cross_symbol_future_import_fix_v737d.py",
+      "hits": [
+        {
+          "line": 24,
+          "text": "# Backward compatibility: scheduler_powerflow.py still passes --symbols."
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_cross_symbol_symbols_compat_v737d.py",
+      "hits": [
+        {
+          "line": 15,
+          "text": "# Backward compatibility: scheduler_powerflow.py still passes --symbols."
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_perception_spine_v76_fix.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "\"\"\"Fix/patch scheduler_powerflow_turbo_wrapper.py for Perception Spine V7.6 Turbo."
+        },
+        {
+          "line": 99,
+          "text": "parser.add_argument(\"--scheduler\", default=\"scheduler_powerflow_turbo_wrapper.py\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_b8_surface_v738b.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "path = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_daily_journal.py",
+      "hits": [
+        {
+          "line": 7,
+          "text": "TARGET = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        },
+        {
+          "line": 13,
+          "text": "print(\"PATCH_FAIL | scheduler_powerflow_turbo_wrapper.py missing\"); return 1"
+        },
+        {
+          "line": 22,
+          "text": "\"--db\", \"powerflow.db\","
+        },
+        {
+          "line": 45,
+          "text": "print(f\"PATCH_OK | scheduler_powerflow_turbo_wrapper.py patched | backup={backup}\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_dashboard_contract_v74b.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "path = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_evidence_bus_v739.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "path = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_evidence_reading_v739f.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "path = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_live_brief_v733.py",
+      "hits": [
+        {
+          "line": 7,
+          "text": "TARGET = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        },
+        {
+          "line": 13,
+          "text": "print(\"PATCH_FAIL | scheduler_powerflow_turbo_wrapper.py missing\")"
+        },
+        {
+          "line": 49,
+          "text": "print(f\"PATCH_OK | scheduler_powerflow_turbo_wrapper.py patched | backup={backup}\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_live_brief_v733_hotfix.py",
+      "hits": [
+        {
+          "line": 8,
+          "text": "TARGET = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        },
+        {
+          "line": 9,
+          "text": "BACKUP = Path(\"scheduler_powerflow_turbo_wrapper.py.bak_live_brief_v733\")"
+        },
+        {
+          "line": 62,
+          "text": "print(\"PATCH_FAIL | scheduler_powerflow_turbo_wrapper.py missing\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_multiread_v734.py",
+      "hits": [
+        {
+          "line": 7,
+          "text": "TARGET = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        },
+        {
+          "line": 47,
+          "text": "print(\"PATCH_FAIL | scheduler_powerflow_turbo_wrapper.py missing\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_phase_synthesis_v738c.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "path = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_time_profiles_v737d.py",
+      "hits": [
+        {
+          "line": 7,
+          "text": "path = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        },
+        {
+          "line": 10,
+          "text": "backup = Path(f\"scheduler_powerflow_turbo_wrapper.py.bak_time_profiles_v737d_{datetime.now().strftime('%Y%m%d_%H%M%S')}\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_scheduler_turbo_trader_cockpit_v735.py",
+      "hits": [
+        {
+          "line": 8,
+          "text": "TARGET = Path(\"scheduler_powerflow_turbo_wrapper.py\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_v74_fix_dedup_symbol_arg.py",
+      "hits": [
+        {
+          "line": 4,
+          "text": "TARGET = Path(\"run_powerflow_live_stack_once.py\")"
+        },
+        {
+          "line": 10,
+          "text": "raise SystemExit(\"PATCH_FAIL | run_powerflow_live_stack_once.py missing\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/patch_v74_scheduler_use_dedup_gate.py",
+      "hits": [
+        {
+          "line": 4,
+          "text": "TARGET = Path(\"run_powerflow_live_stack_once.py\")"
+        },
+        {
+          "line": 10,
+          "text": "raise SystemExit(\"PATCH_FAIL | run_powerflow_live_stack_once.py missing\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_b8_cross_surface_once.py",
+      "hits": [
+        {
+          "line": 76,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_battlefield_map.py",
+      "hits": [
+        {
+          "line": 715,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_behavioral_alert_mapper.py",
+      "hits": [
+        {
+          "line": 12,
+          "text": "- Ne pas modifier capture_bridge.py ni pf_temporal_node_state.py"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_bipolar_node_alert.py",
+      "hits": [
+        {
+          "line": 40,
+          "text": "DEFAULT_DB_PATH = \"db/powerflow.db\""
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_cockpit_field.py",
+      "hits": [
+        {
+          "line": 187,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_confluence_elastic.py",
+      "hits": [
+        {
+          "line": 314,
+          "text": "ap.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_core_metrics.py",
+      "hits": [
+        {
+          "line": 5,
+          "text": "DB_PATH = 'powerflow.db'"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_currency_energy_probe.py",
+      "hits": [
+        {
+          "line": 28,
+          "text": "- Aucune écriture dans powerflow.db"
+        },
+        {
+          "line": 29,
+          "text": "- Ne pas toucher capture_bridge.py"
+        },
+        {
+          "line": 905,
+          "text": "db_path: str | Path = \"powerflow.db\","
+        },
+        {
+          "line": 915,
+          "text": "db_path   : Chemin vers powerflow.db (lecture seule)."
+        },
+        {
+          "line": 960,
+          "text": "state[\"energy_field_summary\"] = \"ERREUR : powerflow.db introuvable.\""
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_cycle_orchestrator.py",
+      "hits": [
+        {
+          "line": 7,
+          "text": "- no capture_bridge.py modification"
+        },
+        {
+          "line": 8,
+          "text": "- no manual write to powerflow.db"
+        },
+        {
+          "line": 199,
+          "text": "StepSpec(9, \"STEP_9_DASHBOARD_REFRESH\", \"DASHBOARD_SYNC\", \"run_powerflow_dashboard_refresh_once.py\","
+        },
+        {
+          "line": 265,
+          "text": "def run_cycle(cycle_id: str | int | None = None, symbols: list[str] | None = None, db_path: str = \"powerflow.db\", tfs: list[int] | None = None, since: str | None = None, output_dir: str | Path = DEFAULT_OUTPUT_DIR, dry_run: bool = False, pretty: bool = True) -"
+        },
+        {
+          "line": 323,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_daily_flow_packet.py",
+      "hits": [
+        {
+          "line": 722,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_daily_journal_builder.py",
+      "hits": [
+        {
+          "line": 122,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_daily_level_interaction.py",
+      "hits": [
+        {
+          "line": 362,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_data_health_monitor.py",
+      "hits": [
+        {
+          "line": 493,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_data_quality_guard.py",
+      "hits": [
+        {
+          "line": 6,
+          "text": "Scan powerflow.db in read-only mode and report temporal quality by timeframe."
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_data_window_doctor.py",
+      "hits": [
+        {
+          "line": 229,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_db_freshness_probe.py",
+      "hits": [
+        {
+          "line": 6,
+          "text": "Diagnose whether powerflow.db is fresh enough for live perception."
+        },
+        {
+          "line": 9,
+          "text": "No capture_bridge modification."
+        },
+        {
+          "line": 45,
+          "text": "db_path: str | Path = \"powerflow.db\","
+        },
+        {
+          "line": 78,
+          "text": "state[\"verdict\"][\"probable_cause\"] = \"powerflow.db_not_found\""
+        },
+        {
+          "line": 225,
+          "text": "\"capture_bridge_hint\": False,"
+        },
+        {
+          "line": 260,
+          "text": "if \"capture_bridge\" in low:"
+        },
+        {
+          "line": 261,
+          "text": "result[\"capture_bridge_hint\"] = True"
+        },
+        {
+          "line": 284,
+          "text": "verdict[\"next_action\"] = [\"inspect_force_snapshots_schema\", \"verify_capture_bridge_insert_columns\"]"
+        },
+        {
+          "line": 310,
+          "text": "verdict[\"next_action\"] = [\"check_capture_bridge_loop\", \"check_mt4_feed\", \"check_socket_55555\"]"
+        },
+        {
+          "line": 316,
+          "text": "\"start_or_check_capture_bridge\","
+        },
+        {
+          "line": 324,
+          "text": "if processes.get(\"tasklist_available\") and not processes.get(\"capture_bridge_hint\"):"
+        },
+        {
+          "line": 325,
+          "text": "verdict[\"next_action\"].append(\"no_capture_bridge_process_seen_in_tasklist\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_db_vision_guard.py",
+      "hits": [
+        {
+          "line": 5,
+          "text": "Read-only SQLite guard that verifies whether powerflow.db can actually"
+        },
+        {
+          "line": 582,
+          "text": "parser.add_argument(\"--db\", required=True, help=\"Path to powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_engine_orchestrator.py",
+      "hits": [
+        {
+          "line": 35,
+          "text": "DEFAULT_DB_PATH = \"db/powerflow.db\""
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_engine_scenes.py",
+      "hits": [
+        {
+          "line": 34,
+          "text": "DB_PATH = \"powerflow.db\""
+        },
+        {
+          "line": 702,
+          "text": "parser.add_argument(\"--db\", default=DB_PATH, help=\"Chemin powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_engine_v6_adapter.py",
+      "hits": [
+        {
+          "line": 5,
+          "text": "# - expose the stable process_tick contract used by capture_bridge.py;"
+        },
+        {
+          "line": 27,
+          "text": "keeping capture_bridge.py stable."
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_events.py",
+      "hits": [
+        {
+          "line": 17,
+          "text": "DB_PATH = \"powerflow.db\""
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_flow_nodes.py",
+      "hits": [
+        {
+          "line": 46,
+          "text": "DB_PATH = \"powerflow.db\""
+        },
+        {
+          "line": 905,
+          "text": "parser.add_argument(\"--db\", default=DB_PATH, help=\"Chemin powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_flow_packet_once.py",
+      "hits": [
+        {
+          "line": 280,
+          "text": "ap.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_force_angle_speed_probe.py",
+      "hits": [
+        {
+          "line": 3,
+          "text": "# No DB writes. No capture_bridge changes."
+        },
+        {
+          "line": 35,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_fractal_zone_stack.py",
+      "hits": [
+        {
+          "line": 16,
+          "text": "powerflow.db avec table zone_diagnostics"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_hmm_regime_engine.py",
+      "hits": [
+        {
+          "line": 373,
+          "text": "p.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_lab_coalitions.py",
+      "hits": [
+        {
+          "line": 233,
+          "text": "db_path:        Path to powerflow.db"
+        },
+        {
+          "line": 420,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_lab_engine_v72.py",
+      "hits": [
+        {
+          "line": 16,
+          "text": "- No DB write to powerflow.db."
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_lab_tension.py",
+      "hits": [
+        {
+          "line": 140,
+          "text": "db_path:    Path to powerflow.db"
+        },
+        {
+          "line": 274,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_m1_context_score.py",
+      "hits": [
+        {
+          "line": 16,
+          "text": "- powerflow.db / force_snapshots TF1"
+        },
+        {
+          "line": 84,
+          "text": "db_path: str = \"powerflow.db\""
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_m1_noise_ratio_probe.py",
+      "hits": [
+        {
+          "line": 32,
+          "text": "db_path: str = \"powerflow.db\""
+        },
+        {
+          "line": 300,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_market_open_validator.py",
+      "hits": [
+        {
+          "line": 983,
+          "text": "db_path: str | os.PathLike[str] = \"powerflow.db\","
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_memory.py",
+      "hits": [
+        {
+          "line": 107,
+          "text": "\"next_check\": \"Verifier bridge.py / powerflow.db / flux MT4.\","
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_normalizer.py",
+      "hits": [
+        {
+          "line": 28,
+          "text": "DB_PATH = \"powerflow.db\""
+        },
+        {
+          "line": 662,
+          "text": "db_path: str = \"powerflow.db\","
+        },
+        {
+          "line": 866,
+          "text": "parser_align.add_argument(\"--db\", default=DB_PATH, help=\"Chemin powerflow.db\")"
+        },
+        {
+          "line": 876,
+          "text": "parser_norm.add_argument(\"--db\", default=DB_PATH, help=\"Chemin powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_order_flow_proxy_lite.py",
+      "hits": [
+        {
+          "line": 368,
+          "text": "ap.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_packet_live_gate_once.py",
+      "hits": [
+        {
+          "line": 6,
+          "text": "DB = \"powerflow.db\""
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_powerflow_zone_brief.py",
+      "hits": [
+        {
+          "line": 616,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_price_schema_probe.py",
+      "hits": [
+        {
+          "line": 308,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_regime_engine.py",
+      "hits": [
+        {
+          "line": 41,
+          "text": "# ── Thresholds (tunable on powerflow.db) ─────────────────────────────────"
+        },
+        {
+          "line": 313,
+          "text": "db_path:    path to powerflow.db"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_relations.py",
+      "hits": [
+        {
+          "line": 16,
+          "text": "python detect_relations_v5.py GBPUSD 15 --db powerflow.db --bars 20"
+        },
+        {
+          "line": 17,
+          "text": "python detect_relations_v5.py GBPUSD 1 --db powerflow.db --bars 50 --devises eur,gbp,usd"
+        },
+        {
+          "line": 18,
+          "text": "python detect_relations_v5.py GBPUSD 60 --db powerflow.db --bars 30 --devises all"
+        },
+        {
+          "line": 32,
+          "text": "DB_PATH = \"powerflow.db\""
+        },
+        {
+          "line": 715,
+          "text": "parser.add_argument(\"--db\", default=DB_PATH, help=\"Chemin powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_scene_namer.py",
+      "hits": [
+        {
+          "line": 15,
+          "text": "powerflow.db -> FlowEventExtractor -> SceneNamer -> text report"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_session_zone_reader.py",
+      "hits": [
+        {
+          "line": 16,
+          "text": "powerflow.db avec table zone_diagnostics."
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_temporal_nodes.py",
+      "hits": [
+        {
+          "line": 290,
+          "text": "p.add_argument(\"symbol\");p.add_argument(\"--db\",default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_temporal_node_state.py",
+      "hits": [
+        {
+          "line": 6,
+          "text": "Produce output/temporal_node_state.json without touching capture_bridge.py"
+        },
+        {
+          "line": 7,
+          "text": "and without writing to powerflow.db."
+        },
+        {
+          "line": 173,
+          "text": "Ne modifie jamais la DB. N'appelle jamais capture_bridge."
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_temporal_patterns_cockpit.py",
+      "hits": [
+        {
+          "line": 528,
+          "text": "db_path: str = \"powerflow.db\","
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_time_profile_window.py",
+      "hits": [
+        {
+          "line": 556,
+          "text": "parser.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_wavelet_density.py",
+      "hits": [
+        {
+          "line": 312,
+          "text": "p.add_argument(\"--db\", default=\"powerflow.db\")"
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    "DB changed recently without capture process visible in snapshot. Check scheduler/other writer process or short-lived capture.",
+    "Do not change engine/scoring logic. This is live capture health and process supervision."
+  ],
+  "read_only": true,
+  "runtime_wired": false
+}

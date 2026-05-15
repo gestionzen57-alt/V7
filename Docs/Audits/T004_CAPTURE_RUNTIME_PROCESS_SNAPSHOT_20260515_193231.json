@@ -1,0 +1,572 @@
+﻿[
+    {
+        "ProcessId":  13844,
+        "Name":  "msedgewebview2.exe",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.54\\msedgewebview2.exe\" --type=renderer --noerrdialogs --user-agent=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26200.8457) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26200 IsWebView2/True (WebView2Version 147.0.3912.98)\" --user-data-dir=\"C:\\Users\\User\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView\" --webview-exe-name=SearchHost.exe --webview-exe-version=2126.8901.20.0 --embedded-browser-webview=1 --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --js-flags=\"--expose-gc --ms-user-locale=fr_FR\" --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=40291400 --always-read-main-dll --metrics-shmem-handle=3868,i,12275461496500701491,12008927672082826973,2097152 --field-trial-handle=2056,i,18079969764265208860,3539116007556028485,262144 --enable-features=msEdgeFluentOverlayScrollbar --disable-features=msSmartScreenProtection --variations-seed-version --pseudonymization-salt-handle=2060,i,4082039717998605070,16662037970904130958,4 --trace-process-track-uuid=3190708990997080739 --mojo-platform-channel-handle=3884 /pfhostedapp:ac4e660df40bc14709926fc65263f3df853a2ab7 /prefetch:1",
+        "CreationDate":  "\/Date(1778710436503)\/"
+    },
+    {
+        "ProcessId":  11536,
+        "Name":  "terminal.exe",
+        "CommandLine":  "\"C:\\FX\\Tickmill MT4 Client Terminal power - 7\\terminal.exe\" ",
+        "CreationDate":  "\/Date(1778710448102)\/"
+    },
+    {
+        "ProcessId":  11740,
+        "Name":  "terminal.exe",
+        "CommandLine":  "\"C:\\FX\\Tickmill MT4 Client Terminal power - 5 15\\terminal.exe\" ",
+        "CreationDate":  "\/Date(1778710448780)\/"
+    },
+    {
+        "ProcessId":  15904,
+        "Name":  "WindowsTerminal.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.10921.0_x64__8wekyb3d8bbwe\\WindowsTerminal.exe\" -Embedding",
+        "CreationDate":  "\/Date(1778710468991)\/"
+    },
+    {
+        "ProcessId":  10228,
+        "Name":  "powershell.exe",
+        "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" ",
+        "CreationDate":  "\/Date(1778710469119)\/"
+    },
+    {
+        "ProcessId":  9368,
+        "Name":  "OpenConsole.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.10921.0_x64__8wekyb3d8bbwe\\OpenConsole.exe\" -Embedding",
+        "CreationDate":  "\/Date(1778710469140)\/"
+    },
+    {
+        "ProcessId":  17868,
+        "Name":  "powershell.exe",
+        "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" ",
+        "CreationDate":  "\/Date(1778710474260)\/"
+    },
+    {
+        "ProcessId":  17916,
+        "Name":  "OpenConsole.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.10921.0_x64__8wekyb3d8bbwe\\OpenConsole.exe\" -Embedding",
+        "CreationDate":  "\/Date(1778710474285)\/"
+    },
+    {
+        "ProcessId":  3252,
+        "Name":  "terminal.exe",
+        "CommandLine":  "\"C:\\FX\\Tickmill MT4 Client Terminal power - 4\\terminal.exe\" ",
+        "CreationDate":  "\/Date(1778710483246)\/"
+    },
+    {
+        "ProcessId":  5320,
+        "Name":  "terminal.exe",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Tickmill MT4 Client Terminal\\terminal.exe\" ",
+        "CreationDate":  "\/Date(1778710490381)\/"
+    },
+    {
+        "ProcessId":  19468,
+        "Name":  "msedgewebview2.exe",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.54\\msedgewebview2.exe\" --type=renderer --noerrdialogs --user-data-dir=\"C:\\Users\\User\\AppData\\Local\\Packages\\MicrosoftWindows.Client.WebExperience_cw5n1h2txyewy\\LocalState\\EBWebView\" --webview-exe-name=Widgets.exe --webview-exe-version=526.1202.10.0 --embedded-browser-webview=1 --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --js-flags=\"--expose-gc --ms-user-locale=fr_FR\" --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=103898571 --ssd-no-pressure-read-main-dll --metrics-shmem-handle=4084,i,16265480764204264628,15486953682051439743,2097152 --field-trial-handle=2084,i,12760942168459695275,12163936183757765759,262144 --variations-seed-version --pseudonymization-salt-handle=2088,i,7138474737468852964,10563828675728870569,4 --trace-process-track-uuid=3190708990997080739 --mojo-platform-channel-handle=3232 /pfhostedapp:017373b2a5c4ead1a08d36a47bf86195c1909a61 /prefetch:1",
+        "CreationDate":  "\/Date(1778710500111)\/"
+    },
+    {
+        "ProcessId":  16504,
+        "Name":  "py.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Microsoft\\WindowsApps\\py.exe\" .\\capture_bridge.py",
+        "CreationDate":  "\/Date(1778710625110)\/"
+    },
+    {
+        "ProcessId":  1056,
+        "Name":  "python.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe\"  .\\capture_bridge.py",
+        "CreationDate":  "\/Date(1778710626087)\/"
+    },
+    {
+        "ProcessId":  16364,
+        "Name":  "msedgewebview2.exe",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.54\\msedgewebview2.exe\" --type=renderer --noerrdialogs --user-data-dir=\"C:\\Users\\User\\AppData\\Local\\Google\\DriveFS\\webview2_user_data\\1778710662127396\\EBWebView\" --webview-exe-name=GoogleDriveFS.exe --webview-exe-version=125.0.0.0 --embedded-browser-webview=1 --embedded-browser-webview-dpi-awareness=1 --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --js-flags=\"--expose-gc --ms-user-locale=fr_FR\" --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=266922799 --ssd-no-pressure-read-main-dll --metrics-shmem-handle=4012,i,12328243559046819571,9588521595885462085,2097152 --field-trial-handle=1904,i,7121023994650114230,5671798086112059845,262144 --variations-seed-version --pseudonymization-salt-handle=1936,i,6809532648954704079,17094146128033318194,4 --trace-process-track-uuid=3190708990997080739 --mojo-platform-channel-handle=4024 /pfhostedapp:cb975bfac3d43f256081f6b19519ba3a9b2e2071 /prefetch:1",
+        "CreationDate":  "\/Date(1778710663133)\/"
+    },
+    {
+        "ProcessId":  9136,
+        "Name":  "msedgewebview2.exe",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.54\\msedgewebview2.exe\" --type=renderer --noerrdialogs --user-data-dir=\"C:\\Users\\User\\AppData\\Local\\Google\\DriveFS\\webview2_user_data\\1778710662127396\\EBWebView\" --webview-exe-name=GoogleDriveFS.exe --webview-exe-version=125.0.0.0 --embedded-browser-webview=1 --embedded-browser-webview-dpi-awareness=1 --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=7 --js-flags=\"--expose-gc --ms-user-locale=fr_FR\" --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=305157897 --skip-read-main-dll --metrics-shmem-handle=5980,i,10582193821206280589,7099906779963420691,2097152 --field-trial-handle=1904,i,7121023994650114230,5671798086112059845,262144 --variations-seed-version --pseudonymization-salt-handle=1936,i,6809532648954704079,17094146128033318194,4 --trace-process-track-uuid=3190708992871164437 --mojo-platform-channel-handle=3228 /pfhostedapp:cb975bfac3d43f256081f6b19519ba3a9b2e2071 /prefetch:1",
+        "CreationDate":  "\/Date(1778710701367)\/"
+    },
+    {
+        "ProcessId":  2304,
+        "Name":  "msedgewebview2.exe",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.54\\msedgewebview2.exe\" --type=renderer --noerrdialogs --user-data-dir=\"C:\\Users\\User\\AppData\\Local\\Google\\DriveFS\\webview2_user_data\\1778710662127396\\EBWebView\" --webview-exe-name=GoogleDriveFS.exe --webview-exe-version=125.0.0.0 --embedded-browser-webview=1 --embedded-browser-webview-dpi-awareness=1 --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=8 --js-flags=\"--expose-gc --ms-user-locale=fr_FR\" --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=305609783 --skip-read-main-dll --metrics-shmem-handle=6112,i,17083988989422626331,376498286448676209,2097152 --field-trial-handle=1904,i,7121023994650114230,5671798086112059845,262144 --variations-seed-version --pseudonymization-salt-handle=1936,i,6809532648954704079,17094146128033318194,4 --trace-process-track-uuid=3190708993808206286 --mojo-platform-channel-handle=5876 /pfhostedapp:cb975bfac3d43f256081f6b19519ba3a9b2e2071 /prefetch:1",
+        "CreationDate":  "\/Date(1778710701818)\/"
+    },
+    {
+        "ProcessId":  2552,
+        "Name":  "PlexScriptHost.exe",
+        "CommandLine":  "\"C:\\Program Files\\Plex\\Plex Media Server\\PlexScriptHost.exe\" \"C:\\Program Files\\Plex\\Plex Media Server\\Resources\\Plug-ins-121068a07\\Framework.bundle\\Contents\\Resources\\Versions\\2\\Python\\bootstrap.py\" \"C:\\Program Files\\Plex\\Plex Media Server\\Resources\\Plug-ins-121068a07\\System.bundle\"",
+        "CreationDate":  "\/Date(1778710748102)\/"
+    },
+    {
+        "ProcessId":  6744,
+        "Name":  "QtWebEngineProcess.exe",
+        "CommandLine":  "\"C:\\Program Files\\Elgato\\StreamDeck\\QtWebEngineProcess.exe\" --type=renderer --webengine-schemes=sdpi:slL;qrc:sV --disable-speech-api --touch-events=auto --disable-blink-features=EyeDropperAPI,WebOTP --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=3 --time-ticks-at-unix-epoch=-1778710396207202 --launch-time-ticks=433126952 --field-trial-handle=15300,i,5229125091156464637,6692784906126603648,262144 --enable-features=NetworkServiceInProcess2,TracingServiceInProcess --disable-features=BackgroundFetch,EyeDropper,InstalledApp,StandardCompliantNonSpecialSchemeURLParsing,WebOTP,WebPayments,WebUSB --variations-seed-version --mojo-platform-channel-handle=15292 /prefetch:1",
+        "CreationDate":  "\/Date(1778710829345)\/"
+    },
+    {
+        "ProcessId":  5460,
+        "Name":  "ChatGPT.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\OpenAI.ChatGPT-Desktop_1.2026.119.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe\" --type=renderer --user-data-dir=\"C:\\Users\\User\\AppData\\Local\\Packages\\OpenAI.ChatGPT-Desktop_2p2nqsd0c76g0\\LocalCache\\Roaming\\ChatGPT\" --secure-schemes=sentry-ipc --bypasscsp-schemes=sentry-ipc --cors-schemes=sentry-ipc --fetch-schemes=sentry-ipc --app-path=\"C:\\Program Files\\WindowsApps\\OpenAI.ChatGPT-Desktop_1.2026.119.0_x64__2p2nqsd0c76g0\\app\\resources\\app.asar\" --enable-sandbox --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=493550494 --field-trial-handle=2352,i,4746067336289793528,1160683031235016194,262144 --enable-features=EnableTransparentHwndEnlargement,FluentScrollbar,PdfUseShowSaveFilePicker --disable-features=LocalNetworkAccessChecks,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708990997080739 --mojo-platform-channel-handle=4228 /prefetch:1",
+        "CreationDate":  "\/Date(1778710889771)\/"
+    },
+    {
+        "ProcessId":  24208,
+        "Name":  "msedgewebview2.exe",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\148.0.3967.54\\msedgewebview2.exe\" --type=renderer --noerrdialogs --user-data-dir=\"C:\\Users\\User\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalCache\\EBWebView\" --webview-exe-name=WhatsApp.Root.exe --webview-exe-version=1.0.0 --embedded-browser-webview=1 --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=8 --js-flags=\"--expose-gc --ms-user-locale=fr_FR\" --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=574958363 --skip-read-main-dll --metrics-shmem-handle=4800,i,12337372106398789055,4819934304281073795,2097152 --field-trial-handle=2020,i,12558817410408991209,16872382380535277709,262144 --variations-seed-version --pseudonymization-salt-handle=2008,i,7031793307146189484,2914904930864685981,4 --trace-process-track-uuid=3190708993808206286 --mojo-platform-channel-handle=4424 /pfhostedapp:8028a7ee6bb88d9c73e4482ae03bf9eb50a04ca2 /prefetch:1",
+        "CreationDate":  "\/Date(1778710971169)\/"
+    },
+    {
+        "ProcessId":  21568,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=13 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=26413634526 --metrics-shmem-handle=6396,i,2660646982459437874,4695846329493460534,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190708998493415531 --mojo-platform-channel-handle=5372 /prefetch:9",
+        "CreationDate":  "\/Date(1778736809843)\/"
+    },
+    {
+        "ProcessId":  8940,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=14 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=26413643959 --metrics-shmem-handle=6560,i,2440054505082029456,1197348518648929550,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190708999430457380 --mojo-platform-channel-handle=6568 /prefetch:9",
+        "CreationDate":  "\/Date(1778736809853)\/"
+    },
+    {
+        "ProcessId":  2940,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=15 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=26413646287 --metrics-shmem-handle=6600,i,1813659063443795306,4927743927213312559,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190709000367499229 --mojo-platform-channel-handle=6612 /prefetch:9",
+        "CreationDate":  "\/Date(1778736809855)\/"
+    },
+    {
+        "ProcessId":  21636,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=51 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=26423127395 --metrics-shmem-handle=9384,i,16672884446111750379,5283079478045624472,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190709034101005793 --mojo-platform-channel-handle=8504 /prefetch:1",
+        "CreationDate":  "\/Date(1778736819336)\/"
+    },
+    {
+        "ProcessId":  24096,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=55 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=26429372837 --metrics-shmem-handle=11508,i,10951929062326686802,14007267598986793585,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190709037849173189 --mojo-platform-channel-handle=10512 /prefetch:1",
+        "CreationDate":  "\/Date(1778736825582)\/"
+    },
+    {
+        "ProcessId":  10208,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=utility --utility-sub-type=audio.mojom.AudioService --lang=fr --service-sandbox-type=audio --video-capture-use-gpu-memory-buffer --no-pre-read-main-dll --metrics-shmem-handle=10232,i,14355827581497633679,5695798247299934564,524288 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190709040660298736 --mojo-platform-channel-handle=10440 /prefetch:12",
+        "CreationDate":  "\/Date(1778736835940)\/"
+    },
+    {
+        "ProcessId":  17816,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=utility --utility-sub-type=video_capture.mojom.VideoCaptureService --lang=fr --service-sandbox-type=none --video-capture-use-gpu-memory-buffer --no-pre-read-main-dll --metrics-shmem-handle=10824,i,5288165853137099726,10222690095327651705,524288 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190709041597340585 --mojo-platform-channel-handle=11884 /prefetch:14",
+        "CreationDate":  "\/Date(1778736835940)\/"
+    },
+    {
+        "ProcessId":  23908,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=298 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=31506677279 --metrics-shmem-handle=10816,i,3648375304804000861,9529320176026967214,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190709265550342496 --mojo-platform-channel-handle=10956 /prefetch:1",
+        "CreationDate":  "\/Date(1778741902886)\/"
+    },
+    {
+        "ProcessId":  27128,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=301 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=31509020808 --metrics-shmem-handle=12092,i,520568026136650259,5495499949970903561,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190709268361468043 --mojo-platform-channel-handle=5836 /prefetch:1",
+        "CreationDate":  "\/Date(1778741905230)\/"
+    },
+    {
+        "ProcessId":  2744,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=renderer --extension-process --perplexity-backend-url=https://www.perplexity.ai/ --perplexity-comet-plus-partners=washingtonpost.com,.washingtonpost.com --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=32641744571 --metrics-shmem-handle=3252,i,9964759388484670867,2585882647572713012,2097152 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190708990997080739 --mojo-platform-channel-handle=3260 /prefetch:9",
+        "CreationDate":  "\/Date(1778743037964)\/"
+    },
+    {
+        "ProcessId":  15968,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=renderer --extension-process --perplexity-backend-url=https://www.perplexity.ai/ --perplexity-comet-plus-partners=washingtonpost.com,.washingtonpost.com --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=7 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=32641749056 --metrics-shmem-handle=3324,i,6420708392605940236,973747262298875663,2097152 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190708992871164437 --mojo-platform-channel-handle=3320 /prefetch:9",
+        "CreationDate":  "\/Date(1778743037971)\/"
+    },
+    {
+        "ProcessId":  21612,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=utility --utility-sub-type=video_capture.mojom.VideoCaptureService --lang=fr --service-sandbox-type=none --no-pre-read-main-dll --metrics-shmem-handle=4816,i,12702320078239180810,15373321675723055380,524288 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190708993808206286 --mojo-platform-channel-handle=4824 /prefetch:14",
+        "CreationDate":  "\/Date(1778743038050)\/"
+    },
+    {
+        "ProcessId":  26096,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=renderer --perplexity-backend-url=https://www.perplexity.ai/ --perplexity-comet-plus-partners=washingtonpost.com,.washingtonpost.com --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=11 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=32641917938 --metrics-shmem-handle=5016,i,401528235554269537,17004641458515733672,2097152 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190708996619331833 --mojo-platform-channel-handle=5056 /prefetch:1",
+        "CreationDate":  "\/Date(1778743038127)\/"
+    },
+    {
+        "ProcessId":  7484,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=renderer --perplexity-backend-url=https://www.perplexity.ai/ --perplexity-comet-plus-partners=washingtonpost.com,.washingtonpost.com --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=10 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=32641918976 --metrics-shmem-handle=5152,i,968663344764850064,14703062441088583846,2097152 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190708995682289984 --mojo-platform-channel-handle=5148 /prefetch:1",
+        "CreationDate":  "\/Date(1778743038128)\/"
+    },
+    {
+        "ProcessId":  26044,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=renderer --perplexity-backend-url=https://www.perplexity.ai/ --perplexity-comet-plus-partners=washingtonpost.com,.washingtonpost.com --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=13 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=32642006733 --metrics-shmem-handle=5172,i,11505692158313436516,5115343226049900886,2097152 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190708998493415531 --mojo-platform-channel-handle=5452 /prefetch:1",
+        "CreationDate":  "\/Date(1778743038215)\/"
+    },
+    {
+        "ProcessId":  15484,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=renderer --perplexity-backend-url=https://www.perplexity.ai/ --perplexity-comet-plus-partners=washingtonpost.com,.washingtonpost.com --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --start-stack-profiler --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=23 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=32648013483 --metrics-shmem-handle=8016,i,5164675328963168580,16902847992329738769,2097152 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190709007863834021 --mojo-platform-channel-handle=7832 /prefetch:1",
+        "CreationDate":  "\/Date(1778743044222)\/"
+    },
+    {
+        "ProcessId":  20696,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=renderer --perplexity-backend-url=https://www.perplexity.ai/ --perplexity-comet-plus-partners=washingtonpost.com,.washingtonpost.com --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=24 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=32648023671 --metrics-shmem-handle=8208,i,13339104066258867124,16629206140960175687,2097152 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190709008800875870 --mojo-platform-channel-handle=7876 /prefetch:1",
+        "CreationDate":  "\/Date(1778743044233)\/"
+    },
+    {
+        "ProcessId":  26004,
+        "Name":  "powershell.exe",
+        "CommandLine":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoExit -Command cd \"C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\"; python -m http.server 8787 ",
+        "CreationDate":  "\/Date(1778743085609)\/"
+    },
+    {
+        "ProcessId":  24580,
+        "Name":  "OpenConsole.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.10921.0_x64__8wekyb3d8bbwe\\OpenConsole.exe\" -Embedding",
+        "CreationDate":  "\/Date(1778743085651)\/"
+    },
+    {
+        "ProcessId":  7064,
+        "Name":  "Telegram.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Roaming\\Telegram Desktop\\Telegram.exe\" ",
+        "CreationDate":  "\/Date(1778743125018)\/"
+    },
+    {
+        "ProcessId":  24972,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=748 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=38186613426 --metrics-shmem-handle=13740,i,17936415010829784584,8980116635307243104,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190709687219174546 --mojo-platform-channel-handle=9924 /prefetch:1",
+        "CreationDate":  "\/Date(1778748582823)\/"
+    },
+    {
+        "ProcessId":  15444,
+        "Name":  "brave.exe",
+        "CommandLine":  "\"C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe\" --type=renderer --enable-distillability-service --origin-trial-public-key=bYUKPJoPnCxeNvu72j4EmPuK7tr1PAC7SHh8ld9Mw3E=,fMS4mpO6buLQ/QMd+zJmxzty/VQ6B1EUZqoCU04zoRU= --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=6 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=38496782897 --metrics-shmem-handle=4076,i,8692264181635260030,13615673960904106044,2097152 --field-trial-handle=1928,i,4344065359826915995,9393073296221423907,262144 --variations-seed-version=main@af2618dcbe0c17ee76b38727ac55353f3dc7157a --pseudonymization-salt-handle=1932,i,12192295810812714515,10549025662444024528,4 --trace-process-track-uuid=3190708991934122588 --mojo-platform-channel-handle=4080 /prefetch:1",
+        "CreationDate":  "\/Date(1778748892993)\/"
+    },
+    {
+        "ProcessId":  8484,
+        "Name":  "brave.exe",
+        "CommandLine":  "\"C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe\" --type=utility --utility-sub-type=audio.mojom.AudioService --lang=fr --service-sandbox-type=audio --video-capture-use-gpu-memory-buffer --no-pre-read-main-dll --metrics-shmem-handle=5228,i,7620450517792691298,4073943431676506044,524288 --field-trial-handle=1928,i,4344065359826915995,9393073296221423907,262144 --variations-seed-version=main@af2618dcbe0c17ee76b38727ac55353f3dc7157a --pseudonymization-salt-handle=1932,i,12192295810812714515,10549025662444024528,4 --trace-process-track-uuid=3190708993808206286 --mojo-platform-channel-handle=4408 /prefetch:12",
+        "CreationDate":  "\/Date(1778748897158)\/"
+    },
+    {
+        "ProcessId":  24176,
+        "Name":  "brave.exe",
+        "CommandLine":  "\"C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe\" --type=utility --utility-sub-type=video_capture.mojom.VideoCaptureService --lang=fr --service-sandbox-type=none --video-capture-use-gpu-memory-buffer --no-pre-read-main-dll --metrics-shmem-handle=5688,i,10073281422892041617,819982605156969341,524288 --field-trial-handle=1928,i,4344065359826915995,9393073296221423907,262144 --variations-seed-version=main@af2618dcbe0c17ee76b38727ac55353f3dc7157a --pseudonymization-salt-handle=1932,i,12192295810812714515,10549025662444024528,4 --trace-process-track-uuid=3190708994745248135 --mojo-platform-channel-handle=5804 /prefetch:14",
+        "CreationDate":  "\/Date(1778748899442)\/"
+    },
+    {
+        "ProcessId":  33632,
+        "Name":  "brave.exe",
+        "CommandLine":  "\"C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe\" --type=renderer --enable-distillability-service --origin-trial-public-key=bYUKPJoPnCxeNvu72j4EmPuK7tr1PAC7SHh8ld9Mw3E=,fMS4mpO6buLQ/QMd+zJmxzty/VQ6B1EUZqoCU04zoRU= --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=23 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=43535109374 --metrics-shmem-handle=7604,i,5920765817658633272,6547033850988604704,2097152 --field-trial-handle=1928,i,4344065359826915995,9393073296221423907,262144 --variations-seed-version=main@af2618dcbe0c17ee76b38727ac55353f3dc7157a --pseudonymization-salt-handle=1932,i,12192295810812714515,10549025662444024528,4 --trace-process-track-uuid=3190709007863834021 --mojo-platform-channel-handle=1648 /prefetch:1",
+        "CreationDate":  "\/Date(1778753931319)\/"
+    },
+    {
+        "ProcessId":  28832,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=1163 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=44338953142 --metrics-shmem-handle=14000,i,10207886489092999431,8657839676676735847,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190710076091541881 --mojo-platform-channel-handle=9040 /prefetch:1",
+        "CreationDate":  "\/Date(1778754735163)\/"
+    },
+    {
+        "ProcessId":  23676,
+        "Name":  "notepad++.exe",
+        "CommandLine":  "\"C:\\Program Files\\Notepad++\\notepad++.exe\" \"C:\\Users\\User\\AppData\\Local\\Temp\\Rar$DIa24200.42885\\00_README_REUNION_EXPERTS_POWERFLOW_V75.md\"",
+        "CreationDate":  "\/Date(1778754792691)\/"
+    },
+    {
+        "ProcessId":  30796,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=1965 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=56404514578 --metrics-shmem-handle=18384,i,6867793354291259064,15705920519810592579,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190710827599104779 --mojo-platform-channel-handle=15528 /prefetch:1",
+        "CreationDate":  "\/Date(1778766800724)\/"
+    },
+    {
+        "ProcessId":  11796,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=1987 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=56494220002 --metrics-shmem-handle=14384,i,18040844079550806932,4917110530366604963,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190710848214025457 --mojo-platform-channel-handle=4376 /prefetch:1",
+        "CreationDate":  "\/Date(1778766890429)\/"
+    },
+    {
+        "ProcessId":  34652,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=1989 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=56495080366 --metrics-shmem-handle=13644,i,11145498399048916077,10591924315772725840,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190710850088109155 --mojo-platform-channel-handle=16848 /prefetch:1",
+        "CreationDate":  "\/Date(1778766891290)\/"
+    },
+    {
+        "ProcessId":  36856,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=2812 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=64299277908 --metrics-shmem-handle=17880,i,6029253539760914534,17806697403419438731,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190711621273550882 --mojo-platform-channel-handle=14064 /prefetch:1",
+        "CreationDate":  "\/Date(1778774695488)\/"
+    },
+    {
+        "ProcessId":  36016,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=2819 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=64404561799 --metrics-shmem-handle=13652,i,12849334066843100106,17391945194882368349,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190711627832843825 --mojo-platform-channel-handle=14104 /prefetch:1",
+        "CreationDate":  "\/Date(1778774800771)\/"
+    },
+    {
+        "ProcessId":  30824,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=2820 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=64426426578 --metrics-shmem-handle=14112,i,7292330988589605138,10408242015040793271,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190711628769885674 --mojo-platform-channel-handle=18856 /prefetch:1",
+        "CreationDate":  "\/Date(1778774822636)\/"
+    },
+    {
+        "ProcessId":  34460,
+        "Name":  "powershell.exe",
+        "CommandLine":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoExit -Command cd \"C:/Users/User/Desktop/ProjetPowerFlow/IA/GPT\"; python -m http.server 8000 ",
+        "CreationDate":  "\/Date(1778780007280)\/"
+    },
+    {
+        "ProcessId":  32920,
+        "Name":  "OpenConsole.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.10921.0_x64__8wekyb3d8bbwe\\OpenConsole.exe\" -Embedding",
+        "CreationDate":  "\/Date(1778780007337)\/"
+    },
+    {
+        "ProcessId":  37080,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=3329 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=69925141047 --metrics-shmem-handle=14136,i,7030543985654311334,14188232421909240947,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190712105724186815 --mojo-platform-channel-handle=15384 /prefetch:1",
+        "CreationDate":  "\/Date(1778780321351)\/"
+    },
+    {
+        "ProcessId":  35916,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=3366 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=70216446878 --metrics-shmem-handle=15844,i,3015481210973424350,5588427826303559200,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190712140394735228 --mojo-platform-channel-handle=18596 /prefetch:1",
+        "CreationDate":  "\/Date(1778780612656)\/"
+    },
+    {
+        "ProcessId":  20992,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=3512 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=71706578997 --metrics-shmem-handle=19720,i,4209075220709046261,18085993584388047227,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190712277202845182 --mojo-platform-channel-handle=15848 /prefetch:1",
+        "CreationDate":  "\/Date(1778782102789)\/"
+    },
+    {
+        "ProcessId":  35080,
+        "Name":  "brave.exe",
+        "CommandLine":  "\"C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe\" --type=renderer --enable-distillability-service --origin-trial-public-key=bYUKPJoPnCxeNvu72j4EmPuK7tr1PAC7SHh8ld9Mw3E=,fMS4mpO6buLQ/QMd+zJmxzty/VQ6B1EUZqoCU04zoRU= --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=55 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=73287921732 --metrics-shmem-handle=5372,i,16324232885321625860,10133038056393295971,2097152 --field-trial-handle=1928,i,4344065359826915995,9393073296221423907,262144 --variations-seed-version=main@af2618dcbe0c17ee76b38727ac55353f3dc7157a --pseudonymization-salt-handle=1932,i,12192295810812714515,10549025662444024528,4 --trace-process-track-uuid=3190709037849173189 --mojo-platform-channel-handle=6876 /prefetch:1",
+        "CreationDate":  "\/Date(1778783684132)\/"
+    },
+    {
+        "ProcessId":  4824,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=3759 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=74811196923 --metrics-shmem-handle=11500,i,5728573122661215292,12729469376690856978,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190712508652181885 --mojo-platform-channel-handle=14676 /prefetch:1",
+        "CreationDate":  "\/Date(1778785207408)\/"
+    },
+    {
+        "ProcessId":  37304,
+        "Name":  "powershell.exe",
+        "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" ",
+        "CreationDate":  "\/Date(1778790293796)\/"
+    },
+    {
+        "ProcessId":  27148,
+        "Name":  "OpenConsole.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.10921.0_x64__8wekyb3d8bbwe\\OpenConsole.exe\" -Embedding",
+        "CreationDate":  "\/Date(1778790293856)\/"
+    },
+    {
+        "ProcessId":  35864,
+        "Name":  "claude.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\Claude.exe\" --type=renderer --user-data-dir=\"C:\\Users\\User\\AppData\\Roaming\\Claude\" --standard-schemes=cowork-artifact,cowork-file,claude-simulator,app --secure-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --bypasscsp-schemes=claude-simulator,sentry-ipc --cors-schemes=claude-simulator,sentry-ipc --fetch-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --service-worker-schemes=app --streaming-schemes=cowork-file,claude-simulator --app-path=\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\resources\\app.asar\" --enable-sandbox --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=4 --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=95530828767 --field-trial-handle=2020,i,14681874446038208423,4837475382544470831,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EnableTransparentHwndEnlargement,PdfUseShowSaveFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=2024,i,6706091368028542579,10208070040167787502,4 --trace-process-track-uuid=3190708990060038890 --mojo-platform-channel-handle=2872 /prefetch:1",
+        "CreationDate":  "\/Date(1778805927051)\/"
+    },
+    {
+        "ProcessId":  37268,
+        "Name":  "claude.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\Claude.exe\" --type=renderer --user-data-dir=\"C:\\Users\\User\\AppData\\Roaming\\Claude\" --standard-schemes=cowork-artifact,cowork-file,claude-simulator,app --secure-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --bypasscsp-schemes=claude-simulator,sentry-ipc --cors-schemes=claude-simulator,sentry-ipc --fetch-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --service-worker-schemes=app --streaming-schemes=cowork-file,claude-simulator --app-path=\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\resources\\app.asar\" --enable-sandbox --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=6 --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=95530977111 --field-trial-handle=2020,i,14681874446038208423,4837475382544470831,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EnableTransparentHwndEnlargement,PdfUseShowSaveFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=2024,i,6706091368028542579,10208070040167787502,4 --trace-process-track-uuid=3190708991934122588 --mojo-platform-channel-handle=3208 /prefetch:1",
+        "CreationDate":  "\/Date(1778805927200)\/"
+    },
+    {
+        "ProcessId":  19812,
+        "Name":  "claude.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\Claude.exe\" --type=renderer --user-data-dir=\"C:\\Users\\User\\AppData\\Roaming\\Claude\" --standard-schemes=cowork-artifact,cowork-file,claude-simulator,app --secure-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --bypasscsp-schemes=claude-simulator,sentry-ipc --cors-schemes=claude-simulator,sentry-ipc --fetch-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --service-worker-schemes=app --streaming-schemes=cowork-file,claude-simulator --app-path=\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\resources\\app.asar\" --enable-sandbox --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=8 --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=95533243317 --field-trial-handle=2020,i,14681874446038208423,4837475382544470831,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EnableTransparentHwndEnlargement,PdfUseShowSaveFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=2024,i,6706091368028542579,10208070040167787502,4 --trace-process-track-uuid=3190708993808206286 --mojo-platform-channel-handle=4312 --desktop-features=\"{\\\"nativeQuickEntry\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"quickEntryDictation\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"customQuickEntryDictationShortcut\\\":{\\\"status\\\":\\\"supported\\\"},\\\"plushRaccoon\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"quietPenguin\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"chillingSlothFeat\\\":{\\\"status\\\":\\\"supported\\\"},\\\"chillingSlothEnterprise\\\":{\\\"status\\\":\\\"supported\\\"},\\\"chillingSlothLocal\\\":{\\\"status\\\":\\\"supported\\\"},\\\"chillingSlothPool\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"yukonSilver\\\":{\\\"status\\\":\\\"unsupported\\\",\\\"reason\\\":\\\"Missing HCS services: HNS, vmcompute, vfpext\\\",\\\"unsupportedCode\\\":\\\"hcs_not_available\\\"},\\\"yukonSilverGems\\\":{\\\"status\\\":\\\"unsupported\\\",\\\"reason\\\":\\\"Missing HCS services: HNS, vmcompute, vfpext\\\",\\\"unsupportedCode\\\":\\\"hcs_not_available\\\"},\\\"yukonSilverGemsCache\\\":{\\\"status\\\":\\\"unsupported\\\",\\\"reason\\\":\\\"Missing HCS services: HNS, vmcompute, vfpext\\\",\\\"unsupportedCode\\\":\\\"hcs_not_available\\\"},\\\"wakeScheduler\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"desktopTopBar\\\":{\\\"status\\\":\\\"supported\\\"},\\\"ccdPlugins\\\":{\\\"status\\\":\\\"supported\\\"},\\\"computerUse\\\":{\\\"status\\\":\\\"supported\\\"},\\\"coworkKappa\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"coworkArtifacts\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"markTaskComplete\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"framebufferPreview\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"iosSimulator\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"androidEmulator\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"grandPrix\\\":{\\\"status\\\":\\\"unavailable\\\"}}\" --desktop-enterprise-config=\"{\\\"forceLoginOrgUUIDs\\\":null,\\\"disableEssentialTelemetry\\\":false,\\\"disableNonessentialTelemetry\\\":false,\\\"banner\\\":null}\" --desktop-telemetry-config=\"{\\\"deploymentMode\\\":\\\"1p\\\",\\\"appVersion\\\":\\\"1.7196.0\\\",\\\"cookielessOrigin\\\":false}\" /prefetch:1",
+        "CreationDate":  "\/Date(1778805929541)\/"
+    },
+    {
+        "ProcessId":  12116,
+        "Name":  "claude.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\Claude.exe\" --type=utility --utility-sub-type=audio.mojom.AudioService --lang=fr --service-sandbox-type=audio --video-capture-use-gpu-memory-buffer --user-data-dir=\"C:\\Users\\User\\AppData\\Roaming\\Claude\" --standard-schemes=cowork-artifact,cowork-file,claude-simulator,app --secure-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --bypasscsp-schemes=claude-simulator,sentry-ipc --cors-schemes=claude-simulator,sentry-ipc --fetch-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --service-worker-schemes=app --streaming-schemes=cowork-file,claude-simulator --field-trial-handle=2020,i,14681874446038208423,4837475382544470831,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EnableTransparentHwndEnlargement,PdfUseShowSaveFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=2024,i,6706091368028542579,10208070040167787502,4 --trace-process-track-uuid=3190708995682289984 --mojo-platform-channel-handle=4320 /prefetch:12",
+        "CreationDate":  "\/Date(1778805933012)\/"
+    },
+    {
+        "ProcessId":  21848,
+        "Name":  "claude.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\Claude.exe\" --type=utility --utility-sub-type=video_capture.mojom.VideoCaptureService --lang=fr --service-sandbox-type=none --video-capture-use-gpu-memory-buffer --user-data-dir=\"C:\\Users\\User\\AppData\\Roaming\\Claude\" --standard-schemes=cowork-artifact,cowork-file,claude-simulator,app --secure-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --bypasscsp-schemes=claude-simulator,sentry-ipc --cors-schemes=claude-simulator,sentry-ipc --fetch-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --service-worker-schemes=app --streaming-schemes=cowork-file,claude-simulator --field-trial-handle=2020,i,14681874446038208423,4837475382544470831,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EnableTransparentHwndEnlargement,PdfUseShowSaveFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=2024,i,6706091368028542579,10208070040167787502,4 --trace-process-track-uuid=3190708996619331833 --mojo-platform-channel-handle=4308 /prefetch:14",
+        "CreationDate":  "\/Date(1778805933015)\/"
+    },
+    {
+        "ProcessId":  16852,
+        "Name":  "claude.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\Claude.exe\" --type=renderer --user-data-dir=\"C:\\Users\\User\\AppData\\Roaming\\Claude\" --standard-schemes=cowork-artifact,cowork-file,claude-simulator,app --secure-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --bypasscsp-schemes=claude-simulator,sentry-ipc --cors-schemes=claude-simulator,sentry-ipc --fetch-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --service-worker-schemes=app --streaming-schemes=cowork-file,claude-simulator --app-path=\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\resources\\app.asar\" --enable-sandbox --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=14 --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=95558688160 --field-trial-handle=2020,i,14681874446038208423,4837475382544470831,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EnableTransparentHwndEnlargement,PdfUseShowSaveFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=2024,i,6706091368028542579,10208070040167787502,4 --trace-process-track-uuid=3190708999430457380 --mojo-platform-channel-handle=4908 --desktop-features=\"{\\\"nativeQuickEntry\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"quickEntryDictation\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"customQuickEntryDictationShortcut\\\":{\\\"status\\\":\\\"supported\\\"},\\\"plushRaccoon\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"quietPenguin\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"chillingSlothFeat\\\":{\\\"status\\\":\\\"supported\\\"},\\\"chillingSlothEnterprise\\\":{\\\"status\\\":\\\"supported\\\"},\\\"chillingSlothLocal\\\":{\\\"status\\\":\\\"supported\\\"},\\\"chillingSlothPool\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"yukonSilver\\\":{\\\"status\\\":\\\"unsupported\\\",\\\"reason\\\":\\\"Missing HCS services: HNS, vmcompute, vfpext\\\",\\\"unsupportedCode\\\":\\\"hcs_not_available\\\"},\\\"yukonSilverGems\\\":{\\\"status\\\":\\\"unsupported\\\",\\\"reason\\\":\\\"Missing HCS services: HNS, vmcompute, vfpext\\\",\\\"unsupportedCode\\\":\\\"hcs_not_available\\\"},\\\"yukonSilverGemsCache\\\":{\\\"status\\\":\\\"unsupported\\\",\\\"reason\\\":\\\"Missing HCS services: HNS, vmcompute, vfpext\\\",\\\"unsupportedCode\\\":\\\"hcs_not_available\\\"},\\\"wakeScheduler\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"desktopTopBar\\\":{\\\"status\\\":\\\"supported\\\"},\\\"ccdPlugins\\\":{\\\"status\\\":\\\"supported\\\"},\\\"computerUse\\\":{\\\"status\\\":\\\"supported\\\"},\\\"coworkKappa\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"coworkArtifacts\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"markTaskComplete\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"framebufferPreview\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"iosSimulator\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"androidEmulator\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"grandPrix\\\":{\\\"status\\\":\\\"unavailable\\\"}}\" --desktop-enterprise-config=\"{\\\"forceLoginOrgUUIDs\\\":null,\\\"disableEssentialTelemetry\\\":false,\\\"disableNonessentialTelemetry\\\":false,\\\"banner\\\":null}\" --desktop-telemetry-config=\"{\\\"deploymentMode\\\":\\\"1p\\\",\\\"appVersion\\\":\\\"1.7196.0\\\",\\\"cookielessOrigin\\\":false}\" /prefetch:1",
+        "CreationDate":  "\/Date(1778805954904)\/"
+    },
+    {
+        "ProcessId":  38652,
+        "Name":  "claude.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\Claude.exe\" --type=renderer --user-data-dir=\"C:\\Users\\User\\AppData\\Roaming\\Claude\" --standard-schemes=cowork-artifact,cowork-file,claude-simulator,app --secure-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --bypasscsp-schemes=claude-simulator,sentry-ipc --cors-schemes=claude-simulator,sentry-ipc --fetch-schemes=cowork-artifact,cowork-file,claude-simulator,app,sentry-ipc --service-worker-schemes=app --streaming-schemes=cowork-file,claude-simulator --app-path=\"C:\\Program Files\\WindowsApps\\Claude_1.7196.0.0_x64__pzs8sxrjxfjjc\\app\\resources\\app.asar\" --enable-sandbox --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=15 --time-ticks-at-unix-epoch=-1778710396208084 --launch-time-ticks=95559646514 --field-trial-handle=2020,i,14681874446038208423,4837475382544470831,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EnableTransparentHwndEnlargement,PdfUseShowSaveFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=2024,i,6706091368028542579,10208070040167787502,4 --trace-process-track-uuid=3190709000367499229 --mojo-platform-channel-handle=4968 --desktop-features=\"{\\\"nativeQuickEntry\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"quickEntryDictation\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"customQuickEntryDictationShortcut\\\":{\\\"status\\\":\\\"supported\\\"},\\\"plushRaccoon\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"quietPenguin\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"chillingSlothFeat\\\":{\\\"status\\\":\\\"supported\\\"},\\\"chillingSlothEnterprise\\\":{\\\"status\\\":\\\"supported\\\"},\\\"chillingSlothLocal\\\":{\\\"status\\\":\\\"supported\\\"},\\\"chillingSlothPool\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"yukonSilver\\\":{\\\"status\\\":\\\"unsupported\\\",\\\"reason\\\":\\\"Missing HCS services: HNS, vmcompute, vfpext\\\",\\\"unsupportedCode\\\":\\\"hcs_not_available\\\"},\\\"yukonSilverGems\\\":{\\\"status\\\":\\\"unsupported\\\",\\\"reason\\\":\\\"Missing HCS services: HNS, vmcompute, vfpext\\\",\\\"unsupportedCode\\\":\\\"hcs_not_available\\\"},\\\"yukonSilverGemsCache\\\":{\\\"status\\\":\\\"unsupported\\\",\\\"reason\\\":\\\"Missing HCS services: HNS, vmcompute, vfpext\\\",\\\"unsupportedCode\\\":\\\"hcs_not_available\\\"},\\\"wakeScheduler\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"desktopTopBar\\\":{\\\"status\\\":\\\"supported\\\"},\\\"ccdPlugins\\\":{\\\"status\\\":\\\"supported\\\"},\\\"computerUse\\\":{\\\"status\\\":\\\"supported\\\"},\\\"coworkKappa\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"coworkArtifacts\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"markTaskComplete\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"framebufferPreview\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"iosSimulator\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"androidEmulator\\\":{\\\"status\\\":\\\"unavailable\\\"},\\\"grandPrix\\\":{\\\"status\\\":\\\"unavailable\\\"}}\" --desktop-enterprise-config=\"{\\\"forceLoginOrgUUIDs\\\":null,\\\"disableEssentialTelemetry\\\":false,\\\"disableNonessentialTelemetry\\\":false,\\\"banner\\\":null}\" --desktop-telemetry-config=\"{\\\"deploymentMode\\\":\\\"1p\\\",\\\"appVersion\\\":\\\"1.7196.0\\\",\\\"cookielessOrigin\\\":false}\" /prefetch:1",
+        "CreationDate":  "\/Date(1778805955864)\/"
+    },
+    {
+        "ProcessId":  34684,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5438 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=96580423950 --metrics-shmem-handle=12292,i,11561120497242564976,16442260537161145219,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190714081945446356 --mojo-platform-channel-handle=7024 /prefetch:1",
+        "CreationDate":  "\/Date(1778806976634)\/"
+    },
+    {
+        "ProcessId":  29904,
+        "Name":  "powershell.exe",
+        "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" ",
+        "CreationDate":  "\/Date(1778825575577)\/"
+    },
+    {
+        "ProcessId":  39000,
+        "Name":  "OpenConsole.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.10921.0_x64__8wekyb3d8bbwe\\OpenConsole.exe\" -Embedding",
+        "CreationDate":  "\/Date(1778825576504)\/"
+    },
+    {
+        "ProcessId":  24400,
+        "Name":  "terminal64.exe",
+        "CommandLine":  "\"C:\\FX\\OneFunded Capital MT5 Terminal 2\\terminal64.exe\" ",
+        "CreationDate":  "\/Date(1778836699192)\/"
+    },
+    {
+        "ProcessId":  38972,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=8095 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=133774054267 --metrics-shmem-handle=11132,i,4244677256270304313,836318388656597733,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190716571665639149 --mojo-platform-channel-handle=12448 /prefetch:1",
+        "CreationDate":  "\/Date(1778844170266)\/"
+    },
+    {
+        "ProcessId":  22204,
+        "Name":  "powershell.exe",
+        "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" ",
+        "CreationDate":  "\/Date(1778851089191)\/"
+    },
+    {
+        "ProcessId":  38568,
+        "Name":  "OpenConsole.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.10921.0_x64__8wekyb3d8bbwe\\OpenConsole.exe\" -Embedding",
+        "CreationDate":  "\/Date(1778851089287)\/"
+    },
+    {
+        "ProcessId":  47804,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=8776 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=143364825093 --metrics-shmem-handle=6352,i,314709527652459769,16663893734088238294,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190717209791138318 --mojo-platform-channel-handle=13084 /prefetch:1",
+        "CreationDate":  "\/Date(1778853761036)\/"
+    },
+    {
+        "ProcessId":  49296,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=renderer --perplexity-backend-url=https://www.perplexity.ai/ --perplexity-comet-plus-partners=washingtonpost.com,.washingtonpost.com --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=285 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=149579246337 --metrics-shmem-handle=9140,i,15726529208131376645,12208698675645025855,2097152 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190709253368798459 --mojo-platform-channel-handle=9968 /prefetch:1",
+        "CreationDate":  "\/Date(1778859975455)\/"
+    },
+    {
+        "ProcessId":  48796,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=9403 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=151138328255 --metrics-shmem-handle=18132,i,6439391839214405078,7613723813319642430,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190717797316377641 --mojo-platform-channel-handle=21432 /prefetch:1",
+        "CreationDate":  "\/Date(1778861534538)\/"
+    },
+    {
+        "ProcessId":  39648,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=9438 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=151464308512 --metrics-shmem-handle=12388,i,7727937363946634078,12454402570622062488,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190717830112842356 --mojo-platform-channel-handle=16280 /prefetch:1",
+        "CreationDate":  "\/Date(1778861860518)\/"
+    },
+    {
+        "ProcessId":  56052,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=9442 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=151474877599 --metrics-shmem-handle=14636,i,7044995007801720798,8334362632306562410,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190717833861009752 --mojo-platform-channel-handle=17960 /prefetch:1",
+        "CreationDate":  "\/Date(1778861871088)\/"
+    },
+    {
+        "ProcessId":  41080,
+        "Name":  "python.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe\" -m http.server 8000",
+        "CreationDate":  "\/Date(1778862166280)\/"
+    },
+    {
+        "ProcessId":  33488,
+        "Name":  "python.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe\"  -m http.server 8000",
+        "CreationDate":  "\/Date(1778862166369)\/"
+    },
+    {
+        "ProcessId":  54992,
+        "Name":  "python.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe\" -m http.server 8000",
+        "CreationDate":  "\/Date(1778862442134)\/"
+    },
+    {
+        "ProcessId":  51080,
+        "Name":  "python.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe\"  -m http.server 8000",
+        "CreationDate":  "\/Date(1778862442237)\/"
+    },
+    {
+        "ProcessId":  44056,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=9508 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=152089391011 --metrics-shmem-handle=16324,i,14012072419806867029,3711530069857775035,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190717895705771786 --mojo-platform-channel-handle=10324 /prefetch:1",
+        "CreationDate":  "\/Date(1778862485602)\/"
+    },
+    {
+        "ProcessId":  21660,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=9777 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=154581183951 --metrics-shmem-handle=18788,i,4561877090939689028,2761040407626637427,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190718147770029167 --mojo-platform-channel-handle=18092 /prefetch:1",
+        "CreationDate":  "\/Date(1778864977394)\/"
+    },
+    {
+        "ProcessId":  52880,
+        "Name":  "comet.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Perplexity\\Comet\\Application\\comet.exe\" --type=renderer --extension-process --perplexity-backend-url=https://www.perplexity.ai/ --perplexity-comet-plus-partners=washingtonpost.com,.washingtonpost.com --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=294 --time-ticks-at-unix-epoch=-1778710396208085 --launch-time-ticks=155066608757 --metrics-shmem-handle=7368,i,7130733423391049845,9344715759009529590,2097152 --field-trial-handle=1876,i,11716327255995075467,5953852477099941339,262144 --disable-features=Allow-external-extensions-scripting-on-NTP --variations-seed-version --pseudonymization-salt-handle=1880,i,16477480470732212680,4001637279541009760,4 --trace-process-track-uuid=3190709261802175100 --mojo-platform-channel-handle=8312 /prefetch:9",
+        "CreationDate":  "\/Date(1778865462818)\/"
+    },
+    {
+        "ProcessId":  30888,
+        "Name":  "chrome.exe",
+        "CommandLine":  "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --origin-trial-disabled-features=CanvasTextNg|WebAssemblyCustomDescriptors --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=fr --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=9893 --time-ticks-at-unix-epoch=-1778710396208083 --launch-time-ticks=155870435167 --metrics-shmem-handle=21132,i,16433414372357602328,9429042088327224245,2097152 --field-trial-handle=1828,i,11793407690885855664,10469830417290492046,262144 --variations-seed-version=20260513-090056.789000-production --pseudonymization-salt-handle=1824,i,13379913453133307015,16536671590487385780,4 --trace-process-track-uuid=3190718256466883651 --mojo-platform-channel-handle=20120 /prefetch:1",
+        "CreationDate":  "\/Date(1778866266645)\/"
+    },
+    {
+        "ProcessId":  55736,
+        "Name":  "cmd.exe",
+        "CommandLine":  "\"cmd.exe\" /c cd /d C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core \u0026\u0026 python scheduler_powerflow_turbo_wrapper.py --symbols GBPUSD,EURUSD,USDJPY \u003e\u003e C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\logs\\task_scheduler.log 2\u003e\u00261",
+        "CreationDate":  "\/Date(1778866321557)\/"
+    },
+    {
+        "ProcessId":  45552,
+        "Name":  "OpenConsole.exe",
+        "CommandLine":  "\"C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.10921.0_x64__8wekyb3d8bbwe\\OpenConsole.exe\" -Embedding",
+        "CreationDate":  "\/Date(1778866321590)\/"
+    },
+    {
+        "ProcessId":  55908,
+        "Name":  "python.exe",
+        "CommandLine":  "python  scheduler_powerflow_turbo_wrapper.py --symbols GBPUSD,EURUSD,USDJPY ",
+        "CreationDate":  "\/Date(1778866321990)\/"
+    },
+    {
+        "ProcessId":  57032,
+        "Name":  "python.exe",
+        "CommandLine":  "\"C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe\"  scheduler_powerflow_turbo_wrapper.py --symbols GBPUSD,EURUSD,USDJPY ",
+        "CreationDate":  "\/Date(1778866322097)\/"
+    },
+    {
+        "ProcessId":  55984,
+        "Name":  "python.exe",
+        "CommandLine":  "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe scheduler_powerflow.py --once --symbols GBPUSD,EURUSD,USDJPY",
+        "CreationDate":  "\/Date(1778866322207)\/"
+    },
+    {
+        "ProcessId":  22208,
+        "Name":  "python.exe",
+        "CommandLine":  "C:\\Users\\User\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe run_temporal_node_state_once.py --db powerflow.db --symbol GBPUSD --out output\\dashboard_surface\\GBPUSD\\node.json --pretty",
+        "CreationDate":  "\/Date(1778866322318)\/"
+    }
+]
