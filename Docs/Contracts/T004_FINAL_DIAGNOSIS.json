@@ -1,6 +1,6 @@
 {
   "contract": "POWERFLOW_T004_FINAL_DIAGNOSIS",
-  "created_at": "2026-05-15T17:54:14Z",
+  "created_at": "2026-05-15T17:56:58Z",
   "status": "CAPTURE_ROUTING_USDJPY_ABSENT_FROM_ACTIVE_TABLES",
   "missing_source_contracts": [],
   "evidence": {
