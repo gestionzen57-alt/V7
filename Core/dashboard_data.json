@@ -45,11 +45,11 @@
   },
   "source": "dashboard_sync_agent_v01",
   "symbol": "GBPUSD",
-  "generated_at_utc": "2026-05-15T16:23:07.002956+00:00",
+  "generated_at_utc": "2026-05-15T18:23:06.183189+00:00",
   "cockpit_status": "AGENTIC_WINDOW_ACTIVE",
   "headline": "FENÊTRE FRACTALE — temps compressé puis étiré",
   "behavioral_summary": {
-    "behavioral_count": 3,
+    "behavioral_count": 5,
     "degraded_count": 0,
     "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
     "top_level": "HOT",
@@ -60,68 +60,91 @@
     {
       "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
       "level": "HOT",
-      "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_UP) avec relais M5 propre — GBP pressure up / USD pressure down",
+      "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_DOWN) avec relais M5 propre — GBP pressure down / USD pressure up",
       "source_fields": [
         "kinematics_state.first_detachment",
         "telegram_gating.relay_quality"
       ],
       "dashboard_badge": "🔥 DETACH+RELAY",
-      "telegram_text": "⚡ FIRST DETACHMENT + RELAY CLEAN\nGBP pressure up / USD pressure down\nKinematics: M1_FIRST_DETACHMENT_GBP_UP"
+      "telegram_text": "⚡ FIRST DETACHMENT + RELAY CLEAN\nGBP pressure down / USD pressure up\nKinematics: M1_FIRST_DETACHMENT_GBP_DOWN"
+    },
+    {
+      "name": "COUNTER_RELEASE_ATTEMPT_ALERT",
+      "level": "WATCH",
+      "reason": "Tentative de contre-libération détectée — CONTRE la direction dominante, non confirmée (COUNTER_RELEASE_ATTEMPT ≠ RELEASE_CONFIRMED) — counter release non supportée par energy",
+      "source_fields": [
+        "kinematics_state.release_candidate.release_state",
+        "energy_context.secondary_state"
+      ],
+      "dashboard_badge": "👁 COUNTER REL",
+      "telegram_text": "👁 COUNTER RELEASE ATTEMPT\nContre GBP pressure down / USD pressure up\nNon confirmé — observer absorption"
+    },
+    {
+      "name": "NODE_HEAT_ENERGY_DIVERGENCE",
+      "level": "WATCH",
+      "reason": "Node HOT_NODE — direction GBP pressure down / USD pressure up — mais GBP=ENERGY_LOW / USD=ENERGY_WEAK (node_energy_relation=DIVERGENT) — Node Heat ≠ Currency Energy",
+      "source_fields": [
+        "node_summary.highest_level",
+        "energy_context.node_energy_relation",
+        "energy_context.field_quality"
+      ],
+      "dashboard_badge": "👁 HEAT≠ENERGY",
+      "telegram_text": "👁 NODE HEAT / ENERGY DIVERGENCE\nNode: HOT_NODE | relation: DIVERGENT\nGBP=ENERGY_LOW | USD=ENERGY_WEAK\nNe pas confondre — observer les deux"
     },
     {
       "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
       "level": "INFO",
-      "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9)",
+      "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — EUR+GBP+JPY en compression (spread force: 4.0) — champ energy thin/mixed",
       "source_fields": [
-        "kinematics_state.tight_gravity_cluster"
+        "kinematics_state.tight_gravity_cluster",
+        "energy_context.field_quality"
       ],
       "dashboard_badge": "ℹ GRAVITY CLUSTER",
-      "telegram_text": "ℹ TIGHT GRAVITY CLUSTER\nM15_TIGHT_GRAVITY_GROUP\nDevises: USD+CHF+EUR | Spread: 13.9"
+      "telegram_text": "ℹ TIGHT GRAVITY CLUSTER\nM15_TIGHT_GRAVITY_GROUP\nDevises: EUR+GBP+JPY | Spread: 4.0"
     },
     {
       "name": "SAME_ANGLE_CLUSTER_ALERT",
       "level": "INFO",
-      "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — GBP+CHF+NZD en mouvement synchronisé",
+      "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — CHF+GBP+CAD en mouvement synchronisé",
       "source_fields": [
         "kinematics_state.same_angle_cluster"
       ],
       "dashboard_badge": "ℹ SAME ANGLE",
-      "telegram_text": "ℹ SAME ANGLE CLUSTER\nM5_POLARIZED_SAME_ANGLE_UP\nDevises: GBP+CHF+NZD"
+      "telegram_text": "ℹ SAME ANGLE CLUSTER\nM5_POLARIZED_SAME_ANGLE_UP\nDevises: CHF+GBP+CAD"
     }
   ],
   "degraded_alerts": [],
   "film_steps": [
     "[FRACTAL] LTF_NODE_INSIDE_HTF_BATTLE_FIELD",
-    "[NODE] HOT_NODE @ M1 — GBP pressure up / USD pressure down",
+    "[NODE] HOT_NODE @ H1 — GBP pressure down / USD pressure up",
     "[RELAY] M5 relais propre — confirmation tactique disponible",
-    "[KINEM] angle=M1_GBP_USD_DIVERGING|M5_GBP_USD_DIVERGING | speed=M1_GBP_FAST_UP|M1_USD_FAST_DOWN | accel=M1_USD_ACCEL_UP",
-    "[DETACH] M1_FIRST_DETACHMENT_GBP_UP — détachement actif",
-    "[RELEASE] RELEASE_CANDIDATE | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean,m5_direction_support | nok=—",
-    "[ENERGY_CONTEXT] OBSERVATION_ONLY | GBP=ENERGY_MEDIUM | USD=ENERGY_LOW | relation=NEUTRAL | field=MIXED_BIPOLAR_FIELD",
+    "[KINEM] angle=M1_GBP_USD_DIVERGING | speed=M1_GBP_FAST_DOWN | accel=M1_GBP_ACCEL_UP|M1_USD_ACCEL_DOWN",
+    "[DETACH] M1_FIRST_DETACHMENT_GBP_DOWN — détachement actif",
+    "[RELEASE] COUNTER_RELEASE_ATTEMPT | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean | nok=—",
+    "[ENERGY_CONTEXT] OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_WEAK | relation=DIVERGENT | field=ENERGY_THIN_OR_MIXED",
     "[MATURITY] CONFIRMING → surveiller ABSORBING",
     "[RG] TOPLINE_UNRELIABLE | cross=RELATIONAL_GRAVITY_MISSING | state=RELATIONAL_GRAVITY_TOPLINE_PARTIAL | direction=UNKNOWN | leader=UNKNOWN | aligned_tfs=[] | read=tf_details"
   ],
   "next_watch_enriched": [
     "WATCH_MICROSTRUCTURE_CONFIRMATION",
     "WATCH_SECOND_LEG",
-    "WATCH_REPULSION_CONTINUATION",
-    "WATCH_PRICE_CATCHUP",
     "WATCH_FRACTAL_CONFIRMATION",
-    "WATCH_M1_RESPRING",
     "WATCH_M15_ENERGY_RELAY",
     "WATCH_HTF_BATTLE_RESOLUTION",
     "WATCH_EXTENDED_MICRO_WINDOW",
     "WATCH_RELEASE_CONFIRMATION — détachement + relay clean actif",
-    "WATCH_GRAVITY_BREAK — cluster serré, surveiller rupture"
+    "WATCH_ABSORPTION_OR_REJECTION — counter attempt en cours",
+    "WATCH_GRAVITY_BREAK — cluster serré, surveiller rupture",
+    "WATCH_ENERGY_ALIGNMENT — divergence Heat/Energy à surveiller"
   ],
   "behavioral_flow": {
     "title": "BEHAVIORAL FLOW",
-    "status": "HOT_DETACHMENT",
+    "status": "HOT_DETACHMENT_COUNTER_RELEASE_ENERGY_DIVERGENT",
     "level": "HOT",
     "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
-    "line": "M1_FIRST_DETACHMENT_GBP_UP — détachement actif | RELEASE_CANDIDATE | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean,m5_direction_support | nok=— | OBSERVATION_ONLY | GBP=ENERGY_MEDIUM | USD=ENERGY_LOW | relation=NEUTRAL | field=MIXED_BIPOLAR_FIELD",
+    "line": "M1_FIRST_DETACHMENT_GBP_DOWN — détachement actif | COUNTER_RELEASE_ATTEMPT | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean | nok=— | OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_WEAK | relation=DIVERGENT | field=ENERGY_THIN_OR_MIXED",
     "summary": {
-      "behavioral_count": 3,
+      "behavioral_count": 5,
       "degraded_count": 0,
       "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
       "top_level": "HOT",
@@ -133,19 +156,31 @@
         "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
         "level": "HOT",
         "badge": "🔥 DETACH+RELAY",
-        "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_UP) avec relais M5 propre — GBP pressure up / USD pressure down"
+        "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_DOWN) avec relais M5 propre — GBP pressure down / USD pressure up"
+      },
+      {
+        "name": "COUNTER_RELEASE_ATTEMPT_ALERT",
+        "level": "WATCH",
+        "badge": "👁 COUNTER REL",
+        "reason": "Tentative de contre-libération détectée — CONTRE la direction dominante, non confirmée (COUNTER_RELEASE_ATTEMPT ≠ RELEASE_CONFIRMED) — counter release non supportée par energy"
+      },
+      {
+        "name": "NODE_HEAT_ENERGY_DIVERGENCE",
+        "level": "WATCH",
+        "badge": "👁 HEAT≠ENERGY",
+        "reason": "Node HOT_NODE — direction GBP pressure down / USD pressure up — mais GBP=ENERGY_LOW / USD=ENERGY_WEAK (node_energy_relation=DIVERGENT) — Node Heat ≠ Currency Energy"
       },
       {
         "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
         "level": "INFO",
         "badge": "ℹ GRAVITY CLUSTER",
-        "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9)"
+        "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — EUR+GBP+JPY en compression (spread force: 4.0) — champ energy thin/mixed"
       },
       {
         "name": "SAME_ANGLE_CLUSTER_ALERT",
         "level": "INFO",
         "badge": "ℹ SAME ANGLE",
-        "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — GBP+CHF+NZD en mouvement synchronisé"
+        "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — CHF+GBP+CAD en mouvement synchronisé"
       }
     ]
   },
@@ -157,18 +192,18 @@
     },
     {
       "title": "SCÈNE",
-      "status": "GRAVITY_RESPRING_NODE",
-      "line": "GRAVITY_RESPRING_NODE — USD+JPY+CAD reprennent contre GBP+AUD+CHF+NZD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG."
+      "status": "POST_NODE_GRAVITY_CONFIRMATION_LEG",
+      "line": "POST_NODE_GRAVITY_CONFIRMATION_LEG — GBP+JPY vs AUD+NZD+EUR+CHF+USD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG."
     },
     {
       "title": "FRACTALITÉ",
       "status": "FRACTAL_CONTRADICTION_FIELD",
-      "line": "GBPUSD | GRAVITY_RESPRING_NODE | FRACTAL_CONTRADICTION_FIELD | temps compressé puis étiré | HTF=HTF_SILENT_OR_FLAT | NEXT=WATCH_SECOND_LEG"
+      "line": "GBPUSD | POST_NODE_GRAVITY_CONFIRMATION_LEG | FRACTAL_CONTRADICTION_FIELD | temps compressé puis étiré | HTF=HTF_SILENT_OR_FLAT | NEXT=WATCH_SECOND_LEG"
     },
     {
       "title": "EXTENDED V0.2",
       "status": "EXTENDED DATA PRESENT — NO MICRO SPIKE CONFIRMED",
-      "line": "M1_NODE_BIRTH | NZD_AVAILABLE"
+      "line": "NZD_AVAILABLE | M1_NODE_BIRTH | PRICE_CATCHUP_CONFIRMATION"
     },
     {
       "title": "NEXT WATCH",
@@ -177,12 +212,12 @@
     },
     {
       "title": "BEHAVIORAL FLOW",
-      "status": "HOT_DETACHMENT",
+      "status": "HOT_DETACHMENT_COUNTER_RELEASE_ENERGY_DIVERGENT",
       "level": "HOT",
       "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
-      "line": "M1_FIRST_DETACHMENT_GBP_UP — détachement actif | RELEASE_CANDIDATE | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean,m5_direction_support | nok=— | OBSERVATION_ONLY | GBP=ENERGY_MEDIUM | USD=ENERGY_LOW | relation=NEUTRAL | field=MIXED_BIPOLAR_FIELD",
+      "line": "M1_FIRST_DETACHMENT_GBP_DOWN — détachement actif | COUNTER_RELEASE_ATTEMPT | ok=first_detachment_confirmed,price_coherent,m1_acceleration_present,relay_clean | nok=— | OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_WEAK | relation=DIVERGENT | field=ENERGY_THIN_OR_MIXED",
       "summary": {
-        "behavioral_count": 3,
+        "behavioral_count": 5,
         "degraded_count": 0,
         "top_alert": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
         "top_level": "HOT",
@@ -194,19 +229,31 @@
           "name": "FIRST_DETACHMENT_WITH_CLEAN_RELAY",
           "level": "HOT",
           "badge": "🔥 DETACH+RELAY",
-          "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_UP) avec relais M5 propre — GBP pressure up / USD pressure down"
+          "reason": "Premier détachement confirmé (M1_FIRST_DETACHMENT_GBP_DOWN) avec relais M5 propre — GBP pressure down / USD pressure up"
+        },
+        {
+          "name": "COUNTER_RELEASE_ATTEMPT_ALERT",
+          "level": "WATCH",
+          "badge": "👁 COUNTER REL",
+          "reason": "Tentative de contre-libération détectée — CONTRE la direction dominante, non confirmée (COUNTER_RELEASE_ATTEMPT ≠ RELEASE_CONFIRMED) — counter release non supportée par energy"
+        },
+        {
+          "name": "NODE_HEAT_ENERGY_DIVERGENCE",
+          "level": "WATCH",
+          "badge": "👁 HEAT≠ENERGY",
+          "reason": "Node HOT_NODE — direction GBP pressure down / USD pressure up — mais GBP=ENERGY_LOW / USD=ENERGY_WEAK (node_energy_relation=DIVERGENT) — Node Heat ≠ Currency Energy"
         },
         {
           "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
           "level": "INFO",
           "badge": "ℹ GRAVITY CLUSTER",
-          "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9)"
+          "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — EUR+GBP+JPY en compression (spread force: 4.0) — champ energy thin/mixed"
         },
         {
           "name": "SAME_ANGLE_CLUSTER_ALERT",
           "level": "INFO",
           "badge": "ℹ SAME ANGLE",
-          "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — GBP+CHF+NZD en mouvement synchronisé"
+          "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — CHF+GBP+CAD en mouvement synchronisé"
         }
       ]
     }

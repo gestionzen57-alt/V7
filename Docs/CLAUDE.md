@@ -2,10 +2,10 @@
 
 ## Last Session
 
-- Date: 2026-05-15 18:24
+- Date: 2026-05-15 21:00
 - AI: Claude Sonnet 4.5
-- Focus: T002-E tick surface vs detached V6 core
-- Checkpoint: Checkpoints\CHECKPOINT_20260515_182415.md
+- Focus: fin
+- Checkpoint: Checkpoints\CHECKPOINT_20260515_210015.md
 
 ## Derni??re session
 
@@ -91,8 +91,8 @@ powerflow.db (15.6 MB)
 |---|---|---|---|
 | **Claude Sonnet 4.5** | Chef orchestre, architecture, strat??gie | ???? ACTIVE | T001 Infrastructure automation |
 | **GPT-1 Core Engine** | Modules Python `pf_*`, requ??tes SQL | ??? IDLE | pf_perception_spine patched |
-| **GPT-2 Dashboard** | Interface HTML/JS, normalizers | ⚪ IDLE | Dashboard FR Trader V5 stable |
-| **GPT-3 Scheduler** | Orchestration temps réel, Telegram | ⚪ IDLE | scheduler_powerflow_turbo_wrapper.py |
+| **GPT-2 Dashboard** | Interface HTML/JS, normalizers | ??? IDLE | Dashboard FR Trader V5 stable |
+| **GPT-3 Scheduler** | Orchestration temps r??el, Telegram | ??? IDLE | scheduler_powerflow_turbo_wrapper.py |
 | **GPT-4 Field Memory** | Analyses GBPUSD, film library | ??? IDLE | ANALYSE_GBPUSD_20260514 |
 | **GPT Pro** | Refactoring majeur, probl??mes complexes | ??? IDLE | RAPPORT_V76 |
 
@@ -124,7 +124,7 @@ powerflow.db (15.6 MB)
 - ???? **T004** Diagnostic USDJPY thin data (GPT Pro) ??? Pending
 
 ### P3 ??? LOW
-- ✅ **T005** Dashboard FR Trader V5 harmonisation (GPT-2) — Completed
+- ??? **T005** Dashboard FR Trader V5 harmonisation (GPT-2) ??? Completed
 
 **Voir `DISPATCH_STATUS.json` pour d??tails complets.**
 
@@ -277,11 +277,11 @@ Prochaine priorit??: [indiquer]
 
 
 
-### ✅ Terminé
-- **T005** Dashboard FR Trader V5 harmonisation — Completed by GPT-2 Dashboard
+### ??? Termin??
+- **T005** Dashboard FR Trader V5 harmonisation ??? Completed by GPT-2 Dashboard
 
 <!-- GPT3_SCHEDULER_CURRENT_STATE_BEGIN -->
-## GPT-3 Scheduler — Current State
+## GPT-3 Scheduler ??? Current State
 
 Updated: 2026-05-15 20:58:14 +02:00
 
@@ -307,7 +307,7 @@ Context symbols are used for coalition, antagonists, gravity, polarity and tempo
 
 ### Recommended next task
 
-T017 — make B8 role-aware:
+T017 ??? make B8 role-aware:
 
 - execution_symbol = GBPUSD
 - context_symbols = USD cohort + GBP cohort
@@ -327,3 +327,4 @@ T017 — make B8 role-aware:
 - Telegram stays context transmission only.
 - Scheduler orchestrates only.
 <!-- GPT3_SCHEDULER_CURRENT_STATE_END -->
+
