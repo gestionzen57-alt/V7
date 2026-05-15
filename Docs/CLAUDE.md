@@ -2,10 +2,10 @@
 
 ## Last Session
 
-- Date: 2026-05-15 17:43
+- Date: 2026-05-15 18:24
 - AI: Claude Sonnet 4.5
-- Focus: T002-D detached engine v6 core test repair
-- Checkpoint: Checkpoints\CHECKPOINT_20260515_174302.md
+- Focus: T002-E tick surface vs detached V6 core
+- Checkpoint: Checkpoints\CHECKPOINT_20260515_182415.md
 
 ## Derni??re session
 
@@ -264,6 +264,7 @@ Prochaine priorit??: [indiquer]
 *Document vivant auto-g??n??r?? ??? Ne pas ??diter manuellement*  
 *Mis ?? jour automatiquement par `auto_checkpoint_claude.ps1`*  
 *Derni??re modification: 2026-05-15 10:30*
+
 
 
 
