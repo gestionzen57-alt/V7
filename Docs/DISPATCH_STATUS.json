@@ -1,6 +1,6 @@
 {
   "version": "7.6.7",
-  "last_update": "2026-05-15T14:50:45Z",
+  "last_update": "2026-05-15T17:04:20Z",
   "active_workspace": "Claude Sonnet 4.5",
   "session_context": {
     "session_id": "SESS_20260515_103000",
@@ -34,8 +34,8 @@
       "role": "Interface HTML/JS, normalizers",
       "status": "IDLE",
       "current_task": null,
-      "last_activity": "2026-05-14T23:58:00Z",
-      "output": "dashboard_v74.html live"
+      "last_activity": "2026-05-15T17:04:20Z",
+      "output": "Dashboard FR Trader V5 stable — DOM safe translator"
     },
     "GPT_3_Scheduler": {
       "role": "Orchestration temps réel, Telegram",
@@ -83,18 +83,6 @@
         "created_by": "Claude_Sonnet_4_5",
         "created_at": "2026-05-15T10:30:00Z",
         "context": "USDJPY verdict THIN, data stale/sparse, investigate MT4 stream vs bridge vs DB",
-        "blockers": []
-      },
-      {
-        "id": "T005",
-        "title": "Dashboard V7.4 → V7.5 harmonisation",
-        "priority": "LOW",
-        "owner": null,
-        "assigned_to": "GPT_2_Dashboard",
-        "status": "pending",
-        "created_by": "Claude_Sonnet_4_5",
-        "created_at": "2026-05-15T10:30:00Z",
-        "context": "Audit dashboard_v74.html, normalizers, terrain panel",
         "blockers": []
       },
       {
@@ -151,6 +139,21 @@
           "Wrapper absorbs extra args/kwargs from /api/cockpit-state call drift",
           "No DB write, no dashboard contract change, no BUY/SELL semantics"
         ]
+      },
+      {
+        "id": "T005",
+        "title": "Dashboard V7.4 → V7.5 harmonisation",
+        "priority": "LOW",
+        "owner": "GPT_2_Dashboard",
+        "assigned_to": "GPT_2_Dashboard",
+        "status": "completed",
+        "created_by": "Claude_Sonnet_4_5",
+        "created_at": "2026-05-15T10:30:00Z",
+        "context": "Audit dashboard_v74.html, normalizers, terrain panel",
+        "blockers": [],
+        "completed_at": "2026-05-15T17:04:20Z",
+        "output": "Core/dashboard_fr_trader_labels_safe.js + Dashboard V7.4 FR Trader V5 stable",
+        "commit": "a3d6fa4"
       }
     ],
     "blocked": [],
@@ -168,9 +171,7 @@
       "T003 - pf_normalizer signature fix",
       "T004 - USDJPY diagnostic"
     ],
-    "P3": [
-      "T005 - Dashboard harmonisation"
-    ]
+    "P3": []
   },
   "workflow_rules": {
     "task_assignment": "Tâche assignée → owner prend possession → statut 'in_progress'",
@@ -189,17 +190,18 @@
   },
   "metrics": {
     "total_tasks": 6,
-    "pending": 4,
+    "pending": 3,
     "in_progress": 1,
-    "completed": 1,
+    "completed": 2,
     "blocked": 0,
     "archived": 0,
-    "completion_rate": 16.67
+    "completion_rate": 33.33
   },
   "notes": [
     "PowerFlow V7.6.7 LIVE PRODUCTION",
     "P0 PASS_STRICT OK / Dashboard V7.4 LIVE / GBPUSD OK / EURUSD HTF incomplete / USDJPY THIN",
     "Forbidden: powerflow.db modifications, P0 violations, Dashboard contract breaks",
-    "Extension/consolidation V7.6.7 only — no V7.7 until stability confirmed"
+    "Extension/consolidation V7.6.7 only — no V7.7 until stability confirmed",
+    "T005 Dashboard FR Trader V5 stable — completed by GPT-2 Dashboard"
   ]
 }

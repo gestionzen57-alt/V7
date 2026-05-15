@@ -91,7 +91,7 @@ powerflow.db (15.6 MB)
 |---|---|---|---|
 | **Claude Sonnet 4.5** | Chef orchestre, architecture, strat??gie | ???? ACTIVE | T001 Infrastructure automation |
 | **GPT-1 Core Engine** | Modules Python `pf_*`, requ??tes SQL | ??? IDLE | pf_perception_spine patched |
-| **GPT-2 Dashboard** | Interface HTML/JS, normalizers | ??? IDLE | dashboard_v74.html live |
+| **GPT-2 Dashboard** | Interface HTML/JS, normalizers | ⚪ IDLE | Dashboard FR Trader V5 stable |
 | **GPT-3 Scheduler** | Orchestration temps réel, Telegram | ⚪ IDLE | scheduler_powerflow_turbo_wrapper.py |
 | **GPT-4 Field Memory** | Analyses GBPUSD, film library | ??? IDLE | ANALYSE_GBPUSD_20260514 |
 | **GPT Pro** | Refactoring majeur, probl??mes complexes | ??? IDLE | RAPPORT_V76 |
@@ -124,7 +124,7 @@ powerflow.db (15.6 MB)
 - ???? **T004** Diagnostic USDJPY thin data (GPT Pro) ??? Pending
 
 ### P3 ??? LOW
-- ???? **T005** Dashboard V7.4 ??? V7.5 harmonisation (GPT-2) ??? Pending
+- ✅ **T005** Dashboard FR Trader V5 harmonisation (GPT-2) — Completed
 
 **Voir `DISPATCH_STATUS.json` pour d??tails complets.**
 
@@ -275,3 +275,7 @@ Prochaine priorit??: [indiquer]
 
 
 
+
+
+### ✅ Terminé
+- **T005** Dashboard FR Trader V5 harmonisation — Completed by GPT-2 Dashboard
