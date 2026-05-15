@@ -164,3 +164,106 @@ __all__ = [
     "tick_context_to_dict",
     "legacy_tick_surface_to_dict",
 ]
+
+
+# === T002-S V6 CORE RUNTIME ENTRYPOINT START ===
+# Pure runtime entrypoint for the feature-flagged adapter boundary.
+# The function below keeps the legacy call signature while returning a deterministic
+# V6 tick surface. It does not write storage, mutate UI layers, or transmit messages.
+
+import models
+
+
+PF_ENGINE_V6_CORE_RUNTIME_VERSION = "T002_S_V6_CORE_RUNTIME_ENTRYPOINT_V1"
+
+
+def _pf_v6_get_tick_attr(tick, name: str, default=None):
+    if tick is None:
+        return default
+    if isinstance(tick, dict):
+        return tick.get(name, default)
+    return getattr(tick, name, default)
+
+
+def _pf_v6_float_or_none(value):
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _pf_v6_string_or_none(value):
+    if value is None:
+        return None
+    return str(value)
+
+
+def _pf_v6_tick_surface(tick) -> dict:
+    fields = {
+        "symbol": _pf_v6_string_or_none(_pf_v6_get_tick_attr(tick, "symbol")),
+        "timestamp": _pf_v6_string_or_none(_pf_v6_get_tick_attr(tick, "timestamp")),
+        "timeframe": _pf_v6_string_or_none(_pf_v6_get_tick_attr(tick, "timeframe")),
+        "val_a": _pf_v6_float_or_none(_pf_v6_get_tick_attr(tick, "val_a")),
+        "val_b": _pf_v6_float_or_none(_pf_v6_get_tick_attr(tick, "val_b")),
+        "dev_a": _pf_v6_float_or_none(_pf_v6_get_tick_attr(tick, "dev_a")),
+        "dev_b": _pf_v6_float_or_none(_pf_v6_get_tick_attr(tick, "dev_b")),
+        "gap": _pf_v6_float_or_none(_pf_v6_get_tick_attr(tick, "gap")),
+        "spread": _pf_v6_float_or_none(_pf_v6_get_tick_attr(tick, "spread")),
+    }
+
+    val_a = fields["val_a"]
+    val_b = fields["val_b"]
+    if fields["gap"] is None and val_a is not None and val_b is not None:
+        fields["gap"] = val_a - val_b
+
+    return fields
+
+
+def _pf_v6_tick_delta(current: dict, previous: dict) -> dict:
+    deltas = {}
+    for key in ("val_a", "val_b", "dev_a", "dev_b", "gap", "spread"):
+        cur = current.get(key)
+        prev = previous.get(key)
+        if cur is not None and prev is not None:
+            deltas[key] = cur - prev
+        else:
+            deltas[key] = None
+    return deltas
+
+
+def process_tick(tick: models.Tick, prev: models.Tick, brain: dict, send_alert):
+    current_surface = _pf_v6_tick_surface(tick)
+    previous_surface = _pf_v6_tick_surface(prev)
+    delta = _pf_v6_tick_delta(current_surface, previous_surface)
+
+    return {
+        "engine": "pf_engine_v6_core",
+        "version": PF_ENGINE_V6_CORE_RUNTIME_VERSION,
+        "event_type": "V6_CORE_TICK_SURFACE",
+        "symbol": current_surface.get("symbol"),
+        "timestamp": current_surface.get("timestamp"),
+        "timeframe": current_surface.get("timeframe"),
+        "surface": current_surface,
+        "previous_surface": previous_surface,
+        "delta": delta,
+        "alerts": [],
+        "side_effects": False,
+        "brain_mutated": False,
+        "route": "v6_core",
+    }
+
+
+try:
+    __all__ = list(__all__)
+except NameError:
+    __all__ = []
+
+for _name in [
+    "PF_ENGINE_V6_CORE_RUNTIME_VERSION",
+    "process_tick",
+]:
+    if _name not in __all__:
+        __all__.append(_name)
+# === T002-S V6 CORE RUNTIME ENTRYPOINT END ===

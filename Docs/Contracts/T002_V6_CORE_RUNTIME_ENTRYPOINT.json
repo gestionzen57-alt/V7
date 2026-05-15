@@ -1,0 +1,22 @@
+{
+  "contract": "POWERFLOW_T002_V6_CORE_RUNTIME_ENTRYPOINT",
+  "created_at": "2026-05-15T20:03:12Z",
+  "status": "V6_CORE_PROCESS_TICK_ENTRYPOINT_ADDED",
+  "core": "Core/pf_engine_v6_core.py",
+  "backup": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\pf_engine_v6_core.py.bak_T002S_20260515_220312",
+  "had_process_tick_before": false,
+  "functions_before_count": 7,
+  "functions_after_count": 13,
+  "core_signature": "(tick: 'models.Tick', prev: 'models.Tick', brain: 'dict', send_alert)",
+  "expected_adapter_signature_family": "(tick: models.Tick, prev: models.Tick, brain: dict, send_alert)",
+  "entrypoint_name": "process_tick",
+  "runtime_version": "T002_S_V6_CORE_RUNTIME_ENTRYPOINT_V1",
+  "returns": "deterministic V6 tick surface dict",
+  "side_effects": false,
+  "db_writes": false,
+  "ui_dependency": false,
+  "alert_transport_dependency": false,
+  "default_live_behavior_changed": false,
+  "adapter_flag_required": "POWERFLOW_T002_USE_V6_CORE=1",
+  "next_step": "Run real feature-flagged replay comparison before default live activation."
+}
