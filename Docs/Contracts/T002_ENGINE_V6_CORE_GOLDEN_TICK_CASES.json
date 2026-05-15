@@ -1,0 +1,137 @@
+{
+  "contract": "POWERFLOW_T002_ENGINE_V6_CORE_GOLDEN_TICK_CASES",
+  "created_at": "2026-05-15T16:47:22Z",
+  "purpose": "Golden fixtures for detached pf_engine_v6_core.py before any runtime wiring.",
+  "runtime_wired": false,
+  "cases": [
+    {
+      "id": "GBPUSD_M1_FULL_LEGACY_SURFACE",
+      "tick": {
+        "symbol": "GBPUSD",
+        "timestamp": "2026-05-15T18:45:00Z",
+        "bid": 1.25,
+        "ask": 1.2502,
+        "dev_a": "GBP",
+        "dev_b": "USD",
+        "val_a": 1.4,
+        "val_b": -0.3,
+        "gap": 1.7,
+        "timeframe": 1,
+        "spread": 0.00025
+      },
+      "prev": {
+        "symbol": "GBPUSD",
+        "timestamp": "2026-05-15T18:44:00Z",
+        "bid": 1.249,
+        "ask": 1.2492,
+        "dev_a": "GBP",
+        "dev_b": "USD",
+        "val_a": 1.1,
+        "val_b": -0.1,
+        "gap": 1.2,
+        "timeframe": 1,
+        "spread": 0.00022
+      },
+      "expected_context": {
+        "symbol": "GBPUSD",
+        "timestamp": "2026-05-15T18:45:00Z",
+        "price": 1.2501,
+        "prev_price": 1.2491,
+        "price_delta": 0.001,
+        "bid": 1.25,
+        "ask": 1.2502,
+        "spread": 0.0002
+      },
+      "expected_legacy_surface": {
+        "dev_a": "GBP",
+        "dev_b": "USD",
+        "val_a": 1.4,
+        "val_b": -0.3,
+        "gap": 1.7,
+        "timeframe": 1,
+        "spread": 0.00025
+      }
+    },
+    {
+      "id": "EURUSD_M5_DERIVED_SPREAD",
+      "tick": {
+        "symbol": "EURUSD",
+        "timestamp": "2026-05-15T18:45:00Z",
+        "price": 1.1,
+        "bid": 1.0999,
+        "ask": 1.1003,
+        "dev_a": "EUR",
+        "dev_b": "USD",
+        "val_a": 0.8,
+        "val_b": -0.2,
+        "gap": 1.0,
+        "timeframe": 5
+      },
+      "prev": {
+        "symbol": "EURUSD",
+        "timestamp": "2026-05-15T18:40:00Z",
+        "price": 1.0994,
+        "dev_a": "EUR",
+        "dev_b": "USD",
+        "val_a": 0.5,
+        "val_b": -0.1,
+        "gap": 0.6,
+        "timeframe": 5
+      },
+      "expected_context": {
+        "symbol": "EURUSD",
+        "timestamp": "2026-05-15T18:45:00Z",
+        "price": 1.1,
+        "prev_price": 1.0994,
+        "price_delta": 0.0006,
+        "bid": 1.0999,
+        "ask": 1.1003,
+        "spread": 0.0004
+      },
+      "expected_legacy_surface": {
+        "dev_a": "EUR",
+        "dev_b": "USD",
+        "val_a": 0.8,
+        "val_b": -0.2,
+        "gap": 1.0,
+        "timeframe": 5,
+        "spread": 0.0004
+      }
+    },
+    {
+      "id": "USDJPY_M15_MISSING_PREV_PRICE",
+      "tick": {
+        "symbol": "USDJPY",
+        "time": "2026-05-15T18:45:00Z",
+        "bid": 155.1,
+        "ask": 155.12,
+        "dev_a": "USD",
+        "dev_b": "JPY",
+        "val_a": -0.4,
+        "val_b": 0.9,
+        "gap": -1.3,
+        "timeframe": 15
+      },
+      "prev": null,
+      "expected_context": {
+        "symbol": "USDJPY",
+        "timestamp": "2026-05-15T18:45:00Z",
+        "price": 155.11,
+        "prev_price": null,
+        "price_delta": null,
+        "bid": 155.1,
+        "ask": 155.12,
+        "spread": 0.02
+      },
+      "expected_legacy_surface": {
+        "dev_a": "USD",
+        "dev_b": "JPY",
+        "val_a": -0.4,
+        "val_b": 0.9,
+        "gap": -1.3,
+        "timeframe": 15,
+        "spread": 0.02
+      }
+    }
+  ]
+}
