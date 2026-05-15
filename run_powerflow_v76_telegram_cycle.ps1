@@ -12,21 +12,26 @@ $ErrorActionPreference = "Stop"
 
 Set-Location $RepoPath
 
-# PowerFlow V7.6.5 operational scope: GBPUSD only.
+# PowerFlow V7.6.7 trader scope: GBPUSD only.
+# Core/B8 scope may be wider for DB/multicurrency analysis.
 $ActiveSymbol = "GBPUSD"
 if ($Symbol -and $Symbol.Trim().ToUpperInvariant() -ne "GBPUSD") {
-    Write-Warning "PowerFlow V7.6.5 operational scope is GBPUSD only. Requested '$Symbol' ignored."
+    Write-Warning "PowerFlow V7.6.7 trader scope is GBPUSD only. Requested '$Symbol' ignored for Telegram/trader tail."
+}
+
+$CoreSymbolScope = $CoreSymbols
+if (-not $CoreSymbolScope -or [string]::IsNullOrWhiteSpace($CoreSymbolScope)) {
+    $CoreSymbolScope = $ActiveSymbol
 }
 
 $env:POWERFLOW_SYMBOL = $ActiveSymbol
-$env:POWERFLOW_SYMBOLS = $ActiveSymbol
+$env:POWERFLOW_SYMBOLS = $CoreSymbolScope
 
-Write-Host "[PowerFlow V7.6.5] Trader symbol scope: $ActiveSymbol" -ForegroundColor Cyan
-Write-Host "[PowerFlow V7.6.5] Core/B8 symbol scope: $CoreSymbolScope" -ForegroundColor Cyan
-
+Write-Host "[PowerFlow V7.6.7] Trader symbol scope: $ActiveSymbol" -ForegroundColor Cyan
+Write-Host "[PowerFlow V7.6.7] Core/B8 symbol scope: $CoreSymbolScope" -ForegroundColor Cyan
 if ($RunCoreScheduler) {
     Write-Host "=== RUN CORE SCHEDULER MULTI-SYMBOL FOR B8 / DB ANALYSIS ===" -ForegroundColor Cyan
-    python "Core\scheduler_powerflow_turbo_wrapper.py" --symbols $CoreSymbolScope
+    python "Core\scheduler_powerflow_turbo_wrapper.py" --symbols "$CoreSymbolScope"
     if ($LASTEXITCODE -ne 0) {
         throw "Core scheduler failed with exit code $LASTEXITCODE"
     }
