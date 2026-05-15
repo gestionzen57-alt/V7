@@ -1,4 +1,4 @@
-﻿# PowerFlow V7.6.7 ??? ??tat Central
+# PowerFlow V7.6.7 ??? ??tat Central
 
 ## Last Session
 
@@ -279,3 +279,51 @@ Prochaine priorit??: [indiquer]
 
 ### ✅ Terminé
 - **T005** Dashboard FR Trader V5 harmonisation — Completed by GPT-2 Dashboard
+
+<!-- GPT3_SCHEDULER_CURRENT_STATE_BEGIN -->
+## GPT-3 Scheduler — Current State
+
+Updated: 2026-05-15 20:58:14 +02:00
+
+### Scheduler / Telegram status
+
+- T007 completed: V7.6 Telegram cycle defaults to dry-run.
+- T010 completed: Telegram dry-run stdout is UTF-8 safe.
+- T011/T012 completed: Core/B8 scheduler scope can be multi-symbol while trader/Telegram tail remains GBPUSD.
+- T013B/T013C completed: OVERLAP_SKIP no longer blocks analytical continuation under --continue-on-error.
+- T015 completed: B8 FX cohort scope extended and verified on 13 symbols.
+
+### Active B8 / multidevise scope
+
+$coreSymbols
+
+### Architecture note
+
+GBPUSD remains the primary traded/execution symbol.
+
+Do not require dense M1 / tickvolume-per-second data on all cohort pairs. M1/tickvolume-sec is intentionally reserved for GBPUSD to avoid DB growth.
+
+Context symbols are used for coalition, antagonists, gravity, polarity and tempo.
+
+### Recommended next task
+
+T017 — make B8 role-aware:
+
+- execution_symbol = GBPUSD
+- context_symbols = USD cohort + GBP cohort
+- Do not mark B8 degraded only because context symbols lack M1/tickvolume-sec density.
+- Add statuses such as:
+  - GBPUSD_FULL_STACK_READY
+  - USD_INDEX_CONTEXT_READY
+  - GBP_INDEX_CONTEXT_READY
+  - B8_CONTEXT_READY
+  - B8_CONTEXT_DEGRADED
+
+### Guardrails
+
+- No DB modification.
+- No Dashboard V7.4 / FR Trader V5 modification.
+- No BUY/SELL.
+- Telegram stays context transmission only.
+- Scheduler orchestrates only.
+<!-- GPT3_SCHEDULER_CURRENT_STATE_END -->
