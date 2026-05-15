@@ -1,0 +1,1013 @@
+# T006-E - Dashboard / packet wording audit
+
+Date: 2026-05-15 23:06:03 +02:00
+Mission: audit dashboard / packet / trader-facing wording against LEXIQUE_MASTER usage rules
+Status: T006_E_WORDING_AUDIT_COMPLETE
+
+## Canonical references
+
+- Docs/LEXIQUE_MASTER.md
+- LEXIQUE_MASTER_SHA256=DC4696E565EC9B37AC3D439A852DADB5735F7D1E9FEB398DAEAFBDF91AAB1B2D
+- Docs/LEXIQUE_MASTER_USAGE_RULES.md
+- LEXIQUE_MASTER_USAGE_RULES_SHA256=BD830D96A529870A4F6C8229A554EA211A9D7AEA0E2153C7043925AB55ABEA54
+- Docs/CLAUDE.md
+- CLAUDE_SHA256=7B508C29DE970ADC2AE214BD1DCFDFB32BE476828E387D07838C98AA63CC32C3
+
+## Audit scope
+
+- Root scanned: Core
+- Root scanned: Docs
+- Excluded runtime/log/output/staging/checkpoint/lexique-master files
+- File types: py, md, txt, json
+
+## Metrics
+
+- Audit targets total: 893
+- Relevant files reviewed: 617
+- Required concept hits: 273
+- Potential forbidden wording hits: 79
+
+## Relevant files reviewed
+
+- Core\_backup_multisymbol_20260511_153542\run_behavioral_alert_mapper_once.py
+- Core\_backup_multisymbol_20260511_153811\pf_cross_symbol_validation.py
+- Core\_backup_multisymbol_20260511_153811\run_behavioral_alert_mapper_once.py
+- Core\_backup_multisymbol_20260511_153811\run_cross_symbol_validation_once.py
+- Core\_backup_multisymbol_20260511_153811\run_currency_energy_probe_once.py
+- Core\_backup_multisymbol_20260511_153811\run_regime_engine_once.py
+- Core\_backup_multisymbol_20260511_153811\run_temporal_node_state_once.py
+- Core\_backup_multisymbol_20260511_153811\scheduler_config.json
+- Core\_backup_multisymbol_20260511_153811\scheduler_powerflow.py
+- Core\_backup_multisymbol_20260511_153956\pf_cross_symbol_validation.py
+- Core\_backup_multisymbol_20260511_153956\run_behavioral_alert_mapper_once.py
+- Core\_backup_multisymbol_20260511_153956\run_cross_symbol_validation_once.py
+- Core\_backup_multisymbol_20260511_153956\run_currency_energy_probe_once.py
+- Core\_backup_multisymbol_20260511_153956\run_regime_engine_once.py
+- Core\_backup_multisymbol_20260511_153956\run_temporal_node_state_once.py
+- Core\_backup_multisymbol_20260511_153956\scheduler_config.json
+- Core\_backup_multisymbol_20260511_153956\scheduler_powerflow.py
+- Core\audit_usdjpy_fast.py
+- Core\AVANT\cockpit_agentic_state_v01_orchestral.py
+- Core\AVANT\pf_behavioral_alert_mapper.py
+- Core\AVANT\run_behavioral_alert_mapper_once.py
+- Core\backups\dashboard_cleanup\20260511_082526\dashboard_contract_validator_v2.py
+- Core\backups\dashboard_cleanup\20260511_082526\dashboard_contract_validator_v3.py
+- Core\backups\dashboard_cleanup\20260511_082526\dashboard_contract_validator_v4.py
+- Core\backups\dashboard_cleanup\20260511_082526\dashboard_contract_validator_v5.py
+- Core\backups\dashboard_cleanup\20260511_082526\dashboard_data_normalizer_v01.py
+- Core\backups\dashboard_cleanup\20260511_082526\dashboard_data_normalizer_v02.py
+- Core\backups\dashboard_cleanup\20260511_082526\dashboard_data_normalizer_v03.py
+- Core\backups\dashboard_cleanup\20260511_082526\dashboard_data_normalizer_v04.py
+- Core\backups\dashboard_cleanup\20260511_082526\DASHBOARD_V72_FINAL_INTEGRATION_REPORT.md
+- Core\backups\dashboard_cleanup\20260511_082526\DASHBOARD_V72_MAX_HARDENING_REPORT.md
+- Core\backups\dashboard_cleanup\20260511_082526\DASHBOARD_V72_SURFACE_V3_REPORT.md
+- Core\backups\dashboard_cleanup\20260511_082526\DASHBOARD_V72_SURFACE_V4_REPORT.md
+- Core\backups\dashboard_cleanup\20260511_082526\DASHBOARD_V72_SURFACE_V5_REPORT.md
+- Core\backups\dashboard_cleanup\20260511_082526\DASHBOARD_V72_SURFACE_V6_REPORT.md
+- Core\backups\dashboard_cleanup\20260511_082526\P0_DASHBOARD_GO_NO_GO_CHECKLIST.md
+- Core\backups\dashboard_cleanup\20260511_103013\_installer_tools\POWERFLOW_PACKAGING_STANDARD.md
+- Core\backups\dashboard_cleanup\20260511_103013\DASHBOARD_V72_MAX_MISSION_SUITE.md
+- Core\backups\post_commando_v721_20260512_111605\_claude_rebase_v721\docs\CLAUDE_REBASE_POWERFLOW_V721_20260511.md
+- Core\backups\post_commando_v721_20260512_111605\_claude_rebase_v721\docs\CURRENT_STATE_POWERFLOW_V721_CENTRALISE_20260511.md
+- Core\backups\post_commando_v721_20260512_111605\_claude_rebase_v721\docs\RAPPORT_ETAT_LIEUX_POWERFLOW_V721_20260511.md
+- Core\backups\post_commando_v721_20260512_111605\_commando_v721\runtime\audit_usdjpy_fast.py
+- Core\backups\post_commando_v721_20260512_111605\checkpoints\auto_20260511_2205\behavioral_alert_queue_GBPUSD.json
+- Core\backups\post_commando_v721_20260512_111605\CURRENT_STATE_AUTO_auto_20260511_2205.md
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report.json
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report.md
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report_v2.json
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report_v2.md
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report_v4.json
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report_v4.md
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report_v5.json
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report_v5.md
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report_v6.json
+- Core\backups\post_commando_v721_20260512_111605\deploy_session_overlay_dashboard_report_v6.md
+- Core\backups\post_commando_v721_20260512_111605\git_log_auto_20260511_2205.txt
+- Core\backups\post_commando_v721_20260512_111605\git_status_auto_20260511_2205.txt
+- Core\backups\post_commit_cleanup_20260511_112740\dashboard_contract_validator_v5.py
+- Core\backups\post_commit_cleanup_20260511_112740\dashboard_data_normalizer_v04.py
+- Core\backups\post_commit_cleanup_20260511_112740\output_cycle_report.json
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\docs\COMMIT_PREP_DASHBOARD_V72_FINAL.md
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\docs\DASHBOARD_HYDRATION_RUNNER_GUIDE.md
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\docs\DASHBOARD_LIVE_USER_GUIDE.md
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\docs\DASHBOARD_V72_FINAL_VALIDATION_REPORT.md
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\docs\POWERFLOW_PACKAGING_STANDARD.md
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\PACK_MANIFEST.json
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\COMMIT_PREP_DASHBOARD_V72_FINAL.md
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\dashboard_contract_validator.py
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\dashboard_data_normalizer.py
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\dashboard_hydration_failure_doctor.py
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\DASHBOARD_HYDRATION_RUNNER_GUIDE.md
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\DASHBOARD_LIVE_USER_GUIDE.md
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\dashboard_output_coverage_doctor.py
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\DASHBOARD_V72_FINAL_VALIDATION_REPORT.md
+- Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\POWERFLOW_PACKAGING_STANDARD.md
+- Core\backups\post_final_delivery_20260511_121023\behavioral_alert_queue.json
+- Core\backups\post_p0_strict_gate_20260511_125929\_p0_strict_gate_v1\docs\P0_STRICT_PROMOTION_GATE_REPORT.md
+- Core\backups\post_p0_strict_gate_20260511_125929\_p0_strict_gate_v1\runtime\p0_strict_promotion_gate.py
+- Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\CHECKPOINT_SESSION_FINAL_20260511.md
+- Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\CLAUDE_md_V72_FINAL_UPDATE.md
+- Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\CURRENT_STATE_V7_OFFICIAL_20260511.md
+- Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md
+- Core\backups\post_pass_strict_cleanup_20260511_130018\behavioral_alert_queue.json
+- Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\CHECKPOINT_SESSION_FINAL_20260511.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\CLAUDE_md_V72_FINAL_UPDATE.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\CURRENT_STATE_V7_OFFICIAL_20260511.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\RAPPORT_COMPLET_POWERFLOW_V72_P0_PASS_STRICT_20260511.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\deploy_powerflow_v721_oneclick_report.json
+- Core\backups\post_session_dashboard_commit_20260511_164455\deploy_powerflow_v721_oneclick_report.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\deploy_powerflow_v721_schemaflex_hotfix_report.json
+- Core\backups\post_session_dashboard_commit_20260511_164455\deploy_powerflow_v721_schemaflex_hotfix_report.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\LEXIQUE_PATCH_V721_B1HMM_MTF_SCHEMAFLEX.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\RAPPORT_COMPLET_POWERFLOW_V721_B1HMM_MTF_B4WAVELET_SCHEMAFLEX_20260511.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\README_DEPLOY_ONE_SCRIPT.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\REGISTRE_BRIQUES_PATCH_V721_B1HMM_MTF_SCHEMAFLEX.md
+- Core\backups\post_session_dashboard_commit_20260511_164455\telegram_alert_dispatcher_v7.py
+- Core\backups\post_wrapper_hardening_20260511_122243\_wrapper_hardening\docs\DASHBOARD_WRAPPER_HARDENING_REPORT.md
+- Core\backups\post_wrapper_hardening_20260511_122243\_wrapper_hardening\runtime\dashboard_hydration_failure_doctor.py
+- Core\backups\post_wrapper_hardening_20260511_122243\behavioral_alert_queue.json
+- Core\backups\untracked_after_dashboard_push_20260511_113042\behavioral_alert_queue.json
+- Core\backups\untracked_after_dashboard_push_20260511_113042\p0_market_open_validator.py
+- Core\backups\untracked_after_dashboard_push_20260511_113042\run_powerflow_cycle_once_ACBE258_REFERENCE.py
+- Core\CHECKPOINT_P0_LIVE_20260511.md
+- Core\CHECKPOINT_POWERFLOW_V76_20260513.md
+- Core\CHECKPOINT_SESSION_FINAL_20260511.md
+- Core\CHECKPOINT_V73.md
+- Core\CHECKPOINT_V73_TURBO_WRAPPER.md
+- Core\CHECKPOINT_V731_DAILY_FLOW_PACKET.md
+- Core\CHECKPOINT_V732_DAILY_PACKET_REFINEMENT.md
+- Core\CHECKPOINT_V733_LIVE_FLOW_BRIEF.md
+- Core\CHECKPOINT_V734_B6_MULTIREAD_SYNTHESIS.md
+- Core\CHECKPOINT_V734B_B6_PARSER_HOTFIX.md
+- Core\CHECKPOINT_V735_TRADER_COCKPIT.md
+- Core\CHECKPOINT_V735B_TRADER_COCKPIT_CLARITY.md
+- Core\CHECKPOINT_V736_TRADER_JOURNAL_J1.md
+- Core\CHECKPOINT_V736B_TRADER_JOURNAL_J1_SCHEMA_FLEX.md
+- Core\CHECKPOINT_V74_DASHBOARD_FINAL.md
+- Core\CHECKPOINT_V75_FINAL_DASHBOARD.md
+- Core\CLAUDE_md_V7.1.md
+- Core\CLAUDE_md_V72_FINAL_UPDATE.md
+- Core\CLAUDE_REBASE_POWERFLOW_V721_20260511.md
+- Core\cockpit_agentic_state_v01.py
+- Core\cockpit_reader.py
+- Core\COMMIT_PREP_DASHBOARD_V72_FINAL.md
+- Core\create_v74_eie_docs.py
+- Core\CURRENT_STATE_POWERFLOW_V721_CENTRALISE_20260511.md
+- Core\CURRENT_STATE_V7_OFFICIAL_20260511.md
+- Core\CURRENT_STATE_V7_POST_P0_UPDATE.md
+- Core\dashboard_consensus_divergence_builder.py
+- Core\dashboard_contract_v2.json
+- Core\dashboard_contract_validator.py
+- Core\dashboard_data.json
+- Core\dashboard_data_normalizer.py
+- Core\dashboard_hydration_failure_doctor.py
+- Core\DASHBOARD_HYDRATION_RUNNER_GUIDE.md
+- Core\DASHBOARD_HYDRATION_RUNNER_README.md
+- Core\dashboard_inject_daily_flow_packet_card.py
+- Core\dashboard_inject_daily_journal_card.py
+- Core\dashboard_inject_flow_ontology_card.py
+- Core\dashboard_inject_live_brief_card.py
+- Core\dashboard_inject_m1_context_card.py
+- Core\dashboard_inject_multiread_synthesis_card.py
+- Core\dashboard_inject_signal_adaptive_card.py
+- Core\dashboard_inject_topdown_reader_card.py
+- Core\DASHBOARD_LIVE_USER_GUIDE.md
+- Core\dashboard_normalize_b6_live_fusion.py
+- Core\dashboard_normalize_daily_flow_packet.py
+- Core\dashboard_normalize_daily_journal.py
+- Core\dashboard_normalize_data_health.py
+- Core\dashboard_normalize_live_brief.py
+- Core\dashboard_normalize_m1_context.py
+- Core\dashboard_normalize_multiread_synthesis.py
+- Core\dashboard_normalize_signal_adaptive.py
+- Core\dashboard_normalize_time_profiles.py
+- Core\dashboard_normalize_topdown_reader.py
+- Core\dashboard_output_coverage_doctor.py
+- Core\dashboard_server.py
+- Core\dashboard_sync_agent_v01.py
+- Core\DASHBOARD_V72_FINAL_VALIDATION_REPORT.md
+- Core\dashboard_v74_contract_check.py
+- Core\DASHBOARD_WRAPPER_HARDENING_REPORT.md
+- Core\db.py
+- Core\diagnose_usdjpy_thin_bottleneck.py
+- Core\docs\00_INDEX_SOMMAIRE_CLAUDE_MD_V2.md
+- Core\docs\2026\2026-05\RAPPORT_MULTISYMBOL_SCHEDULER_20260511.md
+- Core\docs\FLOW_ONTOLOGY_V0.md
+- Core\docs\GUIDE_DASHBOARD_TELEGRAM_TIMING.md
+- Core\docs\missions\TURBO_LIVE_STACK\CHECKPOINT_TURBO_LIVE_STACK.md
+- Core\docs\missions\TURBO_LIVE_STACK\LEXIQUE_PATCH_TURBO_LIVE_STACK.md
+- Core\docs\missions\TURBO_LIVE_STACK\turbo_live_stack_report.json
+- Core\docs\missions\TURBO_LIVE_STACK\TURBO_LIVE_STACK_REPORT.md
+- Core\docs\missions\V74_EIE\RAPPORT_V74_EIE_TELEGRAM.md
+- Core\docs\missions\V74_EIE\README.md
+- Core\docs\orchestral_scene_06may_05h_21h.md
+- Core\docs\orchestral_scene_corrected_v02.md
+- Core\docs\RAPPORT_TRADER_ALERT_STATE_V01_COMPLETE.md
+- Core\docs\README_FILM.md
+- Core\docs\README_TELEGRAM_TRADER_ALERT_4_MODES.md
+- Core\docs\README_TRADER_NOTES.md
+- Core\engine.py
+- Core\film.py
+- Core\INTEGRATION_GUIDE.md
+- Core\lab_elastic.py
+- Core\lab_film.py
+- Core\LAB_POWERFLOW_README.md
+- Core\launcher.py
+- Core\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md
+- Core\LEXIQUE_GRAMMAIRE_V7_PATCH_POST_P0.md
+- Core\LEXIQUE_PATCH_B1HMM_B4WAVELET.md
+- Core\LEXIQUE_PATCH_M1_NOISE_USDJPY_DASHBOARD.md
+- Core\LEXIQUE_PATCH_MULTISYMBOL.md
+- Core\LEXIQUE_PATCH_SESSION.md
+- Core\LEXIQUE_PATCH_SESSION_OVERLAY.md
+- Core\LEXIQUE_PATCH_UI.md
+- Core\LEXIQUE_PATCH_V721_B1HMM_MTF_SCHEMAFLEX.md
+- Core\LEXIQUE_PATCH_V73_TOPDOWN_MARKET_READER.md
+- Core\LEXIQUE_PATCH_V73_TURBO_WRAPPER.md
+- Core\LEXIQUE_PATCH_V731_DAILY_FLOW_PACKET.md
+- Core\LEXIQUE_PATCH_V732_DAILY_PACKET_REFINEMENT.md
+- Core\LEXIQUE_PATCH_V733_LIVE_FLOW_BRIEF.md
+- Core\LEXIQUE_PATCH_V734_B6_MULTIREAD_SYNTHESIS.md
+- Core\LEXIQUE_PATCH_V735_TRADER_COCKPIT.md
+- Core\LEXIQUE_PATCH_V735B_TRADER_COCKPIT_CLARITY.md
+- Core\LEXIQUE_PATCH_V736_TRADER_JOURNAL_J1.md
+- Core\LEXIQUE_PATCH_V736B_TRADER_JOURNAL_J1_SCHEMA_FLEX.md
+- Core\load_runtime_fixture.py
+- Core\note.py
+- Core\P0_AUTOMATION_INTEGRATION_REPORT.md
+- Core\P0_FINAL_ARCHITECT_DECISION.md
+- Core\p0_final_validator.py
+- Core\P0_PASS_STRICT_PROMOTION_20260511.md
+- Core\p0_strict_promotion_gate.py
+- Core\P0_STRICT_PROMOTION_GATE_REPORT.md
+- Core\PACK_MANIFEST.json
+- Core\patch_broker_time_alignment_v737e.py
+- Core\patch_cockpit_evidence_semantic_bias_split_v739g.py
+- Core\patch_dashboard_contract_cockpit_utf8_v74e.py
+- Core\patch_dashboard_contract_thin_data_v74c.py
+- Core\patch_dashboard_contract_visual_leaks_fix_v74g.py
+- Core\patch_dashboard_contract_visual_leaks_v74g.py
+- Core\patch_dashboard_v74_autorefresh_v74d.py
+- Core\patch_dashboard_v74_cockpit_utf8_v74e.py
+- Core\patch_dashboard_v74_risk_objects_v74f.py
+- Core\patch_dashboard_v75a_session_memory.py
+- Core\patch_dashboard_v75a_session_memory_fix.py
+- Core\patch_dashboard_v75b_cockpit_risks_session_order.py
+- Core\patch_dashboard_v75c_session_compact.py
+- Core\patch_dashboard_v75d_session_before_footer.py
+- Core\patch_dashboard_v75e_runtime_session_order.py
+- Core\patch_dashboard_v75f_session_full_width.py
+- Core\patch_dashboard_v75g_quick_nav.py
+- Core\patch_dashboard_v75h_quick_nav_autohide.py
+- Core\patch_engine_legacy_behavioral_bus_v7.py
+- Core\patch_engine_timecomp_v7_fix.py
+- Core\patch_evidence_bus_conflict_bias_v739b.py
+- Core\patch_evidence_bus_semantic_bias_split_v739g.py
+- Core\patch_evidence_reading_semantic_bias_split_v739g.py
+- Core\PATCH_LEXIQUE_POWERFLOW_V76_ALERT_GATE_20260513.md
+- Core\patch_perception_spine_v76_fix.py
+- Core\patch_scheduler_perception_spine_v76_fix.py
+- Core\patch_scheduler_turbo_b8_surface_v738b.py
+- Core\patch_scheduler_turbo_daily_journal.py
+- Core\patch_scheduler_turbo_dashboard_contract_v74b.py
+- Core\patch_scheduler_turbo_evidence_bus_v739.py
+- Core\patch_scheduler_turbo_evidence_reading_v739f.py
+- Core\patch_scheduler_turbo_live_brief_v733.py
+- Core\patch_scheduler_turbo_live_brief_v733_hotfix.py
+- Core\patch_scheduler_turbo_multiread_v734.py
+- Core\patch_scheduler_turbo_phase_synthesis_v738c.py
+- Core\patch_scheduler_turbo_time_profiles_v737d.py
+- Core\patch_scheduler_turbo_trader_cockpit_v735.py
+- Core\patch_trader_attention_packet_v76_b.py
+- Core\patch_v737e_syntax_clean.py
+- Core\patch_v74_dedup_mark_packet.py
+- Core\pf_alert_observability_metrics.py
+- Core\pf_b6_live_fusion_once.py
+- Core\pf_b6_telegram_gate_once.py
+- Core\pf_b8_cross_surface_once.py
+- Core\pf_battlefield_map.py
+- Core\pf_battlefield_radar.py
+- Core\pf_battlefield_radar_v02.py
+- Core\pf_behavioral_alert_mapper.py
+- Core\pf_bipolar_node_alert.py
+- Core\pf_coalition_relations.py
+- Core\pf_coalitions.py
+- Core\pf_cockpit_live_status_once.py
+- Core\pf_confluence_elastic.py
+- Core\pf_confluence_gravity.py
+- Core\pf_confluence_gravity_b8_patch.py
+- Core\pf_cross_symbol_validation.py
+- Core\pf_cycle_orchestrator.py
+- Core\pf_daily_flow_packet.py
+- Core\pf_daily_journal_builder.py
+- Core\pf_daily_level_interaction.py
+- Core\pf_daily_market_reader.py
+- Core\pf_daily_sweep_classifier.py
+- Core\pf_data_health_monitor.py
+- Core\pf_eie_telegram_gate_once.py
+- Core\pf_engine_scenes.py
+- Core\pf_engine_v6_core.py
+- Core\pf_events.py
+- Core\pf_evidence_bus_once.py
+- Core\pf_evidence_reading_once.py
+- Core\pf_film_engine.py
+- Core\pf_flow_event_extractor.py
+- Core\pf_flow_event_extractor_v02_extended.py
+- Core\pf_flow_packet_once.py
+- Core\pf_force_inflection.py
+- Core\pf_fractal_window_engine.py
+- Core\pf_fractal_zone_stack.py
+- Core\pf_gbpusd_live_decision_once.py
+- Core\pf_hmm_regime_engine.py
+- Core\pf_lab_coalitions.py
+- Core\pf_lab_engine_v72.py
+- Core\pf_lab_event_selector_v72.py
+- Core\pf_lab_m1_episode_merger_v72.py
+- Core\pf_lab_tension.py
+- Core\pf_lab_tf_profiles_v72.py
+- Core\pf_legacy_behavioral_bridge_once.py
+- Core\pf_live_watch_gbpusd_10min.py
+- Core\pf_ltf_execution_condition_reader.py
+- Core\pf_m1_context_score.py
+- Core\pf_m1_noise_ratio_probe.py
+- Core\pf_memory.py
+- Core\pf_mtf_day_plan_builder.py
+- Core\pf_normalizer.py
+- Core\pf_order_flow_proxy_lite.py
+- Core\pf_packet_dedup_memory.py
+- Core\pf_packet_live_gate_once.py
+- Core\pf_perception_spine_once.py
+- Core\pf_phase_synthesizer_once.py
+- Core\pf_powerflow_live_brief_once.py
+- Core\pf_powerflow_multiread_synthesis_once.py
+- Core\pf_powerflow_telegram_gate_dedup_once.py
+- Core\pf_powerflow_telegram_gate_once.py
+- Core\pf_powerflow_zone_brief.py
+- Core\pf_price_schema_probe.py
+- Core\pf_relations.py
+- Core\pf_scene_namer.py
+- Core\pf_scene_registry.py
+- Core\pf_sequence_reader.py
+- Core\pf_session_zone_reader.py
+- Core\pf_signal_adaptive_profile.py
+- Core\pf_telegram_memory_gate.py
+- Core\pf_temporal_compression_reader_once.py
+- Core\pf_temporal_node_state.py
+- Core\pf_temporal_nodes.py
+- Core\pf_time_profile_memory.py
+- Core\pf_time_profile_window.py
+- Core\pf_trader_alert_state.py
+- Core\pf_trader_attention_alert_gate_once.py
+- Core\pf_trader_attention_packet_once.py
+- Core\pf_trader_cockpit_b8_enrich.py
+- Core\pf_trader_cockpit_evidence_enrich.py
+- Core\pf_trader_cockpit_once.py
+- Core\pf_trader_cockpit_phase_enrich.py
+- Core\pf_trader_cockpit_time_profiles_enrich.py
+- Core\pf_trader_journal_j1.py
+- Core\pf_volatility_texture.py
+- Core\pf_wavelet_density.py
+- Core\pf_zone_breathing_topology.py
+- Core\pf_zone_dynamics.py
+- Core\pf_zone_dynamics_v022_context_tags.py
+- Core\pf_zone_evolution_reader.py
+- Core\pf_zones.py
+- Core\powerflow_4_agents_service_report.txt
+- Core\powerflow_4_runtime_agents_report.txt
+- Core\POWERFLOW_PACKAGING_STANDARD.md
+- Core\RAPPORT_COMMANDO_P2_M1_NOISE_USDJPY_DASHBOARD_20260512.md
+- Core\RAPPORT_COMPLET_POWERFLOW_V72_P0_PASS_STRICT_20260511.md
+- Core\RAPPORT_DASHBOARD_UI_USDJPY_20260511.md
+- Core\RAPPORT_ETAT_LIEUX_POWERFLOW_V721_20260511.md
+- Core\RAPPORT_P2_SIGNAL_ADAPTIVE_PROFILE_TURBO_20260512.md
+- Core\RAPPORT_P5_ONTOLOGY_DASHBOARD_SCHEDULER_20260512.md
+- Core\RAPPORT_SESSION_POWERFLOW_V76_ALERT_GATE_20260513.md
+- Core\RAPPORT_USDJPY_THIN_BOTTLENECK_DIAGNOSTIC_20260512_093610.md
+- Core\RAPPORT_V73_TOPDOWN_MARKET_READER.md
+- Core\RAPPORT_V73_TURBO_WRAPPER.md
+- Core\RAPPORT_V731_DAILY_FLOW_PACKET.md
+- Core\RAPPORT_V732_DAILY_PACKET_REFINEMENT.md
+- Core\RAPPORT_V733_LIVE_FLOW_BRIEF.md
+- Core\RAPPORT_V734_B6_MULTIREAD_SYNTHESIS.md
+- Core\RAPPORT_V735_TRADER_COCKPIT.md
+- Core\RAPPORT_V735B_TRADER_COCKPIT_CLARITY.md
+- Core\RAPPORT_V736_TRADER_JOURNAL_J1.md
+- Core\RAPPORT_V736B_TRADER_JOURNAL_J1_SCHEMA_FLEX.md
+- Core\README.md
+- Core\README_B8_CROSS_SYMBOL_VALIDATION.md
+- Core\README_COMMANDO_P2.md
+- Core\README_CONSENSUS_UI.md
+- Core\README_DAILY_FLOW_PACKET.md
+- Core\README_DAILY_JOURNAL.md
+- Core\README_DAILY_LEVEL_GRAMMAR_HOTFIX_V732B.md
+- Core\README_DATA_HEALTH.md
+- Core\README_LIVE_FLOW_BRIEF_V733.md
+- Core\README_M1_CONTEXT.md
+- Core\README_ONTOLOGY.md
+- Core\README_ONTOLOGY_DASHBOARD_SCHEDULER.md
+- Core\README_SIGNAL_ADAPTIVE_PROFILE.md
+- Core\README_TOPDOWN_MARKET_READER.md
+- Core\README_V73_TURBO_WRAPPER.md
+- Core\README_V734_B6_MULTIREAD_SYNTHESIS.md
+- Core\README_V735_TRADER_COCKPIT.md
+- Core\README_V736_TRADER_JOURNAL_J1.md
+- Core\REGISTRE_BRIQUES_PATCH_B1HMM_B4WAVELET.md
+- Core\REGISTRE_BRIQUES_PATCH_M1_NOISE_USDJPY_DASHBOARD.md
+- Core\REGISTRE_BRIQUES_PATCH_MULTISYMBOL.md
+- Core\REGISTRE_BRIQUES_PATCH_SESSION.md
+- Core\REGISTRE_BRIQUES_PATCH_SIGNAL_ADAPTIVE_PROFILE.md
+- Core\REGISTRE_BRIQUES_PATCH_V721_B1HMM_MTF_SCHEMAFLEX.md
+- Core\REGISTRE_BRIQUES_PATCH_V73_TOPDOWN_MARKET_READER.md
+- Core\REGISTRE_BRIQUES_PATCH_V73_TURBO_WRAPPER.md
+- Core\REGISTRE_BRIQUES_PATCH_V731_DAILY_FLOW_PACKET.md
+- Core\REGISTRE_BRIQUES_PATCH_V732_DAILY_PACKET_REFINEMENT.md
+- Core\REGISTRE_BRIQUES_PATCH_V733_LIVE_FLOW_BRIEF.md
+- Core\REGISTRE_BRIQUES_PATCH_V734_B6_MULTIREAD_SYNTHESIS.md
+- Core\REGISTRE_PATCH_SESSION.md
+- Core\REGISTRE_PATCH_UI.md
+- Core\replay_notes.py
+- Core\run_behavioral_alert_mapper_once.py
+- Core\run_confluence_alert.py
+- Core\run_confluence_scan.py
+- Core\run_consensus_divergence_builder.py
+- Core\run_currency_energy_probe_once.py
+- Core\run_daily_flow_packet_all_once.py
+- Core\run_daily_flow_packet_once.py
+- Core\run_daily_journal_all_once.py
+- Core\run_flow_ontology_cycle_once.py
+- Core\run_htf_profile_once.py
+- Core\run_ltf_profile_once.py
+- Core\run_mtf_profile_once.py
+- Core\run_orchestral_scene_report.py
+- Core\run_order_flow_proxy_all_once.py
+- Core\run_powerflow_cycle_once.py
+- Core\run_powerflow_cycle_once_CURRENT_BACKUP_20260511.py
+- Core\run_powerflow_dashboard_refresh_once.py
+- Core\run_powerflow_live_cycle.py
+- Core\run_powerflow_live_stack_once.py
+- Core\run_regime_engine_once.py
+- Core\run_signal_adaptive_all_once.py
+- Core\run_temporal_node_state_once.py
+- Core\run_topdown_market_reader_all_once.py
+- Core\run_topdown_market_reader_once.py
+- Core\run_trader_alert_loop.py
+- Core\run_trader_alert_state_once.py
+- Core\run_trader_perception_stack_once.py
+- Core\run_weekly_agent_scan.py
+- Core\run_weekly_agent_scan_v02.py
+- Core\run_weekly_agent_scan_v03.py
+- Core\run_zone_breathing_topology_once.py
+- Core\run_zone_evolution_report.py
+- Core\scene_report_20260430_1730.txt
+- Core\scene_report_20260501_0800.txt
+- Core\scene_report_lab004.txt
+- Core\scene_report_v2_live.txt
+- Core\scheduler_config.json
+- Core\scheduler_powerflow.py
+- Core\scheduler_powerflow_turbo_wrapper.py
+- Core\START.py
+- Core\telegram_agentic_nodes_v01.py
+- Core\telegram_timing_v6.py
+- Core\telegram_trader_alert_v01.py
+- Core\telegram_trader_alert_v01_1.py
+- Core\telegram_trader_alert_v01_2.py
+- Core\TEST\behavioral_alert_queue_TEST_FRESH.json
+- Core\TEST\cockpit_test.json
+- Core\TEST\cockpit_test_avril.json
+- Core\TEST\currency_energy_state_api_reuse_test.json
+- Core\TEST\pf_battlefield_map_v011_test_output.txt
+- Core\TEST\pf_powerflow_zone_brief_v011_test_output.txt
+- Core\TEST\pf_powerflow_zone_brief_v012_test_output.txt
+- Core\TEST\runtime_status_TEST_WARN.json
+- Core\TEST\telegram_trader_alert_last_TEST.json
+- Core\TEST\test_behavioral_alert_mapper.py
+- Core\TEST\test_behavioral_alert_mapper_rg_p2.py
+- Core\TEST\test_pf_battlefield_radar_personality_bridge.py
+- Core\TEST\test_pf_battlefield_radar_v01.py
+- Core\TEST\test_pf_battlefield_radar_v02.py
+- Core\TEST\test_pf_coalition_relations_personality_bridge.py
+- Core\TEST\test_pf_coalition_relations_v01.py
+- Core\TEST\test_pf_coalitions_personality_bridge.py
+- Core\TEST\test_pf_coalitions_v01.py
+- Core\TEST\test_run_coalition_relations_once_v01.py
+- Core\TEST\test_run_coalition_relations_once_v02.py
+- Core\TEST\test_run_coalition_relations_once_v03.py
+- Core\TEST\trader_alert_state_TEST_HOT.json
+- Core\TEST\trader_alert_state_TEST_WATCH.json
+- Core\test_commando_p2_pipeline.py
+- Core\test_dashboard_tabs.py
+- Core\validation_checklist.md
+- Core\verify_b6_order_flow_proxy_once.py
+- Core\weekly_scan_gbpusd.txt
+- Core\weekly_scan_gbpusd_v02.txt
+- Core\weekly_scan_gbpusd_v03.txt
+- Docs\2026\2026-05\_legacy_root_docs\CHECKPOINT_LATEST_V3_HTF_ORCHESTRAL_20260507.md
+- Docs\2026\2026-05\_legacy_root_docs\CHECKPOINT_M2_ORCHESTRAL_COCKPIT_20260507.md
+- Docs\2026\2026-05\_legacy_root_docs\CHECKPOINT_ORCHESTRAL_GRAVITY_V02_20260507.md
+- Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_OPTIMIZED_V2_COMPLETE_20260506.md
+- Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_UPDATE_V72_BATCH_CLEARED.md
+- Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V3_HTF_ORCHESTRAL_20260507.md
+- Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V4_LOOP_COCKPIT_20260507.md
+- Docs\2026\2026-05\_legacy_root_docs\PATCH_LEXIQUE_M2_ORCHESTRAL_COCKPIT_20260507.md
+- Docs\2026\2026-05\_legacy_root_docs\RAPPORT_CREATION_CLAUDE_MD_V2_20260506.md
+- Docs\2026\2026-05\_legacy_root_docs\RAPPORT_M2_ORCHESTRAL_COCKPIT_20260507.md
+- Docs\2026\2026-05\00_RESUME_2MIN_V7_2.md
+- Docs\2026\2026-05\AUDIT_SEMANTIQUE_GRAVITY_ZONES_V72_20260510.md
+- Docs\2026\2026-05\B7_FRACTAL_RESONANCE_VALIDATION.md
+- Docs\2026\2026-05\CLAUDE_md_V7_2_UPDATED_20260510.md
+- Docs\2026\2026-05\PATCH_INTEGRATION_VOLATILITY_TEXTURE.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_ADMIN_SYNCHRO_V72_20260510.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_ALERT_OBSERVABILITY_V72_20260510.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_B1_HMM_REGIME.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_B4_WAVELET_DENSITY.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_B7_FRACTAL_RESONANCE_POST_COMMIT.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_GRAVITY_ZONES_FOOTPRINT_V72_20260510.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_LAB_ENGINE_V72_20260510.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_MEMORY_ENGINE_V1.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_MULTI_SYMBOL_EXTENSION.md
+- Docs\2026\2026-05\PATCH_LEXIQUE_V7_1_ORCHESTRATEUR.md
+- Docs\2026\2026-05\RAPPORT_ALERT_OBSERVABILITY_V72_20260510.md
+- Docs\2026\2026-05\RAPPORT_ANALYSE_SEQUENCE_GBPUSD_20260508_0700_1500_POWERFLOW_V72.md
+- Docs\2026\2026-05\RAPPORT_AUDIT_CODE_REEL_GRAVITY_ZONES_V72_20260510.md
+- Docs\2026\2026-05\RAPPORT_B1_HMM_REGIME_UPGRADE_20260510.md
+- Docs\2026\2026-05\RAPPORT_BATCH_TEST_FINAL_VERDICT_V72.md
+- Docs\2026\2026-05\RAPPORT_COMPLET_B7_FRACTAL_RESONANCE_POST_COMMIT.md
+- Docs\2026\2026-05\RAPPORT_COMPLET_POWERFLOW_V721_B1HMM_MTF_B4WAVELET_SCHEMAFLEX_20260511.md
+- Docs\2026\2026-05\RAPPORT_COMPLET_SYNCHRO_ADMIN_V72_20260510.md
+- Docs\2026\2026-05\RAPPORT_LAB_ENGINE_V72_20260510.md
+- Docs\2026\2026-05\RAPPORT_MEMORY_ENGINE_V1_20260510.md
+- Docs\2026\2026-05\RAPPORT_MISSION_2_B4_WAVELET_DENSITY.md
+- Docs\2026\2026-05\RAPPORT_MISSION_MULTI_SYMBOL_EXTENSION.md
+- Docs\2026\2026-05\RAPPORT_POWERFLOW_V7_1_ORCHESTRATEUR_CYCLE_COMPLET.md
+- Docs\2026\2026-05\RAPPORT_SESSION_20260511.md
+- Docs\2026\2026-05\README_SIMPLE_LAB_ENGINE_V72.md
+- Docs\2026\2026-05\SCENE_REGISTRY_V72_V01.md
+- Docs\Audits\T002_ENGINE_TARGET_DISCOVERY_20260515_170705.md
+- Docs\Audits\T002_ENGINE_V6_CORE_DETACHED_20260515_173856.md
+- Docs\Audits\T002_RUNTIME_SURFACE_AUDIT_20260515_151101.md
+- Docs\Audits\T004_ACTIVE_DB_SYMBOL_DENSITY_20260515_191420.md
+- Docs\Audits\T004_CAPTURE_DB_PATH_AUDIT_20260515_190538.md
+- Docs\Audits\T004_CAPTURE_RUNTIME_PROCESS_SNAPSHOT_20260515_193231.json
+- Docs\Audits\T004_USDJPY_THIN_DATA_DIAGNOSTIC_20260515_190007.md
+- Docs\CHECKPOINT_LATEST_V3_HTF_ORCHESTRAL_20260507.md
+- Docs\CHECKPOINT_M2_ORCHESTRAL_COCKPIT_20260507.md
+- Docs\CHECKPOINT_ORCHESTRAL_GRAVITY_V02_20260507.md
+- Docs\CHECKPOINT_POWERFLOW_V767_FINAL.md
+- Docs\CHECKPOINT_RUNTIME_KINEMATICS_GRAVITY_20260506.md
+- Docs\CLAUDE.md
+- Docs\Contracts\T004_ACTIVE_DB_DECISION.json
+- Docs\Contracts\T004_ACTIVE_DB_SYMBOL_DENSITY.json
+- Docs\Contracts\T004_ACTIVE_INSERTION_SYMBOL_DELTA.json
+- Docs\Contracts\T004_CAPTURE_DB_PATH_AUDIT.json
+- Docs\Contracts\T004_CAPTURE_RUNTIME_STATUS.json
+- Docs\Contracts\T004_CAPTURE_SYMBOL_ROUTING_AUDIT.json
+- Docs\Contracts\T004_DB_WRITER_ATTRIBUTION.json
+- Docs\Contracts\T004_FINAL_DIAGNOSIS.json
+- Docs\Contracts\T004_LIVE_CAPTURE_HEALTH_COUNTER.json
+- Docs\Contracts\T004_REQUALIFICATION_AFTER_USD_BASE_COHORT.json
+- Docs\Contracts\T004_USD_BASE_POLARITY_COHORT.json
+- Docs\Contracts\T004_USDJPY_ACTIVE_TABLE_HORIZON.json
+- Docs\Contracts\T004_USDJPY_THIN_DATA_DIAGNOSTIC.json
+- Docs\Contracts\T004_USDJPY_THIN_ROOT_CAUSE.json
+- Docs\CURRENT_STATE.md
+- Docs\CURRENTSET_POWERFLOW_V767.md
+- Docs\CurrentState\CURRENT_STATE_20260515_210126_T004_REQUALIFIED.md
+- Docs\DISPATCH_STATUS.json
+- Docs\PATCH_INTEGRATION_VOLATILITY_TEXTURE.md
+- Docs\PATCH_LEXIQUE_ALERT_OBSERVABILITY_V72_20260510.md
+- Docs\PATCH_LEXIQUE_KINEMATICS_GRAVITY_BEHAVIORAL_20260506.md
+- Docs\PATCH_LEXIQUE_M2_ORCHESTRAL_COCKPIT_20260507.md
+- Docs\Plans\T002_ENGINE_EXTRACTION_PLAN_20260515_173339.md
+- Docs\Plans\T004_ACTIVE_DB_DECISION_PLAN_20260515_191028.md
+- Docs\Plans\T004_ACTIVE_INSERTION_SYMBOL_DELTA_RESULT_20260515_194252.md
+- Docs\Plans\T004_CAPTURE_RUNTIME_STATUS_CHECKLIST_20260515_193236.md
+- Docs\Plans\T004_CAPTURE_SYMBOL_ROUTING_OPERATOR_CHECKLIST_20260515_192313.md
+- Docs\Plans\T004_CAPTURE_SYMBOL_ROUTING_OPERATOR_CHECKLIST_20260515_192436.md
+- Docs\Plans\T004_DB_WRITER_ATTRIBUTION_RESULT_20260515_193647.md
+- Docs\Plans\T004_LIVE_CAPTURE_HEALTH_COUNTER_RESULT_20260515_192843.md
+- Docs\Plans\T004_USD_BASE_POLARITY_COHORT_RESULT_20260515_201801.md
+- Docs\Plans\T004_USD_BASE_POLARITY_COHORT_RESULT_20260515_202320.md
+- Docs\Plans\T004_USDJPY_ACTIVE_TABLE_HORIZON_RESULT_20260515_194914.md
+- Docs\Plans\T004_USDJPY_THIN_ROOT_CAUSE_PLAN_20260515_191848.md
+- Docs\POWERFLOW_BRICK_AUDIT_TERRAIN_V76_FINAL.md
+- Docs\POWERFLOW_BRICK_FALSE_POSITIVES_V76.md
+- Docs\POWERFLOW_BRICK_TO_PACKET_FIELD_MAPPING_V76.md
+- Docs\POWERFLOW_FILM_LIBRARY_GBPUSD_V76_FINAL.md
+- Docs\POWERFLOW_FILM_MEMORY_CARDS_GBPUSD_V76.md
+- Docs\POWERFLOW_FILM_PATTERN_INDEX_V76.md
+- Docs\POWERFLOW_LEXIQUE_FR_V76.md
+- Docs\POWERFLOW_MEMORY_RG_GUARD_20260506\CHECKPOINT_LATEST_POWERFLOW_V6_20260506_RG_GUARD.md
+- Docs\POWERFLOW_MEMORY_RG_GUARD_20260506\CURRENT_STATE_POWERFLOW_V6_ACTIVE_20260506_RG_GUARD.md
+- Docs\POWERFLOW_MEMORY_RG_GUARD_20260506\RAPPORT_ARCHITECTE_RELATIONAL_GRAVITY_GUARD_20260506.md
+- Docs\POWERFLOW_MEMORY_RG_GUARD_20260506\ROADMAP_ACTIVE_POWERFLOW_V6_20260506_RG_GUARD.md
+- Docs\POWERFLOW_MEMORY_SERENE_20260506\CHECKPOINT_LATEST_POWERFLOW_V6_20260506.md
+- Docs\POWERFLOW_MEMORY_SERENE_20260506\CURRENT_STATE_POWERFLOW_V6_ACTIVE_20260506.md
+- Docs\POWERFLOW_MEMORY_SERENE_20260506\LEXIQUE_UPDATE_QUEUE_POWERFLOW_V6_20260506.md
+- Docs\POWERFLOW_MEMORY_SERENE_20260506\MEMORY_PROTOCOL_POWERFLOW_V6_20260506.md
+- Docs\POWERFLOW_MEMORY_SERENE_20260506\ROADMAP_ACTIVE_POWERFLOW_V6_20260506.md
+- Docs\powerflow_memory_v61_livecycle_20260506\ANGLES_MORTS_POWERFLOW_V61_20260506.md
+- Docs\powerflow_memory_v61_livecycle_20260506\CHECKPOINT_POWERFLOW_V61_LIVECYCLE_20260506.md
+- Docs\powerflow_memory_v61_livecycle_20260506\CURRENT_STATE_POWERFLOW_V61_LIVECYCLE_20260506.md
+- Docs\powerflow_memory_v61_livecycle_20260506\LEXIQUE_UPDATE_QUEUE_POWERFLOW_V61_LIVECYCLE_20260506.md
+- Docs\powerflow_memory_v61_livecycle_20260506\PLAN_ACTION_LEVIER_POWERFLOW_V61_20260506.md
+- Docs\powerflow_memory_v61_livecycle_20260506\ROADMAP_ACTIVE_POWERFLOW_V61_20260506.md
+- Docs\POWERFLOW_ORCHESTRATION_UPDATE_PACK_20260507\00_CURRENT_STATE_POWERFLOW_V6_ORCHESTRATION_20260507.md
+- Docs\POWERFLOW_ORCHESTRATION_UPDATE_PACK_20260507\01_CHECKPOINT_LATEST_POWERFLOW_V6_ORCHESTRATION_20260507.md
+- Docs\POWERFLOW_ORCHESTRATION_UPDATE_PACK_20260507\02_REGISTRE_BRIQUES_DEPENDANCES_POWERFLOW_V6_20260507.md
+- Docs\POWERFLOW_ORCHESTRATION_UPDATE_PACK_20260507\04_RAPPORT_CRITIQUE_SEVERE_POWERFLOW_V6_20260507.md
+- Docs\POWERFLOW_ORCHESTRATION_UPDATE_PACK_20260507\05_MISSION_P1_2_RELATIONAL_GRAVITY_BRIDGE_GUARD_20260507.md
+- Docs\POWERFLOW_ORCHESTRATION_UPDATE_PACK_20260507\07_ROADMAP_ACTIVE_POWERFLOW_V6_20260507.md
+- Docs\POWERFLOW_PACKET_REQUALIFICATION_RULES_V76_FINAL.md
+- Docs\POWERFLOW_REUNION_HTF_SHORT_TERM_PACK_20260507\CHECKPOINT_CORRECTION_HTF_POWERFLOW_20260507.md
+- Docs\POWERFLOW_REUNION_HTF_SHORT_TERM_PACK_20260507\PATCH_LEXIQUE_HTF_SHORT_TERM_POWERFLOW_20260507.md
+- Docs\POWERFLOW_REUNION_HTF_SHORT_TERM_PACK_20260507\RAPPORT_REUNION_POWERFLOW_HTF_SHORT_TERM_20260507.md
+- Docs\POWERFLOW_TELEGRAM_ALERTS_FR_V76.md
+- Docs\POWERFLOW_TERRAIN_GRAMMAR_V76_FINAL.md
+- Docs\POWERFLOW_TERRAIN_LEXICON_UPDATES_V76.md
+- Docs\POWERFLOW_TRADER_PACKET_REQUIREMENTS_V76.md
+- Docs\POWERFLOW_V76_B6_MEMORY_GBPUSD_REPORT.md
+- Docs\POWERFLOW_V76_CANONICAL_ENUMS_AND_ALIASES.md
+- Docs\POWERFLOW_V76_DASHBOARD_TERRAIN_PANEL.md
+- Docs\POWERFLOW_V76_GBPUSD_ONLY_CYCLE_REPORT.md
+- Docs\POWERFLOW_V76_INTEGRATION_VERDICT.md
+- Docs\POWERFLOW_V76_TELEGRAM_CYCLE_RUNNER.md
+- Docs\POWERFLOW_V76_TELEGRAM_FR_CLEANUP_REPORT.md
+- Docs\POWERFLOW_V76_TRADER_PLAYBOOKS_REPORT.md
+- Docs\POWERFLOW_V766_POLISH_REPORT.md
+- Docs\RAPPORT_ALERT_OBSERVABILITY_V72_20260510.md
+- Docs\RAPPORT_COMPLET_POWERFLOW_V767.md
+- Docs\RAPPORT_M2_ORCHESTRAL_COCKPIT_20260507.md
+- Docs\README_INSTALLATION.md
+- Docs\README_POWERFLOW_V767_REALITY_TELEGRAM.md
+- Docs\README_RUNTIME_VALIDATION_PACK.md
+- Docs\Reports\T004_FINAL_DIAGNOSIS_20260515_195414.md
+- Docs\Reports\T004_FINAL_DIAGNOSIS_20260515_195658.md
+- Docs\Reports\T004_REQUALIFICATION_AFTER_USD_BASE_COHORT_20260515_204446.md
+- Docs\SPEC_TEMPORAL_NODE_STATE_V082_ENERGY_CONTEXT_20260506.md
+
+## Required concept hits
+
+- FOUND_REQUIRED_CONCEPT: Core\_backup_multisymbol_20260511_153542\run_behavioral_alert_mapper_once.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\AVANT\cockpit_agentic_state_v01_orchestral.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\AVANT\pf_behavioral_alert_mapper.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\AVANT\run_behavioral_alert_mapper_once.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\backups\dashboard_cleanup\20260511_082526\DASHBOARD_V72_FINAL_INTEGRATION_REPORT.md | concept="Gravite"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_commando_v721_20260512_111605\checkpoints\auto_20260511_2205\behavioral_alert_queue_GBPUSD.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\CURRENT_STATE_V7_OFFICIAL_20260511.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="antagonistes"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\CURRENT_STATE_V7_OFFICIAL_20260511.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="antagonistes"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_session_dashboard_commit_20260511_164455\RAPPORT_COMPLET_POWERFLOW_V721_B1HMM_MTF_B4WAVELET_SCHEMAFLEX_20260511.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\backups\post_session_dashboard_commit_20260511_164455\REGISTRE_BRIQUES_PATCH_V721_B1HMM_MTF_SCHEMAFLEX.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\CLAUDE_md_V7.1.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\CLAUDE_md_V7.1.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Core\cockpit_agentic_state_v01.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\cockpit_reader.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\CURRENT_STATE_V7_OFFICIAL_20260511.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\dashboard_data.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\dashboard_sync_agent_v01.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\docs\2026\2026-05\RAPPORT_MULTISYMBOL_SCHEDULER_20260511.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\docs\missions\TURBO_LIVE_STACK\turbo_live_stack_report.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\docs\orchestral_scene_06may_05h_21h.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\docs\orchestral_scene_corrected_v02.md | concept="antagonistes"
+- FOUND_REQUIRED_CONCEPT: Core\docs\orchestral_scene_corrected_v02.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\docs\RAPPORT_TRADER_ALERT_STATE_V01_COMPLETE.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\docs\README_FILM.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\film.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\lab_elastic.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\lab_film.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\LAB_POWERFLOW_README.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="antagonistes"
+- FOUND_REQUIRED_CONCEPT: Core\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\LEXIQUE_GRAMMAIRE_V7_FINAL_20260511.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Core\LEXIQUE_PATCH_M1_NOISE_USDJPY_DASHBOARD.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\LEXIQUE_PATCH_V73_TOPDOWN_MARKET_READER.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\load_runtime_fixture.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\patch_dashboard_v75a_session_memory.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\patch_dashboard_v75a_session_memory_fix.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\PATCH_LEXIQUE_POWERFLOW_V76_ALERT_GATE_20260513.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\patch_perception_spine_v76_fix.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_battlefield_map.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\pf_battlefield_map.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_battlefield_radar.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\pf_battlefield_radar.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_battlefield_radar_v02.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\pf_battlefield_radar_v02.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_behavioral_alert_mapper.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_coalition_relations.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\pf_coalition_relations.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_coalitions.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\pf_coalitions.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_daily_market_reader.py | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Core\pf_engine_scenes.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_events.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_evidence_reading_once.py | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Core\pf_film_engine.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_flow_event_extractor.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_flow_event_extractor_v02_extended.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_force_inflection.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_fractal_window_engine.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_fractal_zone_stack.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_lab_coalitions.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\pf_lab_engine_v72.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_lab_event_selector_v72.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_lab_m1_episode_merger_v72.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_lab_tf_profiles_v72.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_ltf_execution_condition_reader.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_m1_noise_ratio_probe.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_memory.py | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Core\pf_mtf_day_plan_builder.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_mtf_day_plan_builder.py | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Core\pf_normalizer.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_normalizer.py | concept="Gravite"
+- FOUND_REQUIRED_CONCEPT: Core\pf_perception_spine_once.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_powerflow_zone_brief.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_relations.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\pf_scene_namer.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_scene_registry.py | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Core\pf_session_zone_reader.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_signal_adaptive_profile.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_temporal_node_state.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_time_profile_window.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_trader_attention_alert_gate_once.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_trader_attention_packet_once.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_zone_breathing_topology.py | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Core\pf_zone_dynamics.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_zone_dynamics_v022_context_tags.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_zone_evolution_reader.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\pf_zones.py | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Core\powerflow_4_agents_service_report.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\powerflow_4_runtime_agents_report.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\RAPPORT_SESSION_POWERFLOW_V76_ALERT_GATE_20260513.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\RAPPORT_V73_TOPDOWN_MARKET_READER.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\README_M1_CONTEXT.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\README_TOPDOWN_MARKET_READER.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\README_V73_TURBO_WRAPPER.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\REGISTRE_BRIQUES_PATCH_V721_B1HMM_MTF_SCHEMAFLEX.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\REGISTRE_BRIQUES_PATCH_V73_TOPDOWN_MARKET_READER.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\REGISTRE_BRIQUES_PATCH_V73_TOPDOWN_MARKET_READER.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Core\run_confluence_scan.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\run_orchestral_scene_report.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\run_orchestral_scene_report.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\run_powerflow_dashboard_refresh_once.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\run_powerflow_live_cycle.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\run_trader_perception_stack_once.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\run_weekly_agent_scan.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\run_weekly_agent_scan_v02.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\run_weekly_agent_scan_v03.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\run_zone_breathing_topology_once.py | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Core\run_zone_evolution_report.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\scene_report_20260430_1730.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\scene_report_20260501_0800.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\scene_report_lab004.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\scene_report_v2_live.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\telegram_agentic_nodes_v01.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\cockpit_test.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\cockpit_test_avril.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\currency_energy_state_api_reuse_test.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\pf_battlefield_map_v011_test_output.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\pf_powerflow_zone_brief_v011_test_output.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\pf_powerflow_zone_brief_v012_test_output.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_behavioral_alert_mapper.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_behavioral_alert_mapper_rg_p2.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_battlefield_radar_personality_bridge.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_battlefield_radar_personality_bridge.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_battlefield_radar_v01.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_battlefield_radar_v01.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_battlefield_radar_v02.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_battlefield_radar_v02.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_coalition_relations_personality_bridge.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_coalition_relations_v01.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_coalitions_personality_bridge.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_coalitions_personality_bridge.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_coalitions_v01.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_pf_coalitions_v01.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_run_coalition_relations_once_v01.py | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_run_coalition_relations_once_v01.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_run_coalition_relations_once_v02.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\TEST\test_run_coalition_relations_once_v03.py | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\weekly_scan_gbpusd.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\weekly_scan_gbpusd_v02.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Core\weekly_scan_gbpusd_v03.txt | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CHECKPOINT_LATEST_V3_HTF_ORCHESTRAL_20260507.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CHECKPOINT_LATEST_V3_HTF_ORCHESTRAL_20260507.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CHECKPOINT_ORCHESTRAL_GRAVITY_V02_20260507.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_OPTIMIZED_V2_COMPLETE_20260506.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_OPTIMIZED_V2_COMPLETE_20260506.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V3_HTF_ORCHESTRAL_20260507.md | concept="antagonistes"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V3_HTF_ORCHESTRAL_20260507.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V3_HTF_ORCHESTRAL_20260507.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V3_HTF_ORCHESTRAL_20260507.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V4_LOOP_COCKPIT_20260507.md | concept="antagonistes"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V4_LOOP_COCKPIT_20260507.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V4_LOOP_COCKPIT_20260507.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V4_LOOP_COCKPIT_20260507.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\_legacy_root_docs\RAPPORT_M2_ORCHESTRAL_COCKPIT_20260507.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\AUDIT_SEMANTIQUE_GRAVITY_ZONES_V72_20260510.md | concept="antagonistes"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\AUDIT_SEMANTIQUE_GRAVITY_ZONES_V72_20260510.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\AUDIT_SEMANTIQUE_GRAVITY_ZONES_V72_20260510.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\AUDIT_SEMANTIQUE_GRAVITY_ZONES_V72_20260510.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\PATCH_LEXIQUE_ALERT_OBSERVABILITY_V72_20260510.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\PATCH_LEXIQUE_B4_WAVELET_DENSITY.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\PATCH_LEXIQUE_GRAVITY_ZONES_FOOTPRINT_V72_20260510.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\PATCH_LEXIQUE_GRAVITY_ZONES_FOOTPRINT_V72_20260510.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\PATCH_LEXIQUE_LAB_ENGINE_V72_20260510.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\PATCH_LEXIQUE_MEMORY_ENGINE_V1.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\RAPPORT_ALERT_OBSERVABILITY_V72_20260510.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\RAPPORT_ANALYSE_SEQUENCE_GBPUSD_20260508_0700_1500_POWERFLOW_V72.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\RAPPORT_AUDIT_CODE_REEL_GRAVITY_ZONES_V72_20260510.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\RAPPORT_AUDIT_CODE_REEL_GRAVITY_ZONES_V72_20260510.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\RAPPORT_BATCH_TEST_FINAL_VERDICT_V72.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\RAPPORT_COMPLET_POWERFLOW_V721_B1HMM_MTF_B4WAVELET_SCHEMAFLEX_20260511.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\RAPPORT_LAB_ENGINE_V72_20260510.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\RAPPORT_MISSION_2_B4_WAVELET_DENSITY.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\README_SIMPLE_LAB_ENGINE_V72.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\2026\2026-05\SCENE_REGISTRY_V72_V01.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\Audits\T002_ENGINE_TARGET_DISCOVERY_20260515_170705.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\Audits\T002_RUNTIME_SURFACE_AUDIT_20260515_151101.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\Audits\T004_USDJPY_THIN_DATA_DIAGNOSTIC_20260515_190007.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\CHECKPOINT_LATEST_V3_HTF_ORCHESTRAL_20260507.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\CHECKPOINT_LATEST_V3_HTF_ORCHESTRAL_20260507.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\CHECKPOINT_ORCHESTRAL_GRAVITY_V02_20260507.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\CHECKPOINT_POWERFLOW_V767_FINAL.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="antagonistes"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Confirmation prix"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Dernier evenement structurel"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Gravite"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Limites donnees"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Qualite packet"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Role du mouvement"
+- FOUND_REQUIRED_CONCEPT: Docs\CLAUDE.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\Contracts\T004_CAPTURE_DB_PATH_AUDIT.json | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\Contracts\T004_CAPTURE_DB_PATH_AUDIT.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\Contracts\T004_CAPTURE_RUNTIME_STATUS.json | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\Contracts\T004_CAPTURE_RUNTIME_STATUS.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\Contracts\T004_CAPTURE_SYMBOL_ROUTING_AUDIT.json | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\Contracts\T004_CAPTURE_SYMBOL_ROUTING_AUDIT.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\Contracts\T004_USD_BASE_POLARITY_COHORT.json | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\Contracts\T004_USD_BASE_POLARITY_COHORT.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\Contracts\T004_USDJPY_THIN_DATA_DIAGNOSTIC.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\DISPATCH_STATUS.json | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\PATCH_LEXIQUE_ALERT_OBSERVABILITY_V72_20260510.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\Plans\T004_CAPTURE_RUNTIME_STATUS_CHECKLIST_20260515_193236.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_BRICK_AUDIT_TERRAIN_V76_FINAL.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_BRICK_AUDIT_TERRAIN_V76_FINAL.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_BRICK_FALSE_POSITIVES_V76.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_BRICK_TO_PACKET_FIELD_MAPPING_V76.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_BRICK_TO_PACKET_FIELD_MAPPING_V76.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_FILM_LIBRARY_GBPUSD_V76_FINAL.md | concept="Confirmation prix"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_FILM_LIBRARY_GBPUSD_V76_FINAL.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_FILM_LIBRARY_GBPUSD_V76_FINAL.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_FILM_LIBRARY_GBPUSD_V76_FINAL.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_FILM_MEMORY_CARDS_GBPUSD_V76.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_FILM_PATTERN_INDEX_V76.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_LEXIQUE_FR_V76.md | concept="Confirmation prix"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_LEXIQUE_FR_V76.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_LEXIQUE_FR_V76.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_LEXIQUE_FR_V76.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_MEMORY_RG_GUARD_20260506\CHECKPOINT_LATEST_POWERFLOW_V6_20260506_RG_GUARD.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_MEMORY_RG_GUARD_20260506\RAPPORT_ARCHITECTE_RELATIONAL_GRAVITY_GUARD_20260506.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_MEMORY_RG_GUARD_20260506\ROADMAP_ACTIVE_POWERFLOW_V6_20260506_RG_GUARD.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_MEMORY_SERENE_20260506\CURRENT_STATE_POWERFLOW_V6_ACTIVE_20260506.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_MEMORY_SERENE_20260506\ROADMAP_ACTIVE_POWERFLOW_V6_20260506.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\powerflow_memory_v61_livecycle_20260506\CURRENT_STATE_POWERFLOW_V61_LIVECYCLE_20260506.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\powerflow_memory_v61_livecycle_20260506\LEXIQUE_UPDATE_QUEUE_POWERFLOW_V61_LIVECYCLE_20260506.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_ORCHESTRATION_UPDATE_PACK_20260507\00_CURRENT_STATE_POWERFLOW_V6_ORCHESTRATION_20260507.md | concept="antagonistes"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_ORCHESTRATION_UPDATE_PACK_20260507\04_RAPPORT_CRITIQUE_SEVERE_POWERFLOW_V6_20260507.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_PACKET_REQUALIFICATION_RULES_V76_FINAL.md | concept="Confirmation prix"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_PACKET_REQUALIFICATION_RULES_V76_FINAL.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_PACKET_REQUALIFICATION_RULES_V76_FINAL.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_PACKET_REQUALIFICATION_RULES_V76_FINAL.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_REUNION_HTF_SHORT_TERM_PACK_20260507\PATCH_LEXIQUE_HTF_SHORT_TERM_POWERFLOW_20260507.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_REUNION_HTF_SHORT_TERM_PACK_20260507\RAPPORT_REUNION_POWERFLOW_HTF_SHORT_TERM_20260507.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_REUNION_HTF_SHORT_TERM_PACK_20260507\RAPPORT_REUNION_POWERFLOW_HTF_SHORT_TERM_20260507.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TELEGRAM_ALERTS_FR_V76.md | concept="Confirmation prix"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TELEGRAM_ALERTS_FR_V76.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TELEGRAM_ALERTS_FR_V76.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TERRAIN_GRAMMAR_V76_FINAL.md | concept="Confirmation prix"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TERRAIN_GRAMMAR_V76_FINAL.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TERRAIN_GRAMMAR_V76_FINAL.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TERRAIN_GRAMMAR_V76_FINAL.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TERRAIN_LEXICON_UPDATES_V76.md | concept="Confirmation prix"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TERRAIN_LEXICON_UPDATES_V76.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TERRAIN_LEXICON_UPDATES_V76.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TRADER_PACKET_REQUIREMENTS_V76.md | concept="Confirmation prix"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TRADER_PACKET_REQUIREMENTS_V76.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TRADER_PACKET_REQUIREMENTS_V76.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_TRADER_PACKET_REQUIREMENTS_V76.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_V76_B6_MEMORY_GBPUSD_REPORT.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_V76_CANONICAL_ENUMS_AND_ALIASES.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_V76_DASHBOARD_TERRAIN_PANEL.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_V76_DASHBOARD_TERRAIN_PANEL.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_V76_INTEGRATION_VERDICT.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_V76_TELEGRAM_FR_CLEANUP_REPORT.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_V76_TELEGRAM_FR_CLEANUP_REPORT.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_V76_TRADER_PLAYBOOKS_REPORT.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\POWERFLOW_V76_TRADER_PLAYBOOKS_REPORT.md | concept="Invalidation"
+- FOUND_REQUIRED_CONCEPT: Docs\RAPPORT_ALERT_OBSERVABILITY_V72_20260510.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\RAPPORT_COMPLET_POWERFLOW_V767.md | concept="Confirmation prix"
+- FOUND_REQUIRED_CONCEPT: Docs\RAPPORT_COMPLET_POWERFLOW_V767.md | concept="Film"
+- FOUND_REQUIRED_CONCEPT: Docs\RAPPORT_COMPLET_POWERFLOW_V767.md | concept="Zone active"
+- FOUND_REQUIRED_CONCEPT: Docs\RAPPORT_M2_ORCHESTRAL_COCKPIT_20260507.md | concept="Coalitions"
+- FOUND_REQUIRED_CONCEPT: Docs\SPEC_TEMPORAL_NODE_STATE_V082_ENERGY_CONTEXT_20260506.md | concept="Film"
+
+## Potential forbidden wording hits
+
+- POSSIBLE_FORBIDDEN_WORDING: Core\AVANT\pf_behavioral_alert_mapper.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\dashboard_cleanup\20260511_082526\DASHBOARD_V72_MAX_HARDENING_REPORT.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\dashboard_cleanup\20260511_082526\DASHBOARD_V72_SURFACE_V4_REPORT.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\dashboard_cleanup\20260511_082526\P0_DASHBOARD_GO_NO_GO_CHECKLIST.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\docs\DASHBOARD_V72_FINAL_VALIDATION_REPORT.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\post_final_delivery_20260511_121023\_dashboard_final_delivery\runtime\DASHBOARD_V72_FINAL_VALIDATION_REPORT.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\CHECKPOINT_SESSION_FINAL_20260511.md | pattern="100%"
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\CHECKPOINT_SESSION_FINAL_20260511.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\post_pass_strict_cleanup_20260511_130018\_squad2_docs_final\docs\CLAUDE_md_V72_FINAL_UPDATE.md | pattern="100%"
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\post_session_dashboard_commit_20260511_164455\_docs_pass_strict_update\docs\CHECKPOINT_SESSION_FINAL_20260511.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\post_session_dashboard_commit_20260511_164455\RAPPORT_COMPLET_POWERFLOW_V721_B1HMM_MTF_B4WAVELET_SCHEMAFLEX_20260511.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Core\backups\post_session_dashboard_commit_20260511_164455\REGISTRE_BRIQUES_PATCH_V721_B1HMM_MTF_SCHEMAFLEX.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\CHECKPOINT_P0_LIVE_20260511.md | pattern="100%"
+- POSSIBLE_FORBIDDEN_WORDING: Core\CHECKPOINT_SESSION_FINAL_20260511.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\CURRENT_STATE_V7_POST_P0_UPDATE.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\DASHBOARD_V72_FINAL_VALIDATION_REPORT.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\docs\2026\2026-05\RAPPORT_MULTISYMBOL_SCHEDULER_20260511.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\docs\RAPPORT_TRADER_ALERT_STATE_V01_COMPLETE.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\P0_FINAL_ARCHITECT_DECISION.md | pattern="100%"
+- POSSIBLE_FORBIDDEN_WORDING: Core\patch_dashboard_v75f_session_full_width.py | pattern="100%"
+- POSSIBLE_FORBIDDEN_WORDING: Core\PATCH_LEXIQUE_POWERFLOW_V76_ALERT_GATE_20260513.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Core\pf_b6_live_fusion_once.py | pattern="buy "
+- POSSIBLE_FORBIDDEN_WORDING: Core\pf_b6_live_fusion_once.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\pf_behavioral_alert_mapper.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\pf_cross_symbol_validation.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\pf_engine_scenes.py | pattern="entree automatique"
+- POSSIBLE_FORBIDDEN_WORDING: Core\pf_lab_engine_v72.py | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Core\pf_memory.py | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Core\RAPPORT_SESSION_POWERFLOW_V76_ALERT_GATE_20260513.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Core\REGISTRE_BRIQUES_PATCH_SIGNAL_ADAPTIVE_PROFILE.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\REGISTRE_BRIQUES_PATCH_V721_B1HMM_MTF_SCHEMAFLEX.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\scheduler_powerflow_turbo_wrapper.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\telegram_trader_alert_v01.py | pattern="achete"
+- POSSIBLE_FORBIDDEN_WORDING: Core\telegram_trader_alert_v01.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\telegram_trader_alert_v01_1.py | pattern="achete"
+- POSSIBLE_FORBIDDEN_WORDING: Core\telegram_trader_alert_v01_1.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\telegram_trader_alert_v01_2.py | pattern="achete"
+- POSSIBLE_FORBIDDEN_WORDING: Core\telegram_trader_alert_v01_2.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\TEST\test_behavioral_alert_mapper.py | pattern="buy "
+- POSSIBLE_FORBIDDEN_WORDING: Core\TEST\test_behavioral_alert_mapper.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\TEST\test_behavioral_alert_mapper_rg_p2.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Core\verify_b6_order_flow_proxy_once.py | pattern="buy "
+- POSSIBLE_FORBIDDEN_WORDING: Core\verify_b6_order_flow_proxy_once.py | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_OPTIMIZED_V2_COMPLETE_20260506.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V3_HTF_ORCHESTRAL_20260507.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\_legacy_root_docs\CLAUDE_md_V4_LOOP_COCKPIT_20260507.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\00_RESUME_2MIN_V7_2.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\B7_FRACTAL_RESONANCE_VALIDATION.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\CLAUDE_md_V7_2_UPDATED_20260510.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\PATCH_LEXIQUE_ALERT_OBSERVABILITY_V72_20260510.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\PATCH_LEXIQUE_GRAVITY_ZONES_FOOTPRINT_V72_20260510.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\PATCH_LEXIQUE_GRAVITY_ZONES_FOOTPRINT_V72_20260510.md | pattern="guaranteed"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\PATCH_LEXIQUE_GRAVITY_ZONES_FOOTPRINT_V72_20260510.md | pattern="signal certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\PATCH_LEXIQUE_LAB_ENGINE_V72_20260510.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\PATCH_LEXIQUE_MEMORY_ENGINE_V1.md | pattern="garanti"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\PATCH_LEXIQUE_MULTI_SYMBOL_EXTENSION.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\PATCH_LEXIQUE_V7_1_ORCHESTRATEUR.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\RAPPORT_AUDIT_CODE_REEL_GRAVITY_ZONES_V72_20260510.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\RAPPORT_COMPLET_B7_FRACTAL_RESONANCE_POST_COMMIT.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\RAPPORT_COMPLET_POWERFLOW_V721_B1HMM_MTF_B4WAVELET_SCHEMAFLEX_20260511.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\RAPPORT_COMPLET_SYNCHRO_ADMIN_V72_20260510.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\RAPPORT_LAB_ENGINE_V72_20260510.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\2026\2026-05\RAPPORT_MISSION_MULTI_SYMBOL_EXTENSION.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\CLAUDE.md | pattern="guaranteed"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\Contracts\T004_CAPTURE_DB_PATH_AUDIT.json | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\Contracts\T004_CAPTURE_SYMBOL_ROUTING_AUDIT.json | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\DISPATCH_STATUS.json | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\PATCH_LEXIQUE_ALERT_OBSERVABILITY_V72_20260510.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_BRICK_AUDIT_TERRAIN_V76_FINAL.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_BRICK_TO_PACKET_FIELD_MAPPING_V76.md | pattern="certain"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_ORCHESTRATION_UPDATE_PACK_20260507\00_CURRENT_STATE_POWERFLOW_V6_ORCHESTRATION_20260507.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_TERRAIN_GRAMMAR_V76_FINAL.md | pattern="100%"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_TERRAIN_GRAMMAR_V76_FINAL.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_TERRAIN_LEXICON_UPDATES_V76.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_TRADER_PACKET_REQUIREMENTS_V76.md | pattern="100%"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_TRADER_PACKET_REQUIREMENTS_V76.md | pattern="buy "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_TRADER_PACKET_REQUIREMENTS_V76.md | pattern="sell "
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_V76_B6_MEMORY_GBPUSD_REPORT.md | pattern="garanti"
+- POSSIBLE_FORBIDDEN_WORDING: Docs\POWERFLOW_V76_TELEGRAM_FR_CLEANUP_REPORT.md | pattern="certain"
+
+## Operational conclusion
+
+- Audit completed with potential wording issues requiring manual review.
+- No source wording was modified by T006-E.
+- Recommended next step: T006-F patch only confirmed trader-facing wording violations.
+- No code, DB, scheduler, dashboard runtime, or output file was intentionally modified.
