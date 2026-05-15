@@ -1,0 +1,454 @@
+{
+  "contract": "POWERFLOW_T004_ACTIVE_DB_SYMBOL_DENSITY",
+  "created_at": "2026-05-15T17:14:20Z",
+  "active_db": "Core/powerflow.db",
+  "source_decision_contract": "Docs/Contracts/T004_ACTIVE_DB_DECISION.json",
+  "status": "USDJPY_THIN_RELATIVE",
+  "symbols": [
+    "USDJPY",
+    "GBPUSD",
+    "EURUSD"
+  ],
+  "symbol_totals": {
+    "USDJPY": 4060,
+    "GBPUSD": 36059,
+    "EURUSD": 5361
+  },
+  "table_count": 8,
+  "populated_table_count": 8,
+  "symbol_indexed_table_count": 6,
+  "tables": [
+    {
+      "table": "context_htf",
+      "row_count": 9881,
+      "columns": [
+        "id",
+        "signal_id",
+        "bias",
+        "bias_state",
+        "scenario",
+        "aligned_count",
+        "fractal_rank",
+        "leader_tf",
+        "htf_bonus",
+        "details_json"
+      ],
+      "symbol_col": null,
+      "time_col": null,
+      "per_symbol": {},
+      "sample": {
+        "id": 1,
+        "signal_id": 1,
+        "bias": "GBP",
+        "bias_state": "MIXTE",
+        "scenario": "RETOURNEMENT",
+        "aligned_count": 1,
+        "fractal_rank": 1,
+        "leader_tf": "M5",
+        "htf_bonus": 0,
+        "details_json": "[\"M5 ✅\", \"M15 ⬜\", \"M30 ⬜\", \"H1 ⬜\", \"H4 ⬜\"]"
+      }
+    },
+    {
+      "table": "flow_packets",
+      "row_count": 820,
+      "columns": [
+        "id",
+        "created_at",
+        "symbol",
+        "timeframe",
+        "packet_type",
+        "packet_level",
+        "pair_bias",
+        "strong",
+        "weak",
+        "score",
+        "event_count",
+        "first_signal_at",
+        "last_signal_at",
+        "payload_json"
+      ],
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "ratio_vs_table": 0.0
+        },
+        "GBPUSD": {
+          "count": 820,
+          "min_time": "2026-05-12T12:05:17.751846+00:00",
+          "max_time": "2026-05-15T17:09:45.136528+00:00",
+          "ratio_vs_table": 1.0
+        },
+        "EURUSD": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "ratio_vs_table": 0.0
+        }
+      },
+      "sample": {
+        "id": 1,
+        "created_at": "2026-05-12T12:05:17.751846+00:00",
+        "symbol": "GBPUSD",
+        "timeframe": 5,
+        "packet_type": "CROSS_PACKET",
+        "packet_level": "INFO",
+        "pair_bias": "PAIR_DOWN",
+        "strong": "usd",
+        "weak": "gbp",
+        "score": 2.7,
+        "event_count": 1,
+        "first_signal_at": "2026-05-12T12:00:17.567352+00:00"
+      }
+    },
+    {
+      "table": "force_snapshots",
+      "row_count": 19812,
+      "columns": [
+        "id",
+        "created_at",
+        "symbol",
+        "timeframe",
+        "bid",
+        "spread",
+        "force_gbp",
+        "force_usd",
+        "force_eur",
+        "force_jpy",
+        "force_cad",
+        "force_chf",
+        "force_aud"
+      ],
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 1623,
+          "min_time": "2026-05-04T12:20:00+00:00",
+          "max_time": "2026-05-15T20:10:00+00:00",
+          "ratio_vs_table": 0.08192004845548152
+        },
+        "GBPUSD": {
+          "count": 14842,
+          "min_time": "2026-04-26T00:00:00+00:00",
+          "max_time": "2026-05-15T20:14:00+00:00",
+          "ratio_vs_table": 0.7491419341813043
+        },
+        "EURUSD": {
+          "count": 2186,
+          "min_time": "2026-05-11T01:25:00+00:00",
+          "max_time": "2026-05-15T20:10:00+00:00",
+          "ratio_vs_table": 0.1103371693922875
+        }
+      },
+      "sample": {
+        "id": 1,
+        "created_at": "2026-04-29T11:46:00+00:00",
+        "symbol": "GBPUSD",
+        "timeframe": 1,
+        "bid": null,
+        "spread": null,
+        "force_gbp": 50.7587,
+        "force_usd": 43.3369,
+        "force_eur": 67.434,
+        "force_jpy": 56.7175,
+        "force_cad": 35.8763,
+        "force_chf": 23.1361
+      }
+    },
+    {
+      "table": "force_snapshots_v2",
+      "row_count": 16372,
+      "columns": [
+        "id",
+        "created_at",
+        "symbol",
+        "timeframe",
+        "bar_time",
+        "bar_close_time",
+        "server_time",
+        "capture_time",
+        "is_closed_bar",
+        "bid",
+        "ask",
+        "mid",
+        "spread",
+        "spread_points",
+        "spread_price",
+        "spread_pips",
+        "open",
+        "high",
+        "low",
+        "close",
+        "tick_volume",
+        "pip_range",
+        "pip_body",
+        "pip_change",
+        "force_gbp",
+        "force_usd",
+        "force_eur",
+        "force_jpy",
+        "force_cad",
+        "force_chf",
+        "force_aud",
+        "force_nzd"
+      ],
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 1599,
+          "min_time": "2026-05-12T12:00:00+00:00",
+          "max_time": "2026-05-15T20:10:00+00:00",
+          "ratio_vs_table": 0.09766674810652333
+        },
+        "GBPUSD": {
+          "count": 11452,
+          "min_time": "2026-04-26T00:00:00+00:00",
+          "max_time": "2026-05-15T20:14:00+00:00",
+          "ratio_vs_table": 0.6994869289030051
+        },
+        "EURUSD": {
+          "count": 2163,
+          "min_time": "2026-05-11T01:25:00+00:00",
+          "max_time": "2026-05-15T20:10:00+00:00",
+          "ratio_vs_table": 0.13211580747617885
+        }
+      },
+      "sample": {
+        "id": 1,
+        "created_at": "2026-05-04T12:00:00+00:00",
+        "symbol": "GBPUSD",
+        "timeframe": 240,
+        "bar_time": 1777896000.0,
+        "bar_close_time": 1777910400.0,
+        "server_time": 1777920353.0,
+        "capture_time": 1777920353.0,
+        "is_closed_bar": 1,
+        "bid": 1.35571,
+        "ask": 1.35356,
+        "mid": 1.35355
+      }
+    },
+    {
+      "table": "nodes_v6",
+      "row_count": 34,
+      "columns": [
+        "id",
+        "detected_at",
+        "symbol",
+        "timeframe",
+        "node_type",
+        "dev_a",
+        "dev_b",
+        "dev_c",
+        "ecart_max",
+        "delta",
+        "direction",
+        "pente",
+        "bars_count",
+        "bars_after",
+        "linked_node_id",
+        "note"
+      ],
+      "symbol_col": "symbol",
+      "time_col": "detected_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "ratio_vs_table": 0.0
+        },
+        "GBPUSD": {
+          "count": 34,
+          "min_time": "2026-04-29T12:06:00",
+          "max_time": "2026-04-29T15:40:00",
+          "ratio_vs_table": 1.0
+        },
+        "EURUSD": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "ratio_vs_table": 0.0
+        }
+      },
+      "sample": {
+        "id": 1,
+        "detected_at": "2026-04-29T13:00:00",
+        "symbol": "GBPUSD",
+        "timeframe": 15,
+        "node_type": "CROISEMENT_TRIPLE",
+        "dev_a": "gbp",
+        "dev_b": "eur",
+        "dev_c": "usd",
+        "ecart_max": null,
+        "delta": null,
+        "direction": null,
+        "pente": null
+      }
+    },
+    {
+      "table": "signals",
+      "row_count": 9881,
+      "columns": [
+        "id",
+        "created_at",
+        "symbol",
+        "timeframe",
+        "signal_type",
+        "dev_strong",
+        "dev_weak",
+        "score",
+        "level",
+        "spread_ok",
+        "volume_badge",
+        "note",
+        "price",
+        "is_post_extreme",
+        "post_extreme_side",
+        "has_convergence",
+        "conv_tf1",
+        "conv_tf2",
+        "conv_niveau",
+        "conv_delta",
+        "conv_bonus",
+        "is_slingshot_sequence"
+      ],
+      "symbol_col": "symbol",
+      "time_col": "created_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 838,
+          "min_time": "2026-05-12T10:39:07.674012+00:00",
+          "max_time": "2026-05-15T17:05:15.320676+00:00",
+          "ratio_vs_table": 0.08480922983503694
+        },
+        "GBPUSD": {
+          "count": 7543,
+          "min_time": "2026-04-29T08:52:18.965306+00:00",
+          "max_time": "2026-05-15T17:11:15.433073+00:00",
+          "ratio_vs_table": 0.7633842728468778
+        },
+        "EURUSD": {
+          "count": 1012,
+          "min_time": "2026-05-10T22:28:13.759605+00:00",
+          "max_time": "2026-05-15T17:05:15.333421+00:00",
+          "ratio_vs_table": 0.10241878352393483
+        }
+      },
+      "sample": {
+        "id": 1,
+        "created_at": "2026-04-29T08:52:18.965306+00:00",
+        "symbol": "GBPUSD",
+        "timeframe": 1,
+        "signal_type": "COMPRESSION",
+        "dev_strong": "usd",
+        "dev_weak": "gbp",
+        "score": 3,
+        "level": "STANDARD",
+        "spread_ok": 1,
+        "volume_badge": "",
+        "note": "🔒 COMPRESSION — USD en palier\nGBPUSD M1\nUSD stagne autour de 42.3 depuis 5 bougies\nCouloir ±5.0 pts | GBP=45.2\n⚡ Break ou rejet imminent\nHTF: GBP | MIXTE | RETOURNEMENT"
+      }
+    },
+    {
+      "table": "sqlite_sequence",
+      "row_count": 7,
+      "columns": [
+        "name",
+        "seq"
+      ],
+      "symbol_col": null,
+      "time_col": null,
+      "per_symbol": {},
+      "sample": {
+        "name": "force_snapshots",
+        "seq": 19812
+      }
+    },
+    {
+      "table": "zone_diagnostics",
+      "row_count": 1368,
+      "columns": [
+        "id",
+        "logged_at",
+        "source_created_at",
+        "source_snapshot_id",
+        "symbol",
+        "timeframe",
+        "currency",
+        "state",
+        "zone_level",
+        "z_current",
+        "z_extreme_dir",
+        "bars_in_extreme",
+        "pullback_count",
+        "absorbed_pullback_count",
+        "latest_pullback_depth",
+        "latest_pullback_absorbed",
+        "depth_slope",
+        "depth_acceleration",
+        "absorption_factor",
+        "tension_score",
+        "context_score",
+        "profile_name",
+        "profile_horizon",
+        "session_phase",
+        "rank_position",
+        "rank_total",
+        "rank_duration_bars",
+        "price_wall",
+        "context_tags_json",
+        "pullbacks_json",
+        "note",
+        "raw_diagnosis_json"
+      ],
+      "symbol_col": "symbol",
+      "time_col": "logged_at",
+      "per_symbol": {
+        "USDJPY": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "ratio_vs_table": 0.0
+        },
+        "GBPUSD": {
+          "count": 1368,
+          "min_time": "2026-05-02T17:01:00+00:00",
+          "max_time": "2026-05-02T17:01:09+00:00",
+          "ratio_vs_table": 1.0
+        },
+        "EURUSD": {
+          "count": 0,
+          "min_time": null,
+          "max_time": null,
+          "ratio_vs_table": 0.0
+        }
+      },
+      "sample": {
+        "id": 2952,
+        "logged_at": "2026-05-02T17:01:00+00:00",
+        "source_created_at": "2026-05-01T23:07:00+00:00",
+        "source_snapshot_id": 2755,
+        "symbol": "GBPUSD",
+        "timeframe": 1,
+        "currency": "GBP",
+        "state": "NEUTRAL",
+        "zone_level": "NORMAL",
+        "z_current": 0.3321,
+        "z_extreme_dir": "NONE",
+        "bars_in_extreme": 0
+      }
+    }
+  ],
+  "recommendations": [
+    "USDJPY exists but is thin relative to reference symbols. Investigate stream sparsity or filtering."
+  ],
+  "read_only": true,
+  "runtime_wired": false
+}
