@@ -397,14 +397,14 @@
 
 <script>
 const SOURCES = {
-  cockpit: "output/dashboard_surface/trader_cockpit.json",
-  evidenceBus: "output/dashboard_surface/evidence_bus.json",
-  evidenceReading: "output/dashboard_surface/evidence_reading.json",
-  timeProfiles: "output/dashboard_surface/time_profiles_dashboard.json",
-  phase: "output/dashboard_surface/phase_synthesis.json",
-  b8: "output/dashboard_surface/b8_cross_surface.json",
-  dataHealth: "output/dashboard_surface/data_health.json",
-  contract: "output/dashboard_surface/dashboard_v74_contract_check.json"
+  cockpit: "/output/dashboard_surface/trader_cockpit.json",
+  evidenceBus: "/output/dashboard_surface/evidence_bus.json",
+  evidenceReading: "/output/dashboard_surface/evidence_reading.json",
+  timeProfiles: "/output/dashboard_surface/time_profiles_dashboard.json",
+  phase: "/output/dashboard_surface/phase_synthesis.json",
+  b8: "/output/dashboard_surface/b8_cross_surface.json",
+  dataHealth: "/output/dashboard_surface/data_health.json",
+  contract: "/output/dashboard_surface/dashboard_v74_contract_check.json"
 };
 
 function safe(v, fallback = "UNKNOWN") {
@@ -955,9 +955,9 @@ async function renderSessionMemory() {
   if (!el) return;
 
   const paths = [
-    ["LTF", "output/dashboard_surface/GBPUSD/ltf_session_memory.json"],
-    ["MTF", "output/dashboard_surface/GBPUSD/mtf_session_memory.json"],
-    ["HTF", "output/dashboard_surface/GBPUSD/htf_session_memory.json"]
+    ["LTF", "/output/dashboard_surface/GBPUSD/ltf_session_memory.json"],
+    ["MTF", "/output/dashboard_surface/GBPUSD/mtf_session_memory.json"],
+    ["HTF", "/output/dashboard_surface/GBPUSD/htf_session_memory.json"]
   ];
 
   const loaded = await Promise.all(paths.map(async ([name, path]) => [name, await pf75LoadJson(path)]));
@@ -1169,7 +1169,7 @@ setTimeout(pf75hNavActivity, 500);
 </script>
   
   <script defer src="dashboard_v76_terrain_panel.js?v=7601"></script>
-  <script src="dashboard_fr_trader_labels_safe.js"></script>
+  <script src="dashboard_fr_trader_labels.js"></script>
 </body>
 </html>
 

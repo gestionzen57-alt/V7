@@ -45,7 +45,7 @@
   },
   "source": "dashboard_sync_agent_v01",
   "symbol": "GBPUSD",
-  "generated_at_utc": "2026-05-15T14:23:04.956185+00:00",
+  "generated_at_utc": "2026-05-15T16:23:07.002956+00:00",
   "cockpit_status": "AGENTIC_WINDOW_ACTIVE",
   "headline": "FENÊTRE FRACTALE — temps compressé puis étiré",
   "behavioral_summary": {
@@ -71,40 +71,39 @@
     {
       "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
       "level": "INFO",
-      "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — CAD+GBP+USD en compression (spread force: 10.7)",
+      "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9)",
       "source_fields": [
         "kinematics_state.tight_gravity_cluster"
       ],
       "dashboard_badge": "ℹ GRAVITY CLUSTER",
-      "telegram_text": "ℹ TIGHT GRAVITY CLUSTER\nM15_TIGHT_GRAVITY_GROUP\nDevises: CAD+GBP+USD | Spread: 10.7"
+      "telegram_text": "ℹ TIGHT GRAVITY CLUSTER\nM15_TIGHT_GRAVITY_GROUP\nDevises: USD+CHF+EUR | Spread: 13.9"
     },
     {
       "name": "SAME_ANGLE_CLUSTER_ALERT",
       "level": "INFO",
-      "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — AUD+CAD+NZD en mouvement synchronisé",
+      "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — CAD+GBP+NZD en mouvement synchronisé",
       "source_fields": [
         "kinematics_state.same_angle_cluster"
       ],
       "dashboard_badge": "ℹ SAME ANGLE",
-      "telegram_text": "ℹ SAME ANGLE CLUSTER\nM5_POLARIZED_SAME_ANGLE_UP\nDevises: AUD+CAD+NZD"
+      "telegram_text": "ℹ SAME ANGLE CLUSTER\nM5_POLARIZED_SAME_ANGLE_UP\nDevises: CAD+GBP+NZD"
     }
   ],
   "degraded_alerts": [],
   "film_steps": [
     "[FRACTAL] LTF_NODE_INSIDE_HTF_BATTLE_FIELD",
-    "[NODE] HOT_NODE @ M1 — GBP pressure down / USD pressure up",
+    "[NODE] HOT_NODE @ M15 — GBP pressure up / USD pressure down",
     "[RELAY] M5 relais propre — confirmation tactique disponible",
-    "[KINEM] angle=NEUTRAL | speed=MODERATE | accel=M1_GBP_ACCEL_UP|M1_ENERGY_BUILD_LAST3",
+    "[KINEM] angle=M1_GBP_USD_DIVERGING|M5_GBP_USD_DIVERGING | speed=MODERATE | accel=M1_GBP_ACCEL_UP|M1_ENERGY_BUILD_LAST3",
     "[DETACH] NO_DETACHMENT — pas de détachement",
     "[RELEASE] RELEASE_REJECTED | ok=m1_acceleration_present,relay_clean | nok=no_first_detachment",
-    "[ENERGY_CONTEXT] OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_LOW | relation=NEUTRAL | field=PAIR_ENERGY_NOT_CONFIRMED",
+    "[ENERGY_CONTEXT] OBSERVATION_ONLY | GBP=ENERGY_WEAK | USD=ENERGY_LOW | relation=NEUTRAL | field=PAIR_ENERGY_NOT_CONFIRMED",
     "[MATURITY] CONFIRMING → surveiller ABSORBING",
     "[RG] TOPLINE_UNRELIABLE | cross=RELATIONAL_GRAVITY_MISSING | state=RELATIONAL_GRAVITY_TOPLINE_PARTIAL | direction=UNKNOWN | leader=UNKNOWN | aligned_tfs=[] | read=tf_details"
   ],
   "next_watch_enriched": [
     "WATCH_MICROSTRUCTURE_CONFIRMATION",
     "WATCH_SECOND_LEG",
-    "WATCH_REPULSION_CONTINUATION",
     "WATCH_PRICE_CATCHUP",
     "WATCH_FRACTAL_CONFIRMATION",
     "WATCH_M1_RESPRING",
@@ -119,7 +118,7 @@
     "status": "INFO",
     "level": "INFO",
     "top_alert": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-    "line": "NO_DETACHMENT — pas de détachement | RELEASE_REJECTED | ok=m1_acceleration_present,relay_clean | nok=no_first_detachment | OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_LOW | relation=NEUTRAL | field=PAIR_ENERGY_NOT_CONFIRMED",
+    "line": "NO_DETACHMENT — pas de détachement | RELEASE_REJECTED | ok=m1_acceleration_present,relay_clean | nok=no_first_detachment | OBSERVATION_ONLY | GBP=ENERGY_WEAK | USD=ENERGY_LOW | relation=NEUTRAL | field=PAIR_ENERGY_NOT_CONFIRMED",
     "summary": {
       "behavioral_count": 3,
       "degraded_count": 0,
@@ -139,13 +138,13 @@
         "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
         "level": "INFO",
         "badge": "ℹ GRAVITY CLUSTER",
-        "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — CAD+GBP+USD en compression (spread force: 10.7)"
+        "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9)"
       },
       {
         "name": "SAME_ANGLE_CLUSTER_ALERT",
         "level": "INFO",
         "badge": "ℹ SAME ANGLE",
-        "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — AUD+CAD+NZD en mouvement synchronisé"
+        "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — CAD+GBP+NZD en mouvement synchronisé"
       }
     ]
   },
@@ -158,7 +157,7 @@
     {
       "title": "SCÈNE",
       "status": "GRAVITY_RESPRING_NODE",
-      "line": "GRAVITY_RESPRING_NODE — USD+EUR+CHF+JPY+CAD reprennent contre GBP+AUD+NZD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG."
+      "line": "GRAVITY_RESPRING_NODE — USD+JPY+CAD reprennent contre GBP+AUD+CHF+NZD. WINDOW_ACTIVE_AFTER_BREATH. NEXT: WATCH_SECOND_LEG."
     },
     {
       "title": "FRACTALITÉ",
@@ -168,7 +167,7 @@
     {
       "title": "EXTENDED V0.2",
       "status": "EXTENDED DATA PRESENT — NO MICRO SPIKE CONFIRMED",
-      "line": "NZD_AVAILABLE | M1_NODE_BIRTH | PRICE_CATCHUP_CONFIRMATION"
+      "line": "M1_NODE_BIRTH | NZD_AVAILABLE"
     },
     {
       "title": "NEXT WATCH",
@@ -180,7 +179,7 @@
       "status": "INFO",
       "level": "INFO",
       "top_alert": "RELEASE_REJECTED_NO_DETACHMENT_ALERT",
-      "line": "NO_DETACHMENT — pas de détachement | RELEASE_REJECTED | ok=m1_acceleration_present,relay_clean | nok=no_first_detachment | OBSERVATION_ONLY | GBP=ENERGY_LOW | USD=ENERGY_LOW | relation=NEUTRAL | field=PAIR_ENERGY_NOT_CONFIRMED",
+      "line": "NO_DETACHMENT — pas de détachement | RELEASE_REJECTED | ok=m1_acceleration_present,relay_clean | nok=no_first_detachment | OBSERVATION_ONLY | GBP=ENERGY_WEAK | USD=ENERGY_LOW | relation=NEUTRAL | field=PAIR_ENERGY_NOT_CONFIRMED",
       "summary": {
         "behavioral_count": 3,
         "degraded_count": 0,
@@ -200,13 +199,13 @@
           "name": "TIGHT_GRAVITY_CLUSTER_ALERT",
           "level": "INFO",
           "badge": "ℹ GRAVITY CLUSTER",
-          "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — CAD+GBP+USD en compression (spread force: 10.7)"
+          "reason": "Cluster de gravité serré détecté (M15_TIGHT_GRAVITY_GROUP) — USD+CHF+EUR en compression (spread force: 13.9)"
         },
         {
           "name": "SAME_ANGLE_CLUSTER_ALERT",
           "level": "INFO",
           "badge": "ℹ SAME ANGLE",
-          "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — AUD+CAD+NZD en mouvement synchronisé"
+          "reason": "Cluster d'angles identiques (M5_POLARIZED_SAME_ANGLE_UP) — CAD+GBP+NZD en mouvement synchronisé"
         }
       ]
     }
