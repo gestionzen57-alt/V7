@@ -1,38 +1,45 @@
-# PowerFlow V7.6.7 — État Central
+# PowerFlow V7.6.7 ??? ??tat Central
 
-**[Généré auto : 2026-05-15 10:30]**
+## Last Session
+
+- Date: 2026-05-15 15:32
+- AI: Claude Sonnet 4.5
+- Focus: Dashboard Updates
+- Checkpoint: Checkpoints\CHECKPOINT_20260515_153239.md
+
+**[G??n??r?? auto : 2026-05-15 10:30]**
 
 ---
 
-## Dernière session
+## Derni??re session
 
 - **Date:** 2026-05-15 10:30
 - **IA:** Claude Sonnet 4.5
 - **Focus:** Infrastructure Admin & Consolidation
 - **Checkpoint:** `Checkpoints/CHECKPOINT_20260515_103000.md`
-- **Commit:** `📋 Infrastructure automation scripts + Docs/ structure`
+- **Commit:** `???? Infrastructure automation scripts + Docs/ structure`
 
 ---
 
-## État opérationnel PowerFlow
+## ??tat op??rationnel PowerFlow
 
-### ✅ Systèmes LIVE
+### ??? Syst??mes LIVE
 
 | Composant | Statut | Version | Notes |
 |-----------|--------|---------|-------|
-| **Core Engine** | 🟢 LIVE | V7.6.7 | Scheduler turbo wrapper actif |
-| **Dashboard** | 🟢 LIVE | V7.4 | Terrain panel + time profiles |
-| **Capture Bridge** | 🟢 LIVE | — | MT4 → SQLite opérationnel |
-| **PowerFlow.db** | 🟢 OK | 15.6 MB | GBPUSD dense, EURUSD HTF incomplet, USDJPY THIN |
-| **P0 Validation** | 🟢 PASS_STRICT | — | 16/16 tests Dashboard OK |
-| **Git Sync** | 🟢 AUTO | — | `auto_git_sync.ps1` actif |
+| **Core Engine** | ???? LIVE | V7.6.7 | Scheduler turbo wrapper actif |
+| **Dashboard** | ???? LIVE | V7.4 | Terrain panel + time profiles |
+| **Capture Bridge** | ???? LIVE | ??? | MT4 ??? SQLite op??rationnel |
+| **PowerFlow.db** | ???? OK | 15.6 MB | GBPUSD dense, EURUSD HTF incomplet, USDJPY THIN |
+| **P0 Validation** | ???? PASS_STRICT | ??? | 16/16 tests Dashboard OK |
+| **Git Sync** | ???? AUTO | ??? | `auto_git_sync.ps1` actif |
 
-### ⚠️ Points d'attention
+### ?????? Points d'attention
 
-- **USDJPY THIN** → Data stale/sparse, nécessite diagnostic (T004)
-- **EURUSD HTF** → Incomplet mais utilisable
-- **pf_normalizer.py** → Signature mismatch API /cockpit-state (T003)
-- **engine.py legacy** → Refonte V6 nécessaire (T002)
+- **USDJPY THIN** ??? Data stale/sparse, n??cessite diagnostic (T004)
+- **EURUSD HTF** ??? Incomplet mais utilisable
+- **pf_normalizer.py** ??? Signature mismatch API /cockpit-state (T003)
+- **engine.py legacy** ??? Refonte V6 n??cessaire (T002)
 
 ---
 
@@ -42,56 +49,56 @@
 
 ```
 pf_*.py                      # Moteur perception flux
-├── pf_engine.py             # [LEGACY V5 - Refonte V6 en attente T002]
-├── pf_normalizer.py         # Normalisation devises vs USD [HOTFIX needed T003]
-├── pf_temporal_nodes.py     # Détection nodes temporels
-├── pf_zones.py              # Identification zones clés
-├── pf_coalitions.py         # Analyse coalitions devises
-├── pf_memory.py             # Système mémoire événements
-├── pf_battlefield_map.py    # Cartographie terrain
-├── pf_perception_spine_once.py  # Perception spine LIVE
-└── pf_trader_attention_packet_once.py  # Attention trader
+????????? pf_engine.py             # [LEGACY V5 - Refonte V6 en attente T002]
+????????? pf_normalizer.py         # Normalisation devises vs USD [HOTFIX needed T003]
+????????? pf_temporal_nodes.py     # D??tection nodes temporels
+????????? pf_zones.py              # Identification zones cl??s
+????????? pf_coalitions.py         # Analyse coalitions devises
+????????? pf_memory.py             # Syst??me m??moire ??v??nements
+????????? pf_battlefield_map.py    # Cartographie terrain
+????????? pf_perception_spine_once.py  # Perception spine LIVE
+????????? pf_trader_attention_packet_once.py  # Attention trader
 
 dashboard_*.html/.py         # Interface trader
-├── dashboard_live.html      # [LEGACY - utilisé V7.2.1]
-├── dashboard_v74.html       # CURRENT LIVE (terrain panel)
-├── dashboard_data_normalizer.py
-└── dashboard_v74_contract_check.py
+????????? dashboard_live.html      # [LEGACY - utilis?? V7.2.1]
+????????? dashboard_v74.html       # CURRENT LIVE (terrain panel)
+????????? dashboard_data_normalizer.py
+????????? dashboard_v74_contract_check.py
 
-scheduler_*.py               # Orchestration temps réel
-├── scheduler_powerflow.py   # Orchestrateur principal
-└── scheduler_powerflow_turbo_wrapper.py  # Wrapper turbo LIVE
+scheduler_*.py               # Orchestration temps r??el
+????????? scheduler_powerflow.py   # Orchestrateur principal
+????????? scheduler_powerflow_turbo_wrapper.py  # Wrapper turbo LIVE
 
 patch_*.py                   # Patches runtime V7.6+
 telegram_*.py                # Alertes Telegram
 ```
 
-### Base de données
+### Base de donn??es
 
 ```sql
 -- Tables principales
 powerflow.db (15.6 MB)
-├── bars_m1, bars_m5, bars_m15, bars_m30, bars_h1, bars_h4  # Historique OHLC
-├── temporal_nodes           # Nodes détectés
-├── scenes                   # Scènes H1 (COALITION_PUSH, TREND_CONTINUATION, etc.)
-├── memory_events            # Événements mémorisés
-└── dashboard_data           # État dashboard JSON
+????????? bars_m1, bars_m5, bars_m15, bars_m30, bars_h1, bars_h4  # Historique OHLC
+????????? temporal_nodes           # Nodes d??tect??s
+????????? scenes                   # Sc??nes H1 (COALITION_PUSH, TREND_CONTINUATION, etc.)
+????????? memory_events            # ??v??nements m??moris??s
+????????? dashboard_data           # ??tat dashboard JSON
 ```
 
 ---
 
 ## Workflow collaboratif 6 IA
 
-### Dispatch par rôle
+### Dispatch par r??le
 
-| IA | Rôle | Status | Dernière activité |
+| IA | R??le | Status | Derni??re activit?? |
 |---|---|---|---|
-| **Claude Sonnet 4.5** | Chef orchestre, architecture, stratégie | 🟢 ACTIVE | T001 Infrastructure automation |
-| **GPT-1 Core Engine** | Modules Python `pf_*`, requêtes SQL | ⚪ IDLE | pf_perception_spine patched |
-| **GPT-2 Dashboard** | Interface HTML/JS, normalizers | ⚪ IDLE | dashboard_v74.html live |
-| **GPT-3 Scheduler** | Orchestration temps réel, Telegram | ⚪ IDLE | scheduler turbo wrapper |
-| **GPT-4 Field Memory** | Analyses GBPUSD, film library | ⚪ IDLE | ANALYSE_GBPUSD_20260514 |
-| **GPT Pro** | Refactoring majeur, problèmes complexes | ⚪ IDLE | RAPPORT_V76 |
+| **Claude Sonnet 4.5** | Chef orchestre, architecture, strat??gie | ???? ACTIVE | T001 Infrastructure automation |
+| **GPT-1 Core Engine** | Modules Python `pf_*`, requ??tes SQL | ??? IDLE | pf_perception_spine patched |
+| **GPT-2 Dashboard** | Interface HTML/JS, normalizers | ??? IDLE | dashboard_v74.html live |
+| **GPT-3 Scheduler** | Orchestration temps r??el, Telegram | ??? IDLE | scheduler turbo wrapper |
+| **GPT-4 Field Memory** | Analyses GBPUSD, film library | ??? IDLE | ANALYSE_GBPUSD_20260514 |
+| **GPT Pro** | Refactoring majeur, probl??mes complexes | ??? IDLE | RAPPORT_V76 |
 
 ### Coordination
 
@@ -100,45 +107,45 @@ powerflow.db (15.6 MB)
 **Lexique:** `Docs/LEXIQUE_MASTER.md`
 
 **Workflow:**
-1. Claude crée tâche → JSON mis à jour
-2. GPT prend tâche → statut "in_progress"
-3. GPT commit code → statut "completed"
-4. Claude valide → archive
+1. Claude cr??e t??che ??? JSON mis ?? jour
+2. GPT prend t??che ??? statut "in_progress"
+3. GPT commit code ??? statut "completed"
+4. Claude valide ??? archive
 
 ---
 
-## Priorités actives
+## Priorit??s actives
 
-### P0 — CRITICAL
-- ✅ **T001** Infrastructure automation (Claude) — 80% complete
+### P0 ??? CRITICAL
+- ??? **T001** Infrastructure automation (Claude) ??? 80% complete
 
-### P1 — HIGH
-- 🔄 **T002** Refactor `pf_engine.py` V5 → V6 (GPT-1) — Pending
-- 🔄 **T006** Consolidation `LEXIQUE_MASTER.md` (Claude) — In progress
+### P1 ??? HIGH
+- ???? **T002** Refactor `pf_engine.py` V5 ??? V6 (GPT-1) ??? Pending
+- ???? **T006** Consolidation `LEXIQUE_MASTER.md` (Claude) ??? In progress
 
-### P2 — MEDIUM
-- 🔄 **T003** Fix signature `pf_normalizer.py` (GPT-1) — Pending
-- 🔄 **T004** Diagnostic USDJPY thin data (GPT Pro) — Pending
+### P2 ??? MEDIUM
+- ???? **T003** Fix signature `pf_normalizer.py` (GPT-1) ??? Pending
+- ???? **T004** Diagnostic USDJPY thin data (GPT Pro) ??? Pending
 
-### P3 — LOW
-- 🔄 **T005** Dashboard V7.4 → V7.5 harmonisation (GPT-2) — Pending
+### P3 ??? LOW
+- ???? **T005** Dashboard V7.4 ??? V7.5 harmonisation (GPT-2) ??? Pending
 
-**Voir `DISPATCH_STATUS.json` pour détails complets.**
+**Voir `DISPATCH_STATUS.json` pour d??tails complets.**
 
 ---
 
 ## Scripts automatisation
 
-### 🔧 Infrastructure (nouveaux)
+### ???? Infrastructure (nouveaux)
 
-| Script | Fonction | Fréquence |
+| Script | Fonction | Fr??quence |
 |--------|----------|-----------|
-| `auto_git_sync.ps1` | Commit + push Git intelligent | Après chaque session |
+| `auto_git_sync.ps1` | Commit + push Git intelligent | Apr??s chaque session |
 | `auto_checkpoint_claude.ps1` | Checkpoint fin session Claude | Fin session Claude |
 | `sync_lexique.ps1` | Consolidation LEXIQUE_MASTER.md | Hebdomadaire |
 | `cleanup_backups.ps1` | Nettoyage backups anarchiques | Mensuel |
 
-### ▶️ Runtime (existants)
+### ?????? Runtime (existants)
 
 | Script | Fonction |
 |--------|----------|
@@ -148,14 +155,14 @@ powerflow.db (15.6 MB)
 
 ---
 
-## Ressources clés
+## Ressources cl??s
 
 ### Documentation
 
-- **Lexique unifié:** `Docs/LEXIQUE_MASTER.md`
+- **Lexique unifi??:** `Docs/LEXIQUE_MASTER.md`
 - **Grammaire terrain:** `/mnt/project/07_GRAMMAIRE_NODE_ZONE_DRIVER_V767.md`
 - **Film library GBPUSD:** `/mnt/project/09_FILM_LIBRARY_GBPUSD_V767_ENRICHED.md`
-- **Règles requalification:** `/mnt/project/10_PACKET_REQUALIFICATION_RULES_V767_ENRICHED.md`
+- **R??gles requalification:** `/mnt/project/10_PACKET_REQUALIFICATION_RULES_V767_ENRICHED.md`
 - **Checkpoints:** `Docs/Checkpoints/`
 
 ### Liens externes
@@ -170,42 +177,42 @@ powerflow.db (15.6 MB)
 
 ### Concepts centraux
 
-**PowerFlow n'est pas un système d'analyse technique classique.**
+**PowerFlow n'est pas un syst??me d'analyse technique classique.**
 
 PowerFlow est un **moteur de perception du flux** Forex.
 
 **Mission:**
 - Voir le flux
-- Détecter l'événement
+- D??tecter l'??v??nement
 - Alerter vite
 - Laisser le trader filtrer
-- Laisser le trader décider
+- Laisser le trader d??cider
 
-**Rôles:**
-- La machine → perçoit, mesure, nomme, alerte
-- Le trader → filtre, arbitre, agit
+**R??les:**
+- La machine ??? per??oit, mesure, nomme, alerte
+- Le trader ??? filtre, arbitre, agit
 
 ### Doctrine centrale
 
-**M1 est central** — Microfilm, naissance événements, inflexion précoce  
-**Alerter vite** — Alerte ≠ ordre, c'est une perception transmise  
-**Pas de nounou** — Pas de rappels génériques risque financier  
-**Flux vivant** — Marché = organisme en mouvement, pas chandeliers isolés  
-**Comportemental** — Force relative, asymétries, leader/follower  
+**M1 est central** ??? Microfilm, naissance ??v??nements, inflexion pr??coce  
+**Alerter vite** ??? Alerte ??? ordre, c'est une perception transmise  
+**Pas de nounou** ??? Pas de rappels g??n??riques risque financier  
+**Flux vivant** ??? March?? = organisme en mouvement, pas chandeliers isol??s  
+**Comportemental** ??? Force relative, asym??tries, leader/follower  
 
 ---
 
 ## Lexique rapide
 
-| Terme FR | Traduction | Définition |
+| Terme FR | Traduction | D??finition |
 |----------|------------|------------|
-| **Tension accumulée** | Accumulated tension | Force potentielle comprimée, prête à relâcher |
-| **Élastique chargé** | Overloaded elastic | Zone ayant accumulé trop de pression d'un côté |
-| **Pullback absorbé** | Absorbed pullback | Repli rencontrant demande/offre immédiate |
-| **Node temporel** | Temporal node | Point pivot où plusieurs forces convergent |
+| **Tension accumul??e** | Accumulated tension | Force potentielle comprim??e, pr??te ?? rel??cher |
+| **??lastique charg??** | Overloaded elastic | Zone ayant accumul?? trop de pression d'un c??t?? |
+| **Pullback absorb??** | Absorbed pullback | Repli rencontrant demande/offre imm??diate |
+| **Node temporel** | Temporal node | Point pivot o?? plusieurs forces convergent |
 | **Force relative** | Relative strength | Comportement devise vs panier USD |
-| **Coalition** | Coalition | Devises majeures alignées poussant USD même sens |
-| **Second leg** | Second leg | 2ème vague après consolidation, souvent plus puissante |
+| **Coalition** | Coalition | Devises majeures align??es poussant USD m??me sens |
+| **Second leg** | Second leg | 2??me vague apr??s consolidation, souvent plus puissante |
 
 **Lexique complet:** `Docs/LEXIQUE_MASTER.md`
 
@@ -213,15 +220,15 @@ PowerFlow est un **moteur de perception du flux** Forex.
 
 ## Garde-fous V7.6.7
 
-### ❌ INTERDIT
+### ??? INTERDIT
 
 - Modifier `powerflow.db` manuellement
 - Casser P0 PASS_STRICT
 - Violer Dashboard contract V7.4
-- Passer en V7.7 avant stabilité confirmée
-- Éditer `CLAUDE.md` manuellement (auto-généré)
+- Passer en V7.7 avant stabilit?? confirm??e
+- ??diter `CLAUDE.md` manuellement (auto-g??n??r??)
 
-### ✅ AUTORISÉ
+### ??? AUTORIS??
 
 - Extension/consolidation V7.6.7
 - Patches runtime dans `patch/`
@@ -236,15 +243,15 @@ PowerFlow est un **moteur de perception du flux** Forex.
 ### Prompt minimal
 
 ```
-PowerFlow V7.6.7 — Reprise session
+PowerFlow V7.6.7 ??? Reprise session
 
 Consulte CLAUDE.md pour contexte complet.
-Consulte DISPATCH_STATUS.json pour tâches actives.
+Consulte DISPATCH_STATUS.json pour t??ches actives.
 
-Prochaine priorité: [indiquer]
+Prochaine priorit??: [indiquer]
 ```
 
-### Fichiers à charger projet Claude
+### Fichiers ?? charger projet Claude
 
 - `00_README_PACK_POWERFLOW_V767_COLLAB.md`
 - `01_RAPPORT_COMPLET_POWERFLOW_V767_FIELD_MEMORY.md`
@@ -258,6 +265,7 @@ Prochaine priorité: [indiquer]
 
 ---
 
-*Document vivant auto-généré — Ne pas éditer manuellement*  
-*Mis à jour automatiquement par `auto_checkpoint_claude.ps1`*  
-*Dernière modification: 2026-05-15 10:30*
+*Document vivant auto-g??n??r?? ??? Ne pas ??diter manuellement*  
+*Mis ?? jour automatiquement par `auto_checkpoint_claude.ps1`*  
+*Derni??re modification: 2026-05-15 10:30*
+
