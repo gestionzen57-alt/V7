@@ -1,0 +1,30 @@
+{
+  "contract": "POWERFLOW_T002_RUNTIME_V6_CORE_ADAPTER_BOUNDARY",
+  "created_at": "2026-05-15T19:41:53Z",
+  "adapter": "Core/pf_engine_v6_adapter.py",
+  "core": "Core/pf_engine_v6_core.py",
+  "capture_bridge": "Core/capture_bridge.py",
+  "mode": "feature_flagged_runtime_boundary",
+  "env_flag": "POWERFLOW_T002_USE_V6_CORE",
+  "strict_env_flag": "POWERFLOW_T002_V6_CORE_STRICT",
+  "default_runtime_path": "legacy_engine.process_tick",
+  "v6_runtime_path": "pf_engine_v6_core process_tick candidate when env flag is enabled",
+  "expected_signature": "(tick: models.Tick, prev: models.Tick, brain: dict, send_alert)",
+  "core_functions_detected": [
+    "_read_attr",
+    "_to_float",
+    "_derive_price",
+    "derive_tick_context",
+    "derive_legacy_tick_surface",
+    "tick_context_to_dict",
+    "legacy_tick_surface_to_dict"
+  ],
+  "core_process_candidates_detected": [],
+  "capture_uses_adapter_before_patch": true,
+  "capture_direct_engine_import_before_patch": false,
+  "capture_changed": false,
+  "runtime_wired": true,
+  "default_live_behavior_changed": false,
+  "engine_change_required": false,
+  "safety_rule": "V6 core is wired behind feature flag; default live behavior remains legacy fallback until explicit activation."
+}

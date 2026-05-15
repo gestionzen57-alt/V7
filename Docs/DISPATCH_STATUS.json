@@ -67,11 +67,22 @@
         "priority": "HIGH",
         "owner": null,
         "assigned_to": "GPT_1_Core_Engine",
-        "status": "pending",
+        "status": "in_progress_runtime_boundary_wired",
         "created_by": "Claude_Sonnet_4_5",
         "created_at": "2026-05-15T10:30:00Z",
         "context": "engine.py V5 ~900 lignes, besoin refonte modulaire V6",
-        "blockers": []
+        "blockers": [],
+        "progress": 85,
+        "updated": "2026-05-15",
+        "updated_at": "2026-05-15T19:43:06Z",
+        "runtime_boundary": "Core/pf_engine_v6_adapter.py feature-flagged V6 core route",
+        "runtime_contract": "Docs/Contracts/T002_RUNTIME_V6_CORE_ADAPTER_BOUNDARY.json",
+        "next_steps": [
+          "Run feature-flagged replay with POWERFLOW_T002_USE_V6_CORE=1",
+          "Compare adapter fallback vs V6 core output on golden ticks and live-like samples",
+          "Only then consider default live activation"
+        ],
+        "notes": "Runtime boundary wired safely behind env flag. Default live behavior remains legacy fallback."
       },
       {
         "id": "T004",
