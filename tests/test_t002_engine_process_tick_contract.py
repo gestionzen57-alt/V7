@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import inspect
 import json
@@ -21,9 +21,10 @@ def test_engine_process_tick_contract_signature_is_stable():
     assert str(inspect.signature(engine.process_tick)) == contract["signature"]
 
 
-def test_capture_bridge_still_uses_engine_process_tick_boundary():
+def test_capture_bridge_uses_v6_adapter_boundary():
     repo = Path(__file__).resolve().parents[1]
     capture_bridge = repo / "Core" / "capture_bridge.py"
     text = capture_bridge.read_text(encoding="utf-8", errors="replace")
 
-    assert "from engine import process_tick" in text or "engine.process_tick" in text
+    assert "from pf_engine_v6_adapter import process_tick" in text
+    assert "from engine import process_tick" not in text

@@ -296,7 +296,7 @@ async def start_bridge(brain, on_tick):
 # ============================================================
 # MAIN (test standalone)
 # ============================================================
-from engine import process_tick
+from pf_engine_v6_adapter import process_tick
 
 async def dummy_send_alert(sig, htf, brain):
     ts = getattr(sig, "timestamp", None) or getattr(sig, "time", None) or datetime.now(timezone.utc)
