@@ -1,4 +1,4 @@
-﻿<!-- POWERFLOW_CURRENT_STATE_START -->
+<!-- POWERFLOW_CURRENT_STATE_START -->
 ## Current State - updated 2026-05-15T21:01:26.5402470+02:00
 
 - Workspace current-state update for Claude.
@@ -342,4 +342,46 @@ T017 ??? make B8 role-aware:
 - Scheduler orchestrates only.
 <!-- GPT3_SCHEDULER_CURRENT_STATE_END -->
 
+<!-- T006-D LEXIQUE MASTER USAGE START -->
 
+## T006-D - Lexique Master usage binding
+
+Status: ACTIVE
+Applies from: T006-C / T006-D
+
+### Canonical language sources
+
+- Docs/LEXIQUE_MASTER.md is the active consolidated lexique for PowerFlow trader-facing language.
+- Docs/LEXIQUE_MASTER_USAGE_RULES.md defines mandatory usage rules for trader-facing wording.
+- LEXIQUE_MASTER source mode: STAGED_V76_V6_WITH_RECREATED_AVENANT.
+- AVENANT status: RECREATED_CANDIDATE_NOT_ORIGINAL.
+
+### Mandatory doctrine
+
+- PowerFlow reads market structure; it does not issue guaranteed trading signals.
+- PowerFlow qualifies perception; the trader decides.
+- PowerFlow must separate observation, qualification, hypothesis, confirmation, invalidation, data limits, and trader decision.
+- GBPUSD remains the primary trading surface.
+- M1 tickvolume/sec remains GBPUSD-only unless explicitly expanded.
+- Multidevise context is used for coalitions, antagonists, gravity, and tempo; it is not a direct trade trigger.
+- B8 remains incomplete as a full multicurrency brick until currency-specific tempo is modeled.
+
+### Required trader-facing packet fields
+
+- Film
+- Dernier evenement structurel
+- Zone active
+- Role du mouvement
+- Coalitions / antagonistes
+- Gravite
+- Qualite packet
+- Confirmation prix
+- Invalidation
+- Limites donnees
+
+### Integrity references
+
+- LEXIQUE_MASTER_SHA256: DC4696E565EC9B37AC3D439A852DADB5735F7D1E9FEB398DAEAFBDF91AAB1B2D
+- LEXIQUE_MASTER_USAGE_RULES_SHA256: BD830D96A529870A4F6C8229A554EA211A9D7AEA0E2153C7043925AB55ABEA54
+
+<!-- T006-D LEXIQUE MASTER USAGE END -->
