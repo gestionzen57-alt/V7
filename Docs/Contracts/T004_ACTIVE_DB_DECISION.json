@@ -1,0 +1,436 @@
+{
+  "contract": "POWERFLOW_T004_ACTIVE_DB_DECISION",
+  "created_at": "2026-05-15T17:10:28Z",
+  "source_contract": "Docs/Contracts/T004_CAPTURE_DB_PATH_AUDIT.json",
+  "decision": "ROOT_DB_EMPTY_BUT_POPULATED_DB_EXISTS",
+  "root_db": {
+    "path": "powerflow.db",
+    "exists": true,
+    "size_bytes": 73728,
+    "tables": [
+      {
+        "table": "context_htf",
+        "rows": 0
+      },
+      {
+        "table": "force_snapshots",
+        "rows": 0
+      },
+      {
+        "table": "force_snapshots_v2",
+        "rows": 0
+      },
+      {
+        "table": "signals",
+        "rows": 0
+      },
+      {
+        "table": "sqlite_sequence",
+        "rows": 0
+      }
+    ],
+    "total_rows": 0,
+    "error": null
+  },
+  "populated_db_count": 4,
+  "empty_db_count": 1,
+  "ranked_populated_db_files": [
+    {
+      "path": "Core/powerflow.db",
+      "exists": true,
+      "size_bytes": 17027072,
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 9876
+        },
+        {
+          "table": "flow_packets",
+          "rows": 819
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 19797
+        },
+        {
+          "table": "force_snapshots_v2",
+          "rows": 16357
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 9876
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 7
+        },
+        {
+          "table": "zone_diagnostics",
+          "rows": 1368
+        }
+      ],
+      "total_rows": 58134,
+      "error": null
+    },
+    {
+      "path": "DB/powerflow.db",
+      "exists": true,
+      "size_bytes": 962560,
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 1124
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 2144
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 1124
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 4
+        }
+      ],
+      "total_rows": 4430,
+      "error": null
+    },
+    {
+      "path": "db/powerflow.db",
+      "exists": true,
+      "size_bytes": 962560,
+      "tables": [
+        {
+          "table": "context_htf",
+          "rows": 1124
+        },
+        {
+          "table": "force_snapshots",
+          "rows": 2144
+        },
+        {
+          "table": "nodes_v6",
+          "rows": 34
+        },
+        {
+          "table": "signals",
+          "rows": 1124
+        },
+        {
+          "table": "sqlite_sequence",
+          "rows": 4
+        }
+      ],
+      "total_rows": 4430,
+      "error": null
+    },
+    {
+      "path": "output/lab_engine_v72_selftest.db",
+      "exists": true,
+      "size_bytes": 24576,
+      "tables": [
+        {
+          "table": "force_snapshots",
+          "rows": 158
+        }
+      ],
+      "total_rows": 158,
+      "error": null
+    }
+  ],
+  "best_populated_db": {
+    "path": "Core/powerflow.db",
+    "exists": true,
+    "size_bytes": 17027072,
+    "tables": [
+      {
+        "table": "context_htf",
+        "rows": 9876
+      },
+      {
+        "table": "flow_packets",
+        "rows": 819
+      },
+      {
+        "table": "force_snapshots",
+        "rows": 19797
+      },
+      {
+        "table": "force_snapshots_v2",
+        "rows": 16357
+      },
+      {
+        "table": "nodes_v6",
+        "rows": 34
+      },
+      {
+        "table": "signals",
+        "rows": 9876
+      },
+      {
+        "table": "sqlite_sequence",
+        "rows": 7
+      },
+      {
+        "table": "zone_diagnostics",
+        "rows": 1368
+      }
+    ],
+    "total_rows": 58134,
+    "error": null
+  },
+  "db_path_reference_files": [
+    "Core/CHECKPOINT_P0_LIVE_20260511.md",
+    "Core/CHECKPOINT_SESSION_FINAL_20260511.md",
+    "Core/CHECKPOINT_V73.md",
+    "Core/CHECK_DB_SCHEMA_POWERFLOW.py",
+    "Core/CHECK_EXTENDED_DB_V2.py",
+    "Core/CLAUDE_REBASE_POWERFLOW_V721_20260511.md",
+    "Core/CLAUDE_md_V7.1.md",
+    "Core/CLAUDE_md_V72_FINAL_UPDATE.md",
+    "Core/analyze_powerflow_from_0600_today.py",
+    "Core/audit_usdjpy_capture.py",
+    "Core/audit_usdjpy_fast.py",
+    "Core/capture_bridge.py",
+    "Core/check_db.py",
+    "Core/check_recent_signals.py",
+    "Core/check_table_freshness.py",
+    "Core/check_tf_by_table.py",
+    "Core/check_tf_counts.py",
+    "Core/cockpit_agentic_state_v01.py",
+    "Core/cockpit_reader.py",
+    "Core/cockpit_terminal.py"
+  ],
+  "focused_ast_findings": [
+    {
+      "file": "Core/capture_bridge.py",
+      "entries": [
+        {
+          "line": 76,
+          "type": "assign",
+          "target": "SNAPSHOT_DB_CONN",
+          "value": "init_db(DB_PATH) if FORCE_SNAPSHOTS_ENABLED else None"
+        },
+        {
+          "line": 197,
+          "type": "assign",
+          "target": "inserted",
+          "value": "insert_force_snapshot(SNAPSHOT_DB_CONN, snapshot)"
+        },
+        {
+          "line": 197,
+          "type": "call",
+          "expr": "insert_force_snapshot(SNAPSHOT_DB_CONN, snapshot)"
+        }
+      ]
+    },
+    {
+      "file": "Core/db.py",
+      "entries": [
+        {
+          "line": 467,
+          "type": "assign",
+          "target": "conn",
+          "value": "init_db('powerflow.db')"
+        },
+        {
+          "line": 196,
+          "type": "assign",
+          "target": "parent",
+          "value": "os.path.dirname(os.path.abspath(db_path))"
+        },
+        {
+          "line": 200,
+          "type": "assign",
+          "target": "conn",
+          "value": "sqlite3.connect(db_path, check_same_thread=False)"
+        },
+        {
+          "line": 201,
+          "type": "assign",
+          "target": "conn.row_factory",
+          "value": "sqlite3.Row"
+        },
+        {
+          "line": 200,
+          "type": "call",
+          "expr": "sqlite3.connect(db_path, check_same_thread=False)"
+        },
+        {
+          "line": 203,
+          "type": "call",
+          "expr": "conn.execute('PRAGMA foreign_keys = ON;')"
+        },
+        {
+          "line": 205,
+          "type": "call",
+          "expr": "conn.execute('PRAGMA journal_mode = WAL;')"
+        },
+        {
+          "line": 208,
+          "type": "call",
+          "expr": "conn.executescript(_SCHEMA_SQL)"
+        },
+        {
+          "line": 209,
+          "type": "call",
+          "expr": "conn.commit()"
+        },
+        {
+          "line": 269,
+          "type": "call",
+          "expr": "cur.execute('\\n            INSERT INTO signals (\\n                created_at, symbol, timeframe, signal_type,\\n                dev_strong, dev_weak, score, level, spread_ok,\\n                volume_badge, note, price,\\n                is_po"
+        },
+        {
+          "line": 304,
+          "type": "call",
+          "expr": "cur.execute('\\n            INSERT INTO context_htf (\\n                signal_id, bias, bias_state, scenario,\\n                aligned_count, fractal_rank, leader_tf,\\n                htf_bonus, details_json\\n            ) VALUES (?, ?, ?, ?"
+        },
+        {
+          "line": 315,
+          "type": "call",
+          "expr": "conn.commit()"
+        },
+        {
+          "line": 360,
+          "type": "call",
+          "expr": "cur.execute('\\n            INSERT INTO force_snapshots (\\n                created_at, symbol, timeframe, bid, spread,\\n                force_gbp, force_usd, force_eur, force_jpy,\\n                force_cad, force_chf, force_aud\\n           "
+        },
+        {
+          "line": 370,
+          "type": "call",
+          "expr": "conn.commit()"
+        },
+        {
+          "line": 421,
+          "type": "call",
+          "expr": "cur.execute(sql, params)"
+        },
+        {
+          "line": 508,
+          "type": "call",
+          "expr": "cur.execute('\\n            INSERT INTO force_snapshots (\\n                created_at, symbol, timeframe, bid, spread,\\n                force_gbp, force_usd, force_eur, force_jpy,\\n                force_cad, force_chf, force_aud\\n           "
+        },
+        {
+          "line": 519,
+          "type": "call",
+          "expr": "conn.commit()"
+        },
+        {
+          "line": 571,
+          "type": "call",
+          "expr": "cur.execute('\\n            INSERT OR IGNORE INTO force_snapshots_v2 (\\n                created_at, symbol, timeframe,\\n                bar_time, bar_close_time, server_time, capture_time, is_closed_bar,\\n                bid, ask, mid,\\n    "
+        },
+        {
+          "line": 586,
+          "type": "call",
+          "expr": "conn.commit()"
+        },
+        {
+          "line": 374,
+          "type": "call",
+          "expr": "_log(f'ERREUR insert_force_snapshot : {e}')"
+        },
+        {
+          "line": 522,
+          "type": "call",
+          "expr": "_log(f'ERREUR insert_force_snapshot legacy: {e}')"
+        },
+        {
+          "line": 589,
+          "type": "call",
+          "expr": "_log(f'WARN insert_force_snapshot_v2: {e}')"
+        }
+      ]
+    },
+    {
+      "file": "Core/system_config.py",
+      "entries": [
+        {
+          "line": 188,
+          "type": "assign",
+          "target": "DB_PATH",
+          "value": "'powerflow.db'"
+        },
+        {
+          "line": 212,
+          "type": "assign",
+          "target": "DB_CONTEXT_ENABLED",
+          "value": "False"
+        }
+      ]
+    },
+    {
+      "file": "Core/pf_multi_symbol_db.py",
+      "entries": [
+        {
+          "line": 32,
+          "type": "assign",
+          "target": "path",
+          "value": "Path(db_path)"
+        },
+        {
+          "line": 112,
+          "type": "assign",
+          "target": "conn",
+          "value": "connect_readonly(db_path)"
+        },
+        {
+          "line": 35,
+          "type": "call",
+          "expr": "sqlite3.connect(f'file:{path}?mode=ro', uri=True)"
+        },
+        {
+          "line": 61,
+          "type": "call",
+          "expr": "conn.execute(sql, params).fetchall()"
+        },
+        {
+          "line": 61,
+          "type": "call",
+          "expr": "conn.execute(sql, params)"
+        }
+      ]
+    },
+    {
+      "file": "Core/capture_bridge.py",
+      "entries": [
+        {
+          "line": 76,
+          "type": "assign",
+          "target": "SNAPSHOT_DB_CONN",
+          "value": "init_db(DB_PATH) if FORCE_SNAPSHOTS_ENABLED else None"
+        },
+        {
+          "line": 197,
+          "type": "assign",
+          "target": "inserted",
+          "value": "insert_force_snapshot(SNAPSHOT_DB_CONN, snapshot)"
+        },
+        {
+          "line": 197,
+          "type": "call",
+          "expr": "insert_force_snapshot(SNAPSHOT_DB_CONN, snapshot)"
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    "Do not debug USDJPY symbol yet. First align diagnostics/runtime to the populated DB or confirm why root powerflow.db is empty.",
+    "Inspect Core/db.py and Core/capture_bridge.py DB path constants/imports before any engine change.",
+    "Run a read-only symbol density diagnostic against the best populated DB candidate.",
+    "Best populated candidate by heuristic: Core/powerflow.db"
+  ],
+  "read_only": true,
+  "runtime_wired": false
+}
