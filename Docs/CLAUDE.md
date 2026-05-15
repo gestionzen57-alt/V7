@@ -2,10 +2,10 @@
 
 ## Last Session
 
-- Date: 2026-05-15 17:33
+- Date: 2026-05-15 17:43
 - AI: Claude Sonnet 4.5
-- Focus: T002-C safe extraction plan
-- Checkpoint: Checkpoints\CHECKPOINT_20260515_173348.md
+- Focus: T002-D detached engine v6 core test repair
+- Checkpoint: Checkpoints\CHECKPOINT_20260515_174302.md
 
 ## Derni??re session
 
@@ -264,6 +264,7 @@ Prochaine priorit??: [indiquer]
 *Document vivant auto-g??n??r?? ??? Ne pas ??diter manuellement*  
 *Mis ?? jour automatiquement par `auto_checkpoint_claude.ps1`*  
 *Derni??re modification: 2026-05-15 10:30*
+
 
 
 
