@@ -1,8 +1,8 @@
 ﻿(function () {
   "use strict";
 
-  const MAP = {
-    // Lecture / data visibility
+  const PF_FR = {
+    // États de lecture
     "READING_PARTIAL": "Lecture partielle",
     "FULL_STACK_VISIBLE": "Lecture complète",
     "TACTICAL_OK": "Lecture tactique exploitable",
@@ -10,8 +10,10 @@
     "DEGRADED": "Lecture dégradée",
     "UNKNOWN": "Lecture inconnue",
     "PARTIAL_STALE": "Partiel / stale",
+    "DATA_HEALTH_PARTIAL_STALE": "Santé data partielle / stale",
+    "FRESHNESS_PARTIAL_STALE": "Fraîcheur partielle / stale",
 
-    // Attention
+    // Actions / attention
     "WAKE_TRADER": "Réveiller l’attention",
     "WATCH_CONTEXT": "Contexte à surveiller",
     "LIVE_ATTENTION_PRESENT": "Attention live présente",
@@ -63,17 +65,6 @@
     "FALSE_BIRTH": "Fausse naissance",
     "EVENT_STACK_ONLY": "Empilement d’événements seulement",
 
-    // Phases / états composites
-    "LTF_DIVERGENT_RELEASE": "Relâchement divergent LTF",
-    "MTF_REACTION_OR_REJECTION": "Réaction ou rejet MTF",
-    "HTF_REACTION_OR_REJECTION": "Réaction ou rejet HTF",
-    "ABSORPTION_OR_REJECTION": "Absorption ou rejet",
-    "H1_ABSORPTION_OR_REJECTION": "H1 absorption ou rejet",
-    "M15_REACTION_OR_REJECTION": "M15 réaction ou rejet",
-    "LTF_RELEASE_ACTIVE": "Relâchement LTF actif",
-    "HTF_REACTION_ZONE": "Zone de réaction HTF",
-    "THIN_DATA": "Données fines / insuffisantes",
-
     // Structure / cockpit
     "CONFLICT": "Conflit",
     "CONFLICT_OR_REINTEGRATION_TEST": "Conflit ou test de réintégration",
@@ -87,20 +78,23 @@
     "ALIGNED_OR_PARTIAL": "Aligné ou partiel",
     "LONG_ACCUMULATION": "Accumulation longue",
     "REJECTION_OR_TRAP_WATCH": "Surveillance rejet ou piège",
-    "TRAP_CONTEXT_ALIGNED": "Contexte de piège aligné",
-    "LIVE_INFO": "Info live",
     "ALERT_READY": "Alerte prête",
     "NO_ALERT": "Pas d’alerte immédiate",
-    "NO_IMMEDIATE_PRESSURE": "Pas de pression immédiate",
-    "B6_NO_IMMEDIATE_PRESSURE": "B6 sans pression immédiate",
 
-    // Events
+    // Events / phases
     "M1_ACCELERATION": "Accélération M1",
     "M5_ACCELERATION": "Accélération M5",
     "M15_ACCELERATION": "Accélération M15",
     "M30_ACCELERATION": "Accélération M30",
     "H1_ACCELERATION": "Accélération H1",
     "H4_ACCELERATION": "Accélération H4",
+    "H1_ABSORPTION_OR_REJECTION": "H1 absorption ou rejet",
+    "M15_REACTION_OR_REJECTION": "M15 réaction ou rejet",
+    "HTF_REACTION_ZONE": "Zone de réaction HTF",
+    "LTF_RELEASE_ACTIVE": "Relâchement LTF actif",
+    "MTF_REACTION_OR_REJECTION": "Réaction ou rejet MTF",
+    "HTF_REACTION_OR_REJECTION": "Réaction ou rejet HTF",
+    "THIN_DATA": "Données fines / insuffisantes",
 
     // Data / risques techniques
     "B8_INSUFFICIENT_CROSS_PAIR_COVERAGE": "Couverture cross-pair B8 insuffisante",
@@ -110,8 +104,6 @@
     "GBPUSD_TEMPORAL_GAPS": "Trous temporels GBPUSD",
     "USDJPY_HTF_INCOMPLETE": "HTF USDJPY incomplet",
     "USDJPY_TEMPORAL_GAPS": "Trous temporels USDJPY",
-    "DATA_HEALTH_PARTIAL_STALE": "Santé data partielle / stale",
-    "FRESHNESS_PARTIAL_STALE": "Fraîcheur partielle / stale",
     "D1_THIN_ROWS": "D1 lignes insuffisantes",
     "HTF_INCOMPLETE": "HTF incomplet",
     "TEMPORAL_GAPS": "Trous temporels",
@@ -122,100 +114,115 @@
     "LTF_MTF_RELAY": "Relais LTF vers MTF",
     "PRICE_REJECTED_LOW": "Prix rejeté vers le bas",
     "EVENT_TIME_AHEAD_OF_DETECTED_AT": "Événement détecté avec avance temporelle",
-    "EVENT_TIME_OFFSET": "Décalage temporel événement"
+    "EVENT_TIME_OFFSET": "Décalage temporel événement",
+    "REJECTION_DETACHMENT_LIMITS": "Limites du détachement de rejet"
   };
 
-  const PATCHES = [
-    // Snake/camel fragments
-    [/fake_risk=MEDIUM/gi, "risque faux=moyen"],
-    [/fake_risk=LOW/gi, "risque faux=faible"],
-    [/fake_risk=HIGH/gi, "risque faux=élevé"],
-    [/fake=MEDIUM/gi, "risque faux=moyen"],
-    [/fake=LOW/gi, "risque faux=faible"],
-    [/fake=HIGH/gi, "risque faux=élevé"],
-
-    [/bias=PAIR_DOWN/gi, "biais=pression baissière brute"],
-    [/bias=PAIR_UP/gi, "biais=pression haussière brute"],
-    [/bias=Pression baissière brute/gi, "biais=pression baissière brute"],
-    [/bias=Pression haussière brute/gi, "biais=pression haussière brute"],
-
-    [/dashboard_bias/gi, "biais dashboard"],
-    [/dominant_bias/gi, "biais dominant"],
-    [/structural_bias/gi, "biais structurel"],
-    [/counterflow_bias/gi, "biais contre-respiration"],
-    [/semantic_warning/gi, "alerte sémantique"],
-
-    // Phrases hybrides
+  const PHRASE_FR = [
     [/bias pression DOWN/gi, "biais de pression baissière"],
     [/bias pression UP/gi, "biais de pression haussière"],
-    [/biais pression DOWN/gi, "biais de pression baissière"],
-    [/biais pression UP/gi, "biais de pression haussière"],
-    [/pression DOWN/gi, "pression baissière"],
-    [/pression UP/gi, "pression haussière"],
-
+    [/bias neutral/gi, "biais neutre"],
     [/fake faible/gi, "risque de fausse lecture faible"],
     [/fake moyen/gi, "risque de fausse lecture moyen"],
     [/fake low/gi, "risque de fausse lecture faible"],
     [/fake medium/gi, "risque de fausse lecture moyen"],
-
     [/absorption or rejection/gi, "absorption ou rejet"],
-    [/reaction or rejection/gi, "réaction ou rejet"],
-    [/release active/gi, "relâchement actif"],
-    [/thin data/gi, "données fines / insuffisantes"],
-
-    // Accélérations doublonnées
-    [/M1 accélération M1/gi, "accélération M1"],
-    [/M5 accélération M5/gi, "accélération M5"],
-    [/M15 accélération M15/gi, "accélération M15"],
-    [/M30 accélération M30/gi, "accélération M30"],
-    [/H1 accélération H1/gi, "accélération H1"],
-    [/H4 accélération H4/gi, "accélération H4"],
-
     [/m1 acceleration/gi, "accélération M1"],
     [/m5 acceleration/gi, "accélération M5"],
     [/m15 acceleration/gi, "accélération M15"],
     [/m30 acceleration/gi, "accélération M30"],
     [/h1 acceleration/gi, "accélération H1"],
     [/h4 acceleration/gi, "accélération H4"],
+    [/h1 absorption or rejection/gi, "H1 absorption ou rejet"],
+    [/m15 reaction or rejection/gi, "M15 réaction ou rejet"],
+    [/release active/gi, "relâchement actif"],
+    [/thin data/gi, "données fines / insuffisantes"],
+    [/dashboard bias/gi, "biais dashboard"],
+    [/dominant brut/gi, "dominante brute"],
+    [/counterflow/gi, "contre-respiration"],
+    [/topdown/gi, "lecture top-down"],
+    [/live brief/gi, "brief live"],
+    [/alignment/gi, "alignement"],
+    [/confidence/gi, "confiance"],
+    [/last/gi, "dernier"],
+    [/age/gi, "âge"],
+    [/freshness/gi, "fraîcheur"]
+  ];
+  const PF_FR_V4_PATCHES = [
+    // Enums encore visibles
+    [/LTF_DIVERGENT_RELEASE/g, "Relâchement divergent LTF"],
+    [/MTF_REACTION_OR_REJECTION/g, "Réaction ou rejet MTF"],
+    [/HTF_REACTION_OR_REJECTION/g, "Réaction ou rejet HTF"],
+    [/ABSORPTION_OR_REJECTION/g, "Absorption ou rejet"],
+    [/TRAP_CONTEXT_ALIGNED/g, "Contexte de piège aligné"],
+    [/LIVE_INFO/g, "Info live"],
+    [/LIVE_Cha[uû]d/gi, "Live chaud"],
+    [/NO_IMMEDIATE_PRESSURE/g, "Pas de pression immédiate"],
+    [/B6_NO_IMMEDIATE_PRESSURE/g, "B6 sans pression immédiate"],
 
-    // Timeframes / dashboard
+    // Headers composites
+    [/FAKE=MEDIUM/g, "risque faux moyen"],
+    [/FAKE=LOW/g, "risque faux faible"],
+    [/FAKE=HIGH/g, "risque faux élevé"],
+    [/FAKE=FAIBLE/gi, "risque faux faible"],
+    [/FAKE=MOYEN/gi, "risque faux moyen"],
+
+    // Fragments anglais / hybrides
     [/Daily=/g, "Journalier="],
-    [/Weekly=/g, "Hebdomadaire="],
-    [/Topdown=/g, "Top-down="],
     [/LiveBrief=/g, "Brief live="],
+    [/Topdown=/g, "Top-down="],
     [/alignment=/gi, "alignement="],
     [/counterflow=/gi, "contre-respiration="],
+    [/dashboard_bias=/gi, "biais dashboard="],
+    [/structure=/gi, "structure="],
+    [/dominant_bias=/gi, "biais dominant="],
+    [/semantic_warning=/gi, "alerte sémantique="],
 
+    // Timeframes langage trader
     [/Daily peu profond/gi, "Journalier peu profond"],
     [/Weekly peu profond/gi, "Hebdomadaire peu profond"],
+    [/Daily_/g, "Journalier_"],
+    [/Weekly_/g, "Hebdomadaire_"],
 
-    // Residual statuses
-    [/\bMEDIUM\b/g, "moyen"],
-    [/\bLOW\b/g, "faible"],
-    [/\bHIGH\b/g, "élevé"],
-    [/\bUNKNOWN\b/g, "Lecture inconnue"],
-    [/\bDEGRADED\b/g, "Lecture dégradée"],
+    // Pressions résiduelles
+    [/pression DOWN/gi, "pression baissière"],
+    [/pression UP/gi, "pression haussière"],
+    [/bias=Pression baissière brute/gi, "biais=pression baissière brute"],
+    [/bias=Pression haussière brute/gi, "biais=pression haussière brute"],
 
-    // Libellés
+    // États / détails
+    [/MEDIUM/g, "moyen"],
+    [/LOW/g, "faible"],
+    [/HIGH/g, "élevé"],
+    [/NONE/g, "aucun"],
+
+    // Libellés cockpit
     [/CONFLIT MULTI-LECTURE/g, "Conflit multi-lecture"],
     [/Cockpit source/gi, "Source cockpit"],
+    [/Action/gi, "Action"],
     [/State/gi, "État"],
     [/Reading/gi, "Lecture"]
   ];
 
-  function translateText(input) {
-    if (!input || typeof input !== "string") return input;
+  function translateText(s) {
+    if (!s || typeof s !== "string") return s;
 
-    let out = input;
+    let out = s;
 
-    const keys = Object.keys(MAP).sort((a, b) => b.length - a.length);
+    const keys = Object.keys(PF_FR).sort((a, b) => b.length - a.length);
     for (const key of keys) {
-      out = out.replaceAll(key, MAP[key]);
+      out = out.replaceAll(key, PF_FR[key]);
     }
 
-    for (const pair of PATCHES) {
+    for (const pair of PHRASE_FR) {
       out = out.replace(pair[0], pair[1]);
+    }    if (typeof PF_FR_V4_PATCHES !== "undefined") {
+      for (const pair of PF_FR_V4_PATCHES) {
+        out = out.replace(pair[0], pair[1]);
+      }
     }
+
+
 
     return out;
   }
@@ -234,7 +241,11 @@
         {
           acceptNode: function (node) {
             if (shouldSkipNode(node)) return NodeFilter.FILTER_REJECT;
-            if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_SKIP;
+            if (!node.nodeValue) return NodeFilter.FILTER_SKIP;
+            const v = node.nodeValue;
+            if (!v.includes("_") && !/bias|fake|acceleration|reaction|rejection|counterflow|freshness|alignment|confidence|release active|thin data/i.test(v)) {
+              return NodeFilter.FILTER_SKIP;
+            }
             return NodeFilter.FILTER_ACCEPT;
           }
         }
@@ -285,11 +296,10 @@
       characterData: true
     });
 
-    setTimeout(() => translatePage(document.body), 200);
-    setTimeout(() => translatePage(document.body), 600);
-    setTimeout(() => translatePage(document.body), 1200);
-    setTimeout(() => translatePage(document.body), 2500);
-    setTimeout(() => translatePage(document.body), 5000);
+    setTimeout(() => translatePage(document.body), 300);
+    setTimeout(() => translatePage(document.body), 900);
+    setTimeout(() => translatePage(document.body), 1800);
+    setTimeout(() => translatePage(document.body), 3500);
   }
 
   if (document.readyState === "loading") {
@@ -298,3 +308,4 @@
     boot();
   }
 })();
+
