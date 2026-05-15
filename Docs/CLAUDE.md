@@ -1,3 +1,17 @@
+﻿<!-- POWERFLOW_CURRENT_STATE_START -->
+## Current State - updated 2026-05-15T21:01:26.5402470+02:00
+
+- Workspace current-state update for Claude.
+- T004 is requalified after expanded USD cohort.
+- Global USD-base blockage is invalidated.
+- Probable cause for initial USDJPY thin data: feed / EA / capture intermittent or initial setup incomplete.
+- Current T004 dispatch status: DIAGNOSED_REQUALIFIED_FEED_CAPTURE_INTERMITTENT.
+- No engine/scoring/dashboard/DB patch is justified for T004.
+- Canonical current state file: Docs/CURRENT_STATE.md.
+- Latest snapshot: Docs/CurrentState/CURRENT_STATE_20260515_210126_T004_REQUALIFIED.md.
+
+<!-- POWERFLOW_CURRENT_STATE_END -->
+
 # PowerFlow V7.6.7 ??? ??tat Central
 
 ## Last Session
@@ -327,4 +341,5 @@ T017 ??? make B8 role-aware:
 - Telegram stays context transmission only.
 - Scheduler orchestrates only.
 <!-- GPT3_SCHEDULER_CURRENT_STATE_END -->
+
 
