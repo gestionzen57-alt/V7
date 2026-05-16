@@ -163,7 +163,7 @@ class B8DataVisibilityChecker:
             available_tfs, missing_tfs = self._detect_available_tfs(
                 symbol, db, source_table
             )
-            last_update = self._get_last_update_timestamp(symbol, db, source_table)
+            last_update = self._get_last_update_created_at(symbol, db, source_table)
             age_sec = self._compute_age_seconds(last_update) if last_update else None
             freshness_state = self._classify_freshness(age_sec)
 
@@ -207,7 +207,7 @@ class B8DataVisibilityChecker:
                 "technical_risks": sorted(set(technical_risks)),
                 "b8_weight_cap": round(b8_weight_cap, 2),
                 "data_quality_score": round(quality_score, 2),
-                "timestamp": self._utc_now(),
+                "created_at": self._utc_now(),
             }
             self.last_checks[symbol] = result
             return result
@@ -280,7 +280,7 @@ class B8DataVisibilityChecker:
             "excluded_symbols": sorted(excluded),
             "field_visibility": field_visibility,
             "technical_risks": sorted(all_risks),
-            "timestamp": self._utc_now(),
+            "created_at": self._utc_now(),
             "detail": {
                 symbol: {
                     "source_table": state.get("source_table"),
@@ -378,13 +378,13 @@ class B8DataVisibilityChecker:
         missing = [tf for tf in self.EXPECTED_TFS if tf not in available]
         return available, missing
 
-    def _get_last_update_timestamp(
+    def _get_last_update_created_at(
         self,
         symbol: str,
         db_path: str,
         table: str,
     ) -> Optional[str]:
-        """Return most recent snapshot timestamp for symbol."""
+        """Return most recent snapshot created_at for symbol."""
         with self._connect_ro(db_path) as conn:
             columns = self._get_columns(conn, table)
             time_col = self._detect_time_column(columns)
@@ -418,12 +418,12 @@ class B8DataVisibilityChecker:
             return "STALE"
         return "MISSING"
 
-    def _compute_age_seconds(self, timestamp: str) -> Optional[int]:
-        """Compute UTC age for common SQLite/ISO timestamp formats."""
-        if not timestamp:
+    def _compute_age_seconds(self, created_at: str) -> Optional[int]:
+        """Compute UTC age for common SQLite/ISO created_at formats."""
+        if not created_at:
             return None
         try:
-            raw = str(timestamp).strip()
+            raw = str(created_at).strip()
             if raw.endswith("Z"):
                 parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
             elif "T" in raw:
@@ -580,7 +580,7 @@ class B8DataVisibilityChecker:
     def _detect_time_column(self, columns: Iterable[str]) -> Optional[str]:
         column_set = set(columns)
         for candidate in (
-            "timestamp",
+            "created_at",
             "created_at",
             "logged_at",
             "bar_time",
@@ -627,7 +627,7 @@ class B8DataVisibilityChecker:
             "technical_risks": [reason],
             "b8_weight_cap": 0.0,
             "data_quality_score": 0.0,
-            "timestamp": self._utc_now(),
+            "created_at": self._utc_now(),
         }
         if symbol:
             self.last_checks[symbol] = result

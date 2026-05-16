@@ -67,7 +67,7 @@ def _create_snapshot_table(conn: sqlite3.Connection, table: str) -> None:
             id INTEGER PRIMARY KEY,
             symbol TEXT NOT NULL,
             timeframe INTEGER NOT NULL,
-            timestamp TEXT NOT NULL,
+            created_at TEXT NOT NULL,
             angle_kalman REAL
         )
         """
@@ -88,7 +88,7 @@ def _insert_rows(
         ts = (start_time - timedelta(minutes=i * minute_step)).isoformat()
         tf = tfs[i % len(tfs)]
         conn.execute(
-            f"INSERT INTO {table} (symbol, timeframe, timestamp, angle_kalman) VALUES (?, ?, ?, ?)",
+            f"INSERT INTO {table} (symbol, timeframe, created_at, angle_kalman) VALUES (?, ?, ?, ?)",
             (symbol, tf, ts, 45.0 + i * 0.01),
         )
 
