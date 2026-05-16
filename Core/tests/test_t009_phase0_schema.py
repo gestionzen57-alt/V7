@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 
-SCHEMA_PATH = Path("tick_archive_schema.sql")
+SCHEMA_PATH = Path(__file__).parent.parent / "tick_archive_schema.sql"
 
 
 def _create_db(tmp_path: Path) -> tuple[sqlite3.Connection, Path]:
