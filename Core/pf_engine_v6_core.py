@@ -267,3 +267,27 @@ for _name in [
     if _name not in __all__:
         __all__.append(_name)
 # === T002-S V6 CORE RUNTIME ENTRYPOINT END ===
+
+# T009_PHASE2A_ENGINE_HOOK_START
+# Battlefield Flux engine integration wrapper. Appended by install_t009_phase2a_from_zip.ps1.
+# It is fail-closed and preserves existing behavior when POWERFLOW_T009_ENABLE_ENGINE_INTEGRATION=0.
+try:
+    _t009_original_process_tick = process_tick  # type: ignore[name-defined]
+except NameError:
+    _t009_original_process_tick = None
+
+if _t009_original_process_tick is not None:
+    def process_tick(*args, **kwargs):  # type: ignore[no-redef]
+        _t009_result = _t009_original_process_tick(*args, **kwargs)
+        try:
+            from pf_engine_battlefield_adapter import maybe_integrate_battlefield_events
+            _t009_tick = args[0] if len(args) >= 1 and isinstance(args[0], dict) else kwargs.get("tick", {})
+            _t009_state = args[1] if len(args) >= 2 and isinstance(args[1], dict) else kwargs.get("state", {})
+            if isinstance(_t009_result, list):
+                maybe_integrate_battlefield_events(_t009_tick, _t009_state, _t009_result)
+            elif isinstance(_t009_result, dict) and isinstance(_t009_result.get("events"), list):
+                maybe_integrate_battlefield_events(_t009_tick, _t009_state, _t009_result["events"])
+        except Exception:
+            return _t009_result
+        return _t009_result
+# T009_PHASE2A_ENGINE_HOOK_END
