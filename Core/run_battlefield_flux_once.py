@@ -14,6 +14,10 @@ import json
 from pathlib import Path
 from typing import Any, Dict
 
+# Resolve default DB paths relative to this script so the runner works regardless of CWD.
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_REPO_ROOT = _SCRIPT_DIR.parent
+
 try:  # Repo-root execution
     from Core.config_t009_flags import FLAGS  # type: ignore
     from Core.pf_battlefield_flux import BattlefieldFlux  # type: ignore
@@ -31,8 +35,8 @@ def main() -> int:
     parser.add_argument("--symbol", default="GBPUSD", help="Symbol to analyze, default GBPUSD")
     parser.add_argument("--lookback-min", type=int, default=30, help="Lookback window in minutes")
     parser.add_argument("--output", default="./output", help="Output directory")
-    parser.add_argument("--tick-db", default="tick_archive.db", help="Primary tick archive DB")
-    parser.add_argument("--fallback-db", default="powerflow.db", help="Fallback PowerFlow DB")
+    parser.add_argument("--tick-db", default=str(_REPO_ROOT / "tick_archive.db"), help="Primary tick archive DB")
+    parser.add_argument("--fallback-db", default=str(_REPO_ROOT / "powerflow.db"), help="Fallback PowerFlow DB")
     parser.add_argument("--dry-run", action="store_true", default=True, help="Phase 1A is dry-run only")
     args = parser.parse_args()
 

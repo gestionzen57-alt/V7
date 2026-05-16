@@ -245,16 +245,19 @@ class BattlefieldFlux:
 
             columns = self._table_columns(conn, table_name)
             symbol_col = self._pick_column(columns, ["symbol", "pair"])
-            ts_col = self._pick_column(columns, ["ts", "timestamp", "time", "bar_time", "datetime", "created_at_utc"])
-            ts_epoch_col = self._pick_column(columns, ["ts_epoch", "epoch", "epoch_s", "ts_epoch_ms", "time_epoch"])
-            open_col = self._pick_column(columns, ["open", "open_price", "o"])
-            high_col = self._pick_column(columns, ["high", "high_price", "h"])
-            low_col = self._pick_column(columns, ["low", "low_price", "l"])
-            close_col = self._pick_column(columns, ["close", "close_price", "c"])
+            # PowerFlow V7.6.7 live DB may not expose bars_m1.
+            # force_snapshots_v2 is the M1 proxy source: symbol/timeframe/created_at + OHLC.
+            ts_col = self._pick_column(columns, ["created_at", "created_at_utc", "ts", "timestamp", "time", "datetime", "bar_time"])
+            ts_epoch_col = self._pick_column(columns, ["ts_epoch_ms", "ts_epoch", "epoch", "epoch_s", "time_epoch"])
+            timeframe_col = self._pick_column(columns, ["timeframe", "tf", "period"])
+            open_col = self._pick_column(columns, ["open", "open_price", "o", "mid", "bid"])
+            high_col = self._pick_column(columns, ["high", "high_price", "h", "mid", "ask", "bid"])
+            low_col = self._pick_column(columns, ["low", "low_price", "l", "mid", "bid"])
+            close_col = self._pick_column(columns, ["close", "close_price", "c", "mid", "bid"])
             spread_col = self._pick_column(columns, ["spread", "spread_price", "spread_pips", "spread_points"])
             volume_col = self._pick_column(columns, ["tick_volume", "volume", "vol"])
 
-            required = [ts_col, open_col, high_col, low_col, close_col]
+            required = [ts_col or ts_epoch_col, open_col, high_col, low_col, close_col]
             if any(col is None for col in required):
                 return []
 
@@ -262,9 +265,9 @@ class BattlefieldFlux:
             cutoff_text = _iso_utc(cutoff_dt)
             quoted_table = self._quote_identifier(table_name)
             order_col = ts_epoch_col or ts_col
-            assert ts_col and open_col and high_col and low_col and close_col and order_col
+            assert (ts_col or ts_epoch_col) and open_col and high_col and low_col and close_col and order_col
 
-            select_cols = [col for col in [symbol_col, ts_col, ts_epoch_col, open_col, high_col, low_col, close_col, spread_col, volume_col] if col]
+            select_cols = [col for col in [symbol_col, timeframe_col, ts_col, ts_epoch_col, open_col, high_col, low_col, close_col, spread_col, volume_col] if col]
             select_sql = ", ".join(self._quote_identifier(col) for col in dict.fromkeys(select_cols))
 
             where_parts: List[str] = []
@@ -272,9 +275,13 @@ class BattlefieldFlux:
             if symbol_col:
                 where_parts.append(f"{self._quote_identifier(symbol_col)} = ?")
                 params.append(symbol)
+            if timeframe_col:
+                where_parts.append(f"{self._quote_identifier(timeframe_col)} = ?")
+                params.append(1)
             if ts_epoch_col:
                 where_parts.append(f"{self._quote_identifier(ts_epoch_col)} >= ?")
-                params.append(int(cutoff_dt.timestamp()))
+                # Most PowerFlow epoch columns are seconds; ts_epoch_ms is milliseconds.
+                params.append(int(cutoff_dt.timestamp() * 1000) if ts_epoch_col.lower().endswith("_ms") else int(cutoff_dt.timestamp()))
             elif ts_col:
                 where_parts.append(f"{self._quote_identifier(ts_col)} >= ?")
                 params.append(cutoff_text)
@@ -312,7 +319,7 @@ class BattlefieldFlux:
                             "mid": price,
                             "spread": spread,
                             "tick_volume": int(_safe_float(bar.get(volume_col), 0)) if volume_col else None,
-                            "source": "powerflow_db_bars_m1",
+                            "source": f"powerflow_db_{table_name}",
                             "source_mode": "M1_BAR_PROXY",
                             "capture_seq": idx,
                             "gap_ms": None,
@@ -329,12 +336,27 @@ class BattlefieldFlux:
             conn.close()
 
     def _find_m1_table(self, conn: sqlite3.Connection) -> Optional[str]:
-        candidates = ["bars_m1", "m1_bars", "ohlc_m1", "candles_m1"]
+        candidates = ["bars_m1", "m1_bars", "ohlc_m1", "candles_m1", "force_snapshots_v2", "force_snapshots"]
         tables = [row[0] for row in conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
         lower_to_actual = {str(table).lower(): str(table) for table in tables}
         for candidate in candidates:
-            if candidate.lower() in lower_to_actual:
-                return lower_to_actual[candidate.lower()]
+            actual = lower_to_actual.get(candidate.lower())
+            if not actual:
+                continue
+            columns = self._table_columns(conn, actual)
+            has_symbol = self._pick_column(columns, ["symbol", "pair"]) is not None
+            has_time = (
+                self._pick_column(columns, ["created_at", "created_at_utc", "ts", "timestamp", "time", "datetime", "bar_time"]) is not None
+                or self._pick_column(columns, ["ts_epoch_ms", "ts_epoch", "epoch", "epoch_s", "time_epoch"]) is not None
+            )
+            has_ohlc = (
+                self._pick_column(columns, ["open", "open_price", "o", "mid", "bid"]) is not None
+                and self._pick_column(columns, ["high", "high_price", "h", "mid", "ask", "bid"]) is not None
+                and self._pick_column(columns, ["low", "low_price", "l", "mid", "bid"]) is not None
+                and self._pick_column(columns, ["close", "close_price", "c", "mid", "bid"]) is not None
+            )
+            if has_symbol and has_time and has_ohlc:
+                return actual
         return None
 
     # ------------------------------------------------------------------
