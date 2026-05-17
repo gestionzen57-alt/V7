@@ -361,3 +361,52 @@ __all__ = [
     "read_raw_ticks",
     "calibrate_raw_window",
 ]
+
+
+# --- T0103_RAW_CALIBRATION_API_COMPAT_SHIM_START ---
+class RawCalibrationConfig:
+    """Flexible legacy-compatible configuration object for raw calibration runners."""
+
+    _ordered_fields = [
+        "summary_json", "tick_db", "output", "symbol", "broker",
+        "broker_time_shift_min", "raw_source_mode", "raw_data_visibility",
+    ]
+
+    _defaults = {
+        "summary_json": None,
+        "tick_db": None,
+        "output": None,
+        "symbol": "GBPUSD",
+        "broker": "UNKNOWN",
+        "broker_time_shift_min": 0,
+        "raw_source_mode": "HISTORICAL_RAW",
+        "raw_data_visibility": "MT5_RAW_ALIGNED",
+    }
+
+    _aliases = {
+        "db_path": "tick_db",
+        "tick_db_path": "tick_db",
+        "summary_path": "summary_json",
+        "output_dir": "output",
+        "raw_time_shift_min": "broker_time_shift_min",
+        "time_shift_min": "broker_time_shift_min",
+        "data_visibility": "raw_data_visibility",
+        "source_mode": "raw_source_mode",
+    }
+
+    def __init__(self, *args, **kwargs):
+        values = dict(self._defaults)
+        for key, value in zip(self._ordered_fields, args):
+            values[key] = value
+        for key, value in kwargs.items():
+            values[self._aliases.get(key, key)] = value
+        for key, value in values.items():
+            setattr(self, key, value)
+
+    def as_dict(self):
+        return dict(self.__dict__)
+
+    def to_dict(self):
+        return self.as_dict()
+# --- T0103_RAW_CALIBRATION_API_COMPAT_SHIM_END ---
+

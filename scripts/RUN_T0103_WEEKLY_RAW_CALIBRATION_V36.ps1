@@ -66,6 +66,7 @@ foreach ($f in $selected) {
     --broker-time-shift-min $BrokerTimeShiftMin `
     --raw-source-mode $RawSourceMode `
     --raw-data-visibility $RawDataVisibility
+    if ($LASTEXITCODE -ne 0) { throw "Raw calibration failed for $safe" }
 }
 
 $reportMd = Join-Path $OutputRoot "B9_WEEK_CALIBRATION_RESULTS_20260504_20260515.md"
@@ -78,6 +79,7 @@ python .\tools\make_t0103_weekly_raw_calibration_report.py `
   --symbol $Symbol `
   --broker $Broker `
   --shift-min $BrokerTimeShiftMin
+if ($LASTEXITCODE -ne 0) { throw "Weekly report aggregation failed" }
 
 $zip = Join-Path (Split-Path $OutputRoot -Parent) "B9_RAW_CALIBRATION_OUTPUTS_20260504_20260515_V36.zip"
 if (Test-Path $zip) { Remove-Item $zip -Force }
