@@ -176,6 +176,22 @@ def _connect_read_only(db_path: str | Path) -> sqlite3.Connection:
     return sqlite3.connect(uri, uri=True)
 
 
+def _row_get(row: Mapping[str, Any], key: str, default: Any = None) -> Any:
+    try:
+        keys = row.keys() if hasattr(row, "keys") else []
+        if key not in keys:
+            return default
+        return row[key]
+    except (KeyError, IndexError, TypeError):
+        return default
+
+
+def _tick_stream_columns(con: sqlite3.Connection) -> set[str]:
+    cur = con.cursor()
+    cur.execute("PRAGMA table_info(tick_stream)")
+    return {str(row[1]) for row in cur.fetchall()}
+
+
 def _read_raw_ticks(
     db_path: str | Path,
     symbol: str,
@@ -186,19 +202,37 @@ def _read_raw_ticks(
     con = _connect_read_only(db_path)
     con.row_factory = sqlite3.Row
     try:
-        cur = con.cursor()
-        cur.execute(
-            """
-            SELECT ts_utc, bid, ask, mid, spread, gap_ms, time_msc
+        columns = _tick_stream_columns(con)
+        required = {"symbol", "source_mode", "ts_utc"}
+        missing = required - columns
+        if missing:
+            raise sqlite3.OperationalError(
+                "tick_stream schema missing required columns: " + ", ".join(sorted(missing))
+            )
+
+        optional_columns = ["bid", "ask", "mid", "spread", "gap_ms", "time_msc", "capture_seq"]
+        select_columns = ["ts_utc"] + [c for c in optional_columns if c in columns]
+
+        order_columns = ["ts_utc"]
+        if "capture_seq" in columns:
+            order_columns.append("capture_seq")
+        elif "time_msc" in columns:
+            order_columns.append("time_msc")
+        else:
+            order_columns.append("rowid")
+
+        sql = f"""
+            SELECT {', '.join(select_columns)}
             FROM tick_stream
             WHERE symbol = ?
               AND source_mode = ?
               AND ts_utc >= ?
               AND ts_utc < ?
-            ORDER BY ts_utc, capture_seq
-            """,
-            (symbol, source_mode, iso_utc(raw_start), iso_utc(raw_end)),
-        )
+            ORDER BY {', '.join(order_columns)}
+        """
+
+        cur = con.cursor()
+        cur.execute(sql, (symbol, source_mode, iso_utc(raw_start), iso_utc(raw_end)))
         return list(cur.fetchall())
     finally:
         con.close()
@@ -217,18 +251,18 @@ def _coverage_from_ticks(ticks: Sequence[sqlite3.Row], raw_start: datetime, raw_
 
 
 def _mid(row: Mapping[str, Any]) -> Optional[float]:
-    mid = to_float(row["mid"])
+    mid = to_float(_row_get(row, "mid"))
     if mid is not None and mid != 0.0:
         return mid
-    bid = to_float(row["bid"])
-    ask = to_float(row["ask"])
+    bid = to_float(_row_get(row, "bid"))
+    ask = to_float(_row_get(row, "ask"))
     if bid is not None and ask is not None and bid != 0.0 and ask != 0.0:
         return (bid + ask) / 2.0
     return None
 
 
 def _spread_pips(row: Mapping[str, Any], pip_size: float) -> Optional[float]:
-    spread = to_float(row["spread"])
+    spread = to_float(_row_get(row, "spread"))
     if spread is None or spread == 0.0:
         bid = to_float(row["bid"])
         ask = to_float(row["ask"])
@@ -243,14 +277,14 @@ def _gap_ms_values(ticks: Sequence[sqlite3.Row]) -> List[int]:
     gaps: List[int] = []
     prev_msc: Optional[int] = None
     for row in ticks:
-        gap = row["gap_ms"] if "gap_ms" in row.keys() else None
+        gap = _row_get(row, "gap_ms")
         if gap is not None:
             try:
                 gaps.append(int(gap))
                 continue
             except (TypeError, ValueError):
                 pass
-        msc = row["time_msc"] if "time_msc" in row.keys() else None
+        msc = _row_get(row, "time_msc")
         try:
             current = int(msc) if msc is not None else None
         except (TypeError, ValueError):
