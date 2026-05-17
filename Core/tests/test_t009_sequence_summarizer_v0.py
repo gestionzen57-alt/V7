@@ -222,7 +222,7 @@ def test_scene_id_generation():
 def test_session_chapter_assignment():
     summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
     chapters = {m["session_chapter"] for m in summary["moments"]}
-    assert "Decision de zone" in chapters or "Migration de centre" in chapters
+    assert "Décision de zone" in chapters or "Migration de centre" in chapters
     assert summary["session_scene"]["scene_id"] == "B9SESSION-001"
 
 
@@ -242,14 +242,14 @@ def test_export_json(tmp_path):
     assert out.exists()
     data = json.loads(out.read_text(encoding="utf-8"))
     assert data["module"] == "pf_t009_sequence_summarizer"
-    assert data["version"] == "V3"
+    assert data["version"] == "V3.1"
 
 
 def test_export_markdown(tmp_path):
     summary = summarize_events(state(), [ev("2026-05-11T10:00:00Z", 1.3600)])
     out = export_markdown(summary, tmp_path / "summary.md")
     text = out.read_text(encoding="utf-8")
-    assert "# T009 Sequence Summary V3" in text
+    assert "# T009 Sequence Summary V3.1" in text
     assert "Ce qui se passe" in text
 
 
@@ -353,3 +353,113 @@ def test_french_labels_have_accents():
     assert "gravité" in labels
     summary_effort = summarize_events(state(), [ev(f"2026-05-11T11:0{i}:00Z", 1.3600 + i * 0.00001, absorption=0.84, failed=0.81, dwell=0.5, compression=0.5) for i in range(4)])
     assert "résultat" in summary_effort["moments"][0]["label_fr"]
+
+
+def test_source_profile_is_mandatory_and_cautious_for_m1_proxy():
+    summary = summarize_events(state(), [ev("2026-05-11T10:00:00Z", 1.3600)])
+    assert summary["source"]["source_profile"]["quality"] == "PROXY_CAUTION"
+    moment = summary["moments"][0]
+    assert moment["source_profile"]["source_mode"] == "M1_BAR_PROXY"
+    assert "lecture reconstruite" in moment["source_profile"]["language_fr"].lower()
+
+
+def test_zone_memory_object_minimal_fields_v31():
+    summary = summarize_events(state(), [ev("2026-05-11T10:00:00Z", 1.3600)])
+    zone_memory = summary["moments"][0]["zone_memory"]
+    for key in ["zone_low", "zone_high", "zone_center_start", "zone_center_end", "state", "source_mode", "data_visibility", "confidence_cap"]:
+        assert key in zone_memory
+
+
+def test_parent_scene_base_reaction_projection_judgment_v31():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    parent = summary["moments"][0]["parent_scene"]
+    assert parent["model"] == "base -> réaction -> projection -> jugement"
+    for key in ["base_fr", "reaction_fr", "projection_fr", "judgment_fr", "read_only"]:
+        assert key in parent
+    assert parent["read_only"] is True
+
+
+def test_effort_role_fuel_brake_absorption_v31():
+    progressive = summarize_events(
+        state(),
+        [ev(f"2026-05-11T10:0{i}:00Z", 1.3600 + i * 0.00012, absorption=0.5, failed=0.3, dwell=0.4, compression=0.4, pressure=0.7) for i in range(5)],
+        price_merge_pips=20,
+    )["moments"][0]
+    absorbed = summarize_events(
+        state(),
+        [ev(f"2026-05-11T11:0{i}:00Z", 1.3600 + i * 0.00001, absorption=0.84, failed=0.81, dwell=0.5, compression=0.5) for i in range(4)],
+    )["moments"][0]
+    shelf = summarize_events(
+        state(),
+        [ev(f"2026-05-11T12:0{i}:00Z", 1.3600 + i * 0.00002, absorption=0.6, failed=0.4, dwell=0.86, compression=0.88) for i in range(5)],
+    )["moments"][0]
+    assert progressive["effort_role"] == "FUEL"
+    assert absorbed["effort_role"] == "ABSORPTION"
+    assert shelf["effort_role"] == "BRAKE"
+
+
+def test_retest_status_pending_failed_accepted_v31():
+    pending = summarize_events(
+        state(),
+        [ev(f"2026-05-11T10:0{i}:00Z", 1.3600 + (0.0007 if i == 2 else i * 0.00001), absorption=0.4, failed=0.3, pressure=0.8) for i in range(4)],
+        price_merge_pips=20,
+    )["moments"][0]
+    failed_events = [ev(f"2026-05-11T10:0{i}:00Z", 1.3600 + i * 0.0002, pressure=0.8) for i in range(4)]
+    failed_events += [ev(f"2026-05-11T10:1{i}:00Z", 1.3606 - i * 0.0002, pressure=0.8) for i in range(4)]
+    failed_summary = summarize_events(state(), failed_events, price_merge_pips=20)
+    statuses = {m["retest_status"] for m in failed_summary["moments"]}
+    assert pending["retest_status"] in {"PENDING", "ACCEPTED", "NOT_ISOLATED"}
+    assert "FAILED" in statuses or "PENDING" in statuses or "ACCEPTED" in statuses
+
+
+def test_cli_replay_report_remaps_exported_moment_times(tmp_path):
+    import subprocess
+
+    state_path = tmp_path / "state.json"
+    events_path = tmp_path / "events.json"
+    replay_path = tmp_path / "replay.json"
+    out_dir = tmp_path / "out"
+    state_path.write_text(json.dumps(state()), encoding="utf-8")
+    events_path.write_text(json.dumps([ev("2026-05-16T23:11:00Z", 1.3600)]), encoding="utf-8")
+    replay_path.write_text(json.dumps({"shifted_start_utc": "2026-05-16T23:11:00Z", "original_start_utc": "2026-05-15T08:00:00Z"}), encoding="utf-8")
+    cmd = [sys.executable, str(ROOT / "run_t009_sequence_summarizer_once.py"), "--state", str(state_path), "--events", str(events_path), "--replay-report", str(replay_path), "--output", str(out_dir)]
+    subprocess.check_call(cmd)
+    exported = json.loads((out_dir / "t009_sequence_summary.json").read_text(encoding="utf-8"))
+    assert exported["moments"][0]["time_start"] == "2026-05-15T08:00:00Z"
+    md = (out_dir / "t009_sequence_summary.md").read_text(encoding="utf-8")
+    assert "08:00 UTC" in md
+
+
+def test_london_1000_1023_progressive_wave_preserved_v31():
+    centers = [1.33506, 1.33518, 1.33574, 1.33626, 1.33676, 1.33711, 1.33742]
+    events = [ev(f"2026-05-15T10:{i:02d}:00Z", c, absorption=0.55, failed=0.45, dwell=0.5, compression=0.5, pressure=0.76) for i, c in enumerate(centers)]
+    summary = summarize_events(state(), events, price_merge_pips=30)
+    assert summary["moments"][0]["moment_type"] == "T009_MOMENT_PROGRESSIVE_WAVE"
+    assert summary["moments"][0]["effort_role"] == "FUEL"
+
+
+def test_london_11_12_split_preserved_v31():
+    centers = [1.33645, 1.33590, 1.33540, 1.33516, 1.33523, 1.33465, 1.33485, 1.33533, 1.33478, 1.33460]
+    events = [ev(f"2026-05-15T11:{i:02d}:00Z", c, absorption=0.55, failed=0.45, dwell=0.5, compression=0.55, pressure=0.7) for i, c in enumerate(centers)]
+    summary = summarize_events(state(), events, price_merge_pips=30)
+    assert len(summary["moments"]) >= 2
+    assert any(m["moment_type"] == "T009_MOMENT_CENTER_MIGRATION_DOWN" for m in summary["moments"])
+
+
+def test_no_decision_language_in_export_v31():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    combined = (json.dumps(summary, ensure_ascii=False) + render_markdown(summary)).lower()
+    for forbidden in ["achat", "vente", "entrée", "signal confirmé", "résistance confirmée", "vendeur limite confirmé", "footprint exact en m1 proxy"]:
+        assert forbidden not in combined
+
+
+def test_no_db_write_no_telegram_dashboard_b8_imports_v31():
+    source = (ROOT / "pf_t009_sequence_summarizer.py").read_text(encoding="utf-8").lower()
+    runner = (ROOT / "run_t009_sequence_summarizer_once.py").read_text(encoding="utf-8").lower()
+    combined = source + runner
+    assert "sqlite3" not in combined
+    assert "powerflow.db" not in combined
+    assert "tick_archive.db" not in combined
+    assert "telegram" not in combined
+    assert "dashboard" not in combined
+    assert "b8" not in combined

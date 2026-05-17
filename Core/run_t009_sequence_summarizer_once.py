@@ -1,4 +1,4 @@
-"""CLI runner for T009 Sequence Summarizer V3 / B9."""
+"""CLI runner for T009 Sequence Summarizer V3.1 / B9."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from pf_t009_sequence_summarizer import summarize_files
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="T009 Sequence Summarizer V3")
+    parser = argparse.ArgumentParser(description="T009 Sequence Summarizer V3.1")
     parser.add_argument("--state", required=True, help="Path to battlefield_flux_state.json")
     parser.add_argument("--events", required=True, help="Path to battlefield_flux_events.json")
     parser.add_argument("--output", required=True, help="Output directory for t009_sequence_summary artifacts")
@@ -37,7 +37,7 @@ def main() -> int:
     source = summary.get("source", {})
     moments = summary.get("moments", [])
 
-    print("T009 Sequence Summarizer V3")
+    print("T009 Sequence Summarizer V3.1")
     print(f"Events loaded: {source.get('event_count', 0)}")
     print(f"Moments detected: {len(moments)}")
     print(f"Output JSON: {Path(result['json_path'])}")
