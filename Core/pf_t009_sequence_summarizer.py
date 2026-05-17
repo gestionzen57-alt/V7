@@ -1,4 +1,4 @@
-"""T009 Sequence Summarizer V3 / B9.
+"""T009 Sequence Summarizer V3.1 / B9.
 
 Read-only transformation layer:
 raw T009 battlefield events -> compact human-readable B9 moments.
@@ -9,7 +9,7 @@ Scope:
 - V2: scene causality fields.
 - V3: fractal scene chaptering.
 
-The module does not import engine, dashboard, telegram, or database writers.
+The module does not import engine, UI surface, external alert surface, or database writers.
 It only reads JSON files and writes summary artifacts requested by the caller.
 """
 
@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 MODULE_NAME = "pf_t009_sequence_summarizer"
-VERSION = "V3"
+VERSION = "V3.1"
 DEFAULT_PIP_SIZE = 0.0001
 DEFAULT_MAX_GAP_SEC = 300
 DEFAULT_PRICE_MERGE_PIPS = 5.0
@@ -43,15 +43,15 @@ MOMENT_LABELS_FR: Dict[str, str] = {
 }
 
 MOMENT_CHAPTERS_FR: Dict[str, str] = {
-    "T009_MOMENT_EFFORT_WITHOUT_RESULT": "Decision de zone",
+    "T009_MOMENT_EFFORT_WITHOUT_RESULT": "Décision de zone",
     "T009_MOMENT_ABSORPTION_SHELF": "Construction de shelf",
     "T009_MOMENT_CENTER_MIGRATION_UP": "Migration de centre",
     "T009_MOMENT_CENTER_MIGRATION_DOWN": "Migration de centre",
-    "T009_MOMENT_PROGRESSIVE_WAVE": "Memoire deplacee",
+    "T009_MOMENT_PROGRESSIVE_WAVE": "Mémoire déplacée",
     "T009_MOMENT_CORRECTIVE_WAVE": "Respiration",
     "T009_MOMENT_BREAKOUT_PENDING_RETEST": "Test / retest",
     "T009_MOMENT_BREAK_RETEST_FAILED": "Test / retest",
-    "T009_MOMENT_RETRACE_DECISION_AREA": "Decision de zone",
+    "T009_MOMENT_RETRACE_DECISION_AREA": "Décision de zone",
     "T009_MOMENT_FLOW_BREATHING": "Respiration",
     "T009_MOMENT_GENERIC_BATTLEFIELD": "Ouverture / transition",
 }
@@ -110,6 +110,7 @@ class Moment:
     center_max: Optional[float]
     center_delta_pips: float
     center_range_pips: float
+    center_path: List[float]
     max_favorable_excursion_pips: float
     max_adverse_excursion_pips: float
     migration_direction: str
@@ -128,6 +129,11 @@ class Moment:
     how_detected_fr: str
     evidence_fr: List[str]
     limits_fr: List[str]
+    source_profile: Dict[str, Any]
+    effort_role: str
+    retest_status: str
+    memory_state: str
+    zone_memory: Dict[str, Any]
     # V1 why/how narrative fields.
     what_happens_fr: str
     how_it_happened_fr: str
@@ -143,7 +149,7 @@ class Moment:
     # V3 fractal scene fields.
     scene_id: str
     scene_role: str
-    parent_scene: Optional[str]
+    parent_scene: Dict[str, Any]
     child_moments: List[str]
     session_chapter: str
     fractal_reading_fr: str
@@ -436,6 +442,7 @@ def _split_group_on_center_inflexion(
     end = values[-1]
     max_idx = max(range(len(values)), key=values.__getitem__)
     min_idx = min(range(len(values)), key=values.__getitem__)
+    center_range_pips = (max(values) - min(values)) / pip_size
 
     up_excursion = (values[max_idx] - start) / pip_size
     up_retrace = (values[max_idx] - end) / pip_size
@@ -457,6 +464,23 @@ def _split_group_on_center_inflexion(
         and len(values) - (min_idx + 1) >= min_leg_events
     ):
         candidates.append((down_excursion + down_retrace, min_idx + 1))
+
+    # V3.1: also split multi-turn paths even when the final endpoint makes a
+    # new extreme. London 11:00-12:00 showed migration -> partial reaction ->
+    # renewed pressure; endpoint-only logic still fused that into one moment.
+    signed_steps: List[Tuple[int, int, float]] = []
+    for i in range(1, len(values)):
+        step_pips = (values[i] - values[i - 1]) / pip_size
+        if abs(step_pips) >= retrace_pips:
+            signed_steps.append((i, 1 if step_pips > 0 else -1, abs(step_pips)))
+    previous_sign: Optional[int] = None
+    for idx, sign, magnitude in signed_steps:
+        if previous_sign is not None and sign != previous_sign:
+            split_at = idx
+            if split_at >= min_leg_events and len(values) - split_at >= min_leg_events and center_range_pips >= inflexion_pips:
+                candidates.append((center_range_pips + magnitude, split_at))
+                break
+        previous_sign = sign
 
     if not candidates:
         return [group]
@@ -512,8 +536,96 @@ def _source_limits(source_mode: Optional[str], data_visibility: Optional[str], c
     return result
 
 
+
+
+def _source_profile(source_mode: Optional[str], data_visibility: Optional[str], confidence_cap: Optional[float]) -> Dict[str, Any]:
+    """Return mandatory source profile for source-aware B9 language."""
+    source_mode = source_mode or "UNKNOWN"
+    data_visibility = data_visibility or "UNKNOWN"
+    cautious = source_mode == "M1_BAR_PROXY" or data_visibility == "RECONSTRUCTED"
+    if cautious:
+        quality = "PROXY_CAUTION"
+        language = "Lecture reconstruite M1_BAR_PROXY : utile pour scène, centre et effort/résultat ; pas un footprint raw tick complet."
+    elif source_mode in {"ONTICK_RAW", "HISTORICAL_RAW"}:
+        quality = "RAW_AVAILABLE"
+        language = "Lecture raw tick disponible : le microfilm est plus précis, mais B9 reste une lecture de situation."
+    else:
+        quality = "UNKNOWN_SOURCE"
+        language = "Source incomplète : B9 conserve la lecture mais limite la force de qualification."
+    return {
+        "source_mode": source_mode,
+        "data_visibility": data_visibility,
+        "confidence_cap": confidence_cap,
+        "quality": quality,
+        "language_fr": language,
+        "limitations": _source_limits(source_mode, data_visibility, confidence_cap),
+    }
+
+
+def _classify_effort_role(moment_type: str, metrics: Dict[str, Any]) -> str:
+    center_range = metrics.get("center_range_pips") or 0.0
+    delta = metrics.get("center_delta_pips") or 0.0
+    favorable = metrics.get("max_favorable_excursion_pips") or 0.0
+    adverse = metrics.get("max_adverse_excursion_pips") or 0.0
+    absorption = metrics.get("avg_absorption_score") or 0.0
+    failed = metrics.get("avg_failed_displacement_score") or 0.0
+    if moment_type == "T009_MOMENT_PROGRESSIVE_WAVE" or (abs(delta) >= 4.0 and favorable >= 4.0):
+        return "FUEL"
+    if absorption >= 0.70 and failed >= 0.65 and center_range < 4.0:
+        return "ABSORPTION"
+    if moment_type in {"T009_MOMENT_ABSORPTION_SHELF", "T009_MOMENT_RETRACE_DECISION_AREA"}:
+        return "BRAKE"
+    if center_range >= 6.0 and favorable >= 4.0 and adverse >= 1.5:
+        return "MIXED_PATH"
+    return "LOCAL_TRACE"
+
+
+def _infer_retest_status(moment_type: str, metrics: Dict[str, Any], previous_metrics: Optional[Dict[str, Any]]) -> str:
+    if moment_type == "T009_MOMENT_BREAK_RETEST_FAILED":
+        return "FAILED"
+    if moment_type == "T009_MOMENT_BREAKOUT_PENDING_RETEST":
+        return "PENDING"
+    if previous_metrics and _zone_overlap(metrics, previous_metrics):
+        if moment_type in {"T009_MOMENT_PROGRESSIVE_WAVE", "T009_MOMENT_CENTER_MIGRATION_UP", "T009_MOMENT_CENTER_MIGRATION_DOWN"}:
+            return "ACCEPTED"
+        return "ACTIVE_RETEST"
+    if moment_type == "T009_MOMENT_RETRACE_DECISION_AREA":
+        return "PENDING"
+    return "NOT_ISOLATED"
+
+
+def _infer_memory_state(moment_type: str, metrics: Dict[str, Any], retest_status: str) -> str:
+    direction = metrics.get("migration_direction")
+    if moment_type == "T009_MOMENT_ABSORPTION_SHELF":
+        return "STABLE_MEMORY"
+    if direction == "UP":
+        return "MEMORY_SHIFT_UP"
+    if direction == "DOWN":
+        return "MEMORY_SHIFT_DOWN"
+    if retest_status == "FAILED":
+        return "MEMORY_REJECTED"
+    if retest_status == "PENDING":
+        return "MEMORY_PENDING_JUDGMENT"
+    return "LOCAL_MEMORY_ACTIVE"
+
+
+def _build_zone_memory(metrics: Dict[str, Any], memory_state: str) -> Dict[str, Any]:
+    return {
+        "zone_low": _round_or_none(metrics.get("zone_low"), 6),
+        "zone_high": _round_or_none(metrics.get("zone_high"), 6),
+        "zone_center_start": _round_or_none(metrics.get("center_start"), 6),
+        "zone_center_end": _round_or_none(metrics.get("center_end"), 6),
+        "state": memory_state,
+        "event_count": metrics.get("event_count", 0),
+        "source_mode": metrics.get("source_mode"),
+        "data_visibility": metrics.get("data_visibility"),
+        "confidence_cap": _round_or_none(metrics.get("confidence_cap"), 4),
+    }
+
+
 def _metrics_for_group(group: Sequence[NormalizedEvent], pip_size: float = DEFAULT_PIP_SIZE) -> Dict[str, Any]:
     centers = [e.zone_center for e in group if e.zone_center is not None]
+    center_path = [round(float(e.zone_center), 6) for e in group if e.zone_center is not None]
     lows = [e.zone_low for e in group if e.zone_low is not None]
     highs = [e.zone_high for e in group if e.zone_high is not None]
     center_start = centers[0] if centers else None
@@ -558,6 +670,7 @@ def _metrics_for_group(group: Sequence[NormalizedEvent], pip_size: float = DEFAU
         "center_max": center_max,
         "center_delta_pips": center_delta_pips,
         "center_range_pips": center_range_pips,
+        "center_path": center_path,
         "max_favorable_excursion_pips": max_favorable_excursion_pips,
         "max_adverse_excursion_pips": max_adverse_excursion_pips,
         "up_excursion_pips": up_excursion_pips,
@@ -845,17 +958,25 @@ def _build_v3_text(moment_type: str, metrics: Dict[str, Any], index: int) -> Dic
     chapter = MOMENT_CHAPTERS_FR.get(moment_type, "Ouverture / transition")
     role = MOMENT_ROLES_FR.get(moment_type, "transition_locale")
     scene_id = f"B9SC-{index:03d}"
-    parent_scene = "B9SESSION-001"
+    parent_scene = {
+        "scene_id": "B9SESSION-001",
+        "model": "base -> réaction -> projection -> jugement",
+        "base_fr": "zone de mémoire locale",
+        "reaction_fr": "réaction du centre et du chemin interne",
+        "projection_fr": "extension ou respiration mesurée par le centre",
+        "judgment_fr": "jugement par retest ou par absence de progrès durable",
+        "read_only": True,
+    }
     if moment_type in ("T009_MOMENT_CENTER_MIGRATION_UP", "T009_MOMENT_CENTER_MIGRATION_DOWN"):
-        fractal = "Les traces locales ne sont pas isolees : chaque palier devient la cause possible du palier suivant."
+        fractal = "Les traces locales ne sont pas isolées : chaque palier devient la cause possible du palier suivant."
     elif moment_type == "T009_MOMENT_ABSORPTION_SHELF":
-        fractal = "Le microfilm construit une etagere locale qui peut devenir le pivot du chapitre suivant."
+        fractal = "Le microfilm construit une étagère locale qui peut devenir le pivot du chapitre suivant."
     elif moment_type in ("T009_MOMENT_BREAKOUT_PENDING_RETEST", "T009_MOMENT_BREAK_RETEST_FAILED"):
-        fractal = "Le moment local sert de juge : la scene ne vaut que par sa reaction au retour."
+        fractal = "Le moment local sert de juge : la scène ne vaut que par sa réaction au retour."
     elif moment_type == "T009_MOMENT_FLOW_BREATHING":
-        fractal = "La respiration locale relie une sequence dense a la prochaine decision de zone."
+        fractal = "La respiration locale relie une séquence dense à la prochaine décision de zone."
     else:
-        fractal = "Le microfilm devient moment, le moment devient piece d'une scene de session."
+        fractal = "Le microfilm devient moment, le moment devient pièce d'une scène de session."
     return {
         "scene_id": scene_id,
         "scene_role": role,
@@ -879,6 +1000,11 @@ def build_moments(groups: Sequence[Sequence[NormalizedEvent]], pip_size: float =
         v2 = _build_v2_text(moment_type, metrics, previous_metrics, previous_type)
         v3 = _build_v3_text(moment_type, metrics, index)
         limits = _source_limits(metrics.get("source_mode"), metrics.get("data_visibility"), metrics.get("confidence_cap"))
+        source_profile = _source_profile(metrics.get("source_mode"), metrics.get("data_visibility"), metrics.get("confidence_cap"))
+        effort_role = _classify_effort_role(moment_type, metrics)
+        retest_status = _infer_retest_status(moment_type, metrics, previous_metrics)
+        memory_state = _infer_memory_state(moment_type, metrics, retest_status)
+        zone_memory = _build_zone_memory(metrics, memory_state)
         moments.append(
             Moment(
                 moment_id=f"T009M-{index:03d}",
@@ -894,6 +1020,7 @@ def build_moments(groups: Sequence[Sequence[NormalizedEvent]], pip_size: float =
                 center_max=_round_or_none(metrics["center_max"], 6),
                 center_delta_pips=round(metrics["center_delta_pips"], 2),
                 center_range_pips=round(metrics["center_range_pips"], 2),
+                center_path=metrics.get("center_path", []),
                 max_favorable_excursion_pips=round(metrics["max_favorable_excursion_pips"], 2),
                 max_adverse_excursion_pips=round(metrics["max_adverse_excursion_pips"], 2),
                 migration_direction=metrics["migration_direction"],
@@ -912,6 +1039,11 @@ def build_moments(groups: Sequence[Sequence[NormalizedEvent]], pip_size: float =
                 how_detected_fr=how,
                 evidence_fr=evidence,
                 limits_fr=limits,
+                source_profile=source_profile,
+                effort_role=effort_role,
+                retest_status=retest_status,
+                memory_state=memory_state,
+                zone_memory=zone_memory,
                 what_happens_fr=v1["what_happens_fr"],
                 how_it_happened_fr=v1["how_it_happened_fr"],
                 mechanism_fr=v1["mechanism_fr"],
@@ -952,6 +1084,7 @@ def _source_summary(state: Dict[str, Any], events: Sequence[NormalizedEvent], st
     data_visibility = _dominant(e.data_visibility for e in events) or _nested_get(state, "data_visibility", "source.data_visibility")
     confidence_values = [e.confidence_cap for e in events if e.confidence_cap is not None]
     confidence_cap = min(confidence_values) if confidence_values else _to_float(_nested_get(state, "confidence_cap", "source.confidence_cap"))
+    profile = _source_profile(str(source_mode) if source_mode is not None else None, str(data_visibility) if data_visibility is not None else None, confidence_cap)
     return {
         "state_file": str(state_file),
         "events_file": str(events_file),
@@ -959,6 +1092,7 @@ def _source_summary(state: Dict[str, Any], events: Sequence[NormalizedEvent], st
         "source_mode": source_mode,
         "data_visibility": data_visibility,
         "confidence_cap": confidence_cap,
+        "source_profile": profile,
     }
 
 
@@ -999,7 +1133,7 @@ def render_markdown(summary: Dict[str, Any]) -> str:
     moments = summary.get("moments", [])
     session = summary.get("session_scene", {})
     lines: List[str] = [
-        "# T009 Sequence Summary V3",
+        "# T009 Sequence Summary V3.1",
         "",
         "## Resume",
         f"- Version : {summary.get('version')}",
@@ -1008,8 +1142,10 @@ def render_markdown(summary: Dict[str, Any]) -> str:
         f"- Source mode : {source.get('source_mode') or 'UNKNOWN'}",
         f"- Data visibility : {source.get('data_visibility') or 'UNKNOWN'}",
         f"- Confidence cap : {source.get('confidence_cap')}",
-        "- Limites : lecture B9 read-only, sans moteur, sans Telegram, sans dashboard, sans croisement B8.",
-        "- Cap : B9 cherche la trace laissee par l'effort, pas un signal.",
+        "- Limites : lecture B9 read-only, sans moteur, sans surfaces externes, sans fusion multi-devise prématurée.",
+        f"- Source profile : {source.get('source_profile', {}).get('quality', 'UNKNOWN')}",
+        f"- Langage source : {source.get('source_profile', {}).get('language_fr', '')}",
+        "- Cap : B9 cherche la trace laissée par l'effort, pas une instruction.",
         "",
         "## Scene de session",
         f"- Scene : {session.get('scene_id', 'B9SESSION-001')}",
@@ -1035,10 +1171,16 @@ def render_markdown(summary: Dict[str, Any]) -> str:
             f"**Titre :** {moment.get('label_fr')}",
             f"**Type interne :** `{moment.get('moment_type')}`",
             f"**Scene :** `{moment.get('scene_id')}` / role `{moment.get('scene_role')}`",
+            f"**Parent scene :** {moment.get('parent_scene', {})}",
             f"**Chapitre :** {moment.get('session_chapter')}",
             f"**Zone :** {moment.get('zone_low')} -> {moment.get('zone_high')}",
             f"**Centre :** {moment.get('center_start')} -> {moment.get('center_end')} | min {moment.get('center_min')} | max {moment.get('center_max')}",
             f"**Chemin centre :** range {moment.get('center_range_pips')} pips | excursion favorable {moment.get('max_favorable_excursion_pips')} pips | adverse {moment.get('max_adverse_excursion_pips')} pips",
+            f"**Center path :** {moment.get('center_path', [])}",
+            f"**Effort role :** {moment.get('effort_role')}",
+            f"**Retest status :** {moment.get('retest_status')}",
+            f"**Memory state :** {moment.get('memory_state')}",
+            f"**Zone memory :** {moment.get('zone_memory', {})}",
             "",
             "**Ce qui se passe**",
             moment.get("what_happens_fr") or moment.get("reading_fr", ""),
@@ -1072,7 +1214,7 @@ def render_markdown(summary: Dict[str, Any]) -> str:
             lines.append(f"- {item}")
         if moment.get("proof_summary_fr"):
             lines.append(f"- resume preuve : {moment.get('proof_summary_fr')}")
-        lines.extend(["", "**Limites**"])
+        lines.extend(["", "**Source profile**", str(moment.get("source_profile", {})), "", "**Limites**"])
         for item in moment.get("limits_fr", []):
             lines.append(f"- {item}")
         lines.append("")
@@ -1142,6 +1284,12 @@ def validate_summary_contract(summary: Dict[str, Any]) -> List[str]:
             "scene_role",
             "session_chapter",
             "fractal_reading_fr",
+            "source_profile",
+            "effort_role",
+            "retest_status",
+            "memory_state",
+            "zone_memory",
+            "center_path",
             "source_mode",
             "data_visibility",
             "confidence_cap",

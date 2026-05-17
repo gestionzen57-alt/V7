@@ -263,3 +263,11 @@ Règle de cap :
 ```text
 Ne juge pas seulement le début et la fin. Lis le chemin du centre dans le groupe.
 ```
+
+---
+
+## Addendum V3.1 — Replay Time & Parent Scenes
+
+V3.1 ajoute un patch court : timestamps replay corrigés, `source_profile`, `center_path`, `effort_role`, `retest_status`, `memory_state`, `zone_memory` minimal et `parent_scene` read-only selon le modèle `base -> réaction -> projection -> jugement`.
+
+Le patch reste read-only, sans DB write, sans moteur, sans surface externe et sans fusion multi-devise prématurée.
