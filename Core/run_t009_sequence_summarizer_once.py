@@ -16,6 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--max-gap-sec", type=int, default=300, help="Max seconds between events in one moment")
     parser.add_argument("--price-merge-pips", type=float, default=5.0, help="Max center distance in pips inside one moment")
     parser.add_argument("--pip-size", type=float, default=0.0001, help="Pip size used for center migration")
+    parser.add_argument("--replay-report", default=None, help="Optional replay report JSON with shifted_start_utc/original_start_utc")
     return parser
 
 
@@ -30,6 +31,7 @@ def main() -> int:
         max_gap_sec=args.max_gap_sec,
         price_merge_pips=args.price_merge_pips,
         pip_size=args.pip_size,
+        replay_report_file=args.replay_report,
     )
     summary = result["summary"]
     source = summary.get("source", {})

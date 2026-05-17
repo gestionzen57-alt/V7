@@ -235,3 +235,31 @@ Couverture :
 - V1+ : enrichir les phrases par type de scene avec exemples terrain.
 - V2+ : durcir causalite de retest et deplacement memoire.
 - V3+ : chaptering multi-timeframe quand B9 sera pret a dialoguer avec une couche superieure, sans croisement B8 premature.
+
+## Addendum V0.1 — London validation hotfix
+
+La V0.1 corrige une limite de la V0/V3 : la classification ne doit pas seulement comparer le premier et le dernier centre du groupe. Elle doit lire le chemin interne.
+
+Nouveaux champs :
+
+```text
+center_min
+center_max
+center_range_pips
+max_favorable_excursion_pips
+max_adverse_excursion_pips
+```
+
+Temps historique :
+
+```text
+1. evidence.L1_raw.first_ts_utc
+2. timestamp / ts_utc fallback
+3. --replay-report pour shifted_start_utc -> original_start_utc
+```
+
+Règle de cap :
+
+```text
+Ne juge pas seulement le début et la fin. Lis le chemin du centre dans le groupe.
+```

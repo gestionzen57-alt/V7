@@ -29,17 +29,17 @@ DEFAULT_MAX_GAP_SEC = 300
 DEFAULT_PRICE_MERGE_PIPS = 5.0
 
 MOMENT_LABELS_FR: Dict[str, str] = {
-    "T009_MOMENT_EFFORT_WITHOUT_RESULT": "Effort sans resultat",
-    "T009_MOMENT_ABSORPTION_SHELF": "Palier d'absorption / etagere d'equilibre",
-    "T009_MOMENT_CENTER_MIGRATION_UP": "Centre de gravite qui monte",
-    "T009_MOMENT_CENTER_MIGRATION_DOWN": "Centre de gravite qui descend",
+    "T009_MOMENT_EFFORT_WITHOUT_RESULT": "Effort sans résultat",
+    "T009_MOMENT_ABSORPTION_SHELF": "Palier d'absorption / étagère d'équilibre",
+    "T009_MOMENT_CENTER_MIGRATION_UP": "Centre de gravité qui monte",
+    "T009_MOMENT_CENTER_MIGRATION_DOWN": "Centre de gravité qui descend",
     "T009_MOMENT_PROGRESSIVE_WAVE": "Vague progressive",
     "T009_MOMENT_CORRECTIVE_WAVE": "Vague corrective",
     "T009_MOMENT_BREAKOUT_PENDING_RETEST": "Cassure en attente de jugement",
-    "T009_MOMENT_BREAK_RETEST_FAILED": "Retest echoue",
-    "T009_MOMENT_RETRACE_DECISION_AREA": "Zone de decision au retracement",
+    "T009_MOMENT_BREAK_RETEST_FAILED": "Retest échoué",
+    "T009_MOMENT_RETRACE_DECISION_AREA": "Zone de décision au retracement",
     "T009_MOMENT_FLOW_BREATHING": "Respiration du flux",
-    "T009_MOMENT_GENERIC_BATTLEFIELD": "Moment de bataille local",
+    "T009_MOMENT_GENERIC_BATTLEFIELD": "Zone de friction locale",
 }
 
 MOMENT_CHAPTERS_FR: Dict[str, str] = {
@@ -106,8 +106,12 @@ class Moment:
     zone_high: Optional[float]
     center_start: Optional[float]
     center_end: Optional[float]
+    center_min: Optional[float]
+    center_max: Optional[float]
     center_delta_pips: float
     center_range_pips: float
+    max_favorable_excursion_pips: float
+    max_adverse_excursion_pips: float
     migration_direction: str
     event_count: int
     avg_absorption_score: Optional[float]
@@ -179,6 +183,42 @@ def load_events(path: str | Path) -> List[Dict[str, Any]]:
         if any(k in data for k in ("event_type", "type", "timestamp", "ts_utc", "zone")):
             return [data]
     return []
+
+
+def _first_present(data: Dict[str, Any], paths: Sequence[str]) -> Any:
+    return _nested_get(data, *paths)
+
+
+def _build_time_remap(replay_report: Optional[Dict[str, Any]]) -> Optional[Tuple[datetime, datetime]]:
+    """Return (shifted_start, original_start) for replay timestamp remapping."""
+    if not isinstance(replay_report, dict) or not replay_report:
+        return None
+    shifted = _nested_get(
+        replay_report,
+        "shifted_start_utc",
+        "replay.shifted_start_utc",
+        "time_remap.shifted_start_utc",
+        "metadata.shifted_start_utc",
+    )
+    original = _nested_get(
+        replay_report,
+        "original_start_utc",
+        "replay.original_start_utc",
+        "time_remap.original_start_utc",
+        "metadata.original_start_utc",
+    )
+    shifted_dt = _parse_time(shifted)
+    original_dt = _parse_time(original)
+    if shifted_dt is None or original_dt is None:
+        return None
+    return shifted_dt, original_dt
+
+
+def _apply_time_remap(dt: Optional[datetime], time_remap: Optional[Tuple[datetime, datetime]]) -> Optional[datetime]:
+    if dt is None or time_remap is None:
+        return dt
+    shifted_start, original_start = time_remap
+    return original_start + (dt - shifted_start)
 
 
 def _nested_get(data: Dict[str, Any], *paths: str) -> Any:
@@ -255,7 +295,11 @@ def _dominant(values: Iterable[Optional[str]]) -> Optional[str]:
     return Counter(clean).most_common(1)[0][0]
 
 
-def normalize_event(event: Dict[str, Any], state_defaults: Optional[Dict[str, Any]] = None) -> NormalizedEvent:
+def normalize_event(
+    event: Dict[str, Any],
+    state_defaults: Optional[Dict[str, Any]] = None,
+    time_remap: Optional[Tuple[datetime, datetime]] = None,
+) -> NormalizedEvent:
     """Normalize one event while tolerating schema variations."""
     state_defaults = state_defaults or {}
     zone_low = _to_float(_nested_get(event, "zone.low", "zone_low", "bucket.zone_low", "price_zone.low"))
@@ -280,8 +324,20 @@ def normalize_event(event: Dict[str, Any], state_defaults: Optional[Dict[str, An
     if confidence_cap is None:
         confidence_cap = _to_float(_nested_get(state_defaults, "confidence_cap", "source.confidence_cap"))
 
-    ts_value = _nested_get(event, "ts_utc", "timestamp", "time", "created_at", "bucket.timestamp")
+    # Historical event time: prefer original raw evidence time over replay/run timestamp.
+    raw_ts_value = _nested_get(
+        event,
+        "evidence.L1_raw.first_ts_utc",
+        "evidence.l1_raw.first_ts_utc",
+        "evidence.L1_raw.ts_utc",
+        "evidence.l1_raw.ts_utc",
+        "evidence.L1_raw.timestamp",
+        "evidence.l1_raw.timestamp",
+    )
+    ts_value = raw_ts_value if raw_ts_value is not None else _nested_get(event, "ts_utc", "timestamp", "time", "created_at", "bucket.timestamp")
     dt = _parse_time(ts_value)
+    if raw_ts_value is None:
+        dt = _apply_time_remap(dt, time_remap)
 
     return NormalizedEvent(
         timestamp=_iso_utc(dt),
@@ -307,8 +363,13 @@ def normalize_event(event: Dict[str, Any], state_defaults: Optional[Dict[str, An
     )
 
 
-def normalize_events(events: Sequence[Dict[str, Any]], state: Optional[Dict[str, Any]] = None) -> List[NormalizedEvent]:
-    normalized = [normalize_event(e, state_defaults=state) for e in events]
+def normalize_events(
+    events: Sequence[Dict[str, Any]],
+    state: Optional[Dict[str, Any]] = None,
+    replay_report: Optional[Dict[str, Any]] = None,
+) -> List[NormalizedEvent]:
+    time_remap = _build_time_remap(replay_report)
+    normalized = [normalize_event(e, state_defaults=state, time_remap=time_remap) for e in events]
     normalized.sort(key=lambda e: _parse_time(e.timestamp) or datetime.min.replace(tzinfo=timezone.utc))
     return normalized
 
@@ -351,6 +412,75 @@ def group_events(
     return groups
 
 
+def _split_group_on_center_inflexion(
+    group: Sequence[NormalizedEvent],
+    pip_size: float = DEFAULT_PIP_SIZE,
+    min_leg_events: int = 2,
+    inflexion_pips: float = 4.0,
+    retrace_pips: float = 1.5,
+) -> List[List[NormalizedEvent]]:
+    """Split one large group when the center path makes a meaningful turn.
+
+    V0 was endpoint-driven. B9 V0.1 reads the path of the center inside the
+    group, so a progression followed by retrace is no longer collapsed into one
+    false effort-without-result moment.
+    """
+    group = list(group)
+    if len(group) < (min_leg_events * 2):
+        return [group]
+    centers = [event.zone_center for event in group]
+    if any(center is None for center in centers):
+        return [group]
+    values = [float(center) for center in centers if center is not None]
+    start = values[0]
+    end = values[-1]
+    max_idx = max(range(len(values)), key=values.__getitem__)
+    min_idx = min(range(len(values)), key=values.__getitem__)
+
+    up_excursion = (values[max_idx] - start) / pip_size
+    up_retrace = (values[max_idx] - end) / pip_size
+    down_excursion = (start - values[min_idx]) / pip_size
+    down_retrace = (end - values[min_idx]) / pip_size
+
+    candidates: List[Tuple[float, int]] = []
+    if (
+        up_excursion >= inflexion_pips
+        and up_retrace >= retrace_pips
+        and max_idx + 1 >= min_leg_events
+        and len(values) - (max_idx + 1) >= min_leg_events
+    ):
+        candidates.append((up_excursion + up_retrace, max_idx + 1))
+    if (
+        down_excursion >= inflexion_pips
+        and down_retrace >= retrace_pips
+        and min_idx + 1 >= min_leg_events
+        and len(values) - (min_idx + 1) >= min_leg_events
+    ):
+        candidates.append((down_excursion + down_retrace, min_idx + 1))
+
+    if not candidates:
+        return [group]
+    _, split_at = max(candidates, key=lambda item: item[0])
+    left = group[:split_at]
+    right = group[split_at:]
+    if not left or not right:
+        return [group]
+    return [left] + _split_group_on_center_inflexion(
+        right,
+        pip_size=pip_size,
+        min_leg_events=min_leg_events,
+        inflexion_pips=inflexion_pips,
+        retrace_pips=retrace_pips,
+    )
+
+
+def split_groups_on_center_inflexion(groups: Sequence[Sequence[NormalizedEvent]], pip_size: float = DEFAULT_PIP_SIZE) -> List[List[NormalizedEvent]]:
+    split: List[List[NormalizedEvent]] = []
+    for group in groups:
+        split.extend(_split_group_on_center_inflexion(group, pip_size=pip_size))
+    return split
+
+
 def _migration_direction(delta_pips: float) -> str:
     if delta_pips >= 2.0:
         return "UP"
@@ -391,9 +521,30 @@ def _metrics_for_group(group: Sequence[NormalizedEvent], pip_size: float = DEFAU
     center_delta_pips = 0.0
     if center_start is not None and center_end is not None:
         center_delta_pips = (center_end - center_start) / pip_size
+    center_min = min(centers) if centers else None
+    center_max = max(centers) if centers else None
     center_range_pips = 0.0
-    if centers:
-        center_range_pips = (max(centers) - min(centers)) / pip_size
+    if centers and center_min is not None and center_max is not None:
+        center_range_pips = (center_max - center_min) / pip_size
+
+    max_favorable_excursion_pips = 0.0
+    max_adverse_excursion_pips = 0.0
+    up_excursion_pips = 0.0
+    down_excursion_pips = 0.0
+    if center_start is not None and center_min is not None and center_max is not None:
+        up_from_start = (center_max - center_start) / pip_size
+        down_from_start = (center_start - center_min) / pip_size
+        up_excursion_pips = max(0.0, up_from_start)
+        down_excursion_pips = max(0.0, down_from_start)
+        if center_delta_pips > 0:
+            max_favorable_excursion_pips = max(0.0, up_from_start)
+            max_adverse_excursion_pips = max(0.0, down_from_start)
+        elif center_delta_pips < 0:
+            max_favorable_excursion_pips = max(0.0, down_from_start)
+            max_adverse_excursion_pips = max(0.0, up_from_start)
+        else:
+            max_favorable_excursion_pips = max(0.0, up_from_start, down_from_start)
+            max_adverse_excursion_pips = min(max(0.0, up_from_start), max(0.0, down_from_start))
 
     confidence_values = [e.confidence_cap for e in group if e.confidence_cap is not None]
     return {
@@ -403,8 +554,14 @@ def _metrics_for_group(group: Sequence[NormalizedEvent], pip_size: float = DEFAU
         "zone_high": max(highs) if highs else None,
         "center_start": center_start,
         "center_end": center_end,
+        "center_min": center_min,
+        "center_max": center_max,
         "center_delta_pips": center_delta_pips,
         "center_range_pips": center_range_pips,
+        "max_favorable_excursion_pips": max_favorable_excursion_pips,
+        "max_adverse_excursion_pips": max_adverse_excursion_pips,
+        "up_excursion_pips": up_excursion_pips,
+        "down_excursion_pips": down_excursion_pips,
         "migration_direction": _migration_direction(center_delta_pips),
         "event_count": len(group),
         "avg_absorption_score": _avg(e.absorption_score for e in group),
@@ -429,8 +586,16 @@ def classify_group(metrics: Dict[str, Any], previous_metrics: Optional[Dict[str,
     dwell = metrics.get("avg_dwell_score") or 0.0
     failed = metrics.get("avg_failed_displacement_score") or 0.0
     pressure = metrics.get("avg_pressure_score") or 0.0
+    favorable_excursion = metrics.get("max_favorable_excursion_pips") or 0.0
+    up_excursion = metrics.get("up_excursion_pips") or 0.0
 
-    if absorption >= 0.70 and failed >= 0.65 and abs(delta) < 3.0:
+    if delta <= -4.0 and event_count >= 4:
+        return "T009_MOMENT_CENTER_MIGRATION_DOWN"
+
+    if up_excursion >= 4.0 and event_count >= 4 and pressure >= 0.55:
+        return "T009_MOMENT_PROGRESSIVE_WAVE"
+
+    if absorption >= 0.70 and failed >= 0.65 and abs(delta) < 3.0 and center_range < 4.0 and favorable_excursion < 4.0:
         return "T009_MOMENT_EFFORT_WITHOUT_RESULT"
 
     if abs(delta) < 2.0 and event_count >= 4 and dwell >= 0.75 and compression >= 0.75:
@@ -456,9 +621,6 @@ def classify_group(metrics: Dict[str, Any], previous_metrics: Optional[Dict[str,
         if pressure >= 0.55 or absorption < 0.70:
             return "T009_MOMENT_PROGRESSIVE_WAVE"
         return "T009_MOMENT_CENTER_MIGRATION_UP"
-
-    if delta <= -4.0 and event_count >= 4:
-        return "T009_MOMENT_CENTER_MIGRATION_DOWN"
 
     if event_count >= 4 and center_range >= 6.0 and pressure >= 0.55:
         return "T009_MOMENT_BREAKOUT_PENDING_RETEST"
@@ -486,8 +648,11 @@ def _build_french_text(moment_type: str, metrics: Dict[str, Any]) -> Tuple[str, 
     zone_high = metrics.get("zone_high")
 
     common_evidence = [
-        f"events regroupes : {metrics['event_count']}",
+        f"events regroupés : {metrics['event_count']}",
         f"migration centre : {delta:.1f} pips ({direction})",
+        f"chemin interne du centre : range {metrics.get('center_range_pips', 0.0):.1f} pips",
+        f"excursion favorable max : {metrics.get('max_favorable_excursion_pips', 0.0):.1f} pips",
+        f"excursion adverse max : {metrics.get('max_adverse_excursion_pips', 0.0):.1f} pips",
     ]
     if metrics.get("avg_dwell_score") is not None:
         common_evidence.append(f"dwell moyen : {metrics['avg_dwell_score']:.2f}")
@@ -725,8 +890,12 @@ def build_moments(groups: Sequence[Sequence[NormalizedEvent]], pip_size: float =
                 zone_high=_round_or_none(metrics["zone_high"], 6),
                 center_start=_round_or_none(metrics["center_start"], 6),
                 center_end=_round_or_none(metrics["center_end"], 6),
+                center_min=_round_or_none(metrics["center_min"], 6),
+                center_max=_round_or_none(metrics["center_max"], 6),
                 center_delta_pips=round(metrics["center_delta_pips"], 2),
                 center_range_pips=round(metrics["center_range_pips"], 2),
+                max_favorable_excursion_pips=round(metrics["max_favorable_excursion_pips"], 2),
+                max_adverse_excursion_pips=round(metrics["max_adverse_excursion_pips"], 2),
                 migration_direction=metrics["migration_direction"],
                 event_count=metrics["event_count"],
                 avg_absorption_score=_round_or_none(metrics["avg_absorption_score"], 4),
@@ -801,9 +970,11 @@ def summarize_events(
     max_gap_sec: int = DEFAULT_MAX_GAP_SEC,
     price_merge_pips: float = DEFAULT_PRICE_MERGE_PIPS,
     pip_size: float = DEFAULT_PIP_SIZE,
+    replay_report: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
-    normalized = normalize_events(events, state=state)
+    normalized = normalize_events(events, state=state, replay_report=replay_report)
     groups = group_events(normalized, max_gap_sec=max_gap_sec, price_merge_pips=price_merge_pips, pip_size=pip_size)
+    groups = split_groups_on_center_inflexion(groups, pip_size=pip_size)
     moments = build_moments(groups, pip_size=pip_size)
     generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     return {
@@ -866,6 +1037,8 @@ def render_markdown(summary: Dict[str, Any]) -> str:
             f"**Scene :** `{moment.get('scene_id')}` / role `{moment.get('scene_role')}`",
             f"**Chapitre :** {moment.get('session_chapter')}",
             f"**Zone :** {moment.get('zone_low')} -> {moment.get('zone_high')}",
+            f"**Centre :** {moment.get('center_start')} -> {moment.get('center_end')} | min {moment.get('center_min')} | max {moment.get('center_max')}",
+            f"**Chemin centre :** range {moment.get('center_range_pips')} pips | excursion favorable {moment.get('max_favorable_excursion_pips')} pips | adverse {moment.get('max_adverse_excursion_pips')} pips",
             "",
             "**Ce qui se passe**",
             moment.get("what_happens_fr") or moment.get("reading_fr", ""),
@@ -920,9 +1093,11 @@ def summarize_files(
     max_gap_sec: int = DEFAULT_MAX_GAP_SEC,
     price_merge_pips: float = DEFAULT_PRICE_MERGE_PIPS,
     pip_size: float = DEFAULT_PIP_SIZE,
+    replay_report_file: str | Path | None = None,
 ) -> Dict[str, Path | Dict[str, Any]]:
     state = load_state(state_file)
     events = load_events(events_file)
+    replay_report = load_json(replay_report_file, default={}) if replay_report_file else None
     summary = summarize_events(
         state=state,
         events=events,
@@ -931,6 +1106,7 @@ def summarize_files(
         max_gap_sec=max_gap_sec,
         price_merge_pips=price_merge_pips,
         pip_size=pip_size,
+        replay_report=replay_report,
     )
     out = Path(output_dir)
     json_path = export_json(summary, out / "t009_sequence_summary.json")
@@ -986,6 +1162,7 @@ __all__ = [
     "normalize_event",
     "normalize_events",
     "group_events",
+    "split_groups_on_center_inflexion",
     "classify_group",
     "build_moments",
     "summarize_events",

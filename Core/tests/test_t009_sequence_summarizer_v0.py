@@ -278,3 +278,78 @@ def test_no_buy_sell_words():
     combined = json.dumps(summary, ensure_ascii=False) + render_markdown(summary)
     assert "BUY" not in combined
     assert "SELL" not in combined
+
+
+def test_prefers_l1_raw_first_ts_for_time_start():
+    event = ev("2026-05-16T23:11:00Z", 1.3600)
+    event["evidence"] = {"L1_raw": {"first_ts_utc": "2026-05-15T08:00:00Z"}}
+    summary = summarize_events(state(), [event])
+    assert summary["moments"][0]["time_start"] == "2026-05-15T08:00:00Z"
+
+
+def test_replay_report_time_remap():
+    event = ev("2026-05-16T23:11:00Z", 1.3600)
+    replay_report = {
+        "shifted_start_utc": "2026-05-16T23:11:00Z",
+        "original_start_utc": "2026-05-15T08:00:00Z",
+    }
+    summary = summarize_events(state(), [event], replay_report=replay_report)
+    assert summary["moments"][0]["time_start"] == "2026-05-15T08:00:00Z"
+
+
+def test_progressive_wave_with_retrace_not_effort_without_result():
+    centers = [1.3600, 1.3603, 1.3606, 1.3609, 1.3605, 1.3604]
+    events = [
+        ev(
+            f"2026-05-15T10:{i:02d}:00Z",
+            center,
+            absorption=0.86,
+            failed=0.82,
+            dwell=0.45,
+            compression=0.45,
+            pressure=0.78,
+        )
+        for i, center in enumerate(centers)
+    ]
+    summary = summarize_events(state(), events, price_merge_pips=20)
+    types = [m["moment_type"] for m in summary["moments"]]
+    assert "T009_MOMENT_PROGRESSIVE_WAVE" in types
+    assert types[0] != "T009_MOMENT_EFFORT_WITHOUT_RESULT"
+    assert summary["moments"][0]["max_favorable_excursion_pips"] >= 4.0
+
+
+def test_split_large_group_on_center_inflexion():
+    centers = [1.3360, 1.3357, 1.3354, 1.3351, 1.3348, 1.3349, 1.3350, 1.3350]
+    events = [
+        ev(
+            f"2026-05-15T11:{i:02d}:00Z",
+            center,
+            absorption=0.55,
+            failed=0.35,
+            dwell=0.5,
+            compression=0.55,
+            pressure=0.65,
+        )
+        for i, center in enumerate(centers)
+    ]
+    summary = summarize_events(state(), events, price_merge_pips=20)
+    assert len(summary["moments"]) >= 2
+    assert summary["moments"][0]["moment_type"] == "T009_MOMENT_CENTER_MIGRATION_DOWN"
+    assert summary["moments"][1]["moment_type"] in {
+        "T009_MOMENT_FLOW_BREATHING",
+        "T009_MOMENT_CORRECTIVE_WAVE",
+        "T009_MOMENT_RETRACE_DECISION_AREA",
+        "T009_MOMENT_GENERIC_BATTLEFIELD",
+    }
+
+
+def test_french_labels_have_accents():
+    summary = summarize_events(
+        state(),
+        [ev(f"2026-05-11T10:0{i}:00Z", 1.3608 - i * 0.00012, absorption=0.5, failed=0.3, dwell=0.4, compression=0.4) for i in range(5)],
+        price_merge_pips=20,
+    )
+    labels = " | ".join(m["label_fr"] for m in summary["moments"])
+    assert "gravité" in labels
+    summary_effort = summarize_events(state(), [ev(f"2026-05-11T11:0{i}:00Z", 1.3600 + i * 0.00001, absorption=0.84, failed=0.81, dwell=0.5, compression=0.5) for i in range(4)])
+    assert "résultat" in summary_effort["moments"][0]["label_fr"]

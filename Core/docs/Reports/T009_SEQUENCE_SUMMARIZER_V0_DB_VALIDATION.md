@@ -75,3 +75,23 @@ Phrase de controle :
 ```text
 Ne lis pas l'absorption comme une direction. Lis ou elle deplace la memoire.
 ```
+
+## Patch V0.1 London Hotfix
+
+La validation London a révélé quatre correctifs nécessaires :
+
+1. utiliser le temps historique `evidence.L1_raw.first_ts_utc` avant les timestamps de replay ;
+2. lire le chemin interne du centre, pas seulement `center_start -> center_end` ;
+3. ne pas classer une progression forte suivie d'un retracement en `EFFORT_WITHOUT_RESULT` ;
+4. splitter les grands groupes lorsque le centre migre puis revient/stabilise.
+
+Le patch V0.1 ajoute aussi l'option CLI `--replay-report` pour remapper `shifted_start_utc` vers `original_start_utc` lorsque les events ne portent pas le timestamp brut original.
+
+Nouveaux champs exposés par moment :
+
+```text
+center_min
+center_max
+max_favorable_excursion_pips
+max_adverse_excursion_pips
+```
