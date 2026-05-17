@@ -1,175 +1,57 @@
-# T009_SEQUENCE_SUMMARIZER_V0_SPEC
+# T009_SEQUENCE_SUMMARIZER_V0_1_V1_V2_V3_SPEC
 
 ## Objectif
 
-Créer une couche read-only PowerFlow T009/B9 qui transforme les events bruts du champ de bataille local en 5 à 8 moments lisibles.
+Etendre `T009 Sequence Summarizer V0` vers une lecture B9 complete en quatre paliers propres :
 
-Le Summarizer ne décide rien. Il ne produit pas d'ordre. Il ne parle pas au dashboard ni a Telegram. Il lit seulement les traces locales laissees par l'effort.
+1. **V0.1 DB / replay validation** : verifier que la sortie automatique reste lisible sur des packs reels ou rejoues.
+2. **V1 Why/How** : expliquer ce qui se passe, pourquoi cela compte et comment B9 le detecte.
+3. **V2 Scene Causality** : relier les moments en cause, reaction, consequence et deplacement memoire.
+4. **V3 Fractal Scene** : relier microfilm, moment, scene et chapitre de session.
 
-## Philosophie B9
-
-```text
-B9 ne cherche pas le signal.
-B9 cherche la trace laissee par l'effort.
-```
-
-Formule de lecture :
+Phrase de cap :
 
 ```text
-event brut -> moment -> scene -> memoire de zone
+B9 ne cherche pas le signal. B9 cherche la trace laissee par l'effort.
 ```
 
-La sortie doit rester en francais humain : ce qui se passe, pourquoi c'est important, comment B9 le voit, preuves, limites.
+Phrase de controle :
+
+```text
+Ne lis pas l'absorption comme une direction. Lis ou elle deplace la memoire.
+```
+
+## Contraintes
+
+- Read-only.
+- Aucune ecriture `powerflow.db`.
+- Aucune ecriture `tick_archive.db`.
+- Aucun moteur modifie.
+- Aucun Telegram.
+- Aucun dashboard.
+- Aucun croisement B8 premature.
+- Aucun ordre automatique.
+- Rendu humain en francais.
+- Source quality visible : `source_mode`, `data_visibility`, `confidence_cap`.
+- Limites visibles : `M1_BAR_PROXY`, `RECONSTRUCTED`, `delta proxy`.
 
 ## Entrees / sorties
 
-### Entrees
+Entrees :
 
 ```text
 battlefield_flux_state.json
 battlefield_flux_events.json
 ```
 
-Le code accepte aussi plusieurs variantes de structure JSON : liste directe d'events, dictionnaire avec `events`, `battlefield_events`, `t009_events`, `items` ou `data`.
-
-### Sorties
+Sorties :
 
 ```text
 t009_sequence_summary.json
 t009_sequence_summary.md
 ```
 
-## Moments detectes
-
-V0 sait classifier :
-
-```text
-T009_MOMENT_EFFORT_WITHOUT_RESULT
-T009_MOMENT_ABSORPTION_SHELF
-T009_MOMENT_CENTER_MIGRATION_UP
-T009_MOMENT_CENTER_MIGRATION_DOWN
-T009_MOMENT_PROGRESSIVE_WAVE
-T009_MOMENT_CORRECTIVE_WAVE
-T009_MOMENT_BREAKOUT_PENDING_RETEST
-T009_MOMENT_BREAK_RETEST_FAILED
-T009_MOMENT_RETRACE_DECISION_AREA
-T009_MOMENT_FLOW_BREATHING
-T009_MOMENT_GENERIC_BATTLEFIELD
-```
-
-## Rendu francais
-
-Chaque moment contient :
-
-```text
-label_fr
-reading_fr
-why_it_matters_fr
-how_detected_fr
-evidence_fr
-limits_fr
-```
-
-Exemple :
-
-```text
-Effort sans resultat
-Le flux depense de l'energie, mais le centre de zone gagne peu de terrain.
-```
-
-## Algorithme de regroupement
-
-1. Charger state/events.
-2. Normaliser chaque event en `NormalizedEvent`.
-3. Trier par timestamp UTC.
-4. Regrouper selon :
-   - `max_gap_sec`, defaut 300 secondes ;
-   - `price_merge_pips`, defaut 5 pips.
-5. Calculer les metriques par groupe.
-6. Classifier chaque groupe en moment B9.
-7. Exporter JSON + Markdown.
-
-## Regles de classification V0
-
-Regles simples, lisibles, volontairement imparfaites :
-
-```text
-absorption >= 0.70
-+ failed_displacement >= 0.65
-+ abs(center_delta_pips) < 3
-=> T009_MOMENT_EFFORT_WITHOUT_RESULT
-
-abs(center_delta_pips) < 2
-+ event_count >= 4
-+ dwell >= 0.75
-+ compression >= 0.75
-=> T009_MOMENT_ABSORPTION_SHELF
-
-center_delta_pips >= +4
-+ event_count >= 4
-=> T009_MOMENT_PROGRESSIVE_WAVE ou CENTER_MIGRATION_UP
-
-center_delta_pips <= -4
-+ event_count >= 4
-=> T009_MOMENT_CENTER_MIGRATION_DOWN
-
-retour oppose apres extension
-=> T009_MOMENT_CORRECTIVE_WAVE ou T009_MOMENT_BREAK_RETEST_FAILED
-
-petit groupe apres groupe dense
-+ retour dans zone precedente
-=> T009_MOMENT_FLOW_BREATHING
-```
-
-## Limites
-
-Le module expose toujours :
-
-```text
-source_mode
-data_visibility
-confidence_cap
-```
-
-Si la source est `M1_BAR_PROXY`, la sortie indique que la lecture est reconstruite et ne correspond pas a un footprint raw tick complet.
-
-Si la visibilite est `RECONSTRUCTED`, la sortie indique que le microfilm est approxime.
-
-La mention `delta proxy` est ajoutee pour eviter de confondre pression deduite et delta achat/vente reel.
-
-## Tests
-
-Fichier :
-
-```text
-Core/tests/test_t009_sequence_summarizer_v0.py
-```
-
-Commande :
-
-```powershell
-python -m pytest Core/tests/test_t009_sequence_summarizer_v0.py -v
-```
-
-Tests couverts :
-
-```text
-load empty events
-normalisation robuste
-regroupement temps/prix
-absorption shelf
-center migration up/down
-effort without result
-export JSON
-export Markdown
-source quality preserved
-rendu francais
-no BUY/SELL words
-```
-
-## CLI
-
-Commande :
+CLI :
 
 ```powershell
 python Core/run_t009_sequence_summarizer_once.py `
@@ -178,31 +60,178 @@ python Core/run_t009_sequence_summarizer_once.py `
   --output output_t009_sequence_summary
 ```
 
-Sorties :
+## Moments detectes
+
+- `T009_MOMENT_EFFORT_WITHOUT_RESULT`
+- `T009_MOMENT_ABSORPTION_SHELF`
+- `T009_MOMENT_CENTER_MIGRATION_UP`
+- `T009_MOMENT_CENTER_MIGRATION_DOWN`
+- `T009_MOMENT_PROGRESSIVE_WAVE`
+- `T009_MOMENT_CORRECTIVE_WAVE`
+- `T009_MOMENT_BREAKOUT_PENDING_RETEST`
+- `T009_MOMENT_BREAK_RETEST_FAILED`
+- `T009_MOMENT_RETRACE_DECISION_AREA`
+- `T009_MOMENT_FLOW_BREATHING`
+- `T009_MOMENT_GENERIC_BATTLEFIELD`
+
+## V1 — Why / How
+
+Chaque moment contient maintenant :
 
 ```text
-output_t009_sequence_summary\t009_sequence_summary.json
-output_t009_sequence_summary\t009_sequence_summary.md
+what_happens_fr
+why_it_matters_fr
+how_it_happened_fr
+mechanism_fr
+proof_summary_fr
 ```
 
-## Prochaines etapes V1 / V2 / V3
+Objectif : ne pas seulement nommer le moment, mais expliquer la situation.
+
+## V2 — Scene Causality
+
+Chaque moment contient maintenant :
 
 ```text
-V0 = lecture lisible et stable.
-V1 = enrichir les explications why/how par role de zone.
-V2 = causalite de scene : effort, resultat, retest, reaction.
-V3 = fractalite microfilm -> moment -> scene -> session.
+previous_context_fr
+cause_fr
+reaction_fr
+consequence_fr
+memory_shift_fr
+retest_role_fr
 ```
 
-## Interdits respectes
+Objectif : commencer a relier les moments entre eux.
+
+Lecture cible :
 
 ```text
-read-only
-aucune ecriture DB
-aucun moteur
-aucun Telegram
-aucun dashboard
-aucun croisement B8
-aucun ordre
+cause -> reaction -> consequence -> nouvelle memoire
 ```
 
+## V3 — Fractal Scene
+
+Chaque moment contient maintenant :
+
+```text
+scene_id
+scene_role
+parent_scene
+child_moments
+session_chapter
+fractal_reading_fr
+```
+
+Chapitres de session :
+
+- Ouverture / transition
+- Construction de shelf
+- Test / retest
+- Migration de centre
+- Respiration
+- Essoufflement
+- Decision de zone
+- Memoire deplacee
+
+## Algorithme de regroupement
+
+V0/V3 conserve un regroupement simple et robuste :
+
+```text
+nouveau groupe si :
+- gap temps > max_gap_sec
+- ou distance centre > price_merge_pips
+```
+
+Valeurs par defaut :
+
+```text
+max_gap_sec = 300
+price_merge_pips = 5.0
+pip_size = 0.0001
+```
+
+## Classification V0/V3
+
+Regles principales :
+
+```text
+absorption forte + failed displacement fort + centre peu mobile
+-> Effort sans resultat
+
+events nombreux + dwell/compression eleves + centre stable
+-> Palier d'absorption
+
+centre qui migre franchement
+-> Vague progressive ou migration de centre
+
+retour oppose apres extension
+-> Vague corrective / zone de decision / retest echoue
+
+groupe leger apres sequence dense, retour en zone
+-> Respiration du flux
+```
+
+## Rendu Markdown
+
+Le Markdown rend chaque moment avec :
+
+- titre francais ;
+- type interne ;
+- scene et chapitre ;
+- zone ;
+- ce qui se passe ;
+- pourquoi c'est important ;
+- comment cela se produit ;
+- mecanisme ;
+- cause / reaction / consequence ;
+- lecture fractale ;
+- preuves ;
+- limites.
+
+## Limites
+
+V3 reste heuristique.
+
+Il ne pretend pas :
+
+- lire le footprint raw tick complet si la source est `M1_BAR_PROXY` ;
+- deduire un delta agressif reel si la source est reconstruite ;
+- produire un ordre automatique ;
+- croiser B9 avec B8 ;
+- remplacer le trader.
+
+## Tests
+
+Commande :
+
+```powershell
+python -m py_compile Core/pf_t009_sequence_summarizer.py Core/run_t009_sequence_summarizer_once.py
+python -m pytest Core/tests/test_t009_sequence_summarizer_v0.py -v
+```
+
+Couverture :
+
+- chargement JSON vide ;
+- JSON UTF-8 BOM ;
+- normalisation event ;
+- grouping temps/prix ;
+- detection shelf ;
+- migration UP/DOWN ;
+- effort sans resultat ;
+- validation London fixture ;
+- rendu francais ;
+- limites preservees ;
+- champs V1 ;
+- champs V2 ;
+- champs V3 ;
+- contrat summary ;
+- export JSON / MD ;
+- absence de termes d'ordre dans le rendu.
+
+## Prochaines etapes
+
+- Branch V0.1 : validation sur vrais replay packs London / Asia / Asia-London.
+- V1+ : enrichir les phrases par type de scene avec exemples terrain.
+- V2+ : durcir causalite de retest et deplacement memoire.
+- V3+ : chaptering multi-timeframe quand B9 sera pret a dialoguer avec une couche superieure, sans croisement B8 premature.

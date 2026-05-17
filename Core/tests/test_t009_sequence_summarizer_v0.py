@@ -18,6 +18,7 @@ from pf_t009_sequence_summarizer import (  # noqa: E402
     normalize_events,
     render_markdown,
     summarize_events,
+    validate_summary_contract,
 )
 
 
@@ -61,18 +62,37 @@ def state():
     return {"source": {"source_mode": "M1_BAR_PROXY", "data_visibility": "RECONSTRUCTED", "confidence_cap": 0.35}}
 
 
+def london_pack_events():
+    events = []
+    # 08:00-08:14 effort without result.
+    for i in range(4):
+        events.append(ev(f"2026-05-15T08:0{i}:00Z", 1.3350 + i * 0.00001, absorption=0.86, failed=0.82, dwell=0.6, compression=0.62))
+    # 09:10-09:31 retest / decision zone after extension.
+    for i in range(4):
+        events.append(ev(f"2026-05-15T09:1{i}:00Z", 1.3340 - i * 0.00010, absorption=0.55, failed=0.50, dwell=0.62, compression=0.62, pressure=0.6))
+    # 10:00-10:23 progressive wave.
+    for i in range(5):
+        events.append(ev(f"2026-05-15T10:0{i}:00Z", 1.3340 + i * 0.00013, absorption=0.45, failed=0.30, dwell=0.4, compression=0.4, pressure=0.75))
+    # 11:00-11:31 center migration down.
+    for i in range(5):
+        events.append(ev(f"2026-05-15T11:0{i}:00Z", 1.3360 - i * 0.00013, absorption=0.50, failed=0.35, dwell=0.45, compression=0.5, pressure=0.65))
+    # 11:37-12:00 breathing inside previous zone.
+    for i in range(2):
+        events.append(ev(f"2026-05-15T11:3{7+i}:00Z", 1.3356, absorption=0.55, failed=0.40, dwell=0.45, compression=0.45, pressure=0.4))
+    return events
+
+
 def test_load_empty_events(tmp_path):
     path = tmp_path / "events.json"
     path.write_text("[]", encoding="utf-8")
     assert load_events(path) == []
 
 
-
-
 def test_load_json_utf8_bom(tmp_path):
     path = tmp_path / "bom.json"
     path.write_text('{"ok": true}', encoding="utf-8-sig")
     assert load_json(path)["ok"] is True
+
 
 def test_normalize_event_structure():
     normalized = normalize_event(ev("2026-05-11T10:00:00Z", 1.3600), state_defaults=state())
@@ -121,19 +141,115 @@ def test_detect_effort_without_result():
     assert "Effort" in summary["moments"][0]["label_fr"]
 
 
+def test_london_pack_summary_generates_moments():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    types = [m["moment_type"] for m in summary["moments"]]
+    assert len(summary["moments"]) >= 5
+    assert "T009_MOMENT_EFFORT_WITHOUT_RESULT" in types
+    assert "T009_MOMENT_PROGRESSIVE_WAVE" in types
+    assert "T009_MOMENT_CENTER_MIGRATION_DOWN" in types
+
+
+def test_summary_md_contains_french_sections():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    text = render_markdown(summary)
+    assert "Ce qui se passe" in text
+    assert "Pourquoi c'est important" in text
+    assert "Comment cela se produit" in text
+    assert "Cause / reaction / consequence" in text
+    assert "Lecture fractale" in text
+
+
+def test_summary_preserves_limits():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    for moment in summary["moments"]:
+        joined = " ".join(moment["limits_fr"])
+        assert "M1_BAR_PROXY" in joined
+        assert "RECONSTRUCTED" in joined
+        assert "delta proxy" in joined
+
+
+def test_why_how_fields_present():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    moment = summary["moments"][0]
+    for key in ["what_happens_fr", "why_it_matters_fr", "how_it_happened_fr", "mechanism_fr", "proof_summary_fr"]:
+        assert moment.get(key)
+
+
+def test_mechanism_fr_for_migration_down():
+    summary = summarize_events(state(), [ev(f"2026-05-11T10:0{i}:00Z", 1.3608 - i * 0.00012, absorption=0.5, failed=0.3, dwell=0.4, compression=0.4) for i in range(5)], price_merge_pips=20)
+    moment = summary["moments"][0]
+    assert "Centres successifs plus bas" in moment["mechanism_fr"]
+
+
+def test_mechanism_fr_for_progressive_wave():
+    summary = summarize_events(state(), [ev(f"2026-05-11T10:0{i}:00Z", 1.3600 + i * 0.00012, absorption=0.5, failed=0.3, dwell=0.4, compression=0.4, pressure=0.7) for i in range(5)], price_merge_pips=20)
+    moment = summary["moments"][0]
+    assert "deplacement net" in moment["mechanism_fr"]
+
+
+def test_scene_causality_fields_present():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    for moment in summary["moments"]:
+        for key in ["previous_context_fr", "cause_fr", "reaction_fr", "consequence_fr", "memory_shift_fr", "retest_role_fr"]:
+            assert key in moment
+            assert isinstance(moment[key], str)
+
+
+def test_memory_shift_detected_after_shelf_break():
+    events = []
+    for i in range(5):
+        events.append(ev(f"2026-05-11T10:0{i}:00Z", 1.3600 + i * 0.00002, absorption=0.6, failed=0.4, dwell=0.86, compression=0.88))
+    for i in range(5):
+        events.append(ev(f"2026-05-11T10:1{i}:00Z", 1.3590 - i * 0.00012, absorption=0.5, failed=0.3, dwell=0.4, compression=0.4))
+    summary = summarize_events(state(), events, price_merge_pips=20)
+    down = [m for m in summary["moments"] if m["moment_type"] == "T009_MOMENT_CENTER_MIGRATION_DOWN"][-1]
+    assert "bas" in down["memory_shift_fr"]
+
+
+def test_retest_role_fr_present():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    assert any(m["retest_role_fr"] for m in summary["moments"])
+
+
+def test_scene_id_generation():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    ids = [m["scene_id"] for m in summary["moments"]]
+    assert ids[0] == "B9SC-001"
+    assert len(ids) == len(set(ids))
+
+
+def test_session_chapter_assignment():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    chapters = {m["session_chapter"] for m in summary["moments"]}
+    assert "Decision de zone" in chapters or "Migration de centre" in chapters
+    assert summary["session_scene"]["scene_id"] == "B9SESSION-001"
+
+
+def test_fractal_reading_fr_present():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    assert all(m["fractal_reading_fr"] for m in summary["moments"])
+
+
+def test_validate_summary_contract():
+    summary = summarize_events(state(), london_pack_events(), price_merge_pips=20)
+    assert validate_summary_contract(summary) == []
+
+
 def test_export_json(tmp_path):
     summary = summarize_events(state(), [ev("2026-05-11T10:00:00Z", 1.3600)])
     out = export_json(summary, tmp_path / "summary.json")
     assert out.exists()
     data = json.loads(out.read_text(encoding="utf-8"))
     assert data["module"] == "pf_t009_sequence_summarizer"
+    assert data["version"] == "V3"
 
 
 def test_export_markdown(tmp_path):
     summary = summarize_events(state(), [ev("2026-05-11T10:00:00Z", 1.3600)])
     out = export_markdown(summary, tmp_path / "summary.md")
     text = out.read_text(encoding="utf-8")
-    assert "# T009 Sequence Summary V0" in text
+    assert "# T009 Sequence Summary V3" in text
     assert "Ce qui se passe" in text
 
 

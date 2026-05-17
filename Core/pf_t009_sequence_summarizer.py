@@ -1,7 +1,13 @@
-"""T009 Sequence Summarizer V0 / B9.
+"""T009 Sequence Summarizer V3 / B9.
 
 Read-only transformation layer:
-raw T009 battlefield events -> a compact sequence of human-readable B9 moments.
+raw T009 battlefield events -> compact human-readable B9 moments.
+
+Scope:
+- V0.1: replay/DB validation support through robust summaries.
+- V1: why/how narrative fields.
+- V2: scene causality fields.
+- V3: fractal scene chaptering.
 
 The module does not import engine, dashboard, telegram, or database writers.
 It only reads JSON files and writes summary artifacts requested by the caller.
@@ -17,7 +23,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 MODULE_NAME = "pf_t009_sequence_summarizer"
-VERSION = "V0"
+VERSION = "V3"
 DEFAULT_PIP_SIZE = 0.0001
 DEFAULT_MAX_GAP_SEC = 300
 DEFAULT_PRICE_MERGE_PIPS = 5.0
@@ -34,6 +40,34 @@ MOMENT_LABELS_FR: Dict[str, str] = {
     "T009_MOMENT_RETRACE_DECISION_AREA": "Zone de decision au retracement",
     "T009_MOMENT_FLOW_BREATHING": "Respiration du flux",
     "T009_MOMENT_GENERIC_BATTLEFIELD": "Moment de bataille local",
+}
+
+MOMENT_CHAPTERS_FR: Dict[str, str] = {
+    "T009_MOMENT_EFFORT_WITHOUT_RESULT": "Decision de zone",
+    "T009_MOMENT_ABSORPTION_SHELF": "Construction de shelf",
+    "T009_MOMENT_CENTER_MIGRATION_UP": "Migration de centre",
+    "T009_MOMENT_CENTER_MIGRATION_DOWN": "Migration de centre",
+    "T009_MOMENT_PROGRESSIVE_WAVE": "Memoire deplacee",
+    "T009_MOMENT_CORRECTIVE_WAVE": "Respiration",
+    "T009_MOMENT_BREAKOUT_PENDING_RETEST": "Test / retest",
+    "T009_MOMENT_BREAK_RETEST_FAILED": "Test / retest",
+    "T009_MOMENT_RETRACE_DECISION_AREA": "Decision de zone",
+    "T009_MOMENT_FLOW_BREATHING": "Respiration",
+    "T009_MOMENT_GENERIC_BATTLEFIELD": "Ouverture / transition",
+}
+
+MOMENT_ROLES_FR: Dict[str, str] = {
+    "T009_MOMENT_EFFORT_WITHOUT_RESULT": "preuve_de_frein",
+    "T009_MOMENT_ABSORPTION_SHELF": "construction_memoire",
+    "T009_MOMENT_CENTER_MIGRATION_UP": "deplacement_memoire",
+    "T009_MOMENT_CENTER_MIGRATION_DOWN": "deplacement_memoire",
+    "T009_MOMENT_PROGRESSIVE_WAVE": "extension_par_paliers",
+    "T009_MOMENT_CORRECTIVE_WAVE": "respiration_apres_extension",
+    "T009_MOMENT_BREAKOUT_PENDING_RETEST": "jugement_en_attente",
+    "T009_MOMENT_BREAK_RETEST_FAILED": "refus_de_retest",
+    "T009_MOMENT_RETRACE_DECISION_AREA": "zone_a_juger",
+    "T009_MOMENT_FLOW_BREATHING": "pause_structuree",
+    "T009_MOMENT_GENERIC_BATTLEFIELD": "transition_locale",
 }
 
 
@@ -90,10 +124,32 @@ class Moment:
     how_detected_fr: str
     evidence_fr: List[str]
     limits_fr: List[str]
+    # V1 why/how narrative fields.
+    what_happens_fr: str
+    how_it_happened_fr: str
+    mechanism_fr: str
+    proof_summary_fr: str
+    # V2 scene causality fields.
+    previous_context_fr: str
+    cause_fr: str
+    reaction_fr: str
+    consequence_fr: str
+    memory_shift_fr: str
+    retest_role_fr: str
+    # V3 fractal scene fields.
+    scene_id: str
+    scene_role: str
+    parent_scene: Optional[str]
+    child_moments: List[str]
+    session_chapter: str
+    fractal_reading_fr: str
 
 
 def load_json(path: str | Path, default: Any = None) -> Any:
-    """Load JSON from path. Missing or empty files return default."""
+    """Load JSON from path. Missing or empty files return default.
+
+    UTF-8 BOM is accepted because Windows/PowerShell tooling can produce it.
+    """
     p = Path(path)
     if default is None:
         default = {}
@@ -315,7 +371,7 @@ def _source_limits(source_mode: Optional[str], data_visibility: Optional[str], c
             limits.append("RECONSTRUCTED : microfilm approxime")
     if confidence_cap is not None:
         limits.append(f"confidence_cap={confidence_cap}")
-    limits.append("delta proxy : pression deduite, delta achat/vente reel non garanti")
+    limits.append("delta proxy : pression deduite, delta agressif reel non garanti")
     # Deduplicate while preserving order.
     seen = set()
     result: List[str] = []
@@ -364,7 +420,7 @@ def _metrics_for_group(group: Sequence[NormalizedEvent], pip_size: float = DEFAU
 
 
 def classify_group(metrics: Dict[str, Any], previous_metrics: Optional[Dict[str, Any]] = None) -> str:
-    """Classify one group with readable V0 heuristics."""
+    """Classify one group with readable V0/V1/V2/V3-compatible heuristics."""
     event_count = metrics["event_count"]
     delta = metrics["center_delta_pips"]
     center_range = metrics["center_range_pips"]
@@ -417,8 +473,13 @@ def _format_time_for_fr(value: Optional[str]) -> str:
     return dt.strftime("%H:%M") + " UTC"
 
 
+def _format_zone(low: Optional[float], high: Optional[float]) -> str:
+    if low is None or high is None:
+        return "zone inconnue"
+    return f"{low:.5f} - {high:.5f}"
+
+
 def _build_french_text(moment_type: str, metrics: Dict[str, Any]) -> Tuple[str, str, str, List[str]]:
-    label = MOMENT_LABELS_FR.get(moment_type, MOMENT_LABELS_FR["T009_MOMENT_GENERIC_BATTLEFIELD"])
     delta = metrics["center_delta_pips"]
     direction = metrics["migration_direction"]
     zone_low = metrics.get("zone_low")
@@ -508,21 +569,150 @@ def _build_french_text(moment_type: str, metrics: Dict[str, Any]) -> Tuple[str, 
             common_evidence,
         )
     return (
-        "Le microfilm local produit une scene lisible mais non specialisee en V0.",
+        "Le microfilm local produit une scene lisible mais non specialisee en V3.",
         "Ce moment conserve la trace pour la synthese sans forcer une etiquette trop precise.",
         "B9 le voit par regroupement temps/prix et metriques de zone disponibles.",
         common_evidence,
     )
 
 
+def _build_v1_text(moment_type: str, metrics: Dict[str, Any], reading: str, why: str, how: str, evidence: Sequence[str]) -> Dict[str, str]:
+    mechanism_by_type = {
+        "T009_MOMENT_EFFORT_WITHOUT_RESULT": "Effort eleve + failed displacement eleve + centre peu mobile.",
+        "T009_MOMENT_ABSORPTION_SHELF": "Dwell et compression eleves dans une zone serree.",
+        "T009_MOMENT_CENTER_MIGRATION_UP": "Centres successifs plus hauts avec coherence de zone.",
+        "T009_MOMENT_CENTER_MIGRATION_DOWN": "Centres successifs plus bas avec coherence de zone.",
+        "T009_MOMENT_PROGRESSIVE_WAVE": "L'effort produit un deplacement net du centre.",
+        "T009_MOMENT_CORRECTIVE_WAVE": "Retour oppose apres une extension plus forte.",
+        "T009_MOMENT_BREAKOUT_PENDING_RETEST": "Sortie de zone visible mais jugement par retour encore incomplet.",
+        "T009_MOMENT_BREAK_RETEST_FAILED": "Retour defavorable apres extension initiale.",
+        "T009_MOMENT_RETRACE_DECISION_AREA": "Retour vers zone importante avec absorption ou compression.",
+        "T009_MOMENT_FLOW_BREATHING": "Densite plus faible apres sequence dense, sans invalidation majeure.",
+    }
+    proof_summary = "; ".join(str(item) for item in evidence[:4])
+    return {
+        "what_happens_fr": reading,
+        "how_it_happened_fr": how.replace("B9 le voit par ", "La scene se construit par "),
+        "mechanism_fr": mechanism_by_type.get(moment_type, "Regroupement temps/prix avec metriques disponibles."),
+        "proof_summary_fr": proof_summary,
+    }
+
+
+def _zone_overlap(current: Dict[str, Any], previous: Dict[str, Any]) -> bool:
+    cur_low, cur_high = current.get("zone_low"), current.get("zone_high")
+    prev_low, prev_high = previous.get("zone_low"), previous.get("zone_high")
+    if None in (cur_low, cur_high, prev_low, prev_high):
+        return False
+    return max(cur_low, prev_low) <= min(cur_high, prev_high)
+
+
+def _build_v2_text(moment_type: str, metrics: Dict[str, Any], previous_metrics: Optional[Dict[str, Any]], previous_type: Optional[str]) -> Dict[str, str]:
+    previous_context = "Premier moment exploitable de la sequence."
+    cause = "La cause locale reste a confirmer par le contexte precedent."
+    reaction = "Le flux laisse une nouvelle trace locale."
+    consequence = "La scene garde cette zone comme information active."
+    memory_shift = "La memoire locale reste a surveiller."
+    retest_role = "Aucun retest distinct n'est isole dans ce moment."
+
+    if previous_metrics:
+        prev_label = MOMENT_LABELS_FR.get(previous_type or "", "moment precedent")
+        previous_context = f"Le moment precedent etait : {prev_label}."
+        if previous_type == "T009_MOMENT_ABSORPTION_SHELF" and metrics.get("migration_direction") == "DOWN":
+            cause = "Le palier precedent n'a pas tenu comme centre actif."
+            reaction = "Le flux accepte progressivement une zone plus basse."
+            consequence = "La memoire active se deplace vers le bas."
+            memory_shift = "Memoire deplacee vers le bas, sur un centre inferieur."
+        elif previous_type == "T009_MOMENT_ABSORPTION_SHELF" and metrics.get("migration_direction") == "UP":
+            cause = "Le palier precedent sert de base de reprise locale."
+            reaction = "Le flux reprend du terrain par paliers."
+            consequence = "La memoire active migre vers un centre superieur."
+            memory_shift = "Memoire deplacee vers le haut."
+        elif moment_type == "T009_MOMENT_BREAK_RETEST_FAILED":
+            cause = "La tentative initiale revient contre sa zone de depart."
+            reaction = "Le retour ne confirme pas l'acceptation de la sortie."
+            consequence = "La cassure devient fragile dans la lecture B9."
+            memory_shift = "La memoire revient vers la zone precedente."
+            retest_role = "Le retest refuse la validation de la sortie."
+        elif moment_type == "T009_MOMENT_RETRACE_DECISION_AREA":
+            cause = "Une extension precedente appelle une interrogation de zone."
+            reaction = "Le retracement revient tester la memoire active."
+            consequence = "La suite depend de la reaction autour de cette zone."
+            memory_shift = "La memoire reste active mais pas encore deplacee."
+            retest_role = "Le retest sert de juge de la scene."
+        elif moment_type == "T009_MOMENT_FLOW_BREATHING":
+            cause = "La sequence dense precedente relache temporairement la pression."
+            reaction = "Le flux revient respirer dans ou pres de la zone memoire."
+            consequence = "La scene ralentit sans prouver une invalidation majeure."
+            memory_shift = "La memoire reste active mais n'est pas encore deplacee."
+        elif _zone_overlap(metrics, previous_metrics):
+            cause = "La nouvelle trace se forme dans le voisinage de la memoire precedente."
+            reaction = "Le flux reutilise une zone deja active."
+            consequence = "La zone conserve un role dans le chapitre courant."
+            memory_shift = "Memoire stable ou recyclee."
+
+    if moment_type == "T009_MOMENT_PROGRESSIVE_WAVE":
+        reaction = "Le flux transforme l'effort en progression visible."
+        consequence = "La scene avance par paliers plutot que de rester bloquee."
+        if metrics.get("migration_direction") == "UP":
+            memory_shift = "Memoire deplacee vers un centre superieur."
+        elif metrics.get("migration_direction") == "DOWN":
+            memory_shift = "Memoire deplacee vers le bas, sur un centre inferieur."
+    if moment_type == "T009_MOMENT_EFFORT_WITHOUT_RESULT":
+        reaction = "L'effort est absorbe ou freine localement."
+        consequence = "La zone devient une information de tension contenue."
+        memory_shift = "Pas de deplacement net de memoire."
+    if moment_type == "T009_MOMENT_ABSORPTION_SHELF":
+        reaction = "Le flux reste accroche dans une zone serree."
+        consequence = "Un palier de memoire locale se construit."
+        memory_shift = "Memoire stabilisee autour du centre actuel."
+
+    return {
+        "previous_context_fr": previous_context,
+        "cause_fr": cause,
+        "reaction_fr": reaction,
+        "consequence_fr": consequence,
+        "memory_shift_fr": memory_shift,
+        "retest_role_fr": retest_role,
+    }
+
+
+def _build_v3_text(moment_type: str, metrics: Dict[str, Any], index: int) -> Dict[str, Any]:
+    chapter = MOMENT_CHAPTERS_FR.get(moment_type, "Ouverture / transition")
+    role = MOMENT_ROLES_FR.get(moment_type, "transition_locale")
+    scene_id = f"B9SC-{index:03d}"
+    parent_scene = "B9SESSION-001"
+    if moment_type in ("T009_MOMENT_CENTER_MIGRATION_UP", "T009_MOMENT_CENTER_MIGRATION_DOWN"):
+        fractal = "Les traces locales ne sont pas isolees : chaque palier devient la cause possible du palier suivant."
+    elif moment_type == "T009_MOMENT_ABSORPTION_SHELF":
+        fractal = "Le microfilm construit une etagere locale qui peut devenir le pivot du chapitre suivant."
+    elif moment_type in ("T009_MOMENT_BREAKOUT_PENDING_RETEST", "T009_MOMENT_BREAK_RETEST_FAILED"):
+        fractal = "Le moment local sert de juge : la scene ne vaut que par sa reaction au retour."
+    elif moment_type == "T009_MOMENT_FLOW_BREATHING":
+        fractal = "La respiration locale relie une sequence dense a la prochaine decision de zone."
+    else:
+        fractal = "Le microfilm devient moment, le moment devient piece d'une scene de session."
+    return {
+        "scene_id": scene_id,
+        "scene_role": role,
+        "parent_scene": parent_scene,
+        "child_moments": [],
+        "session_chapter": chapter,
+        "fractal_reading_fr": fractal,
+    }
+
+
 def build_moments(groups: Sequence[Sequence[NormalizedEvent]], pip_size: float = DEFAULT_PIP_SIZE) -> List[Moment]:
     moments: List[Moment] = []
     previous_metrics: Optional[Dict[str, Any]] = None
+    previous_type: Optional[str] = None
     for index, group in enumerate(groups, start=1):
         metrics = _metrics_for_group(group, pip_size=pip_size)
         moment_type = classify_group(metrics, previous_metrics=previous_metrics)
         label = MOMENT_LABELS_FR.get(moment_type, MOMENT_LABELS_FR["T009_MOMENT_GENERIC_BATTLEFIELD"])
         reading, why, how, evidence = _build_french_text(moment_type, metrics)
+        v1 = _build_v1_text(moment_type, metrics, reading, why, how, evidence)
+        v2 = _build_v2_text(moment_type, metrics, previous_metrics, previous_type)
+        v3 = _build_v3_text(moment_type, metrics, index)
         limits = _source_limits(metrics.get("source_mode"), metrics.get("data_visibility"), metrics.get("confidence_cap"))
         moments.append(
             Moment(
@@ -553,10 +743,39 @@ def build_moments(groups: Sequence[Sequence[NormalizedEvent]], pip_size: float =
                 how_detected_fr=how,
                 evidence_fr=evidence,
                 limits_fr=limits,
+                what_happens_fr=v1["what_happens_fr"],
+                how_it_happened_fr=v1["how_it_happened_fr"],
+                mechanism_fr=v1["mechanism_fr"],
+                proof_summary_fr=v1["proof_summary_fr"],
+                previous_context_fr=v2["previous_context_fr"],
+                cause_fr=v2["cause_fr"],
+                reaction_fr=v2["reaction_fr"],
+                consequence_fr=v2["consequence_fr"],
+                memory_shift_fr=v2["memory_shift_fr"],
+                retest_role_fr=v2["retest_role_fr"],
+                scene_id=v3["scene_id"],
+                scene_role=v3["scene_role"],
+                parent_scene=v3["parent_scene"],
+                child_moments=v3["child_moments"],
+                session_chapter=v3["session_chapter"],
+                fractal_reading_fr=v3["fractal_reading_fr"],
             )
         )
         previous_metrics = metrics
+        previous_type = moment_type
     return moments
+
+
+def _session_summary(moments: Sequence[Moment]) -> Dict[str, Any]:
+    chapters = Counter(m.session_chapter for m in moments)
+    directions = Counter(m.migration_direction for m in moments)
+    return {
+        "scene_id": "B9SESSION-001",
+        "moment_count": len(moments),
+        "chapters": dict(chapters),
+        "dominant_migration": directions.most_common(1)[0][0] if directions else None,
+        "reading_fr": "B9 relie les micro-traces en chapitres de session sans transformer la lecture en signal.",
+    }
 
 
 def _source_summary(state: Dict[str, Any], events: Sequence[NormalizedEvent], state_file: str | Path, events_file: str | Path) -> Dict[str, Any]:
@@ -592,6 +811,7 @@ def summarize_events(
         "version": VERSION,
         "generated_at_utc": generated_at,
         "source": _source_summary(state, normalized, state_file, events_file),
+        "session_scene": _session_summary(moments),
         "moments": [asdict(m) for m in moments],
     }
 
@@ -606,16 +826,24 @@ def export_json(summary: Dict[str, Any], path: str | Path) -> Path:
 def render_markdown(summary: Dict[str, Any]) -> str:
     source = summary.get("source", {})
     moments = summary.get("moments", [])
+    session = summary.get("session_scene", {})
     lines: List[str] = [
-        "# T009 Sequence Summary V0",
+        "# T009 Sequence Summary V3",
         "",
         "## Resume",
+        f"- Version : {summary.get('version')}",
         f"- Nombre events bruts : {source.get('event_count', 0)}",
         f"- Nombre moments : {len(moments)}",
         f"- Source mode : {source.get('source_mode') or 'UNKNOWN'}",
         f"- Data visibility : {source.get('data_visibility') or 'UNKNOWN'}",
         f"- Confidence cap : {source.get('confidence_cap')}",
         "- Limites : lecture B9 read-only, sans moteur, sans Telegram, sans dashboard, sans croisement B8.",
+        "- Cap : B9 cherche la trace laissee par l'effort, pas un signal.",
+        "",
+        "## Scene de session",
+        f"- Scene : {session.get('scene_id', 'B9SESSION-001')}",
+        f"- Chapitres : {session.get('chapters', {})}",
+        f"- Lecture : {session.get('reading_fr', '')}",
         "",
         "## Moments cles",
         "",
@@ -634,22 +862,43 @@ def render_markdown(summary: Dict[str, Any]) -> str:
         lines.extend([
             f"### Moment {idx} - {start} a {end}",
             f"**Titre :** {moment.get('label_fr')}",
-            f"**Zone :** {moment.get('zone_low')} -> {moment.get('zone_high')}",
             f"**Type interne :** `{moment.get('moment_type')}`",
+            f"**Scene :** `{moment.get('scene_id')}` / role `{moment.get('scene_role')}`",
+            f"**Chapitre :** {moment.get('session_chapter')}",
+            f"**Zone :** {moment.get('zone_low')} -> {moment.get('zone_high')}",
             "",
             "**Ce qui se passe**",
-            moment.get("reading_fr", ""),
+            moment.get("what_happens_fr") or moment.get("reading_fr", ""),
             "",
             "**Pourquoi c'est important**",
             moment.get("why_it_matters_fr", ""),
             "",
+            "**Comment cela se produit**",
+            moment.get("how_it_happened_fr", ""),
+            "",
+            "**Mecanisme**",
+            moment.get("mechanism_fr", ""),
+            "",
             "**Comment B9 le voit**",
             moment.get("how_detected_fr", ""),
+            "",
+            "**Cause / reaction / consequence**",
+            f"- Contexte precedent : {moment.get('previous_context_fr', '')}",
+            f"- Cause : {moment.get('cause_fr', '')}",
+            f"- Reaction : {moment.get('reaction_fr', '')}",
+            f"- Consequence : {moment.get('consequence_fr', '')}",
+            f"- Deplacement memoire : {moment.get('memory_shift_fr', '')}",
+            f"- Role du retest : {moment.get('retest_role_fr', '')}",
+            "",
+            "**Lecture fractale**",
+            moment.get("fractal_reading_fr", ""),
             "",
             "**Preuves**",
         ])
         for item in moment.get("evidence_fr", []):
             lines.append(f"- {item}")
+        if moment.get("proof_summary_fr"):
+            lines.append(f"- resume preuve : {moment.get('proof_summary_fr')}")
         lines.extend(["", "**Limites**"])
         for item in moment.get("limits_fr", []):
             lines.append(f"- {item}")
@@ -689,9 +938,49 @@ def summarize_files(
     return {"summary": summary, "json_path": json_path, "markdown_path": md_path}
 
 
+def validate_summary_contract(summary: Dict[str, Any]) -> List[str]:
+    """Return human-readable validation problems. Does not raise.
+
+    This helper is used by tests and V0.1 validation reports. It never touches DB.
+    """
+    problems: List[str] = []
+    moments = summary.get("moments", [])
+    if not isinstance(moments, list):
+        return ["moments field is not a list"]
+    for idx, moment in enumerate(moments, start=1):
+        for key in (
+            "label_fr",
+            "reading_fr",
+            "what_happens_fr",
+            "why_it_matters_fr",
+            "how_it_happened_fr",
+            "mechanism_fr",
+            "proof_summary_fr",
+            "previous_context_fr",
+            "cause_fr",
+            "reaction_fr",
+            "consequence_fr",
+            "memory_shift_fr",
+            "retest_role_fr",
+            "scene_id",
+            "scene_role",
+            "session_chapter",
+            "fractal_reading_fr",
+            "source_mode",
+            "data_visibility",
+            "confidence_cap",
+        ):
+            if key not in moment:
+                problems.append(f"moment {idx} missing {key}")
+        if not moment.get("limits_fr"):
+            problems.append(f"moment {idx} missing limits_fr")
+    return problems
+
+
 __all__ = [
     "NormalizedEvent",
     "Moment",
+    "load_json",
     "load_state",
     "load_events",
     "normalize_event",
@@ -704,4 +993,5 @@ __all__ = [
     "export_json",
     "export_markdown",
     "render_markdown",
+    "validate_summary_contract",
 ]
