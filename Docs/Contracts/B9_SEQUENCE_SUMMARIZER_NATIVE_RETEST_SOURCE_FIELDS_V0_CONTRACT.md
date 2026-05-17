@@ -1,8 +1,8 @@
 # T0111 — B9 Sequence Summarizer Native Retest Source Fields V0 Contract
 
-Status: `SCAFFOLD_READY`  
-Branch proposal: `feat/t0111-b9-sequence-summarizer-native-retest-source-fields`  
-Commit proposal: `feat(t0111): add native retest source fields helper`
+Status: `INTEGRATED`  
+Branch: `feat/t0111-b9-sequence-summarizer-native-retest-source-fields`  
+Commit: `feat(t0111): add native retest source fields to B9 summarizer`
 
 ## Purpose
 

@@ -2743,6 +2743,28 @@ def _t0110_zone_distance(moment, zone):
 
 def _t0110_enrich_moment_source_fields(moment):
     out = dict(moment)
+
+    # T0111 passthrough: if the summarizer already emitted native retest
+    # source fields, T0110 preserves them and only fills gaps.
+    existing_version = out.get("retest_source_fields_version", "")
+    if str(existing_version).startswith("T0111"):
+        zone = _t0110_zone_memory(out)
+        # Fill in any field that T0111 left as None, using T0110 logic as fallback.
+        _t0111_fallback_fields = {
+            "retest_touch_count": lambda: _t0110_touch_count(out, zone),
+            "retest_first_touch_time": lambda: _t0110_fmt(_t0110_first_touch(out, zone)),
+            "retest_last_touch_time": lambda: _t0110_fmt(_t0110_last_touch(out, zone)),
+            "retest_acceptance_dwell_seconds": lambda: _t0110_acceptance_dwell(out, zone),
+            "retest_rejection_speed_pips_per_min": lambda: _t0110_rejection_speed(out, zone),
+            "retest_zone_distance_pips": lambda: _t0110_zone_distance(out, zone),
+        }
+        for key, fallback_fn in _t0111_fallback_fields.items():
+            if out.get(key) is None:
+                fallback_value = fallback_fn()
+                if fallback_value is not None:
+                    out[key] = fallback_value
+        return out
+
     zone = _t0110_zone_memory(out)
 
     touch_count = _t0110_touch_count(out, zone)

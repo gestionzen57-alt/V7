@@ -16,14 +16,35 @@ It only reads JSON files and writes summary artifacts requested by the caller.
 from __future__ import annotations
 
 import json
+import sys
 from collections import Counter
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
+# T0111: import native retest source fields helper.
+# The module lives at repo root (pf_t0111_native_retest_source_fields.py).
+# When running from Core/, the parent directory may not be on sys.path.
+_T0111_PARENT = str(Path(__file__).resolve().parent.parent)
+if _T0111_PARENT not in sys.path:
+    sys.path.insert(0, _T0111_PARENT)
+try:
+    from pf_t0111_native_retest_source_fields import (
+        T0111_VERSION as _T0111_VERSION,
+        enrich_moment_with_native_retest_source_fields as _t0111_enrich_moment,
+    )
+    _T0111_AVAILABLE = True
+except ImportError:
+    _T0111_AVAILABLE = False
+    _T0111_VERSION = "T0111_NATIVE_RETEST_SOURCE_FIELDS_V0"
+
+    def _t0111_enrich_moment(moment):  # type: ignore[misc]
+        return dict(moment)
+
+
 MODULE_NAME = "pf_t009_sequence_summarizer"
-VERSION = "V3.1.1"
+VERSION = "V3.2.0_T0111"
 DEFAULT_PIP_SIZE = 0.0001
 DEFAULT_MAX_GAP_SEC = 300
 DEFAULT_PRICE_MERGE_PIPS = 5.0
@@ -1202,13 +1223,15 @@ def summarize_events(
     groups = split_groups_on_center_inflexion(groups, pip_size=pip_size)
     moments = build_moments(groups, pip_size=pip_size)
     generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    # T0111: enrich each moment with native retest source fields before export.
+    moment_dicts = [_t0111_enrich_moment(asdict(m)) for m in moments]
     summary = {
         "module": MODULE_NAME,
         "version": VERSION,
         "generated_at_utc": generated_at,
         "source": _source_summary(state, normalized, state_file, events_file),
         "session_scene": _session_summary(moments),
-        "moments": [asdict(m) for m in moments],
+        "moments": moment_dicts,
     }
     return remap_summary_times(summary, replay_report)
 
@@ -1273,6 +1296,7 @@ def render_markdown(summary: Dict[str, Any]) -> str:
             f"**Retest status :** {moment.get('retest_status')}",
             f"**Memory state :** {moment.get('memory_state')}",
             f"**Zone memory :** {moment.get('zone_memory', {})}",
+            f"**Retest source (T0111) :** outcome `{moment.get('retest_outcome_hint', 'N/A')}` | confiance `{moment.get('retest_source_field_confidence', 'N/A')}` | touches {moment.get('retest_touch_count', 0)} | delay {moment.get('retest_delay_seconds')} s | dwell {moment.get('retest_acceptance_dwell_seconds')} s | rejection {moment.get('retest_rejection_speed_pips_per_min')} pips/min | zone distance {moment.get('retest_zone_distance_pips')} pips",
             "",
             "**Ce qui se passe**",
             moment.get("what_happens_fr") or moment.get("reading_fr", ""),
@@ -1385,6 +1409,11 @@ def validate_summary_contract(summary: Dict[str, Any]) -> List[str]:
             "source_mode",
             "data_visibility",
             "confidence_cap",
+            # T0111 native retest source fields.
+            "retest_source_fields_version",
+            "retest_touch_count",
+            "retest_outcome_hint",
+            "retest_source_field_confidence",
         ):
             if key not in moment:
                 problems.append(f"moment {idx} missing {key}")
