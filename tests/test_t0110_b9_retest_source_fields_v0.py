@@ -77,87 +77,84 @@ def calibrate(tmp_path, retest_status=None, zone_memory=None):
     return payload, payload["moments"][0]
 
 
-def test_t0109_fields_are_added(tmp_path):
+def test_t0110_fields_are_added(tmp_path):
     payload, m = calibrate(tmp_path, retest_status="PENDING")
     for field in [
-        "b9_retest_source_version",
-        "b9_retest_source_status",
-        "b9_retest_touch_count_proxy",
-        "b9_retest_delay_proxy_seconds",
-        "b9_retest_source_visibility",
-        "b9_retest_source_evidence_score",
-        "b9_retest_source_signal_state",
-        "b9_retest_source_readiness",
-        "b9_retest_source_reading_fr",
+        "retest_source_fields_version",
+        "retest_touch_count",
+        "retest_first_touch_time",
+        "retest_last_touch_time",
+        "retest_delay_seconds",
+        "retest_acceptance_dwell_seconds",
+        "retest_rejection_speed_pips_per_min",
+        "retest_zone_distance_pips",
+        "retest_outcome_hint",
+        "retest_source_field_confidence",
     ]:
         assert field in m, field
-    assert payload["raw_calibration"]["version"] in {"T0109_RETEST_SOURCE_SIGNALS_V0", "T0110_RETEST_SOURCE_FIELDS_V0"}
+    assert payload["raw_calibration"]["version"] == "T0110_RETEST_SOURCE_FIELDS_V0"
 
 
-def test_explicit_accepted_retest_gets_source_evidence(tmp_path):
-    payload, m = calibrate(tmp_path, retest_status="ACCEPTED")
-    assert m["b9_retest_source_status"] == "RETEST_SOURCE_ACCEPTED_EXPLICIT"
-    assert m["b9_retest_source_signal_state"] in {
-        "RETEST_SIGNAL_ACCEPTANCE_EVIDENCE",
-        "RETEST_SIGNAL_FRICTION_EVIDENCE",
-        "RETEST_SIGNAL_ROTATIONAL_CONTEXT",
-    }
-    assert m["b9_retest_source_evidence_score"] >= 0.4
+def test_explicit_pending_creates_minimum_touch_and_feeds_t0109(tmp_path):
+    payload, m = calibrate(tmp_path, retest_status="PENDING")
+    assert m["retest_touch_count"] == 1
+    assert m["retest_outcome_hint"] == "RETEST_OUTCOME_PENDING"
+    assert m["retest_source_field_confidence"] == "RETEST_SOURCE_FIELDS_EXPLICIT"
+    assert m["b9_retest_source_status"] == "RETEST_SOURCE_PENDING_EXPLICIT"
 
 
-def test_explicit_failed_retest_gets_rejection_evidence(tmp_path):
-    payload, m = calibrate(tmp_path, retest_status="FAILED")
-    assert m["b9_retest_source_status"] == "RETEST_SOURCE_REJECTED_EXPLICIT"
-    assert m["b9_retest_source_signal_state"] in {
-        "RETEST_SIGNAL_REJECTION_EVIDENCE",
-        "RETEST_SIGNAL_FRICTION_EVIDENCE",
-        "RETEST_SIGNAL_TRAP_RISK_CONTEXT",
-    }
-
-
-def test_zone_memory_touch_count_and_delay_are_extracted(tmp_path):
+def test_zone_memory_fields_are_canonicalized(tmp_path):
     zone_memory = {
         "touch_count": 3,
         "last_tested": "2026-05-15T07:58:00Z",
-        "retest_status": "PENDING",
+        "retest_status": "ACCEPTED",
+        "retest_first_touch_time": "2026-05-15T07:57:00Z",
     }
     payload, m = calibrate(tmp_path, zone_memory=zone_memory)
-    assert m["b9_retest_touch_count_proxy"] == 3
-    assert m["b9_retest_delay_proxy_seconds"] == 120.0
-    assert m["b9_retest_source_visibility"] in {"RETEST_VISIBILITY_HIGH", "RETEST_VISIBILITY_MEDIUM"}
+    assert m["retest_touch_count"] == 3
+    assert m["retest_delay_seconds"] == 120.0
+    assert m["retest_first_touch_time"].startswith("2026-05-15T07:57:00")
+    assert m["retest_last_touch_time"].startswith("2026-05-15T07:58:00")
+    assert m["retest_outcome_hint"] == "RETEST_OUTCOME_ACCEPTED"
+    assert m["b9_retest_source_status"] == "RETEST_SOURCE_ACCEPTED_EXPLICIT"
 
 
-def test_not_visible_is_explicitly_declared(tmp_path):
+def test_failed_retest_derives_rejection_fields(tmp_path):
+    payload, m = calibrate(tmp_path, retest_status="FAILED")
+    assert m["retest_outcome_hint"] == "RETEST_OUTCOME_REJECTED_OR_FAILED"
+    assert m["retest_source_field_confidence"] == "RETEST_SOURCE_FIELDS_EXPLICIT"
+    assert m["b9_retest_source_status"] == "RETEST_SOURCE_REJECTED_EXPLICIT"
+
+
+def test_missing_source_remains_visible_as_silent(tmp_path):
     payload, m = calibrate(tmp_path)
-    assert m["b9_retest_source_status"] in {
-        "RETEST_SOURCE_NOT_VISIBLE",
-        "RETEST_SOURCE_ACCEPTED_INFERRED",
-        "RETEST_SOURCE_REJECTED_INFERRED",
-        "RETEST_SOURCE_FRICTION_INFERRED",
-        "RETEST_SOURCE_PENDING_INFERRED",
+    assert m["retest_outcome_hint"] == "RETEST_OUTCOME_NOT_VISIBLE"
+    assert m["retest_source_field_confidence"] in {
+        "RETEST_SOURCE_FIELDS_NOT_VISIBLE",
+        "RETEST_SOURCE_FIELDS_INFERRED",
+        "RETEST_SOURCE_FIELDS_PARTIAL",
     }
-    assert 0.0 <= m["b9_retest_source_evidence_score"] <= 1.0
+    assert "b9_retest_source_status" in m
 
 
 def test_metadata_preserves_prior_layers(tmp_path):
     payload, m = calibrate(tmp_path, retest_status="PENDING")
     raw = payload["raw_calibration"]
-    assert "T0108_RETEST_MIXED_SPLIT_V0" in raw["parent_versions"]
-    assert "b9_flow_intent_state" in raw["natural_flow_factors"]
-    assert "b9_retest_natural_state" in raw["retest_mixed_fields"]
-    assert "b9_retest_source_status" in raw["retest_source_fields"]
+    assert "T0109_RETEST_SOURCE_SIGNALS_V0" in raw["parent_versions"]
+    assert "retest_touch_count" in raw["retest_source_fields"]
+    assert "b9_retest_source_status" in raw["retest_source_signals"]
 
 
 def test_report_and_contract_exist():
-    assert (ROOT / "Docs" / "Reports" / "T0109_B9_RETEST_SOURCE_SIGNALS_V0_REPORT.md").exists()
-    assert (ROOT / "Docs" / "Contracts" / "B9_RETEST_SOURCE_SIGNALS_V0_CONTRACT.md").exists()
+    assert (ROOT / "Docs" / "Reports" / "T0110_B9_RETEST_SOURCE_FIELDS_V0_REPORT.md").exists()
+    assert (ROOT / "Docs" / "Contracts" / "B9_RETEST_SOURCE_FIELDS_V0_CONTRACT.md").exists()
 
 
 def test_no_decision_language():
     combined = (
-        (ROOT / "Docs" / "Reports" / "T0109_B9_RETEST_SOURCE_SIGNALS_V0_REPORT.md").read_text(encoding="utf-8")
+        (ROOT / "Docs" / "Reports" / "T0110_B9_RETEST_SOURCE_FIELDS_V0_REPORT.md").read_text(encoding="utf-8")
         + "\n"
-        + (ROOT / "Docs" / "Contracts" / "B9_RETEST_SOURCE_SIGNALS_V0_CONTRACT.md").read_text(encoding="utf-8")
+        + (ROOT / "Docs" / "Contracts" / "B9_RETEST_SOURCE_FIELDS_V0_CONTRACT.md").read_text(encoding="utf-8")
     ).lower()
     for phrase in ["acheter maintenant", "vendre maintenant", "buy now", "sell now", "signal garanti"]:
         assert phrase not in combined

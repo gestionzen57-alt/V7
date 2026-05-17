@@ -1,0 +1,97 @@
+
+# --- T0110B_B9_RETEST_SOURCE_FIELDS_LEGACY_METADATA_HOTFIX_START ---
+# Hotfix: keep T0110 metadata clean AND legacy-compatible.
+#
+# T0109 historical tests expect `b9_retest_source_status` to appear in
+# raw_calibration["retest_source_fields"]. T0110A separated canonical source
+# fields from computed source signals, which is semantically cleaner, but broke
+# the legacy additive-layer contract.
+#
+# T0110B therefore keeps both:
+# - retest_source_fields includes canonical retest fields + legacy signal aliases
+# - retest_source_signals keeps the computed signal fields explicitly
+#
+# No moment semantics are changed.
+
+def _t0110b_retest_source_fields_legacy_compatible():
+    return [
+        # Canonical source fields introduced by T0110.
+        "retest_touch_count",
+        "retest_first_touch_time",
+        "retest_last_touch_time",
+        "retest_delay_seconds",
+        "retest_acceptance_dwell_seconds",
+        "retest_rejection_speed_pips_per_min",
+        "retest_zone_distance_pips",
+        "retest_outcome_hint",
+        "retest_source_field_confidence",
+
+        # Legacy compatibility aliases expected by T0109 metadata tests.
+        "b9_retest_source_status",
+        "b9_retest_source_visibility",
+        "b9_retest_source_evidence_score",
+        "b9_retest_source_signal_state",
+        "b9_retest_source_readiness",
+        "b9_retest_source_reading_fr",
+    ]
+
+
+def calibrate_summary_with_raw(summary, cfg):
+    payload = _t0103_deepcopy(summary)
+    moments = payload.get("moments", [])
+    payload["moments"] = [_t0103_calibrate_one_moment(m, cfg) for m in moments]
+    payload.setdefault("raw_calibration", {})
+    payload["raw_calibration"].update({
+        "version": "T0110_RETEST_SOURCE_FIELDS_V0",
+        "parent_versions": [
+            "T0109_RETEST_SOURCE_SIGNALS_V0",
+            "T0108_RETEST_MIXED_SPLIT_V0",
+            "T0107_NATURAL_FLOW_READING_V0",
+            "T0107A_GAPPY_THRESHOLD_HOTFIX",
+        ],
+        "symbol": getattr(cfg, "symbol", "GBPUSD"),
+        "broker": getattr(cfg, "broker", "UNKNOWN"),
+        "broker_time_shift_min": getattr(cfg, "broker_time_shift_min", 0),
+        "raw_source_mode": getattr(cfg, "raw_source_mode", "HISTORICAL_RAW"),
+        "raw_data_visibility": getattr(cfg, "raw_data_visibility", "MT5_RAW_ALIGNED"),
+        "b9_temporality_scope": "INTRINSIC_MICROFILM_ONLY",
+        "external_temporality_dependency": False,
+        "volume_policy": "BROKER_RELATIVE_ACTIVITY_ONLY_EXPERIMENTAL",
+        "natural_flow_factors": _t0110a_natural_flow_factors() if "_t0110a_natural_flow_factors" in globals() else [
+            "b9_flow_intent_state",
+            "b9_absorption_like_state",
+            "b9_exhaustion_like_state",
+            "b9_initiative_response_state",
+            "b9_auction_state",
+            "b9_trap_risk_state",
+            "b9_market_readability_state",
+            "b9_natural_flow_reading_fr",
+        ],
+        "retest_mixed_fields": _t0110a_retest_mixed_fields() if "_t0110a_retest_mixed_fields" in globals() else [
+            "b9_mixed_split_state",
+            "b9_retest_natural_state",
+            "b9_retest_quality_state",
+            "b9_context_resolution_state",
+            "b9_retest_mixed_reading_fr",
+        ],
+        "retest_source_fields": _t0110b_retest_source_fields_legacy_compatible(),
+        "retest_source_signals": _t0110a_retest_source_signals() if "_t0110a_retest_source_signals" in globals() else [
+            "b9_retest_source_status",
+            "b9_retest_source_visibility",
+            "b9_retest_source_evidence_score",
+            "b9_retest_source_signal_state",
+            "b9_retest_source_readiness",
+            "b9_retest_source_reading_fr",
+        ],
+        "metadata_compat_hotfix": "T0110B_RETEST_SOURCE_FIELDS_LEGACY_METADATA",
+        "limits": [
+            "interpretation-only",
+            "T0110 is a source-field bridge until native summarizer support",
+            "T0110B preserves T0109 legacy metadata expectations",
+            "external Temporalité brick is not used",
+            "MT5 volume is not global Forex volume",
+            "no BUY/SELL language",
+        ],
+    })
+    return payload
+# --- T0110B_B9_RETEST_SOURCE_FIELDS_LEGACY_METADATA_HOTFIX_END ---

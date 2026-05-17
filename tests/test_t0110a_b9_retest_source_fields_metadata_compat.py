@@ -76,26 +76,29 @@ def calibrate(tmp_path):
     return payload, payload["moments"][0]
 
 
-def test_t0108_preserves_t0107_metadata(tmp_path):
+def test_t0110a_preserves_natural_flow_metadata(tmp_path):
     payload, m = calibrate(tmp_path)
     raw = payload["raw_calibration"]
-    assert raw["version"] in {"T0108_RETEST_MIXED_SPLIT_V0", "T0109_RETEST_SOURCE_SIGNALS_V0", "T0110_RETEST_SOURCE_FIELDS_V0"}
+    assert raw["version"] == "T0110_RETEST_SOURCE_FIELDS_V0"
+    assert "T0109_RETEST_SOURCE_SIGNALS_V0" in raw["parent_versions"]
+    assert "T0108_RETEST_MIXED_SPLIT_V0" in raw["parent_versions"]
     assert "T0107_NATURAL_FLOW_READING_V0" in raw["parent_versions"]
     assert "b9_flow_intent_state" in raw["natural_flow_factors"]
     assert "b9_retest_natural_state" in raw["retest_mixed_fields"]
+    assert "retest_touch_count" in raw["retest_source_fields"]
+    assert "b9_retest_source_status" in raw["retest_source_signals"]
 
 
-def test_t0107_and_t0108_fields_coexist(tmp_path):
+def test_t0110a_does_not_remove_t0110_fields(tmp_path):
     payload, m = calibrate(tmp_path)
-    assert "b9_natural_flow_version" in m
+    assert m["retest_source_fields_version"] == "T0110_RETEST_SOURCE_FIELDS_V0"
+    assert "retest_touch_count" in m
+    assert "b9_retest_source_status" in m
     assert "b9_flow_intent_state" in m
-    assert "b9_retest_mixed_split_version" in m
-    assert "b9_retest_natural_state" in m
-    assert "b9_context_resolution_state" in m
 
 
 def test_report_exists_and_no_decision_language():
-    path = ROOT / "Docs" / "Reports" / "T0108A_B9_RETEST_MIXED_METADATA_COMPAT_HOTFIX.md"
+    path = ROOT / "Docs" / "Reports" / "T0110A_B9_RETEST_SOURCE_FIELDS_METADATA_COMPAT_HOTFIX.md"
     assert path.exists()
     text = path.read_text(encoding="utf-8").lower()
     for phrase in ["acheter maintenant", "vendre maintenant", "buy now", "sell now", "signal garanti"]:

@@ -100,7 +100,7 @@ def test_t0107_fields_are_added(tmp_path):
     ]
     for field in required:
         assert field in m, field
-    assert payload["raw_calibration"]["version"] in {"T0107_NATURAL_FLOW_READING_V0", "T0108_RETEST_MIXED_SPLIT_V0", "T0109_RETEST_SOURCE_SIGNALS_V0"}
+    assert payload["raw_calibration"]["version"] in {"T0107_NATURAL_FLOW_READING_V0", "T0108_RETEST_MIXED_SPLIT_V0", "T0109_RETEST_SOURCE_SIGNALS_V0", "T0110_RETEST_SOURCE_FIELDS_V0"}
 
 
 def test_directional_flow_can_be_detected(tmp_path):

@@ -1,0 +1,97 @@
+
+# --- T0110A_B9_RETEST_SOURCE_FIELDS_METADATA_COMPAT_HOTFIX_START ---
+# Hotfix: T0110 is the active top layer, but it must preserve
+# the metadata traceability expected by T0107/T0108/T0109 tests:
+# - natural_flow_factors
+# - retest_mixed_fields
+# - retest_source_fields
+# - retest_source_signals
+#
+# T0110A does not change the moment semantics. It only restores
+# additive-layer metadata contract.
+
+def _t0110a_natural_flow_factors():
+    return [
+        "b9_flow_intent_state",
+        "b9_absorption_like_state",
+        "b9_exhaustion_like_state",
+        "b9_initiative_response_state",
+        "b9_auction_state",
+        "b9_trap_risk_state",
+        "b9_market_readability_state",
+        "b9_natural_flow_reading_fr",
+    ]
+
+
+def _t0110a_retest_mixed_fields():
+    return [
+        "b9_mixed_split_state",
+        "b9_retest_natural_state",
+        "b9_retest_quality_state",
+        "b9_context_resolution_state",
+        "b9_retest_mixed_reading_fr",
+    ]
+
+
+def _t0110a_retest_source_fields():
+    return [
+        "retest_touch_count",
+        "retest_first_touch_time",
+        "retest_last_touch_time",
+        "retest_delay_seconds",
+        "retest_acceptance_dwell_seconds",
+        "retest_rejection_speed_pips_per_min",
+        "retest_zone_distance_pips",
+        "retest_outcome_hint",
+        "retest_source_field_confidence",
+    ]
+
+
+def _t0110a_retest_source_signals():
+    return [
+        "b9_retest_source_status",
+        "b9_retest_source_visibility",
+        "b9_retest_source_evidence_score",
+        "b9_retest_source_signal_state",
+        "b9_retest_source_readiness",
+        "b9_retest_source_reading_fr",
+    ]
+
+
+def calibrate_summary_with_raw(summary, cfg):
+    payload = _t0103_deepcopy(summary)
+    moments = payload.get("moments", [])
+    payload["moments"] = [_t0103_calibrate_one_moment(m, cfg) for m in moments]
+    payload.setdefault("raw_calibration", {})
+    payload["raw_calibration"].update({
+        "version": "T0110_RETEST_SOURCE_FIELDS_V0",
+        "parent_versions": [
+            "T0109_RETEST_SOURCE_SIGNALS_V0",
+            "T0108_RETEST_MIXED_SPLIT_V0",
+            "T0107_NATURAL_FLOW_READING_V0",
+            "T0107A_GAPPY_THRESHOLD_HOTFIX",
+        ],
+        "symbol": getattr(cfg, "symbol", "GBPUSD"),
+        "broker": getattr(cfg, "broker", "UNKNOWN"),
+        "broker_time_shift_min": getattr(cfg, "broker_time_shift_min", 0),
+        "raw_source_mode": getattr(cfg, "raw_source_mode", "HISTORICAL_RAW"),
+        "raw_data_visibility": getattr(cfg, "raw_data_visibility", "MT5_RAW_ALIGNED"),
+        "b9_temporality_scope": "INTRINSIC_MICROFILM_ONLY",
+        "external_temporality_dependency": False,
+        "volume_policy": "BROKER_RELATIVE_ACTIVITY_ONLY_EXPERIMENTAL",
+        "natural_flow_factors": _t0110a_natural_flow_factors(),
+        "retest_mixed_fields": _t0110a_retest_mixed_fields(),
+        "retest_source_fields": _t0110a_retest_source_fields(),
+        "retest_source_signals": _t0110a_retest_source_signals(),
+        "metadata_compat_hotfix": "T0110A_RETEST_SOURCE_FIELDS_METADATA_COMPAT",
+        "limits": [
+            "interpretation-only",
+            "T0110 is a source-field bridge until native summarizer support",
+            "T0110A preserves natural_flow_factors metadata for additive-layer compatibility",
+            "external Temporalité brick is not used",
+            "MT5 volume is not global Forex volume",
+            "no BUY/SELL language",
+        ],
+    })
+    return payload
+# --- T0110A_B9_RETEST_SOURCE_FIELDS_METADATA_COMPAT_HOTFIX_END ---

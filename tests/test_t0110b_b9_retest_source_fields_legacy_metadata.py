@@ -76,26 +76,35 @@ def calibrate(tmp_path):
     return payload, payload["moments"][0]
 
 
-def test_t0108_preserves_t0107_metadata(tmp_path):
+def test_t0110b_retest_source_fields_include_legacy_signal_aliases(tmp_path):
     payload, m = calibrate(tmp_path)
     raw = payload["raw_calibration"]
-    assert raw["version"] in {"T0108_RETEST_MIXED_SPLIT_V0", "T0109_RETEST_SOURCE_SIGNALS_V0", "T0110_RETEST_SOURCE_FIELDS_V0"}
-    assert "T0107_NATURAL_FLOW_READING_V0" in raw["parent_versions"]
+    assert raw["version"] == "T0110_RETEST_SOURCE_FIELDS_V0"
+
+    # T0109 legacy metadata expectation.
+    assert "b9_retest_source_status" in raw["retest_source_fields"]
+
+    # T0110 canonical source fields remain present.
+    assert "retest_touch_count" in raw["retest_source_fields"]
+    assert "retest_outcome_hint" in raw["retest_source_fields"]
+
+    # Signals also remain explicit in the cleaner metadata key.
+    assert "b9_retest_source_status" in raw["retest_source_signals"]
+    assert raw["metadata_compat_hotfix"] == "T0110B_RETEST_SOURCE_FIELDS_LEGACY_METADATA"
+
+
+def test_t0110b_preserves_all_prior_metadata_layers(tmp_path):
+    payload, m = calibrate(tmp_path)
+    raw = payload["raw_calibration"]
     assert "b9_flow_intent_state" in raw["natural_flow_factors"]
     assert "b9_retest_natural_state" in raw["retest_mixed_fields"]
-
-
-def test_t0107_and_t0108_fields_coexist(tmp_path):
-    payload, m = calibrate(tmp_path)
-    assert "b9_natural_flow_version" in m
-    assert "b9_flow_intent_state" in m
-    assert "b9_retest_mixed_split_version" in m
-    assert "b9_retest_natural_state" in m
-    assert "b9_context_resolution_state" in m
+    assert "T0109_RETEST_SOURCE_SIGNALS_V0" in raw["parent_versions"]
+    assert "T0108_RETEST_MIXED_SPLIT_V0" in raw["parent_versions"]
+    assert "T0107_NATURAL_FLOW_READING_V0" in raw["parent_versions"]
 
 
 def test_report_exists_and_no_decision_language():
-    path = ROOT / "Docs" / "Reports" / "T0108A_B9_RETEST_MIXED_METADATA_COMPAT_HOTFIX.md"
+    path = ROOT / "Docs" / "Reports" / "T0110B_B9_RETEST_SOURCE_FIELDS_LEGACY_METADATA_HOTFIX.md"
     assert path.exists()
     text = path.read_text(encoding="utf-8").lower()
     for phrase in ["acheter maintenant", "vendre maintenant", "buy now", "sell now", "signal garanti"]:
