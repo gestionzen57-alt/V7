@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 MODULE_NAME = "pf_t009_sequence_summarizer"
-VERSION = "V3.1"
+VERSION = "V3.1.1"
 DEFAULT_PIP_SIZE = 0.0001
 DEFAULT_MAX_GAP_SEC = 300
 DEFAULT_PRICE_MERGE_PIPS = 5.0
@@ -195,6 +195,28 @@ def _first_present(data: Dict[str, Any], paths: Sequence[str]) -> Any:
     return _nested_get(data, *paths)
 
 
+def _deep_find_key(data: Any, key: str) -> Any:
+    """Find first key occurrence in nested replay reports.
+
+    Replay reports may wrap shifted/original start fields under window, replay,
+    metadata, sequence, or custom payloads. V3.1.1 accepts those shapes without
+    requiring the caller to flatten the report.
+    """
+    if isinstance(data, dict):
+        if key in data:
+            return data[key]
+        for value in data.values():
+            found = _deep_find_key(value, key)
+            if found is not None:
+                return found
+    elif isinstance(data, list):
+        for item in data:
+            found = _deep_find_key(item, key)
+            if found is not None:
+                return found
+    return None
+
+
 def _build_time_remap(replay_report: Optional[Dict[str, Any]]) -> Optional[Tuple[datetime, datetime]]:
     """Return (shifted_start, original_start) for replay timestamp remapping."""
     if not isinstance(replay_report, dict) or not replay_report:
@@ -205,6 +227,8 @@ def _build_time_remap(replay_report: Optional[Dict[str, Any]]) -> Optional[Tuple
         "replay.shifted_start_utc",
         "time_remap.shifted_start_utc",
         "metadata.shifted_start_utc",
+        "sequence.shifted_start_utc",
+        "window.shifted_start_utc",
     )
     original = _nested_get(
         replay_report,
@@ -212,7 +236,13 @@ def _build_time_remap(replay_report: Optional[Dict[str, Any]]) -> Optional[Tuple
         "replay.original_start_utc",
         "time_remap.original_start_utc",
         "metadata.original_start_utc",
+        "sequence.original_start_utc",
+        "window.original_start_utc",
     )
+    if shifted is None:
+        shifted = _deep_find_key(replay_report, "shifted_start_utc")
+    if original is None:
+        original = _deep_find_key(replay_report, "original_start_utc")
     shifted_dt = _parse_time(shifted)
     original_dt = _parse_time(original)
     if shifted_dt is None or original_dt is None:
@@ -342,8 +372,6 @@ def normalize_event(
     )
     ts_value = raw_ts_value if raw_ts_value is not None else _nested_get(event, "ts_utc", "timestamp", "time", "created_at", "bucket.timestamp")
     dt = _parse_time(ts_value)
-    if raw_ts_value is None:
-        dt = _apply_time_remap(dt, time_remap)
 
     return NormalizedEvent(
         timestamp=_iso_utc(dt),
@@ -615,6 +643,9 @@ def _build_zone_memory(metrics: Dict[str, Any], memory_state: str) -> Dict[str, 
         "zone_high": _round_or_none(metrics.get("zone_high"), 6),
         "zone_center_start": _round_or_none(metrics.get("center_start"), 6),
         "zone_center_end": _round_or_none(metrics.get("center_end"), 6),
+        "first_seen": metrics.get("time_start"),
+        "last_seen": metrics.get("time_end"),
+        "last_tested": metrics.get("time_end"),
         "state": memory_state,
         "event_count": metrics.get("event_count", 0),
         "source_mode": metrics.get("source_mode"),
@@ -1096,6 +1127,66 @@ def _source_summary(state: Dict[str, Any], events: Sequence[NormalizedEvent], st
     }
 
 
+_REMAP_TIME_KEYS = {
+    "time_start",
+    "time_end",
+    "first_seen",
+    "last_seen",
+    "last_tested",
+    "start_utc",
+    "end_utc",
+    "timestamp",
+    "ts_utc",
+}
+
+
+def _remap_iso_value(value: Any, time_remap: Optional[Tuple[datetime, datetime]]) -> Any:
+    dt = _parse_time(value)
+    if dt is None:
+        return value
+    return _iso_utc(_apply_time_remap(dt, time_remap))
+
+
+def _remap_time_fields_inplace(value: Any, time_remap: Optional[Tuple[datetime, datetime]]) -> None:
+    """Recursively remap known timestamp fields in an export object.
+
+    This is deliberately applied at export-summary level, not classification level:
+    scores, labels, moments, scenes, zones and grouping stay unchanged. Only the
+    outward-facing clock is translated from replay time to original market time.
+    """
+    if time_remap is None:
+        return
+    if isinstance(value, dict):
+        for key, item in list(value.items()):
+            if key in _REMAP_TIME_KEYS and item is not None:
+                value[key] = _remap_iso_value(item, time_remap)
+            else:
+                _remap_time_fields_inplace(item, time_remap)
+    elif isinstance(value, list):
+        for item in value:
+            _remap_time_fields_inplace(item, time_remap)
+
+
+def remap_summary_times(summary: Dict[str, Any], replay_report: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    """Return summary with exported replay timestamps converted to original time.
+
+    If no usable replay report is provided, the summary is returned unchanged.
+    """
+    time_remap = _build_time_remap(replay_report)
+    if time_remap is None:
+        return summary
+    _remap_time_fields_inplace(summary, time_remap)
+    shifted_start, original_start = time_remap
+    source = summary.setdefault("source", {})
+    source["replay_time_remap"] = {
+        "applied": True,
+        "original_start_utc": _iso_utc(original_start),
+        "shift_delta_seconds": int((shifted_start - original_start).total_seconds()),
+        "note_fr": "Horaires exportes remappes vers le temps original de marche.",
+    }
+    return summary
+
+
 def summarize_events(
     state: Dict[str, Any],
     events: Sequence[Dict[str, Any]],
@@ -1111,7 +1202,7 @@ def summarize_events(
     groups = split_groups_on_center_inflexion(groups, pip_size=pip_size)
     moments = build_moments(groups, pip_size=pip_size)
     generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    return {
+    summary = {
         "module": MODULE_NAME,
         "version": VERSION,
         "generated_at_utc": generated_at,
@@ -1119,6 +1210,7 @@ def summarize_events(
         "session_scene": _session_summary(moments),
         "moments": [asdict(m) for m in moments],
     }
+    return remap_summary_times(summary, replay_report)
 
 
 def export_json(summary: Dict[str, Any], path: str | Path) -> Path:
@@ -1133,7 +1225,7 @@ def render_markdown(summary: Dict[str, Any]) -> str:
     moments = summary.get("moments", [])
     session = summary.get("session_scene", {})
     lines: List[str] = [
-        "# T009 Sequence Summary V3.1",
+        "# T009 Sequence Summary V3.1.1",
         "",
         "## Resume",
         f"- Version : {summary.get('version')}",
