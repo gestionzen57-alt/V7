@@ -1200,3 +1200,278 @@ def calibrate_summary_with_raw(summary, cfg):
     })
     return payload
 # --- T0105_B9_RAW_ACTIVITY_METRICS_V0_END ---
+
+# --- T0106_B9_DIRECT_RAW_FACTORS_V0_START ---
+# Direct B9 factor integration V0.
+# This is not the B6 Lab and not the external Temporalité brick.
+# It enriches B9 moments directly with internal temporal / raw / spread / volume factors.
+
+_T0106_PREVIOUS_CALIBRATE_ONE_MOMENT = _t0103_calibrate_one_moment
+
+
+def _t0106_clamp(value, low=0.0, high=1.0):
+    try:
+        value = float(value)
+    except Exception:
+        return low
+    return max(low, min(high, value))
+
+
+def _t0106_num(value, default=None):
+    try:
+        if value is None:
+            return default
+        return float(value)
+    except Exception:
+        return default
+
+
+def _t0106_temporal_pressure_state(out):
+    dwell = _t0106_num(out.get("b9_dwell_seconds"), 0.0) or 0.0
+    verdict = str(out.get("proxy_vs_raw_verdict", ""))
+
+    if verdict == "ZERO_DURATION_MOMENT" or dwell <= 0:
+        return "TEMPORAL_ZERO_DURATION_ARTIFACT"
+    if dwell <= 60:
+        return "TEMPORAL_SHORT_IMPULSE"
+    if dwell <= 300:
+        return "TEMPORAL_ACTIVE_MICROFILM"
+    if dwell <= 900:
+        return "TEMPORAL_EXTENDED_DWELL"
+    return "TEMPORAL_LONG_COMPRESSION_OR_ROTATION"
+
+
+def _t0106_activity_factor(out):
+    profile = str(out.get("raw_activity_profile") or "RAW_ACTIVITY_UNKNOWN")
+    mapping = {
+        "RAW_ACTIVITY_BURST": "ACTIVITY_BURST",
+        "RAW_ACTIVITY_DENSE": "ACTIVITY_DENSE",
+        "RAW_ACTIVITY_NORMAL": "ACTIVITY_NORMAL",
+        "RAW_ACTIVITY_THIN": "ACTIVITY_THIN_LIMIT",
+        "RAW_ACTIVITY_GAPPY": "ACTIVITY_GAPPY_LIMIT",
+        "RAW_ACTIVITY_UNKNOWN": "ACTIVITY_UNKNOWN",
+    }
+    return mapping.get(profile, "ACTIVITY_UNKNOWN")
+
+
+def _t0106_spread_factor(out):
+    spread = str(out.get("raw_spread_stability_state") or "SPREAD_UNKNOWN")
+    mapping = {
+        "SPREAD_STABLE": "SPREAD_CLEAN",
+        "SPREAD_EXPANDING": "SPREAD_EXPANDING_CAUTION",
+        "SPREAD_UNSTABLE": "SPREAD_UNSTABLE_LIMIT",
+        "SPREAD_THIN_DATA": "SPREAD_THIN_DATA_LIMIT",
+        "SPREAD_UNKNOWN": "SPREAD_UNKNOWN",
+    }
+    return mapping.get(spread, "SPREAD_UNKNOWN")
+
+
+def _t0106_volume_factor(out):
+    visibility = str(out.get("raw_volume_visibility_state") or "VOLUME_NOT_PRESENT")
+    density = _t0106_num(out.get("raw_tick_volume_density"), None)
+
+    if visibility == "VOLUME_NOT_PRESENT":
+        return "VOLUME_ABSENT"
+    if density is None:
+        return "VOLUME_VISIBLE_BROKER_RELATIVE_NO_DENSITY"
+    if density <= 0:
+        return "VOLUME_VISIBLE_BROKER_RELATIVE_EMPTY"
+    if density < 0.5:
+        return "VOLUME_VISIBLE_BROKER_RELATIVE_THIN"
+    if density < 5.0:
+        return "VOLUME_VISIBLE_BROKER_RELATIVE_NORMAL"
+    return "VOLUME_VISIBLE_BROKER_RELATIVE_ACTIVE"
+
+
+def _t0106_center_speed_factor(out):
+    speed = abs(_t0106_num(out.get("b9_center_migration_speed_pips_per_min"), 0.0) or 0.0)
+    if speed <= 0:
+        return "CENTER_SPEED_FLAT_OR_UNKNOWN"
+    if speed < 0.5:
+        return "CENTER_SPEED_SLOW"
+    if speed < 2.0:
+        return "CENTER_SPEED_ACTIVE"
+    if speed < 5.0:
+        return "CENTER_SPEED_FAST"
+    return "CENTER_SPEED_EXTREME"
+
+
+def _t0106_microfilm_texture_score(out):
+    score = 0.50
+
+    coverage = str(out.get("raw_coverage") or "")
+    verdict = str(out.get("proxy_vs_raw_verdict") or "")
+    activity = str(out.get("raw_activity_profile") or "")
+    spread = str(out.get("raw_spread_stability_state") or "")
+    volume = str(out.get("raw_volume_visibility_state") or "")
+    texture = str(out.get("raw_texture_role") or "")
+
+    if coverage == "FULL":
+        score += 0.10
+    elif coverage == "PARTIAL":
+        score -= 0.05
+    elif coverage == "RAW_UNAVAILABLE":
+        score -= 0.25
+
+    if verdict == "CONFIRMED_BY_RAW":
+        score += 0.12
+    elif verdict == "NUANCED_BY_RAW":
+        score += 0.02
+    elif verdict == "ZERO_DURATION_MOMENT":
+        score -= 0.35
+
+    if activity in {"RAW_ACTIVITY_DENSE", "RAW_ACTIVITY_BURST"}:
+        score += 0.10
+    elif activity == "RAW_ACTIVITY_NORMAL":
+        score += 0.03
+    elif activity in {"RAW_ACTIVITY_THIN", "RAW_ACTIVITY_GAPPY"}:
+        score -= 0.15
+
+    if spread == "SPREAD_STABLE":
+        score += 0.08
+    elif spread == "SPREAD_EXPANDING":
+        score -= 0.03
+    elif spread == "SPREAD_UNSTABLE":
+        score -= 0.18
+    elif spread == "SPREAD_THIN_DATA":
+        score -= 0.10
+
+    if volume == "VOLUME_PRESENT_BROKER_RELATIVE":
+        score += 0.03
+
+    if texture in {"RAW_PROXY_DIVERGENCE", "RAW_WEAK_PROGRESS", "RAW_THIN_OR_GAPPY_ACTIVITY", "RAW_SPREAD_UNSTABLE"}:
+        score -= 0.10
+
+    return round(_t0106_clamp(score), 4)
+
+
+def _t0106_quality_state(score, out):
+    verdict = str(out.get("proxy_vs_raw_verdict") or "")
+    if verdict == "ZERO_DURATION_MOMENT":
+        return "MICROFILM_ARTIFACT"
+    if score >= 0.75:
+        return "MICROFILM_TEXTURE_HIGH"
+    if score >= 0.55:
+        return "MICROFILM_TEXTURE_MEDIUM"
+    if score >= 0.35:
+        return "MICROFILM_TEXTURE_LOW"
+    return "MICROFILM_TEXTURE_LIMITED"
+
+
+def _t0106_profile(out):
+    verdict = str(out.get("proxy_vs_raw_verdict") or "")
+    prog = str(out.get("progressive_wave_state") or "")
+    activity = str(out.get("raw_activity_profile") or "")
+    spread = str(out.get("raw_spread_stability_state") or "")
+    texture = str(out.get("raw_texture_role") or "")
+
+    if verdict == "ZERO_DURATION_MOMENT":
+        return "ZERO_DURATION_ARTIFACT"
+    if spread == "SPREAD_UNSTABLE":
+        return "SPREAD_UNSTABLE_MICROFILM"
+    if activity == "RAW_ACTIVITY_GAPPY":
+        return "GAPPY_MICROFILM_LIMIT"
+    if "ROTATIONAL" in prog:
+        return "PROGRESSIVE_ROTATIONAL_TRAP"
+    if "WEAK_RAW" in prog:
+        return "WEAK_RAW_PROGRESS"
+    if "CONFIRMED" in prog and verdict == "CONFIRMED_BY_RAW":
+        return "CLEAN_PROGRESSIVE_MICROFILM"
+    if texture == "RAW_ROTATION_CONFIRMED":
+        return "ROTATIONAL_MICROFILM"
+    if texture == "RAW_PROGRESS_CONFIRMED":
+        return "RAW_CONFIRMED_MICROFILM"
+    return "MIXED_MICROFILM"
+
+
+def _t0106_flags(out):
+    flags = []
+
+    if str(out.get("proxy_vs_raw_verdict")) == "ZERO_DURATION_MOMENT":
+        flags.append("ZERO_DURATION_ARTIFACT")
+    if str(out.get("raw_activity_profile")) == "RAW_ACTIVITY_GAPPY":
+        flags.append("GAPPY_RAW_CADENCE")
+    if str(out.get("raw_activity_profile")) == "RAW_ACTIVITY_THIN":
+        flags.append("THIN_RAW_ACTIVITY")
+    if str(out.get("raw_spread_stability_state")) == "SPREAD_UNSTABLE":
+        flags.append("SPREAD_UNSTABLE")
+    if str(out.get("raw_spread_stability_state")) == "SPREAD_EXPANDING":
+        flags.append("SPREAD_EXPANDING")
+    if str(out.get("raw_volume_visibility_state")) == "VOLUME_PRESENT_BROKER_RELATIVE":
+        flags.append("VOLUME_BROKER_RELATIVE_VISIBLE")
+    if str(out.get("progressive_wave_state")) == "PROGRESSIVE_WAVE_ROTATIONAL":
+        flags.append("PROGRESSIVE_ROTATIONAL_TRAP")
+    if str(out.get("progressive_wave_state")) == "PROGRESSIVE_WAVE_WEAK_RAW":
+        flags.append("PROGRESSIVE_WEAK_RAW")
+    if abs(_t0106_num(out.get("b9_center_migration_speed_pips_per_min"), 0.0) or 0.0) >= 2.0:
+        flags.append("FAST_CENTER_MIGRATION")
+    if not flags:
+        flags.append("NO_MAJOR_RAW_FACTOR_LIMIT")
+    return flags
+
+
+def _t0106_apply_direct_factors(out):
+    out["b9_direct_factor_version"] = "T0106_DIRECT_RAW_FACTORS_V0"
+    out["b9_temporal_pressure_state"] = _t0106_temporal_pressure_state(out)
+    out["b9_raw_activity_factor"] = _t0106_activity_factor(out)
+    out["b9_spread_factor"] = _t0106_spread_factor(out)
+    out["b9_volume_factor_state"] = _t0106_volume_factor(out)
+    out["b9_center_speed_factor"] = _t0106_center_speed_factor(out)
+
+    score = _t0106_microfilm_texture_score(out)
+    out["b9_microfilm_texture_score"] = score
+    out["b9_microfilm_quality_state"] = _t0106_quality_state(score, out)
+    out["b9_microfilm_profile"] = _t0106_profile(out)
+    out["b9_factor_flags"] = _t0106_flags(out)
+
+    out["b9_volume_use_policy"] = "BROKER_RELATIVE_ACTIVITY_ONLY_EXPERIMENTAL"
+    out["b9_temporality_policy"] = "INTRINSIC_MICROFILM_TIME_ONLY_NO_EXTERNAL_TEMPORALITE"
+    out["b9_direct_factor_limits"] = [
+        "temporal factor is B9 intrinsic microfilm time only",
+        "MT5 volume is broker-relative and experimental",
+        "spread and activity are texture filters, not trade decisions",
+        "no global Forex volume claim",
+        "no BUY/SELL language",
+    ]
+    return out
+
+
+def _t0103_calibrate_one_moment(moment, cfg):
+    out = _T0106_PREVIOUS_CALIBRATE_ONE_MOMENT(moment, cfg)
+    return _t0106_apply_direct_factors(out)
+
+
+def calibrate_summary_with_raw(summary, cfg):
+    payload = _t0103_deepcopy(summary)
+    moments = payload.get("moments", [])
+    payload["moments"] = [_t0103_calibrate_one_moment(m, cfg) for m in moments]
+    payload.setdefault("raw_calibration", {})
+    payload["raw_calibration"].update({
+        "version": "T0106_DIRECT_RAW_FACTORS_V0",
+        "symbol": getattr(cfg, "symbol", "GBPUSD"),
+        "broker": getattr(cfg, "broker", "UNKNOWN"),
+        "broker_time_shift_min": getattr(cfg, "broker_time_shift_min", 0),
+        "raw_source_mode": getattr(cfg, "raw_source_mode", "HISTORICAL_RAW"),
+        "raw_data_visibility": getattr(cfg, "raw_data_visibility", "MT5_RAW_ALIGNED"),
+        "b9_temporality_scope": "INTRINSIC_MICROFILM_ONLY",
+        "external_temporality_dependency": False,
+        "volume_policy": "BROKER_RELATIVE_ACTIVITY_ONLY_EXPERIMENTAL",
+        "direct_factors": [
+            "b9_temporal_pressure_state",
+            "b9_raw_activity_factor",
+            "b9_spread_factor",
+            "b9_volume_factor_state",
+            "b9_center_speed_factor",
+            "b9_microfilm_texture_score",
+            "b9_microfilm_profile",
+            "b9_factor_flags",
+        ],
+        "limits": [
+            "direct factors are interpretability factors, not trading signals",
+            "MT5 volume is not global Forex volume",
+            "external Temporalité brick is not used",
+            "no BUY/SELL language",
+        ],
+    })
+    return payload
+# --- T0106_B9_DIRECT_RAW_FACTORS_V0_END ---
