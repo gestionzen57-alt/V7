@@ -1,0 +1,301 @@
+
+# --- T0107_B9_NATURAL_FLOW_READING_V0_START ---
+# B9 Natural Flow Reading V0.
+# Inspired by generic order-flow / auction-reading principles:
+# effort vs result, initiative vs response, absorption-like friction,
+# rotation vs displacement, exhaustion, and trap texture.
+# This is an adaptation for PowerFlow B9, not a DeltaRiver clone.
+# No trading decision, no BUY/SELL, no dashboard mutation, no DB write.
+
+_T0107_PREVIOUS_CALIBRATE_ONE_MOMENT = _t0103_calibrate_one_moment
+
+
+def _t0107_float(value, default=0.0):
+    try:
+        if value is None:
+            return default
+        return float(value)
+    except Exception:
+        return default
+
+
+def _t0107_str(value):
+    return "" if value is None else str(value)
+
+
+def _t0107_clamp(value, low=0.0, high=1.0):
+    try:
+        value = float(value)
+    except Exception:
+        return low
+    return max(low, min(high, value))
+
+
+def _t0107_effort_result_ratio(out):
+    ticks = max(0.0, _t0107_float(out.get("raw_tick_count_dedup", out.get("raw_tick_count")), 0.0))
+    dwell = max(1.0, _t0107_float(out.get("b9_dwell_seconds"), 1.0))
+    raw_delta = abs(_t0107_float(out.get("raw_delta_pips"), 0.0))
+    raw_range = max(0.000001, abs(_t0107_float(out.get("raw_range_pips"), 0.0)))
+    density = ticks / dwell
+
+    # High effort with low directional result means friction / absorption-like texture.
+    directional_efficiency = raw_delta / raw_range
+    effort_load = density * raw_range
+    return {
+        "b9_directional_efficiency": round(_t0107_clamp(directional_efficiency), 4),
+        "b9_effort_load": round(effort_load, 6),
+        "b9_effort_result_ratio": round(effort_load / max(0.25, raw_delta), 6),
+    }
+
+
+def _t0107_flow_intent_state(out):
+    verdict = _t0107_str(out.get("proxy_vs_raw_verdict"))
+    texture = _t0107_str(out.get("raw_texture_role"))
+    profile = _t0107_str(out.get("b9_microfilm_profile"))
+    activity = _t0107_str(out.get("raw_activity_profile"))
+    spread = _t0107_str(out.get("raw_spread_stability_state"))
+    efficiency = _t0107_float(out.get("b9_directional_efficiency"), 0.0)
+    raw_delta = abs(_t0107_float(out.get("raw_delta_pips"), 0.0))
+    raw_range = abs(_t0107_float(out.get("raw_range_pips"), 0.0))
+
+    if verdict == "ZERO_DURATION_MOMENT" or profile == "ZERO_DURATION_ARTIFACT":
+        return "FLOW_ARTIFACT"
+    if spread == "SPREAD_UNSTABLE":
+        return "FLOW_UNSTABLE_QUOTE_TEXTURE"
+    if activity == "RAW_ACTIVITY_GAPPY":
+        return "FLOW_GAPPY_LIMIT"
+    if "ROTATIONAL" in profile or texture == "RAW_ROTATION_CONFIRMED" or efficiency < 0.35 and raw_range >= 4.0:
+        return "FLOW_ROTATIONAL"
+    if "WEAK_RAW" in profile or texture == "RAW_WEAK_PROGRESS":
+        return "FLOW_WEAK_DIRECTIONAL"
+    if verdict == "CONFIRMED_BY_RAW" and raw_delta >= 4.0 and efficiency >= 0.55:
+        return "FLOW_DIRECTIONAL_DISPLACEMENT"
+    if raw_range >= 6.0 and efficiency < 0.45:
+        return "FLOW_BALANCED_AUCTION"
+    return "FLOW_MIXED"
+
+
+def _t0107_absorption_like_state(out):
+    efficiency = _t0107_float(out.get("b9_directional_efficiency"), 0.0)
+    effort_ratio = _t0107_float(out.get("b9_effort_result_ratio"), 0.0)
+    raw_range = abs(_t0107_float(out.get("raw_range_pips"), 0.0))
+    raw_delta = abs(_t0107_float(out.get("raw_delta_pips"), 0.0))
+    activity = _t0107_str(out.get("raw_activity_profile"))
+    texture = _t0107_str(out.get("raw_texture_role"))
+
+    if raw_range < 2.0:
+        return "ABSORPTION_NOT_ENOUGH_RANGE"
+    if activity in {"RAW_ACTIVITY_THIN", "RAW_ACTIVITY_GAPPY"}:
+        return "ABSORPTION_UNREADABLE_ACTIVITY_LIMIT"
+    if texture == "RAW_ROTATION_CONFIRMED" and efficiency < 0.35:
+        return "ABSORPTION_LIKE_ROTATIONAL_FRICTION"
+    if effort_ratio >= 2.5 and raw_delta <= max(2.0, raw_range * 0.30):
+        return "ABSORPTION_LIKE_EFFORT_WITHOUT_RESULT"
+    if effort_ratio >= 1.5 and efficiency < 0.45:
+        return "ABSORPTION_LIKE_PARTIAL_FRICTION"
+    return "ABSORPTION_NOT_DETECTED"
+
+
+def _t0107_exhaustion_like_state(out):
+    raw_delta = abs(_t0107_float(out.get("raw_delta_pips"), 0.0))
+    raw_range = abs(_t0107_float(out.get("raw_range_pips"), 0.0))
+    speed = abs(_t0107_float(out.get("b9_center_migration_speed_pips_per_min"), 0.0))
+    spread = _t0107_str(out.get("raw_spread_stability_state"))
+    activity = _t0107_str(out.get("raw_activity_profile"))
+    efficiency = _t0107_float(out.get("b9_directional_efficiency"), 0.0)
+
+    if raw_range < 4.0:
+        return "EXHAUSTION_NOT_ENOUGH_RANGE"
+    if spread == "SPREAD_UNSTABLE" and raw_delta >= 3.0:
+        return "EXHAUSTION_LIKE_SPREAD_STRESS"
+    if speed >= 2.0 and efficiency < 0.45:
+        return "EXHAUSTION_LIKE_FAST_BUT_INEFFICIENT"
+    if activity == "RAW_ACTIVITY_GAPPY" and raw_range >= 6.0:
+        return "EXHAUSTION_UNREADABLE_GAPPY_LIMIT"
+    return "EXHAUSTION_NOT_DETECTED"
+
+
+def _t0107_initiative_response_state(out):
+    dwell = _t0107_float(out.get("b9_dwell_seconds"), 0.0)
+    raw_delta = abs(_t0107_float(out.get("raw_delta_pips"), 0.0))
+    speed = abs(_t0107_float(out.get("b9_center_migration_speed_pips_per_min"), 0.0))
+    efficiency = _t0107_float(out.get("b9_directional_efficiency"), 0.0)
+    profile = _t0107_str(out.get("b9_microfilm_profile"))
+
+    if profile == "ZERO_DURATION_ARTIFACT":
+        return "INIT_RESPONSE_ARTIFACT"
+    if dwell <= 90 and raw_delta >= 4.0 and speed >= 1.0 and efficiency >= 0.50:
+        return "INITIATIVE_DISPLACEMENT"
+    if dwell >= 300 and raw_delta < 3.0:
+        return "RESPONSIVE_BALANCING"
+    if "ROTATIONAL" in profile:
+        return "RESPONSIVE_ROTATION"
+    if raw_delta >= 4.0:
+        return "MIXED_INITIATIVE_RESPONSE"
+    return "INIT_RESPONSE_NEUTRAL"
+
+
+def _t0107_auction_state(out):
+    flow = _t0107_str(out.get("b9_flow_intent_state"))
+    absorption = _t0107_str(out.get("b9_absorption_like_state"))
+    exhaustion = _t0107_str(out.get("b9_exhaustion_like_state"))
+    spread = _t0107_str(out.get("raw_spread_stability_state"))
+    activity = _t0107_str(out.get("raw_activity_profile"))
+
+    if flow == "FLOW_ARTIFACT":
+        return "AUCTION_ARTIFACT"
+    if activity == "RAW_ACTIVITY_GAPPY":
+        return "AUCTION_READ_LIMIT_GAPPY"
+    if spread == "SPREAD_UNSTABLE":
+        return "AUCTION_READ_LIMIT_SPREAD"
+    if absorption.startswith("ABSORPTION_LIKE"):
+        return "AUCTION_FRICTION_ABSORPTION_LIKE"
+    if exhaustion.startswith("EXHAUSTION_LIKE"):
+        return "AUCTION_EXHAUSTION_LIKE"
+    if flow == "FLOW_DIRECTIONAL_DISPLACEMENT":
+        return "AUCTION_DIRECTIONAL_ACCEPTANCE"
+    if flow in {"FLOW_ROTATIONAL", "FLOW_BALANCED_AUCTION"}:
+        return "AUCTION_ROTATIONAL_BALANCE"
+    return "AUCTION_MIXED"
+
+
+def _t0107_trap_risk_state(out):
+    profile = _t0107_str(out.get("b9_microfilm_profile"))
+    flow = _t0107_str(out.get("b9_flow_intent_state"))
+    absorption = _t0107_str(out.get("b9_absorption_like_state"))
+    spread = _t0107_str(out.get("raw_spread_stability_state"))
+    activity = _t0107_str(out.get("raw_activity_profile"))
+
+    if profile == "ZERO_DURATION_ARTIFACT":
+        return "TRAP_RISK_ARTIFACT"
+    if "ROTATIONAL_TRAP" in profile:
+        return "TRAP_RISK_HIGH_PROGRESSIVE_ROTATIONAL"
+    if "WEAK_RAW_PROGRESS" in profile:
+        return "TRAP_RISK_HIGH_WEAK_RAW"
+    if flow in {"FLOW_GAPPY_LIMIT", "FLOW_UNSTABLE_QUOTE_TEXTURE"}:
+        return "TRAP_RISK_DATA_TEXTURE_LIMIT"
+    if absorption.startswith("ABSORPTION_LIKE"):
+        return "TRAP_RISK_MEDIUM_EFFORT_WITHOUT_RESULT"
+    if spread == "SPREAD_EXPANDING" or activity == "RAW_ACTIVITY_GAPPY":
+        return "TRAP_RISK_MEDIUM_TEXTURE_CAUTION"
+    return "TRAP_RISK_LOW"
+
+
+def _t0107_market_readability_state(out):
+    score = _t0107_float(out.get("b9_microfilm_texture_score"), 0.0)
+    activity = _t0107_str(out.get("raw_activity_profile"))
+    spread = _t0107_str(out.get("raw_spread_stability_state"))
+    verdict = _t0107_str(out.get("proxy_vs_raw_verdict"))
+
+    if verdict == "ZERO_DURATION_MOMENT":
+        return "READABILITY_ARTIFACT"
+    if activity == "RAW_ACTIVITY_GAPPY" or spread == "SPREAD_UNSTABLE":
+        return "READABILITY_LIMITED_BY_TEXTURE"
+    if score >= 0.75:
+        return "READABILITY_HIGH"
+    if score >= 0.55:
+        return "READABILITY_MEDIUM"
+    if score >= 0.35:
+        return "READABILITY_LOW"
+    return "READABILITY_VERY_LOW"
+
+
+def _t0107_natural_flow_sentence(out):
+    flow = _t0107_str(out.get("b9_flow_intent_state"))
+    auction = _t0107_str(out.get("b9_auction_state"))
+    trap = _t0107_str(out.get("b9_trap_risk_state"))
+    read = _t0107_str(out.get("b9_market_readability_state"))
+
+    if flow == "FLOW_DIRECTIONAL_DISPLACEMENT" and read in {"READABILITY_HIGH", "READABILITY_MEDIUM"}:
+        return "Flux directionnel lisible: déplacement raw avec texture exploitable."
+    if flow == "FLOW_ROTATIONAL":
+        return "Flux rotationnel: mouvement visible mais résultat directionnel limité."
+    if flow == "FLOW_GAPPY_LIMIT":
+        return "Lecture limitée: cadence raw irrégulière."
+    if flow == "FLOW_UNSTABLE_QUOTE_TEXTURE":
+        return "Lecture limitée: spread instable."
+    if trap.startswith("TRAP_RISK_HIGH"):
+        return "Piège probable: le proxy peut surlire la progression."
+    if auction == "AUCTION_FRICTION_ABSORPTION_LIKE":
+        return "Friction type absorption: effort visible sans résultat directionnel propre."
+    return "Flux mixte: conserver comme lecture de contexte, pas comme décision."
+
+
+def _t0107_apply_natural_flow(out):
+    ratios = _t0107_effort_result_ratio(out)
+    out.update(ratios)
+
+    out["b9_natural_flow_version"] = "T0107_NATURAL_FLOW_READING_V0"
+    out["b9_flow_intent_state"] = _t0107_flow_intent_state(out)
+    out["b9_absorption_like_state"] = _t0107_absorption_like_state(out)
+    out["b9_exhaustion_like_state"] = _t0107_exhaustion_like_state(out)
+    out["b9_initiative_response_state"] = _t0107_initiative_response_state(out)
+    out["b9_auction_state"] = _t0107_auction_state(out)
+    out["b9_trap_risk_state"] = _t0107_trap_risk_state(out)
+    out["b9_market_readability_state"] = _t0107_market_readability_state(out)
+    out["b9_natural_flow_reading_fr"] = _t0107_natural_flow_sentence(out)
+
+    flags = list(out.get("b9_factor_flags") or [])
+    for value in [
+        out["b9_flow_intent_state"],
+        out["b9_absorption_like_state"],
+        out["b9_exhaustion_like_state"],
+        out["b9_auction_state"],
+        out["b9_trap_risk_state"],
+    ]:
+        if value and value not in flags:
+            flags.append(value)
+    out["b9_factor_flags"] = flags
+
+    out["b9_natural_flow_policy"] = "INTERPRETATION_ONLY_NO_DECISION"
+    out["b9_natural_flow_limits"] = [
+        "adapted PowerFlow reading, not a DeltaRiver clone",
+        "broker-relative raw and MT5 volume",
+        "no global Forex footprint claim",
+        "no external Temporalité dependency",
+        "no BUY/SELL language",
+    ]
+    return out
+
+
+def _t0103_calibrate_one_moment(moment, cfg):
+    out = _T0107_PREVIOUS_CALIBRATE_ONE_MOMENT(moment, cfg)
+    return _t0107_apply_natural_flow(out)
+
+
+def calibrate_summary_with_raw(summary, cfg):
+    payload = _t0103_deepcopy(summary)
+    moments = payload.get("moments", [])
+    payload["moments"] = [_t0103_calibrate_one_moment(m, cfg) for m in moments]
+    payload.setdefault("raw_calibration", {})
+    payload["raw_calibration"].update({
+        "version": "T0107_NATURAL_FLOW_READING_V0",
+        "symbol": getattr(cfg, "symbol", "GBPUSD"),
+        "broker": getattr(cfg, "broker", "UNKNOWN"),
+        "broker_time_shift_min": getattr(cfg, "broker_time_shift_min", 0),
+        "raw_source_mode": getattr(cfg, "raw_source_mode", "HISTORICAL_RAW"),
+        "raw_data_visibility": getattr(cfg, "raw_data_visibility", "MT5_RAW_ALIGNED"),
+        "b9_temporality_scope": "INTRINSIC_MICROFILM_ONLY",
+        "external_temporality_dependency": False,
+        "volume_policy": "BROKER_RELATIVE_ACTIVITY_ONLY_EXPERIMENTAL",
+        "natural_flow_factors": [
+            "b9_flow_intent_state",
+            "b9_absorption_like_state",
+            "b9_exhaustion_like_state",
+            "b9_initiative_response_state",
+            "b9_auction_state",
+            "b9_trap_risk_state",
+            "b9_market_readability_state",
+            "b9_natural_flow_reading_fr",
+        ],
+        "inspiration_note": "generic order-flow / auction reading principles adapted to PowerFlow B9",
+        "limits": [
+            "interpretation-only",
+            "not a DeltaRiver clone",
+            "MT5 volume is not global Forex volume",
+            "external Temporalité brick is not used",
+            "no BUY/SELL language",
+        ],
+    })
+    return payload
+# --- T0107_B9_NATURAL_FLOW_READING_V0_END ---
