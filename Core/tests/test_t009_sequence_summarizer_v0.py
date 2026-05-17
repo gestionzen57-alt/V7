@@ -242,7 +242,7 @@ def test_export_json(tmp_path):
     assert out.exists()
     data = json.loads(out.read_text(encoding="utf-8"))
     assert data["module"] == "pf_t009_sequence_summarizer"
-    assert data["version"] == "V3.1"
+    assert data["version"] == "V3.1.1"
 
 
 def test_export_markdown(tmp_path):
@@ -463,3 +463,90 @@ def test_no_db_write_no_telegram_dashboard_b8_imports_v31():
     assert "telegram" not in combined
     assert "dashboard" not in combined
     assert "b8" not in combined
+
+
+def test_cli_replay_report_remaps_exported_json_moment_times_real_pack(tmp_path):
+    import subprocess
+
+    state_path = tmp_path / "state.json"
+    events_path = tmp_path / "events.json"
+    replay_path = tmp_path / "t009_replay_sequence_report.json"
+    out_dir = tmp_path / "out"
+    state_path.write_text(json.dumps(state()), encoding="utf-8")
+    shifted_events = [
+        ev("2026-05-16T22:09:00Z", 1.3350),
+        ev("2026-05-16T22:10:00Z", 1.3352),
+        ev("2026-05-16T22:11:00Z", 1.3354),
+    ]
+    events_path.write_text(json.dumps(shifted_events), encoding="utf-8")
+    replay_path.write_text(
+        json.dumps({"window": "1000_1100", "shifted_start_utc": "2026-05-16T22:00:00Z", "original_start_utc": "2026-05-15T10:00:00Z"}),
+        encoding="utf-8",
+    )
+    cmd = [
+        sys.executable,
+        str(ROOT / "run_t009_sequence_summarizer_once.py"),
+        "--state",
+        str(state_path),
+        "--events",
+        str(events_path),
+        "--replay-report",
+        str(replay_path),
+        "--output",
+        str(out_dir),
+    ]
+    subprocess.check_call(cmd)
+    exported = json.loads((out_dir / "t009_sequence_summary.json").read_text(encoding="utf-8"))
+    assert exported["moments"][0]["time_start"] == "2026-05-15T10:09:00Z"
+    assert exported["moments"][0]["time_end"] == "2026-05-15T10:11:00Z"
+    assert exported["moments"][0]["zone_memory"]["first_seen"] == "2026-05-15T10:09:00Z"
+    assert exported["source"]["replay_time_remap"]["applied"] is True
+
+
+def test_cli_replay_report_remaps_exported_markdown_times_real_pack(tmp_path):
+    import subprocess
+
+    state_path = tmp_path / "state.json"
+    events_path = tmp_path / "events.json"
+    replay_path = tmp_path / "t009_replay_sequence_report.json"
+    out_dir = tmp_path / "out"
+    state_path.write_text(json.dumps(state()), encoding="utf-8")
+    events_path.write_text(json.dumps([ev("2026-05-16T23:37:00Z", 1.3348), ev("2026-05-16T23:45:00Z", 1.3353)]), encoding="utf-8")
+    replay_path.write_text(json.dumps({"shifted_start_utc": "2026-05-16T23:00:00Z", "original_start_utc": "2026-05-15T11:00:00Z"}), encoding="utf-8")
+    subprocess.check_call([
+        sys.executable,
+        str(ROOT / "run_t009_sequence_summarizer_once.py"),
+        "--state",
+        str(state_path),
+        "--events",
+        str(events_path),
+        "--replay-report",
+        str(replay_path),
+        "--output",
+        str(out_dir),
+    ])
+    md = (out_dir / "t009_sequence_summary.md").read_text(encoding="utf-8")
+    assert "11:37 UTC" in md
+    assert "11:45 UTC" in md
+    assert "23:37 UTC" not in md
+    assert "23:45 UTC" not in md
+
+
+def test_no_shifted_dates_remain_when_replay_report_is_provided(tmp_path):
+    shifted_events = [
+        ev("2026-05-17T02:04:00Z", 1.3380),
+        ev("2026-05-17T02:05:00Z", 1.3378),
+        ev("2026-05-17T02:06:00Z", 1.3375),
+    ]
+    replay_report = {"metadata": {"shifted_start_utc": "2026-05-17T02:00:00Z", "original_start_utc": "2026-05-15T14:00:00Z"}}
+    summary = summarize_events(state(), shifted_events, replay_report=replay_report, price_merge_pips=20)
+    out_json = tmp_path / "summary.json"
+    out_md = tmp_path / "summary.md"
+    export_json(summary, out_json)
+    export_markdown(summary, out_md)
+    json_text = out_json.read_text(encoding="utf-8")
+    md_text = out_md.read_text(encoding="utf-8")
+    assert "2026-05-15T14:04:00Z" in json_text
+    assert "2026-05-17T02:" not in json_text
+    assert "14:04 UTC" in md_text
+    assert "02:04 UTC" not in md_text

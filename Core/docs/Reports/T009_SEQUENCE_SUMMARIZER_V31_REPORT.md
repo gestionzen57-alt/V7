@@ -217,3 +217,44 @@ V3.1 ne crée pas de V4.
 Il ajoute uniquement les objets nécessaires pour stabiliser le replay time, la mémoire locale, le parent scene et la lecture source-aware.
 
 Le prochain vrai saut serait une V4 seulement après validation sur plusieurs journées replay.
+
+---
+
+## 7. Hotfix V3.1.1 — replay time remap
+
+Objectif : corriger uniquement les timestamps exportés quand `--replay-report` est fourni.
+
+Correction :
+
+```text
+shift_delta = shifted_start_utc - original_start_utc
+original_ts = shifted_ts - shift_delta
+```
+
+Champs remappés :
+
+```text
+moment.time_start
+moment.time_end
+zone_memory.first_seen
+zone_memory.last_seen
+zone_memory.last_tested
+```
+
+Résultat attendu : les exports JSON/Markdown affichent les heures originales de marché, par exemple `2026-05-15T10:xx:00Z`, et non les heures replay `2026-05-16/17 22:xx/23:xx`.
+
+Tests V3.1.1 ajoutés :
+
+```text
+test_cli_replay_report_remaps_exported_json_moment_times_real_pack
+test_cli_replay_report_remaps_exported_markdown_times_real_pack
+test_no_shifted_dates_remain_when_replay_report_is_provided
+```
+
+Validation locale V3.1.1 :
+
+```text
+44 passed
+```
+
+Contraintes inchangées : read-only, aucune DB modifiée, aucun Telegram, aucun dashboard, aucun B8, aucun langage décisionnel.
