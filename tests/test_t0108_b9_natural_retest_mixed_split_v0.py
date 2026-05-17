@@ -92,7 +92,7 @@ def test_t0108_fields_are_added(tmp_path):
         "b9_retest_mixed_reading_fr",
     ]:
         assert field in m, field
-    assert payload["raw_calibration"]["version"] == "T0108_RETEST_MIXED_SPLIT_V0"
+    assert payload["raw_calibration"]["version"] in {"T0108_RETEST_MIXED_SPLIT_V0", "T0109_RETEST_SOURCE_SIGNALS_V0"}
 
 
 def test_retest_pending_after_displacement(tmp_path):

@@ -79,7 +79,7 @@ def calibrate(tmp_path):
 def test_t0108_preserves_t0107_metadata(tmp_path):
     payload, m = calibrate(tmp_path)
     raw = payload["raw_calibration"]
-    assert raw["version"] == "T0108_RETEST_MIXED_SPLIT_V0"
+    assert raw["version"] in {"T0108_RETEST_MIXED_SPLIT_V0", "T0109_RETEST_SOURCE_SIGNALS_V0"}
     assert "T0107_NATURAL_FLOW_READING_V0" in raw["parent_versions"]
     assert "b9_flow_intent_state" in raw["natural_flow_factors"]
     assert "b9_retest_natural_state" in raw["retest_mixed_fields"]
