@@ -41,6 +41,54 @@ def make_db(path: Path) -> Path:
     return path
 
 
+def make_db_without_time_msc(path: Path) -> Path:
+    con = sqlite3.connect(path)
+    cur = con.cursor()
+    cur.execute(
+        """
+        CREATE TABLE tick_stream (
+            symbol TEXT,
+            ts_utc TEXT,
+            bid REAL,
+            ask REAL,
+            mid REAL,
+            spread REAL,
+            gap_ms INTEGER,
+            source_mode TEXT,
+            capture_seq INTEGER
+        )
+        """
+    )
+    con.commit()
+    con.close()
+    return path
+
+
+def insert_ticks_without_time_msc(path: Path, start_hour: str, mids: list[float], *, spread: float = 0.00002, gap_ms: int = 1000):
+    con = sqlite3.connect(path)
+    cur = con.cursor()
+    base = start_hour
+    for idx, mid in enumerate(mids, start=1):
+        minute = idx - 1
+        ts = f"{base}:{minute:02d}:00.000Z"
+        cur.execute(
+            "INSERT INTO tick_stream VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (
+                "GBPUSD",
+                ts,
+                mid - spread / 2,
+                mid + spread / 2,
+                mid,
+                spread,
+                gap_ms,
+                "HISTORICAL_RAW",
+                idx,
+            ),
+        )
+    con.commit()
+    con.close()
+
+
 def insert_ticks(path: Path, start_hour: str, mids: list[float], *, spread: float = 0.00002, gap_ms: int = 1000):
     con = sqlite3.connect(path)
     cur = con.cursor()
@@ -126,6 +174,17 @@ def test_raw_texture_fields_present(tmp_path):
         "RAW_FRICTION_CONFIRMED",
         "RAW_PROXY_DIVERGENCE",
     }
+
+
+def test_schema_without_time_msc_is_supported(tmp_path):
+    db = make_db_without_time_msc(tmp_path / "tick_archive.db")
+    insert_ticks_without_time_msc(db, "2026-05-15T05", [1.3300, 1.3302, 1.3304, 1.3306, 1.3308])
+    out = calibrate_summary_with_raw({"moments": [moment()]}, cfg(db))
+    m = out["moments"][0]
+    assert m["raw_coverage"] in {"FULL", "PARTIAL"}
+    assert m["raw_tick_count"] == 4
+    assert m["raw_gap_max_ms"] == 1000
+    assert m["raw_texture_role"] != "RAW_UNAVAILABLE"
 
 
 def test_zero_duration_does_not_become_false_raw_missing(tmp_path):
