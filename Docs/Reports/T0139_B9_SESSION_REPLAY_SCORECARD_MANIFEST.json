@@ -1,0 +1,20 @@
+{
+  "version": "T0139_B9_SESSION_REPLAY_SCORECARD_V0",
+  "files": [
+    "tools/build_t0139_b9_session_replay_scorecard.py",
+    "scripts/RUN_T0139_B9_SESSION_REPLAY_SCORECARD_FROM_DOWNLOADS.ps1",
+    "tests/test_t0139_b9_session_replay_scorecard.py",
+    "samples/b9_session_replay_scorecard_v0/*",
+    "Docs/Reports/T0139_B9_SESSION_REPLAY_SCORECARD_REPORT.md",
+    "Docs/Reports/T0139_B9_SESSION_REPLAY_SCORECARD_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0139_B9_SESSION_REPLAY_SCORECARD.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0139_B9_SESSION_REPLAY_SCORECARD.md",
+    "outputs/b9_session_replay_scorecard_v0/*"
+  ],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

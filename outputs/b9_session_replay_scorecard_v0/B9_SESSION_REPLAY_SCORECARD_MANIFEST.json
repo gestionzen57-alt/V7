@@ -1,0 +1,19 @@
+{
+  "version": "T0139_B9_SESSION_REPLAY_SCORECARD_V0",
+  "outputs": [
+    "B9_SESSION_REPLAY_SCORECARD_V0.md",
+    "B9_SESSION_REPLAY_SCORECARD_V0.json",
+    "B9_SESSION_REPLAY_SCORECARD_ROWS_V0.csv",
+    "B9_SESSION_REPLAY_SCORECARD_SESSION_COUNTS_V0.csv",
+    "B9_SESSION_REPLAY_SCORECARD_FAILURE_PATTERNS_V0.csv",
+    "B9_SESSION_REPLAY_SCORECARD_KEEP_REVIEW_REJECT_V0.csv",
+    "B9_SESSION_REPLAY_SCORECARD_MANIFEST.json",
+    "B9_SESSION_REPLAY_SCORECARD_V0.zip"
+  ],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

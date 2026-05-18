@@ -1,0 +1,57 @@
+{
+  "version": "T0139_B9_SESSION_REPLAY_SCORECARD_V0",
+  "scorecard_state": "REVIEW_REQUIRED",
+  "files_processed": 1,
+  "files_keep": 0,
+  "files_review": 0,
+  "files_rejected": 1,
+  "sessions_detected": [
+    "ASIAN"
+  ],
+  "total_moments": 3,
+  "forbidden_language_files": 0,
+  "raw_unavailable_rejected_files": 1,
+  "session_counts": [
+    {
+      "session": "ASIAN",
+      "files": 1,
+      "keep": 0,
+      "review": 0,
+      "reject": 1,
+      "moments": 3,
+      "avg_quality_score": 0.3333
+    }
+  ],
+  "failure_patterns": [
+    {
+      "pattern": "CENTER_PATH_MISSING",
+      "count": 1
+    },
+    {
+      "pattern": "EFFORT_RESULT_PROGRESS_MISSING",
+      "count": 1
+    },
+    {
+      "pattern": "RAW_UNAVAILABLE_ONLY",
+      "count": 1
+    },
+    {
+      "pattern": "RETEST_FIELDS_MISSING",
+      "count": 1
+    },
+    {
+      "pattern": "TIMESTAMP_POLICY_MISSING",
+      "count": 1
+    }
+  ],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "scan_root": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core",
+  "input_index_csv": "",
+  "scan_csv": "C:\\Users\\User\\Downloads\\b9_replay_corpus_real_20260518_144423\\B9_REPLAY_CORPUS_REAL_SCAN_20260518_144423.csv",
+  "zip": "outputs\\b9_session_replay_scorecard_v0\\B9_SESSION_REPLAY_SCORECARD_V0.zip"
+}
