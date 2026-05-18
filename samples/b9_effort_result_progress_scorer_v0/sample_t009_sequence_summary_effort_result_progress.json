@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "source": "T0129_SAMPLE",
+    "source_mode": "M1_BAR_PROXY",
+    "data_visibility": "RECONSTRUCTED",
+    "confidence_cap": 0.35
+  },
+  "moments": [
+    {
+      "time_start": "2026-05-15T08:00:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat",
+      "moment_type": "T009_MOMENT_EFFORT_WITHOUT_RESULT",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "raw_texture_role": "RAW_FRICTION_CONFIRMED",
+      "events": 21,
+      "energy": 28.0,
+      "center_delta_pips": 1.2,
+      "center_range_pips": 3.1,
+      "failed_displacement": 0.88,
+      "dwell": 1.0
+    },
+    {
+      "time_start": "2026-05-15T10:00:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "label_fr": "Vague progressive haussière",
+      "moment_type": "T009_MOMENT_PROGRESSIVE_WAVE",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "raw_texture_role": "RAW_PROGRESSIVE_TEXTURE",
+      "events": 45,
+      "energy": 36.0,
+      "center_delta_pips": 18.2,
+      "center_range_pips": 21.0,
+      "failed_displacement": 0.28,
+      "dwell": 0.91
+    },
+    {
+      "time_start": "2026-05-15T11:00:00Z",
+      "time_end": "2026-05-15T11:31:00Z",
+      "label_fr": "Centre de gravité qui descend",
+      "moment_type": "T009_MOMENT_CENTER_MIGRATION_DOWN",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "raw_texture_role": "RAW_FRICTION_CONFIRMED",
+      "events": 64,
+      "energy": 31.0,
+      "center_delta_pips": -13.0,
+      "center_range_pips": 13.5,
+      "failed_displacement": 0.62,
+      "dwell": 0.90
+    },
+    {
+      "time_start": "2026-05-15T09:35:00Z",
+      "time_end": "2026-05-15T10:00:00Z",
+      "label_fr": "Rebond correctif",
+      "moment_type": "T009_MOMENT_CORRECTIVE_WAVE",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "raw_texture_role": "RAW_MIXED_TEXTURE",
+      "events": 37,
+      "energy": 25.0,
+      "center_delta_pips": 4.0,
+      "center_range_pips": 5.0,
+      "failed_displacement": 0.55,
+      "dwell": 0.82
+    },
+    {
+      "time_start": "2026-05-15T12:49:00Z",
+      "time_end": "2026-05-15T13:08:00Z",
+      "label_fr": "Absorption avec centre montant",
+      "moment_type": "T009_MOMENT_PROGRESSIVE_WAVE",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "raw_texture_role": "RAW_ABSORPTION_WITH_PROGRESS",
+      "events": 36,
+      "energy": 34.0,
+      "center_delta_pips": 19.9,
+      "center_range_pips": 19.9,
+      "failed_displacement": 0.78,
+      "dwell": 0.83
+    }
+  ]
+}

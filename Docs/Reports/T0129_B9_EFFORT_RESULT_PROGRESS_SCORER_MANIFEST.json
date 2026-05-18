@@ -1,0 +1,14 @@
+{
+  "task": "T0129",
+  "name": "B9 Effort / Result / Progress Scorer V0",
+  "branch": "feat/t0129-b9-effort-result-progress-scorer",
+  "commit_message": "feat(t0129): add B9 effort result progress scorer",
+  "mode_recommended_after_git_ok": "GPT Pro standard",
+  "next_task": "T0130 — Center Path Internal Film V0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}
