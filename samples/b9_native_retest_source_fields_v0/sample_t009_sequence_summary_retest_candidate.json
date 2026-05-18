@@ -1,0 +1,82 @@
+{
+  "metadata": {
+    "source": "T0128_SAMPLE",
+    "summary_recovery_type": "SAMPLE_ONLY",
+    "notes": ["no invented trading decision", "sample for native retest fields"]
+  },
+  "moments": [
+    {
+      "time_start": "2026-05-15T08:00:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat",
+      "moment_type": "T009_MOMENT_EFFORT_WITHOUT_RESULT",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "center_start": 1.33633,
+      "center_end": 1.33533,
+      "center_min": 1.33532,
+      "center_max": 1.33634,
+      "reading_fr": "Le flux pousse, mais la structure ne déroule pas en expansion fluide."
+    },
+    {
+      "time_start": "2026-05-15T09:10:00Z",
+      "time_end": "2026-05-15T09:31:00Z",
+      "label_fr": "Retest échoué / reprise refusée",
+      "moment_type": "T009_MOMENT_BREAK_RETEST_FAILED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "center_start": 1.33587,
+      "center_end": 1.33380,
+      "center_min": 1.33379,
+      "center_max": 1.33588,
+      "retest_role_fr": "Le retest ne confirme pas l’acceptation haute.",
+      "reading_fr": "Le haut est testé, mais le progrès ne tient pas. La reprise est refusée."
+    },
+    {
+      "time_start": "2026-05-15T10:35:00Z",
+      "time_end": "2026-05-15T10:55:00Z",
+      "label_fr": "Pullback absorbé / zone défendue",
+      "moment_type": "T009_MOMENT_RETRACE_DECISION_AREA",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "center_start": 1.33635,
+      "center_end": 1.33727,
+      "center_min": 1.33634,
+      "center_max": 1.33728,
+      "retest_role_fr": "Le retour teste la zone sans casser la provenance.",
+      "reading_fr": "Le pullback est absorbé et la zone reste défendue."
+    },
+    {
+      "time_start": "2026-05-15T13:53:00Z",
+      "time_end": "2026-05-15T13:57:00Z",
+      "label_fr": "Réintégration échouée sous le haut",
+      "moment_type": "T009_MOMENT_FAILED_REINTEGRATION",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "center_start": 1.33915,
+      "center_end": 1.33821,
+      "center_min": 1.33821,
+      "center_max": 1.33915,
+      "retest_role_fr": "Le retour dans la zone échoue.",
+      "reading_fr": "Le prix revient sous le haut et la réintégration échoue."
+    },
+    {
+      "time_start": "2026-05-15T14:25:00Z",
+      "time_end": "2026-05-15T14:41:00Z",
+      "label_fr": "Zone de décision au retest",
+      "moment_type": "T009_MOMENT_RETRACE_DECISION_AREA",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "center_start": 1.33730,
+      "center_end": 1.33630,
+      "center_min": 1.33630,
+      "center_max": 1.33730,
+      "reading_fr": "Le flux revient juger la zone, mais le verdict reste en attente."
+    }
+  ]
+}
