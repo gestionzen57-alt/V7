@@ -1,0 +1,975 @@
+{
+  "version": "T0159_B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0",
+  "generated_at_utc": "2026-05-18T16:24:11Z",
+  "policy": {
+    "read_only": true,
+    "db_write": false,
+    "dashboard_live_mutation": false,
+    "telegram_send": false,
+    "execution_decision": false,
+    "outcome_probability": false,
+    "technical_keys_language": "english_enums",
+    "display_language": "fr_trader"
+  },
+  "validation": {
+    "version": "T0159_B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0",
+    "total_events": 91,
+    "categories": [
+      "false_positive_context",
+      "memory_confidence_ladder",
+      "price_verdict",
+      "reality_board_payload_state",
+      "scene_role",
+      "scene_state",
+      "scene_transition",
+      "source_quality_gate",
+      "telegram_gate_state",
+      "terrain_node"
+    ],
+    "forbidden_display_hits": [],
+    "missing_labels": [],
+    "passed": true,
+    "policy": {
+      "read_only": true,
+      "db_write": false,
+      "dashboard_live_mutation": false,
+      "telegram_send": false,
+      "execution_decision": false,
+      "outcome_probability": false,
+      "technical_keys_language": "english_enums",
+      "display_language": "fr_trader"
+    }
+  },
+  "categories": {
+    "false_positive_context": {
+      "B6_FALSE_POSITIVE_CONTEXT_HIGH": {
+        "category": "false_positive_context",
+        "key": "B6_FALSE_POSITIVE_CONTEXT_HIGH",
+        "label_fr": "Film proche, mais piège technique fort",
+        "short_fr": "Piège fort",
+        "explanation_fr": "B6 rapproche les formes, T0117 signale une forte fragilité de comparaison.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "B6_FALSE_POSITIVE_CONTEXT_LOW": {
+        "category": "false_positive_context",
+        "key": "B6_FALSE_POSITIVE_CONTEXT_LOW",
+        "label_fr": "Film proche, piège technique faible",
+        "short_fr": "Piège faible",
+        "explanation_fr": "Peu de divergences techniques relevées par B6.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "B6_FALSE_POSITIVE_CONTEXT_MEDIUM": {
+        "category": "false_positive_context",
+        "key": "B6_FALSE_POSITIVE_CONTEXT_MEDIUM",
+        "label_fr": "Film proche, piège technique moyen",
+        "short_fr": "Piège moyen",
+        "explanation_fr": "La comparaison est utile mais plusieurs écarts doivent rester visibles.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "B9_FALSE_POSITIVE_CONTEXT_HIGH": {
+        "category": "false_positive_context",
+        "key": "B9_FALSE_POSITIVE_CONTEXT_HIGH",
+        "label_fr": "Film proche, mais piège technique fort",
+        "short_fr": "Piège fort",
+        "explanation_fr": "La ressemblance existe mais plusieurs conditions techniques divergent.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "B9_FALSE_POSITIVE_CONTEXT_LOW": {
+        "category": "false_positive_context",
+        "key": "B9_FALSE_POSITIVE_CONTEXT_LOW",
+        "label_fr": "Film proche, piège technique faible",
+        "short_fr": "Piège faible",
+        "explanation_fr": "La ressemblance paraît utilisable, avec limites normales.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "B9_FALSE_POSITIVE_CONTEXT_MEDIUM": {
+        "category": "false_positive_context",
+        "key": "B9_FALSE_POSITIVE_CONTEXT_MEDIUM",
+        "label_fr": "Film proche, piège technique moyen",
+        "short_fr": "Piège moyen",
+        "explanation_fr": "La ressemblance doit être lue avec prudence technique.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "FALSE_POSITIVE_CONTEXT_NOT_PROVIDED": {
+        "category": "false_positive_context",
+        "key": "FALSE_POSITIVE_CONTEXT_NOT_PROVIDED",
+        "label_fr": "Contexte faux positif non fourni",
+        "short_fr": "Contexte absent",
+        "explanation_fr": "Le brief ne reçoit pas encore de contexte faux positif.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "MEMORY_FP_HIGH": {
+        "category": "false_positive_context",
+        "key": "MEMORY_FP_HIGH",
+        "label_fr": "Risque de faux rapprochement fort",
+        "short_fr": "Faux proche fort",
+        "explanation_fr": "La mémoire ressemble au présent mais peut tromper la lecture.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "MEMORY_FP_LOW": {
+        "category": "false_positive_context",
+        "key": "MEMORY_FP_LOW",
+        "label_fr": "Risque de faux rapprochement faible",
+        "short_fr": "Faux proche faible",
+        "explanation_fr": "La mémoire comparable ne montre pas de piège majeur.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    },
+    "memory_confidence_ladder": {
+      "B6_KEEP_CANDIDATE": {
+        "category": "memory_confidence_ladder",
+        "key": "B6_KEEP_CANDIDATE",
+        "label_fr": "Film mémoire conservé",
+        "short_fr": "Film conservé",
+        "explanation_fr": "B6 garde ce film comme candidat mémoire.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "B6_LIVE_QUERY_ONLY_NOT_CANDIDATE": {
+        "category": "memory_confidence_ladder",
+        "key": "B6_LIVE_QUERY_ONLY_NOT_CANDIDATE",
+        "label_fr": "Scène live utilisée seulement comme requête",
+        "short_fr": "Requête live",
+        "explanation_fr": "La scène sert à interroger B6 ; elle n’est pas une carte mémoire stockée.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "B6_REVIEW_CANDIDATE": {
+        "category": "memory_confidence_ladder",
+        "key": "B6_REVIEW_CANDIDATE",
+        "label_fr": "Film mémoire à revoir",
+        "short_fr": "Film à revoir",
+        "explanation_fr": "B6 conserve le film mais demande une relecture technique.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "MEMORY_NOT_COMPARABLE": {
+        "category": "memory_confidence_ladder",
+        "key": "MEMORY_NOT_COMPARABLE",
+        "label_fr": "Mémoire non comparable",
+        "short_fr": "Non comparable",
+        "explanation_fr": "B6 ne trouve pas de film proche exploitable.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "MEMORY_PARTIAL_COMPARABLE": {
+        "category": "memory_confidence_ladder",
+        "key": "MEMORY_PARTIAL_COMPARABLE",
+        "label_fr": "Mémoire comparable partielle",
+        "short_fr": "Mémoire partielle",
+        "explanation_fr": "B6 trouve une ressemblance utile mais incomplète.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "MEMORY_STRONG_COMPARABLE": {
+        "category": "memory_confidence_ladder",
+        "key": "MEMORY_STRONG_COMPARABLE",
+        "label_fr": "Mémoire fortement comparable",
+        "short_fr": "Mémoire forte",
+        "explanation_fr": "B6 trouve une famille de film proche avec comparaison exploitable.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "MEMORY_UNKNOWN": {
+        "category": "memory_confidence_ladder",
+        "key": "MEMORY_UNKNOWN",
+        "label_fr": "Mémoire inconnue",
+        "short_fr": "Mémoire inconnue",
+        "explanation_fr": "La mémoire n’est pas disponible ou pas encore construite.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "MEMORY_WEAK_COMPARABLE": {
+        "category": "memory_confidence_ladder",
+        "key": "MEMORY_WEAK_COMPARABLE",
+        "label_fr": "Mémoire faiblement comparable",
+        "short_fr": "Mémoire faible",
+        "explanation_fr": "La ressemblance existe mais reste fragile.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    },
+    "price_verdict": {
+      "ACCEPTED": {
+        "category": "price_verdict",
+        "key": "ACCEPTED",
+        "label_fr": "Accepté par le prix",
+        "short_fr": "Accepté",
+        "explanation_fr": "Le prix confirme la zone ou la projection.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "FAILED_RETEST": {
+        "category": "price_verdict",
+        "key": "FAILED_RETEST",
+        "label_fr": "Retest échoué",
+        "short_fr": "Retest échoué",
+        "explanation_fr": "Le retour sur la zone ne tient pas.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "HIGH_REJECTED": {
+        "category": "price_verdict",
+        "key": "HIGH_REJECTED",
+        "label_fr": "Haut rejeté",
+        "short_fr": "Haut rejeté",
+        "explanation_fr": "La zone haute ne conserve pas l’acceptation.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "LOWER_ACCEPTED": {
+        "category": "price_verdict",
+        "key": "LOWER_ACCEPTED",
+        "label_fr": "Zone basse acceptée",
+        "short_fr": "Bas accepté",
+        "explanation_fr": "Le prix accepte de travailler sous la mémoire précédente.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "PENDING": {
+        "category": "price_verdict",
+        "key": "PENDING",
+        "label_fr": "Prix en attente de verdict",
+        "short_fr": "En attente",
+        "explanation_fr": "Le prix n’a pas encore donné un jugement clair.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "PRICE_NOT_VISIBLE": {
+        "category": "price_verdict",
+        "key": "PRICE_NOT_VISIBLE",
+        "label_fr": "Prix non visible",
+        "short_fr": "Prix absent",
+        "explanation_fr": "Le verdict prix ne peut pas être établi depuis les champs disponibles.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "REJECTED": {
+        "category": "price_verdict",
+        "key": "REJECTED",
+        "label_fr": "Rejeté par le prix",
+        "short_fr": "Rejeté",
+        "explanation_fr": "Le prix refuse la zone, la projection ou le retour.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "RETEST_ACCEPTED": {
+        "category": "price_verdict",
+        "key": "RETEST_ACCEPTED",
+        "label_fr": "Retest accepté",
+        "short_fr": "Retest accepté",
+        "explanation_fr": "Le retest confirme que la zone reste travaillée ou défendue.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "RETEST_PENDING": {
+        "category": "price_verdict",
+        "key": "RETEST_PENDING",
+        "label_fr": "Retest en attente",
+        "short_fr": "Retest attendu",
+        "explanation_fr": "La cassure ou projection n’est pas encore jugée par retour sur zone.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    },
+    "reality_board_payload_state": {
+      "B9_LIVE_BRIEF_READY": {
+        "category": "reality_board_payload_state",
+        "key": "B9_LIVE_BRIEF_READY",
+        "label_fr": "Brief B9 prêt pour affichage",
+        "short_fr": "Brief affichable",
+        "explanation_fr": "Le brief peut alimenter une surface d’affichage si un module séparé le décide.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "BLOCKED_MISSING_INPUTS": {
+        "category": "reality_board_payload_state",
+        "key": "BLOCKED_MISSING_INPUTS",
+        "label_fr": "Affichage bloqué : entrées manquantes",
+        "short_fr": "Entrées manquantes",
+        "explanation_fr": "Le payload manque de matière pour être affiché proprement.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "REALITY_BOARD_NOT_MUTATED_READ_ONLY": {
+        "category": "reality_board_payload_state",
+        "key": "REALITY_BOARD_NOT_MUTATED_READ_ONLY",
+        "label_fr": "Reality Board non modifié : read-only",
+        "short_fr": "Board non modifié",
+        "explanation_fr": "Le contrat produit des fichiers, sans mutation dashboard live.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "REALITY_BOARD_PAYLOAD_BLOCKED": {
+        "category": "reality_board_payload_state",
+        "key": "REALITY_BOARD_PAYLOAD_BLOCKED",
+        "label_fr": "Payload Reality Board bloqué",
+        "short_fr": "Payload bloqué",
+        "explanation_fr": "Le payload ne doit pas être affiché sans correction d’entrée.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "REALITY_BOARD_PAYLOAD_PARTIAL": {
+        "category": "reality_board_payload_state",
+        "key": "REALITY_BOARD_PAYLOAD_PARTIAL",
+        "label_fr": "Payload Reality Board partiel",
+        "short_fr": "Payload partiel",
+        "explanation_fr": "L’affichage peut se faire, mais certaines preuves manquent.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "REALITY_BOARD_PAYLOAD_READY": {
+        "category": "reality_board_payload_state",
+        "key": "REALITY_BOARD_PAYLOAD_READY",
+        "label_fr": "Payload Reality Board prêt",
+        "short_fr": "Payload prêt",
+        "explanation_fr": "Les champs nécessaires à l’affichage sont disponibles.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    },
+    "scene_role": {
+      "CENTER_MIGRATION": {
+        "category": "scene_role",
+        "key": "CENTER_MIGRATION",
+        "label_fr": "Migration de centre",
+        "short_fr": "Centre migré",
+        "explanation_fr": "Le centre de gravité de la scène se déplace par paliers.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "CORRECTIVE_REBOUND_WITHOUT_PROGRESS": {
+        "category": "scene_role",
+        "key": "CORRECTIVE_REBOUND_WITHOUT_PROGRESS",
+        "label_fr": "Rebond correctif sans progrès",
+        "short_fr": "Correction sans progrès",
+        "explanation_fr": "La scène respire mais ne répare pas la mémoire précédente.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "EFFORT_RESULT_PROGRESS": {
+        "category": "scene_role",
+        "key": "EFFORT_RESULT_PROGRESS",
+        "label_fr": "Effort / résultat / progrès",
+        "short_fr": "Effort-résultat",
+        "explanation_fr": "La scène est lue par ce que l’effort obtient et par la mémoire déplacée.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "FAILED_REINTEGRATION_ROLE": {
+        "category": "scene_role",
+        "key": "FAILED_REINTEGRATION_ROLE",
+        "label_fr": "Réintégration refusée",
+        "short_fr": "Retour refusé",
+        "explanation_fr": "La tentative de retour dans la zone échoue.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "HIGH_ZONE_REJECTION": {
+        "category": "scene_role",
+        "key": "HIGH_ZONE_REJECTION",
+        "label_fr": "Rejet de zone haute",
+        "short_fr": "Rejet haut",
+        "explanation_fr": "Le haut travaillé ne se transforme pas en acceptation durable.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "LOW_ZONE_DEFENSE": {
+        "category": "scene_role",
+        "key": "LOW_ZONE_DEFENSE",
+        "label_fr": "Défense de zone basse",
+        "short_fr": "Défense basse",
+        "explanation_fr": "La zone basse absorbe les tests et reste active.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "PROGRESSIVE_FIRST_LEG": {
+        "category": "scene_role",
+        "key": "PROGRESSIVE_FIRST_LEG",
+        "label_fr": "Première jambe progressive",
+        "short_fr": "Première jambe",
+        "explanation_fr": "La scène démarre un déplacement réel avec mémoire qui commence à migrer.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "PROGRESSIVE_WAVE_MEMORY_SHIFT": {
+        "category": "scene_role",
+        "key": "PROGRESSIVE_WAVE_MEMORY_SHIFT",
+        "label_fr": "Vague progressive avec mémoire déplacée",
+        "short_fr": "Vague + mémoire",
+        "explanation_fr": "La vague produit assez de résultat pour déplacer la mémoire.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "PROJECTION_REJECTED_THEN_MEMORY_SHIFTED": {
+        "category": "scene_role",
+        "key": "PROJECTION_REJECTED_THEN_MEMORY_SHIFTED",
+        "label_fr": "Projection refusée puis mémoire déplacée",
+        "short_fr": "Projection refusée",
+        "explanation_fr": "La projection initiale échoue puis le flux imprime une mémoire ailleurs.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    },
+    "scene_state": {
+      "B9_LIVE_BRIEF_READY": {
+        "category": "scene_state",
+        "key": "B9_LIVE_BRIEF_READY",
+        "label_fr": "Brief live B9 prêt",
+        "short_fr": "Brief prêt",
+        "explanation_fr": "Le brief peut afficher la scène, la mémoire proche et les limites techniques.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "BLOCKED_MISSING_INPUTS": {
+        "category": "scene_state",
+        "key": "BLOCKED_MISSING_INPUTS",
+        "label_fr": "Brief bloqué : entrées manquantes",
+        "short_fr": "Entrées manquantes",
+        "explanation_fr": "Un ou plusieurs fichiers attendus sont absents.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SCENE_ACCEPTED": {
+        "category": "scene_state",
+        "key": "SCENE_ACCEPTED",
+        "label_fr": "Scène acceptée par le prix",
+        "short_fr": "Scène acceptée",
+        "explanation_fr": "Le prix confirme que la scène a obtenu une acceptation visible.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SCENE_CANDIDATE": {
+        "category": "scene_state",
+        "key": "SCENE_CANDIDATE",
+        "label_fr": "Scène candidate",
+        "short_fr": "Scène candidate",
+        "explanation_fr": "B9 voit une scène exploitable en lecture, encore à qualifier.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SCENE_CONSUMED": {
+        "category": "scene_state",
+        "key": "SCENE_CONSUMED",
+        "label_fr": "Scène consommée",
+        "short_fr": "Consommée",
+        "explanation_fr": "L’effort a déjà produit son effet principal ; lecture tardive possible.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SCENE_EXHAUSTED": {
+        "category": "scene_state",
+        "key": "SCENE_EXHAUSTED",
+        "label_fr": "Scène essoufflée",
+        "short_fr": "Essoufflée",
+        "explanation_fr": "La progression perd de l’efficacité ou ne déplace plus la mémoire.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SCENE_PARTIAL": {
+        "category": "scene_state",
+        "key": "SCENE_PARTIAL",
+        "label_fr": "Scène partielle",
+        "short_fr": "Partielle",
+        "explanation_fr": "La scène est visible, mais la source ou les champs restent incomplets.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SCENE_PENDING": {
+        "category": "scene_state",
+        "key": "SCENE_PENDING",
+        "label_fr": "Scène en attente de jugement",
+        "short_fr": "En attente",
+        "explanation_fr": "La scène existe, mais le retest ou l’acceptation reste à venir.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SCENE_REJECTED": {
+        "category": "scene_state",
+        "key": "SCENE_REJECTED",
+        "label_fr": "Scène rejetée par le prix",
+        "short_fr": "Scène rejetée",
+        "explanation_fr": "Le prix refuse la scène ou invalide son déplacement.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SCENE_UNKNOWN": {
+        "category": "scene_state",
+        "key": "SCENE_UNKNOWN",
+        "label_fr": "Scène non qualifiée",
+        "short_fr": "Non qualifiée",
+        "explanation_fr": "B9 ne dispose pas d’assez de champs pour qualifier la scène.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    },
+    "scene_transition": {
+      "ABSORPTION_ACCOMPANYING_PRESSURE": {
+        "category": "scene_transition",
+        "key": "ABSORPTION_ACCOMPANYING_PRESSURE",
+        "label_fr": "Absorption qui accompagne la pression",
+        "short_fr": "Absorption accompagnante",
+        "explanation_fr": "L’absorption ne bloque pas le mouvement ; elle accompagne le déplacement.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "CENTER_MIGRATION_DOWN": {
+        "category": "scene_transition",
+        "key": "CENTER_MIGRATION_DOWN",
+        "label_fr": "Centre qui migre vers le bas",
+        "short_fr": "Centre descendant",
+        "explanation_fr": "La mémoire interne se déplace par paliers vers une zone inférieure.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "CENTER_MIGRATION_UP": {
+        "category": "scene_transition",
+        "key": "CENTER_MIGRATION_UP",
+        "label_fr": "Centre qui migre vers le haut",
+        "short_fr": "Centre montant",
+        "explanation_fr": "La mémoire interne se déplace par paliers vers une zone supérieure.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "CORRECTIVE_BOUNCE": {
+        "category": "scene_transition",
+        "key": "CORRECTIVE_BOUNCE",
+        "label_fr": "Rebond correctif",
+        "short_fr": "Rebond correctif",
+        "explanation_fr": "Le prix respire mais ne prouve pas encore un progrès durable.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "CORRECTIVE_BOUNCE_WITHOUT_PROGRESS": {
+        "category": "scene_transition",
+        "key": "CORRECTIVE_BOUNCE_WITHOUT_PROGRESS",
+        "label_fr": "Rebond correctif sans progrès durable",
+        "short_fr": "Rebond sans progrès",
+        "explanation_fr": "Le rebond corrige localement mais ne déplace pas la mémoire.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "EFFORT_WITHOUT_RESULT": {
+        "category": "scene_transition",
+        "key": "EFFORT_WITHOUT_RESULT",
+        "label_fr": "Effort sans résultat",
+        "short_fr": "Effort sans résultat",
+        "explanation_fr": "Le flux dépense de l’énergie mais ne gagne pas de terrain mesurable.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "FAILED_REINTEGRATION": {
+        "category": "scene_transition",
+        "key": "FAILED_REINTEGRATION",
+        "label_fr": "Réintégration échouée",
+        "short_fr": "Réintégration échouée",
+        "explanation_fr": "Le prix tente de revenir dans une zone mais n’y conserve pas de centre stable.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "HIGH_REJECTION": {
+        "category": "scene_transition",
+        "key": "HIGH_REJECTION",
+        "label_fr": "Rejet de zone haute",
+        "short_fr": "Rejet haut",
+        "explanation_fr": "Le haut travaillé n’est pas accepté et la mémoire reste fragile.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "LOW_DEFENDED": {
+        "category": "scene_transition",
+        "key": "LOW_DEFENDED",
+        "label_fr": "Zone basse défendue",
+        "short_fr": "Bas défendu",
+        "explanation_fr": "L’effort opposé ne parvient pas à déplacer la mémoire sous la zone.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "MEMORY_SHIFT_DOWN": {
+        "category": "scene_transition",
+        "key": "MEMORY_SHIFT_DOWN",
+        "label_fr": "Mémoire déplacée vers le bas",
+        "short_fr": "Mémoire basse",
+        "explanation_fr": "Le flux imprime une nouvelle mémoire sous la zone précédente.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "MEMORY_SHIFT_UP": {
+        "category": "scene_transition",
+        "key": "MEMORY_SHIFT_UP",
+        "label_fr": "Mémoire déplacée vers le haut",
+        "short_fr": "Mémoire haute",
+        "explanation_fr": "Le flux imprime une nouvelle mémoire au-dessus de la zone précédente.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "PROGRESSIVE_WAVE": {
+        "category": "scene_transition",
+        "key": "PROGRESSIVE_WAVE",
+        "label_fr": "Vague progressive réelle",
+        "short_fr": "Vague progressive",
+        "explanation_fr": "L’effort produit du résultat et déplace la mémoire.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "PULLBACK_ABSORBED": {
+        "category": "scene_transition",
+        "key": "PULLBACK_ABSORBED",
+        "label_fr": "Pullback absorbé",
+        "short_fr": "Pullback absorbé",
+        "explanation_fr": "Le retour contre le mouvement ne reprend pas la mémoire précédente.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "RELEASE_DOWN_ACCEPTED": {
+        "category": "scene_transition",
+        "key": "RELEASE_DOWN_ACCEPTED",
+        "label_fr": "Release baissière acceptée",
+        "short_fr": "Release acceptée bas",
+        "explanation_fr": "Le prix accepte la projection inférieure après tension libérée.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "RELEASE_UP_ACCEPTED": {
+        "category": "scene_transition",
+        "key": "RELEASE_UP_ACCEPTED",
+        "label_fr": "Release haussière acceptée",
+        "short_fr": "Release acceptée haut",
+        "explanation_fr": "Le prix accepte la projection supérieure après tension libérée.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SECOND_LEG_DOWN": {
+        "category": "scene_transition",
+        "key": "SECOND_LEG_DOWN",
+        "label_fr": "Deuxième jambe baissière",
+        "short_fr": "Deuxième jambe basse",
+        "explanation_fr": "Après rejet ou counter-breath échoué, une nouvelle jambe prolonge le déplacement bas.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SECOND_LEG_UP": {
+        "category": "scene_transition",
+        "key": "SECOND_LEG_UP",
+        "label_fr": "Deuxième jambe haussière",
+        "short_fr": "Deuxième jambe haute",
+        "explanation_fr": "Après pullback absorbé, une nouvelle jambe prolonge le déplacement haut.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    },
+    "source_quality_gate": {
+      "M1_BAR_PROXY": {
+        "category": "source_quality_gate",
+        "key": "M1_BAR_PROXY",
+        "label_fr": "Lecture reconstruite M1",
+        "short_fr": "M1 reconstruit",
+        "explanation_fr": "Lecture utile pour le film, limitée pour footprint exact.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "RAW_AGREEMENT_NOT_VISIBLE": {
+        "category": "source_quality_gate",
+        "key": "RAW_AGREEMENT_NOT_VISIBLE",
+        "label_fr": "Accord raw non visible",
+        "short_fr": "Raw non visible",
+        "explanation_fr": "Le raw ne permet pas encore de confirmer ou nuancer la lecture.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "RAW_UNAVAILABLE_REJECTED": {
+        "category": "source_quality_gate",
+        "key": "RAW_UNAVAILABLE_REJECTED",
+        "label_fr": "Rejeté : raw indisponible",
+        "short_fr": "Raw indisponible",
+        "explanation_fr": "La scène est rejetée car la preuve raw attendue n’est pas disponible.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "RECONSTRUCTED": {
+        "category": "source_quality_gate",
+        "key": "RECONSTRUCTED",
+        "label_fr": "Donnée reconstruite",
+        "short_fr": "Reconstruit",
+        "explanation_fr": "La lecture vient d’une reconstruction et doit afficher ses limites.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SOURCE_QUALITY_DEGRADED": {
+        "category": "source_quality_gate",
+        "key": "SOURCE_QUALITY_DEGRADED",
+        "label_fr": "Source dégradée",
+        "short_fr": "Source dégradée",
+        "explanation_fr": "La qualité des données limite fortement la lecture.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SOURCE_QUALITY_LIVE_UNQUALIFIED": {
+        "category": "source_quality_gate",
+        "key": "SOURCE_QUALITY_LIVE_UNQUALIFIED",
+        "label_fr": "Source live non qualifiée",
+        "short_fr": "Live non qualifié",
+        "explanation_fr": "Le live est utilisable mais sans validation raw complète.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SOURCE_QUALITY_PARTIAL": {
+        "category": "source_quality_gate",
+        "key": "SOURCE_QUALITY_PARTIAL",
+        "label_fr": "Source partielle",
+        "short_fr": "Source partielle",
+        "explanation_fr": "La source permet une lecture, mais des champs manquent.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SOURCE_QUALITY_USABLE": {
+        "category": "source_quality_gate",
+        "key": "SOURCE_QUALITY_USABLE",
+        "label_fr": "Source exploitable",
+        "short_fr": "Source exploitable",
+        "explanation_fr": "La source est suffisante pour une lecture comparative.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SOURCE_RAW_CONFIRMED": {
+        "category": "source_quality_gate",
+        "key": "SOURCE_RAW_CONFIRMED",
+        "label_fr": "Source confirmée par raw",
+        "short_fr": "Raw confirmé",
+        "explanation_fr": "La lecture proxy est soutenue par la texture raw disponible.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "SOURCE_RAW_NUANCED": {
+        "category": "source_quality_gate",
+        "key": "SOURCE_RAW_NUANCED",
+        "label_fr": "Source nuancée par raw",
+        "short_fr": "Raw nuancé",
+        "explanation_fr": "La source soutient la lecture mais ajoute des limites.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    },
+    "telegram_gate_state": {
+      "TELEGRAM_ALLOWED_PREVIEW_ONLY": {
+        "category": "telegram_gate_state",
+        "key": "TELEGRAM_ALLOWED_PREVIEW_ONLY",
+        "label_fr": "Prévisualisation Telegram autorisée",
+        "short_fr": "Prévisualisation",
+        "explanation_fr": "Le trader peut lire le message, aucun envoi n’est fait.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "TELEGRAM_BLOCKED_FORBIDDEN_LANGUAGE": {
+        "category": "telegram_gate_state",
+        "key": "TELEGRAM_BLOCKED_FORBIDDEN_LANGUAGE",
+        "label_fr": "Telegram bloqué : langage interdit",
+        "short_fr": "Langage bloqué",
+        "explanation_fr": "Le texte contient un langage incompatible avec PowerFlow.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "TELEGRAM_BLOCKED_MISSING_INPUTS": {
+        "category": "telegram_gate_state",
+        "key": "TELEGRAM_BLOCKED_MISSING_INPUTS",
+        "label_fr": "Telegram bloqué : entrées manquantes",
+        "short_fr": "Entrées manquantes",
+        "explanation_fr": "Le message ne peut pas être préparé correctement.",
+        "attention_level": "BLOCKER",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "TELEGRAM_NOT_SENT_READ_ONLY": {
+        "category": "telegram_gate_state",
+        "key": "TELEGRAM_NOT_SENT_READ_ONLY",
+        "label_fr": "Telegram non envoyé : mode read-only",
+        "short_fr": "Non envoyé",
+        "explanation_fr": "Le contrat autorise l’affichage du texte, pas l’envoi.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "TELEGRAM_READY_DRAFT_ONLY": {
+        "category": "telegram_gate_state",
+        "key": "TELEGRAM_READY_DRAFT_ONLY",
+        "label_fr": "Message Telegram prêt en brouillon",
+        "short_fr": "Brouillon prêt",
+        "explanation_fr": "Le message peut être préparé mais aucun envoi live n’est effectué.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    },
+    "terrain_node": {
+      "ABSORPTION_NODE": {
+        "category": "terrain_node",
+        "key": "ABSORPTION_NODE",
+        "label_fr": "Node d’absorption",
+        "short_fr": "Node absorption",
+        "explanation_fr": "Le flux travaille une zone avec effort visible et résultat à mesurer.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "CENTER_MIGRATION_NODE": {
+        "category": "terrain_node",
+        "key": "CENTER_MIGRATION_NODE",
+        "label_fr": "Node de migration du centre",
+        "short_fr": "Node centre",
+        "explanation_fr": "La structure interne déplace son centre de gravité.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "EFFORT_WITHOUT_RESULT_NODE": {
+        "category": "terrain_node",
+        "key": "EFFORT_WITHOUT_RESULT_NODE",
+        "label_fr": "Node d’effort sans résultat",
+        "short_fr": "Node friction",
+        "explanation_fr": "Le flux dépense de l’énergie sans déplacer la mémoire.",
+        "attention_level": "WATCH",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "FAILED_REINTEGRATION_NODE": {
+        "category": "terrain_node",
+        "key": "FAILED_REINTEGRATION_NODE",
+        "label_fr": "Node de réintégration échouée",
+        "short_fr": "Node retour échoué",
+        "explanation_fr": "Le retour dans l’ancienne zone échoue.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "HIGH_REJECTION_NODE": {
+        "category": "terrain_node",
+        "key": "HIGH_REJECTION_NODE",
+        "label_fr": "Node de rejet haut",
+        "short_fr": "Node rejet haut",
+        "explanation_fr": "La zone haute attire l’effort mais ne conserve pas le centre.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "LOW_DEFENSE_NODE": {
+        "category": "terrain_node",
+        "key": "LOW_DEFENSE_NODE",
+        "label_fr": "Node de défense basse",
+        "short_fr": "Node défense basse",
+        "explanation_fr": "La zone basse est testée puis défendue.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "PROGRESSIVE_REACTION_NODE": {
+        "category": "terrain_node",
+        "key": "PROGRESSIVE_REACTION_NODE",
+        "label_fr": "Node de réaction progressive",
+        "short_fr": "Node progressif",
+        "explanation_fr": "Le node produit une réaction avec déplacement de mémoire.",
+        "attention_level": "ATTENTION",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      },
+      "UNKNOWN_TERRAIN_NODE": {
+        "category": "terrain_node",
+        "key": "UNKNOWN_TERRAIN_NODE",
+        "label_fr": "Node terrain non qualifié",
+        "short_fr": "Node inconnu",
+        "explanation_fr": "Le node existe mais manque de preuves exploitables.",
+        "attention_level": "INFO",
+        "trader_usage_fr": "Affichage seulement : perception à lire, décision trader.",
+        "technical_limit_fr": "Contrat de traduction ; ne modifie aucune logique moteur."
+      }
+    }
+  }
+}
