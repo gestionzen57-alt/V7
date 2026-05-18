@@ -1,0 +1,9 @@
+{
+  "candidate_id": "B9C_SAMPLE_20260518_001",
+  "technical_risks": [
+    {
+      "risk": "STALE_PACKET_RISK",
+      "details": "display should badge freshness if stale"
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "badges": [
+    {
+      "label": "READY_WITH_WARNINGS",
+      "level": "info"
+    },
+    {
+      "label": "RAW_NUANCED",
+      "level": "info"
+    },
+    {
+      "label": "DISPLAY_ONLY",
+      "level": "limit"
+    },
+    {
+      "label": "NO_DECISION_LAYER",
+      "level": "limit"
+    }
+  ],
+  "cards": [
+    {
+      "body": "COUNTER_BREATH_REJECTED",
+      "card_id": "sc_ne_actuelle",
+      "status": "PRIMARY",
+      "title": "Scène actuelle"
+    },
+    {
+      "body": "failed counter-breath after lower acceptance",
+      "card_id": "famille_m_moire",
+      "status": "INFO",
+      "title": "Famille mémoire"
+    },
+    {
+      "body": "GOLDEN_013",
+      "card_id": "film_proche",
+      "status": "INFO",
+      "title": "Film proche"
+    },
+    {
+      "body": "lower-zone active",
+      "card_id": "zone_active",
+      "status": "INFO",
+      "title": "Zone active"
+    },
+    {
+      "body": "London",
+      "card_id": "session",
+      "status": "INFO",
+      "title": "Session"
+    },
+    {
+      "body": "failed retest",
+      "card_id": "retest",
+      "status": "INFO",
+      "title": "Retest"
+    },
+    {
+      "body": "center path drifting lower",
+      "card_id": "center_path",
+      "status": "INFO",
+      "title": "Center path"
+    },
+    {
+      "body": "SOURCE_PARTIAL; market compare board is contextual only; B6 realignment compares memory; it does not predict; RAW_NUANCED; STALE_PACKET_RISK",
+      "card_id": "pi_ges_techniques",
+      "status": "WARNING",
+      "title": "Pièges techniques"
+    },
+    {
+      "body": "B9 ne conclut pas une action. Il affiche la scène, les rapprochements mémoire et les limites techniques.",
+      "card_id": "ce_que_b9_ne_peut_pas_conclure",
+      "status": "LIMIT",
+      "title": "Ce que B9 ne peut pas conclure"
+    }
+  ],
+  "display_contract": {
+    "database_write": false,
+    "decision_layer": false,
+    "live_cockpit_activation": false,
+    "role": "dashboard_surface_adapter",
+    "telegram_emission": false
+  },
+  "generated_at_utc": "2026-05-18T20:01:15Z",
+  "missing_inputs": [
+    "market_compare_matches",
+    "market_compare_differences",
+    "memory_confidence_ladder",
+    "false_positive_memory_explainer"
+  ],
+  "sections": [
+    {
+      "status": "PRIMARY",
+      "title": "Scène actuelle",
+      "value": "COUNTER_BREATH_REJECTED"
+    },
+    {
+      "status": "INFO",
+      "title": "Famille mémoire",
+      "value": "failed counter-breath after lower acceptance"
+    },
+    {
+      "status": "INFO",
+      "title": "Film proche",
+      "value": "GOLDEN_013"
+    },
+    {
+      "status": "INFO",
+      "title": "Zone active",
+      "value": "lower-zone active"
+    },
+    {
+      "status": "INFO",
+      "title": "Session",
+      "value": "London"
+    },
+    {
+      "status": "INFO",
+      "title": "Retest",
+      "value": "failed retest"
+    },
+    {
+      "status": "INFO",
+      "title": "Center path",
+      "value": "center path drifting lower"
+    },
+    {
+      "status": "WARNING",
+      "title": "Pièges techniques",
+      "value": "SOURCE_PARTIAL; market compare board is contextual only; B6 realignment compares memory; it does not predict; RAW_NUANCED; STALE_PACKET_RISK"
+    },
+    {
+      "status": "LIMIT",
+      "title": "Ce que B9 ne peut pas conclure",
+      "value": "B9 ne conclut pas une action. Il affiche la scène, les rapprochements mémoire et les limites techniques."
+    }
+  ],
+  "source_quality_summary": {
+    "found_inputs": 7,
+    "label": "RAW_NUANCED",
+    "missing_inputs": 4,
+    "source_notes": [
+      "RAW_NUANCED",
+      "PARTIAL_BUT_DISPLAYABLE"
+    ]
+  },
+  "status": "READY_WITH_WARNINGS",
+  "surface": "B9_REALITY_BOARD_SURFACE_ADAPTER_CANDIDATE_V0",
+  "technical_limits": [
+    "Dashboard surface only: display layer, no decision layer.",
+    "Read-only filesystem generation; no database write.",
+    "No live cockpit activation.",
+    "No Telegram emission.",
+    "Comparison is contextual memory alignment, not prediction.",
+    "Missing inputs reduce display readiness: market_compare_matches, market_compare_differences, memory_confidence_ladder, false_positive_memory_explainer",
+    "Technical risks require visible dashboard warning badges."
+  ],
+  "version": "T0169_B9_REALITY_BOARD_DASHBOARD_SURFACES_V0",
+  "warnings": [
+    {
+      "details": "some memory surfaces are absent in sample mode",
+      "label": "SOURCE_PARTIAL",
+      "source": "market_compare_technical_risks"
+    },
+    {
+      "details": "market compare board is contextual only",
+      "label": "market compare board is contextual only",
+      "source": "market_compare_board"
+    },
+    {
+      "details": "B6 realignment compares memory; it does not predict",
+      "label": "B6 realignment compares memory; it does not predict",
+      "source": "t0167_b9_b6_realignment"
+    },
+    {
+      "details": "raw confirms texture but does not decide scene",
+      "label": "RAW_NUANCED",
+      "source": "reality_board_integration_candidate"
+    },
+    {
+      "details": "display should badge freshness if stale",
+      "label": "STALE_PACKET_RISK",
+      "source": "trader_attention_packet"
+    }
+  ]
+}

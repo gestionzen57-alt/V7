@@ -1,0 +1,10 @@
+{
+  "candidate_id": "B9C_SAMPLE_20260518_001",
+  "match_count": 3,
+  "top_match_film_id": "GOLDEN_013",
+  "memory_family": "failed counter-breath after lower acceptance",
+  "false_positive_context_available": true,
+  "technical_limits": [
+    "B6 realignment compares memory; it does not predict"
+  ]
+}

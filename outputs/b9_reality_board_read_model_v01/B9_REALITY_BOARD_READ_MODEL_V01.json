@@ -1,0 +1,166 @@
+{
+  "candidate_id": "B9C_SAMPLE_20260518_001",
+  "data_visibility": "PARTIAL_BUT_DISPLAYABLE",
+  "display_doctrine": "Dashboard displays; it does not decide.",
+  "display_readiness": "READY_WITH_WARNINGS",
+  "generated_at_utc": "2026-05-18T20:01:15Z",
+  "input_inventory": [
+    {
+      "data_type": "json",
+      "found": true,
+      "input_key": "reality_board_integration_candidate",
+      "load_error": null,
+      "path": "samples/t0169_b9_dashboard_surfaces_v0/B9_REALITY_BOARD_INTEGRATION_CANDIDATE_V0.json",
+      "rows": 1
+    },
+    {
+      "data_type": "json",
+      "found": true,
+      "input_key": "market_compare_board",
+      "load_error": null,
+      "path": "samples/t0169_b9_dashboard_surfaces_v0/B9_MARKET_COMPARE_BOARD_V0.json",
+      "rows": 1
+    },
+    {
+      "data_type": "missing",
+      "found": false,
+      "input_key": "market_compare_matches",
+      "load_error": null,
+      "path": null,
+      "rows": 0
+    },
+    {
+      "data_type": "missing",
+      "found": false,
+      "input_key": "market_compare_differences",
+      "load_error": null,
+      "path": null,
+      "rows": 0
+    },
+    {
+      "data_type": "csv",
+      "found": true,
+      "input_key": "market_compare_technical_risks",
+      "load_error": null,
+      "path": "samples/t0169_b9_dashboard_surfaces_v0/B9_MARKET_COMPARE_BOARD_TECHNICAL_RISKS_V0.csv",
+      "rows": 1
+    },
+    {
+      "data_type": "json",
+      "found": true,
+      "input_key": "t0167_b9_b6_realignment",
+      "load_error": null,
+      "path": "samples/t0169_b9_dashboard_surfaces_v0/T0167_B9_B6_REALIGNMENT_V0.json",
+      "rows": 1
+    },
+    {
+      "data_type": "json",
+      "found": true,
+      "input_key": "trader_attention_packet",
+      "load_error": null,
+      "path": "samples/t0169_b9_dashboard_surfaces_v0/B9_TRADER_ATTENTION_PACKET_V0.json",
+      "rows": 1
+    },
+    {
+      "data_type": "json",
+      "found": true,
+      "input_key": "live_brief_once",
+      "load_error": null,
+      "path": "samples/t0169_b9_dashboard_surfaces_v0/B9_LIVE_BRIEF_ONCE_V0.json",
+      "rows": 1
+    },
+    {
+      "data_type": "json",
+      "found": true,
+      "input_key": "human_terrain_synthesis",
+      "load_error": null,
+      "path": "samples/t0169_b9_dashboard_surfaces_v0/B9_HUMAN_TERRAIN_SYNTHESIS_V0.json",
+      "rows": 1
+    },
+    {
+      "data_type": "missing",
+      "found": false,
+      "input_key": "memory_confidence_ladder",
+      "load_error": null,
+      "path": null,
+      "rows": 0
+    },
+    {
+      "data_type": "missing",
+      "found": false,
+      "input_key": "false_positive_memory_explainer",
+      "load_error": null,
+      "path": null,
+      "rows": 0
+    }
+  ],
+  "latest_available_outputs": [
+    "reality_board_integration_candidate",
+    "market_compare_board",
+    "market_compare_technical_risks",
+    "t0167_b9_b6_realignment",
+    "trader_attention_packet",
+    "live_brief_once",
+    "human_terrain_synthesis"
+  ],
+  "memory_family": "failed counter-breath after lower acceptance",
+  "missing_inputs": [
+    "market_compare_matches",
+    "market_compare_differences",
+    "memory_confidence_ladder",
+    "false_positive_memory_explainer"
+  ],
+  "scene_state": "COUNTER_BREATH_REJECTED",
+  "source_quality": "RAW_NUANCED",
+  "source_quality_summary": {
+    "found_inputs": 7,
+    "label": "RAW_NUANCED",
+    "missing_inputs": 4,
+    "source_notes": [
+      "RAW_NUANCED",
+      "PARTIAL_BUT_DISPLAYABLE"
+    ]
+  },
+  "surface": "B9_REALITY_BOARD_READ_MODEL_V01",
+  "technical_limits": [
+    "Dashboard surface only: display layer, no decision layer.",
+    "Read-only filesystem generation; no database write.",
+    "No live cockpit activation.",
+    "No Telegram emission.",
+    "Comparison is contextual memory alignment, not prediction.",
+    "Missing inputs reduce display readiness: market_compare_matches, market_compare_differences, memory_confidence_ladder, false_positive_memory_explainer",
+    "Technical risks require visible dashboard warning badges."
+  ],
+  "technical_risks": [
+    {
+      "details": "some memory surfaces are absent in sample mode",
+      "risk": "SOURCE_PARTIAL",
+      "source": "market_compare_technical_risks"
+    },
+    {
+      "details": "market compare board is contextual only",
+      "risk": "market compare board is contextual only",
+      "source": "market_compare_board"
+    },
+    {
+      "details": "B6 realignment compares memory; it does not predict",
+      "risk": "B6 realignment compares memory; it does not predict",
+      "source": "t0167_b9_b6_realignment"
+    },
+    {
+      "details": "raw confirms texture but does not decide scene",
+      "risk": "RAW_NUANCED",
+      "source": "reality_board_integration_candidate"
+    },
+    {
+      "details": "display should badge freshness if stale",
+      "risk": "STALE_PACKET_RISK",
+      "source": "trader_attention_packet"
+    }
+  ],
+  "top_memory_match": {
+    "film_id": "GOLDEN_013",
+    "source": "t0167_b9_b6_realignment"
+  },
+  "version": "T0169_B9_REALITY_BOARD_DASHBOARD_SURFACES_V0"
+}

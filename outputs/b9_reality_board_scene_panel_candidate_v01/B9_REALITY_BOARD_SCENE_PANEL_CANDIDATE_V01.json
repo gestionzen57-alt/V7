@@ -1,0 +1,65 @@
+{
+  "candidate_id": "B9C_SAMPLE_20260518_001",
+  "display_readiness": "READY_WITH_WARNINGS",
+  "generated_at_utc": "2026-05-18T20:01:15Z",
+  "headline": "COUNTER_BREATH_REJECTED | failed counter-breath after lower acceptance",
+  "panel_language": "fr_trader_sober",
+  "sections": [
+    {
+      "status": "PRIMARY",
+      "title": "Scène actuelle",
+      "value": "COUNTER_BREATH_REJECTED"
+    },
+    {
+      "status": "INFO",
+      "title": "Famille mémoire",
+      "value": "failed counter-breath after lower acceptance"
+    },
+    {
+      "status": "INFO",
+      "title": "Film proche",
+      "value": "GOLDEN_013"
+    },
+    {
+      "status": "INFO",
+      "title": "Zone active",
+      "value": "lower-zone active"
+    },
+    {
+      "status": "INFO",
+      "title": "Session",
+      "value": "London"
+    },
+    {
+      "status": "INFO",
+      "title": "Retest",
+      "value": "failed retest"
+    },
+    {
+      "status": "INFO",
+      "title": "Center path",
+      "value": "center path drifting lower"
+    },
+    {
+      "status": "WARNING",
+      "title": "Pièges techniques",
+      "value": "SOURCE_PARTIAL; market compare board is contextual only; B6 realignment compares memory; it does not predict; RAW_NUANCED; STALE_PACKET_RISK"
+    },
+    {
+      "status": "LIMIT",
+      "title": "Ce que B9 ne peut pas conclure",
+      "value": "B9 ne conclut pas une action. Il affiche la scène, les rapprochements mémoire et les limites techniques."
+    }
+  ],
+  "surface": "B9_REALITY_BOARD_SCENE_PANEL_CANDIDATE_V01",
+  "technical_limits": [
+    "Dashboard surface only: display layer, no decision layer.",
+    "Read-only filesystem generation; no database write.",
+    "No live cockpit activation.",
+    "No Telegram emission.",
+    "Comparison is contextual memory alignment, not prediction.",
+    "Missing inputs reduce display readiness: market_compare_matches, market_compare_differences, memory_confidence_ladder, false_positive_memory_explainer",
+    "Technical risks require visible dashboard warning badges."
+  ],
+  "version": "T0169_B9_REALITY_BOARD_DASHBOARD_SURFACES_V0"
+}

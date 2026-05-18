@@ -1,0 +1,16 @@
+{
+  "candidate_id": "B9C_SAMPLE_20260518_001",
+  "scene_state": "COUNTER_BREATH_REJECTED",
+  "source_quality": "RAW_NUANCED",
+  "data_visibility": "PARTIAL_BUT_DISPLAYABLE",
+  "current_zone": "lower-zone active",
+  "session": "London",
+  "retest_state": "failed retest",
+  "center_path": "center path drifting lower",
+  "technical_risks": [
+    {
+      "risk": "RAW_NUANCED",
+      "details": "raw confirms texture but does not decide scene"
+    }
+  ]
+}
