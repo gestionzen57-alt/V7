@@ -1,0 +1,22 @@
+{
+  "moments": [
+    {
+      "time_start": "2026-05-15T14:02:00Z",
+      "time_end": "2026-05-15T14:57:00Z",
+      "label_fr": "Rejet de projection haute",
+      "source_family": "RECOVERED_EXISTING_B9_SUMMARY",
+      "summary_recovery_type": "RECOVERED_EXISTING_B9_SUMMARY",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "confidence_cap": 0.35,
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED",
+      "b9_effort_result_progress_state": "CENTER_MIGRATION",
+      "b9_center_path_visibility": "CENTER_PATH_VISIBLE",
+      "b9_session": "NY",
+      "retest_visible": true,
+      "retest_result": "RETEST_FAILED",
+      "b9_v4_timestamp_policy": "TIMESTAMP_SHIFT_DETECTED"
+    }
+  ]
+}

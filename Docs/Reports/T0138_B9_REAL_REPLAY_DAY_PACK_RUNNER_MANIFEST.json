@@ -1,0 +1,24 @@
+{
+  "version": "T0138_B9_REAL_REPLAY_DAY_PACK_RUNNER_V0",
+  "created_at": "2026-05-18T12:33:18.685682Z",
+  "files": [
+    "install_t0138_b9_real_replay_day_pack_runner.ps1",
+    "git_t0138_b9_real_replay_day_pack_runner.ps1",
+    "tools/build_t0138_b9_real_replay_day_pack_runner.py",
+    "scripts/RUN_T0138_B9_REAL_REPLAY_DAY_PACK_RUNNER_FROM_DOWNLOADS.ps1",
+    "tests/test_t0138_b9_real_replay_day_pack_runner.py",
+    "Docs/Reports/T0138_B9_REAL_REPLAY_DAY_PACK_RUNNER_REPORT.md",
+    "Docs/Reports/COMMANDES_T0138_B9_REAL_REPLAY_DAY_PACK_RUNNER.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0138_B9_REAL_REPLAY_DAY_PACK_RUNNER.md",
+    "samples/b9_real_replay_day_pack_runner_v0/t009_sequence_summary_real_candidate_0800_1200.json",
+    "samples/b9_real_replay_day_pack_runner_v0/t009_sequence_summary_real_candidate_1400_2300.json",
+    "samples/b9_real_replay_day_pack_runner_v0/t009_sequence_summary_rejected_raw_unavailable.json",
+    "samples/b9_real_replay_day_pack_runner_v0/B9_RUNTIME_REPLAY_PACK_KEEP_V0.csv"
+  ],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

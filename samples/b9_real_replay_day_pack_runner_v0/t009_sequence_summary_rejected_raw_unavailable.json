@@ -1,0 +1,9 @@
+{
+  "moments": [
+    {
+      "time_start": "2026-05-15T22:00:00Z",
+      "label_fr": "Lecture partielle",
+      "proxy_vs_raw_verdict": "RAW_UNAVAILABLE"
+    }
+  ]
+}

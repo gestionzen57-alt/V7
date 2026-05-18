@@ -1,0 +1,41 @@
+{
+  "version": "T009_SEQUENCE_SUMMARY_V4_SAMPLE",
+  "moments": [
+    {
+      "time_start": "2026-05-15T08:00:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+      "confidence_cap": 0.35,
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED",
+      "b9_effort_result_progress_state": "ABSORPTION_WITHOUT_PROGRESS",
+      "b9_center_path_visibility": "CENTER_PATH_VISIBLE",
+      "b9_session": "LONDON",
+      "retest_visible": true,
+      "retest_result": "RETEST_PENDING",
+      "b9_v4_timestamp_policy": "TIMESTAMP_POLICY_OK"
+    },
+    {
+      "time_start": "2026-05-15T10:11:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "label_fr": "Vague progressive",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+      "confidence_cap": 0.35,
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "b9_source_quality_gate_state": "SOURCE_RAW_CONFIRMED",
+      "b9_effort_result_progress_state": "PROGRESSIVE_WAVE",
+      "b9_center_path_visibility": "CENTER_PATH_VISIBLE",
+      "b9_session": "LONDON",
+      "retest_visible": true,
+      "retest_result": "RETEST_ACCEPTED",
+      "b9_v4_timestamp_policy": "TIMESTAMP_POLICY_OK"
+    }
+  ]
+}
