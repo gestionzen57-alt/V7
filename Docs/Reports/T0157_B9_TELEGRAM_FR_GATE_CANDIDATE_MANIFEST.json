@@ -1,0 +1,28 @@
+{
+  "version": "T0157_B9_TELEGRAM_FR_GATE_CANDIDATE_V0",
+  "files": [
+    ".pytest_cache/.gitignore",
+    ".pytest_cache/CACHEDIR.TAG",
+    ".pytest_cache/README.md",
+    ".pytest_cache/v/cache/lastfailed",
+    ".pytest_cache/v/cache/nodeids",
+    "Docs/Reports/COMMANDES_T0157_B9_TELEGRAM_FR_GATE_CANDIDATE.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0157_B9_TELEGRAM_FR_GATE_CANDIDATE.md",
+    "Docs/Reports/T0157_B9_TELEGRAM_FR_GATE_CANDIDATE_MANIFEST.json",
+    "Docs/Reports/T0157_B9_TELEGRAM_FR_GATE_CANDIDATE_REPORT.md",
+    "__pycache__/pf_t009_telegram_fr_gate_candidate.cpython-313.pyc",
+    "pf_t009_telegram_fr_gate_candidate.py",
+    "samples/b9_telegram_fr_gate_candidate_v0/sample_b9_reality_board_integration_candidate.json",
+    "scripts/RUN_T0157_B9_TELEGRAM_FR_GATE_CANDIDATE_FROM_DOWNLOADS.ps1",
+    "tests/__pycache__/test_t0157_b9_telegram_fr_gate_candidate.cpython-313-pytest-9.0.2.pyc",
+    "tests/test_t0157_b9_telegram_fr_gate_candidate.py",
+    "tools/__pycache__/build_t0157_b9_telegram_fr_gate_candidate.cpython-313.pyc",
+    "tools/build_t0157_b9_telegram_fr_gate_candidate.py"
+  ],
+  "read_only": true,
+  "db_write": false,
+  "dashboard_live": false,
+  "telegram_send": false,
+  "branch": "feat/t0157-b9-telegram-fr-gate-candidate",
+  "commit": "feat(t0157): add B9 Telegram FR gate candidate v0"
+}

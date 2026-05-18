@@ -1,0 +1,21 @@
+{
+  "version": "T0156_B9_REALITY_BOARD_INTEGRATION_CANDIDATE_V0",
+  "payload_state": "B9_REALITY_BOARD_INTEGRATION_CANDIDATE_REVIEW_TECHNICAL_RISK",
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "scene_state": "SCENE_ACCEPTED",
+  "scene_role": "PROGRESSIVE_FIRST_LEG",
+  "active_zone": "1.3350-1.3374",
+  "latest_node": "PROGRESSIVE_REACTION_NODE",
+  "price_verdict": "ACCEPTED",
+  "memory_confidence_ladder": "MEMORY_PARTIAL_COMPARABLE",
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260511_1641_010496DB",
+  "false_positive_context_available": true,
+  "source_quality_gate_state": "SOURCE_QUALITY_LIVE_UNQUALIFIED",
+  "technical_risks": [
+    "source live candidate encore unqualified côté raw texture",
+    "mémoire comparable avec piège technique fort",
+    "force_snapshots_v2 non disponible pour validation live fraîche"
+  ],
+  "no_trade_decision_guard": true
+}
