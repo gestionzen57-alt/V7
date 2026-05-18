@@ -1,0 +1,41 @@
+{
+  "version": "T0115_B6_SIMILARITY_QUERY_CLI_API_V0",
+  "generated_at_utc": "2026-05-18T06:48:34Z",
+  "input_index": "/mnt/data/T0115_B6_SIMILARITY_QUERY_V0_BUILD/outputs/b6_similarity_index_v0/B6_SIMILARITY_INDEX_V0.json",
+  "policy": "QUERY_INDEX_ONLY_INTRA_MEMORY_FAMILY_V0",
+  "query_id": "B6Q_PRECOMPUTED_B6FC_20260505_1413_BDE6E508",
+  "query_memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+  "similar_films_count": 5,
+  "files": [
+    {
+      "path": "B6_SIMILARITY_QUERY_RESULT_V0.csv",
+      "bytes": 2846
+    },
+    {
+      "path": "B6_SIMILARITY_QUERY_RESULT_V0.json",
+      "bytes": 17948
+    },
+    {
+      "path": "B6_SIMILARITY_QUERY_RESULT_V0.md",
+      "bytes": 2618
+    }
+  ],
+  "integrity_checks": {
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell_language": false,
+    "probability_of_success": false,
+    "low_trust_in_results": false,
+    "raw_unavailable_in_results": false,
+    "cross_family_match_count": 0
+  },
+  "doctrine": [
+    "B6 ne prédit pas.",
+    "B6 compare des films.",
+    "Une similarité est un contexte de reconnaissance, jamais une probabilité de succès.",
+    "Aucun BUY/SELL, aucun conseil d'exécution, aucune écriture DB."
+  ],
+  "next_step": "Wire this CLI/API output into a read-only B6 query adapter when a live B9 scene is available."
+}

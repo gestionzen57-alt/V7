@@ -1,0 +1,43 @@
+{
+  "version": "T0115_B6_SIMILARITY_QUERY_CLI_API_V0",
+  "generated_at_utc": "2026-05-18T06:49:38Z",
+  "branch": "feat/t0115-b6-similarity-query-v0",
+  "commit_message": "feat(t0115): add B6 similarity query cli v0",
+  "purpose": "Query the T0114 B6 similarity index without rebuilding it.",
+  "input": "outputs/b6_similarity_index_v0/B6_SIMILARITY_INDEX_V0.json",
+  "sample_query_id": "B6Q_PRECOMPUTED_B6FC_20260505_1413_BDE6E508",
+  "sample_matches": 5,
+  "integrity_checks": {
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell_language": false,
+    "probability_of_success": false,
+    "low_trust_in_results": false,
+    "raw_unavailable_in_results": false,
+    "cross_family_match_count": 0
+  },
+  "files": [
+    "tools/build_t0115_b6_similarity_query_v0.py",
+    "scripts/RUN_T0115_B6_SIMILARITY_QUERY_V0_FROM_DOWNLOADS.ps1",
+    "tests/test_t0115_b6_similarity_query_v0_contract.py",
+    "docs/Reports/T0115_B6_SIMILARITY_QUERY_V0_REPORT.md",
+    "docs/Reports/T0115_B6_SIMILARITY_QUERY_V0_MANIFEST.json",
+    "docs/Reports/COMMANDES_T0115_B6_SIMILARITY_QUERY_V0.md",
+    "docs/Reports/MESSAGE_CLAUDE_T0115_B6_SIMILARITY_QUERY_V0.md",
+    "outputs/b6_similarity_index_v0/B6_SIMILARITY_INDEX_V0.json",
+    "outputs/b6_similarity_query_v0/B6_SIMILARITY_QUERY_RESULT_V0.json",
+    "outputs/b6_similarity_query_v0/B6_SIMILARITY_QUERY_RESULT_V0.md",
+    "outputs/b6_similarity_query_v0/B6_SIMILARITY_QUERY_RESULT_V0.csv",
+    "outputs/b6_similarity_query_v0/B6_SIMILARITY_QUERY_RESULT_V0_MANIFEST.json",
+    "outputs/b6_similarity_query_v0/B6_SIMILARITY_QUERY_RESULT_V0.zip"
+  ],
+  "doctrine": [
+    "B6 ne prédit pas.",
+    "B6 compare des films.",
+    "No BUY/SELL.",
+    "No probability of success."
+  ],
+  "next_step": "T0116 — B6 Live Scene Adapter V0"
+}
