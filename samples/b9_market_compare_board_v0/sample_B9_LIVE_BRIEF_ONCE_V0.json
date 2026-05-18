@@ -1,0 +1,17 @@
+{
+  "brief_id": "LIVE_SAMPLE_20260518_0915",
+  "symbol": "GBPUSD",
+  "timestamp": "2026-05-18T09:15:00Z",
+  "current_scene": "LOWER_ZONE_RANGE_ACTIVE_WITH_COUNTER_BREATH_RETEST",
+  "memory_family": "LOWER_LOCK_COUNTER_BREATH_FAMILY",
+  "session": "LONDON_OPEN",
+  "technical_traps": [
+    "counter-breath ne doit pas etre lu comme release",
+    "absorption inverse possible si lower zone reste defendue"
+  ],
+  "cannot_conclude": [
+    "direction finale",
+    "outcome du retest",
+    "force dure sans raw complet"
+  ]
+}

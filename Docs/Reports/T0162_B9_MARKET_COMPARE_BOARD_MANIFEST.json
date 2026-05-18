@@ -1,0 +1,25 @@
+{
+  "mission": "T0162_B9_MARKET_COMPARE_BOARD_V0",
+  "branch": "feat/t0162-b9-market-compare-board-v0",
+  "read_only": true,
+  "no_db": true,
+  "no_dashboard_live_direct": true,
+  "no_telegram": true,
+  "no_buy_sell": true,
+  "no_probability_of_success": true,
+  "files": [
+    "tools/build_t0162_b9_market_compare_board.py",
+    "tests/test_t0162_b9_market_compare_board.py",
+    "scripts/RUN_T0162_B9_MARKET_COMPARE_BOARD_FROM_DOWNLOADS.ps1",
+    "samples/b9_market_compare_board_v0/sample_B9_LIVE_BRIEF_ONCE_V0.json",
+    "samples/b9_market_compare_board_v0/sample_B9_TRADER_ATTENTION_PACKET_V0.json",
+    "samples/b9_market_compare_board_v0/sample_B9_REALITY_BOARD_INTEGRATION_CANDIDATE_V0.json",
+    "samples/b9_market_compare_board_v0/sample_B9_HUMAN_TERRAIN_SYNTHESIS_V0.json",
+    "samples/b9_market_compare_board_v0/sample_T0150_B9_GOLDEN_TERRAIN_CASES_V1.csv",
+    "samples/b9_market_compare_board_v0/sample_B9_MEMORY_CONFIDENCE_LADDER_V0.json",
+    "samples/b9_market_compare_board_v0/sample_B9_FALSE_POSITIVE_MEMORY_EXPLAINER_V0.json",
+    "Docs/Reports/T0162_B9_MARKET_COMPARE_BOARD_REPORT.md",
+    "Docs/Reports/COMMANDES_T0162_B9_MARKET_COMPARE_BOARD.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0162_B9_MARKET_COMPARE_BOARD.md"
+  ]
+}

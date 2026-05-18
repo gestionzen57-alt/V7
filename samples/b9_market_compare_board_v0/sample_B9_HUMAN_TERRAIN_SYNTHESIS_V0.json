@@ -1,0 +1,29 @@
+{
+  "synthesis_id": "HTS_SAMPLE_001",
+  "memory_family": "counter_breath_after_lower_lock",
+  "center_path_state": "center path low and heavy",
+  "matches": [
+    {
+      "film_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "film_label": "counter-breath rejected after lower acceptance",
+      "family": "LOWER_LOCK_COUNTER_BREATH_FAMILY",
+      "session": "LONDON",
+      "center_path": "CENTER_STAYS_LOW",
+      "retest_state": "FAILED_REINTEGRATION",
+      "source_quality": "RAW_NUANCED",
+      "confidence_score": 0.72,
+      "markers": ["lower_lock", "counter_breath", "retest", "center_low", "raw_nuanced"]
+    },
+    {
+      "film_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "film_label": "lower zone range with rejected counter-breath",
+      "family": "LOWER_ZONE_RANGE_ACTIVE",
+      "session": "LONDON",
+      "center_path": "CENTER_COMPRESSED_LOW",
+      "retest_state": "LOW_RETEST",
+      "source_quality": "READING_PARTIAL",
+      "confidence_score": 0.64,
+      "markers": ["lower_zone", "range", "counter_breath", "low_retest", "reading_partial"]
+    }
+  ]
+}

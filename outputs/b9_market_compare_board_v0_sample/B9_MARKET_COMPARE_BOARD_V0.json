@@ -1,0 +1,891 @@
+{
+  "version": "T0162_B9_MARKET_COMPARE_BOARD_V0",
+  "mode": "sample",
+  "board_state": "PASS",
+  "doctrine": {
+    "compare_is_not_predict": true,
+    "read_only": true,
+    "no_db": true,
+    "no_dashboard_direct": true,
+    "no_telegram": true,
+    "no_buy_sell": true,
+    "no_probability_of_success": true
+  },
+  "input_summary": {
+    "required_inputs_found": 3,
+    "required_inputs_total": 3,
+    "inputs": [
+      {
+        "input_name": "live_brief",
+        "required": true,
+        "found": true,
+        "path": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\samples\\b9_market_compare_board_v0\\sample_B9_LIVE_BRIEF_ONCE_V0.json",
+        "mode": "sample",
+        "sha256": "367a3f6f4d7d70d2536468e3628fad02b1c016ef74088610b53822e2755e6d6e",
+        "note": "sample_fixture"
+      },
+      {
+        "input_name": "attention_packet",
+        "required": true,
+        "found": true,
+        "path": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\samples\\b9_market_compare_board_v0\\sample_B9_TRADER_ATTENTION_PACKET_V0.json",
+        "mode": "sample",
+        "sha256": "eb49d0785e65a843f56f71d2f5ff4119a60302391d57322a18b93cda1226b18f",
+        "note": "sample_fixture"
+      },
+      {
+        "input_name": "reality_board",
+        "required": false,
+        "found": true,
+        "path": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\samples\\b9_market_compare_board_v0\\sample_B9_REALITY_BOARD_INTEGRATION_CANDIDATE_V0.json",
+        "mode": "sample",
+        "sha256": "133cc26a97bdeeebe8b7f46eee697053840621adf97a2a64d3a88f5dc0fb2b97",
+        "note": "sample_fixture"
+      },
+      {
+        "input_name": "human_terrain_synthesis",
+        "required": false,
+        "found": true,
+        "path": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\samples\\b9_market_compare_board_v0\\sample_B9_HUMAN_TERRAIN_SYNTHESIS_V0.json",
+        "mode": "sample",
+        "sha256": "9cfe303e59df5316e16c7cc654825db4163ceb6ce8f67a73f992acd752e6f199",
+        "note": "sample_fixture"
+      },
+      {
+        "input_name": "golden_cases_csv",
+        "required": true,
+        "found": true,
+        "path": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\samples\\b9_market_compare_board_v0\\sample_T0150_B9_GOLDEN_TERRAIN_CASES_V1.csv",
+        "mode": "sample",
+        "sha256": "ce0080e8eb578ec6a2587c95357d044fc42f892bf14d3e09dd77be879828148d",
+        "note": "sample_fixture"
+      },
+      {
+        "input_name": "memory_confidence_ladder_json",
+        "required": false,
+        "found": true,
+        "path": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\samples\\b9_market_compare_board_v0\\sample_B9_MEMORY_CONFIDENCE_LADDER_V0.json",
+        "mode": "sample",
+        "sha256": "f93e0bfd4f377818ce6734161fbdc642b14815792132dbd2ff52624ce1cf9781",
+        "note": "sample_fixture"
+      },
+      {
+        "input_name": "false_positive_explainer_json",
+        "required": false,
+        "found": true,
+        "path": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\samples\\b9_market_compare_board_v0\\sample_B9_FALSE_POSITIVE_MEMORY_EXPLAINER_V0.json",
+        "mode": "sample",
+        "sha256": "21234543ccb8aee833e55d1e416be06056be8e04d68ec22d3039057b5643c17f",
+        "note": "sample_fixture"
+      }
+    ]
+  },
+  "current_scene": {
+    "scene_id": "LIVE_SAMPLE_20260518_0915",
+    "symbol": "GBPUSD",
+    "timestamp": "2026-05-18T09:15:00Z",
+    "current_scene": "LOWER_ZONE_RANGE_ACTIVE_WITH_COUNTER_BREATH_RETEST",
+    "memory_family": "LOWER_LOCK_COUNTER_BREATH_FAMILY",
+    "source_quality": "PARTIAL_RAW_PROXY_MEMORY_MIXED",
+    "retest": "RETEST_PENDING",
+    "session": "LONDON_IGNITION",
+    "center_path": "CENTER_OF_GRAVITY_STILL_LOW",
+    "technical_traps": [
+      "counter-breath ne doit pas etre lu comme release",
+      "absorption inverse possible si lower zone reste defendue",
+      "vague inverse potentiellement corrective",
+      "source proxy ne valide pas une phase"
+    ],
+    "cannot_conclude": [
+      "direction finale",
+      "outcome du retest",
+      "force dure sans raw complet",
+      "raw nuance le film mais ne tranche pas le retest",
+      "proxy memory cannot confirm current source"
+    ],
+    "watch_conditions": [
+      "acceptation au-dessus de la zone mediane",
+      "rejet du retest lower"
+    ]
+  },
+  "compare_summary": {
+    "match_count": 7,
+    "top_match_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+    "top_match_label": "counter-breath rejected after lower acceptance",
+    "top_match_type": "B6_MEMORY_FILM",
+    "top_compare_score": 0.2589,
+    "golden_match_count": 3,
+    "memory_match_count": 4
+  },
+  "top_films_close": [
+    {
+      "match_rank": 1,
+      "match_type": "B6_MEMORY_FILM",
+      "source_family": "human_terrain_synthesis",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "source_label": "counter-breath rejected after lower acceptance",
+      "compare_score": 0.2589,
+      "shared_markers": "breath | center_path | counter | lower | lower_lock_counter_breath_family | retest | session | source_quality",
+      "missing_current_markers": "acceptance | after | b6_20260513_counter_breath_rejected_second_leg_down | center_low | center_stays_low | confidence_score | counter_breath | failed_reintegration | family | film_id | film_label | human_terrain_synthesis",
+      "missing_reference_markers": "absorption | acceptation | cannot | cannot_conclude | center_of_gravity_still_low | comme | complet | confirm | corrective | current_scene | defendue | dessus",
+      "source_quality": "RAW_NUANCED",
+      "retest": "FAILED_REINTEGRATION",
+      "session": "LONDON",
+      "center_path": "CENTER_STAYS_LOW",
+      "conclusion_boundary": "COMPARAISON_MEMOIRE_SEULEMENT_PAS_DE_PREDICTION"
+    },
+    {
+      "match_rank": 2,
+      "match_type": "B6_MEMORY_FILM",
+      "source_family": "memory_confidence_ladder_json",
+      "source_id": "MCL_20260513_001",
+      "source_label": "lower lock then counter-breath pressure",
+      "compare_score": 0.2504,
+      "shared_markers": "breath | counter | london_ignition | lower | lower_lock_counter_breath_family | retest | retest_pending | source_quality",
+      "missing_current_markers": "center_low | center_of_gravity_low | center_path_state | counter_breath | family | label | lock | lower_lock | markers | mcl_20260513_001 | memory_confidence | memory_confidence_ladder_json",
+      "missing_reference_markers": "absorption | acceptation | cannot | cannot_conclude | center_of_gravity_still_low | center_path | comme | complet | confirm | corrective | current_scene | defendue",
+      "source_quality": "RAW_NUANCED",
+      "retest": "RETEST_PENDING_THEN_FAILED",
+      "session": "LONDON_IGNITION",
+      "center_path": "CENTER_OF_GRAVITY_LOW",
+      "conclusion_boundary": "COMPARAISON_MEMOIRE_SEULEMENT_PAS_DE_PREDICTION"
+    },
+    {
+      "match_rank": 3,
+      "match_type": "B6_MEMORY_FILM",
+      "source_family": "human_terrain_synthesis",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "source_label": "lower zone range with rejected counter-breath",
+      "compare_score": 0.2291,
+      "shared_markers": "breath | center_path | counter | lower | session | source_quality | zone",
+      "missing_current_markers": "b6_20260514_lower_zone_range_reading_partial | center_compressed_low | confidence_score | counter_breath | family | film_id | film_label | human_terrain_synthesis | london | low_retest | lower_zone | lower_zone_range_active",
+      "missing_reference_markers": "absorption | acceptation | cannot | cannot_conclude | center_of_gravity_still_low | comme | complet | confirm | corrective | current_scene | defendue | dessus",
+      "source_quality": "READING_PARTIAL",
+      "retest": "LOW_RETEST",
+      "session": "LONDON",
+      "center_path": "CENTER_COMPRESSED_LOW",
+      "conclusion_boundary": "COMPARAISON_MEMOIRE_SEULEMENT_PAS_DE_PREDICTION"
+    },
+    {
+      "match_rank": 4,
+      "match_type": "GOLDEN_TERRAIN_CASE",
+      "source_family": "golden_cases_csv",
+      "source_id": "GT_001",
+      "source_label": "Lower lock counter-breath rejected",
+      "compare_score": 0.0974,
+      "shared_markers": "breath | center_path | corrective | counter | lower | lower_lock_counter_breath_family | release | retest | session | source_quality",
+      "missing_current_markers": "case_id | case_label | center_low | center_stays_low | confondre | counter_breath | failed_reintegration | family | golden_cases_csv | gt_001 | lock | london",
+      "missing_reference_markers": "absorption | acceptation | cannot | cannot_conclude | center_of_gravity_still_low | comme | complet | confirm | current_scene | defendue | dessus | direction",
+      "source_quality": "RAW_NUANCED",
+      "retest": "FAILED_REINTEGRATION",
+      "session": "LONDON",
+      "center_path": "CENTER_STAYS_LOW",
+      "conclusion_boundary": "COMPARAISON_MEMOIRE_SEULEMENT_PAS_DE_PREDICTION"
+    },
+    {
+      "match_rank": 5,
+      "match_type": "B6_MEMORY_FILM",
+      "source_family": "false_positive_explainer_json",
+      "source_id": "B6_MEMORY_FILM_002",
+      "source_label": "counter-breath mistaken as release",
+      "compare_score": 0.0634,
+      "shared_markers": "breath | counter | lower_lock_counter_breath_family | release | retest_pending | source_quality",
+      "missing_current_markers": "counter_breath | false_positive_explainer_json | family | fp_counter_breath_as_release | label | lower_lock | markers | mistaken | not_release | raw_nuanced | retest_state | technical_trap",
+      "missing_reference_markers": "absorption | acceptation | cannot | cannot_conclude | center_of_gravity_still_low | center_path | comme | complet | confirm | corrective | current_scene | defendue",
+      "source_quality": "RAW_NUANCED",
+      "retest": "RETEST_PENDING",
+      "session": "",
+      "center_path": "",
+      "conclusion_boundary": "COMPARAISON_MEMOIRE_SEULEMENT_PAS_DE_PREDICTION"
+    },
+    {
+      "match_rank": 6,
+      "match_type": "GOLDEN_TERRAIN_CASE",
+      "source_family": "golden_cases_csv",
+      "source_id": "GT_002",
+      "source_label": "Pullback absorbed after validated release",
+      "compare_score": 0.0469,
+      "shared_markers": "center_path | comme | release | session | source_quality",
+      "missing_current_markers": "absorbed | accepted | after | case_id | case_label | center_rising | continuation | family | golden_cases_csv | gt_002 | inversion | lire",
+      "missing_reference_markers": "absorption | acceptation | breath | cannot | cannot_conclude | center_of_gravity_still_low | complet | confirm | corrective | counter | current_scene | defendue",
+      "source_quality": "RAW_COMPLETE",
+      "retest": "PULLBACK_ABSORBED",
+      "session": "LONDON_NY",
+      "center_path": "CENTER_RISING",
+      "conclusion_boundary": "COMPARAISON_MEMOIRE_SEULEMENT_PAS_DE_PREDICTION"
+    },
+    {
+      "match_rank": 7,
+      "match_type": "GOLDEN_TERRAIN_CASE",
+      "source_family": "golden_cases_csv",
+      "source_id": "GT_003",
+      "source_label": "Proxy only reading partial",
+      "compare_score": 0.039,
+      "shared_markers": "center_path | proxy | session | source_quality",
+      "missing_current_markers": "asia | case_id | case_label | center_unknown | durcir | family | golden_cases_csv | gt_003 | lecture | markers | only | partial",
+      "missing_reference_markers": "absorption | acceptation | breath | cannot | cannot_conclude | center_of_gravity_still_low | comme | complet | confirm | corrective | counter | current_scene",
+      "source_quality": "PROXY_ONLY",
+      "retest": "RETEST_UNKNOWN",
+      "session": "ASIA",
+      "center_path": "CENTER_UNKNOWN",
+      "conclusion_boundary": "COMPARAISON_MEMOIRE_SEULEMENT_PAS_DE_PREDICTION"
+    }
+  ],
+  "differences": [
+    {
+      "difference_rank": 1,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "acceptance",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 2,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "after",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 3,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "b6_20260513_counter_breath_rejected_second_leg_down",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 4,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "center_low",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 5,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "center_stays_low",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 6,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "absorption",
+      "reference_marker": "",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 7,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "acceptation",
+      "reference_marker": "",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 8,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot",
+      "reference_marker": "",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 9,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot_conclude",
+      "reference_marker": "",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 10,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "center_of_gravity_still_low",
+      "reference_marker": "",
+      "source_id": "B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 11,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "center_low",
+      "source_id": "MCL_20260513_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 12,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "center_of_gravity_low",
+      "source_id": "MCL_20260513_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 13,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "center_path_state",
+      "source_id": "MCL_20260513_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 14,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "counter_breath",
+      "source_id": "MCL_20260513_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 15,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "family",
+      "source_id": "MCL_20260513_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 16,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "absorption",
+      "reference_marker": "",
+      "source_id": "MCL_20260513_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 17,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "acceptation",
+      "reference_marker": "",
+      "source_id": "MCL_20260513_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 18,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot",
+      "reference_marker": "",
+      "source_id": "MCL_20260513_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 19,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot_conclude",
+      "reference_marker": "",
+      "source_id": "MCL_20260513_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 20,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "center_of_gravity_still_low",
+      "reference_marker": "",
+      "source_id": "MCL_20260513_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 21,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "b6_20260514_lower_zone_range_reading_partial",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 22,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "center_compressed_low",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 23,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "confidence_score",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 24,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "counter_breath",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 25,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "family",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 26,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "absorption",
+      "reference_marker": "",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 27,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "acceptation",
+      "reference_marker": "",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 28,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot",
+      "reference_marker": "",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 29,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot_conclude",
+      "reference_marker": "",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 30,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "center_of_gravity_still_low",
+      "reference_marker": "",
+      "source_id": "B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 31,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "case_id",
+      "source_id": "GT_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 32,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "case_label",
+      "source_id": "GT_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 33,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "center_low",
+      "source_id": "GT_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 34,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "center_stays_low",
+      "source_id": "GT_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 35,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "confondre",
+      "source_id": "GT_001",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 36,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "absorption",
+      "reference_marker": "",
+      "source_id": "GT_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 37,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "acceptation",
+      "reference_marker": "",
+      "source_id": "GT_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 38,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot",
+      "reference_marker": "",
+      "source_id": "GT_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 39,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot_conclude",
+      "reference_marker": "",
+      "source_id": "GT_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 40,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "center_of_gravity_still_low",
+      "reference_marker": "",
+      "source_id": "GT_001",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 41,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "counter_breath",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 42,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "false_positive_explainer_json",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 43,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "family",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 44,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "fp_counter_breath_as_release",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 45,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "label",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 46,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "absorption",
+      "reference_marker": "",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 47,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "acceptation",
+      "reference_marker": "",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 48,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot",
+      "reference_marker": "",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 49,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot_conclude",
+      "reference_marker": "",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 50,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "center_of_gravity_still_low",
+      "reference_marker": "",
+      "source_id": "B6_MEMORY_FILM_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 51,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "absorbed",
+      "source_id": "GT_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 52,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "accepted",
+      "source_id": "GT_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 53,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "after",
+      "source_id": "GT_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 54,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "case_id",
+      "source_id": "GT_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 55,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "case_label",
+      "source_id": "GT_002",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 56,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "absorption",
+      "reference_marker": "",
+      "source_id": "GT_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 57,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "acceptation",
+      "reference_marker": "",
+      "source_id": "GT_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 58,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "breath",
+      "reference_marker": "",
+      "source_id": "GT_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 59,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot",
+      "reference_marker": "",
+      "source_id": "GT_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 60,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot_conclude",
+      "reference_marker": "",
+      "source_id": "GT_002",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 61,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "asia",
+      "source_id": "GT_003",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 62,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "case_id",
+      "source_id": "GT_003",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 63,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "case_label",
+      "source_id": "GT_003",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 64,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "center_unknown",
+      "source_id": "GT_003",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 65,
+      "difference_type": "REFERENCE_MARKER_ABSENT_FROM_CURRENT",
+      "current_marker": "",
+      "reference_marker": "durcir",
+      "source_id": "GT_003",
+      "impact": "Ne pas sur-lire la proximite memoire",
+      "technical_risk": "film proche mais marqueur terrain absent"
+    },
+    {
+      "difference_rank": 66,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "absorption",
+      "reference_marker": "",
+      "source_id": "GT_003",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 67,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "acceptation",
+      "reference_marker": "",
+      "source_id": "GT_003",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 68,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "breath",
+      "reference_marker": "",
+      "source_id": "GT_003",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 69,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot",
+      "reference_marker": "",
+      "source_id": "GT_003",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    },
+    {
+      "difference_rank": 70,
+      "difference_type": "CURRENT_MARKER_ABSENT_FROM_REFERENCE",
+      "current_marker": "cannot_conclude",
+      "reference_marker": "",
+      "source_id": "GT_003",
+      "impact": "Scene actuelle partiellement hors film reference",
+      "technical_risk": "comparaison incomplete"
+    }
+  ],
+  "technical_risks": [
+    {
+      "risk_rank": 1,
+      "risk_code": "SOURCE_QUALITY_LIMIT",
+      "severity": "P1",
+      "source": "source_quality",
+      "detail": "PARTIAL_RAW_PROXY_MEMORY_MIXED",
+      "mitigation_b9_wording": "Source quality limitee: B9 garde la conclusion courte."
+    },
+    {
+      "risk_rank": 2,
+      "risk_code": "PROXY_SOURCE_PRESENT",
+      "severity": "P1",
+      "source": "source_quality",
+      "detail": "proxy marker detected",
+      "mitigation_b9_wording": "Source proxy: comparer la forme, pas conclure le film dur."
+    }
+  ],
+  "cannot_conclude_default": [
+    "B9 ne conclut pas une direction depuis une proximite memoire.",
+    "B9 ne transforme pas un golden case proche en prediction.",
+    "B9 ne produit pas de BUY/SELL.",
+    "B9 ne produit aucune probabilite de succes."
+  ],
+  "forbidden_language_hits": []
+}

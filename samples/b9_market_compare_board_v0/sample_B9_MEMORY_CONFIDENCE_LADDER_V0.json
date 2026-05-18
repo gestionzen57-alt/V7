@@ -1,0 +1,16 @@
+{
+  "ladder_id": "MCL_SAMPLE_001",
+  "matches": [
+    {
+      "memory_id": "MCL_20260513_001",
+      "label": "lower lock then counter-breath pressure",
+      "family": "LOWER_LOCK_COUNTER_BREATH_FAMILY",
+      "session_phase": "LONDON_IGNITION",
+      "center_path_state": "CENTER_OF_GRAVITY_LOW",
+      "retest": "RETEST_PENDING_THEN_FAILED",
+      "memory_confidence": 0.69,
+      "source_quality": "RAW_NUANCED",
+      "markers": ["lower_lock", "counter_breath", "center_low", "session_london", "retest_pending"]
+    }
+  ]
+}
