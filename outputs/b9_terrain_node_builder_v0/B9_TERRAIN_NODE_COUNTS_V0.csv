@@ -1,0 +1,13 @@
+group,name,count
+role_counts,ABSORPTION_SHELF_NODE,1
+role_counts,RETEST_FAILED_NODE,1
+role_counts,PROGRESSIVE_REACTION_NODE,1
+role_counts,FAILED_REINTEGRATION_NODE,1
+role_counts,LOWER_ZONE_DEFENDED_NODE,1
+role_counts,RAW_UNAVAILABLE_NODE_REJECTED,1
+strength_counts,NODE_USABLE_RAW_NUANCED,2
+strength_counts,NODE_STRONG_RAW_CONFIRMED,3
+strength_counts,NODE_REJECTED_RAW_UNAVAILABLE,1
+relevance_counts,NODE_MEMORY_MEDIUM,2
+relevance_counts,NODE_MEMORY_HIGH,3
+relevance_counts,NODE_MEMORY_REJECTED,1

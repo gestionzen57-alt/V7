@@ -1,0 +1,31 @@
+{
+  "version": "T0142_B9_TERRAIN_NODE_BUILDER_V0",
+  "input": "samples/b9_terrain_node_builder_v0/sample_t009_sequence_summary_terrain_nodes.json",
+  "output_dir": "outputs/b9_terrain_node_builder_v0",
+  "node_count": 6,
+  "missing_required_field_counts": {},
+  "forbidden_language_hit_count": 0,
+  "role_counts": {
+    "ABSORPTION_SHELF_NODE": 1,
+    "RETEST_FAILED_NODE": 1,
+    "PROGRESSIVE_REACTION_NODE": 1,
+    "FAILED_REINTEGRATION_NODE": 1,
+    "LOWER_ZONE_DEFENDED_NODE": 1,
+    "RAW_UNAVAILABLE_NODE_REJECTED": 1
+  },
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "files": [
+    "B9_TERRAIN_NODE_BUILDER_V0.md",
+    "B9_TERRAIN_NODE_BUILDER_V0.json",
+    "B9_TERRAIN_NODES_V0.csv",
+    "B9_TERRAIN_NODE_COUNTS_V0.csv",
+    "B9_TERRAIN_NODE_ENRICHED_SUMMARY_V0.json",
+    "B9_TERRAIN_NODE_BUILDER_MANIFEST.json",
+    "B9_TERRAIN_NODE_BUILDER_V0.zip"
+  ]
+}
