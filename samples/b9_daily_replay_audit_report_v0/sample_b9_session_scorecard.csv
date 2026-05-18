@@ -1,0 +1,2 @@
+path,label,session,verdict,total_moments,source_quality_state,proxy_vs_raw_verdict,timestamp_policy,retest_visible,memory_state
+session_asian.json,Asian compression,ASIAN,KEEP,8,SOURCE_RAW_CONFIRMED,CONFIRMED_BY_RAW,TIMESTAMP_POLICY_OK,true,MEMORY_PARTIAL_COMPARABLE

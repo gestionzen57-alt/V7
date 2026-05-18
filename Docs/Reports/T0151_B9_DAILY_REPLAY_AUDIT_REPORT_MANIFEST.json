@@ -1,0 +1,9 @@
+{
+  "version": "T0151_B9_DAILY_REPLAY_AUDIT_REPORT_V0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "branch": "feat/t0151-b9-daily-replay-audit-report",
+  "commit_message": "feat(t0151): add B9 daily replay audit report v0"
+}
