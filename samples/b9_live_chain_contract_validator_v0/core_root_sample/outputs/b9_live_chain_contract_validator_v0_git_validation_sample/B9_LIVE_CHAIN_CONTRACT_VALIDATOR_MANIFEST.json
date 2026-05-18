@@ -1,0 +1,15 @@
+{
+  "version": "T0172_B9_LIVE_CHAIN_CONTRACT_VALIDATOR_V0",
+  "files": [
+    "B9_LIVE_CHAIN_CONTRACT_VALIDATOR_V0.json",
+    "B9_LIVE_CHAIN_CONTRACT_VALIDATOR_V0.md",
+    "B9_LIVE_CHAIN_CONTRACT_STEPS_V0.csv",
+    "B9_LIVE_CHAIN_CONTRACT_RISKS_V0.csv",
+    "B9_LIVE_CHAIN_CONTRACT_VALIDATOR_MANIFEST.json",
+    "B9_LIVE_CHAIN_CONTRACT_VALIDATOR_V0.zip"
+  ],
+  "read_only": true,
+  "db_write": false,
+  "dashboard_live_write": false,
+  "telegram_send": false
+}

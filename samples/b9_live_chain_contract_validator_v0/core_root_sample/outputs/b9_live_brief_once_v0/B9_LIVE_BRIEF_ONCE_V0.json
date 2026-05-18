@@ -1,0 +1,12 @@
+{
+  "version": "T0148_B9_LIVE_BRIEF_ONCE_RUNNER_V0",
+  "brief_state": "B9_LIVE_BRIEF_READY",
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260511_1641_010496DB",
+  "false_positive_context_available": true,
+  "terrain_synthesis_available": true,
+  "similar_films": [{"film_id": "B6FC_20260511_1641_010496DB"}],
+  "false_positive_contexts": [{"state": "B6_FALSE_POSITIVE_CONTEXT_HIGH"}],
+  "forbidden_language_hits": []
+}

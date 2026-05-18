@@ -1,0 +1,11 @@
+{
+  "version": "T0155_B9_TRADER_ATTENTION_PACKET_V0",
+  "packet_state": "B9_TRADER_ATTENTION_PACKET_REVIEW_TECHNICAL_RISK",
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "scene_state": "SCENE_ACCEPTED",
+  "price_verdict": "ACCEPTED",
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260511_1641_010496DB",
+  "false_positive_context_available": true,
+  "no_trade_decision_guard": true
+}

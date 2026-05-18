@@ -1,0 +1,6 @@
+{
+  "version": "T0166_B9_LIVE_DATA_FRESHNESS_GUARD_V0",
+  "guard_state": "LIVE_FRESH_WITH_LIMITS",
+  "live_candidate_state": "LIVE_CANDIDATE_PRESENT",
+  "technical_limits": ["source live candidate encore raw texture limitee"]
+}

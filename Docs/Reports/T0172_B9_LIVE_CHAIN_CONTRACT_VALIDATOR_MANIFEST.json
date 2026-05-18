@@ -1,0 +1,20 @@
+{
+  "version": "T0172_B9_LIVE_CHAIN_CONTRACT_VALIDATOR_V0",
+  "branch": "feat/t0172-b9-live-chain-contract-validator",
+  "commit_message": "feat(t0172): add B9 live chain contract validator v0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard_live_write": false,
+  "telegram_send": false,
+  "files": [
+    "pf_t009_live_chain_contract_validator.py",
+    "tools/build_t0172_b9_live_chain_contract_validator.py",
+    "scripts/RUN_T0172_B9_LIVE_CHAIN_CONTRACT_VALIDATOR_FROM_DOWNLOADS.ps1",
+    "tests/test_t0172_b9_live_chain_contract_validator.py",
+    "samples/b9_live_chain_contract_validator_v0/",
+    "Docs/Reports/T0172_B9_LIVE_CHAIN_CONTRACT_VALIDATOR_REPORT.md",
+    "Docs/Reports/T0172_B9_LIVE_CHAIN_CONTRACT_VALIDATOR_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0172_B9_LIVE_CHAIN_CONTRACT_VALIDATOR.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0172_B9_LIVE_CHAIN_CONTRACT_VALIDATOR.md"
+  ]
+}

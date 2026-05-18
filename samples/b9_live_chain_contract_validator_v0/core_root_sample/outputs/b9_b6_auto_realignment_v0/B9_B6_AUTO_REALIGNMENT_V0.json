@@ -1,0 +1,12 @@
+{
+  "version": "T0167_B9_B6_AUTO_REALIGNMENT_RUNNER_V0",
+  "alignment_state": "B9_B6_REALIGNMENT_READY",
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260511_1641_010496DB",
+  "similar_films": [
+    {"film_id": "B6FC_20260511_1641_010496DB"},
+    {"film_id": "B6FC_20260514_1903_E8F0918A"},
+    {"film_id": "B6FC_20260515_1000_AAAAAAAA"}
+  ]
+}

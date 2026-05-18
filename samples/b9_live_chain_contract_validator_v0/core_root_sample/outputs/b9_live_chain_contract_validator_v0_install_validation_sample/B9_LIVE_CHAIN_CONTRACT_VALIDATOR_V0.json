@@ -1,0 +1,30 @@
+{
+  "version": "T0172_B9_LIVE_CHAIN_CONTRACT_VALIDATOR_V0",
+  "generated_at_utc": "2026-05-18T18:04:29.465366+00:00",
+  "contract_state": "B9_LIVE_CHAIN_CONTRACT_PASS",
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "steps_checked": 10,
+  "steps_found": 10,
+  "missing_steps": [],
+  "blocked_steps": [],
+  "raw_unavailable_steps": [],
+  "candidate_consistency_ok": true,
+  "candidate_ids_seen": [
+    "B9LSC_E49A7AEC65CE"
+  ],
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260511_1641_010496DB",
+  "false_positive_context_available": true,
+  "manual_approval_required": true,
+  "manual_approval_granted": false,
+  "no_send_guard": true,
+  "forbidden_language_hits": [],
+  "read_only": true,
+  "db_write": false,
+  "dashboard_live_write": false,
+  "telegram_send": false,
+  "no_trade_decision_guard": true,
+  "technical_limits": [
+    "Contrat live cohérent ; reste dry-run, sans dashboard live ni Telegram send."
+  ]
+}
