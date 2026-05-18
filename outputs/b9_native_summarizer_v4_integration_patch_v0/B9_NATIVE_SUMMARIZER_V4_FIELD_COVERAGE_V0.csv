@@ -1,0 +1,4 @@
+moment_index,label_fr,what_happens_fr,why_it_matters_fr,how_it_happened_fr,mechanism_fr,proof_summary_fr,previous_context_fr,cause_fr,reaction_fr,consequence_fr,memory_shift_fr,retest_role_fr,scene_id,scene_role,parent_scene,child_moments,session_chapter,fractal_reading_fr,b9_center_path_state,b9_effort_result_progress_state,b9_progress_type,b9_native_retest_judgment,b9_source_quality_native_state,b9_v4_timestamp_policy
+0,Effort sans resultat,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+1,Vague progressive,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
+2,Projection decay sous le haut,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK
