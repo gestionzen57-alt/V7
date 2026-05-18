@@ -1,0 +1,8 @@
+dimension,value,count
+session,ASIAN,2
+session,LONDON,1
+session,OVERLAP,1
+session,DEAD_ZONE,1
+phase,CLOSING,1
+phase,MID_SESSION,3
+phase,DEAD_ZONE,1

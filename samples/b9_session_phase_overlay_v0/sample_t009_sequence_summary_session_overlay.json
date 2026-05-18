@@ -1,0 +1,30 @@
+{
+  "version": "SAMPLE_T0132",
+  "moments": [
+    {
+      "time_start": "2026-05-15T06:45:00Z",
+      "time_end": "2026-05-15T06:59:00Z",
+      "label_fr": "Pré-ouverture London / compression"
+    },
+    {
+      "time_start": "2026-05-15T08:05:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat post-open"
+    },
+    {
+      "time_start": "2026-05-15T13:05:00Z",
+      "time_end": "2026-05-15T13:15:00Z",
+      "label_fr": "Vague progressive en overlap"
+    },
+    {
+      "time_start": "2026-05-15T20:30:00Z",
+      "time_end": "2026-05-15T20:45:00Z",
+      "label_fr": "Shelf lent de dead zone"
+    },
+    {
+      "time_start": "2026-05-15T23:10:00Z",
+      "time_end": "2026-05-15T23:25:00Z",
+      "label_fr": "Compression Asian"
+    }
+  ]
+}
