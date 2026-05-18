@@ -1,0 +1,21 @@
+{
+  "version": "T0127_B9_TIMESTAMP_REMAP_GUARD_V0",
+  "timestamp_guard_state": "PASS_WITH_SHIFT_DETECTED",
+  "input_file": "samples/b9_timestamp_remap_guard_v0/sample_t009_sequence_summary_shifted.json",
+  "replay_report": "samples/b9_timestamp_remap_guard_v0/sample_t009_replay_sequence_report.json",
+  "moments_checked": 3,
+  "policy_counts": {
+    "TIMESTAMP_SHIFT_DETECTED": 3
+  },
+  "shifted_moment_count": 3,
+  "missing_required_field_counts": {},
+  "forbidden_language_hits": [],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "output_dir": "outputs/b9_timestamp_remap_guard_v0",
+  "zip": "outputs/b9_timestamp_remap_guard_v0/B9_TIMESTAMP_REMAP_GUARD_V0.zip"
+}

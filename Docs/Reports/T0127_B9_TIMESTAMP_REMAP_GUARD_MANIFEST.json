@@ -1,0 +1,15 @@
+{
+  "version": "T0127_B9_TIMESTAMP_REMAP_GUARD_V0",
+  "branch": "feat/t0127-b9-timestamp-remap-guard",
+  "commit_message": "feat(t0127): add B9 timestamp remap guard",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "expected_tests": [
+    "python -m py_compile tools\\build_t0127_b9_timestamp_remap_guard_v0.py",
+    "python -m pytest tests\\test_t0127_b9_timestamp_remap_guard_v0.py"
+  ]
+}

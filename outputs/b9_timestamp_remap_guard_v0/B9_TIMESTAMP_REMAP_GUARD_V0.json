@@ -1,0 +1,63 @@
+{
+  "manifest": {
+    "version": "T0127_B9_TIMESTAMP_REMAP_GUARD_V0",
+    "timestamp_guard_state": "PASS_WITH_SHIFT_DETECTED",
+    "input_file": "samples/b9_timestamp_remap_guard_v0/sample_t009_sequence_summary_shifted.json",
+    "replay_report": "samples/b9_timestamp_remap_guard_v0/sample_t009_replay_sequence_report.json",
+    "moments_checked": 3,
+    "policy_counts": {
+      "TIMESTAMP_SHIFT_DETECTED": 3
+    },
+    "shifted_moment_count": 3,
+    "missing_required_field_counts": {},
+    "forbidden_language_hits": [],
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell": false,
+    "probability_of_success": false,
+    "output_dir": "outputs/b9_timestamp_remap_guard_v0"
+  },
+  "rows": [
+    {
+      "moment_index": 1,
+      "label_fr": "Centre de gravité qui descend",
+      "time_start_raw": "22:00",
+      "time_end_raw": "22:14",
+      "time_start_real": "08:00",
+      "time_end_real": "08:14",
+      "timestamp_source": "REPLAY_REPORT_REMAP",
+      "timestamp_policy": "TIMESTAMP_SHIFT_DETECTED",
+      "is_replay_shifted": true,
+      "replay_shift_minutes": -600,
+      "technical_limits": "Décalage replay détecté; utiliser time_*_real pour lecture terrain."
+    },
+    {
+      "moment_index": 2,
+      "label_fr": "Retest échoué / reprise refusée",
+      "time_start_raw": "23:10",
+      "time_end_raw": "23:31",
+      "time_start_real": "09:10",
+      "time_end_real": "09:31",
+      "timestamp_source": "REPLAY_REPORT_REMAP",
+      "timestamp_policy": "TIMESTAMP_SHIFT_DETECTED",
+      "is_replay_shifted": true,
+      "replay_shift_minutes": -600,
+      "technical_limits": "Décalage replay détecté; utiliser time_*_real pour lecture terrain."
+    },
+    {
+      "moment_index": 3,
+      "label_fr": "Vague progressive",
+      "time_start_raw": "00:11",
+      "time_end_raw": "00:23",
+      "time_start_real": "10:11",
+      "time_end_real": "10:23",
+      "timestamp_source": "REPLAY_REPORT_REMAP",
+      "timestamp_policy": "TIMESTAMP_SHIFT_DETECTED",
+      "is_replay_shifted": true,
+      "replay_shift_minutes": -600,
+      "technical_limits": "Décalage replay détecté; utiliser time_*_real pour lecture terrain."
+    }
+  ]
+}

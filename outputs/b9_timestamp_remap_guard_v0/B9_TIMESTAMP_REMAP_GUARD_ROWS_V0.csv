@@ -1,0 +1,4 @@
+moment_index,label_fr,time_start_raw,time_end_raw,time_start_real,time_end_real,timestamp_source,timestamp_policy,is_replay_shifted,replay_shift_minutes,technical_limits
+1,Centre de gravité qui descend,22:00,22:14,08:00,08:14,REPLAY_REPORT_REMAP,TIMESTAMP_SHIFT_DETECTED,True,-600,Décalage replay détecté; utiliser time_*_real pour lecture terrain.
+2,Retest échoué / reprise refusée,23:10,23:31,09:10,09:31,REPLAY_REPORT_REMAP,TIMESTAMP_SHIFT_DETECTED,True,-600,Décalage replay détecté; utiliser time_*_real pour lecture terrain.
+3,Vague progressive,00:11,00:23,10:11,10:23,REPLAY_REPORT_REMAP,TIMESTAMP_SHIFT_DETECTED,True,-600,Décalage replay détecté; utiliser time_*_real pour lecture terrain.

@@ -1,0 +1,26 @@
+{
+  "version": "SAMPLE_T009_REPLAY_SEQUENCE_REPORT",
+  "moments": [
+    {
+      "time_start": "22:00",
+      "time_end": "22:14",
+      "orig_start": "08:00",
+      "orig_end": "08:14",
+      "label_fr": "Centre de gravité qui descend"
+    },
+    {
+      "time_start": "23:10",
+      "time_end": "23:31",
+      "orig_start": "09:10",
+      "orig_end": "09:31",
+      "label_fr": "Retest échoué / reprise refusée"
+    },
+    {
+      "time_start": "00:11",
+      "time_end": "00:23",
+      "orig_start": "10:11",
+      "orig_end": "10:23",
+      "label_fr": "Vague progressive"
+    }
+  ]
+}
