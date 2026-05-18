@@ -1,0 +1,13 @@
+{
+  "version": "T0174_T0169_IMPORT_PATH_HOTFIX_V0",
+  "files": [
+    "tools/apply_t0174_t0169_import_path_hotfix.py",
+    "tests/test_t0174_t0169_import_path_hotfix.py",
+    "scripts/RUN_T0174_T0169_IMPORT_PATH_HOTFIX_FROM_DOWNLOADS.ps1",
+    "Docs/Reports/T0174_T0169_IMPORT_PATH_HOTFIX_REPORT.md",
+    "Docs/Reports/T0174_T0169_IMPORT_PATH_HOTFIX_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0174_T0169_IMPORT_PATH_HOTFIX.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0174_T0169_IMPORT_PATH_HOTFIX.md"
+  ],
+  "read_only_scope": "No DB, no dashboard live, no Telegram. Writes only the T0169 builder if the hotfix is applied."
+}
