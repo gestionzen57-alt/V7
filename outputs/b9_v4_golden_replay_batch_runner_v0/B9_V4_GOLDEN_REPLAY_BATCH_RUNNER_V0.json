@@ -1,0 +1,98 @@
+{
+  "manifest": {
+    "version": "T0125_B9_V4_GOLDEN_REPLAY_BATCH_RUNNER_V0",
+    "batch_state": "PASS",
+    "input_dir": "/mnt/data/t0125_build/package/samples/b9_v4_golden_replay_batch_runner_v0",
+    "output_dir": "/mnt/data/t0125_build/package/outputs/b9_v4_golden_replay_batch_runner_v0",
+    "files_processed": 3,
+    "files_passed": 3,
+    "files_failed": 0,
+    "partial_golden_coverage_files": 0,
+    "total_before_moments": 18,
+    "total_after_moments": 18,
+    "total_missing_required_fields": 0,
+    "total_forbidden_language_hits": 0,
+    "total_preserved_field_changes": 0,
+    "contract_source": "LOCAL_BATCH_GUARD_DETERMINISTIC_V0",
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell": false,
+    "probability_of_success": false
+  },
+  "results": [
+    {
+      "input_file": "/mnt/data/t0125_build/package/samples/b9_v4_golden_replay_batch_runner_v0/sample_replay_summary_1.json",
+      "file_name": "sample_replay_summary_1.json",
+      "state": "PASS",
+      "before_moment_count": 6,
+      "after_moment_count": 6,
+      "missing_required_fields": {},
+      "missing_required_total": 0,
+      "forbidden_language_hits": [],
+      "forbidden_language_hit_count": 0,
+      "preserved_field_changes": 0,
+      "golden_case_count": 6,
+      "golden_cases_passed": 6,
+      "golden_cases_failed": 0,
+      "golden_case_states": {
+        "B9V4_GOLDEN_EFFORT_WITHOUT_RESULT": true,
+        "B9V4_GOLDEN_PROGRESSIVE_WAVE": true,
+        "B9V4_GOLDEN_CENTER_MIGRATION_DOWN": true,
+        "B9V4_GOLDEN_RETEST_FAILED": true,
+        "B9V4_GOLDEN_CORRECTIVE_BREATH": true,
+        "B9V4_GOLDEN_SOURCE_QUALITY_TIMESTAMP": true
+      },
+      "enriched_output": "/mnt/data/t0125_build/package/outputs/b9_v4_golden_replay_batch_runner_v0/enriched/sample_replay_summary_1.b9_v4_enriched.json"
+    },
+    {
+      "input_file": "/mnt/data/t0125_build/package/samples/b9_v4_golden_replay_batch_runner_v0/sample_replay_summary_2.json",
+      "file_name": "sample_replay_summary_2.json",
+      "state": "PASS",
+      "before_moment_count": 6,
+      "after_moment_count": 6,
+      "missing_required_fields": {},
+      "missing_required_total": 0,
+      "forbidden_language_hits": [],
+      "forbidden_language_hit_count": 0,
+      "preserved_field_changes": 0,
+      "golden_case_count": 6,
+      "golden_cases_passed": 6,
+      "golden_cases_failed": 0,
+      "golden_case_states": {
+        "B9V4_GOLDEN_EFFORT_WITHOUT_RESULT": true,
+        "B9V4_GOLDEN_PROGRESSIVE_WAVE": true,
+        "B9V4_GOLDEN_CENTER_MIGRATION_DOWN": true,
+        "B9V4_GOLDEN_RETEST_FAILED": true,
+        "B9V4_GOLDEN_CORRECTIVE_BREATH": true,
+        "B9V4_GOLDEN_SOURCE_QUALITY_TIMESTAMP": true
+      },
+      "enriched_output": "/mnt/data/t0125_build/package/outputs/b9_v4_golden_replay_batch_runner_v0/enriched/sample_replay_summary_2.b9_v4_enriched.json"
+    },
+    {
+      "input_file": "/mnt/data/t0125_build/package/samples/b9_v4_golden_replay_batch_runner_v0/sample_replay_summary_3.json",
+      "file_name": "sample_replay_summary_3.json",
+      "state": "PASS",
+      "before_moment_count": 6,
+      "after_moment_count": 6,
+      "missing_required_fields": {},
+      "missing_required_total": 0,
+      "forbidden_language_hits": [],
+      "forbidden_language_hit_count": 0,
+      "preserved_field_changes": 0,
+      "golden_case_count": 6,
+      "golden_cases_passed": 6,
+      "golden_cases_failed": 0,
+      "golden_case_states": {
+        "B9V4_GOLDEN_EFFORT_WITHOUT_RESULT": true,
+        "B9V4_GOLDEN_PROGRESSIVE_WAVE": true,
+        "B9V4_GOLDEN_CENTER_MIGRATION_DOWN": true,
+        "B9V4_GOLDEN_RETEST_FAILED": true,
+        "B9V4_GOLDEN_CORRECTIVE_BREATH": true,
+        "B9V4_GOLDEN_SOURCE_QUALITY_TIMESTAMP": true
+      },
+      "enriched_output": "/mnt/data/t0125_build/package/outputs/b9_v4_golden_replay_batch_runner_v0/enriched/sample_replay_summary_3.b9_v4_enriched.json"
+    }
+  ]
+}

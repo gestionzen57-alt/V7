@@ -1,0 +1,4 @@
+file_name,state,before_moment_count,after_moment_count,missing_required_total,forbidden_language_hit_count,preserved_field_changes,golden_cases_passed,golden_cases_failed,enriched_output
+sample_replay_summary_1.json,PASS,6,6,0,0,0,6,0,/mnt/data/t0125_build/package/outputs/b9_v4_golden_replay_batch_runner_v0/enriched/sample_replay_summary_1.b9_v4_enriched.json
+sample_replay_summary_2.json,PASS,6,6,0,0,0,6,0,/mnt/data/t0125_build/package/outputs/b9_v4_golden_replay_batch_runner_v0/enriched/sample_replay_summary_2.b9_v4_enriched.json
+sample_replay_summary_3.json,PASS,6,6,0,0,0,6,0,/mnt/data/t0125_build/package/outputs/b9_v4_golden_replay_batch_runner_v0/enriched/sample_replay_summary_3.b9_v4_enriched.json

@@ -1,0 +1,66 @@
+{
+  "version": "SAMPLE_B9_V4_BATCH_INPUT",
+  "date": "2026-05-16",
+  "moments": [
+    {
+      "time_start": "2026-05-15T08:00:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat",
+      "moment_type": "T009_MOMENT_EFFORT_WITHOUT_RESULT",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "technical_limits": "proxy M1"
+    },
+    {
+      "time_start": "2026-05-15T10:11:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "label_fr": "Vague progressive",
+      "moment_type": "T009_MOMENT_PROGRESSIVE_WAVE",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "technical_limits": "raw confirme partiellement"
+    },
+    {
+      "time_start": "2026-05-15T11:01:00Z",
+      "time_end": "2026-05-15T11:18:00Z",
+      "label_fr": "Centre de gravité qui descend",
+      "moment_type": "T009_MOMENT_CENTER_MIGRATION_DOWN",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "technical_limits": "centre reconstruit"
+    },
+    {
+      "time_start": "2026-05-15T09:10:00Z",
+      "time_end": "2026-05-15T09:31:00Z",
+      "label_fr": "Retest échoué / reprise refusée",
+      "moment_type": "T009_MOMENT_RETEST_FAILED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "technical_limits": "retest visible par proxy"
+    },
+    {
+      "time_start": "2026-05-15T09:35:00Z",
+      "time_end": "2026-05-15T10:00:00Z",
+      "label_fr": "Respiration corrective",
+      "moment_type": "T009_MOMENT_CORRECTIVE_BREATH",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "technical_limits": "respiration sans déplacement mémoire"
+    },
+    {
+      "time_start": "2026-05-15T12:00:00Z",
+      "time_end": "2026-05-15T12:15:00Z",
+      "label_fr": "Source quality timestamp visibility",
+      "moment_type": "T009_MOMENT_SOURCE_QUALITY_TIMESTAMP",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "technical_limits": "timestamp original préservé"
+    }
+  ]
+}
