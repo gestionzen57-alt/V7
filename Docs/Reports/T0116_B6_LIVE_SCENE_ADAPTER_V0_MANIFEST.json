@@ -1,0 +1,35 @@
+{
+  "version": "T0116_B6_LIVE_SCENE_ADAPTER_V0",
+  "generated_at_utc": "2026-05-18T07:09:34Z",
+  "branch": "feat/t0116-b6-live-scene-adapter-v0",
+  "commit_message": "feat(t0116): add B6 live scene adapter v0",
+  "purpose": "Adapt current B9 scene payloads into T0115-compatible query JSON without prediction or DB write.",
+  "files": [
+    "tools/build_t0116_b6_live_scene_adapter_v0.py",
+    "scripts/RUN_T0116_B6_LIVE_SCENE_ADAPTER_V0_FROM_DOWNLOADS.ps1",
+    "tests/test_t0116_b6_live_scene_adapter_v0_contract.py",
+    "samples/b6_live_scene_adapter_v0/sample_b9_live_scene_v0.json",
+    "docs/Reports/T0116_B6_LIVE_SCENE_ADAPTER_V0_REPORT.md",
+    "docs/Reports/T0116_B6_LIVE_SCENE_ADAPTER_V0_MANIFEST.json",
+    "docs/Reports/COMMANDES_T0116_B6_LIVE_SCENE_ADAPTER_V0.md",
+    "docs/Reports/MESSAGE_CLAUDE_T0116_B6_LIVE_SCENE_ADAPTER_V0.md",
+    "outputs/b6_live_scene_adapter_v0/B6_LIVE_SCENE_QUERY_PAYLOAD_V0.json",
+    "outputs/b6_live_scene_adapter_v0/B6_LIVE_SCENE_ADAPTER_REPORT_V0.md",
+    "outputs/b6_live_scene_adapter_v0/B6_LIVE_SCENE_ADAPTER_MANIFEST_V0.json",
+    "outputs/b6_live_scene_adapter_v0/B6_LIVE_SCENE_ADAPTER_V0.zip"
+  ],
+  "tests": [
+    "python -m py_compile tools\\build_t0116_b6_live_scene_adapter_v0.py",
+    "python -m pytest tests\\test_t0116_b6_live_scene_adapter_v0_contract.py"
+  ],
+  "cli": "python tools\\build_t0116_b6_live_scene_adapter_v0.py --input-json samples\\b6_live_scene_adapter_v0\\sample_b9_live_scene_v0.json --output-dir outputs\\b6_live_scene_adapter_v0",
+  "integrity": {
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell": false,
+    "probability_of_success": false
+  },
+  "next_step": "T0117 — B6 False Positive Context V0"
+}

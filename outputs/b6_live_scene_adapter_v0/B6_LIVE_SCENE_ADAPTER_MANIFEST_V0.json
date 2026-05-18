@@ -1,0 +1,29 @@
+{
+  "version": "T0116_B6_LIVE_SCENE_ADAPTER_V0",
+  "generated_at_utc": "2026-05-18T07:08:52Z",
+  "policy": "ADAPT_LIVE_B9_SCENE_TO_T0115_QUERY_JSON_ONLY_V0",
+  "output_dir": "outputs/b6_live_scene_adapter_v0",
+  "files": [
+    "B6_LIVE_SCENE_QUERY_PAYLOAD_V0.json",
+    "B6_LIVE_SCENE_ADAPTER_REPORT_V0.md",
+    "B6_LIVE_SCENE_ADAPTER_MANIFEST_V0.json",
+    "B6_LIVE_SCENE_ADAPTER_V0.zip"
+  ],
+  "query_scene": {
+    "film_id": "LIVE_SCENE_F4930E9A5C",
+    "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+    "memory_family_origin": "heuristic_text_directional_progress",
+    "t0115_compatible": true
+  },
+  "integrity_checks": {
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell_language": false,
+    "probability_of_success": false,
+    "low_trust_used_as_active_memory": false,
+    "raw_unavailable_used_as_active_memory": false
+  },
+  "next_step": "Run T0115 with --query-json B6_LIVE_SCENE_QUERY_PAYLOAD_V0.json"
+}
