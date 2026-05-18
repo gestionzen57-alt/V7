@@ -1,0 +1,22 @@
+{
+  "version": "T0176_B9_CHAIN_DEGRADED_DASHBOARD_CANDIDATE_V0",
+  "files": [
+    "tools/build_t0176_b9_chain_degraded_dashboard_candidate.py",
+    "tests/test_t0176_b9_chain_degraded_dashboard_candidate.py",
+    "scripts/RUN_T0176_B9_CHAIN_DEGRADED_DASHBOARD_CANDIDATE_FROM_DOWNLOADS.ps1",
+    "samples/t0176_b9_chain_degraded_dashboard_candidate_v0/README.md",
+    "Docs/Reports/T0176_B9_CHAIN_DEGRADED_DASHBOARD_CANDIDATE_REPORT.md",
+    "Docs/Reports/T0176_B9_CHAIN_DEGRADED_DASHBOARD_CANDIDATE_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0176_B9_CHAIN_DEGRADED_DASHBOARD_CANDIDATE.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0176_B9_CHAIN_DEGRADED_DASHBOARD_CANDIDATE.md"
+  ],
+  "runtime_outputs_not_committed": [
+    "outputs/t0176_b9_chain_degraded_dashboard_candidate_v0/"
+  ],
+  "constraints": {
+    "db_touched": false,
+    "dashboard_live_wired": false,
+    "telegram_touched": false,
+    "decision_button": false
+  }
+}
