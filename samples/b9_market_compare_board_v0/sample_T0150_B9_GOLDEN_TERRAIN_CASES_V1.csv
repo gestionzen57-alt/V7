@@ -1,0 +1,4 @@
+case_id,case_label,family,session,center_path,retest_state,source_quality,markers,technical_trap
+GT_001,Lower lock counter-breath rejected,LOWER_LOCK_COUNTER_BREATH_FAMILY,LONDON,CENTER_STAYS_LOW,FAILED_REINTEGRATION,RAW_NUANCED,"lower_lock counter_breath retest failed_reintegration center_low raw_nuanced","ne pas confondre respiration corrective et release"
+GT_002,Pullback absorbed after validated release,RELEASE_PULLBACK_ABSORBED_FAMILY,LONDON_NY,CENTER_RISING,PULLBACK_ABSORBED,RAW_COMPLETE,"release_validated pullback_absorbed center_rising continuation accepted","ne pas lire pullback comme inversion"
+GT_003,Proxy only reading partial,READING_PARTIAL_FAMILY,ASIA,CENTER_UNKNOWN,RETEST_UNKNOWN,PROXY_ONLY,"proxy source_quality partial stale unknown","ne pas durcir une lecture proxy"

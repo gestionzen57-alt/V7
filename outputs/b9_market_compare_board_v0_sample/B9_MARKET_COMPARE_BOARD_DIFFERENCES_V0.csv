@@ -1,0 +1,71 @@
+difference_rank,difference_type,current_marker,reference_marker,source_id,impact,technical_risk
+1,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,acceptance,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+2,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,after,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+3,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,b6_20260513_counter_breath_rejected_second_leg_down,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+4,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,center_low,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+5,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,center_stays_low,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+6,CURRENT_MARKER_ABSENT_FROM_REFERENCE,absorption,,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Scene actuelle partiellement hors film reference,comparaison incomplete
+7,CURRENT_MARKER_ABSENT_FROM_REFERENCE,acceptation,,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Scene actuelle partiellement hors film reference,comparaison incomplete
+8,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot,,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Scene actuelle partiellement hors film reference,comparaison incomplete
+9,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot_conclude,,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Scene actuelle partiellement hors film reference,comparaison incomplete
+10,CURRENT_MARKER_ABSENT_FROM_REFERENCE,center_of_gravity_still_low,,B6_20260513_COUNTER_BREATH_REJECTED_SECOND_LEG_DOWN,Scene actuelle partiellement hors film reference,comparaison incomplete
+11,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,center_low,MCL_20260513_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+12,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,center_of_gravity_low,MCL_20260513_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+13,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,center_path_state,MCL_20260513_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+14,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,counter_breath,MCL_20260513_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+15,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,family,MCL_20260513_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+16,CURRENT_MARKER_ABSENT_FROM_REFERENCE,absorption,,MCL_20260513_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+17,CURRENT_MARKER_ABSENT_FROM_REFERENCE,acceptation,,MCL_20260513_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+18,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot,,MCL_20260513_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+19,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot_conclude,,MCL_20260513_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+20,CURRENT_MARKER_ABSENT_FROM_REFERENCE,center_of_gravity_still_low,,MCL_20260513_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+21,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,b6_20260514_lower_zone_range_reading_partial,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+22,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,center_compressed_low,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+23,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,confidence_score,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+24,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,counter_breath,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+25,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,family,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+26,CURRENT_MARKER_ABSENT_FROM_REFERENCE,absorption,,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Scene actuelle partiellement hors film reference,comparaison incomplete
+27,CURRENT_MARKER_ABSENT_FROM_REFERENCE,acceptation,,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Scene actuelle partiellement hors film reference,comparaison incomplete
+28,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot,,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Scene actuelle partiellement hors film reference,comparaison incomplete
+29,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot_conclude,,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Scene actuelle partiellement hors film reference,comparaison incomplete
+30,CURRENT_MARKER_ABSENT_FROM_REFERENCE,center_of_gravity_still_low,,B6_20260514_LOWER_ZONE_RANGE_READING_PARTIAL,Scene actuelle partiellement hors film reference,comparaison incomplete
+31,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,case_id,GT_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+32,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,case_label,GT_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+33,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,center_low,GT_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+34,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,center_stays_low,GT_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+35,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,confondre,GT_001,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+36,CURRENT_MARKER_ABSENT_FROM_REFERENCE,absorption,,GT_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+37,CURRENT_MARKER_ABSENT_FROM_REFERENCE,acceptation,,GT_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+38,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot,,GT_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+39,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot_conclude,,GT_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+40,CURRENT_MARKER_ABSENT_FROM_REFERENCE,center_of_gravity_still_low,,GT_001,Scene actuelle partiellement hors film reference,comparaison incomplete
+41,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,counter_breath,B6_MEMORY_FILM_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+42,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,false_positive_explainer_json,B6_MEMORY_FILM_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+43,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,family,B6_MEMORY_FILM_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+44,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,fp_counter_breath_as_release,B6_MEMORY_FILM_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+45,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,label,B6_MEMORY_FILM_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+46,CURRENT_MARKER_ABSENT_FROM_REFERENCE,absorption,,B6_MEMORY_FILM_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+47,CURRENT_MARKER_ABSENT_FROM_REFERENCE,acceptation,,B6_MEMORY_FILM_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+48,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot,,B6_MEMORY_FILM_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+49,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot_conclude,,B6_MEMORY_FILM_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+50,CURRENT_MARKER_ABSENT_FROM_REFERENCE,center_of_gravity_still_low,,B6_MEMORY_FILM_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+51,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,absorbed,GT_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+52,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,accepted,GT_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+53,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,after,GT_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+54,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,case_id,GT_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+55,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,case_label,GT_002,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+56,CURRENT_MARKER_ABSENT_FROM_REFERENCE,absorption,,GT_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+57,CURRENT_MARKER_ABSENT_FROM_REFERENCE,acceptation,,GT_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+58,CURRENT_MARKER_ABSENT_FROM_REFERENCE,breath,,GT_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+59,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot,,GT_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+60,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot_conclude,,GT_002,Scene actuelle partiellement hors film reference,comparaison incomplete
+61,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,asia,GT_003,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+62,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,case_id,GT_003,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+63,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,case_label,GT_003,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+64,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,center_unknown,GT_003,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+65,REFERENCE_MARKER_ABSENT_FROM_CURRENT,,durcir,GT_003,Ne pas sur-lire la proximite memoire,film proche mais marqueur terrain absent
+66,CURRENT_MARKER_ABSENT_FROM_REFERENCE,absorption,,GT_003,Scene actuelle partiellement hors film reference,comparaison incomplete
+67,CURRENT_MARKER_ABSENT_FROM_REFERENCE,acceptation,,GT_003,Scene actuelle partiellement hors film reference,comparaison incomplete
+68,CURRENT_MARKER_ABSENT_FROM_REFERENCE,breath,,GT_003,Scene actuelle partiellement hors film reference,comparaison incomplete
+69,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot,,GT_003,Scene actuelle partiellement hors film reference,comparaison incomplete
+70,CURRENT_MARKER_ABSENT_FROM_REFERENCE,cannot_conclude,,GT_003,Scene actuelle partiellement hors film reference,comparaison incomplete

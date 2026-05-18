@@ -1,0 +1,7 @@
+{
+  "board_id": "RBI_SAMPLE_001",
+  "source_quality": "PARTIAL_RAW_PROXY_MEMORY_MIXED",
+  "data_visibility": "RAW_NUANCED",
+  "retest": "LOWER_RETEST_NOT_RESOLVED",
+  "limits": ["raw nuance le film mais ne tranche pas le retest", "proxy memory cannot confirm current source"]
+}

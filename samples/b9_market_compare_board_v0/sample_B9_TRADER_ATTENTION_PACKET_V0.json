@@ -1,0 +1,11 @@
+{
+  "packet_id": "TAP_SAMPLE_001",
+  "symbol": "GBPUSD",
+  "scene": "COUNTER_BREATH_UP_AFTER_LOWER_LOCK",
+  "source_quality": "RAW_NUANCED_WITH_PROXY_MEMORY",
+  "retest_state": "RETEST_PENDING",
+  "session_phase": "LONDON_IGNITION",
+  "center_path": "CENTER_OF_GRAVITY_STILL_LOW",
+  "watch_conditions": ["acceptation au-dessus de la zone mediane", "rejet du retest lower"],
+  "technical_traps": ["vague inverse potentiellement corrective", "source proxy ne valide pas une phase"]
+}

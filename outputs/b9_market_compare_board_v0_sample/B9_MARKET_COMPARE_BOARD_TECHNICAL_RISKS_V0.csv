@@ -1,0 +1,3 @@
+risk_rank,risk_code,severity,source,detail,mitigation_b9_wording
+1,SOURCE_QUALITY_LIMIT,P1,source_quality,PARTIAL_RAW_PROXY_MEMORY_MIXED,Source quality limitee: B9 garde la conclusion courte.
+2,PROXY_SOURCE_PRESENT,P1,source_quality,proxy marker detected,"Source proxy: comparer la forme, pas conclure le film dur."

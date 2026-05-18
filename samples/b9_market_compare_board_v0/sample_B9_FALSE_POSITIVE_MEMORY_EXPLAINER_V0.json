@@ -1,0 +1,13 @@
+{
+  "explainer_id": "FPME_SAMPLE_001",
+  "technical_traps": [
+    {
+      "trap_id": "FP_COUNTER_BREATH_AS_RELEASE",
+      "label": "counter-breath mistaken as release",
+      "family": "LOWER_LOCK_COUNTER_BREATH_FAMILY",
+      "source_quality": "RAW_NUANCED",
+      "retest_state": "RETEST_PENDING",
+      "markers": ["counter_breath", "lower_lock", "not_release", "technical_trap"]
+    }
+  ]
+}
