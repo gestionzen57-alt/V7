@@ -1,0 +1,16 @@
+{
+  "version": "T0173_B9_LIVE_CHAIN_RUNTIME_MISSING_INPUT_RESOLVER_V0",
+  "files": [
+    "pf_t009_live_chain_runtime_missing_input_resolver.py",
+    "tools/build_t0173_b9_live_chain_missing_input_resolver.py",
+    "scripts/RUN_T0173_B9_LIVE_CHAIN_MISSING_INPUT_RESOLVER_FROM_DOWNLOADS.ps1",
+    "tests/test_t0173_b9_live_chain_missing_input_resolver.py",
+    "samples/b9_live_chain_missing_input_resolver_v0/sample_t0172_contract_missing_inputs.json",
+    "samples/b9_live_chain_missing_input_resolver_v0/sample_t0172_contract_pass.json",
+    "Docs/Reports/T0173_B9_LIVE_CHAIN_MISSING_INPUT_RESOLVER_REPORT.md",
+    "Docs/Reports/T0173_B9_LIVE_CHAIN_MISSING_INPUT_RESOLVER_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0173_B9_LIVE_CHAIN_MISSING_INPUT_RESOLVER.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0173_B9_LIVE_CHAIN_MISSING_INPUT_RESOLVER.md"
+  ],
+  "read_only": true
+}

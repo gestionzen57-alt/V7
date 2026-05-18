@@ -1,0 +1,10 @@
+{
+  "version": "T0172_B9_LIVE_CHAIN_CONTRACT_VALIDATOR_V0",
+  "contract_state": "B9_LIVE_CHAIN_CONTRACT_PASS",
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260511_1641_010496DB",
+  "false_positive_context_available": true,
+  "missing_steps": [],
+  "forbidden_language_hits": []
+}
