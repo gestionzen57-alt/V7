@@ -1,0 +1,15 @@
+{
+  "version": "T0176_B9_DASHBOARD_OPERATIONAL_DEGRADED_GATE_V0",
+  "files": [
+    "pf_t0176_b9_dashboard_operational_degraded_gate.py",
+    "tools/build_t0176_b9_dashboard_operational_degraded_gate.py",
+    "tests/test_t0176_b9_dashboard_operational_degraded_gate.py",
+    "scripts/RUN_T0176_B9_DASHBOARD_OPERATIONAL_DEGRADED_GATE_FROM_DOWNLOADS.ps1",
+    "samples/t0176_b9_dashboard_operational_degraded_gate_v0/sample_t0175_contract.json",
+    "samples/t0176_b9_dashboard_operational_degraded_gate_v0/sample_t0175_missing_inputs.csv",
+    "Docs/Reports/T0176_B9_DASHBOARD_OPERATIONAL_DEGRADED_GATE_REPORT.md",
+    "Docs/Reports/T0176_B9_DASHBOARD_OPERATIONAL_DEGRADED_GATE_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0176_B9_DASHBOARD_OPERATIONAL_DEGRADED_GATE.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0176_B9_DASHBOARD_OPERATIONAL_DEGRADED_GATE.md"
+  ]
+}

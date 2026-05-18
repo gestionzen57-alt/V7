@@ -1,0 +1,4 @@
+step_id,required,status,expected_path,regeneration_command
+T0148_LIVE_BRIEF_ONCE,true,MISSING,outputs/b9_live_brief_once_v0/B9_LIVE_BRIEF_ONCE_V0.json,python run_b9_live_brief_once.py --repo .
+T0155_TRADER_ATTENTION_PACKET,true,MISSING,outputs/b9_trader_attention_packet_v0/B9_TRADER_ATTENTION_PACKET_V0.json,python tools/build_t0155_b9_trader_attention_packet.py --input-json ...
+T0159_FRENCH_DISPLAY_CONTRACT,false,MISSING,outputs/b9_french_event_display_contract_v0/B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.json,python tools/build_t0159_b9_french_event_display_contract.py --output-dir outputs/b9_french_event_display_contract_v0
