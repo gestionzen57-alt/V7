@@ -1,40 +1,42 @@
 # T0159 — B9 French Event Display Contract V0
 
-## Résumé exécutif
+## Status
 
-T0159 crée une couche de traduction FR trader pour les événements B9/B6 utilisés par dashboard, Reality Board et Telegram preview.
+`READY`
 
-Le moteur garde les enums techniques anglais pour les tests et la stabilité. Les surfaces affichent un libellé et une phrase en français trader.
+## Objectif
+
+Régénérer le contrat français trader.
+
+## Fichier attendu
+
+```text
+outputs/b9_french_event_display_contract_v0/B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.json
+```
 
 ## Doctrine
 
-B9 ne cherche pas le signal.  
-B9 cherche la trace laissée par l'effort.  
-B6 compare les films.  
-L'affichage transmet une lecture, pas une décision.
+Le moteur parle enum.  
+Le trader lit français.  
+La traduction clarifie la lecture, elle ne déclenche aucune décision.
 
 ## Catégories couvertes
 
-- scene_state
-- scene_transition
-- scene_role
-- price_verdict
-- terrain_node
-- memory_confidence_ladder
-- false_positive_context
-- source_quality_gate
-- telegram_gate_state
-- reality_board_payload_state
+```text
+b9_flow_state
+b9_retest_source_state
+raw_texture_state
+source_quality_state
+b6_memory_state
+telegram_attention_state
+technical_limit_state
+```
 
-## Sorties
+## Contraintes
 
-- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.json`
-- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.csv`
-- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.md`
-- `B9_FRENCH_EVENT_DISPLAY_EXAMPLES_V0.json`
-- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_MANIFEST.json`
-- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.zip`
-
-## Limites
-
-Read-only. Aucune DB. Aucun dashboard live. Aucun envoi Telegram. Aucun ordre directionnel. Aucun taux de réussite.
+- Read-only côté données sources.
+- Aucune DB write.
+- Aucun dashboard live.
+- Aucun Telegram.
+- Aucun BUY/SELL.
+- Aucun langage de décision.
