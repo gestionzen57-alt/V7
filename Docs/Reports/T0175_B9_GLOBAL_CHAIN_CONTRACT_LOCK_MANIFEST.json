@@ -1,0 +1,22 @@
+{
+  "mission": "T0175_B9_GLOBAL_CHAIN_CONTRACT_LOCK_V0",
+  "branch": "feat/t0175-b9-global-chain-contract-lock-v0",
+  "commit_message": "feat(t0175): add B9 global chain contract lock v0",
+  "files": [
+    "tools/build_t0175_b9_global_chain_contract_lock.py",
+    "tests/test_t0175_b9_global_chain_contract_lock.py",
+    "scripts/RUN_T0175_B9_GLOBAL_CHAIN_CONTRACT_LOCK_FROM_DOWNLOADS.ps1",
+    "samples/t0175_global_chain_contract_lock_v0/README.md",
+    "Docs/Reports/T0175_B9_GLOBAL_CHAIN_CONTRACT_LOCK_REPORT.md",
+    "Docs/Reports/T0175_B9_GLOBAL_CHAIN_CONTRACT_LOCK_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0175_B9_GLOBAL_CHAIN_CONTRACT_LOCK.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0175_B9_GLOBAL_CHAIN_CONTRACT_LOCK.md"
+  ],
+  "forbidden": [
+    "DB write",
+    "cockpit live",
+    "telegram",
+    "BUY/SELL",
+    "success probability"
+  ]
+}
