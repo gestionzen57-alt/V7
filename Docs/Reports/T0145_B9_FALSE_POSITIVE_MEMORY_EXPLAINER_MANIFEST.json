@@ -1,0 +1,21 @@
+{
+  "task": "T0145",
+  "name": "B9 False Positive Memory Explainer V0",
+  "version": "T0145_B9_FALSE_POSITIVE_MEMORY_EXPLAINER_V0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "execution_decision": false,
+  "files": [
+    "pf_t009_false_positive_memory_explainer.py",
+    "tools/build_t0145_b9_false_positive_memory_explainer.py",
+    "scripts/RUN_T0145_B9_FALSE_POSITIVE_MEMORY_EXPLAINER_FROM_DOWNLOADS.ps1",
+    "tests/test_t0145_b9_false_positive_memory_explainer.py",
+    "samples/b9_false_positive_memory_explainer_v0/sample_t009_sequence_summary_false_positive_memory.json",
+    "Docs/Reports/T0145_B9_FALSE_POSITIVE_MEMORY_EXPLAINER_REPORT.md",
+    "Docs/Reports/T0145_B9_FALSE_POSITIVE_MEMORY_EXPLAINER_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0145_B9_FALSE_POSITIVE_MEMORY_EXPLAINER.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0145_B9_FALSE_POSITIVE_MEMORY_EXPLAINER.md"
+  ]
+}

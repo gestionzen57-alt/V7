@@ -1,0 +1,107 @@
+{
+  "version": "SAMPLE_T0145",
+  "symbol": "GBPUSD",
+  "moments": [
+    {
+      "moment_id": "M001",
+      "time_start": "2026-05-15T10:00:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "b9_b6_scene_family": "PROGRESSIVE_WAVE_MEMORY_SHIFT",
+      "b9_b6_memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "b9_session": "LONDON",
+      "b9_center_path_shape": "STAIR_STEP_PROGRESS_UP",
+      "b9_center_path_visibility": "CENTER_PATH_VISIBLE",
+      "retest_visible": true,
+      "retest_result": "RETEST_ACCEPTED",
+      "source_family": "ORIGINAL_AVAILABLE_SUMMARY",
+      "summary_recovery_type": "ORIGINAL_AVAILABLE_SUMMARY",
+      "source_mode": "ONTICK_RAW",
+      "data_visibility": "FULL_RAW",
+      "confidence_cap": 0.9,
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "source_quality_state": "SOURCE_RAW_CONFIRMED",
+      "b6_nearest_films": [
+        {
+          "film_id": "B6FC_20260508_PROGRESSIVE_UP",
+          "b6_memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+          "scene_family": "PROGRESSIVE_WAVE_MEMORY_SHIFT",
+          "session": "LONDON",
+          "center_path_shape": "STAIR_STEP_PROGRESS_UP"
+        }
+      ]
+    },
+    {
+      "moment_id": "M002",
+      "time_start": "2026-05-15T11:00:00Z",
+      "time_end": "2026-05-15T11:31:00Z",
+      "b9_b6_scene_family": "CENTER_MIGRATION_DOWN_AFTER_RETEST",
+      "b9_b6_memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "b9_session": "LONDON",
+      "b9_center_path_shape": "STAIR_STEP_PROGRESS_DOWN",
+      "b9_center_path_visibility": "CENTER_PATH_PROXY_EXTREMES",
+      "retest_visible": true,
+      "retest_result": "RETEST_FAILED",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+      "confidence_cap": 0.35,
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "source_quality_state": "SOURCE_RAW_NUANCED",
+      "b6_nearest_films": [
+        {
+          "film_id": "B6FC_20260514_FAILED_REINTEGRATION",
+          "b6_memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+          "scene_family": "HIGH_REJECTION_FAILED_REINTEGRATION_SECOND_LEG",
+          "session": "NY",
+          "center_path_shape": "STAIR_STEP_PROGRESS_DOWN"
+        }
+      ]
+    },
+    {
+      "moment_id": "M003",
+      "time_start": "2026-05-15T13:14:00Z",
+      "time_end": "2026-05-15T13:32:00Z",
+      "b9_b6_scene_family": "EFFORT_WITHOUT_RESULT_FRICTION_MEMORY",
+      "b9_b6_memory_family": "FRICTION_ABSORPTION_MEMORY",
+      "b9_session": "OVERLAP",
+      "b9_center_path_shape": "CENTER_LOCKED",
+      "b9_center_path_visibility": "CENTER_PATH_START_END_ONLY",
+      "retest_visible": false,
+      "source_family": "RECOVERED_EXISTING_B9_SUMMARY",
+      "summary_recovery_type": "RECOVERED_EXISTING_B9_SUMMARY",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "confidence_cap": 0.35,
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "source_quality_state": "SOURCE_RAW_NUANCED",
+      "b6_nearest_films": [
+        {
+          "film_id": "B6FC_20260512_LOW_DEFENDED",
+          "b6_memory_family": "ROTATION_BREATH_MEMORY",
+          "scene_family": "RELEASE_DOWN_LOW_DEFENDED_REACTION",
+          "session": "ASIAN",
+          "center_path_shape": "ROUND_TRIP_NO_PROGRESS"
+        }
+      ]
+    },
+    {
+      "moment_id": "M004",
+      "time_start": "2026-05-15T18:25:00Z",
+      "time_end": "2026-05-15T18:45:00Z",
+      "b9_b6_scene_family": "RAW_UNAVAILABLE_REJECTED",
+      "b9_b6_memory_family": "MEMORY_REJECTED_RAW_UNAVAILABLE",
+      "b9_session": "NY",
+      "b9_center_path_visibility": "CENTER_PATH_NOT_VISIBLE",
+      "retest_visible": false,
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "confidence_cap": 0.25,
+      "proxy_vs_raw_verdict": "RAW_UNAVAILABLE",
+      "source_quality_state": "SOURCE_RAW_UNAVAILABLE_REJECTED",
+      "b6_nearest_films": []
+    }
+  ]
+}
