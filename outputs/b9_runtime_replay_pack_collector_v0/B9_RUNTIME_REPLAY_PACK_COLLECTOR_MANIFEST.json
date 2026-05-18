@@ -1,0 +1,21 @@
+{
+  "version": "T0126_B9_RUNTIME_REPLAY_PACK_COLLECTOR_V0",
+  "generated_at": "2026-05-18T09:56:24+00:00",
+  "scan_root": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core",
+  "output_dir": "outputs\\b9_runtime_replay_pack_collector_v0",
+  "files_discovered": 1,
+  "candidates_keep": 1,
+  "candidates_review": 0,
+  "candidates_rejected": 0,
+  "files_with_v4_fields": 1,
+  "files_with_source_quality": 1,
+  "files_with_timestamp_policy": 0,
+  "forbidden_language_files": 0,
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "zip": "outputs\\b9_runtime_replay_pack_collector_v0\\B9_RUNTIME_REPLAY_PACK_COLLECTOR_V0.zip"
+}
