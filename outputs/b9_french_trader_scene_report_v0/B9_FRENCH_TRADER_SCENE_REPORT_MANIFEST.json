@@ -1,0 +1,22 @@
+{
+  "version": "T0134_B9_FRENCH_TRADER_SCENE_REPORT_V0",
+  "report_state": "PASS",
+  "moments": 3,
+  "forbidden_language_hit_count": 0,
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "order_execution": false,
+  "probability_of_success": false,
+  "sequence_summary_json": "samples/b9_french_trader_scene_report_v0/sample_t009_sequence_summary_french_report.json",
+  "memory_brief_json": "samples/b9_french_trader_scene_report_v0/sample_b9_memory_brief_v0.json",
+  "outputs": {
+    "markdown": "outputs/b9_french_trader_scene_report_v0/B9_FRENCH_TRADER_SCENE_REPORT_V0.md",
+    "json": "outputs/b9_french_trader_scene_report_v0/B9_FRENCH_TRADER_SCENE_REPORT_V0.json",
+    "rows_csv": "outputs/b9_french_trader_scene_report_v0/B9_FRENCH_TRADER_SCENE_REPORT_ROWS_V0.csv",
+    "counts_csv": "outputs/b9_french_trader_scene_report_v0/B9_FRENCH_TRADER_SCENE_REPORT_SOURCE_COUNTS_V0.csv",
+    "manifest": "outputs/b9_french_trader_scene_report_v0/B9_FRENCH_TRADER_SCENE_REPORT_MANIFEST.json",
+    "zip": "outputs/b9_french_trader_scene_report_v0/B9_FRENCH_TRADER_SCENE_REPORT_V0.zip"
+  }
+}

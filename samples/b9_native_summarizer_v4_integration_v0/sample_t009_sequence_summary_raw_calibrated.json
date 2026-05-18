@@ -1,0 +1,38 @@
+{
+  "summary_id": "SAMPLE_T0121_B9_V4_NATIVE_INTEGRATION",
+  "source_mode": "M1_BAR_PROXY",
+  "data_visibility": "RECONSTRUCTED",
+  "confidence_cap": 0.35,
+  "moments": [
+    {
+      "time_start": "2026-05-15T08:00:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans resultat",
+      "moment_type": "T009_MOMENT_EFFORT_WITHOUT_RESULT",
+      "center_start": 1.33633,
+      "center_end": 1.33533,
+      "center_range_pips": 10.05,
+      "source_quality_state": "NUANCED_BY_RAW"
+    },
+    {
+      "time_start": "2026-05-15T10:11:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "label_fr": "Vague progressive",
+      "moment_type": "T009_MOMENT_PROGRESSIVE_WAVE",
+      "center_start": 1.33627,
+      "center_end": 1.33742,
+      "center_range_pips": 11.5,
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW"
+    },
+    {
+      "time_start": "2026-05-15T13:53:00Z",
+      "time_end": "2026-05-15T13:57:00Z",
+      "label_fr": "Projection decay sous le haut",
+      "moment_type": "T009_MOMENT_PROJECTION_DECAY",
+      "center_start": 1.33915,
+      "center_end": 1.33821,
+      "center_range_pips": 9.3,
+      "data_visibility": "RECONSTRUCTED"
+    }
+  ]
+}

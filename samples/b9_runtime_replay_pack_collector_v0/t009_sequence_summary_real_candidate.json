@@ -1,0 +1,32 @@
+{
+  "version": "T009_SEQUENCE_SUMMARY_V4_SAMPLE",
+  "date": "2026-05-15",
+  "summary_recovery_type": "ORIGINAL_AVAILABLE_SUMMARY",
+  "moments": [
+    {
+      "time_start": "2026-05-15T10:00:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "label_fr": "Vague progressive",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "confidence_cap": 0.35,
+      "source_quality_state": "TACTICAL_PROXY",
+      "what_happens_fr": "Le centre avance par paliers.",
+      "b9_effort_result_progress_state": "PROGRESSIVE_WAVE",
+      "b9_center_path_state": "STAIR_STEP_PROGRESS",
+      "b9_native_retest_judgment": "RETEST_NOT_VISIBLE",
+      "b9_v4_timestamp_policy": "REAL_TIME_VISIBLE"
+    },
+    {
+      "time_start": "2026-05-15T11:00:00Z",
+      "time_end": "2026-05-15T11:31:00Z",
+      "label_fr": "Centre de gravité qui descend",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "confidence_cap": 0.35,
+      "source_quality_state": "TACTICAL_PROXY",
+      "b9_effort_result_progress_state": "CENTER_MIGRATION_DOWN",
+      "b9_v4_timestamp_policy": "REAL_TIME_VISIBLE"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "version": "T0123_B9_V4_REPLAY_RUNTIME_COMPARISON_V0",
+  "generated_at": "2026-05-18T09:07:01+00:00",
+  "files": [
+    "B9_V4_REPLAY_RUNTIME_COMPARISON_V0.json",
+    "B9_V4_REPLAY_RUNTIME_COMPARISON_V0.md",
+    "B9_V4_REPLAY_ENRICHED_SUMMARY_SAMPLE_V0.json",
+    "B9_V4_REPLAY_FIELD_DIFF_V0.csv",
+    "B9_V4_REPLAY_MOMENT_PRESERVATION_V0.csv",
+    "B9_V4_REPLAY_REQUIRED_FIELD_COVERAGE_V0.csv",
+    "B9_V4_REPLAY_TIMESTAMP_POLICY_V0.csv",
+    "B9_V4_REPLAY_RUNTIME_COMPARISON_V0.zip"
+  ],
+  "runtime_comparison_state": "PASS",
+  "read_only": true
+}

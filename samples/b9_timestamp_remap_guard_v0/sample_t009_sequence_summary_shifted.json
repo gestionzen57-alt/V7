@@ -1,0 +1,29 @@
+{
+  "version": "SAMPLE_T009_SEQUENCE_SUMMARY_SHIFTED",
+  "metadata": {
+    "source_mode": "M1_BAR_PROXY",
+    "data_visibility": "RECONSTRUCTED",
+    "confidence_cap": 0.35,
+    "replay_shift_minutes": 840
+  },
+  "moments": [
+    {
+      "time_start": "22:00",
+      "time_end": "22:14",
+      "label_fr": "Centre de gravité qui descend",
+      "source_quality_state": "SOURCE_RECONSTRUCTED_LIMITED"
+    },
+    {
+      "time_start": "23:10",
+      "time_end": "23:31",
+      "label_fr": "Retest échoué / reprise refusée",
+      "source_quality_state": "SOURCE_RECONSTRUCTED_LIMITED"
+    },
+    {
+      "time_start": "00:11",
+      "time_end": "00:23",
+      "label_fr": "Vague progressive",
+      "source_quality_state": "SOURCE_RECONSTRUCTED_LIMITED"
+    }
+  ]
+}

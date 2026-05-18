@@ -1,0 +1,340 @@
+
+# --- T0109_B9_RETEST_SOURCE_SIGNALS_V0_START ---
+# B9 Retest Source Signals V0.
+# This block gives T0108 better retest material using B9 source fields
+# plus raw-derived texture. It stays interpretive: no signal, no decision.
+
+_T0109_PREVIOUS_CALIBRATE_ONE_MOMENT = _t0103_calibrate_one_moment
+
+
+def _t0109_s(value):
+    return "" if value is None else str(value)
+
+
+def _t0109_f(value, default=0.0):
+    try:
+        if value is None:
+            return default
+        return float(value)
+    except Exception:
+        return default
+
+
+def _t0109_i(value, default=0):
+    try:
+        if value is None:
+            return default
+        return int(float(value))
+    except Exception:
+        return default
+
+
+def _t0109_clamp(value, low=0.0, high=1.0):
+    try:
+        value = float(value)
+    except Exception:
+        return low
+    return max(low, min(high, value))
+
+
+def _t0109_upper_blob(*values):
+    return " ".join(_t0109_s(v).upper() for v in values if _t0109_s(v))
+
+
+def _t0109_zone_memory(out):
+    zm = out.get("zone_memory")
+    if isinstance(zm, dict):
+        return zm
+    return {}
+
+
+def _t0109_first_present(mapping, keys):
+    for key in keys:
+        if key in mapping and mapping.get(key) not in (None, ""):
+            return mapping.get(key)
+    return None
+
+
+def _t0109_retest_status_blob(out):
+    zm = _t0109_zone_memory(out)
+    values = [
+        out.get("retest_status"),
+        out.get("retest_state"),
+        out.get("zone_retest_status"),
+        out.get("memory_state"),
+        zm.get("retest_status"),
+        zm.get("last_retest_status"),
+        zm.get("state"),
+    ]
+    return _t0109_upper_blob(*values)
+
+
+def _t0109_touch_count(out):
+    zm = _t0109_zone_memory(out)
+    candidates = [
+        out.get("retest_touch_count"),
+        out.get("zone_touch_count"),
+        out.get("touch_count"),
+        out.get("test_count"),
+        zm.get("retest_touch_count"),
+        zm.get("zone_touch_count"),
+        zm.get("touch_count"),
+        zm.get("test_count"),
+        zm.get("retest_count"),
+        zm.get("tests"),
+    ]
+    return max([_t0109_i(v, 0) for v in candidates] + [0])
+
+
+def _t0109_seconds_between(a, b):
+    try:
+        da = _t0103_parse_dt(a)
+        db = _t0103_parse_dt(b)
+        if da is None or db is None:
+            return None
+        return round((db - da).total_seconds(), 3)
+    except Exception:
+        return None
+
+
+def _t0109_delay_seconds(out):
+    zm = _t0109_zone_memory(out)
+    start = out.get("time_start")
+    candidates = [
+        out.get("last_tested"),
+        out.get("last_retest_time"),
+        out.get("retest_time"),
+        zm.get("last_tested"),
+        zm.get("last_retest_time"),
+        zm.get("last_seen"),
+    ]
+    for value in candidates:
+        if value:
+            delta = _t0109_seconds_between(value, start)
+            if delta is not None:
+                return delta
+    return None
+
+
+def _t0109_source_status(out):
+    blob = _t0109_retest_status_blob(out)
+    natural = _t0109_s(out.get("b9_retest_natural_state"))
+
+    if "FAILED" in blob or "FAIL" in blob or "REJECT" in blob or "INVALID" in blob:
+        return "RETEST_SOURCE_REJECTED_EXPLICIT"
+    if "ACCEPT" in blob or "VALID" in blob or "CONFIRM" in blob:
+        return "RETEST_SOURCE_ACCEPTED_EXPLICIT"
+    if "PENDING" in blob or "WAIT" in blob or "WATCH" in blob:
+        return "RETEST_SOURCE_PENDING_EXPLICIT"
+    if natural in {"RETEST_ACCEPTED", "RETEST_ACCEPTED_WITH_FRICTION"}:
+        return "RETEST_SOURCE_ACCEPTED_INFERRED"
+    if natural in {"RETEST_REJECTED_OR_FAILED"}:
+        return "RETEST_SOURCE_REJECTED_INFERRED"
+    if natural in {"RETEST_ABSORPTION_LIKE", "RETEST_ROTATIONAL_BALANCE"}:
+        return "RETEST_SOURCE_FRICTION_INFERRED"
+    if natural.startswith("RETEST_PENDING"):
+        return "RETEST_SOURCE_PENDING_INFERRED"
+    return "RETEST_SOURCE_NOT_VISIBLE"
+
+
+def _t0109_visibility(out):
+    status = _t0109_s(out.get("b9_retest_source_status"))
+    touches = _t0109_touch_count(out)
+    delay = _t0109_delay_seconds(out)
+    natural = _t0109_s(out.get("b9_retest_natural_state"))
+    raw_ticks = _t0109_i(out.get("raw_tick_count_dedup", out.get("raw_tick_count")), 0)
+
+    if status.endswith("EXPLICIT"):
+        return "RETEST_VISIBILITY_HIGH"
+    if touches >= 2 and raw_ticks >= 10:
+        return "RETEST_VISIBILITY_HIGH"
+    if touches >= 1 or delay is not None or natural not in {"", "RETEST_NOT_VISIBLE"}:
+        return "RETEST_VISIBILITY_MEDIUM"
+    if raw_ticks > 0:
+        return "RETEST_VISIBILITY_LOW_RAW_ONLY"
+    return "RETEST_VISIBILITY_UNKNOWN"
+
+
+def _t0109_evidence_score(out):
+    score = 0.0
+    status = _t0109_s(out.get("b9_retest_source_status"))
+    visibility = _t0109_s(out.get("b9_retest_source_visibility"))
+    quality = _t0109_s(out.get("b9_retest_quality_state"))
+    touches = _t0109_touch_count(out)
+    delay = _t0109_delay_seconds(out)
+    raw_ticks = _t0109_i(out.get("raw_tick_count_dedup", out.get("raw_tick_count")), 0)
+
+    if status.endswith("EXPLICIT"):
+        score += 0.40
+    elif status != "RETEST_SOURCE_NOT_VISIBLE":
+        score += 0.25
+
+    if visibility == "RETEST_VISIBILITY_HIGH":
+        score += 0.25
+    elif visibility == "RETEST_VISIBILITY_MEDIUM":
+        score += 0.15
+    elif visibility == "RETEST_VISIBILITY_LOW_RAW_ONLY":
+        score += 0.05
+
+    score += min(0.20, touches * 0.05)
+
+    if delay is not None:
+        score += 0.10
+
+    if quality in {"RETEST_QUALITY_CLEAN", "RETEST_QUALITY_FRICTIONAL", "RETEST_QUALITY_RISK"}:
+        score += 0.10
+
+    if raw_ticks >= 20:
+        score += 0.05
+
+    return round(_t0109_clamp(score), 4)
+
+
+def _t0109_signal_state(out):
+    status = _t0109_s(out.get("b9_retest_source_status"))
+    absorption = _t0109_s(out.get("b9_absorption_like_state"))
+    auction = _t0109_s(out.get("b9_auction_state"))
+    trap = _t0109_s(out.get("b9_trap_risk_state"))
+    score = _t0109_f(out.get("b9_retest_source_evidence_score"))
+
+    if status.startswith("RETEST_SOURCE_ACCEPTED") and score >= 0.45:
+        return "RETEST_SIGNAL_ACCEPTANCE_EVIDENCE"
+    if status.startswith("RETEST_SOURCE_REJECTED") and score >= 0.45:
+        return "RETEST_SIGNAL_REJECTION_EVIDENCE"
+    if status.startswith("RETEST_SOURCE_PENDING"):
+        return "RETEST_SIGNAL_PENDING_EVIDENCE"
+    if status == "RETEST_SOURCE_FRICTION_INFERRED" or absorption.startswith("ABSORPTION_LIKE"):
+        return "RETEST_SIGNAL_FRICTION_EVIDENCE"
+    if auction == "AUCTION_ROTATIONAL_BALANCE":
+        return "RETEST_SIGNAL_ROTATIONAL_CONTEXT"
+    if trap.startswith("TRAP_RISK_HIGH"):
+        return "RETEST_SIGNAL_TRAP_RISK_CONTEXT"
+    return "RETEST_SIGNAL_NOT_VISIBLE"
+
+
+def _t0109_readiness(out):
+    signal = _t0109_s(out.get("b9_retest_source_signal_state"))
+    visibility = _t0109_s(out.get("b9_retest_source_visibility"))
+    read = _t0109_s(out.get("b9_market_readability_state"))
+    score = _t0109_f(out.get("b9_retest_source_evidence_score"))
+
+    if read in {"READABILITY_ARTIFACT", "READABILITY_LIMITED_BY_TEXTURE"}:
+        return "RETEST_CONTEXT_LIMITED_BY_TEXTURE"
+    if signal in {"RETEST_SIGNAL_ACCEPTANCE_EVIDENCE", "RETEST_SIGNAL_REJECTION_EVIDENCE"} and score >= 0.60:
+        return "RETEST_CONTEXT_STRONG"
+    if signal != "RETEST_SIGNAL_NOT_VISIBLE" and visibility in {"RETEST_VISIBILITY_HIGH", "RETEST_VISIBILITY_MEDIUM"}:
+        return "RETEST_CONTEXT_USABLE"
+    if signal == "RETEST_SIGNAL_NOT_VISIBLE":
+        return "RETEST_CONTEXT_NOT_VISIBLE"
+    return "RETEST_CONTEXT_WEAK"
+
+
+def _t0109_reading_fr(out):
+    readiness = _t0109_s(out.get("b9_retest_source_readiness"))
+    signal = _t0109_s(out.get("b9_retest_source_signal_state"))
+    visibility = _t0109_s(out.get("b9_retest_source_visibility"))
+
+    if readiness == "RETEST_CONTEXT_STRONG" and "ACCEPTANCE" in signal:
+        return "Retest lisible: acceptation soutenue par les champs source et la texture raw."
+    if readiness == "RETEST_CONTEXT_STRONG" and "REJECTION" in signal:
+        return "Retest lisible: rejet ou échec soutenu par les champs source et la texture raw."
+    if signal == "RETEST_SIGNAL_FRICTION_EVIDENCE":
+        return "Retest frictionnel: effort visible mais résultat directionnel imparfait."
+    if signal == "RETEST_SIGNAL_PENDING_EVIDENCE":
+        return "Retest en attente: la scène existe mais demande confirmation contextuelle."
+    if signal == "RETEST_SIGNAL_ROTATIONAL_CONTEXT":
+        return "Retest dans équilibre rotationnel: lecture utile mais non directionnelle."
+    if signal == "RETEST_SIGNAL_TRAP_RISK_CONTEXT":
+        return "Retest exposé au piège: le proxy peut surlire la progression."
+    if readiness == "RETEST_CONTEXT_LIMITED_BY_TEXTURE":
+        return "Retest difficile à lire: texture raw ou segmentation limite l'interprétation."
+    if visibility == "RETEST_VISIBILITY_LOW_RAW_ONLY":
+        return "Retest peu visible: seule la texture raw donne un contexte faible."
+    return "Retest non visible dans les champs source actuels."
+
+
+def _t0109_apply(out):
+    out["b9_retest_source_version"] = "T0109_RETEST_SOURCE_SIGNALS_V0"
+    out["b9_retest_source_status"] = _t0109_source_status(out)
+    out["b9_retest_touch_count_proxy"] = _t0109_touch_count(out)
+    out["b9_retest_delay_proxy_seconds"] = _t0109_delay_seconds(out)
+    out["b9_retest_source_visibility"] = _t0109_visibility(out)
+    out["b9_retest_source_evidence_score"] = _t0109_evidence_score(out)
+    out["b9_retest_source_signal_state"] = _t0109_signal_state(out)
+    out["b9_retest_source_readiness"] = _t0109_readiness(out)
+    out["b9_retest_source_reading_fr"] = _t0109_reading_fr(out)
+
+    flags = list(out.get("b9_factor_flags") or [])
+    for item in [
+        out["b9_retest_source_status"],
+        out["b9_retest_source_visibility"],
+        out["b9_retest_source_signal_state"],
+        out["b9_retest_source_readiness"],
+    ]:
+        if item and item not in flags:
+            flags.append(item)
+    out["b9_factor_flags"] = flags
+
+    out["b9_retest_source_limits"] = [
+        "retest source signals are interpretive, not predictive",
+        "missing retest fields reduce visibility",
+        "MT5 raw and volume remain broker-relative",
+        "no external Temporalité dependency",
+        "no BUY/SELL language",
+    ]
+    return out
+
+
+def _t0103_calibrate_one_moment(moment, cfg):
+    out = _T0109_PREVIOUS_CALIBRATE_ONE_MOMENT(moment, cfg)
+    return _t0109_apply(out)
+
+
+def calibrate_summary_with_raw(summary, cfg):
+    payload = _t0103_deepcopy(summary)
+    moments = payload.get("moments", [])
+    payload["moments"] = [_t0103_calibrate_one_moment(m, cfg) for m in moments]
+    payload.setdefault("raw_calibration", {})
+    payload["raw_calibration"].update({
+        "version": "T0109_RETEST_SOURCE_SIGNALS_V0",
+        "parent_versions": [
+            "T0108_RETEST_MIXED_SPLIT_V0",
+            "T0107_NATURAL_FLOW_READING_V0",
+            "T0107A_GAPPY_THRESHOLD_HOTFIX",
+        ],
+        "symbol": getattr(cfg, "symbol", "GBPUSD"),
+        "broker": getattr(cfg, "broker", "UNKNOWN"),
+        "broker_time_shift_min": getattr(cfg, "broker_time_shift_min", 0),
+        "raw_source_mode": getattr(cfg, "raw_source_mode", "HISTORICAL_RAW"),
+        "raw_data_visibility": getattr(cfg, "raw_data_visibility", "MT5_RAW_ALIGNED"),
+        "b9_temporality_scope": "INTRINSIC_MICROFILM_ONLY",
+        "external_temporality_dependency": False,
+        "volume_policy": "BROKER_RELATIVE_ACTIVITY_ONLY_EXPERIMENTAL",
+        "natural_flow_factors": _t0108a_natural_flow_factors() if "_t0108a_natural_flow_factors" in globals() else [],
+        "retest_mixed_fields": [
+            "b9_mixed_split_state",
+            "b9_retest_natural_state",
+            "b9_retest_quality_state",
+            "b9_context_resolution_state",
+            "b9_retest_mixed_reading_fr",
+        ],
+        "retest_source_fields": [
+            "b9_retest_source_status",
+            "b9_retest_touch_count_proxy",
+            "b9_retest_delay_proxy_seconds",
+            "b9_retest_source_visibility",
+            "b9_retest_source_evidence_score",
+            "b9_retest_source_signal_state",
+            "b9_retest_source_readiness",
+            "b9_retest_source_reading_fr",
+        ],
+        "limits": [
+            "interpretation-only",
+            "retest source reading is not a signal",
+            "external Temporalité brick is not used",
+            "MT5 volume is not global Forex volume",
+            "no BUY/SELL language",
+        ],
+    })
+    return payload
+# --- T0109_B9_RETEST_SOURCE_SIGNALS_V0_END ---

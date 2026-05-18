@@ -1,0 +1,12 @@
+{
+  "task": "T0128",
+  "name": "B9 Native Retest Source Fields / T0111B",
+  "branch": "feat/t0128-b9-native-retest-source-fields",
+  "commit_message": "feat(t0128): add B9 native retest source fields",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

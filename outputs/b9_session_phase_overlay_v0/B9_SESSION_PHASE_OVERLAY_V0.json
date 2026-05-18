@@ -1,0 +1,95 @@
+{
+  "manifest": {
+    "version": "T0132_B9_SESSION_PHASE_OVERLAY_V0",
+    "session_overlay_state": "PASS",
+    "input": "samples/b9_session_phase_overlay_v0/sample_t009_sequence_summary_session_overlay.json",
+    "output_dir": "outputs/b9_session_phase_overlay_v0",
+    "moments": 5,
+    "session_counts": {
+      "ASIAN": 2,
+      "LONDON": 1,
+      "OVERLAP": 1,
+      "DEAD_ZONE": 1
+    },
+    "phase_counts": {
+      "CLOSING": 1,
+      "MID_SESSION": 3,
+      "DEAD_ZONE": 1
+    },
+    "missing_required_field_counts": {},
+    "forbidden_language_hits": [],
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell": false,
+    "probability_of_success": false
+  },
+  "rows": [
+    {
+      "moment_index": 1,
+      "time_start": "2026-05-15T06:45:00Z",
+      "time_start_real": "",
+      "label_fr": "Pré-ouverture London / compression",
+      "b9_session": "ASIAN",
+      "b9_session_phase": "CLOSING",
+      "b9_minutes_since_session_open": 525,
+      "b9_session_bias": "COMPRESSION_OR_RANGE_EXPECTED",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Session Asian : compression progressive, range ou préparation de terrain.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    },
+    {
+      "moment_index": 2,
+      "time_start": "2026-05-15T08:05:00Z",
+      "time_start_real": "",
+      "label_fr": "Effort sans résultat post-open",
+      "b9_session": "LONDON",
+      "b9_session_phase": "MID_SESSION",
+      "b9_minutes_since_session_open": 65,
+      "b9_session_bias": "EXPANSION_EXPECTED",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Session London : phase d'ignition ou d'expansion potentielle selon le timing.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    },
+    {
+      "moment_index": 3,
+      "time_start": "2026-05-15T13:05:00Z",
+      "time_start_real": "",
+      "label_fr": "Vague progressive en overlap",
+      "b9_session": "OVERLAP",
+      "b9_session_phase": "MID_SESSION",
+      "b9_minutes_since_session_open": 65,
+      "b9_session_bias": "MAX_VELOCITY_BATTLEFIELD",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Chevauchement London/NY : zone de bataille à vélocité maximale.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    },
+    {
+      "moment_index": 4,
+      "time_start": "2026-05-15T20:30:00Z",
+      "time_start_real": "",
+      "label_fr": "Shelf lent de dead zone",
+      "b9_session": "DEAD_ZONE",
+      "b9_session_phase": "DEAD_ZONE",
+      "b9_minutes_since_session_open": 30,
+      "b9_session_bias": "LOW_LIQUIDITY_ROTATION",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Dead zone : lecture souvent plus lente, rotative ou fragile.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    },
+    {
+      "moment_index": 5,
+      "time_start": "2026-05-15T23:10:00Z",
+      "time_start_real": "",
+      "label_fr": "Compression Asian",
+      "b9_session": "ASIAN",
+      "b9_session_phase": "MID_SESSION",
+      "b9_minutes_since_session_open": 70,
+      "b9_session_bias": "COMPRESSION_OR_RANGE_EXPECTED",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Session Asian : compression progressive, range ou préparation de terrain.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    }
+  ]
+}

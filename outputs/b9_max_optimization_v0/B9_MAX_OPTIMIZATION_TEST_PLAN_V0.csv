@@ -1,0 +1,7 @@
+test_id,target,command,assertion
+B9_MAX_TEST_001,No forbidden language,python -m pytest tests/test_t0119_b9_max_optimization_v0_contract.py,Aucun BUY/SELL/probabilite de succes dans les sorties T0119.
+B9_MAX_TEST_002,V1 why/how fields,python -m pytest tests/test_t009_sequence_summarizer_v1_why_how.py,Chaque moment porte what/why/how/mechanism/proof_summary en francais trader.
+B9_MAX_TEST_003,V2 causality fields,python -m pytest tests/test_t009_sequence_summarizer_v2_causality.py,Cause/reaction/consequence/memory_shift/retest_role sont presents et non vides.
+B9_MAX_TEST_004,V3 fractal scene fields,python -m pytest tests/test_t009_sequence_summarizer_v3_fractal_scene.py,"scene_id, scene_role, parent_scene, child_moments, session_chapter, fractal_reading_fr presents."
+B9_MAX_TEST_005,Center path hotfix guard,python -m pytest tests/test_t009_center_path_contract.py,center_min/max/range/excursions/path empechent le faux doji start/end.
+B9_MAX_TEST_006,Native retest judge,python -m pytest tests/test_t0111b_native_retest_source_fields.py,T0111_NATIVE_RETEST_SOURCE_FIELDS_V0 emis directement par le summarizer.

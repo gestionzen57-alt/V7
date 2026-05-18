@@ -1,0 +1,35 @@
+{
+  "version": "T0120_B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_V0",
+  "input": "samples/b9_native_summarizer_v4_contract_patch_v0/sample_t009_sequence_summary_raw_calibrated.json",
+  "output_dir": "outputs/b9_native_summarizer_v4_contract_patch_v0",
+  "input_moments": 52,
+  "missing_required_field_counts": {},
+  "forbidden_language_hits": [],
+  "effort_result_progress_counts": {
+    "EFFORT_WITHOUT_RESULT": 6,
+    "MOVEMENT_WITH_LIMITED_PROGRESS": 30,
+    "EFFORT_RESULT_PROGRESS": 5,
+    "LOCAL_FRICTION_OR_DECISION": 11
+  },
+  "native_retest_judgment_counts": {
+    "RETEST_JUDGMENT_NOT_VISIBLE_NATIVE_FIELD_REQUIRED": 52
+  },
+  "files": [
+    "B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_V0.json",
+    "B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_V0.md",
+    "B9_NATIVE_SUMMARIZER_V4_FIELD_COVERAGE_V0.csv",
+    "B9_NATIVE_SUMMARIZER_V4_PATCH_RULES_V0.csv",
+    "B9_NATIVE_SUMMARIZER_V4_TEST_PLAN_V0.csv",
+    "B9_NATIVE_SUMMARIZER_V4_INTEGRATION_SKETCH.patch",
+    "B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_MANIFEST.json",
+    "B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_V0.zip"
+  ],
+  "policies": [
+    "read-only",
+    "no DB write",
+    "no dashboard",
+    "no Telegram",
+    "no BUY/SELL",
+    "no probability of success"
+  ]
+}

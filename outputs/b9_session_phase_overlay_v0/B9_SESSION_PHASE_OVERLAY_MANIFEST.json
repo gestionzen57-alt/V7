@@ -1,0 +1,27 @@
+{
+  "version": "T0132_B9_SESSION_PHASE_OVERLAY_V0",
+  "session_overlay_state": "PASS",
+  "input": "samples/b9_session_phase_overlay_v0/sample_t009_sequence_summary_session_overlay.json",
+  "output_dir": "outputs/b9_session_phase_overlay_v0",
+  "moments": 5,
+  "session_counts": {
+    "ASIAN": 2,
+    "LONDON": 1,
+    "OVERLAP": 1,
+    "DEAD_ZONE": 1
+  },
+  "phase_counts": {
+    "CLOSING": 1,
+    "MID_SESSION": 3,
+    "DEAD_ZONE": 1
+  },
+  "missing_required_field_counts": {},
+  "forbidden_language_hits": [],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "zip": "outputs/b9_session_phase_overlay_v0/B9_SESSION_PHASE_OVERLAY_V0.zip"
+}

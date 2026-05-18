@@ -1,0 +1,14 @@
+{
+  "version": "T0129_B9_EFFORT_RESULT_PROGRESS_SCORER_V0",
+  "input": "samples/b9_effort_result_progress_scorer_v0/sample_t009_sequence_summary_effort_result_progress.json",
+  "state_counts": {
+    "ABSORPTION_WITHOUT_PROGRESS": 1,
+    "PROGRESSIVE_WAVE": 1,
+    "CENTER_MIGRATION": 1,
+    "CORRECTIVE_BREATH": 1,
+    "ABSORPTION_WITH_PROGRESS": 1
+  },
+  "missing_required_field_counts": {},
+  "forbidden_language_hits": [],
+  "preservation_diff": []
+}

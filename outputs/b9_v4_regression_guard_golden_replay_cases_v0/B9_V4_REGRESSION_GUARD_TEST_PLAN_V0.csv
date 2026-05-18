@@ -1,0 +1,6 @@
+test_id,test,expected
+T0124_001,Golden cases all present,6
+T0124_002,Required V4 fields present,no_missing_fields
+T0124_003,No forbidden language,no BUY/SELL/probability
+T0124_004,Preserved fields unchanged,labels/source/limits unchanged
+T0124_005,Timestamp policy explicit,ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT

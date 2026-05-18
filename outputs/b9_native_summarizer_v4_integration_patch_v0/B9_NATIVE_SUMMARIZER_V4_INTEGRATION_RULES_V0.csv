@@ -1,0 +1,5 @@
+patch_area,status,rule
+native_integration,READY,call enrich_summary_v4_safe(summary) before summary return/write
+fail_open,READY,"if V4 import fails, return original summary"
+timestamp_policy,READY,"use original timestamps when present, keep shifted timestamps visible otherwise"
+forbidden_language,READY,no BUY/SELL/probability of success

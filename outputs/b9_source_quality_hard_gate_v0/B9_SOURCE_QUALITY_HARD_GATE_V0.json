@@ -1,0 +1,28 @@
+{
+  "version": "T0133_B9_SOURCE_QUALITY_HARD_GATE_V0",
+  "moments": 5,
+  "state_counts": {
+    "SOURCE_RAW_CONFIRMED": 2,
+    "SOURCE_RAW_NUANCED": 2,
+    "SOURCE_RAW_UNAVAILABLE_REJECTED": 1
+  },
+  "family_counts": {
+    "FORCE_SNAPSHOT_DERIVED": 3,
+    "RECOVERED_EXISTING_B9_SUMMARY": 1,
+    "ORIGINAL_AVAILABLE_SUMMARY": 1
+  },
+  "raw_claim_allowed_count": 1,
+  "confirmation_claim_allowed_count": 2,
+  "nuanced_promoted_to_confirmed_count": 0,
+  "raw_unavailable_allowed_count": 0,
+  "missing_required_field_counts": {},
+  "forbidden_language_hits": [],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "input_json": "samples/b9_source_quality_hard_gate_v0/sample_t009_sequence_summary_source_quality.json",
+  "output_dir": "outputs/b9_source_quality_hard_gate_v0"
+}

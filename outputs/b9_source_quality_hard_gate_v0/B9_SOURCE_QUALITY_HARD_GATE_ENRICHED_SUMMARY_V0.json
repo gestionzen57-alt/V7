@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "symbol": "GBPUSD",
+    "version": "sample_t0133",
+    "b9_source_quality_hard_gate_version": "T0133_B9_SOURCE_QUALITY_HARD_GATE_V0",
+    "b9_source_quality_hard_gate_read_only": true
+  },
+  "moments": [
+    {
+      "moment_id": "M1_FORCE_CONFIRMED_PROXY",
+      "date": "2026-05-15",
+      "time_start": "2026-05-15T10:00:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+      "confidence_cap": 0.35,
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "proxy_raw_agreement_state": "RAW_SUPPORTS_PROXY_READING",
+      "source_quality_score": 0.78,
+      "source_quality_state": "STRONG",
+      "raw_tick_count": 244,
+      "label_fr": "Vague progressive",
+      "b9_source_quality_gate_version": "T0133_B9_SOURCE_QUALITY_HARD_GATE_V0",
+      "b9_source_truth_family": "FORCE_SNAPSHOT_DERIVED",
+      "b9_source_quality_gate_state": "SOURCE_RAW_CONFIRMED",
+      "b9_source_quality_gate_severity": "ALLOW_RAW_SUPPORTED_READING",
+      "b9_source_quality_flags": [
+        "SOURCE_FAMILY_FORCE_SNAPSHOT_DERIVED",
+        "FORCE_SNAPSHOT_DERIVED_NOT_RECOVERED_EXISTING_SUMMARY",
+        "PROXY_OR_RECONSTRUCTED_NOT_RAW_TRUTH",
+        "CONFIDENCE_CAP_LIMITED",
+        "CONFIRMED_BY_RAW_ALLOWED_AS_RAW_SUPPORTED_READING",
+        "RAW_SUPPORTED_BUT_NOT_RAW_TRUTH"
+      ],
+      "b9_source_confidence_cap_effective": 0.35,
+      "b9_raw_claim_allowed": false,
+      "b9_confirmation_claim_allowed": true,
+      "b9_source_quality_reading_fr": "La lecture est appuyée par le raw, avec conservation de la provenance et des limites de source.",
+      "b9_source_quality_limits": [
+        "Source proxy : ne pas présenter comme footprint raw.",
+        "Lecture reconstruite : garder confidence_cap et data_visibility visibles.",
+        "Famille source séparée : FORCE_SNAPSHOT_DERIVED."
+      ]
+    },
+    {
+      "moment_id": "M2_NUANCED_PROXY",
+      "date": "2026-05-15",
+      "time_start": "2026-05-15T11:00:00Z",
+      "time_end": "2026-05-15T11:31:00Z",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+      "confidence_cap": 0.35,
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "proxy_raw_agreement_state": "RAW_NUANCES_PROXY_READING",
+      "source_quality_score": 0.66,
+      "source_quality_state": "MEDIUM",
+      "raw_tick_count": 180,
+      "label_fr": "Centre de gravité qui descend",
+      "b9_source_quality_gate_version": "T0133_B9_SOURCE_QUALITY_HARD_GATE_V0",
+      "b9_source_truth_family": "FORCE_SNAPSHOT_DERIVED",
+      "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED",
+      "b9_source_quality_gate_severity": "LIMIT_CONFIRMATION_LANGUAGE",
+      "b9_source_quality_flags": [
+        "SOURCE_FAMILY_FORCE_SNAPSHOT_DERIVED",
+        "FORCE_SNAPSHOT_DERIVED_NOT_RECOVERED_EXISTING_SUMMARY",
+        "PROXY_OR_RECONSTRUCTED_NOT_RAW_TRUTH",
+        "CONFIDENCE_CAP_LIMITED",
+        "NUANCED_BY_RAW_NOT_CONFIRMED"
+      ],
+      "b9_source_confidence_cap_effective": 0.35,
+      "b9_raw_claim_allowed": false,
+      "b9_confirmation_claim_allowed": false,
+      "b9_source_quality_reading_fr": "Le raw nuance la lecture : la scène peut être exploitée comme contexte, jamais comme confirmation dure.",
+      "b9_source_quality_limits": [
+        "Source proxy : ne pas présenter comme footprint raw.",
+        "Lecture reconstruite : garder confidence_cap et data_visibility visibles.",
+        "NUANCED_BY_RAW ne doit jamais devenir CONFIRMED_BY_RAW.",
+        "Famille source séparée : FORCE_SNAPSHOT_DERIVED."
+      ]
+    },
+    {
+      "moment_id": "M3_RAW_UNAVAILABLE",
+      "date": "2026-05-15",
+      "time_start": "2026-05-15T12:00:00Z",
+      "time_end": "2026-05-15T12:15:00Z",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+      "confidence_cap": 0.25,
+      "proxy_vs_raw_verdict": "RAW_UNAVAILABLE",
+      "proxy_raw_agreement_state": "RAW_UNAVAILABLE",
+      "source_quality_score": 0.2,
+      "source_quality_state": "WEAK",
+      "raw_tick_count": 0,
+      "label_fr": "Lecture partielle",
+      "b9_source_quality_gate_version": "T0133_B9_SOURCE_QUALITY_HARD_GATE_V0",
+      "b9_source_truth_family": "FORCE_SNAPSHOT_DERIVED",
+      "b9_source_quality_gate_state": "SOURCE_RAW_UNAVAILABLE_REJECTED",
+      "b9_source_quality_gate_severity": "BLOCK_ACTIVE_MEMORY",
+      "b9_source_quality_flags": [
+        "SOURCE_FAMILY_FORCE_SNAPSHOT_DERIVED",
+        "FORCE_SNAPSHOT_DERIVED_NOT_RECOVERED_EXISTING_SUMMARY",
+        "PROXY_OR_RECONSTRUCTED_NOT_RAW_TRUTH",
+        "CONFIDENCE_CAP_LIMITED",
+        "RAW_UNAVAILABLE_REJECT_MEMORY_ACTIVE"
+      ],
+      "b9_source_confidence_cap_effective": 0.25,
+      "b9_raw_claim_allowed": false,
+      "b9_confirmation_claim_allowed": false,
+      "b9_source_quality_reading_fr": "Raw indisponible : la scène doit rester hors mémoire active et ne peut pas être durcie.",
+      "b9_source_quality_limits": [
+        "Source proxy : ne pas présenter comme footprint raw.",
+        "Lecture reconstruite : garder confidence_cap et data_visibility visibles.",
+        "RAW_UNAVAILABLE exclut la mémoire active.",
+        "Famille source séparée : FORCE_SNAPSHOT_DERIVED."
+      ]
+    },
+    {
+      "moment_id": "M4_RECOVERED_NUANCED",
+      "date": "2026-05-06",
+      "time_start": "2026-05-06T00:10:00Z",
+      "time_end": "2026-05-06T00:25:00Z",
+      "source_family": "RECOVERED_EXISTING_B9_SUMMARY",
+      "summary_recovery_type": "RECOVERED_EXISTING_B9_SUMMARY",
+      "source_mode": "HISTORICAL_RAW_SHIFT0",
+      "data_visibility": "RECOVERED_SUMMARY_WITH_RAW_TEXTURE",
+      "confidence_cap": 0.65,
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "proxy_raw_agreement_state": "RAW_NUANCES_RECOVERED_READING",
+      "source_quality_score": 0.58,
+      "source_quality_state": "MEDIUM",
+      "raw_tick_count": 52,
+      "label_fr": "Relâchement haussier validé",
+      "b9_source_quality_gate_version": "T0133_B9_SOURCE_QUALITY_HARD_GATE_V0",
+      "b9_source_truth_family": "RECOVERED_EXISTING_B9_SUMMARY",
+      "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED",
+      "b9_source_quality_gate_severity": "LIMIT_CONFIRMATION_LANGUAGE",
+      "b9_source_quality_flags": [
+        "SOURCE_FAMILY_RECOVERED_EXISTING_B9_SUMMARY",
+        "RECOVERED_EXISTING_SUMMARY_NOT_FORCE_SNAPSHOT",
+        "NUANCED_BY_RAW_NOT_CONFIRMED"
+      ],
+      "b9_source_confidence_cap_effective": 0.65,
+      "b9_raw_claim_allowed": false,
+      "b9_confirmation_claim_allowed": false,
+      "b9_source_quality_reading_fr": "Le raw nuance la lecture : la scène peut être exploitée comme contexte, jamais comme confirmation dure.",
+      "b9_source_quality_limits": [
+        "NUANCED_BY_RAW ne doit jamais devenir CONFIRMED_BY_RAW.",
+        "Famille source séparée : RECOVERED_EXISTING_B9_SUMMARY."
+      ]
+    },
+    {
+      "moment_id": "M5_ORIGINAL_FULL_RAW",
+      "date": "2026-05-15",
+      "time_start": "2026-05-15T13:00:00Z",
+      "time_end": "2026-05-15T13:15:00Z",
+      "source_family": "ORIGINAL_AVAILABLE_SUMMARY",
+      "summary_recovery_type": "ORIGINAL_AVAILABLE_SUMMARY",
+      "source_mode": "ONTICK_RAW",
+      "data_visibility": "FULL_RAW",
+      "confidence_cap": 1.0,
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "proxy_raw_agreement_state": "RAW_CONFIRMS_READING",
+      "source_quality_score": 0.94,
+      "source_quality_state": "HIGH",
+      "raw_tick_count": 999,
+      "label_fr": "Palier raw confirmé",
+      "b9_source_quality_gate_version": "T0133_B9_SOURCE_QUALITY_HARD_GATE_V0",
+      "b9_source_truth_family": "ORIGINAL_AVAILABLE_SUMMARY",
+      "b9_source_quality_gate_state": "SOURCE_RAW_CONFIRMED",
+      "b9_source_quality_gate_severity": "ALLOW_RAW_SUPPORTED_READING",
+      "b9_source_quality_flags": [
+        "SOURCE_FAMILY_ORIGINAL_AVAILABLE_SUMMARY",
+        "ORIGINAL_AVAILABLE_SUMMARY_SEPARATE_FAMILY",
+        "CONFIRMED_BY_RAW_ALLOWED_AS_RAW_SUPPORTED_READING"
+      ],
+      "b9_source_confidence_cap_effective": 1.0,
+      "b9_raw_claim_allowed": true,
+      "b9_confirmation_claim_allowed": true,
+      "b9_source_quality_reading_fr": "La lecture est appuyée par le raw, avec conservation de la provenance et des limites de source.",
+      "b9_source_quality_limits": [
+        "Famille source séparée : ORIGINAL_AVAILABLE_SUMMARY."
+      ]
+    }
+  ]
+}

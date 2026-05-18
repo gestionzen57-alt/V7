@@ -1,0 +1,6 @@
+{
+  "version": "SAMPLE_B9_MEMORY_BRIEF_V0",
+  "top_match_film_id": "B6FC_20260514_1903_E8F0918A",
+  "b6_similarity_summary_fr": "Film proche : rejet haut, réintégration échouée, puis deuxième jambe baissière. Similarité utile sur la migration de centre et le retest défavorable.",
+  "b6_false_positive_context_fr": "Piège possible : source_family différente et raw parfois seulement nuancé. La similarité décrit une famille de scène, pas une répétition certaine."
+}

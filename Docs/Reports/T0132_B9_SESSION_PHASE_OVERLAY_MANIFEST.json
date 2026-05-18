@@ -1,0 +1,11 @@
+{
+  "version": "T0132_B9_SESSION_PHASE_OVERLAY_V0",
+  "branch": "feat/t0132-b9-session-phase-overlay",
+  "commit_message": "feat(t0132): add B9 session phase overlay v0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

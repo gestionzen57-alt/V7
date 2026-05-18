@@ -1,0 +1,334 @@
+
+# --- T0110_B9_RETEST_SOURCE_FIELDS_V0_START ---
+# B9 Retest Source Fields V0.
+# This layer enriches moments with canonical retest source fields BEFORE T0109
+# computes retest source signals. It is a bridge until the sequence summarizer
+# emits these fields natively.
+# Interpretation only: no signal, no BUY/SELL, no DB write.
+
+_T0110_PREVIOUS_CALIBRATE_ONE_MOMENT = _t0103_calibrate_one_moment
+
+
+def _t0110_s(value):
+    return "" if value is None else str(value)
+
+
+def _t0110_f(value, default=None):
+    try:
+        if value is None:
+            return default
+        return float(value)
+    except Exception:
+        return default
+
+
+def _t0110_i(value, default=0):
+    try:
+        if value is None:
+            return default
+        return int(float(value))
+    except Exception:
+        return default
+
+
+def _t0110_dt(value):
+    try:
+        return _t0103_parse_dt(value)
+    except Exception:
+        return None
+
+
+def _t0110_fmt(value):
+    dt = _t0110_dt(value)
+    if dt is None:
+        return None
+    return _t0103_fmt_dt(dt)
+
+
+def _t0110_seconds_between(a, b):
+    da = _t0110_dt(a)
+    db = _t0110_dt(b)
+    if da is None or db is None:
+        return None
+    return round((db - da).total_seconds(), 3)
+
+
+def _t0110_zone_memory(moment):
+    zm = moment.get("zone_memory")
+    if isinstance(zm, dict):
+        return dict(zm)
+    return {}
+
+
+def _t0110_pick(moment, zone, keys):
+    for key in keys:
+        if key in moment and moment.get(key) not in (None, ""):
+            return moment.get(key)
+        if key in zone and zone.get(key) not in (None, ""):
+            return zone.get(key)
+    return None
+
+
+def _t0110_status_blob(moment, zone):
+    values = [
+        moment.get("retest_status"),
+        moment.get("retest_state"),
+        moment.get("zone_retest_status"),
+        moment.get("memory_state"),
+        moment.get("retest_outcome_hint"),
+        zone.get("retest_status"),
+        zone.get("last_retest_status"),
+        zone.get("state"),
+        zone.get("memory_state"),
+    ]
+    return " ".join(_t0110_s(v).upper() for v in values if _t0110_s(v))
+
+
+def _t0110_outcome_hint(moment, zone):
+    blob = _t0110_status_blob(moment, zone)
+
+    if "FAILED" in blob or "FAIL" in blob or "REJECT" in blob or "INVALID" in blob:
+        return "RETEST_OUTCOME_REJECTED_OR_FAILED"
+    if "ACCEPT" in blob or "VALID" in blob or "CONFIRM" in blob:
+        return "RETEST_OUTCOME_ACCEPTED"
+    if "PENDING" in blob or "WATCH" in blob or "WAIT" in blob:
+        return "RETEST_OUTCOME_PENDING"
+    if "ABSORB" in blob or "FRICTION" in blob:
+        return "RETEST_OUTCOME_FRICTION"
+    if "ROTATION" in blob:
+        return "RETEST_OUTCOME_ROTATIONAL"
+    return "RETEST_OUTCOME_NOT_VISIBLE"
+
+
+def _t0110_confidence_state(moment, zone, touch_count, first_touch, last_touch, outcome_hint):
+    blob = _t0110_status_blob(moment, zone)
+
+    explicit_markers = ["ACCEPT", "VALID", "CONFIRM", "FAILED", "FAIL", "REJECT", "INVALID", "PENDING", "WATCH", "WAIT"]
+    if any(marker in blob for marker in explicit_markers):
+        return "RETEST_SOURCE_FIELDS_EXPLICIT"
+    if touch_count > 0 or first_touch or last_touch:
+        return "RETEST_SOURCE_FIELDS_PARTIAL"
+    if outcome_hint != "RETEST_OUTCOME_NOT_VISIBLE":
+        return "RETEST_SOURCE_FIELDS_INFERRED"
+    return "RETEST_SOURCE_FIELDS_NOT_VISIBLE"
+
+
+def _t0110_touch_count(moment, zone):
+    candidates = [
+        moment.get("retest_touch_count"),
+        moment.get("zone_touch_count"),
+        moment.get("touch_count"),
+        moment.get("test_count"),
+        zone.get("retest_touch_count"),
+        zone.get("zone_touch_count"),
+        zone.get("touch_count"),
+        zone.get("test_count"),
+        zone.get("retest_count"),
+        zone.get("tests"),
+    ]
+    return max([_t0110_i(v, 0) for v in candidates] + [0])
+
+
+def _t0110_first_touch(moment, zone):
+    return _t0110_pick(moment, zone, [
+        "retest_first_touch_time",
+        "first_retest_time",
+        "first_touch_time",
+        "zone_first_touch_time",
+        "first_tested",
+    ])
+
+
+def _t0110_last_touch(moment, zone):
+    return _t0110_pick(moment, zone, [
+        "retest_last_touch_time",
+        "last_retest_time",
+        "last_touch_time",
+        "zone_last_touch_time",
+        "last_tested",
+        "last_seen",
+    ])
+
+
+def _t0110_acceptance_dwell(moment, zone):
+    value = _t0110_pick(moment, zone, [
+        "retest_acceptance_dwell_seconds",
+        "acceptance_dwell_seconds",
+        "retest_dwell_seconds",
+    ])
+    if value is not None:
+        return _t0110_f(value, None)
+
+    first_touch = _t0110_first_touch(moment, zone)
+    last_touch = _t0110_last_touch(moment, zone)
+    outcome = _t0110_outcome_hint(moment, zone)
+    if outcome == "RETEST_OUTCOME_ACCEPTED" and first_touch and last_touch:
+        seconds = _t0110_seconds_between(first_touch, last_touch)
+        if seconds is not None and seconds >= 0:
+            return seconds
+    return None
+
+
+def _t0110_rejection_speed(moment, zone):
+    value = _t0110_pick(moment, zone, [
+        "retest_rejection_speed_pips_per_min",
+        "rejection_speed_pips_per_min",
+    ])
+    if value is not None:
+        return _t0110_f(value, None)
+
+    outcome = _t0110_outcome_hint(moment, zone)
+    if outcome != "RETEST_OUTCOME_REJECTED_OR_FAILED":
+        return None
+
+    delta = abs(_t0110_f(moment.get("raw_delta_pips"), 0.0) or 0.0)
+    start = moment.get("time_start")
+    end = moment.get("time_end")
+    seconds = _t0110_seconds_between(start, end)
+    if seconds is None or seconds <= 0:
+        return None
+    return round((delta / seconds) * 60.0, 6)
+
+
+def _t0110_zone_distance(moment, zone):
+    value = _t0110_pick(moment, zone, [
+        "retest_zone_distance_pips",
+        "zone_distance_pips",
+        "distance_to_zone_pips",
+    ])
+    return _t0110_f(value, None)
+
+
+def _t0110_enrich_moment_source_fields(moment):
+    out = dict(moment)
+    zone = _t0110_zone_memory(out)
+
+    touch_count = _t0110_touch_count(out, zone)
+    first_touch = _t0110_first_touch(out, zone)
+    last_touch = _t0110_last_touch(out, zone)
+    outcome = _t0110_outcome_hint(out, zone)
+
+    # If an explicit retest status exists but no touch count is present, expose one minimum touch.
+    if touch_count <= 0 and outcome != "RETEST_OUTCOME_NOT_VISIBLE":
+        touch_count = 1
+
+    # If an explicit retest exists and first/last touch are missing, use the moment bounds as proxy evidence.
+    if outcome != "RETEST_OUTCOME_NOT_VISIBLE":
+        if not first_touch:
+            first_touch = out.get("time_start")
+        if not last_touch:
+            last_touch = out.get("time_end") or out.get("time_start")
+
+    first_touch = _t0110_fmt(first_touch)
+    last_touch = _t0110_fmt(last_touch)
+
+    delay = None
+    if last_touch and out.get("time_start"):
+        delay = _t0110_seconds_between(last_touch, out.get("time_start"))
+
+    out["retest_source_fields_version"] = "T0110_RETEST_SOURCE_FIELDS_V0"
+    out["retest_touch_count"] = touch_count
+    out["retest_first_touch_time"] = first_touch
+    out["retest_last_touch_time"] = last_touch
+    out["retest_delay_seconds"] = delay
+    out["retest_acceptance_dwell_seconds"] = _t0110_acceptance_dwell(out, zone)
+    out["retest_rejection_speed_pips_per_min"] = _t0110_rejection_speed(out, zone)
+    out["retest_zone_distance_pips"] = _t0110_zone_distance(out, zone)
+    out["retest_outcome_hint"] = outcome
+    out["retest_source_field_confidence"] = _t0110_confidence_state(out, zone, touch_count, first_touch, last_touch, outcome)
+
+    # Keep zone memory synchronized without mutating DB.
+    if zone:
+        if touch_count and "touch_count" not in zone:
+            zone["touch_count"] = touch_count
+        if last_touch and "last_tested" not in zone:
+            zone["last_tested"] = last_touch
+        if outcome != "RETEST_OUTCOME_NOT_VISIBLE" and "retest_status" not in zone:
+            zone["retest_status"] = outcome
+        out["zone_memory"] = zone
+
+    out["retest_source_fields_limits"] = [
+        "canonical retest source fields are derived from summary payload only",
+        "no DB write",
+        "missing source fields remain visible as NOT_VISIBLE",
+        "values may be proxy-derived until sequence summarizer emits them natively",
+        "no BUY/SELL language",
+    ]
+    return out
+
+
+def _t0103_calibrate_one_moment(moment, cfg):
+    enriched_moment = _t0110_enrich_moment_source_fields(moment)
+    out = _T0110_PREVIOUS_CALIBRATE_ONE_MOMENT(enriched_moment, cfg)
+
+    # Preserve canonical fields in final calibrated output.
+    for key in [
+        "retest_source_fields_version",
+        "retest_touch_count",
+        "retest_first_touch_time",
+        "retest_last_touch_time",
+        "retest_delay_seconds",
+        "retest_acceptance_dwell_seconds",
+        "retest_rejection_speed_pips_per_min",
+        "retest_zone_distance_pips",
+        "retest_outcome_hint",
+        "retest_source_field_confidence",
+        "retest_source_fields_limits",
+    ]:
+        if key in enriched_moment:
+            out[key] = enriched_moment[key]
+    if "zone_memory" in enriched_moment:
+        out["zone_memory"] = enriched_moment["zone_memory"]
+    return out
+
+
+def calibrate_summary_with_raw(summary, cfg):
+    payload = _t0103_deepcopy(summary)
+    moments = payload.get("moments", [])
+    payload["moments"] = [_t0103_calibrate_one_moment(m, cfg) for m in moments]
+    payload.setdefault("raw_calibration", {})
+    payload["raw_calibration"].update({
+        "version": "T0110_RETEST_SOURCE_FIELDS_V0",
+        "parent_versions": [
+            "T0109_RETEST_SOURCE_SIGNALS_V0",
+            "T0108_RETEST_MIXED_SPLIT_V0",
+            "T0107_NATURAL_FLOW_READING_V0",
+            "T0107A_GAPPY_THRESHOLD_HOTFIX",
+        ],
+        "symbol": getattr(cfg, "symbol", "GBPUSD"),
+        "broker": getattr(cfg, "broker", "UNKNOWN"),
+        "broker_time_shift_min": getattr(cfg, "broker_time_shift_min", 0),
+        "raw_source_mode": getattr(cfg, "raw_source_mode", "HISTORICAL_RAW"),
+        "raw_data_visibility": getattr(cfg, "raw_data_visibility", "MT5_RAW_ALIGNED"),
+        "b9_temporality_scope": "INTRINSIC_MICROFILM_ONLY",
+        "external_temporality_dependency": False,
+        "volume_policy": "BROKER_RELATIVE_ACTIVITY_ONLY_EXPERIMENTAL",
+        "retest_source_fields": [
+            "retest_touch_count",
+            "retest_first_touch_time",
+            "retest_last_touch_time",
+            "retest_delay_seconds",
+            "retest_acceptance_dwell_seconds",
+            "retest_rejection_speed_pips_per_min",
+            "retest_zone_distance_pips",
+            "retest_outcome_hint",
+            "retest_source_field_confidence",
+        ],
+        "retest_source_signals": [
+            "b9_retest_source_status",
+            "b9_retest_source_visibility",
+            "b9_retest_source_evidence_score",
+            "b9_retest_source_signal_state",
+            "b9_retest_source_readiness",
+            "b9_retest_source_reading_fr",
+        ],
+        "limits": [
+            "interpretation-only",
+            "T0110 is a source-field bridge until native summarizer support",
+            "external Temporalité brick is not used",
+            "MT5 volume is not global Forex volume",
+            "no BUY/SELL language",
+        ],
+    })
+    return payload
+# --- T0110_B9_RETEST_SOURCE_FIELDS_V0_END ---

@@ -1,0 +1,244 @@
+
+# --- T0108_B9_NATURAL_RETEST_MIXED_SPLIT_V0_START ---
+# B9 Natural Retest & FLOW_MIXED Split V0.
+# This block refines natural flow reading without adding any decision language.
+# It splits FLOW_MIXED into digestion / transition / friction / read-limit states
+# and adds a natural retest reading based on B9 intrinsic microfilm factors.
+
+_T0108_PREVIOUS_CALIBRATE_ONE_MOMENT = _t0103_calibrate_one_moment
+
+
+def _t0108_s(value):
+    return "" if value is None else str(value)
+
+
+def _t0108_f(value, default=0.0):
+    try:
+        if value is None:
+            return default
+        return float(value)
+    except Exception:
+        return default
+
+
+def _t0108_retest_source_state(moment_or_out):
+    for key in ("retest_status", "retest_state", "zone_retest_status"):
+        value = _t0108_s(moment_or_out.get(key)).upper()
+        if value:
+            return value
+    return ""
+
+
+def _t0108_mixed_split_state(out):
+    flow = _t0108_s(out.get("b9_flow_intent_state"))
+    auction = _t0108_s(out.get("b9_auction_state"))
+    trap = _t0108_s(out.get("b9_trap_risk_state"))
+    read = _t0108_s(out.get("b9_market_readability_state"))
+    absorption = _t0108_s(out.get("b9_absorption_like_state"))
+    exhaustion = _t0108_s(out.get("b9_exhaustion_like_state"))
+    activity = _t0108_s(out.get("raw_activity_profile"))
+    spread = _t0108_s(out.get("raw_spread_stability_state"))
+    efficiency = _t0108_f(out.get("b9_directional_efficiency"))
+    raw_range = abs(_t0108_f(out.get("raw_range_pips")))
+    raw_delta = abs(_t0108_f(out.get("raw_delta_pips")))
+    dwell = _t0108_f(out.get("b9_dwell_seconds"))
+
+    if flow == "FLOW_ARTIFACT" or auction == "AUCTION_ARTIFACT":
+        return "MIXED_SPLIT_ARTIFACT"
+    if flow != "FLOW_MIXED":
+        return "MIXED_SPLIT_NOT_MIXED"
+    if read == "READABILITY_LIMITED_BY_TEXTURE" or activity == "RAW_ACTIVITY_GAPPY" or spread == "SPREAD_UNSTABLE":
+        return "MIXED_SPLIT_READ_LIMIT"
+    if trap.startswith("TRAP_RISK_HIGH"):
+        return "MIXED_SPLIT_TRAP_RISK"
+    if absorption.startswith("ABSORPTION_LIKE"):
+        return "MIXED_SPLIT_FRICTION"
+    if exhaustion.startswith("EXHAUSTION_LIKE"):
+        return "MIXED_SPLIT_STRESS"
+    if raw_range >= 6.0 and efficiency < 0.45:
+        return "MIXED_SPLIT_BALANCED_AUCTION"
+    if raw_delta >= 3.0 and efficiency >= 0.45:
+        return "MIXED_SPLIT_TRANSITION"
+    if dwell >= 300 and raw_delta < 3.0:
+        return "MIXED_SPLIT_DIGESTION"
+    return "MIXED_SPLIT_CONTEXT"
+
+
+def _t0108_retest_natural_state(out):
+    retest = _t0108_retest_source_state(out)
+    flow = _t0108_s(out.get("b9_flow_intent_state"))
+    auction = _t0108_s(out.get("b9_auction_state"))
+    trap = _t0108_s(out.get("b9_trap_risk_state"))
+    absorption = _t0108_s(out.get("b9_absorption_like_state"))
+    activity = _t0108_s(out.get("raw_activity_profile"))
+    spread = _t0108_s(out.get("raw_spread_stability_state"))
+    raw_delta = abs(_t0108_f(out.get("raw_delta_pips")))
+    raw_range = abs(_t0108_f(out.get("raw_range_pips")))
+    efficiency = _t0108_f(out.get("b9_directional_efficiency"))
+
+    if flow == "FLOW_ARTIFACT":
+        return "RETEST_ARTIFACT"
+    if spread == "SPREAD_UNSTABLE" or flow == "FLOW_GAPPY_LIMIT":
+        return "RETEST_UNREADABLE_TEXTURE"
+    if "FAILED" in retest or "REJECT" in retest:
+        return "RETEST_REJECTED_OR_FAILED"
+    if "ACCEPT" in retest or "VALID" in retest:
+        if absorption.startswith("ABSORPTION_LIKE"):
+            return "RETEST_ACCEPTED_WITH_FRICTION"
+        return "RETEST_ACCEPTED"
+    if "PENDING" in retest:
+        if trap.startswith("TRAP_RISK_HIGH"):
+            return "RETEST_PENDING_TRAP_RISK"
+        if flow == "FLOW_DIRECTIONAL_DISPLACEMENT" and efficiency >= 0.50:
+            return "RETEST_PENDING_AFTER_DISPLACEMENT"
+        return "RETEST_PENDING_TEXTURE"
+    if absorption.startswith("ABSORPTION_LIKE") and raw_range >= 4.0:
+        return "RETEST_ABSORPTION_LIKE"
+    if auction == "AUCTION_ROTATIONAL_BALANCE" and raw_range >= 4.0:
+        return "RETEST_ROTATIONAL_BALANCE"
+    if raw_delta >= 4.0 and efficiency >= 0.55:
+        return "RETEST_NOT_VISIBLE_DIRECTIONAL_FLOW"
+    return "RETEST_NOT_VISIBLE"
+
+
+def _t0108_retest_quality_state(out):
+    state = _t0108_s(out.get("b9_retest_natural_state"))
+    read = _t0108_s(out.get("b9_market_readability_state"))
+    score = _t0108_f(out.get("b9_microfilm_texture_score"))
+
+    if state in {"RETEST_ARTIFACT"}:
+        return "RETEST_QUALITY_ARTIFACT"
+    if state in {"RETEST_UNREADABLE_TEXTURE"} or read == "READABILITY_LIMITED_BY_TEXTURE":
+        return "RETEST_QUALITY_UNREADABLE"
+    if state in {"RETEST_ACCEPTED"} and score >= 0.55:
+        return "RETEST_QUALITY_CLEAN"
+    if state in {"RETEST_ACCEPTED_WITH_FRICTION", "RETEST_ABSORPTION_LIKE", "RETEST_ROTATIONAL_BALANCE"}:
+        return "RETEST_QUALITY_FRICTIONAL"
+    if state in {"RETEST_PENDING_TRAP_RISK", "RETEST_REJECTED_OR_FAILED"}:
+        return "RETEST_QUALITY_RISK"
+    if state.startswith("RETEST_PENDING"):
+        return "RETEST_QUALITY_PENDING"
+    return "RETEST_QUALITY_NOT_APPLICABLE"
+
+
+def _t0108_context_resolution_state(out):
+    split = _t0108_s(out.get("b9_mixed_split_state"))
+    retest = _t0108_s(out.get("b9_retest_natural_state"))
+    flow = _t0108_s(out.get("b9_flow_intent_state"))
+    auction = _t0108_s(out.get("b9_auction_state"))
+    trap = _t0108_s(out.get("b9_trap_risk_state"))
+
+    if "ARTIFACT" in split or "ARTIFACT" in retest:
+        return "CONTEXT_ARTIFACT"
+    if "UNREADABLE" in retest or split == "MIXED_SPLIT_READ_LIMIT":
+        return "CONTEXT_READ_LIMIT"
+    if trap.startswith("TRAP_RISK_HIGH") or split == "MIXED_SPLIT_TRAP_RISK":
+        return "CONTEXT_TRAP_RISK"
+    if retest in {"RETEST_ACCEPTED", "RETEST_ACCEPTED_WITH_FRICTION"}:
+        return "CONTEXT_RETEST_ACCEPTANCE"
+    if retest in {"RETEST_REJECTED_OR_FAILED"}:
+        return "CONTEXT_RETEST_REJECTION"
+    if auction == "AUCTION_DIRECTIONAL_ACCEPTANCE" or flow == "FLOW_DIRECTIONAL_DISPLACEMENT":
+        return "CONTEXT_DIRECTIONAL_ACCEPTANCE"
+    if auction == "AUCTION_ROTATIONAL_BALANCE" or split == "MIXED_SPLIT_BALANCED_AUCTION":
+        return "CONTEXT_ROTATIONAL_BALANCE"
+    if split in {"MIXED_SPLIT_DIGESTION", "MIXED_SPLIT_CONTEXT"}:
+        return "CONTEXT_DIGESTION"
+    if split == "MIXED_SPLIT_TRANSITION":
+        return "CONTEXT_TRANSITION"
+    return "CONTEXT_MIXED"
+
+
+def _t0108_reading_fr(out):
+    split = _t0108_s(out.get("b9_mixed_split_state"))
+    retest = _t0108_s(out.get("b9_retest_natural_state"))
+    context = _t0108_s(out.get("b9_context_resolution_state"))
+
+    if context == "CONTEXT_DIRECTIONAL_ACCEPTANCE":
+        return "Lecture B9: déplacement accepté par la texture raw, sans transformer en signal."
+    if context == "CONTEXT_ROTATIONAL_BALANCE":
+        return "Lecture B9: équilibre rotationnel, le flux travaille plus qu'il ne déplace."
+    if context == "CONTEXT_RETEST_ACCEPTANCE":
+        return "Lecture B9: retest accepté ou accepté avec friction, à lire comme état de scène."
+    if context == "CONTEXT_RETEST_REJECTION":
+        return "Lecture B9: retest rejeté ou échoué, scène à risque de surlecture."
+    if context == "CONTEXT_TRAP_RISK":
+        return "Lecture B9: risque de piège, le proxy peut surlire la progression."
+    if context == "CONTEXT_READ_LIMIT":
+        return "Lecture B9 limitée par la texture raw, cadence ou spread."
+    if split == "MIXED_SPLIT_TRANSITION":
+        return "Lecture B9: flux en transition, ni équilibre pur ni déplacement pleinement propre."
+    if split == "MIXED_SPLIT_DIGESTION":
+        return "Lecture B9: digestion de microfilm, le temps travaille plus que le déplacement."
+    if retest == "RETEST_PENDING_TEXTURE":
+        return "Lecture B9: retest en attente, texture encore insuffisante pour qualifier."
+    return "Lecture B9: contexte mixte, information utile mais non décisionnelle."
+
+
+def _t0108_apply(out):
+    out["b9_retest_mixed_split_version"] = "T0108_RETEST_MIXED_SPLIT_V0"
+    out["b9_mixed_split_state"] = _t0108_mixed_split_state(out)
+    out["b9_retest_natural_state"] = _t0108_retest_natural_state(out)
+    out["b9_retest_quality_state"] = _t0108_retest_quality_state(out)
+    out["b9_context_resolution_state"] = _t0108_context_resolution_state(out)
+    out["b9_retest_mixed_reading_fr"] = _t0108_reading_fr(out)
+    out["b9_retest_mixed_policy"] = "INTERPRETATION_ONLY_NO_DECISION"
+
+    flags = list(out.get("b9_factor_flags") or [])
+    for item in [
+        out["b9_mixed_split_state"],
+        out["b9_retest_natural_state"],
+        out["b9_retest_quality_state"],
+        out["b9_context_resolution_state"],
+    ]:
+        if item and item not in flags:
+            flags.append(item)
+    out["b9_factor_flags"] = flags
+
+    out["b9_retest_mixed_limits"] = [
+        "B9 intrinsic microfilm reading only",
+        "no external Temporalité dependency",
+        "no BUY/SELL language",
+        "retest reading is interpretive, not predictive",
+        "MT5 raw and volume remain broker-relative",
+    ]
+    return out
+
+
+def _t0103_calibrate_one_moment(moment, cfg):
+    out = _T0108_PREVIOUS_CALIBRATE_ONE_MOMENT(moment, cfg)
+    return _t0108_apply(out)
+
+
+def calibrate_summary_with_raw(summary, cfg):
+    payload = _t0103_deepcopy(summary)
+    moments = payload.get("moments", [])
+    payload["moments"] = [_t0103_calibrate_one_moment(m, cfg) for m in moments]
+    payload.setdefault("raw_calibration", {})
+    payload["raw_calibration"].update({
+        "version": "T0108_RETEST_MIXED_SPLIT_V0",
+        "symbol": getattr(cfg, "symbol", "GBPUSD"),
+        "broker": getattr(cfg, "broker", "UNKNOWN"),
+        "broker_time_shift_min": getattr(cfg, "broker_time_shift_min", 0),
+        "raw_source_mode": getattr(cfg, "raw_source_mode", "HISTORICAL_RAW"),
+        "raw_data_visibility": getattr(cfg, "raw_data_visibility", "MT5_RAW_ALIGNED"),
+        "b9_temporality_scope": "INTRINSIC_MICROFILM_ONLY",
+        "external_temporality_dependency": False,
+        "volume_policy": "BROKER_RELATIVE_ACTIVITY_ONLY_EXPERIMENTAL",
+        "retest_mixed_fields": [
+            "b9_mixed_split_state",
+            "b9_retest_natural_state",
+            "b9_retest_quality_state",
+            "b9_context_resolution_state",
+            "b9_retest_mixed_reading_fr",
+        ],
+        "limits": [
+            "interpretation-only",
+            "retest reading is not a signal",
+            "external Temporalité brick is not used",
+            "MT5 volume is not global Forex volume",
+            "no BUY/SELL language",
+        ],
+    })
+    return payload
+# --- T0108_B9_NATURAL_RETEST_MIXED_SPLIT_V0_END ---

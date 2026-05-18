@@ -1,0 +1,123 @@
+
+# --- T0107A_B9_NATURAL_FLOW_GAPPY_THRESHOLD_HOTFIX_START ---
+# Hotfix: do not let a moderate raw gap dominate directional/rotational reading.
+# T0105 currently marks any max gap >= 10s as RAW_ACTIVITY_GAPPY.
+# For B9 natural flow, gappy becomes a hard flow limit only when material:
+# - very large max gap,
+# - very low density,
+# - too few ticks,
+# - or long microfilm with substantial gap.
+# Moderate gaps remain visible in flags but do not erase effort/result reading.
+
+def _t0107a_is_hard_gappy(out):
+    activity = _t0107_str(out.get("raw_activity_profile"))
+    if activity != "RAW_ACTIVITY_GAPPY":
+        return False
+
+    max_gap = _t0107_float(out.get("raw_gap_max_ms"), 0.0)
+    density_minute = _t0107_float(out.get("raw_tick_density_per_minute"), 0.0)
+    dwell = _t0107_float(out.get("b9_dwell_seconds"), 0.0)
+    ticks = _t0107_float(out.get("raw_tick_count_dedup", out.get("raw_tick_count")), 0.0)
+
+    if max_gap >= 60000:
+        return True
+    if density_minute > 0 and density_minute <= 3.0:
+        return True
+    if ticks > 0 and ticks <= 3:
+        return True
+    if dwell >= 600 and max_gap >= 30000:
+        return True
+    return False
+
+
+def _t0107_flow_intent_state(out):
+    verdict = _t0107_str(out.get("proxy_vs_raw_verdict"))
+    texture = _t0107_str(out.get("raw_texture_role"))
+    profile = _t0107_str(out.get("b9_microfilm_profile"))
+    activity = _t0107_str(out.get("raw_activity_profile"))
+    spread = _t0107_str(out.get("raw_spread_stability_state"))
+    efficiency = _t0107_float(out.get("b9_directional_efficiency"), 0.0)
+    raw_delta = abs(_t0107_float(out.get("raw_delta_pips"), 0.0))
+    raw_range = abs(_t0107_float(out.get("raw_range_pips"), 0.0))
+
+    if verdict == "ZERO_DURATION_MOMENT" or profile == "ZERO_DURATION_ARTIFACT":
+        return "FLOW_ARTIFACT"
+    if spread == "SPREAD_UNSTABLE":
+        return "FLOW_UNSTABLE_QUOTE_TEXTURE"
+    if _t0107a_is_hard_gappy(out):
+        return "FLOW_GAPPY_LIMIT"
+    if "ROTATIONAL" in profile or texture == "RAW_ROTATION_CONFIRMED" or (efficiency < 0.35 and raw_range >= 4.0):
+        return "FLOW_ROTATIONAL"
+    if "WEAK_RAW" in profile or texture == "RAW_WEAK_PROGRESS":
+        return "FLOW_WEAK_DIRECTIONAL"
+    if verdict == "CONFIRMED_BY_RAW" and raw_delta >= 4.0 and efficiency >= 0.55:
+        return "FLOW_DIRECTIONAL_DISPLACEMENT"
+    if raw_range >= 6.0 and efficiency < 0.45:
+        return "FLOW_BALANCED_AUCTION"
+    if activity == "RAW_ACTIVITY_GAPPY":
+        return "FLOW_MIXED"
+    return "FLOW_MIXED"
+
+
+def _t0107_auction_state(out):
+    flow = _t0107_str(out.get("b9_flow_intent_state"))
+    absorption = _t0107_str(out.get("b9_absorption_like_state"))
+    exhaustion = _t0107_str(out.get("b9_exhaustion_like_state"))
+    spread = _t0107_str(out.get("raw_spread_stability_state"))
+
+    if flow == "FLOW_ARTIFACT":
+        return "AUCTION_ARTIFACT"
+    if flow == "FLOW_GAPPY_LIMIT":
+        return "AUCTION_READ_LIMIT_GAPPY"
+    if spread == "SPREAD_UNSTABLE":
+        return "AUCTION_READ_LIMIT_SPREAD"
+    if absorption.startswith("ABSORPTION_LIKE"):
+        return "AUCTION_FRICTION_ABSORPTION_LIKE"
+    if exhaustion.startswith("EXHAUSTION_LIKE"):
+        return "AUCTION_EXHAUSTION_LIKE"
+    if flow == "FLOW_DIRECTIONAL_DISPLACEMENT":
+        return "AUCTION_DIRECTIONAL_ACCEPTANCE"
+    if flow in {"FLOW_ROTATIONAL", "FLOW_BALANCED_AUCTION"}:
+        return "AUCTION_ROTATIONAL_BALANCE"
+    return "AUCTION_MIXED"
+
+
+def _t0107_trap_risk_state(out):
+    profile = _t0107_str(out.get("b9_microfilm_profile"))
+    flow = _t0107_str(out.get("b9_flow_intent_state"))
+    absorption = _t0107_str(out.get("b9_absorption_like_state"))
+    spread = _t0107_str(out.get("raw_spread_stability_state"))
+    activity = _t0107_str(out.get("raw_activity_profile"))
+
+    if profile == "ZERO_DURATION_ARTIFACT":
+        return "TRAP_RISK_ARTIFACT"
+    if "ROTATIONAL_TRAP" in profile:
+        return "TRAP_RISK_HIGH_PROGRESSIVE_ROTATIONAL"
+    if "WEAK_RAW_PROGRESS" in profile:
+        return "TRAP_RISK_HIGH_WEAK_RAW"
+    if flow in {"FLOW_GAPPY_LIMIT", "FLOW_UNSTABLE_QUOTE_TEXTURE"}:
+        return "TRAP_RISK_DATA_TEXTURE_LIMIT"
+    if absorption.startswith("ABSORPTION_LIKE"):
+        return "TRAP_RISK_MEDIUM_EFFORT_WITHOUT_RESULT"
+    if spread == "SPREAD_EXPANDING" or activity == "RAW_ACTIVITY_GAPPY":
+        return "TRAP_RISK_MEDIUM_TEXTURE_CAUTION"
+    return "TRAP_RISK_LOW"
+
+
+def _t0107_market_readability_state(out):
+    score = _t0107_float(out.get("b9_microfilm_texture_score"), 0.0)
+    spread = _t0107_str(out.get("raw_spread_stability_state"))
+    verdict = _t0107_str(out.get("proxy_vs_raw_verdict"))
+
+    if verdict == "ZERO_DURATION_MOMENT":
+        return "READABILITY_ARTIFACT"
+    if _t0107a_is_hard_gappy(out) or spread == "SPREAD_UNSTABLE":
+        return "READABILITY_LIMITED_BY_TEXTURE"
+    if score >= 0.75:
+        return "READABILITY_HIGH"
+    if score >= 0.55:
+        return "READABILITY_MEDIUM"
+    if score >= 0.35:
+        return "READABILITY_LOW"
+    return "READABILITY_VERY_LOW"
+# --- T0107A_B9_NATURAL_FLOW_GAPPY_THRESHOLD_HOTFIX_END ---

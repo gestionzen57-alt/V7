@@ -1,0 +1,249 @@
+{
+  "manifest": {
+    "version": "T0124_B9_V4_REGRESSION_GUARD_GOLDEN_REPLAY_CASES_V0_V2",
+    "generated_at": "2026-05-18T09:15:43+00:00",
+    "input_summary": "samples/b9_v4_regression_guard_golden_replay_cases_v0/sample_b9_v4_golden_replay_cases_input.json",
+    "contract_source": "LOCAL_REGRESSION_GUARD_FALLBACK_DETERMINISTIC_V2",
+    "regression_guard_state": "PASS",
+    "input_moments": 6,
+    "enriched_moments": 6,
+    "golden_case_count": 6,
+    "golden_cases_passed": 6,
+    "golden_cases_failed": 0,
+    "total_missing_required_fields": 0,
+    "forbidden_language_hit_count": 0,
+    "preservation_diff_count": 0,
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell": false,
+    "probability_of_success": false
+  },
+  "case_results": [
+    {
+      "case_id": "B9V4_GOLDEN_EFFORT_WITHOUT_RESULT",
+      "moment_index": 0,
+      "time_start": "2026-05-15T08:00:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat",
+      "case_state": "PASS",
+      "checks": [
+        {
+          "check": "progress_type",
+          "expected": "EFFORT_WITHOUT_RESULT",
+          "actual": "EFFORT_WITHOUT_RESULT",
+          "ok": true
+        },
+        {
+          "check": "center_path",
+          "expected": "CENTER_BLOCKED_OR_ROTATING",
+          "actual": "CENTER_BLOCKED_OR_ROTATING",
+          "ok": true
+        },
+        {
+          "check": "retest_judgment",
+          "expected": "RETEST_NOT_VISIBLE",
+          "actual": "RETEST_NOT_VISIBLE",
+          "ok": true
+        },
+        {
+          "check": "required_v4_fields",
+          "expected": "no_missing_fields",
+          "actual": [],
+          "ok": true
+        }
+      ],
+      "why_guarded_fr": "Empêche B9 de lire un gros effort local comme direction si le progrès reste faible."
+    },
+    {
+      "case_id": "B9V4_GOLDEN_PROGRESSIVE_WAVE_UP",
+      "moment_index": 1,
+      "time_start": "2026-05-15T10:11:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "label_fr": "Vague progressive haussière",
+      "case_state": "PASS",
+      "checks": [
+        {
+          "check": "progress_type",
+          "expected": "PROGRESSIVE_WAVE",
+          "actual": "PROGRESSIVE_WAVE",
+          "ok": true
+        },
+        {
+          "check": "center_path",
+          "expected": "CENTER_MIGRATES_UP",
+          "actual": "CENTER_MIGRATES_UP",
+          "ok": true
+        },
+        {
+          "check": "retest_judgment",
+          "expected": "RETEST_VISIBLE_OR_PROXY_VISIBLE",
+          "actual": "RETEST_VISIBLE_OR_PROXY_VISIBLE",
+          "ok": true
+        },
+        {
+          "check": "required_v4_fields",
+          "expected": "no_missing_fields",
+          "actual": [],
+          "ok": true
+        }
+      ],
+      "why_guarded_fr": "Empêche B9 de perdre la distinction effort + résultat + progrès quand la mémoire monte par paliers."
+    },
+    {
+      "case_id": "B9V4_GOLDEN_CENTER_MIGRATION_DOWN",
+      "moment_index": 2,
+      "time_start": "2026-05-15T11:01:00Z",
+      "time_end": "2026-05-15T11:18:00Z",
+      "label_fr": "Centre de gravité qui descend",
+      "case_state": "PASS",
+      "checks": [
+        {
+          "check": "progress_type",
+          "expected": "PROGRESSIVE_WAVE",
+          "actual": "PROGRESSIVE_WAVE",
+          "ok": true
+        },
+        {
+          "check": "center_path",
+          "expected": "CENTER_MIGRATES_DOWN",
+          "actual": "CENTER_MIGRATES_DOWN",
+          "ok": true
+        },
+        {
+          "check": "retest_judgment",
+          "expected": "RETEST_VISIBLE_OR_PROXY_VISIBLE",
+          "actual": "RETEST_VISIBLE_OR_PROXY_VISIBLE",
+          "ok": true
+        },
+        {
+          "check": "required_v4_fields",
+          "expected": "no_missing_fields",
+          "actual": [],
+          "ok": true
+        }
+      ],
+      "why_guarded_fr": "Protège le cas absorption + centre descendant = pression qui avance, pas support simple."
+    },
+    {
+      "case_id": "B9V4_GOLDEN_RETEST_FAILED",
+      "moment_index": 3,
+      "time_start": "2026-05-15T09:10:00Z",
+      "time_end": "2026-05-15T09:31:00Z",
+      "label_fr": "Retest échoué / reprise refusée",
+      "case_state": "PASS",
+      "checks": [
+        {
+          "check": "progress_type",
+          "expected": "RETEST_FAILED_OR_STRUCTURE_REJECTED",
+          "actual": "RETEST_FAILED_OR_STRUCTURE_REJECTED",
+          "ok": true
+        },
+        {
+          "check": "center_path",
+          "expected": "CENTER_MIGRATES_DOWN",
+          "actual": "CENTER_MIGRATES_DOWN",
+          "ok": true
+        },
+        {
+          "check": "retest_judgment",
+          "expected": "RETEST_FAILED",
+          "actual": "RETEST_FAILED",
+          "ok": true
+        },
+        {
+          "check": "required_v4_fields",
+          "expected": "no_missing_fields",
+          "actual": [],
+          "ok": true
+        }
+      ],
+      "why_guarded_fr": "Protège la règle B9 : la cassure ou reprise est jugée par le retest, pas par l'impulsion."
+    },
+    {
+      "case_id": "B9V4_GOLDEN_CORRECTIVE_BREATH",
+      "moment_index": 4,
+      "time_start": "2026-05-15T15:48:00Z",
+      "time_end": "2026-05-15T15:59:00Z",
+      "label_fr": "Respiration corrective",
+      "case_state": "PASS",
+      "checks": [
+        {
+          "check": "progress_type",
+          "expected": "CORRECTIVE_OR_PARTIAL_PROGRESS",
+          "actual": "CORRECTIVE_OR_PARTIAL_PROGRESS",
+          "ok": true
+        },
+        {
+          "check": "center_path",
+          "expected": "CENTER_MIGRATES_UP",
+          "actual": "CENTER_MIGRATES_UP",
+          "ok": true
+        },
+        {
+          "check": "retest_judgment",
+          "expected": "RETEST_NOT_VISIBLE",
+          "actual": "RETEST_NOT_VISIBLE",
+          "ok": true
+        },
+        {
+          "check": "required_v4_fields",
+          "expected": "no_missing_fields",
+          "actual": [],
+          "ok": true
+        }
+      ],
+      "why_guarded_fr": "Empêche B9 de confondre respiration/correction avec déplacement durable de mémoire."
+    },
+    {
+      "case_id": "B9V4_GOLDEN_SOURCE_QUALITY_TIMESTAMP",
+      "moment_index": 5,
+      "time_start": "2026-05-06T00:01:00Z",
+      "time_end": "2026-05-06T00:05:00Z",
+      "label_fr": "Source limitée / retest non visible",
+      "case_state": "PASS",
+      "checks": [
+        {
+          "check": "progress_type",
+          "expected": "LOCAL_FRICTION_OR_DECISION_AREA",
+          "actual": "LOCAL_FRICTION_OR_DECISION_AREA",
+          "ok": true
+        },
+        {
+          "check": "center_path",
+          "expected": "CENTER_BLOCKED_OR_ROTATING",
+          "actual": "CENTER_BLOCKED_OR_ROTATING",
+          "ok": true
+        },
+        {
+          "check": "retest_judgment",
+          "expected": "RETEST_NOT_VISIBLE_SOURCE_LIMITED",
+          "actual": "RETEST_NOT_VISIBLE_SOURCE_LIMITED",
+          "ok": true
+        },
+        {
+          "check": "source_quality",
+          "expected": "SOURCE_LIMITED_RAW_UNAVAILABLE",
+          "actual": "SOURCE_LIMITED_RAW_UNAVAILABLE",
+          "ok": true
+        },
+        {
+          "check": "timestamp_policy",
+          "expected": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+          "actual": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+          "ok": true
+        },
+        {
+          "check": "required_v4_fields",
+          "expected": "no_missing_fields",
+          "actual": [],
+          "ok": true
+        }
+      ],
+      "why_guarded_fr": "Protège source quality, RAW_UNAVAILABLE, confidence_cap et timestamp policy shifted/replay."
+    }
+  ],
+  "failures": [],
+  "forbidden_language_hits": []
+}

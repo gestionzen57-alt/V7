@@ -1,0 +1,28 @@
+{
+  "task": "T0130_B9_CENTER_PATH_INTERNAL_FILM_V0",
+  "branch": "feat/t0130-b9-center-path-internal-film",
+  "commit_message": "feat(t0130): add B9 center path internal film",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "files": [
+    "pf_t009_center_path_internal_film.py",
+    "tools/build_t0130_b9_center_path_internal_film.py",
+    "scripts/RUN_T0130_B9_CENTER_PATH_INTERNAL_FILM_FROM_DOWNLOADS.ps1",
+    "tests/test_t0130_b9_center_path_internal_film.py",
+    "samples/b9_center_path_internal_film_v0/sample_t009_sequence_summary_center_path.json"
+  ],
+  "outputs": [
+    "B9_CENTER_PATH_INTERNAL_FILM_V0.json",
+    "B9_CENTER_PATH_INTERNAL_FILM_ENRICHED_SUMMARY_V0.json",
+    "B9_CENTER_PATH_INTERNAL_FILM_MANIFEST.json",
+    "B9_CENTER_PATH_INTERNAL_FILM_ROWS_V0.csv",
+    "B9_CENTER_PATH_INTERNAL_FILM_FIELD_COVERAGE_V0.csv",
+    "B9_CENTER_PATH_INTERNAL_FILM_PRESERVATION_DIFF_V0.csv",
+    "B9_CENTER_PATH_INTERNAL_FILM_V0.md",
+    "B9_CENTER_PATH_INTERNAL_FILM_V0.zip"
+  ]
+}

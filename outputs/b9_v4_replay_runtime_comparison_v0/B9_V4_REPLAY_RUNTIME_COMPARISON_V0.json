@@ -1,0 +1,399 @@
+{
+  "version": "T0123_B9_V4_REPLAY_RUNTIME_COMPARISON_V0",
+  "generated_at": "2026-05-18T09:07:01+00:00",
+  "runtime_comparison_state": "PASS",
+  "before_moment_count": 8,
+  "after_moment_count": 8,
+  "total_missing_required_fields": 0,
+  "forbidden_language_hits": [],
+  "changed_preserved_field_cells": 0,
+  "shifted_like_moments": 8,
+  "original_like_moments": 8,
+  "field_coverage_rows": [
+    {
+      "field": "what_happens_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "why_it_matters_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "how_it_happened_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "mechanism_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "proof_summary_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "previous_context_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "cause_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "reaction_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "consequence_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "memory_shift_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "retest_role_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "scene_id",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "scene_role",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "parent_scene",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "child_moments",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "session_chapter",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "fractal_reading_fr",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "b9_center_path_state",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "b9_effort_result_progress_state",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "b9_progress_type",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "b9_native_retest_judgment",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "b9_source_quality_native_state",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    },
+    {
+      "field": "b9_v4_timestamp_policy",
+      "present_count": 8,
+      "missing_count": 0,
+      "coverage_ratio": 1.0
+    }
+  ],
+  "moment_preservation_rows": [
+    {
+      "moment_index": 0,
+      "label_fr": "PRESERVED",
+      "reading_fr": "PRESERVED",
+      "source_mode": "PRESERVED",
+      "data_visibility": "PRESERVED",
+      "confidence_cap": "PRESERVED",
+      "proxy_vs_raw_verdict": "PRESERVED",
+      "raw_texture_role": "PRESERVED",
+      "technical_limits": "PRESERVED",
+      "b9_retest_source_limits": "PRESERVED",
+      "b9_natural_flow_limits": "PRESERVED"
+    },
+    {
+      "moment_index": 1,
+      "label_fr": "PRESERVED",
+      "reading_fr": "PRESERVED",
+      "source_mode": "PRESERVED",
+      "data_visibility": "PRESERVED",
+      "confidence_cap": "PRESERVED",
+      "proxy_vs_raw_verdict": "PRESERVED",
+      "raw_texture_role": "PRESERVED",
+      "technical_limits": "PRESERVED",
+      "b9_retest_source_limits": "PRESERVED",
+      "b9_natural_flow_limits": "PRESERVED"
+    },
+    {
+      "moment_index": 2,
+      "label_fr": "PRESERVED",
+      "reading_fr": "PRESERVED",
+      "source_mode": "PRESERVED",
+      "data_visibility": "PRESERVED",
+      "confidence_cap": "PRESERVED",
+      "proxy_vs_raw_verdict": "PRESERVED",
+      "raw_texture_role": "PRESERVED",
+      "technical_limits": "PRESERVED",
+      "b9_retest_source_limits": "PRESERVED",
+      "b9_natural_flow_limits": "PRESERVED"
+    },
+    {
+      "moment_index": 3,
+      "label_fr": "PRESERVED",
+      "reading_fr": "PRESERVED",
+      "source_mode": "PRESERVED",
+      "data_visibility": "PRESERVED",
+      "confidence_cap": "PRESERVED",
+      "proxy_vs_raw_verdict": "PRESERVED",
+      "raw_texture_role": "PRESERVED",
+      "technical_limits": "PRESERVED",
+      "b9_retest_source_limits": "PRESERVED",
+      "b9_natural_flow_limits": "PRESERVED"
+    },
+    {
+      "moment_index": 4,
+      "label_fr": "PRESERVED",
+      "reading_fr": "PRESERVED",
+      "source_mode": "PRESERVED",
+      "data_visibility": "PRESERVED",
+      "confidence_cap": "PRESERVED",
+      "proxy_vs_raw_verdict": "PRESERVED",
+      "raw_texture_role": "PRESERVED",
+      "technical_limits": "PRESERVED",
+      "b9_retest_source_limits": "PRESERVED",
+      "b9_natural_flow_limits": "PRESERVED"
+    },
+    {
+      "moment_index": 5,
+      "label_fr": "PRESERVED",
+      "reading_fr": "PRESERVED",
+      "source_mode": "PRESERVED",
+      "data_visibility": "PRESERVED",
+      "confidence_cap": "PRESERVED",
+      "proxy_vs_raw_verdict": "PRESERVED",
+      "raw_texture_role": "PRESERVED",
+      "technical_limits": "PRESERVED",
+      "b9_retest_source_limits": "PRESERVED",
+      "b9_natural_flow_limits": "PRESERVED"
+    },
+    {
+      "moment_index": 6,
+      "label_fr": "PRESERVED",
+      "reading_fr": "PRESERVED",
+      "source_mode": "PRESERVED",
+      "data_visibility": "PRESERVED",
+      "confidence_cap": "PRESERVED",
+      "proxy_vs_raw_verdict": "PRESERVED",
+      "raw_texture_role": "PRESERVED",
+      "technical_limits": "PRESERVED",
+      "b9_retest_source_limits": "PRESERVED",
+      "b9_natural_flow_limits": "PRESERVED"
+    },
+    {
+      "moment_index": 7,
+      "label_fr": "PRESERVED",
+      "reading_fr": "PRESERVED",
+      "source_mode": "PRESERVED",
+      "data_visibility": "PRESERVED",
+      "confidence_cap": "PRESERVED",
+      "proxy_vs_raw_verdict": "PRESERVED",
+      "raw_texture_role": "PRESERVED",
+      "technical_limits": "PRESERVED",
+      "b9_retest_source_limits": "PRESERVED",
+      "b9_natural_flow_limits": "PRESERVED"
+    }
+  ],
+  "field_diff_rows": [
+    {
+      "moment_index": 0,
+      "before_key_count": 15,
+      "after_key_count": 38,
+      "added_key_count": 23,
+      "removed_key_count": 0,
+      "v4_added_fields": "b9_center_path_state;b9_effort_result_progress_state;b9_native_retest_judgment;b9_progress_type;b9_source_quality_native_state;b9_v4_timestamp_policy;cause_fr;child_moments;consequence_fr;fractal_reading_fr;how_it_happened_fr;mechanism_fr;memory_shift_fr;parent_scene;previous_context_fr;proof_summary_fr;reaction_fr;retest_role_fr;scene_id;scene_role;session_chapter;what_happens_fr;why_it_matters_fr",
+      "removed_keys": ""
+    },
+    {
+      "moment_index": 1,
+      "before_key_count": 15,
+      "after_key_count": 38,
+      "added_key_count": 23,
+      "removed_key_count": 0,
+      "v4_added_fields": "b9_center_path_state;b9_effort_result_progress_state;b9_native_retest_judgment;b9_progress_type;b9_source_quality_native_state;b9_v4_timestamp_policy;cause_fr;child_moments;consequence_fr;fractal_reading_fr;how_it_happened_fr;mechanism_fr;memory_shift_fr;parent_scene;previous_context_fr;proof_summary_fr;reaction_fr;retest_role_fr;scene_id;scene_role;session_chapter;what_happens_fr;why_it_matters_fr",
+      "removed_keys": ""
+    },
+    {
+      "moment_index": 2,
+      "before_key_count": 15,
+      "after_key_count": 38,
+      "added_key_count": 23,
+      "removed_key_count": 0,
+      "v4_added_fields": "b9_center_path_state;b9_effort_result_progress_state;b9_native_retest_judgment;b9_progress_type;b9_source_quality_native_state;b9_v4_timestamp_policy;cause_fr;child_moments;consequence_fr;fractal_reading_fr;how_it_happened_fr;mechanism_fr;memory_shift_fr;parent_scene;previous_context_fr;proof_summary_fr;reaction_fr;retest_role_fr;scene_id;scene_role;session_chapter;what_happens_fr;why_it_matters_fr",
+      "removed_keys": ""
+    },
+    {
+      "moment_index": 3,
+      "before_key_count": 15,
+      "after_key_count": 38,
+      "added_key_count": 23,
+      "removed_key_count": 0,
+      "v4_added_fields": "b9_center_path_state;b9_effort_result_progress_state;b9_native_retest_judgment;b9_progress_type;b9_source_quality_native_state;b9_v4_timestamp_policy;cause_fr;child_moments;consequence_fr;fractal_reading_fr;how_it_happened_fr;mechanism_fr;memory_shift_fr;parent_scene;previous_context_fr;proof_summary_fr;reaction_fr;retest_role_fr;scene_id;scene_role;session_chapter;what_happens_fr;why_it_matters_fr",
+      "removed_keys": ""
+    },
+    {
+      "moment_index": 4,
+      "before_key_count": 15,
+      "after_key_count": 38,
+      "added_key_count": 23,
+      "removed_key_count": 0,
+      "v4_added_fields": "b9_center_path_state;b9_effort_result_progress_state;b9_native_retest_judgment;b9_progress_type;b9_source_quality_native_state;b9_v4_timestamp_policy;cause_fr;child_moments;consequence_fr;fractal_reading_fr;how_it_happened_fr;mechanism_fr;memory_shift_fr;parent_scene;previous_context_fr;proof_summary_fr;reaction_fr;retest_role_fr;scene_id;scene_role;session_chapter;what_happens_fr;why_it_matters_fr",
+      "removed_keys": ""
+    },
+    {
+      "moment_index": 5,
+      "before_key_count": 15,
+      "after_key_count": 38,
+      "added_key_count": 23,
+      "removed_key_count": 0,
+      "v4_added_fields": "b9_center_path_state;b9_effort_result_progress_state;b9_native_retest_judgment;b9_progress_type;b9_source_quality_native_state;b9_v4_timestamp_policy;cause_fr;child_moments;consequence_fr;fractal_reading_fr;how_it_happened_fr;mechanism_fr;memory_shift_fr;parent_scene;previous_context_fr;proof_summary_fr;reaction_fr;retest_role_fr;scene_id;scene_role;session_chapter;what_happens_fr;why_it_matters_fr",
+      "removed_keys": ""
+    },
+    {
+      "moment_index": 6,
+      "before_key_count": 15,
+      "after_key_count": 38,
+      "added_key_count": 23,
+      "removed_key_count": 0,
+      "v4_added_fields": "b9_center_path_state;b9_effort_result_progress_state;b9_native_retest_judgment;b9_progress_type;b9_source_quality_native_state;b9_v4_timestamp_policy;cause_fr;child_moments;consequence_fr;fractal_reading_fr;how_it_happened_fr;mechanism_fr;memory_shift_fr;parent_scene;previous_context_fr;proof_summary_fr;reaction_fr;retest_role_fr;scene_id;scene_role;session_chapter;what_happens_fr;why_it_matters_fr",
+      "removed_keys": ""
+    },
+    {
+      "moment_index": 7,
+      "before_key_count": 15,
+      "after_key_count": 38,
+      "added_key_count": 23,
+      "removed_key_count": 0,
+      "v4_added_fields": "b9_center_path_state;b9_effort_result_progress_state;b9_native_retest_judgment;b9_progress_type;b9_source_quality_native_state;b9_v4_timestamp_policy;cause_fr;child_moments;consequence_fr;fractal_reading_fr;how_it_happened_fr;mechanism_fr;memory_shift_fr;parent_scene;previous_context_fr;proof_summary_fr;reaction_fr;retest_role_fr;scene_id;scene_role;session_chapter;what_happens_fr;why_it_matters_fr",
+      "removed_keys": ""
+    }
+  ],
+  "timestamp_policy_rows": [
+    {
+      "moment_index": 0,
+      "has_shift_marker": true,
+      "has_original_or_display_time": true,
+      "b9_v4_timestamp_policy": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+      "timestamp_state": "OK"
+    },
+    {
+      "moment_index": 1,
+      "has_shift_marker": true,
+      "has_original_or_display_time": true,
+      "b9_v4_timestamp_policy": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+      "timestamp_state": "OK"
+    },
+    {
+      "moment_index": 2,
+      "has_shift_marker": true,
+      "has_original_or_display_time": true,
+      "b9_v4_timestamp_policy": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+      "timestamp_state": "OK"
+    },
+    {
+      "moment_index": 3,
+      "has_shift_marker": true,
+      "has_original_or_display_time": true,
+      "b9_v4_timestamp_policy": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+      "timestamp_state": "OK"
+    },
+    {
+      "moment_index": 4,
+      "has_shift_marker": true,
+      "has_original_or_display_time": true,
+      "b9_v4_timestamp_policy": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+      "timestamp_state": "OK"
+    },
+    {
+      "moment_index": 5,
+      "has_shift_marker": true,
+      "has_original_or_display_time": true,
+      "b9_v4_timestamp_policy": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+      "timestamp_state": "OK"
+    },
+    {
+      "moment_index": 6,
+      "has_shift_marker": true,
+      "has_original_or_display_time": true,
+      "b9_v4_timestamp_policy": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+      "timestamp_state": "OK"
+    },
+    {
+      "moment_index": 7,
+      "has_shift_marker": true,
+      "has_original_or_display_time": true,
+      "b9_v4_timestamp_policy": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+      "timestamp_state": "OK"
+    }
+  ],
+  "input_before_summary_json": "/mnt/data/t0123_build/samples/b9_v4_replay_runtime_comparison_v0/sample_t009_sequence_summary_before_v4.json",
+  "input_after_summary_json": "",
+  "after_mode": "generated_by_installed_contract_or_fallback",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

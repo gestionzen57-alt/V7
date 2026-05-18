@@ -1,0 +1,11 @@
+diff --git a/pf_t009_sequence_summarizer.py b/pf_t009_sequence_summarizer.py
+--- a/pf_t009_sequence_summarizer.py
++++ b/pf_t009_sequence_summarizer.py
+@@
++# T0120 integration sketch only.
++# Add near imports after architecture review:
++# from pf_t009_sequence_summarizer_v4_contract import enrich_sequence_summary_v4
+@@
+-# write_summary(summary)
++# summary = enrich_sequence_summary_v4(summary)
++# write_summary(summary)

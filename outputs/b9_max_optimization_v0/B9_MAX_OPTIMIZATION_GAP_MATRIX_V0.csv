@@ -1,0 +1,10 @@
+group_id,priority,required_fields,present_all_rows,present_any_rows,missing_all_fields,partial_fields,coverage_score,implementation_state,technical_risk
+V1_WHY_HOW_NATIVE,P0,5,0,0,what_happens_fr;why_it_matters_fr;how_it_happened_fr;mechanism_fr;proof_summary_fr,,0.0,B9_MISSING_NATIVE_CONTRACT,film lisible mais explication native absente
+V2_SCENE_CAUSALITY_NATIVE,P0,6,0,0,previous_context_fr;cause_fr;reaction_fr;consequence_fr;memory_shift_fr;retest_role_fr,,0.0,B9_MISSING_NATIVE_CONTRACT,moments deconnectes; cause/reaction/consequence non tracables
+V3_FRACTAL_SCENE_NATIVE,P0,6,0,0,scene_id;scene_role;parent_scene;child_moments;session_chapter;fractal_reading_fr,,0.0,B9_MISSING_NATIVE_CONTRACT,microfilm non relie au chapitre de session
+CENTER_PATH_INTERNAL_FILM,P0,7,0,0,center_min;center_max;center_range_pips;max_favorable_excursion_pips;max_adverse_excursion_pips;center_path;inflexion_points,,0.0,B9_MISSING_NATIVE_CONTRACT,risque start/end: chemin interne invisible
+EFFORT_RESULT_PROGRESS_NATIVE,P0,7,5,5,b9_progress_state;b9_effort_result_progress_reading_fr,,0.7143,B9_PARTIAL_NATIVE_NEEDS_HARDENING,risque absorption lue comme direction si progress_state absent
+NATIVE_RETEST_JUDGE,P0,8,6,6,retest_first_touch_time;retest_last_touch_time,,0.75,B9_PARTIAL_NATIVE_NEEDS_HARDENING,risque retest reconstruit ou verdict de zone trop faible
+SOURCE_QUALITY_NATIVE,P1,8,5,5,confidence_cap;source_quality_score;source_quality_state,,0.625,B9_PARTIAL_NATIVE_NEEDS_HARDENING,risque de durcir une lecture proxy en raw
+SESSION_CONTEXT_NATIVE,P1,4,0,0,session;session_phase;session_bias;minutes_since_open,,0.0,B9_MISSING_NATIVE_CONTRACT,risque de comparer Asian/London/NY comme scenes equivalentes
+B6_MEMORY_HANDOFF_NATIVE,P1,8,0,0,film_id;memory_family;base;reaction;projection;judgment;memory_candidate_reason;technical_limits,,0.0,B9_MISSING_NATIVE_CONTRACT,risque de B6 handoff incomplet pour query future

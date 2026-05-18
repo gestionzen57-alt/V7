@@ -1,0 +1,418 @@
+{
+  "version": "T0115_B6_SIMILARITY_QUERY_CLI_API_V0",
+  "generated_at_utc": "2026-05-18T06:48:34Z",
+  "query_id": "B6Q_PRECOMPUTED_B6FC_20260505_1413_BDE6E508",
+  "policy": "QUERY_INDEX_ONLY_INTRA_MEMORY_FAMILY_V0",
+  "doctrine": [
+    "B6 ne prédit pas.",
+    "B6 compare des films.",
+    "Une similarité est un contexte de reconnaissance, jamais une probabilité de succès.",
+    "Aucun BUY/SELL, aucun conseil d'exécution, aucune écriture DB."
+  ],
+  "query_scene": {
+    "film_id": "B6FC_20260505_1413_BDE6E508",
+    "date": "2026-05-05",
+    "time_start": "2026-05-05T14:13:00+00:00",
+    "time_end": "2026-05-05T14:14:00+00:00",
+    "session": "LONDON_NY_OVERLAP",
+    "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+    "source_family": "FORCE_SNAPSHOT_DERIVED",
+    "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+    "source_mode": "M1_BAR_PROXY",
+    "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+    "confidence_cap": "0.35",
+    "moment_type": "FLOW_BALANCED_AUCTION",
+    "label_fr": "Auction équilibrée proxy",
+    "raw_agreement": "CONFIRMED_BY_RAW",
+    "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+    "source_quality_state": "SOURCE_QUALITY_USABLE",
+    "b6_memory_candidate_state": "B6_KEEP_CANDIDATE",
+    "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+    "raw_delta_pips": "-3.3",
+    "raw_range_pips": "5.5",
+    "raw_tick_count": "165",
+    "base": "Base scene: Auction équilibrée proxy (FLOW_BALANCED_AUCTION).",
+    "reaction": "Reaction raw progressive: delta -3.3 pips, range 5.5 pips, 165 ticks.",
+    "projection": "Projection partielle: mouvement utile mais encore nuance par la texture, delta/range=0.60.",
+    "judgment": "Judgment technique: B6_KEEP_CANDIDATE, CONFIRMED_BY_RAW, SOURCE_QUALITY_USABLE.",
+    "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=PARTIAL_PROXY_COVERAGE; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+  },
+  "similarity_dimensions": [
+    {
+      "name": "base_motion",
+      "weight": 0.25
+    },
+    {
+      "name": "reaction_profile",
+      "weight": 0.25
+    },
+    {
+      "name": "projection_shape",
+      "weight": 0.25
+    },
+    {
+      "name": "judgment_clarity",
+      "weight": 0.25
+    }
+  ],
+  "index_stats": {
+    "active_indexed_cards": 151,
+    "query_family_candidate_count": null,
+    "cross_family_policy": "excluded from results",
+    "low_trust_policy": "excluded from active query results",
+    "raw_unavailable_policy": "excluded from active query results",
+    "precomputed_from_t0114": true
+  },
+  "similar_films": [
+    {
+      "film_id": "B6FC_20260514_1903_E8F0918A",
+      "film_date": "2026-05-14",
+      "time_start": "2026-05-14T19:03:00+00:00",
+      "time_end": "2026-05-14T20:03:00+00:00",
+      "session": "NY_AFTERNOON",
+      "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "similarity_score": 0.778821,
+      "dimension_scores": {
+        "base_motion": 0.459459,
+        "reaction_profile": 0.728237,
+        "projection_shape": 0.927587,
+        "judgment_clarity": 1.0
+      },
+      "differences": {
+        "base_delta": "distant (base_motion similarity 0.46)",
+        "reaction_delta": "partial (reaction_profile similarity 0.73)",
+        "projection_delta": "close (projection_shape similarity 0.93)",
+        "judgment_delta": "close (judgment_clarity similarity 1.00)",
+        "raw_delta_pips_delta": "-0.400 pips",
+        "raw_range_pips_delta": "+6.600 pips",
+        "raw_tick_count_delta": "+2672.000 ticks",
+        "source_quality_score_delta": "+0.000"
+      },
+      "ranking_reason_fr": "Film proche par comparaison 4D intra-famille: force principale=judgment_clarity 1.00; écart principal=base_motion 0.46. Lecture de similarité uniquement, sans prédiction.",
+      "retest_visibility": "RETEST_NOT_EXPLICIT_IN_FILM_CARD",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "raw_agreement": "CONFIRMED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_USABLE",
+      "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+      "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=PARTIAL_PROXY_COVERAGE; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success",
+      "audit": {
+        "base_motion": {
+          "text_similarity": 0.459459,
+          "numeric_similarity": null,
+          "numeric_parts": {}
+        },
+        "reaction_profile": {
+          "text_similarity": 0.692308,
+          "numeric_similarity": 0.794963,
+          "numeric_parts": {
+            "raw_delta_pips": 0.994631,
+            "raw_range_pips": 0.84897,
+            "raw_tick_count": 0.541288
+          }
+        },
+        "projection_shape": {
+          "text_similarity": 0.916667,
+          "numeric_similarity": 0.947867,
+          "numeric_parts": {
+            "raw_delta_pips": 0.994631,
+            "raw_range_pips": 0.84897,
+            "b6_memory_candidate_score": 1.0
+          }
+        },
+        "judgment_clarity": {
+          "text_similarity": 1.0,
+          "numeric_similarity": 1.0,
+          "numeric_parts": {
+            "source_quality_score": 1.0,
+            "confidence_cap": 1.0,
+            "b6_memory_candidate_score": 1.0
+          }
+        }
+      },
+      "rank": 1
+    },
+    {
+      "film_id": "B6FC_20260513_0200_5821F72C",
+      "film_date": "2026-05-13",
+      "time_start": "2026-05-13T02:00:00+00:00",
+      "time_end": "2026-05-13T03:00:00+00:00",
+      "session": "ASIAN_SESSION",
+      "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "similarity_score": 0.764655,
+      "dimension_scores": {
+        "base_motion": 0.459459,
+        "reaction_profile": 0.751645,
+        "projection_shape": 0.88135,
+        "judgment_clarity": 0.966167
+      },
+      "differences": {
+        "base_delta": "distant (base_motion similarity 0.46)",
+        "reaction_delta": "partial (reaction_profile similarity 0.75)",
+        "projection_delta": "close (projection_shape similarity 0.88)",
+        "judgment_delta": "close (judgment_clarity similarity 0.97)",
+        "raw_delta_pips_delta": "+0.500 pips",
+        "raw_range_pips_delta": "+4.000 pips",
+        "raw_tick_count_delta": "+1842.000 ticks",
+        "source_quality_score_delta": "-0.080"
+      },
+      "ranking_reason_fr": "Film proche par comparaison 4D intra-famille: force principale=judgment_clarity 0.97; écart principal=base_motion 0.46. Lecture de similarité uniquement, sans prédiction.",
+      "retest_visibility": "RETEST_NOT_EXPLICIT_IN_FILM_CARD",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "raw_agreement": "CONFIRMED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_USABLE",
+      "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+      "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_TF5_PROXY; confidence_cap=0.25; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success",
+      "audit": {
+        "base_motion": {
+          "text_similarity": 0.459459,
+          "numeric_similarity": null,
+          "numeric_parts": {}
+        },
+        "reaction_profile": {
+          "text_similarity": 0.692308,
+          "numeric_similarity": 0.861844,
+          "numeric_parts": {
+            "raw_delta_pips": 0.993289,
+            "raw_range_pips": 0.908467,
+            "raw_tick_count": 0.683777
+          }
+        },
+        "projection_shape": {
+          "text_similarity": 0.854839,
+          "numeric_similarity": 0.930585,
+          "numeric_parts": {
+            "raw_delta_pips": 0.993289,
+            "raw_range_pips": 0.908467,
+            "b6_memory_candidate_score": 0.89
+          }
+        },
+        "judgment_clarity": {
+          "text_similarity": 1.0,
+          "numeric_similarity": 0.903333,
+          "numeric_parts": {
+            "source_quality_score": 0.92,
+            "confidence_cap": 0.9,
+            "b6_memory_candidate_score": 0.89
+          }
+        }
+      },
+      "rank": 2
+    },
+    {
+      "film_id": "B6FC_20260513_0700_C66F0CA0",
+      "film_date": "2026-05-13",
+      "time_start": "2026-05-13T07:00:00+00:00",
+      "time_end": "2026-05-13T08:00:00+00:00",
+      "session": "ASIA_LONDON_HANDOVER",
+      "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "similarity_score": 0.755217,
+      "dimension_scores": {
+        "base_motion": 0.459459,
+        "reaction_profile": 0.731131,
+        "projection_shape": 0.864112,
+        "judgment_clarity": 0.966167
+      },
+      "differences": {
+        "base_delta": "distant (base_motion similarity 0.46)",
+        "reaction_delta": "partial (reaction_profile similarity 0.73)",
+        "projection_delta": "close (projection_shape similarity 0.86)",
+        "judgment_delta": "close (judgment_clarity similarity 0.97)",
+        "raw_delta_pips_delta": "-3.200 pips",
+        "raw_range_pips_delta": "+12.800 pips",
+        "raw_tick_count_delta": "+3679.000 ticks",
+        "source_quality_score_delta": "-0.080"
+      },
+      "ranking_reason_fr": "Film proche par comparaison 4D intra-famille: force principale=judgment_clarity 0.97; écart principal=base_motion 0.46. Lecture de similarité uniquement, sans prédiction.",
+      "retest_visibility": "RETEST_NOT_EXPLICIT_IN_FILM_CARD",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "raw_agreement": "CONFIRMED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_USABLE",
+      "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+      "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_TF5_PROXY; confidence_cap=0.25; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success",
+      "audit": {
+        "base_motion": {
+          "text_similarity": 0.459459,
+          "numeric_similarity": null,
+          "numeric_parts": {}
+        },
+        "reaction_profile": {
+          "text_similarity": 0.76,
+          "numeric_similarity": 0.677518,
+          "numeric_parts": {
+            "raw_delta_pips": 0.957047,
+            "raw_range_pips": 0.707094,
+            "raw_tick_count": 0.368412
+          }
+        },
+        "projection_shape": {
+          "text_similarity": 0.870968,
+          "numeric_similarity": 0.85138,
+          "numeric_parts": {
+            "raw_delta_pips": 0.957047,
+            "raw_range_pips": 0.707094,
+            "b6_memory_candidate_score": 0.89
+          }
+        },
+        "judgment_clarity": {
+          "text_similarity": 1.0,
+          "numeric_similarity": 0.903333,
+          "numeric_parts": {
+            "source_quality_score": 0.92,
+            "confidence_cap": 0.9,
+            "b6_memory_candidate_score": 0.89
+          }
+        }
+      },
+      "rank": 3
+    },
+    {
+      "film_id": "B6FC_20260513_1700_10F2213C",
+      "film_date": "2026-05-13",
+      "time_start": "2026-05-13T17:00:00+00:00",
+      "time_end": "2026-05-13T18:00:00+00:00",
+      "session": "NY_AFTERNOON",
+      "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "similarity_score": 0.741605,
+      "dimension_scores": {
+        "base_motion": 0.405405,
+        "reaction_profile": 0.690952,
+        "projection_shape": 0.903895,
+        "judgment_clarity": 0.966167
+      },
+      "differences": {
+        "base_delta": "distant (base_motion similarity 0.41)",
+        "reaction_delta": "partial (reaction_profile similarity 0.69)",
+        "projection_delta": "close (projection_shape similarity 0.90)",
+        "judgment_delta": "close (judgment_clarity similarity 0.97)",
+        "raw_delta_pips_delta": "+0.600 pips",
+        "raw_range_pips_delta": "+2.900 pips",
+        "raw_tick_count_delta": "+2977.000 ticks",
+        "source_quality_score_delta": "-0.080"
+      },
+      "ranking_reason_fr": "Film proche par comparaison 4D intra-famille: force principale=judgment_clarity 0.97; écart principal=base_motion 0.41. Lecture de similarité uniquement, sans prédiction.",
+      "retest_visibility": "RETEST_NOT_EXPLICIT_IN_FILM_CARD",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "raw_agreement": "CONFIRMED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_USABLE",
+      "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+      "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_TF5_PROXY; confidence_cap=0.25; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success",
+      "audit": {
+        "base_motion": {
+          "text_similarity": 0.405405,
+          "numeric_similarity": null,
+          "numeric_parts": {}
+        },
+        "reaction_profile": {
+          "text_similarity": 0.62963,
+          "numeric_similarity": 0.804837,
+          "numeric_parts": {
+            "raw_delta_pips": 0.991946,
+            "raw_range_pips": 0.933638,
+            "raw_tick_count": 0.488927
+          }
+        },
+        "projection_shape": {
+          "text_similarity": 0.885246,
+          "numeric_similarity": 0.938528,
+          "numeric_parts": {
+            "raw_delta_pips": 0.991946,
+            "raw_range_pips": 0.933638,
+            "b6_memory_candidate_score": 0.89
+          }
+        },
+        "judgment_clarity": {
+          "text_similarity": 1.0,
+          "numeric_similarity": 0.903333,
+          "numeric_parts": {
+            "source_quality_score": 0.92,
+            "confidence_cap": 0.9,
+            "b6_memory_candidate_score": 0.89
+          }
+        }
+      },
+      "rank": 4
+    },
+    {
+      "film_id": "B6FC_20260512_1037_3A1AF089",
+      "film_date": "2026-05-12",
+      "time_start": "2026-05-12T10:37:00+00:00",
+      "time_end": "2026-05-12T11:37:00+00:00",
+      "session": "LONDON_IGNITION",
+      "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "similarity_score": 0.740596,
+      "dimension_scores": {
+        "base_motion": 0.459459,
+        "reaction_profile": 0.618069,
+        "projection_shape": 0.884858,
+        "judgment_clarity": 1.0
+      },
+      "differences": {
+        "base_delta": "distant (base_motion similarity 0.46)",
+        "reaction_delta": "distant (reaction_profile similarity 0.62)",
+        "projection_delta": "close (projection_shape similarity 0.88)",
+        "judgment_delta": "close (judgment_clarity similarity 1.00)",
+        "raw_delta_pips_delta": "-4.500 pips",
+        "raw_range_pips_delta": "+20.200 pips",
+        "raw_tick_count_delta": "+4005.000 ticks",
+        "source_quality_score_delta": "+0.000"
+      },
+      "ranking_reason_fr": "Film proche par comparaison 4D intra-famille: force principale=judgment_clarity 1.00; écart principal=base_motion 0.46. Lecture de similarité uniquement, sans prédiction.",
+      "retest_visibility": "RETEST_NOT_EXPLICIT_IN_FILM_CARD",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "raw_agreement": "CONFIRMED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_USABLE",
+      "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+      "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=PARTIAL_PROXY_COVERAGE; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success",
+      "audit": {
+        "base_motion": {
+          "text_similarity": 0.459459,
+          "numeric_similarity": null,
+          "numeric_parts": {}
+        },
+        "reaction_profile": {
+          "text_similarity": 0.62963,
+          "numeric_similarity": 0.5966,
+          "numeric_parts": {
+            "raw_delta_pips": 0.939597,
+            "raw_range_pips": 0.537757,
+            "raw_tick_count": 0.312446
+          }
+        },
+        "projection_shape": {
+          "text_similarity": 0.916667,
+          "numeric_similarity": 0.825785,
+          "numeric_parts": {
+            "raw_delta_pips": 0.939597,
+            "raw_range_pips": 0.537757,
+            "b6_memory_candidate_score": 1.0
+          }
+        },
+        "judgment_clarity": {
+          "text_similarity": 1.0,
+          "numeric_similarity": 1.0,
+          "numeric_parts": {
+            "source_quality_score": 1.0,
+            "confidence_cap": 1.0,
+            "b6_memory_candidate_score": 1.0
+          }
+        }
+      },
+      "rank": 5
+    }
+  ],
+  "integrity_checks": {
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell_language": false,
+    "probability_of_success": false,
+    "low_trust_in_results": false,
+    "raw_unavailable_in_results": false,
+    "cross_family_match_count": 0
+  },
+  "technical_limits": [
+    "Result loaded from T0114 precomputed film_similarity_index.",
+    "Similarity is recognition context only, not a prediction."
+  ]
+}

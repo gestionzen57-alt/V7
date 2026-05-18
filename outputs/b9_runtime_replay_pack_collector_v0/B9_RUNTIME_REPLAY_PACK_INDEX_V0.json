@@ -1,0 +1,26 @@
+{
+  "version": "T0126_B9_RUNTIME_REPLAY_PACK_COLLECTOR_V0",
+  "generated_at": "2026-05-18T09:56:24+00:00",
+  "scan_root": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core",
+  "files": [
+    {
+      "path": "output/b9_raw_calibrated_v32_v35/0800_0900/t009_sequence_summary_raw_calibrated.json",
+      "file_name": "t009_sequence_summary_raw_calibrated.json",
+      "size_bytes": 21347,
+      "sha256_12": "EF4D36C42471",
+      "reason": "moments_detected_with_v4_and_source_quality",
+      "replay_candidate_state": "B9_REPLAY_PACK_KEEP_V4_READY",
+      "source_family_guess": "ORIGINAL_OR_RUNTIME_SUMMARY_CANDIDATE",
+      "moment_count": 3,
+      "has_moments": true,
+      "has_v4_fields": true,
+      "has_source_quality": true,
+      "has_timestamp_policy": false,
+      "has_forbidden_language": false,
+      "date_guess": "2026-05-16",
+      "session_guess": "LONDON",
+      "summary_recovery_type_guess": "ORIGINAL_OR_RUNTIME_SUMMARY_CANDIDATE",
+      "technical_limits": "TIMESTAMP_POLICY_NOT_VISIBLE"
+    }
+  ]
+}

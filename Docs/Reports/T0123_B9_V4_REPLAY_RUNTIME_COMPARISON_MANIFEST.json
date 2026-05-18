@@ -1,0 +1,12 @@
+{
+  "version": "T0123_B9_V4_REPLAY_RUNTIME_COMPARISON_V0",
+  "generated_at": "2026-05-18T09:06:56+00:00",
+  "branch": "feat/t0123-b9-v4-replay-runtime-comparison",
+  "commit_message": "feat(t0123): add B9 V4 replay runtime comparison",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

@@ -1,0 +1,28 @@
+{
+  "version": "T0117_B6_FALSE_POSITIVE_CONTEXT_V0",
+  "generated_at_utc": "2026-05-18T07:26:47Z",
+  "branch": "feat/t0117-b6-false-positive-context-v0",
+  "commit_message": "feat(t0117): add B6 false positive context v0",
+  "purpose": "Explain technical false-positive traps in T0115 B6 similarity matches.",
+  "read_only": true,
+  "no_db_write": true,
+  "no_dashboard": true,
+  "no_telegram": true,
+  "no_buy_sell": true,
+  "no_success_probability": true,
+  "files": [
+    "tools/build_t0117_b6_false_positive_context_v0.py",
+    "scripts/RUN_T0117_B6_FALSE_POSITIVE_CONTEXT_V0_FROM_DOWNLOADS.ps1",
+    "tests/test_t0117_b6_false_positive_context_v0_contract.py",
+    "samples/b6_false_positive_context_v0/sample_t0115_similarity_query_result_v0.json",
+    "docs/Reports/T0117_B6_FALSE_POSITIVE_CONTEXT_V0_REPORT.md",
+    "docs/Reports/T0117_B6_FALSE_POSITIVE_CONTEXT_V0_MANIFEST.json",
+    "docs/Reports/COMMANDES_T0117_B6_FALSE_POSITIVE_CONTEXT_V0.md",
+    "docs/Reports/MESSAGE_CLAUDE_T0117_B6_FALSE_POSITIVE_CONTEXT_V0.md",
+    "outputs/b6_false_positive_context_v0/B6_FALSE_POSITIVE_CONTEXT_V0.json",
+    "outputs/b6_false_positive_context_v0/B6_FALSE_POSITIVE_CONTEXT_V0.md",
+    "outputs/b6_false_positive_context_v0/B6_FALSE_POSITIVE_CONTEXT_V0.csv",
+    "outputs/b6_false_positive_context_v0/B6_FALSE_POSITIVE_CONTEXT_V0_MANIFEST.json",
+    "outputs/b6_false_positive_context_v0/B6_FALSE_POSITIVE_CONTEXT_V0.zip"
+  ]
+}

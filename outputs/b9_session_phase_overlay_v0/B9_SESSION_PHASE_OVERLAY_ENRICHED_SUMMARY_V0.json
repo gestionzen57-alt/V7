@@ -1,0 +1,71 @@
+{
+  "version": "SAMPLE_T0132",
+  "moments": [
+    {
+      "time_start": "2026-05-15T06:45:00Z",
+      "time_end": "2026-05-15T06:59:00Z",
+      "label_fr": "Pré-ouverture London / compression",
+      "b9_session_overlay_version": "T0132_B9_SESSION_PHASE_OVERLAY_V0",
+      "b9_session": "ASIAN",
+      "b9_session_phase": "CLOSING",
+      "b9_minutes_since_session_open": 525,
+      "b9_session_bias": "COMPRESSION_OR_RANGE_EXPECTED",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Session Asian : compression progressive, range ou préparation de terrain.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    },
+    {
+      "time_start": "2026-05-15T08:05:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat post-open",
+      "b9_session_overlay_version": "T0132_B9_SESSION_PHASE_OVERLAY_V0",
+      "b9_session": "LONDON",
+      "b9_session_phase": "MID_SESSION",
+      "b9_minutes_since_session_open": 65,
+      "b9_session_bias": "EXPANSION_EXPECTED",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Session London : phase d'ignition ou d'expansion potentielle selon le timing.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    },
+    {
+      "time_start": "2026-05-15T13:05:00Z",
+      "time_end": "2026-05-15T13:15:00Z",
+      "label_fr": "Vague progressive en overlap",
+      "b9_session_overlay_version": "T0132_B9_SESSION_PHASE_OVERLAY_V0",
+      "b9_session": "OVERLAP",
+      "b9_session_phase": "MID_SESSION",
+      "b9_minutes_since_session_open": 65,
+      "b9_session_bias": "MAX_VELOCITY_BATTLEFIELD",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Chevauchement London/NY : zone de bataille à vélocité maximale.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    },
+    {
+      "time_start": "2026-05-15T20:30:00Z",
+      "time_end": "2026-05-15T20:45:00Z",
+      "label_fr": "Shelf lent de dead zone",
+      "b9_session_overlay_version": "T0132_B9_SESSION_PHASE_OVERLAY_V0",
+      "b9_session": "DEAD_ZONE",
+      "b9_session_phase": "DEAD_ZONE",
+      "b9_minutes_since_session_open": 30,
+      "b9_session_bias": "LOW_LIQUIDITY_ROTATION",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Dead zone : lecture souvent plus lente, rotative ou fragile.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    },
+    {
+      "time_start": "2026-05-15T23:10:00Z",
+      "time_end": "2026-05-15T23:25:00Z",
+      "label_fr": "Compression Asian",
+      "b9_session_overlay_version": "T0132_B9_SESSION_PHASE_OVERLAY_V0",
+      "b9_session": "ASIAN",
+      "b9_session_phase": "MID_SESSION",
+      "b9_minutes_since_session_open": 70,
+      "b9_session_bias": "COMPRESSION_OR_RANGE_EXPECTED",
+      "b9_session_context_source": "UTC_TIMESTAMP",
+      "b9_session_reading_fr": "Session Asian : compression progressive, range ou préparation de terrain.",
+      "b9_session_limits": "SESSION_CONTEXT_ONLY_NOT_DECISION"
+    }
+  ],
+  "b9_session_overlay_version": "T0132_B9_SESSION_PHASE_OVERLAY_V0"
+}

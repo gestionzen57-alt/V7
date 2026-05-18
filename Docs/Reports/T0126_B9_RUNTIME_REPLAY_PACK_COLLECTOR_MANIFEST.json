@@ -1,0 +1,11 @@
+{
+  "version": "T0126_B9_RUNTIME_REPLAY_PACK_COLLECTOR_V0",
+  "branch": "feat/t0126-b9-runtime-replay-pack-collector",
+  "commit_message": "feat(t0126): add B9 runtime replay pack collector",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

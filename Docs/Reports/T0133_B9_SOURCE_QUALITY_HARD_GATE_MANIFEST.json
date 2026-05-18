@@ -1,0 +1,11 @@
+{
+  "version": "T0133_B9_SOURCE_QUALITY_HARD_GATE_V0",
+  "branch": "feat/t0133-b9-source-quality-hard-gate",
+  "commit_message": "feat(t0133): add B9 source quality hard gate v0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

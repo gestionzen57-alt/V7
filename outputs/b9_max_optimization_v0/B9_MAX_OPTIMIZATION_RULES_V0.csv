@@ -1,0 +1,9 @@
+rule_id,name,rule_fr,technical_risk_if_missing,priority
+B9_RULE_001,Event -> moment gate,Un event brut ne devient moment que si zone/reaction/migration/retest/source quality donnent une scene lisible.,risque de bruit M1 et empilement d'events sans role,P0
+B9_RULE_002,Effort/result/progress split,"Effort fort + resultat faible = friction/absorption probable, pas direction dure.",risque de lire l'absorption comme une direction,P0
+B9_RULE_003,Retest is judge,Une cassure reste en attente tant que le retest n'a pas juge la zone.,risque de validation prematuree d'une rupture proxy,P0
+B9_RULE_004,Internal center path,"B9 doit lire le chemin interne du centre, pas seulement center_start et center_end.",risque de fusionner une vague progressive et un retrace dans un faux doji,P0
+B9_RULE_005,Scene causality,"Chaque moment doit porter cause, reaction, consequence et memoire deplacee ou non.",risque de moments corrects mais film illisible,P0
+B9_RULE_006,Source limits visible,"M1 proxy, raw tick, source quality, raw agreement et limites restent visibles dans chaque sortie.",risque de durcir une lecture reconstruite en verite raw,P1
+B9_RULE_007,Session personality,"La meme scene est qualifiee differemment selon Asian, London, NY, overlap ou dead zone.",risque de faux positif inter-session,P1
+B9_RULE_008,B6 handoff,"B9 doit produire une scene suffisamment stable pour B6: film proche, differences, limites.",risque de memoire B6 decorative au lieu de comparative,P1

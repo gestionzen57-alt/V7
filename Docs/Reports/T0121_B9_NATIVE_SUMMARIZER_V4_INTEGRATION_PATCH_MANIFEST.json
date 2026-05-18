@@ -1,0 +1,11 @@
+{
+  "version": "T0121_B9_NATIVE_SUMMARIZER_V4_INTEGRATION_PATCH_V0",
+  "branch": "feat/t0121-b9-native-summarizer-v4-integration-patch",
+  "commit_message": "feat(t0121): integrate B9 summarizer v4 contract",
+  "read_only": true,
+  "no_db_write": true,
+  "no_dashboard": true,
+  "no_telegram": true,
+  "no_buy_sell": true,
+  "no_probability_of_success": true
+}

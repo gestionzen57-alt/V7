@@ -1,0 +1,566 @@
+{
+  "version": "T0119_B9_MAX_OPTIMIZATION_V0",
+  "generated_at_utc": "2026-05-18T07:41:12.479362+00:00",
+  "doctrine_lock": [
+    "B9 ne cherche pas le signal.",
+    "B9 cherche la trace laissee par l'effort.",
+    "Ne lis pas l'absorption comme une direction.",
+    "Lis ou elle deplace la memoire.",
+    "Aucun BUY/SELL.",
+    "Aucune probabilite de succes.",
+    "Read-only: aucune ecriture powerflow.db / tick_archive.db."
+  ],
+  "inputs": {
+    "sequence_summary_json": "/mnt/data/t009_sequence_summary_raw_calibrated.json",
+    "analysis_docs": [
+      "/mnt/data/ANALYSE_T009_B9_LONDON_GBPUSD_20260515_0800_1200.md",
+      "/mnt/data/ANALYSE_T009_B9_GBPUSD_20260515_1200_1400.md",
+      "/mnt/data/ANALYSE_T009_B9_GBPUSD_20260515_JOURNEE_COMPLETE.md",
+      "/mnt/data/DELTARIVER_TO_POWERFLOW_B9_WORKSPACE_REPORT_AUDIO.md",
+      "/mnt/data/MISSION_B9_SEQUENCE_SUMMARIZER_V0_1_V1_V2_V3.md",
+      "/mnt/data/VALIDATION_B9_SUMMARIZER_V01_V3_LONDON_0800_1400.md"
+    ]
+  },
+  "metrics": {
+    "input_moments": 52,
+    "source_mode_counts": {
+      "M1_BAR_PROXY": 52
+    },
+    "data_visibility_counts": {
+      "RECONSTRUCTED": 52
+    },
+    "proxy_vs_raw_counts": {
+      "NUANCED_BY_RAW": 52
+    },
+    "raw_texture_role_counts": {
+      "RAW_FRICTION_CONFIRMED": 52
+    },
+    "retest": {
+      "versions": {
+        "T0110_RETEST_SOURCE_FIELDS_V0": 52
+      },
+      "native_count": 0,
+      "reconstructed_or_proxy_count": 52,
+      "not_visible_count": 51,
+      "native_ratio": 0.0,
+      "retest_visibility_ratio": 0.0192
+    }
+  },
+  "field_coverage": [
+    {
+      "group_id": "V1_WHY_HOW_NATIVE",
+      "priority": "P0",
+      "required_fields": 5,
+      "present_all_rows": 0,
+      "present_any_rows": 0,
+      "missing_all_fields": "what_happens_fr;why_it_matters_fr;how_it_happened_fr;mechanism_fr;proof_summary_fr",
+      "partial_fields": "",
+      "coverage_score": 0.0,
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "technical_risk": "film lisible mais explication native absente"
+    },
+    {
+      "group_id": "V2_SCENE_CAUSALITY_NATIVE",
+      "priority": "P0",
+      "required_fields": 6,
+      "present_all_rows": 0,
+      "present_any_rows": 0,
+      "missing_all_fields": "previous_context_fr;cause_fr;reaction_fr;consequence_fr;memory_shift_fr;retest_role_fr",
+      "partial_fields": "",
+      "coverage_score": 0.0,
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "technical_risk": "moments deconnectes; cause/reaction/consequence non tracables"
+    },
+    {
+      "group_id": "V3_FRACTAL_SCENE_NATIVE",
+      "priority": "P0",
+      "required_fields": 6,
+      "present_all_rows": 0,
+      "present_any_rows": 0,
+      "missing_all_fields": "scene_id;scene_role;parent_scene;child_moments;session_chapter;fractal_reading_fr",
+      "partial_fields": "",
+      "coverage_score": 0.0,
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "technical_risk": "microfilm non relie au chapitre de session"
+    },
+    {
+      "group_id": "CENTER_PATH_INTERNAL_FILM",
+      "priority": "P0",
+      "required_fields": 7,
+      "present_all_rows": 0,
+      "present_any_rows": 0,
+      "missing_all_fields": "center_min;center_max;center_range_pips;max_favorable_excursion_pips;max_adverse_excursion_pips;center_path;inflexion_points",
+      "partial_fields": "",
+      "coverage_score": 0.0,
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "technical_risk": "risque start/end: chemin interne invisible"
+    },
+    {
+      "group_id": "EFFORT_RESULT_PROGRESS_NATIVE",
+      "priority": "P0",
+      "required_fields": 7,
+      "present_all_rows": 5,
+      "present_any_rows": 5,
+      "missing_all_fields": "b9_progress_state;b9_effort_result_progress_reading_fr",
+      "partial_fields": "",
+      "coverage_score": 0.7143,
+      "implementation_state": "B9_PARTIAL_NATIVE_NEEDS_HARDENING",
+      "technical_risk": "risque absorption lue comme direction si progress_state absent"
+    },
+    {
+      "group_id": "NATIVE_RETEST_JUDGE",
+      "priority": "P0",
+      "required_fields": 8,
+      "present_all_rows": 6,
+      "present_any_rows": 6,
+      "missing_all_fields": "retest_first_touch_time;retest_last_touch_time",
+      "partial_fields": "",
+      "coverage_score": 0.75,
+      "implementation_state": "B9_PARTIAL_NATIVE_NEEDS_HARDENING",
+      "technical_risk": "risque retest reconstruit ou verdict de zone trop faible"
+    },
+    {
+      "group_id": "SOURCE_QUALITY_NATIVE",
+      "priority": "P1",
+      "required_fields": 8,
+      "present_all_rows": 5,
+      "present_any_rows": 5,
+      "missing_all_fields": "confidence_cap;source_quality_score;source_quality_state",
+      "partial_fields": "",
+      "coverage_score": 0.625,
+      "implementation_state": "B9_PARTIAL_NATIVE_NEEDS_HARDENING",
+      "technical_risk": "risque de durcir une lecture proxy en raw"
+    },
+    {
+      "group_id": "SESSION_CONTEXT_NATIVE",
+      "priority": "P1",
+      "required_fields": 4,
+      "present_all_rows": 0,
+      "present_any_rows": 0,
+      "missing_all_fields": "session;session_phase;session_bias;minutes_since_open",
+      "partial_fields": "",
+      "coverage_score": 0.0,
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "technical_risk": "risque de comparer Asian/London/NY comme scenes equivalentes"
+    },
+    {
+      "group_id": "B6_MEMORY_HANDOFF_NATIVE",
+      "priority": "P1",
+      "required_fields": 8,
+      "present_all_rows": 0,
+      "present_any_rows": 0,
+      "missing_all_fields": "film_id;memory_family;base;reaction;projection;judgment;memory_candidate_reason;technical_limits",
+      "partial_fields": "",
+      "coverage_score": 0.0,
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "technical_risk": "risque de B6 handoff incomplet pour query future"
+    }
+  ],
+  "optimization_rules": [
+    {
+      "rule_id": "B9_RULE_001",
+      "name": "Event -> moment gate",
+      "rule_fr": "Un event brut ne devient moment que si zone/reaction/migration/retest/source quality donnent une scene lisible.",
+      "technical_risk_if_missing": "risque de bruit M1 et empilement d'events sans role",
+      "priority": "P0"
+    },
+    {
+      "rule_id": "B9_RULE_002",
+      "name": "Effort/result/progress split",
+      "rule_fr": "Effort fort + resultat faible = friction/absorption probable, pas direction dure.",
+      "technical_risk_if_missing": "risque de lire l'absorption comme une direction",
+      "priority": "P0"
+    },
+    {
+      "rule_id": "B9_RULE_003",
+      "name": "Retest is judge",
+      "rule_fr": "Une cassure reste en attente tant que le retest n'a pas juge la zone.",
+      "technical_risk_if_missing": "risque de validation prematuree d'une rupture proxy",
+      "priority": "P0"
+    },
+    {
+      "rule_id": "B9_RULE_004",
+      "name": "Internal center path",
+      "rule_fr": "B9 doit lire le chemin interne du centre, pas seulement center_start et center_end.",
+      "technical_risk_if_missing": "risque de fusionner une vague progressive et un retrace dans un faux doji",
+      "priority": "P0"
+    },
+    {
+      "rule_id": "B9_RULE_005",
+      "name": "Scene causality",
+      "rule_fr": "Chaque moment doit porter cause, reaction, consequence et memoire deplacee ou non.",
+      "technical_risk_if_missing": "risque de moments corrects mais film illisible",
+      "priority": "P0"
+    },
+    {
+      "rule_id": "B9_RULE_006",
+      "name": "Source limits visible",
+      "rule_fr": "M1 proxy, raw tick, source quality, raw agreement et limites restent visibles dans chaque sortie.",
+      "technical_risk_if_missing": "risque de durcir une lecture reconstruite en verite raw",
+      "priority": "P1"
+    },
+    {
+      "rule_id": "B9_RULE_007",
+      "name": "Session personality",
+      "rule_fr": "La meme scene est qualifiee differemment selon Asian, London, NY, overlap ou dead zone.",
+      "technical_risk_if_missing": "risque de faux positif inter-session",
+      "priority": "P1"
+    },
+    {
+      "rule_id": "B9_RULE_008",
+      "name": "B6 handoff",
+      "rule_fr": "B9 doit produire une scene suffisamment stable pour B6: film proche, differences, limites.",
+      "technical_risk_if_missing": "risque de memoire B6 decorative au lieu de comparative",
+      "priority": "P1"
+    }
+  ],
+  "patch_plan": [
+    {
+      "patch_id": "T0119_T0111B_NATIVE_RETEST_SOURCE_FIELDS",
+      "priority": "P0",
+      "action": "PATCH_NOW",
+      "group_id": "NATIVE_RETEST_JUDGE",
+      "implementation_state": "B9_RETEST_NOT_NATIVE_ENOUGH",
+      "why": "Le retest doit etre produit nativement par le summarizer, pas reconstruit apres coup.",
+      "missing_fields": "T0111_NATIVE_RETEST_SOURCE_FIELDS_V0",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_t009_sequence_summarizer.py",
+        "tests/test_t0111b_native_retest_source_fields.py"
+      ],
+      "technical_risk": "risque de verdict retest partiel et de faux positif de similarite B6"
+    },
+    {
+      "patch_id": "T0119_V1_WHY_HOW_NATIVE",
+      "priority": "P0",
+      "action": "PATCH_NOW",
+      "group_id": "V1_WHY_HOW_NATIVE",
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "why": "Chaque moment explique ce qui se passe, pourquoi cela compte, comment c'est arrive, le mecanisme et les preuves.",
+      "missing_fields": "what_happens_fr;why_it_matters_fr;how_it_happened_fr;mechanism_fr;proof_summary_fr",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_t009_sequence_summarizer.py",
+        "tests/test_t009_sequence_summarizer_v1_why_how.py"
+      ],
+      "technical_risk": "film lisible mais explication native absente"
+    },
+    {
+      "patch_id": "T0119_V2_SCENE_CAUSALITY_NATIVE",
+      "priority": "P0",
+      "action": "PATCH_NOW",
+      "group_id": "V2_SCENE_CAUSALITY_NATIVE",
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "why": "Relier les moments en cause -> reaction -> consequence -> memoire.",
+      "missing_fields": "previous_context_fr;cause_fr;reaction_fr;consequence_fr;memory_shift_fr;retest_role_fr",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_t009_sequence_summarizer.py",
+        "tests/test_t009_sequence_summarizer_v2_causality.py"
+      ],
+      "technical_risk": "moments deconnectes; cause/reaction/consequence non tracables"
+    },
+    {
+      "patch_id": "T0119_V3_FRACTAL_SCENE_NATIVE",
+      "priority": "P0",
+      "action": "PATCH_NOW",
+      "group_id": "V3_FRACTAL_SCENE_NATIVE",
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "why": "Relier microfilm -> moment -> scene -> chapitre de session.",
+      "missing_fields": "scene_id;scene_role;parent_scene;child_moments;session_chapter;fractal_reading_fr",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_t009_sequence_summarizer.py",
+        "tests/test_t009_sequence_summarizer_v3_fractal_scene.py"
+      ],
+      "technical_risk": "microfilm non relie au chapitre de session"
+    },
+    {
+      "patch_id": "T0119_CENTER_PATH_INTERNAL_FILM",
+      "priority": "P0",
+      "action": "PATCH_NOW",
+      "group_id": "CENTER_PATH_INTERNAL_FILM",
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "why": "Eviter le piege start/end: B9 doit lire le chemin interne du centre, les excursions et les inflexions.",
+      "missing_fields": "center_min;center_max;center_range_pips;max_favorable_excursion_pips;max_adverse_excursion_pips;center_path;inflexion_points",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_t009_sequence_summarizer.py",
+        "tests/test_t009_center_path_contract.py"
+      ],
+      "technical_risk": "risque start/end: chemin interne invisible"
+    },
+    {
+      "patch_id": "T0119_EFFORT_RESULT_PROGRESS_NATIVE",
+      "priority": "P0",
+      "action": "PATCH_NOW",
+      "group_id": "EFFORT_RESULT_PROGRESS_NATIVE",
+      "implementation_state": "B9_PARTIAL_NATIVE_NEEDS_HARDENING",
+      "why": "Classifier effort, resultat et progres sans transformer absorption en direction.",
+      "missing_fields": "b9_progress_state;b9_effort_result_progress_reading_fr",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_t009_sequence_summarizer.py",
+        "tests/test_t009_effort_result_progress.py"
+      ],
+      "technical_risk": "risque absorption lue comme direction si progress_state absent"
+    },
+    {
+      "patch_id": "T0119_NATIVE_RETEST_JUDGE",
+      "priority": "P0",
+      "action": "PATCH_NOW",
+      "group_id": "NATIVE_RETEST_JUDGE",
+      "implementation_state": "B9_PARTIAL_NATIVE_NEEDS_HARDENING",
+      "why": "Le retest juge la zone: acceptation, echec, reintegration, zone consommee, en attente.",
+      "missing_fields": "retest_first_touch_time;retest_last_touch_time",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_t009_sequence_summarizer.py",
+        "tests/test_t0111b_native_retest_source_fields.py"
+      ],
+      "technical_risk": "risque retest reconstruit ou verdict de zone trop faible"
+    },
+    {
+      "patch_id": "T0119_SESSION_CONTEXT_NATIVE",
+      "priority": "P1",
+      "action": "PATCH_NEXT",
+      "group_id": "SESSION_CONTEXT_NATIVE",
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "why": "Session Memory Overlay: une scene n'a pas le meme role a Asian, London, NY ou overlap.",
+      "missing_fields": "session;session_phase;session_bias;minutes_since_open",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_session_overlay.py",
+        "pf_t009_sequence_summarizer.py",
+        "tests/test_t009_session_context.py"
+      ],
+      "technical_risk": "risque de comparer Asian/London/NY comme scenes equivalentes"
+    },
+    {
+      "patch_id": "T0119_B6_MEMORY_HANDOFF_NATIVE",
+      "priority": "P1",
+      "action": "PATCH_NEXT",
+      "group_id": "B6_MEMORY_HANDOFF_NATIVE",
+      "implementation_state": "B9_MISSING_NATIVE_CONTRACT",
+      "why": "Preparer l'interface B9 -> B6: film_id, memory_family, base/reaction/projection/judgment et limites.",
+      "missing_fields": "film_id;memory_family;base;reaction;projection;judgment;memory_candidate_reason;technical_limits",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_t009_sequence_summarizer.py",
+        "pf_b6_field_memory_reader.py",
+        "tests/test_t009_b6_handoff_contract.py"
+      ],
+      "technical_risk": "risque de B6 handoff incomplet pour query future"
+    },
+    {
+      "patch_id": "T0119_SOURCE_QUALITY_NATIVE",
+      "priority": "P1",
+      "action": "PATCH_NEXT",
+      "group_id": "SOURCE_QUALITY_NATIVE",
+      "implementation_state": "B9_PARTIAL_NATIVE_NEEDS_HARDENING",
+      "why": "Garder source_mode, data_visibility, confidence_cap, raw agreement et limites visibles partout.",
+      "missing_fields": "confidence_cap;source_quality_score;source_quality_state",
+      "partial_fields": "",
+      "recommended_files": [
+        "pf_t009_sequence_summarizer.py",
+        "tests/test_t009_source_quality_visibility.py"
+      ],
+      "technical_risk": "risque de durcir une lecture proxy en raw"
+    }
+  ],
+  "test_plan": [
+    {
+      "test_id": "B9_MAX_TEST_001",
+      "target": "No forbidden language",
+      "command": "python -m pytest tests/test_t0119_b9_max_optimization_v0_contract.py",
+      "assertion": "Aucun BUY/SELL/probabilite de succes dans les sorties T0119."
+    },
+    {
+      "test_id": "B9_MAX_TEST_002",
+      "target": "V1 why/how fields",
+      "command": "python -m pytest tests/test_t009_sequence_summarizer_v1_why_how.py",
+      "assertion": "Chaque moment porte what/why/how/mechanism/proof_summary en francais trader."
+    },
+    {
+      "test_id": "B9_MAX_TEST_003",
+      "target": "V2 causality fields",
+      "command": "python -m pytest tests/test_t009_sequence_summarizer_v2_causality.py",
+      "assertion": "Cause/reaction/consequence/memory_shift/retest_role sont presents et non vides."
+    },
+    {
+      "test_id": "B9_MAX_TEST_004",
+      "target": "V3 fractal scene fields",
+      "command": "python -m pytest tests/test_t009_sequence_summarizer_v3_fractal_scene.py",
+      "assertion": "scene_id, scene_role, parent_scene, child_moments, session_chapter, fractal_reading_fr presents."
+    },
+    {
+      "test_id": "B9_MAX_TEST_005",
+      "target": "Center path hotfix guard",
+      "command": "python -m pytest tests/test_t009_center_path_contract.py",
+      "assertion": "center_min/max/range/excursions/path empechent le faux doji start/end."
+    },
+    {
+      "test_id": "B9_MAX_TEST_006",
+      "target": "Native retest judge",
+      "command": "python -m pytest tests/test_t0111b_native_retest_source_fields.py",
+      "assertion": "T0111_NATIVE_RETEST_SOURCE_FIELDS_V0 emis directement par le summarizer."
+    }
+  ],
+  "doc_scan": {
+    "documents": [
+      {
+        "file": "ANALYSE_T009_B9_LONDON_GBPUSD_20260515_0800_1200.md",
+        "keyword_counts": {
+          "effort sans resultat": 2,
+          "effort/resultat/progres": 0,
+          "retest": 20,
+          "centre de gravite": 2,
+          "vague progressive": 5,
+          "vague corrective": 0,
+          "absorption": 15,
+          "source quality": 0,
+          "M1_BAR_PROXY": 1,
+          "RECONSTRUCTED": 1,
+          "raw": 2,
+          "memoire": 7,
+          "scene": 1,
+          "B9 ne cherche pas le signal": 0
+        },
+        "chars": 11897
+      },
+      {
+        "file": "ANALYSE_T009_B9_GBPUSD_20260515_1200_1400.md",
+        "keyword_counts": {
+          "effort sans resultat": 0,
+          "effort/resultat/progres": 0,
+          "retest": 1,
+          "centre de gravite": 0,
+          "vague progressive": 9,
+          "vague corrective": 0,
+          "absorption": 15,
+          "source quality": 0,
+          "M1_BAR_PROXY": 3,
+          "RECONSTRUCTED": 1,
+          "raw": 1,
+          "memoire": 23,
+          "scene": 2,
+          "B9 ne cherche pas le signal": 0
+        },
+        "chars": 11247
+      },
+      {
+        "file": "ANALYSE_T009_B9_GBPUSD_20260515_JOURNEE_COMPLETE.md",
+        "keyword_counts": {
+          "effort sans resultat": 6,
+          "effort/resultat/progres": 0,
+          "retest": 10,
+          "centre de gravite": 3,
+          "vague progressive": 6,
+          "vague corrective": 0,
+          "absorption": 2,
+          "source quality": 0,
+          "M1_BAR_PROXY": 1,
+          "RECONSTRUCTED": 1,
+          "raw": 2,
+          "memoire": 35,
+          "scene": 3,
+          "B9 ne cherche pas le signal": 0
+        },
+        "chars": 12990
+      },
+      {
+        "file": "DELTARIVER_TO_POWERFLOW_B9_WORKSPACE_REPORT_AUDIO.md",
+        "keyword_counts": {
+          "effort sans resultat": 5,
+          "effort/resultat/progres": 2,
+          "retest": 28,
+          "centre de gravite": 4,
+          "vague progressive": 5,
+          "vague corrective": 1,
+          "absorption": 13,
+          "source quality": 3,
+          "M1_BAR_PROXY": 2,
+          "RECONSTRUCTED": 1,
+          "raw": 2,
+          "memoire": 31,
+          "scene": 30,
+          "B9 ne cherche pas le signal": 2
+        },
+        "chars": 24937
+      },
+      {
+        "file": "MISSION_B9_SEQUENCE_SUMMARIZER_V0_1_V1_V2_V3.md",
+        "keyword_counts": {
+          "effort sans resultat": 2,
+          "effort/resultat/progres": 0,
+          "retest": 8,
+          "centre de gravite": 2,
+          "vague progressive": 1,
+          "vague corrective": 0,
+          "absorption": 6,
+          "source quality": 1,
+          "M1_BAR_PROXY": 1,
+          "RECONSTRUCTED": 1,
+          "raw": 0,
+          "memoire": 7,
+          "scene": 14,
+          "B9 ne cherche pas le signal": 1
+        },
+        "chars": 7122
+      },
+      {
+        "file": "VALIDATION_B9_SUMMARIZER_V01_V3_LONDON_0800_1400.md",
+        "keyword_counts": {
+          "effort sans resultat": 19,
+          "effort/resultat/progres": 0,
+          "retest": 4,
+          "centre de gravite": 14,
+          "vague progressive": 18,
+          "vague corrective": 0,
+          "absorption": 4,
+          "source quality": 0,
+          "M1_BAR_PROXY": 0,
+          "RECONSTRUCTED": 0,
+          "raw": 0,
+          "memoire": 8,
+          "scene": 7,
+          "B9 ne cherche pas le signal": 0
+        },
+        "chars": 9017
+      }
+    ],
+    "aggregate_keyword_counts": {
+      "effort sans resultat": 34,
+      "effort/resultat/progres": 2,
+      "retest": 71,
+      "centre de gravite": 25,
+      "vague progressive": 44,
+      "vague corrective": 1,
+      "absorption": 55,
+      "source quality": 4,
+      "M1_BAR_PROXY": 8,
+      "RECONSTRUCTED": 5,
+      "raw": 7,
+      "memoire": 111,
+      "scene": 57,
+      "B9 ne cherche pas le signal": 3
+    }
+  },
+  "next_task": {
+    "id": "T0120",
+    "name": "B9 Native Summarizer V4 Contract Patch",
+    "branch": "feat/t0120-b9-native-summarizer-v4-contract",
+    "commit_message": "feat(t0120): add B9 native summarizer v4 contract"
+  },
+  "summary": {
+    "version": "T0119_B9_MAX_OPTIMIZATION_V0",
+    "generated_at_utc": "2026-05-18T07:41:12.479362+00:00",
+    "input_moments": 52,
+    "docs_scanned": 6,
+    "native_retest_ratio": 0.0,
+    "retest_visibility_ratio": 0.0192,
+    "p0_patch_now_count": 7,
+    "forbidden_language_hits": [],
+    "output_dir": "/mnt/data/t0119_b9_max_optimization_v0_work/out"
+  }
+}

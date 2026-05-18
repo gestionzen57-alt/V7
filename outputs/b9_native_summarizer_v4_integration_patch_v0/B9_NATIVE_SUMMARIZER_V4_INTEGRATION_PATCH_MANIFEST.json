@@ -1,0 +1,25 @@
+{
+  "version": "T0121_B9_NATIVE_SUMMARIZER_V4_INTEGRATION_PATCH_V0",
+  "outputs": [
+    "B9_NATIVE_SUMMARIZER_V4_FIELD_COVERAGE_V0.csv",
+    "B9_NATIVE_SUMMARIZER_V4_INTEGRATION_PATCH_V0.json",
+    "B9_NATIVE_SUMMARIZER_V4_INTEGRATION_PATCH_V0.md",
+    "B9_NATIVE_SUMMARIZER_V4_INTEGRATION_RULES_V0.csv",
+    "B9_NATIVE_SUMMARIZER_V4_INTEGRATION_TEST_PLAN_V0.csv"
+  ],
+  "input_moments": 3,
+  "missing_required_field_counts": {},
+  "forbidden_language_hits": [],
+  "integration_probe": {
+    "version": "T0121_B9_NATIVE_SUMMARIZER_V4_INTEGRATION_V0",
+    "state": "READY",
+    "read_only": true,
+    "no_db_write": true,
+    "no_dashboard": true,
+    "no_telegram": true,
+    "no_buy_sell": true,
+    "no_probability_of_success": true
+  },
+  "native_patch_strategy": "safe helper + conservative return summary hook",
+  "next_step": "T0122_B9_V4_NATIVE_RUNTIME_VALIDATION"
+}

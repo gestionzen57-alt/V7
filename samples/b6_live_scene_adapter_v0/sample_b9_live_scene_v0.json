@@ -1,0 +1,19 @@
+{
+  "time_start": "2026-05-18T10:15:00+00:00",
+  "time_end": "2026-05-18T10:23:00+00:00",
+  "moment_type": "T009_MOMENT_PROGRESSIVE_WAVE",
+  "label_fr": "Vague progressive live",
+  "source_mode": "B9_LIVE_SCENE",
+  "data_visibility": "LIVE_SCENE_ADAPTED_FROM_PAYLOAD",
+  "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+  "raw_delta_pips": 8.4,
+  "raw_range_pips": 10.1,
+  "raw_tick_count": 420,
+  "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+  "source_quality_state": "SOURCE_QUALITY_LIVE_UNQUALIFIED",
+  "technical_limits": [
+    "sample payload for T0116 contract validation",
+    "not a DB read",
+    "not a trading signal"
+  ]
+}

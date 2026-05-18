@@ -1,0 +1,11 @@
+{
+  "task": "T0125_B9_V4_GOLDEN_REPLAY_BATCH_RUNNER_V0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "branch": "feat/t0125-b9-v4-golden-replay-batch-runner",
+  "commit": "feat(t0125): add B9 V4 golden replay batch runner"
+}

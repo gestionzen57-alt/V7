@@ -1,0 +1,5 @@
+test,expected
+contract_fields_present,all required fields present
+fail_open,runtime does not break when optional enrichment is unavailable
+forbidden_language,no BUY/SELL/probability of success
+native_hook_marker,summarizer contains T0121 marker after apply script

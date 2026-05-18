@@ -1,0 +1,27 @@
+{
+  "version": "T0117_B6_FALSE_POSITIVE_CONTEXT_V0",
+  "generated_at_utc": "2026-05-18T07:26:13Z",
+  "input": "/mnt/data/t0117_packroot/samples/b6_false_positive_context_v0/sample_t0115_similarity_query_result_v0.json",
+  "outputs": [
+    "B6_FALSE_POSITIVE_CONTEXT_V0.json",
+    "B6_FALSE_POSITIVE_CONTEXT_V0.md",
+    "B6_FALSE_POSITIVE_CONTEXT_V0.csv",
+    "B6_FALSE_POSITIVE_CONTEXT_V0_MANIFEST.json",
+    "B6_FALSE_POSITIVE_CONTEXT_V0.zip"
+  ],
+  "policy": "SIMILARITY_IS_NOT_REPETITION_FALSE_POSITIVE_CONTEXT_V0",
+  "read_only": true,
+  "no_db_write": true,
+  "no_dashboard": true,
+  "no_telegram": true,
+  "no_buy_sell": true,
+  "no_success_probability": true,
+  "integrity_checks": {
+    "matches_reviewed": 5,
+    "cross_family_match_count": 0,
+    "low_trust_in_results": false,
+    "raw_unavailable_in_results": false,
+    "buy_sell_terms_present": false,
+    "prediction_terms_present": false
+  }
+}
