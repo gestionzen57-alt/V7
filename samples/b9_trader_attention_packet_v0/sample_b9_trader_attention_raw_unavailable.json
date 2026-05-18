@@ -1,0 +1,10 @@
+{
+  "candidate_id": "B9LSC_RAW_BLOCKED",
+  "time_start": "2026-05-15T12:00:00Z",
+  "time_end": "2026-05-15T12:10:00Z",
+  "label_fr": "Scène raw indisponible",
+  "b9_scene_state": "SCENE_BLOCKED_RAW_UNAVAILABLE",
+  "b9_price_verdict_state": "RAW_UNAVAILABLE_REJECTED",
+  "memory_confidence_ladder": "MEMORY_REJECTED_RAW_UNAVAILABLE",
+  "proxy_vs_raw_verdict": "RAW_UNAVAILABLE"
+}

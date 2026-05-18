@@ -1,0 +1,10 @@
+{
+  "version": "T0155_B9_TRADER_ATTENTION_PACKET_V0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "success_probability": false,
+  "branch": "feat/t0155-b9-trader-attention-packet"
+}
