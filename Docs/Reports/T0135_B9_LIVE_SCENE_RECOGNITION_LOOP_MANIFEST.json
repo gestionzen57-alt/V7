@@ -1,0 +1,12 @@
+{
+  "task": "T0135",
+  "name": "B9 Live Scene Recognition Loop V0",
+  "branch": "feat/t0135-b9-live-scene-recognition-loop",
+  "commit_message": "feat(t0135): add B9 live scene recognition loop v0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "execution_order": false,
+  "success_rate": false
+}

@@ -1,0 +1,27 @@
+{
+  "version": "T0135_B9_LIVE_SCENE_RECOGNITION_LOOP_V0",
+  "loop_id": "B9LIVE_E55483CA4A50",
+  "recognition_state": "B9_LIVE_SCENE_RECOGNITION_READY",
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260514_1903_E8F0918A",
+  "cross_family_match_count": 0,
+  "low_trust_in_results": false,
+  "raw_unavailable_in_results": false,
+  "false_positive_context_available": true,
+  "terrain_synthesis_available": true,
+  "forbidden_language_hits": [],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "execution_order": false,
+  "success_rate": false,
+  "outputs": [
+    "B9_LIVE_SCENE_RECOGNITION_LOOP_V0.json",
+    "B9_LIVE_SCENE_RECOGNITION_LOOP_V0.md",
+    "B9_LIVE_SCENE_RECOGNITION_MATCHES_V0.csv",
+    "B9_LIVE_SCENE_RECOGNITION_FLAGS_V0.csv",
+    "B9_LIVE_SCENE_RECOGNITION_LOOP_MANIFEST.json",
+    "B9_LIVE_SCENE_RECOGNITION_LOOP_V0.zip"
+  ]
+}

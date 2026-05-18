@@ -1,0 +1,4 @@
+rank,film_id,film_date,memory_family,similarity_score,difference_summary_fr
+1,B6FC_20260514_1903_E8F0918A,2026-05-14,DIRECTIONAL_PROGRESS_MEMORY,0.778821,"Même progression par paliers, mais source historique plus lisible."
+2,B6FC_20260508_1011_AA90CC12,2026-05-08,DIRECTIONAL_PROGRESS_MEMORY,0.7421,"Film proche par reprise progressive, mais retest historique plus net."
+3,B6FC_20260511_1137_9AC3E11B,2026-05-11,DIRECTIONAL_PROGRESS_MEMORY,0.7012,"Même mémoire déplacée, mais contexte session différent."

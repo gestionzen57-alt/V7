@@ -1,0 +1,7 @@
+{
+  "version": "T0117_B6_FALSE_POSITIVE_CONTEXT_V0",
+  "false_positive_context": [
+    {"rank": 1, "film_id": "B6FC_20260514_1903_E8F0918A", "false_positive_state": "B6_FALSE_POSITIVE_CONTEXT_MEDIUM", "difference_explanation_fr": "La scène actuelle est raw nuancée, donc la proximité ne doit pas être durcie.", "technical_cautions_fr": ["source moins forte", "retest encore en attente"]},
+    {"rank": 2, "film_id": "B6FC_20260508_1011_AA90CC12", "false_positive_state": "B6_FALSE_POSITIVE_CONTEXT_MEDIUM", "difference_explanation_fr": "Le retest historique est plus visible que le retest live.", "technical_cautions_fr": ["retest asymétrique", "session différente"]}
+  ]
+}

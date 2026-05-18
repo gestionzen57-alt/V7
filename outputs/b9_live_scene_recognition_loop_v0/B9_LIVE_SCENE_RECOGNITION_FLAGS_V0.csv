@@ -1,0 +1,3 @@
+rank,film_id,false_positive_state,difference_explanation_fr,technical_cautions_fr
+1,B6FC_20260514_1903_E8F0918A,B6_FALSE_POSITIVE_CONTEXT_MEDIUM,"La scène actuelle est raw nuancée, donc la proximité ne doit pas être durcie.","['source moins forte', 'retest encore en attente']"
+2,B6FC_20260508_1011_AA90CC12,B6_FALSE_POSITIVE_CONTEXT_MEDIUM,Le retest historique est plus visible que le retest live.,"['retest asymétrique', 'session différente']"

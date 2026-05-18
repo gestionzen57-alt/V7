@@ -1,0 +1,6 @@
+{
+  "version": "T0118_B6_HUMAN_TERRAIN_SYNTHESIS_V0",
+  "family_counts": {"DIRECTIONAL_PROGRESS_MEMORY": 78, "FRICTION_ABSORPTION_MEMORY": 65, "ROTATION_BREATH_MEMORY": 8},
+  "terrain_reading_fr": "La bibliothèque B6 montre une dominante de progression directionnelle et de friction absorption. La scène live doit donc être lue avec ses différences de source et de retest.",
+  "technical_limits": ["bibliothèque encore courte", "proxy dominant sur une partie des films"]
+}

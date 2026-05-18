@@ -1,0 +1,10 @@
+{
+  "version": "T0115_B6_SIMILARITY_QUERY_CLI_API_V0",
+  "query_id": "B6Q_58CEE394B097",
+  "query_memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+  "similar_films": [
+    {"rank": 1, "film_id": "B6FC_20260514_1903_E8F0918A", "film_date": "2026-05-14", "memory_family": "DIRECTIONAL_PROGRESS_MEMORY", "similarity_score": 0.778821, "difference_summary_fr": "Même progression par paliers, mais source historique plus lisible."},
+    {"rank": 2, "film_id": "B6FC_20260508_1011_AA90CC12", "film_date": "2026-05-08", "memory_family": "DIRECTIONAL_PROGRESS_MEMORY", "similarity_score": 0.7421, "difference_summary_fr": "Film proche par reprise progressive, mais retest historique plus net."},
+    {"rank": 3, "film_id": "B6FC_20260511_1137_9AC3E11B", "film_date": "2026-05-11", "memory_family": "DIRECTIONAL_PROGRESS_MEMORY", "similarity_score": 0.7012, "difference_summary_fr": "Même mémoire déplacée, mais contexte session différent."}
+  ]
+}

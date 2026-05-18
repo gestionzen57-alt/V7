@@ -1,0 +1,16 @@
+{
+  "film_id": "LIVE_SCENE_F4930E9A5C",
+  "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+  "memory_family_origin": "heuristic_text_directional_progress",
+  "source_family": "LIVE_B9_SCENE",
+  "source_mode": "M1_BAR_PROXY",
+  "data_visibility": "RECONSTRUCTED",
+  "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+  "session": "LONDON",
+  "session_phase": "IGNITION",
+  "retest_result": "RETEST_PENDING",
+  "b9_effort_result_progress_state": "PROGRESSIVE_WAVE",
+  "b9_center_path_shape": "STAIR_STEP_PROGRESS_UP",
+  "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED",
+  "label_fr": "Vague progressive sous lecture raw nuancée"
+}

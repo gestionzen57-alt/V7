@@ -1,0 +1,122 @@
+{
+  "version": "T0135_B9_LIVE_SCENE_RECOGNITION_LOOP_V0",
+  "loop_id": "B9LIVE_E55483CA4A50",
+  "recognition_state": "B9_LIVE_SCENE_RECOGNITION_READY",
+  "live_scene": {
+    "film_id": "LIVE_SCENE_F4930E9A5C",
+    "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+    "memory_family_origin": "heuristic_text_directional_progress",
+    "source_family": "LIVE_B9_SCENE",
+    "source_mode": "M1_BAR_PROXY",
+    "data_visibility": "RECONSTRUCTED",
+    "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+    "session": "LONDON",
+    "session_phase": "IGNITION",
+    "retest_result": "RETEST_PENDING",
+    "b9_effort_result_progress_state": "PROGRESSIVE_WAVE",
+    "b9_center_path_shape": "STAIR_STEP_PROGRESS_UP",
+    "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED",
+    "label_fr": "Vague progressive sous lecture raw nuancée",
+    "effort_result_progress_state": "PROGRESSIVE_WAVE",
+    "center_path_shape": "STAIR_STEP_PROGRESS_UP",
+    "source_quality_gate_state": "SOURCE_RAW_NUANCED"
+  },
+  "memory_recognition": {
+    "query_memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+    "match_count": 3,
+    "top_match_film_id": "B6FC_20260514_1903_E8F0918A",
+    "top_match_date": "2026-05-14",
+    "top_similarity_score": 0.778821,
+    "similar_films": [
+      {
+        "rank": 1,
+        "film_id": "B6FC_20260514_1903_E8F0918A",
+        "film_date": "2026-05-14",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "similarity_score": 0.778821,
+        "difference_summary_fr": "Même progression par paliers, mais source historique plus lisible."
+      },
+      {
+        "rank": 2,
+        "film_id": "B6FC_20260508_1011_AA90CC12",
+        "film_date": "2026-05-08",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "similarity_score": 0.7421,
+        "difference_summary_fr": "Film proche par reprise progressive, mais retest historique plus net."
+      },
+      {
+        "rank": 3,
+        "film_id": "B6FC_20260511_1137_9AC3E11B",
+        "film_date": "2026-05-11",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "similarity_score": 0.7012,
+        "difference_summary_fr": "Même mémoire déplacée, mais contexte session différent."
+      }
+    ]
+  },
+  "false_positive_context": {
+    "available": true,
+    "flags": [
+      {
+        "rank": 1,
+        "film_id": "B6FC_20260514_1903_E8F0918A",
+        "false_positive_state": "B6_FALSE_POSITIVE_CONTEXT_MEDIUM",
+        "difference_explanation_fr": "La scène actuelle est raw nuancée, donc la proximité ne doit pas être durcie.",
+        "technical_cautions_fr": [
+          "source moins forte",
+          "retest encore en attente"
+        ]
+      },
+      {
+        "rank": 2,
+        "film_id": "B6FC_20260508_1011_AA90CC12",
+        "false_positive_state": "B6_FALSE_POSITIVE_CONTEXT_MEDIUM",
+        "difference_explanation_fr": "Le retest historique est plus visible que le retest live.",
+        "technical_cautions_fr": [
+          "retest asymétrique",
+          "session différente"
+        ]
+      }
+    ]
+  },
+  "terrain_synthesis": {
+    "available": true,
+    "family_counts": {
+      "DIRECTIONAL_PROGRESS_MEMORY": 78,
+      "FRICTION_ABSORPTION_MEMORY": 65,
+      "ROTATION_BREATH_MEMORY": 8
+    },
+    "terrain_reading_fr": "La bibliothèque B6 montre une dominante de progression directionnelle et de friction absorption. La scène live doit donc être lue avec ses différences de source et de retest.",
+    "technical_limits": [
+      "bibliothèque encore courte",
+      "proxy dominant sur une partie des films"
+    ]
+  },
+  "french_trader_report": {
+    "available": true,
+    "reading_fr": "B9 voit une progression par paliers avec source raw nuancée. Le retest reste en attente, donc la scène est lisible mais non durcie."
+  },
+  "loop_checks": {
+    "missing_live_scene_fields": [],
+    "cross_family_match_count": 0,
+    "low_trust_in_results": false,
+    "raw_unavailable_in_results": false,
+    "false_positive_context_available": true,
+    "terrain_synthesis_available": true,
+    "forbidden_language_hits": []
+  },
+  "technical_limits": [
+    "Boucle read-only.",
+    "La similarité est une proximité de mémoire, pas une répétition certaine.",
+    "Une scène proxy reste proxy.",
+    "Aucune base, surface ou transmission n'est modifiée."
+  ],
+  "powerflow_contract": {
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "execution_order": false,
+    "success_rate": false
+  }
+}
