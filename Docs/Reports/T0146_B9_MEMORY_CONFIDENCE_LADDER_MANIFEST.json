@@ -1,0 +1,18 @@
+{
+  "version": "T0146_B9_MEMORY_CONFIDENCE_LADDER_V0",
+  "files": [
+    "Docs/Reports/COMMANDES_T0146_B9_MEMORY_CONFIDENCE_LADDER.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0146_B9_MEMORY_CONFIDENCE_LADDER.md",
+    "Docs/Reports/T0146_B9_MEMORY_CONFIDENCE_LADDER_REPORT.md",
+    "pf_t009_memory_confidence_ladder.py",
+    "samples/b9_memory_confidence_ladder_v0/sample_t009_sequence_summary_memory_confidence.json",
+    "tests/test_t0146_b9_memory_confidence_ladder.py",
+    "tools/build_t0146_b9_memory_confidence_ladder.py"
+  ],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "success_probability": false
+}
