@@ -1,0 +1,12 @@
+{
+  "film_id": "LIVE_SCENE_F4930E9A5C",
+  "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+  "memory_family_origin": "heuristic_text_directional_progress",
+  "source_family": "FORCE_SNAPSHOT_DERIVED",
+  "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+  "source_mode": "M1_BAR_PROXY",
+  "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+  "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+  "label_fr": "Vague progressive avec mémoire déplacée",
+  "technical_limits": ["Lecture proxy conservée", "Retest à qualifier"]
+}

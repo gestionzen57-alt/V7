@@ -1,0 +1,10 @@
+{
+  "version": "T0118_B6_HUMAN_TERRAIN_SYNTHESIS_V0",
+  "input_cards": 151,
+  "family_counts": {
+    "DIRECTIONAL_PROGRESS_MEMORY": 78,
+    "FRICTION_ABSORPTION_MEMORY": 65,
+    "ROTATION_BREATH_MEMORY": 8
+  },
+  "terrain_summary_fr": "La famille dominante actuelle compare des migrations de centre et des progressions par paliers. Les pièges principaux viennent de la source proxy et du retest incomplet."
+}

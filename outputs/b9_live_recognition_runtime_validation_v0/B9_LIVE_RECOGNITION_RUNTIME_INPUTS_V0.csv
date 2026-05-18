@@ -1,0 +1,6 @@
+input_name,required,found,path,mode,sha256,note
+live_scene_json,True,True,C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT\Core\outputs\b6_live_scene_adapter_v0\B6_LIVE_SCENE_QUERY_PAYLOAD_V0.json,runtime,4bde27055ca050d6456f589bca05cf69f439aa53682107914419678f1020ad2e,
+similarity_query_json,True,True,C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT\Core\outputs\b6_similarity_query_v0\B6_SIMILARITY_QUERY_RESULT_V0.json,runtime,b23ba3388d760540fe38c2f366dce7a1588f70be4a16783f6a32cade6a519797,
+false_positive_json,True,True,C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT\Core\outputs\b6_false_positive_context_v0\B6_FALSE_POSITIVE_CONTEXT_V0.json,runtime,db2deb5d26a39749cbe54a412b87542ebd081458a3dd53bf16b3be20c8800f97,
+terrain_synthesis_json,True,True,C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT\Core\outputs\b6_human_terrain_synthesis_v0\B6_HUMAN_TERRAIN_SYNTHESIS_V0.json,runtime,66944cc299405c36165f81f36de82c5437e65672a8c78c0f66b39a9cbe27abc7,
+french_report_json,True,True,C:\Users\User\Desktop\ProjetPowerFlow\IA\GPT\Core\outputs\b9_french_trader_scene_report_v0\B9_FRENCH_TRADER_SCENE_REPORT_V0.json,runtime,afb862b2f20254025c2e413e13f31a2648bb776a70b175af008f7c42546c0a86,

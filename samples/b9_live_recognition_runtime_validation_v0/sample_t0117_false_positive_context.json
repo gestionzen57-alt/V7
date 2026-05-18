@@ -1,0 +1,12 @@
+{
+  "version": "T0117_B6_FALSE_POSITIVE_CONTEXT_V0",
+  "matches_reviewed": 3,
+  "cross_family_match_count": 0,
+  "low_trust_in_results": false,
+  "raw_unavailable_in_results": false,
+  "false_positive_context": [
+    {"film_id": "B6FC_20260514_1903_E8F0918A", "state": "B6_FALSE_POSITIVE_CONTEXT_MEDIUM", "technical_cautions_fr": ["Source quality plus faible", "Retest moins explicite"]},
+    {"film_id": "B6FC_20260513_1011_A94C100F", "state": "B6_FALSE_POSITIVE_CONTEXT_MEDIUM", "technical_cautions_fr": ["Session différente"]},
+    {"film_id": "B6FC_20260508_0845_BAC209EF", "state": "B6_FALSE_POSITIVE_CONTEXT_LOW", "technical_cautions_fr": ["Différence de provenance"]}
+  ]
+}

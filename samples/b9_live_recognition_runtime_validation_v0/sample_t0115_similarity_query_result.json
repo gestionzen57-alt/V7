@@ -1,0 +1,13 @@
+{
+  "version": "T0115_B6_SIMILARITY_QUERY_CLI_API_V0",
+  "query_id": "B6Q_58CEE394B097",
+  "query_memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+  "cross_family_match_count": 0,
+  "low_trust_in_results": false,
+  "raw_unavailable_in_results": false,
+  "matches": [
+    {"film_id": "B6FC_20260514_1903_E8F0918A", "similarity_score": 0.778821, "memory_family": "DIRECTIONAL_PROGRESS_MEMORY", "difference_summary_fr": "Source plus reconstruite, mais rôle de migration comparable."},
+    {"film_id": "B6FC_20260513_1011_A94C100F", "similarity_score": 0.731100, "memory_family": "DIRECTIONAL_PROGRESS_MEMORY", "difference_summary_fr": "Retest moins visible dans la scène actuelle."},
+    {"film_id": "B6FC_20260508_0845_BAC209EF", "similarity_score": 0.702500, "memory_family": "DIRECTIONAL_PROGRESS_MEMORY", "difference_summary_fr": "Progression similaire mais session différente."}
+  ]
+}

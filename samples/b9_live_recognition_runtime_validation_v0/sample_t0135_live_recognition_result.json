@@ -1,0 +1,17 @@
+{
+  "version": "T0135_B9_LIVE_SCENE_RECOGNITION_LOOP_V0",
+  "recognition_state": "B9_LIVE_SCENE_RECOGNITION_READY",
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260514_1903_E8F0918A",
+  "cross_family_match_count": 0,
+  "low_trust_in_results": false,
+  "raw_unavailable_in_results": false,
+  "false_positive_context_available": true,
+  "terrain_synthesis_available": true,
+  "matches": [
+    {"film_id": "B6FC_20260514_1903_E8F0918A", "similarity_score": 0.778821},
+    {"film_id": "B6FC_20260513_1011_A94C100F", "similarity_score": 0.7311},
+    {"film_id": "B6FC_20260508_0845_BAC209EF", "similarity_score": 0.7025}
+  ],
+  "brief_fr": "Film proche trouvé. Les similarités portent sur la progression par paliers ; les différences portent sur la source et le retest."
+}

@@ -1,0 +1,2588 @@
+{
+  "version": "T0135_B9_LIVE_SCENE_RECOGNITION_LOOP_V0",
+  "loop_id": "B9LIVE_8A7F9EC29267",
+  "recognition_state": "B9_LIVE_SCENE_RECOGNITION_FORBIDDEN_LANGUAGE_REVIEW",
+  "live_scene": {
+    "time_start": "2026-05-18T10:15:00+00:00",
+    "time_end": "2026-05-18T10:23:00+00:00",
+    "moment_type": "T009_MOMENT_PROGRESSIVE_WAVE",
+    "label_fr": "Vague progressive live",
+    "source_mode": "B9_LIVE_SCENE",
+    "data_visibility": "LIVE_SCENE_ADAPTED_FROM_PAYLOAD",
+    "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+    "source_quality_state": "SOURCE_QUALITY_LIVE_UNQUALIFIED",
+    "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+    "raw_delta_pips": 8.4,
+    "raw_range_pips": 10.1,
+    "raw_tick_count": 420,
+    "limits": "sample payload for T0116 contract validation; not a DB read; not a trading signal; T0116 adapter normalization only; source payload is not rewritten; memory_family may be heuristic if not explicit; payload is for T0115 comparison only; no DB write; no dashboard; no Telegram; no BUY/SELL; no probability of success",
+    "date": "2026-05-18",
+    "session": "LONDON_SESSION",
+    "summary_recovery_type": "LIVE_B9_SCENE_ADAPTED",
+    "source_family": "B9_LIVE_SCENE_ADAPTED",
+    "confidence_cap": "LIVE_NOT_CAPPED_BY_T0116",
+    "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+    "memory_family_origin": "heuristic_text_directional_progress",
+    "raw_agreement": "NUANCED_BY_RAW",
+    "proxy_raw_agreement_state": "PROXY_RAW_AGREEMENT_NOT_EVALUATED_BY_T0116",
+    "b6_memory_candidate_state": "B6_LIVE_QUERY_ONLY_NOT_CANDIDATE",
+    "base": "Base scene: Vague progressive live (T009_MOMENT_PROGRESSIVE_WAVE).",
+    "reaction": "Reaction live: raw role RAW_PROGRESS_CONFIRMED, delta 8.4, range 10.1, ticks 420.",
+    "projection": "Projection de lecture: progression/migration à comparer aux films directionnels, sans prédiction.",
+    "judgment": "Judgment technique: B6_LIVE_QUERY_ONLY_NOT_CANDIDATE, NUANCED_BY_RAW, SOURCE_QUALITY_LIVE_UNQUALIFIED.",
+    "film_id": "LIVE_SCENE_F4930E9A5C",
+    "session_phase": "SESSION_PHASE_UNKNOWN",
+    "retest_result": "RETEST_NOT_VISIBLE",
+    "effort_result_progress_state": "EFFORT_RESULT_PROGRESS_NOT_PROVIDED",
+    "center_path_shape": "CENTER_PATH_NOT_PROVIDED",
+    "source_quality_gate_state": "SOURCE_QUALITY_NOT_PROVIDED"
+  },
+  "memory_recognition": {
+    "query_memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+    "match_count": 3,
+    "top_match_film_id": "B6FC_20260514_1903_E8F0918A",
+    "top_match_date": "2026-05-14",
+    "top_similarity_score": 0.778821,
+    "similar_films": [
+      {
+        "film_id": "B6FC_20260514_1903_E8F0918A",
+        "film_date": "2026-05-14",
+        "time_start": "2026-05-14T19:03:00+00:00",
+        "time_end": "2026-05-14T20:03:00+00:00",
+        "session": "NY_AFTERNOON",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "similarity_score": 0.778821,
+        "dimension_scores": {
+          "base_motion": 0.459459,
+          "reaction_profile": 0.728237,
+          "projection_shape": 0.927587,
+          "judgment_clarity": 1.0
+        },
+        "differences": {
+          "base_delta": "distant (base_motion similarity 0.46)",
+          "reaction_delta": "partial (reaction_profile similarity 0.73)",
+          "projection_delta": "close (projection_shape similarity 0.93)",
+          "judgment_delta": "close (judgment_clarity similarity 1.00)",
+          "raw_delta_pips_delta": "-0.400 pips",
+          "raw_range_pips_delta": "+6.600 pips",
+          "raw_tick_count_delta": "+2672.000 ticks",
+          "source_quality_score_delta": "+0.000"
+        },
+        "ranking_reason_fr": "Film proche par comparaison 4D intra-famille: force principale=judgment_clarity 1.00; écart principal=base_motion 0.46. Lecture de similarité uniquement, sans prédiction.",
+        "retest_visibility": "RETEST_NOT_EXPLICIT_IN_FILM_CARD",
+        "source_family": "FORCE_SNAPSHOT_DERIVED",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_USABLE",
+        "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=PARTIAL_PROXY_COVERAGE; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success",
+        "audit": {
+          "base_motion": {
+            "text_similarity": 0.459459,
+            "numeric_similarity": null,
+            "numeric_parts": {}
+          },
+          "reaction_profile": {
+            "text_similarity": 0.692308,
+            "numeric_similarity": 0.794963,
+            "numeric_parts": {
+              "raw_delta_pips": 0.994631,
+              "raw_range_pips": 0.84897,
+              "raw_tick_count": 0.541288
+            }
+          },
+          "projection_shape": {
+            "text_similarity": 0.916667,
+            "numeric_similarity": 0.947867,
+            "numeric_parts": {
+              "raw_delta_pips": 0.994631,
+              "raw_range_pips": 0.84897,
+              "b6_memory_candidate_score": 1.0
+            }
+          },
+          "judgment_clarity": {
+            "text_similarity": 1.0,
+            "numeric_similarity": 1.0,
+            "numeric_parts": {
+              "source_quality_score": 1.0,
+              "confidence_cap": 1.0,
+              "b6_memory_candidate_score": 1.0
+            }
+          }
+        },
+        "rank": 1,
+        "difference_summary_fr": "Différences non détaillées."
+      },
+      {
+        "film_id": "B6FC_20260513_0200_5821F72C",
+        "film_date": "2026-05-13",
+        "time_start": "2026-05-13T02:00:00+00:00",
+        "time_end": "2026-05-13T03:00:00+00:00",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "similarity_score": 0.764655,
+        "dimension_scores": {
+          "base_motion": 0.459459,
+          "reaction_profile": 0.751645,
+          "projection_shape": 0.88135,
+          "judgment_clarity": 0.966167
+        },
+        "differences": {
+          "base_delta": "distant (base_motion similarity 0.46)",
+          "reaction_delta": "partial (reaction_profile similarity 0.75)",
+          "projection_delta": "close (projection_shape similarity 0.88)",
+          "judgment_delta": "close (judgment_clarity similarity 0.97)",
+          "raw_delta_pips_delta": "+0.500 pips",
+          "raw_range_pips_delta": "+4.000 pips",
+          "raw_tick_count_delta": "+1842.000 ticks",
+          "source_quality_score_delta": "-0.080"
+        },
+        "ranking_reason_fr": "Film proche par comparaison 4D intra-famille: force principale=judgment_clarity 0.97; écart principal=base_motion 0.46. Lecture de similarité uniquement, sans prédiction.",
+        "retest_visibility": "RETEST_NOT_EXPLICIT_IN_FILM_CARD",
+        "source_family": "FORCE_SNAPSHOT_DERIVED",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_USABLE",
+        "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_TF5_PROXY; confidence_cap=0.25; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success",
+        "audit": {
+          "base_motion": {
+            "text_similarity": 0.459459,
+            "numeric_similarity": null,
+            "numeric_parts": {}
+          },
+          "reaction_profile": {
+            "text_similarity": 0.692308,
+            "numeric_similarity": 0.861844,
+            "numeric_parts": {
+              "raw_delta_pips": 0.993289,
+              "raw_range_pips": 0.908467,
+              "raw_tick_count": 0.683777
+            }
+          },
+          "projection_shape": {
+            "text_similarity": 0.854839,
+            "numeric_similarity": 0.930585,
+            "numeric_parts": {
+              "raw_delta_pips": 0.993289,
+              "raw_range_pips": 0.908467,
+              "b6_memory_candidate_score": 0.89
+            }
+          },
+          "judgment_clarity": {
+            "text_similarity": 1.0,
+            "numeric_similarity": 0.903333,
+            "numeric_parts": {
+              "source_quality_score": 0.92,
+              "confidence_cap": 0.9,
+              "b6_memory_candidate_score": 0.89
+            }
+          }
+        },
+        "rank": 2,
+        "difference_summary_fr": "Différences non détaillées."
+      },
+      {
+        "film_id": "B6FC_20260513_0700_C66F0CA0",
+        "film_date": "2026-05-13",
+        "time_start": "2026-05-13T07:00:00+00:00",
+        "time_end": "2026-05-13T08:00:00+00:00",
+        "session": "ASIA_LONDON_HANDOVER",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "similarity_score": 0.755217,
+        "dimension_scores": {
+          "base_motion": 0.459459,
+          "reaction_profile": 0.731131,
+          "projection_shape": 0.864112,
+          "judgment_clarity": 0.966167
+        },
+        "differences": {
+          "base_delta": "distant (base_motion similarity 0.46)",
+          "reaction_delta": "partial (reaction_profile similarity 0.73)",
+          "projection_delta": "close (projection_shape similarity 0.86)",
+          "judgment_delta": "close (judgment_clarity similarity 0.97)",
+          "raw_delta_pips_delta": "-3.200 pips",
+          "raw_range_pips_delta": "+12.800 pips",
+          "raw_tick_count_delta": "+3679.000 ticks",
+          "source_quality_score_delta": "-0.080"
+        },
+        "ranking_reason_fr": "Film proche par comparaison 4D intra-famille: force principale=judgment_clarity 0.97; écart principal=base_motion 0.46. Lecture de similarité uniquement, sans prédiction.",
+        "retest_visibility": "RETEST_NOT_EXPLICIT_IN_FILM_CARD",
+        "source_family": "FORCE_SNAPSHOT_DERIVED",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_USABLE",
+        "raw_texture_role": "RAW_PROGRESS_CONFIRMED",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_TF5_PROXY; confidence_cap=0.25; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success",
+        "audit": {
+          "base_motion": {
+            "text_similarity": 0.459459,
+            "numeric_similarity": null,
+            "numeric_parts": {}
+          },
+          "reaction_profile": {
+            "text_similarity": 0.76,
+            "numeric_similarity": 0.677518,
+            "numeric_parts": {
+              "raw_delta_pips": 0.957047,
+              "raw_range_pips": 0.707094,
+              "raw_tick_count": 0.368412
+            }
+          },
+          "projection_shape": {
+            "text_similarity": 0.870968,
+            "numeric_similarity": 0.85138,
+            "numeric_parts": {
+              "raw_delta_pips": 0.957047,
+              "raw_range_pips": 0.707094,
+              "b6_memory_candidate_score": 0.89
+            }
+          },
+          "judgment_clarity": {
+            "text_similarity": 1.0,
+            "numeric_similarity": 0.903333,
+            "numeric_parts": {
+              "source_quality_score": 0.92,
+              "confidence_cap": 0.9,
+              "b6_memory_candidate_score": 0.89
+            }
+          }
+        },
+        "rank": 3,
+        "difference_summary_fr": "Différences non détaillées."
+      }
+    ]
+  },
+  "false_positive_context": {
+    "available": false,
+    "flags": []
+  },
+  "terrain_synthesis": {
+    "available": true,
+    "family_counts": {},
+    "terrain_reading_fr": "Synthèse terrain non fournie.",
+    "technical_limits": [
+      {
+        "film_id": "B6FC_20260505_1413_BDE6E508",
+        "date": "2026-05-05",
+        "session": "LONDON_NY_OVERLAP",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_USABLE",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=PARTIAL_PROXY_COVERAGE; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260505_2306_4093A4AF",
+        "date": "2026-05-05",
+        "session": "LATE_US_ASIA_HANDOVER",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_USABLE",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=PARTIAL_PROXY_COVERAGE; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0001_D0B23C7C",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0003_EDF8CA3B",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0004_BE4575C7",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0005_9765D84F",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0006_D338C84D",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0007_32D97691",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0008_3720A433",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0009_00C9CFB0",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0010_491F342D",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0011_E0ADF533",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0012_199FA395",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0013_37EF0016",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0014_7411A598",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0015_43C74A80",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0016_26A208B2",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0017_C1B95BDE",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0018_BCE6EBD7",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0019_1956DB58",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0020_C047B043",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0021_299BEFA1",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0022_AD138F45",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0023_2B8F609D",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0024_413B89F3",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0025_A7FC9144",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0026_82FB3F9A",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0027_4170C059",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0028_65EF93DE",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0029_0BB62E0F",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0030_0CB58796",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0031_FB2C5D25",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0032_A34D1BCE",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0033_3FFC9CAD",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0034_F8652F25",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0035_20247FA6",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0036_4F657303",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0037_3256AEB7",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0038_DCF71BD5",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0039_6572F03A",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0040_3D879750",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0041_6AE24F99",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0042_B89011C5",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0043_FEDBDB13",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0044_162092E9",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0045_4267B83D",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0046_3B2882C2",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0048_64083DC2",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0049_0103A43E",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0050_68A81515",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0051_456CEB35",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0052_2F370743",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0053_AEDCA6AD",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260506_0054_4F75EAB4",
+        "date": "2026-05-06",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "RECOVERED_EXISTING_B9_SUMMARY: recovered explicit B9 moments; shift0 raw alignment; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=RECOVERED_EXISTING_B9_SUMMARY_SHIFT0_FULL_RAW_ALIGNMENT; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0001_9D7F6788",
+        "date": "2026-05-07",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0101_12593528",
+        "date": "2026-05-07",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0201_64FDCE10",
+        "date": "2026-05-07",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0301_23872A18",
+        "date": "2026-05-07",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0401_266B77FF",
+        "date": "2026-05-07",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0501_2F8DC3A3",
+        "date": "2026-05-07",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0601_2049CA9D",
+        "date": "2026-05-07",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0701_A9330F01",
+        "date": "2026-05-07",
+        "session": "ASIA_LONDON_HANDOVER",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0801_8729762A",
+        "date": "2026-05-07",
+        "session": "LONDON_IGNITION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_0901_840EBDBF",
+        "date": "2026-05-07",
+        "session": "LONDON_IGNITION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1001_84D69526",
+        "date": "2026-05-07",
+        "session": "LONDON_IGNITION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1101_DF461CC5",
+        "date": "2026-05-07",
+        "session": "LONDON_MIDDAY_TRANSITION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1201_D6C4BBD1",
+        "date": "2026-05-07",
+        "session": "LONDON_MIDDAY_TRANSITION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1301_BF7C2857",
+        "date": "2026-05-07",
+        "session": "LONDON_NY_OVERLAP",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1401_EAA2FC9D",
+        "date": "2026-05-07",
+        "session": "LONDON_NY_OVERLAP",
+        "memory_family": "ROTATION_BREATH_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1501_1425BC5D",
+        "date": "2026-05-07",
+        "session": "LONDON_NY_OVERLAP",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1601_E69D7629",
+        "date": "2026-05-07",
+        "session": "NY_AFTERNOON",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1701_EA08BFA0",
+        "date": "2026-05-07",
+        "session": "NY_AFTERNOON",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1801_34851863",
+        "date": "2026-05-07",
+        "session": "NY_AFTERNOON",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_1901_9DB1A8C0",
+        "date": "2026-05-07",
+        "session": "NY_AFTERNOON",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260507_2301_EA921F32",
+        "date": "2026-05-07",
+        "session": "LATE_US_ASIA_HANDOVER",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260508_0004_6DEA5FBA",
+        "date": "2026-05-08",
+        "session": "ASIAN_SESSION",
+        "memory_family": "FRICTION_ABSORPTION_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260508_0104_786D57F9",
+        "date": "2026-05-08",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260508_0204_41473FF9",
+        "date": "2026-05-08",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "NUANCED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "RAW_NUANCES_PROXY;PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; NUANCED_BY_RAW: useful but not hard-confirmed raw; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260508_0304_34231093",
+        "date": "2026-05-08",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      },
+      {
+        "film_id": "B6FC_20260508_0404_8B415FE5",
+        "date": "2026-05-08",
+        "session": "ASIAN_SESSION",
+        "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+        "raw_agreement": "CONFIRMED_BY_RAW",
+        "source_quality_state": "SOURCE_QUALITY_STRONG",
+        "source_mode": "M1_BAR_PROXY",
+        "confidence_cap": "0.35",
+        "technical_flags": "PROXY_READING;RETEST_NOT_EXPLICIT_IN_FILM_CARD;NOT_FULL_FOOTPRINT",
+        "limits": "FORCE_SNAPSHOT_DERIVED: reconstruction force_snapshots_v2; not recovered existing summary; proxy/reconstructed reading; not full footprint claim; CONFIRMED_BY_RAW: raw supports proxy reading; source_quality_raw=FULL_DAY_M1_PROXY; confidence_cap=0.35; read-only; no DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory only; no prediction; no BUY/SELL; no probability of success"
+      }
+    ]
+  },
+  "french_trader_report": {
+    "available": true,
+    "reading_fr": "Rapport FR trader non fourni."
+  },
+  "loop_checks": {
+    "missing_live_scene_fields": [],
+    "cross_family_match_count": 0,
+    "low_trust_in_results": false,
+    "raw_unavailable_in_results": false,
+    "false_positive_context_available": false,
+    "terrain_synthesis_available": true,
+    "forbidden_language_hits": [
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; no probability of success\", \"date"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\", \"audi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\", \"audi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\", \"audi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"fi"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "DB write; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative me"
+      },
+      {
+        "pattern": "\\bBUY\\b",
+        "excerpt": "parative memory only; no prediction; no BUY/SELL; no probability of success\"}]}, \"f"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; no probability of success\", \"date\": \"2"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\", \"audit\": {"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\", \"audit\": {"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\", \"audit\": {"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}, {\"film_id"
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "rite; no dashboard; no Telegram; no BUY/SELL; T0113 film card is comparative memory "
+      },
+      {
+        "pattern": "\\bSELL\\b",
+        "excerpt": "tive memory only; no prediction; no BUY/SELL; no probability of success\"}]}, \"french"
+      }
+    ]
+  },
+  "technical_limits": [
+    "Boucle read-only.",
+    "La similarité est une proximité de mémoire, pas une répétition certaine.",
+    "Une scène proxy reste proxy.",
+    "Aucune base, surface ou transmission n'est modifiée."
+  ],
+  "powerflow_contract": {
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "execution_order": false,
+    "success_rate": false
+  }
+}

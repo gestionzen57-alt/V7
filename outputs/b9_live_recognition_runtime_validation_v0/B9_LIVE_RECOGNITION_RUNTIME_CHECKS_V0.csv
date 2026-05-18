@@ -1,0 +1,22 @@
+check_name,state,severity,detail
+read_only_contract,PASS,P0,T0136 reads JSON inputs and writes only output artifacts.
+required_inputs,PASS,P0,All required inputs found.
+json_inputs_loadable,PASS,P0,All JSON inputs loaded.
+t0135_cli_execution,PASS,P0,"{
+  ""version"": ""T0135_B9_LIVE_SCENE_RECOGNITION_LOOP_V0"",
+  ""recognition_state"": ""B9_LIVE_SCENE_RECOGNITION_FORBIDDEN_LANGUAGE_REVIEW"",
+  ""loop_id"": ""B9LIVE_8A7F9EC29267"",
+  ""match_count"": 3,
+  ""top_match_film_id"": ""B6FC_20260514_1903_E8F0918A"",
+  ""cross_family_match_count"": 0,
+  ""low_trust_in_results"": false,
+  ""raw_unavailable_in_results"": false,
+  ""false_positive_context_available"": false,
+  ""terrain_synthesis_available"": true,
+  ""forbidden_language_hit_count"": 334,
+  ""output_dir"": ""outputs\\b9_live_recognition_runtime_validation_v0\\T0135_RUNTIME_EXECUTION""
+}
+
+"
+t0135_result_loaded,PASS,P0,outputs\b9_live_recognition_runtime_validation_v0\T0135_RUNTIME_EXECUTION\B9_LIVE_SCENE_RECOGNITION_LOOP_V0.json
+forbidden_language,PASS,P0,0 hits

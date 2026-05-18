@@ -1,0 +1,11 @@
+{
+  "version": "T0136_B9_LIVE_RECOGNITION_RUNTIME_VALIDATION_V0",
+  "branch": "feat/t0136-b9-live-recognition-runtime-validation",
+  "commit_message": "feat(t0136): add B9 live recognition runtime validation v0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}
