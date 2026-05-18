@@ -1,0 +1,11 @@
+{
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "time_start": "2026-05-15T10:00:00Z",
+  "time_end": "2026-05-15T10:23:00Z",
+  "label_fr": "Vague progressive réelle",
+  "scene_role": "PROGRESSIVE_FIRST_LEG",
+  "price_verdict": "ACCEPTED",
+  "source_quality_gate_state": "SOURCE_LIVE_UNQUALIFIED",
+  "raw_texture_state": "RAW_TEXTURE_MISSING",
+  "memory_confidence_state": "MEMORY_PARTIAL_COMPARABLE"
+}
