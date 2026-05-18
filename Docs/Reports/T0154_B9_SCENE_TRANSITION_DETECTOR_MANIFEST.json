@@ -1,0 +1,9 @@
+{
+  "version": "T0154_B9_SCENE_TRANSITION_DETECTOR_V0",
+  "branch": "feat/t0154-b9-scene-transition-detector",
+  "commit_message": "feat(t0154): add B9 scene transition detector v0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false
+}
