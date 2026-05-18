@@ -1,0 +1,11 @@
+{
+  "version": "T0134_B9_FRENCH_TRADER_SCENE_REPORT_V0",
+  "branch": "feat/t0134-b9-french-trader-scene-report",
+  "commit_message": "feat(t0134): add B9 French trader scene report v0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "order_execution": false,
+  "probability_of_success": false
+}
