@@ -1,0 +1,7 @@
+check,state,detail
+summary_input_loaded,PASS,moments=3
+native_or_fallback_enrichment,PASS,FALLBACK_USED_NATIVE_IMPORT_FAILED
+summarizer_hook_visible,WARN,SUMMARIZER_FILE_MISSING
+forbidden_language,PASS,hits=0
+db_write_absent,PASS,validator does not open or write DB
+trading_decision_absent,PASS,no BUY/SELL/probability semantics intended

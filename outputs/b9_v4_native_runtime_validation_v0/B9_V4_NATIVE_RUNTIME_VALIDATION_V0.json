@@ -1,0 +1,50 @@
+{
+  "version": "T0122_B9_V4_NATIVE_RUNTIME_VALIDATION_V0",
+  "generated_at_utc": "2026-05-18T09:01:20Z",
+  "sequence_summary_json": "/mnt/data/t0122_pkg/samples/b9_v4_native_runtime_validation_v0/sample_t009_sequence_summary_v4_candidate.json",
+  "output_dir": "/mnt/data/t0122_pkg/outputs/b9_v4_native_runtime_validation_v0",
+  "input_moments": 3,
+  "enrichment_state": "FALLBACK_USED_NATIVE_IMPORT_FAILED",
+  "enrichment_detail": "ModuleNotFoundError(\"No module named 'pf_t009_sequence_summarizer_v4_contract'\")",
+  "summarizer_inspection": {
+    "summarizer_path": "/mnt/data/t0122_pkg/pf_t009_sequence_summarizer.py",
+    "exists": false,
+    "state": "SUMMARIZER_FILE_MISSING"
+  },
+  "missing_required_field_counts": {},
+  "total_missing_required_fields": 0,
+  "forbidden_language_hits": [],
+  "runtime_validation_state": "PASS_WITH_SUMMARIZER_HOOK_WARNING",
+  "required_fields": [
+    "what_happens_fr",
+    "why_it_matters_fr",
+    "how_it_happened_fr",
+    "mechanism_fr",
+    "proof_summary_fr",
+    "previous_context_fr",
+    "cause_fr",
+    "reaction_fr",
+    "consequence_fr",
+    "memory_shift_fr",
+    "retest_role_fr",
+    "scene_id",
+    "scene_role",
+    "parent_scene",
+    "child_moments",
+    "session_chapter",
+    "fractal_reading_fr",
+    "b9_center_path_state",
+    "b9_effort_result_progress_state",
+    "b9_progress_type",
+    "b9_native_retest_judgment",
+    "b9_source_quality_native_state",
+    "b9_v4_timestamp_policy"
+  ],
+  "doctrine": {
+    "b9": "B9 cherche la trace laissée par l'effort.",
+    "no_prediction": true,
+    "no_buy_sell": true,
+    "no_db_write": true
+  },
+  "zip": "/mnt/data/t0122_pkg/outputs/b9_v4_native_runtime_validation_v0/B9_V4_NATIVE_RUNTIME_VALIDATION_V0.zip"
+}

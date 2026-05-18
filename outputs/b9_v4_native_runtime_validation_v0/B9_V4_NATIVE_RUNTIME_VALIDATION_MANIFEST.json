@@ -1,0 +1,25 @@
+{
+  "version": "T0122_B9_V4_NATIVE_RUNTIME_VALIDATION_V0",
+  "generated_at_utc": "2026-05-18T09:01:20Z",
+  "files": [
+    "B9_V4_NATIVE_RUNTIME_VALIDATION_V0.json",
+    "B9_V4_NATIVE_RUNTIME_VALIDATION_V0.md",
+    "B9_V4_NATIVE_RUNTIME_FIELD_COVERAGE_V0.csv",
+    "B9_V4_NATIVE_RUNTIME_CHECKS_V0.csv",
+    "B9_V4_NATIVE_RUNTIME_ENRICHED_SUMMARY_SAMPLE_V0.json",
+    "B9_V4_NATIVE_RUNTIME_VALIDATION_MANIFEST.json",
+    "B9_V4_NATIVE_RUNTIME_VALIDATION_V0.zip"
+  ],
+  "runtime_validation_state": "PASS_WITH_SUMMARIZER_HOOK_WARNING",
+  "input_moments": 3,
+  "total_missing_required_fields": 0,
+  "forbidden_language_hits": 0,
+  "constraints": {
+    "read_only": true,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell": false,
+    "probability_of_success": false
+  }
+}

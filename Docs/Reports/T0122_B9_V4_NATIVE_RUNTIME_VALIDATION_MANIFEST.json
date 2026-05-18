@@ -1,0 +1,13 @@
+{
+  "task": "T0122",
+  "name": "B9 V4 Native Runtime Validation",
+  "version": "T0122_B9_V4_NATIVE_RUNTIME_VALIDATION_V0",
+  "branch": "feat/t0122-b9-v4-native-runtime-validation",
+  "commit_message": "feat(t0122): add B9 V4 native runtime validation",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

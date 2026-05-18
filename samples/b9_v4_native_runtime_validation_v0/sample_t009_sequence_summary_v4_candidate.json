@@ -1,0 +1,46 @@
+{
+  "version": "SAMPLE_T009_SEQUENCE_SUMMARY_V4_CANDIDATE",
+  "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+  "source_mode": "M1_BAR_PROXY",
+  "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+  "confidence_cap": 0.35,
+  "moments": [
+    {
+      "time_start": "08:00",
+      "time_end": "08:14",
+      "label_fr": "Effort sans résultat",
+      "center_delta_pips": -1.2,
+      "center_range_pips": 2.1,
+      "absorption_mean": 0.88,
+      "failed_displacement_mean": 0.87,
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "confidence_cap": 0.35
+    },
+    {
+      "time_start": "10:11",
+      "time_end": "10:23",
+      "label_fr": "Vague progressive",
+      "center_delta_pips": 11.5,
+      "center_range_pips": 11.5,
+      "absorption_mean": 0.85,
+      "failed_displacement_mean": 0.77,
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "confidence_cap": 0.35
+    },
+    {
+      "time_start": "17:20",
+      "time_end": "17:47",
+      "label_fr": "Retest échoué / centre de gravité qui descend",
+      "center_delta_pips": -20.0,
+      "center_range_pips": 20.0,
+      "absorption_mean": 0.86,
+      "failed_displacement_mean": 0.83,
+      "retest_role_fr": "Le retest ne confirme pas l’acceptation haute.",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "confidence_cap": 0.35
+    }
+  ]
+}
