@@ -1,0 +1,22 @@
+{
+  "version": "T0158_T0148_JSON_CONTRACT_PATCH_V0_V2",
+  "branch": "feat/t0158-t0148-json-contract-patch",
+  "commit_message": "fix(t0158): formalize T0148 JSON contract keys",
+  "purpose": "Formalize T0148 JSON contract patch so live brief reads similar_films and false_positive_contexts.",
+  "files": [
+    "Docs/Reports/COMMANDES_T0158_T0148_JSON_CONTRACT_PATCH.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0158_T0148_JSON_CONTRACT_PATCH.md",
+    "Docs/Reports/T0158_T0148_JSON_CONTRACT_PATCH_REPORT.md",
+    "samples/t0148_json_contract_patch_v0/sample_old_as_list.py",
+    "tests/test_t0158_t0148_json_contract_patch.py",
+    "tools/apply_t0158_t0148_json_contract_patch.py"
+  ],
+  "constraints": [
+    "no DB",
+    "no dashboard",
+    "no Telegram",
+    "no BUY/SELL",
+    "no probability"
+  ],
+  "v2_note": "Ignore source-code guard terms BUY/SELL when applying patch; user-facing forbidden-language scans remain downstream."
+}
