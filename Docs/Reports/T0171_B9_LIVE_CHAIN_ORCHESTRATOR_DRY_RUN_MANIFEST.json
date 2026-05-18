@@ -1,0 +1,25 @@
+{
+  "version": "T0171_B9_LIVE_CHAIN_ORCHESTRATOR_DRY_RUN_V0",
+  "files": [
+    "pf_t009_live_chain_orchestrator_dry_run.py",
+    "tools/build_t0171_b9_live_chain_orchestrator_dry_run.py",
+    "scripts/RUN_T0171_B9_LIVE_CHAIN_ORCHESTRATOR_DRY_RUN_FROM_DOWNLOADS.ps1",
+    "tests/test_t0171_b9_live_chain_orchestrator_dry_run.py",
+    "Docs/Reports/T0171_B9_LIVE_CHAIN_ORCHESTRATOR_DRY_RUN_REPORT.md",
+    "Docs/Reports/COMMANDES_T0171_B9_LIVE_CHAIN_ORCHESTRATOR_DRY_RUN.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0171_B9_LIVE_CHAIN_ORCHESTRATOR_DRY_RUN.md",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_freshness_guard.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_latest_scene_candidate.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_candidate_queue.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_auto_realignment.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_live_brief_once.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_attention_packet.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_reality_board_payload.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_surface_adapter.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_telegram_gate.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_manual_approval.json",
+    "samples/b9_live_chain_orchestrator_dry_run_v0/sample_display_contract.json"
+  ],
+  "read_only": true,
+  "dry_run": true
+}
