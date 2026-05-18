@@ -1,0 +1,50 @@
+{
+  "version": "T0130_B9_CENTER_PATH_INTERNAL_FILM_V0",
+  "input": "samples/b9_center_path_internal_film_v0/sample_t009_sequence_summary_center_path.json",
+  "output_dir": "outputs/b9_center_path_internal_film_v0",
+  "moments": 5,
+  "total_missing_required_fields": 0,
+  "missing_required_field_counts": {
+    "b9_center_path_version": 0,
+    "b9_center_path_visibility": 0,
+    "b9_center_path_points": 0,
+    "b9_center_start": 0,
+    "b9_center_end": 0,
+    "b9_center_min": 0,
+    "b9_center_max": 0,
+    "b9_center_range_pips": 0,
+    "b9_center_net_delta_pips": 0,
+    "b9_center_max_favorable_excursion_pips": 0,
+    "b9_center_max_adverse_excursion_pips": 0,
+    "b9_center_inflexion_count": 0,
+    "b9_center_path_shape": 0,
+    "b9_internal_progress_state": 0,
+    "b9_center_path_reading_fr": 0,
+    "b9_center_path_limits": 0
+  },
+  "forbidden_language_hits": [],
+  "forbidden_language_hit_count": 0,
+  "preserved_field_changes": 0,
+  "shape_counts": {
+    "STAIR_STEP_PROGRESS_DOWN": 2,
+    "STRAIGHT_PROGRESS_UP": 1,
+    "STRAIGHT_PROGRESS_DOWN": 1,
+    "ROUND_TRIP_NO_PROGRESS": 1
+  },
+  "visibility_counts": {
+    "CENTER_PATH_VISIBLE": 4,
+    "CENTER_PATH_PROXY_EXTREMES": 1
+  },
+  "internal_progress_state_counts": {
+    "INTERNAL_STAIR_STEP_PROGRESS": 2,
+    "INTERNAL_PROGRESS_VISIBLE": 2,
+    "INTERNAL_ROUND_TRIP_CAUTION": 1
+  },
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "zip": "outputs/b9_center_path_internal_film_v0/B9_CENTER_PATH_INTERNAL_FILM_V0.zip"
+}

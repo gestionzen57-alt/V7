@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "source_mode": "M1_BAR_PROXY",
+    "data_visibility": "RECONSTRUCTED",
+    "confidence_cap": 0.35
+  },
+  "moments": [
+    {
+      "time_start": "2026-05-15T08:00:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat",
+      "moment_type": "T009_MOMENT_EFFORT_WITHOUT_RESULT",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_MEDIUM",
+      "center_path": [1.3363, 1.3357, 1.3353, 1.3358, 1.3355]
+    },
+    {
+      "time_start": "2026-05-15T10:11:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "label_fr": "Vague progressive",
+      "moment_type": "T009_MOMENT_PROGRESSIVE_WAVE",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_STRONG",
+      "center_path": [1.33627, 1.33655, 1.33692, 1.33715, 1.33742]
+    },
+    {
+      "time_start": "2026-05-15T11:01:00Z",
+      "time_end": "2026-05-15T11:18:00Z",
+      "label_fr": "Centre de gravité qui descend",
+      "moment_type": "T009_MOMENT_CENTER_MIGRATION_DOWN",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_STRONG",
+      "center_path": [1.33645, 1.33610, 1.33578, 1.33544, 1.33516]
+    },
+    {
+      "time_start": "2026-05-15T13:53:00Z",
+      "time_end": "2026-05-15T13:57:00Z",
+      "label_fr": "Rejet court sous le haut",
+      "moment_type": "T009_MOMENT_PROJECTION_DECAY",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_MEDIUM",
+      "center_path": [1.3382, 1.33915, 1.33885, 1.33840, 1.33821]
+    },
+    {
+      "time_start": "2026-05-15T20:12:00Z",
+      "time_end": "2026-05-15T21:00:00Z",
+      "label_fr": "Shelf lent sans reprise",
+      "moment_type": "T009_MOMENT_CORRECTIVE_BREATH",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "source_quality_state": "SOURCE_QUALITY_MEDIUM",
+      "center_start": 1.3335,
+      "center_end": 1.33286,
+      "center_min": 1.33285,
+      "center_max": 1.33376
+    }
+  ]
+}
