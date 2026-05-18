@@ -1,0 +1,28 @@
+{
+  "version": "T0168_B9_GOLDEN_TERRAIN_FIXTURE_BUILDER_V0",
+  "files": [
+    "pf_t009_golden_terrain_fixture_builder.py",
+    "tools/build_t0168_b9_golden_terrain_fixture_builder.py",
+    "scripts/RUN_T0168_B9_GOLDEN_TERRAIN_FIXTURE_BUILDER_FROM_DOWNLOADS.ps1",
+    "tests/test_t0168_b9_golden_terrain_fixture_builder.py",
+    "outputs/b9_golden_terrain_fixture_builder_v0/B9_GOLDEN_TERRAIN_FIXTURES_V0.json",
+    "outputs/b9_golden_terrain_fixture_builder_v0/B9_GOLDEN_TERRAIN_FIXTURES_V0.csv",
+    "outputs/b9_golden_terrain_fixture_builder_v0/B9_GOLDEN_TERRAIN_FIXTURES_READY_V0.csv",
+    "outputs/b9_golden_terrain_fixture_builder_v0/B9_GOLDEN_TERRAIN_FIXTURES_REVIEW_V0.csv",
+    "outputs/b9_golden_terrain_fixture_builder_v0/B9_GOLDEN_TERRAIN_FIXTURES_REJECTED_V0.csv",
+    "outputs/b9_golden_terrain_fixture_builder_v0/B9_GOLDEN_TERRAIN_FIXTURES_V0.md",
+    "outputs/b9_golden_terrain_fixture_builder_v0/B9_GOLDEN_TERRAIN_FIXTURE_BUILDER_MANIFEST.json",
+    "outputs/b9_golden_terrain_fixture_builder_v0/B9_GOLDEN_TERRAIN_FIXTURE_BUILDER_V0.zip",
+    "Docs/Reports/T0168_B9_GOLDEN_TERRAIN_FIXTURE_BUILDER_REPORT.md",
+    "Docs/Reports/COMMANDES_T0168_B9_GOLDEN_TERRAIN_FIXTURE_BUILDER.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0168_B9_GOLDEN_TERRAIN_FIXTURE_BUILDER.md",
+    "Docs/Reports/T0168_B9_GOLDEN_TERRAIN_FIXTURE_BUILDER_MANIFEST.json",
+    "samples/b9_golden_terrain_fixture_builder_v0/T0150_B9_GOLDEN_TERRAIN_CASES_V1_SAMPLE.csv"
+  ],
+  "created_at_utc": "2026-05-18T16:49:24.920453+00:00",
+  "doctrine": [
+    "B9 ne cherche pas le signal.",
+    "B9 cherche la trace laissée par l effort.",
+    "Une fixture terrain protège une lecture, elle ne décide pas."
+  ]
+}
