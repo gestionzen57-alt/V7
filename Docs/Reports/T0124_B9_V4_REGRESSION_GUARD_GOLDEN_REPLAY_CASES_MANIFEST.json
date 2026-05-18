@@ -1,0 +1,20 @@
+{
+  "version": "T0124_B9_V4_REGRESSION_GUARD_GOLDEN_REPLAY_CASES_V0",
+  "branch": "feat/t0124-b9-v4-regression-guard-golden-replay-cases",
+  "commit_message": "feat(t0124): add B9 V4 regression guard golden replay cases",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "golden_cases": [
+    "B9V4_GOLDEN_EFFORT_WITHOUT_RESULT",
+    "B9V4_GOLDEN_PROGRESSIVE_WAVE_UP",
+    "B9V4_GOLDEN_CENTER_MIGRATION_DOWN",
+    "B9V4_GOLDEN_RETEST_FAILED",
+    "B9V4_GOLDEN_CORRECTIVE_BREATH",
+    "B9V4_GOLDEN_SOURCE_QUALITY_TIMESTAMP"
+  ],
+  "next_step": "T0125_B9_V4_GOLDEN_REPLAY_BATCH_RUNNER"
+}

@@ -1,0 +1,70 @@
+[
+  {
+    "case_id": "B9V4_GOLDEN_EFFORT_WITHOUT_RESULT",
+    "expected_progress_type": "EFFORT_WITHOUT_RESULT",
+    "expected_center_path": "CENTER_BLOCKED_OR_ROTATING",
+    "expected_retest_judgment": "RETEST_NOT_VISIBLE",
+    "expected_label_contains": [
+      "effort",
+      "résultat"
+    ],
+    "why_guarded_fr": "Empêche B9 de lire un gros effort local comme direction si le progrès reste faible."
+  },
+  {
+    "case_id": "B9V4_GOLDEN_PROGRESSIVE_WAVE_UP",
+    "expected_progress_type": "PROGRESSIVE_WAVE",
+    "expected_center_path": "CENTER_MIGRATES_UP",
+    "expected_retest_judgment": "RETEST_VISIBLE_OR_PROXY_VISIBLE",
+    "expected_label_contains": [
+      "vague",
+      "progressive"
+    ],
+    "why_guarded_fr": "Empêche B9 de perdre la distinction effort + résultat + progrès quand la mémoire monte par paliers."
+  },
+  {
+    "case_id": "B9V4_GOLDEN_CENTER_MIGRATION_DOWN",
+    "expected_progress_type": "PROGRESSIVE_WAVE",
+    "expected_center_path": "CENTER_MIGRATES_DOWN",
+    "expected_retest_judgment": "RETEST_VISIBLE_OR_PROXY_VISIBLE",
+    "expected_label_contains": [
+      "centre",
+      "descend"
+    ],
+    "why_guarded_fr": "Protège le cas absorption + centre descendant = pression qui avance, pas support simple."
+  },
+  {
+    "case_id": "B9V4_GOLDEN_RETEST_FAILED",
+    "expected_progress_type": "RETEST_FAILED_OR_STRUCTURE_REJECTED",
+    "expected_center_path": "CENTER_MIGRATES_DOWN",
+    "expected_retest_judgment": "RETEST_FAILED",
+    "expected_label_contains": [
+      "retest",
+      "échoué"
+    ],
+    "why_guarded_fr": "Protège la règle B9 : la cassure ou reprise est jugée par le retest, pas par l'impulsion."
+  },
+  {
+    "case_id": "B9V4_GOLDEN_CORRECTIVE_BREATH",
+    "expected_progress_type": "CORRECTIVE_OR_PARTIAL_PROGRESS",
+    "expected_center_path": "CENTER_MIGRATES_UP",
+    "expected_retest_judgment": "RETEST_NOT_VISIBLE",
+    "expected_label_contains": [
+      "respiration",
+      "corrective"
+    ],
+    "why_guarded_fr": "Empêche B9 de confondre respiration/correction avec déplacement durable de mémoire."
+  },
+  {
+    "case_id": "B9V4_GOLDEN_SOURCE_QUALITY_TIMESTAMP",
+    "expected_progress_type": "LOCAL_FRICTION_OR_DECISION_AREA",
+    "expected_center_path": "CENTER_BLOCKED_OR_ROTATING",
+    "expected_retest_judgment": "RETEST_NOT_VISIBLE_SOURCE_LIMITED",
+    "expected_source_quality": "SOURCE_LIMITED_RAW_UNAVAILABLE",
+    "expected_timestamp_policy": "ORIGINAL_TIME_REQUIRED_WHEN_SHIFTED_REPLAY_PRESENT",
+    "expected_label_contains": [
+      "source",
+      "limitée"
+    ],
+    "why_guarded_fr": "Protège source quality, RAW_UNAVAILABLE, confidence_cap et timestamp policy shifted/replay."
+  }
+]

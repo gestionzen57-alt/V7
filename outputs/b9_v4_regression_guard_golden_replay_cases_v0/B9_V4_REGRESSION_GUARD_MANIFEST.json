@@ -1,0 +1,21 @@
+{
+  "version": "T0124_B9_V4_REGRESSION_GUARD_GOLDEN_REPLAY_CASES_V0_V2",
+  "generated_at": "2026-05-18T09:15:43+00:00",
+  "input_summary": "samples/b9_v4_regression_guard_golden_replay_cases_v0/sample_b9_v4_golden_replay_cases_input.json",
+  "contract_source": "LOCAL_REGRESSION_GUARD_FALLBACK_DETERMINISTIC_V2",
+  "regression_guard_state": "PASS",
+  "input_moments": 6,
+  "enriched_moments": 6,
+  "golden_case_count": 6,
+  "golden_cases_passed": 6,
+  "golden_cases_failed": 0,
+  "total_missing_required_fields": 0,
+  "forbidden_language_hit_count": 0,
+  "preservation_diff_count": 0,
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}
