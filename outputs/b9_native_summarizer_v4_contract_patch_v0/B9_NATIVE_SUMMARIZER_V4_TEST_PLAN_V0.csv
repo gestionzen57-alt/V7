@@ -1,0 +1,6 @@
+test_id,target,command,expected
+T0120_TEST_01,syntax,python -m py_compile pf_t009_sequence_summarizer_v4_contract.py tools\build_t0120_b9_native_summarizer_v4_contract_patch.py,success
+T0120_TEST_02,unit,python -m pytest tests\test_t0120_b9_native_summarizer_v4_contract_patch.py,2 passed
+T0120_TEST_03,field coverage,CLI validation,all required V1/V2/V3/V4 fields covered on all moments
+T0120_TEST_04,forbidden language,scan enriched summary,no BUY/SELL/probability hits
+T0120_TEST_05,retest visibility,inspect b9_native_retest_judgment,NOT_VISIBLE remains explicit and not hardened

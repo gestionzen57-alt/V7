@@ -1,0 +1,32 @@
+{
+  "version": "T0120_B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_V0",
+  "branch": "feat/t0120-b9-native-summarizer-v4-contract-patch",
+  "commit_message": "feat(t0120): add B9 native summarizer v4 contract patch",
+  "policy": [
+    "read-only",
+    "no DB write",
+    "no dashboard",
+    "no Telegram",
+    "no BUY/SELL",
+    "no probability of success"
+  ],
+  "files": [
+    "pf_t009_sequence_summarizer_v4_contract.py",
+    "tools/build_t0120_b9_native_summarizer_v4_contract_patch.py",
+    "scripts/RUN_T0120_B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_FROM_DOWNLOADS.ps1",
+    "tests/test_t0120_b9_native_summarizer_v4_contract_patch.py",
+    "samples/b9_native_summarizer_v4_contract_patch_v0/sample_t009_sequence_summary_raw_calibrated.json",
+    "Docs/Reports/T0120_B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_REPORT.md",
+    "Docs/Reports/T0120_B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0120_B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0120_B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH.md",
+    "outputs/b9_native_summarizer_v4_contract_patch_v0/B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_V0.md",
+    "outputs/b9_native_summarizer_v4_contract_patch_v0/B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_V0.json",
+    "outputs/b9_native_summarizer_v4_contract_patch_v0/B9_NATIVE_SUMMARIZER_V4_FIELD_COVERAGE_V0.csv",
+    "outputs/b9_native_summarizer_v4_contract_patch_v0/B9_NATIVE_SUMMARIZER_V4_PATCH_RULES_V0.csv",
+    "outputs/b9_native_summarizer_v4_contract_patch_v0/B9_NATIVE_SUMMARIZER_V4_TEST_PLAN_V0.csv",
+    "outputs/b9_native_summarizer_v4_contract_patch_v0/B9_NATIVE_SUMMARIZER_V4_INTEGRATION_SKETCH.patch",
+    "outputs/b9_native_summarizer_v4_contract_patch_v0/B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_MANIFEST.json",
+    "outputs/b9_native_summarizer_v4_contract_patch_v0/B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH_V0.zip"
+  ]
+}

@@ -1,0 +1,9 @@
+rule_id,rule,native_fields,purpose,forbidden
+T0120_R01,V1_WHY_HOW_NATIVE,what_happens_fr|why_it_matters_fr|how_it_happened_fr|mechanism_fr|proof_summary_fr,Explain the moment without converting it into a signal.,BUY/SELL/probability of success
+T0120_R02,V2_SCENE_CAUSALITY_NATIVE,previous_context_fr|cause_fr|reaction_fr|consequence_fr|memory_shift_fr|retest_role_fr,"Link moments as cause, reaction, consequence, memory shift.",hard causal certainty when source is proxy/reconstructed
+T0120_R03,V3_FRACTAL_SCENE_NATIVE,scene_id|scene_role|parent_scene|child_moments|session_chapter|fractal_reading_fr,"Connect microfilm, moment, scene, and chapter.",new heavy spine or dashboard dependency
+T0120_R04,CENTER_PATH_INTERNAL_FILM,b9_center_path_state,Avoid start/end blindness by preserving center path reading.,classifying a scene only from first/last value when internal path matters
+T0120_R05,EFFORT_RESULT_PROGRESS_NATIVE,b9_effort_result_progress_state|b9_progress_type,"Separate effort, result, and progress in native B9 language.",reading absorption as direction
+T0120_R06,NATIVE_RETEST_JUDGE,b9_native_retest_judgment|retest_role_fr,Make retest visibility and judgment explicit.,validating a break if retest is not visible
+T0120_R07,SOURCE_QUALITY_NATIVE,b9_source_quality_native_state|proof_summary_fr,Keep raw/proxy/source quality visible in every moment.,hardening proxy into raw truth
+T0120_R08,TIMESTAMP_POLICY_NATIVE,b9_v4_timestamp_policy,Preserve canonical time fields and flag shifted/replay handling explicitly.,hidden shifted/replay timestamps in final report
