@@ -1,0 +1,20 @@
+{
+  "version": "T0156_B9_REALITY_BOARD_INTEGRATION_CANDIDATE_V0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard_live": false,
+  "telegram": false,
+  "buy_sell": false,
+  "success_probability": false,
+  "files": [
+    "pf_t009_reality_board_integration_candidate.py",
+    "tools/build_t0156_b9_reality_board_integration_candidate.py",
+    "scripts/RUN_T0156_B9_REALITY_BOARD_INTEGRATION_CANDIDATE_FROM_DOWNLOADS.ps1",
+    "tests/test_t0156_b9_reality_board_integration_candidate.py",
+    "samples/b9_reality_board_integration_candidate_v0/sample_b9_trader_attention_packet.json",
+    "Docs/Reports/T0156_B9_REALITY_BOARD_INTEGRATION_CANDIDATE_REPORT.md",
+    "Docs/Reports/T0156_B9_REALITY_BOARD_INTEGRATION_CANDIDATE_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0156_B9_REALITY_BOARD_INTEGRATION_CANDIDATE.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0156_B9_REALITY_BOARD_INTEGRATION_CANDIDATE.md"
+  ]
+}

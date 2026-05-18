@@ -1,0 +1,33 @@
+{
+  "version": "T0155_B9_TRADER_ATTENTION_PACKET_V0",
+  "packet_state": "B9_TRADER_ATTENTION_PACKET_REVIEW_TECHNICAL_RISK",
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "attention_reason_fr": "B9 voit une vague progressive acceptée, mais la mémoire comparable porte un piège technique fort.",
+  "scene_state": "SCENE_ACCEPTED",
+  "scene_role": "PROGRESSIVE_FIRST_LEG",
+  "price_verdict": "ACCEPTED",
+  "active_zone": {
+    "zone_low": 1.33506,
+    "zone_high": 1.33742,
+    "zone_label": "zone de progression 10:00-10:23"
+  },
+  "latest_node": {
+    "node_id": "NODE_20260515_1000_1023",
+    "node_role": "PROGRESSIVE_REACTION_NODE"
+  },
+  "memory_context": {
+    "memory_confidence_ladder": "MEMORY_PARTIAL_COMPARABLE",
+    "match_count": 3,
+    "top_match_film_id": "B6FC_20260511_1641_010496DB",
+    "false_positive_context_available": true,
+    "memory_reading_fr": "B6 trouve des films proches, mais le contexte faux positif reste élevé. Comparer, ne pas projeter."
+  },
+  "technical_risks": [
+    "Source live candidate encore unqualified côté raw texture.",
+    "Contexte faux positif HIGH : mémoire proche mais fragile.",
+    "force_snapshots_v2 vide sur le run local observé."
+  ],
+  "what_to_watch_next_fr": "Surveiller le prochain retest et la cohérence du centre interne avant de durcir la lecture.",
+  "no_trade_decision_guard": true,
+  "forbidden_language_hits": []
+}
