@@ -1,0 +1,93 @@
+{
+  "metadata": {
+    "symbol": "GBPUSD",
+    "version": "sample_t0133"
+  },
+  "moments": [
+    {
+      "moment_id": "M1_FORCE_CONFIRMED_PROXY",
+      "date": "2026-05-15",
+      "time_start": "2026-05-15T10:00:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+      "confidence_cap": 0.35,
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "proxy_raw_agreement_state": "RAW_SUPPORTS_PROXY_READING",
+      "source_quality_score": 0.78,
+      "source_quality_state": "STRONG",
+      "raw_tick_count": 244,
+      "label_fr": "Vague progressive"
+    },
+    {
+      "moment_id": "M2_NUANCED_PROXY",
+      "date": "2026-05-15",
+      "time_start": "2026-05-15T11:00:00Z",
+      "time_end": "2026-05-15T11:31:00Z",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+      "confidence_cap": 0.35,
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "proxy_raw_agreement_state": "RAW_NUANCES_PROXY_READING",
+      "source_quality_score": 0.66,
+      "source_quality_state": "MEDIUM",
+      "raw_tick_count": 180,
+      "label_fr": "Centre de gravité qui descend"
+    },
+    {
+      "moment_id": "M3_RAW_UNAVAILABLE",
+      "date": "2026-05-15",
+      "time_start": "2026-05-15T12:00:00Z",
+      "time_end": "2026-05-15T12:15:00Z",
+      "source_family": "FORCE_SNAPSHOT_DERIVED",
+      "summary_recovery_type": "FORCE_SNAPSHOT_DERIVED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED_FORCE_SNAPSHOT_DERIVED",
+      "confidence_cap": 0.25,
+      "proxy_vs_raw_verdict": "RAW_UNAVAILABLE",
+      "proxy_raw_agreement_state": "RAW_UNAVAILABLE",
+      "source_quality_score": 0.2,
+      "source_quality_state": "WEAK",
+      "raw_tick_count": 0,
+      "label_fr": "Lecture partielle"
+    },
+    {
+      "moment_id": "M4_RECOVERED_NUANCED",
+      "date": "2026-05-06",
+      "time_start": "2026-05-06T00:10:00Z",
+      "time_end": "2026-05-06T00:25:00Z",
+      "source_family": "RECOVERED_EXISTING_B9_SUMMARY",
+      "summary_recovery_type": "RECOVERED_EXISTING_B9_SUMMARY",
+      "source_mode": "HISTORICAL_RAW_SHIFT0",
+      "data_visibility": "RECOVERED_SUMMARY_WITH_RAW_TEXTURE",
+      "confidence_cap": 0.65,
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "proxy_raw_agreement_state": "RAW_NUANCES_RECOVERED_READING",
+      "source_quality_score": 0.58,
+      "source_quality_state": "MEDIUM",
+      "raw_tick_count": 52,
+      "label_fr": "Relâchement haussier validé"
+    },
+    {
+      "moment_id": "M5_ORIGINAL_FULL_RAW",
+      "date": "2026-05-15",
+      "time_start": "2026-05-15T13:00:00Z",
+      "time_end": "2026-05-15T13:15:00Z",
+      "source_family": "ORIGINAL_AVAILABLE_SUMMARY",
+      "summary_recovery_type": "ORIGINAL_AVAILABLE_SUMMARY",
+      "source_mode": "ONTICK_RAW",
+      "data_visibility": "FULL_RAW",
+      "confidence_cap": 1.0,
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "proxy_raw_agreement_state": "RAW_CONFIRMS_READING",
+      "source_quality_score": 0.94,
+      "source_quality_state": "HIGH",
+      "raw_tick_count": 999,
+      "label_fr": "Palier raw confirmé"
+    }
+  ]
+}
