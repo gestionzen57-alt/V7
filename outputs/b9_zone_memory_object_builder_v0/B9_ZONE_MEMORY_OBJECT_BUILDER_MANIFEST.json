@@ -1,0 +1,27 @@
+{
+  "version": "T0141_B9_ZONE_MEMORY_OBJECT_BUILDER_V0",
+  "input": "samples\\b9_zone_memory_object_builder_v0\\sample_t009_sequence_summary_zone_memory.json",
+  "output_dir": "outputs\\b9_zone_memory_object_builder_v0",
+  "zone_object_count": 6,
+  "state_counts": {
+    "ZONE_MEMORY_DEFENDED": 1,
+    "ZONE_MEMORY_REJECTED": 2,
+    "ZONE_MEMORY_PENDING": 2,
+    "ZONE_MEMORY_ACCEPTED": 1
+  },
+  "missing_required_field_counts": {},
+  "forbidden_language_hits": [],
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "files": [
+    "B9_ZONE_MEMORY_OBJECTS_V0.json",
+    "B9_ZONE_MEMORY_OBJECTS_V0.csv",
+    "B9_ZONE_MEMORY_OBJECTS_V0.md",
+    "B9_ZONE_MEMORY_OBJECT_COUNTS_V0.csv"
+  ],
+  "zip": "outputs\\b9_zone_memory_object_builder_v0\\B9_ZONE_MEMORY_OBJECT_BUILDER_V0.zip"
+}

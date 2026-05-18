@@ -1,0 +1,12 @@
+{
+  "version": "T0141_B9_ZONE_MEMORY_OBJECT_BUILDER_V0",
+  "branch": "feat/t0141-b9-zone-memory-object-builder",
+  "commit_message": "feat(t0141): add B9 zone memory object builder v0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "next_task": "T0142 — B9 Terrain Node Builder V0"
+}
