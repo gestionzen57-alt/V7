@@ -1,0 +1,31 @@
+{
+  "version": "T0119_B9_MAX_OPTIMIZATION_V0",
+  "created_at_utc": "2026-05-18T07:41:12.479362+00:00",
+  "files": [
+    "B9_MAX_OPTIMIZATION_V0.md",
+    "B9_MAX_OPTIMIZATION_V0.json",
+    "B9_MAX_OPTIMIZATION_GAP_MATRIX_V0.csv",
+    "B9_MAX_OPTIMIZATION_PATCH_QUEUE_V0.csv",
+    "B9_MAX_OPTIMIZATION_RULES_V0.csv",
+    "B9_MAX_OPTIMIZATION_TEST_PLAN_V0.csv",
+    "B9_MAX_OPTIMIZATION_MANIFEST.json",
+    "B9_MAX_OPTIMIZATION_V0.zip"
+  ],
+  "summary": {
+    "version": "T0119_B9_MAX_OPTIMIZATION_V0",
+    "generated_at_utc": "2026-05-18T07:41:12.479362+00:00",
+    "input_moments": 52,
+    "docs_scanned": 6,
+    "native_retest_ratio": 0.0,
+    "retest_visibility_ratio": 0.0192,
+    "p0_patch_now_count": 7,
+    "forbidden_language_hits": [],
+    "output_dir": "/mnt/data/t0119_b9_max_optimization_v0_work/out"
+  },
+  "read_only": true,
+  "db_writes": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false
+}

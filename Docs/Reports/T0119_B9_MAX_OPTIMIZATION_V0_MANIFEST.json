@@ -1,0 +1,20 @@
+{
+  "version": "T0119_B9_MAX_OPTIMIZATION_V0",
+  "branch": "feat/t0119-b9-max-optimization-v0",
+  "commit_message": "feat(t0119): add B9 max optimization v0",
+  "read_only": true,
+  "db_writes": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "next_task": "T0120_B9_NATIVE_SUMMARIZER_V4_CONTRACT_PATCH",
+  "summary": {
+    "input_moments": 52,
+    "docs_scanned": 6,
+    "native_retest_ratio": 0.0,
+    "retest_visibility_ratio": 0.0192,
+    "p0_patch_now_count": 7,
+    "forbidden_language_hits": []
+  }
+}
