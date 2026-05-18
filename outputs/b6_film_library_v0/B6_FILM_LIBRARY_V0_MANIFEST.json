@@ -1,0 +1,36 @@
+{
+  "artifact": "T0113_B6_FILM_CARD_BUILDER_V0",
+  "input_csv": "/mnt/data/B6_MEMORY_CANDIDATE_BOARD_V0_FINAL/B6_MEMORY_CANDIDATE_BOARD_V0.csv",
+  "input_rows": 174,
+  "active_film_cards": 151,
+  "low_trust_rows": 2,
+  "rejected_rows": 21,
+  "counts_by_candidate_state": {
+    "B6_LOW_TRUST_CANDIDATE": 2,
+    "B6_REJECT_RAW_UNAVAILABLE": 21,
+    "B6_KEEP_CANDIDATE": 138,
+    "B6_REVIEW_CANDIDATE": 13
+  },
+  "counts_by_source_family_active": {
+    "FORCE_SNAPSHOT_DERIVED": 99,
+    "RECOVERED_EXISTING_B9_SUMMARY": 52
+  },
+  "counts_by_raw_agreement_active": {
+    "CONFIRMED_BY_RAW": 40,
+    "NUANCED_BY_RAW": 111
+  },
+  "counts_by_memory_family_active": {
+    "DIRECTIONAL_PROGRESS_MEMORY": 78,
+    "FRICTION_ABSORPTION_MEMORY": 65,
+    "ROTATION_BREATH_MEMORY": 8
+  },
+  "policy": {
+    "no_db_write": true,
+    "no_dashboard": true,
+    "no_telegram": true,
+    "no_buy_sell": true,
+    "no_probability_of_success": true,
+    "force_snapshot_derived_not_recovered_existing_summary": true,
+    "nuanced_by_raw_not_hardened_to_confirmed": true
+  }
+}
