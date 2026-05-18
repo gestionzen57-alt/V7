@@ -1,0 +1,15 @@
+{
+  "version": "T0147_B9_LIVE_SCENE_CANDIDATE_QUEUE_V0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "directional_order": false,
+  "success_rate": false,
+  "files": [
+    "pf_t009_live_scene_candidate_queue.py",
+    "tools/build_t0147_b9_live_scene_candidate_queue.py",
+    "scripts/RUN_T0147_B9_LIVE_SCENE_CANDIDATE_QUEUE_FROM_DOWNLOADS.ps1",
+    "tests/test_t0147_b9_live_scene_candidate_queue.py"
+  ]
+}
