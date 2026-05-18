@@ -1,0 +1,25 @@
+{
+  "version": "T0118_B6_HUMAN_TERRAIN_SYNTHESIS_V0",
+  "generated_at_utc": "2026-05-18T07:34:03Z",
+  "input_cards": 151,
+  "outputs": [
+    "B6_HUMAN_TERRAIN_SYNTHESIS_V0.json",
+    "B6_HUMAN_TERRAIN_SYNTHESIS_V0.md",
+    "B6_HUMAN_TERRAIN_FAMILY_COUNTS_V0.csv",
+    "B6_HUMAN_TERRAIN_DATE_COUNTS_V0.csv",
+    "B6_HUMAN_TERRAIN_PRIORITY_SCENES_V0.csv",
+    "B6_HUMAN_TERRAIN_TECHNICAL_LIMITS_V0.csv",
+    "B6_HUMAN_TERRAIN_FALSE_POSITIVE_FLAGS_V0.csv",
+    "B6_HUMAN_TERRAIN_SYNTHESIS_V0_MANIFEST.json",
+    "B6_HUMAN_TERRAIN_SYNTHESIS_V0.zip"
+  ],
+  "integrity": {
+    "low_trust_in_active_cards": false,
+    "raw_unavailable_in_active_cards": false,
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell": false,
+    "probability_of_success": false
+  }
+}
