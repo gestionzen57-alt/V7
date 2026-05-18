@@ -1,0 +1,10 @@
+{
+  "version": "T0117_B6_FALSE_POSITIVE_CONTEXT_V0",
+  "rows": [
+    {
+      "film_id": "B6FC_20260514_1903_E8F0918A",
+      "b9_memory_false_positive_state": "MEMORY_FP_MEDIUM",
+      "b9_memory_similarity_caution_fr": "Film proche, mais la source actuelle est seulement nuancée par le raw et le chemin interne doit être comparé avant de durcir la lecture."
+    }
+  ]
+}

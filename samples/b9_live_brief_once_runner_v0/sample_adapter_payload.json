@@ -1,0 +1,8 @@
+{
+  "version": "T0116_B6_LIVE_SCENE_ADAPTER_V0",
+  "film_id": "LIVE_SCENE_F4930E9A5C",
+  "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+  "memory_family_origin": "heuristic_text_directional_progress",
+  "adapter_state": "ADAPTER_READY_HEURISTIC_FAMILY",
+  "t0115_compatible": true
+}

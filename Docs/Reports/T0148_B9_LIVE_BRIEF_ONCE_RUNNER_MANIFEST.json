@@ -1,0 +1,9 @@
+{
+  "version": "T0148_B9_LIVE_BRIEF_ONCE_RUNNER_V0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "branch": "feat/t0148-b9-live-brief-once-runner",
+  "commit_message": "feat(t0148): add B9 live brief once runner v0"
+}

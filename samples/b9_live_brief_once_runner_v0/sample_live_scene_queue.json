@@ -1,0 +1,7 @@
+{
+  "version": "T0147_B9_LIVE_SCENE_CANDIDATE_QUEUE_V0",
+  "candidates": [
+    {"candidate_id": "B9LIVE_20260515_1100_1131", "queue_state": "READY"},
+    {"candidate_id": "B9LIVE_20260515_1000_1023", "queue_state": "REVIEW"}
+  ]
+}

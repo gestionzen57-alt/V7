@@ -1,0 +1,13 @@
+{
+  "candidate_id": "B9LIVE_20260515_1100_1131",
+  "scene_role": "CENTER_MIGRATION_DOWN_MEMORY_SHIFT",
+  "b9_scene_role": "CENTER_MIGRATION_DOWN_MEMORY_SHIFT",
+  "b9_price_verdict_state": "REJECTED",
+  "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED",
+  "b9_memory_ladder_state": "MEMORY_PARTIAL_COMPARABLE",
+  "b9_b6_scene_family": "CENTER_MIGRATION_DOWN_AFTER_RETEST",
+  "price_origin_fr": "Le prix revient d'une zone haute testée puis perd ses centres par paliers.",
+  "active_zone_fr": "Zone de décision travaillée autour du centre précédent.",
+  "b9_effort_result_progress_reading_fr": "Absorption répétée avec centre descendant : la pression avance par paliers, elle ne bloque pas le mouvement.",
+  "retest_judgment_fr": "Le retest ne confirme pas la reprise haute ; la zone reste défavorable."
+}

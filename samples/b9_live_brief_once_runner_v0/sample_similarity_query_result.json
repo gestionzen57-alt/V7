@@ -1,0 +1,13 @@
+{
+  "version": "T0115_B6_SIMILARITY_QUERY_CLI_API_V0",
+  "query_id": "B6Q_SAMPLE",
+  "matches": 3,
+  "cross_family_match_count": 0,
+  "low_trust_in_results": false,
+  "raw_unavailable_in_results": false,
+  "rows": [
+    {"film_id": "B6FC_20260514_1903_E8F0918A", "memory_family": "DIRECTIONAL_PROGRESS_MEMORY", "similarity_score": 0.84, "source_quality_state": "SOURCE_RAW_NUANCED"},
+    {"film_id": "B6FC_20260515_1100_A9B001", "memory_family": "FRICTION_ABSORPTION_MEMORY", "similarity_score": 0.72, "source_quality_state": "SOURCE_RAW_NUANCED"},
+    {"film_id": "B6FC_20260507_1530_C7A233", "memory_family": "ROTATION_BREATH_MEMORY", "similarity_score": 0.66, "source_quality_state": "SOURCE_RECONSTRUCTED_LIMITED"}
+  ]
+}
