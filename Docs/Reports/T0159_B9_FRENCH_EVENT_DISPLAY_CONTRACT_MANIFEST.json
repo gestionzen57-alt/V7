@@ -1,0 +1,18 @@
+{
+  "version": "T0159_B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard_live": false,
+  "telegram_send": false,
+  "files": [
+    "pf_b9_french_event_display_contract.py",
+    "tools/build_t0159_b9_french_event_display_contract.py",
+    "scripts/RUN_T0159_B9_FRENCH_EVENT_DISPLAY_CONTRACT_FROM_DOWNLOADS.ps1",
+    "tests/test_t0159_b9_french_event_display_contract.py",
+    "samples/b9_french_event_display_contract_v0/sample_extra_events.json",
+    "Docs/Reports/T0159_B9_FRENCH_EVENT_DISPLAY_CONTRACT_REPORT.md",
+    "Docs/Reports/T0159_B9_FRENCH_EVENT_DISPLAY_CONTRACT_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0159_B9_FRENCH_EVENT_DISPLAY_CONTRACT.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0159_B9_FRENCH_EVENT_DISPLAY_CONTRACT.md"
+  ]
+}

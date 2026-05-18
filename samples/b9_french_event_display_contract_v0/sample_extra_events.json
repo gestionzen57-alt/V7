@@ -1,0 +1,12 @@
+{
+  "extra_entries": [
+    {
+      "category": "scene_state",
+      "enum_key": "SCENE_SAMPLE_CUSTOM_REVIEW",
+      "label_fr_short": "Scene sample en revue",
+      "phrase_fr_trader": "Scene sample a lire en revue technique.",
+      "technical_limit_fr": "Evenement sample ajoute par le builder T0159.",
+      "severity_hint": "REVIEW"
+    }
+  ]
+}

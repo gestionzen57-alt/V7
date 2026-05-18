@@ -1,33 +1,40 @@
 # T0159 — B9 French Event Display Contract V0
 
-## Résumé
+## Résumé exécutif
 
-Contrat de traduction français trader pour les enums B9/B6 destinés aux surfaces d’affichage.
+T0159 crée une couche de traduction FR trader pour les événements B9/B6 utilisés par dashboard, Reality Board et Telegram preview.
+
+Le moteur garde les enums techniques anglais pour les tests et la stabilité. Les surfaces affichent un libellé et une phrase en français trader.
+
+## Doctrine
+
+B9 ne cherche pas le signal.  
+B9 cherche la trace laissée par l'effort.  
+B6 compare les films.  
+L'affichage transmet une lecture, pas une décision.
+
+## Catégories couvertes
+
+- scene_state
+- scene_transition
+- scene_role
+- price_verdict
+- terrain_node
+- memory_confidence_ladder
+- false_positive_context
+- source_quality_gate
+- telegram_gate_state
+- reality_board_payload_state
 
 ## Sorties
 
-- JSON : `outputs\b9_french_event_display_contract_v0\B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.json`
-- CSV : `outputs\b9_french_event_display_contract_v0\B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.csv`
-- Markdown : `outputs\b9_french_event_display_contract_v0\B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.md`
-- ZIP : `outputs\b9_french_event_display_contract_v0\B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.zip`
+- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.json`
+- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.csv`
+- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.md`
+- `B9_FRENCH_EVENT_DISPLAY_EXAMPLES_V0.json`
+- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_MANIFEST.json`
+- `B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0.zip`
 
-## Validation
+## Limites
 
-- Version : `T0159_B9_FRENCH_EVENT_DISPLAY_CONTRACT_V0`
-- Events couverts : `91`
-- Passed : `True`
-- Forbidden display hits : `0`
-
-## Contraintes respectées
-
-- Read-only.
-- Aucune DB.
-- Aucun dashboard live.
-- Aucun envoi Telegram.
-- Aucune décision d’exécution.
-- Aucune probabilité de résultat.
-
-## Lecture PowerFlow
-
-Le moteur garde les clés techniques. Les surfaces lisent le français trader.
-Un enum inconnu n’est pas masqué : il ressort comme traduction à ajouter.
+Read-only. Aucune DB. Aucun dashboard live. Aucun envoi Telegram. Aucun ordre directionnel. Aucun taux de réussite.
