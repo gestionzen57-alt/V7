@@ -1,313 +1,477 @@
-"""T0111 B9 native retest source fields scaffold.
+"""T0111 — B9 Native Retest Source Fields.
 
-This module is intentionally pure and DB-free.
-
-It provides a canonical enrichment helper that can be called by
-pf_t009_sequence_summarizer.py when it creates each B9 moment.
+Read-only enrichment module.
+Adds native retest evidence fields to a B9 moment dict
+produced by pf_t009_sequence_summarizer.
 
 Doctrine:
-- interpretation only
-- no BUY/SELL language
-- no DB write
-- no external Temporalité dependency
+    B9 ne cherche pas le signal.
+    B9 lit la trace laissée par l'effort, montre où la mémoire
+    se déplace, expose ses limites, puis laisse le trader décider.
+
+Rules:
+    - No DB write.
+    - No dashboard mutation.
+    - No Telegram.
+    - No BUY / SELL.
+    - No probability of success language.
+    - No global Forex volume claim.
+    - Source-aware: proxy reads produce lower confidence caps.
+
+Fields added per moment:
+    retest_source_fields_version   str   — T0111 tag
+    retest_touch_count             int   — nb of zone touches detected
+    retest_first_touch_time        str|None
+    retest_last_touch_time         str|None
+    retest_delay_seconds           float|None — delay first→last touch
+    retest_acceptance_dwell_seconds float|None — time price spent inside zone
+    retest_rejection_speed_pips_per_min float|None
+    retest_zone_distance_pips      float|None — center delta from zone anchor
+    retest_outcome_hint            str   — canonical outcome enum
+    retest_source_field_confidence str   — HIGH / MEDIUM / LOW / PROXY_CAUTION
+    zone_memory.touch_count        int   (updates zone_memory sub-dict)
+    zone_memory.last_tested        str   (updates zone_memory sub-dict)
+    zone_memory.retest_status      str   (updates zone_memory sub-dict)
 """
+
 from __future__ import annotations
 
 from copy import deepcopy
-from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Mapping, MutableMapping, Optional
-
+from typing import Any, Dict, List, Optional
 
 T0111_VERSION = "T0111_NATIVE_RETEST_SOURCE_FIELDS_V0"
 
-OUTCOME_ACCEPTED = "RETEST_OUTCOME_ACCEPTED"
-OUTCOME_REJECTED = "RETEST_OUTCOME_REJECTED_OR_FAILED"
-OUTCOME_PENDING = "RETEST_OUTCOME_PENDING"
-OUTCOME_FRICTION = "RETEST_OUTCOME_FRICTION"
-OUTCOME_ROTATIONAL = "RETEST_OUTCOME_ROTATIONAL"
-OUTCOME_NOT_VISIBLE = "RETEST_OUTCOME_NOT_VISIBLE"
+# ─────────────────────────────────────────────────────────────────────────────
+# Outcome enums — kept minimal, no directional bias
+# ─────────────────────────────────────────────────────────────────────────────
 
-CONF_EXPLICIT = "RETEST_SOURCE_FIELDS_EXPLICIT"
-CONF_PARTIAL = "RETEST_SOURCE_FIELDS_PARTIAL"
-CONF_INFERRED = "RETEST_SOURCE_FIELDS_INFERRED"
-CONF_NOT_VISIBLE = "RETEST_SOURCE_FIELDS_NOT_VISIBLE"
+RETEST_OUTCOME_NOT_VISIBLE     = "RETEST_OUTCOME_NOT_VISIBLE"
+RETEST_OUTCOME_ACCEPTED        = "RETEST_OUTCOME_ACCEPTED"
+RETEST_OUTCOME_FAILED          = "RETEST_OUTCOME_FAILED"
+RETEST_OUTCOME_PENDING         = "RETEST_OUTCOME_PENDING"
+RETEST_OUTCOME_PARTIAL         = "RETEST_OUTCOME_PARTIAL"
 
-
-def _s(value: Any) -> str:
-    return "" if value is None else str(value)
-
-
-def _f(value: Any, default: Optional[float] = None) -> Optional[float]:
-    try:
-        if value is None or value == "":
-            return default
-        return float(value)
-    except Exception:
-        return default
+# Confidence levels for source-aware language
+CONFIDENCE_HIGH          = "HIGH"
+CONFIDENCE_MEDIUM        = "MEDIUM"
+CONFIDENCE_LOW           = "LOW"
+CONFIDENCE_PROXY_CAUTION = "PROXY_CAUTION"
 
 
-def _i(value: Any, default: int = 0) -> int:
-    try:
-        if value is None or value == "":
-            return default
-        return int(float(value))
-    except Exception:
-        return default
+# ─────────────────────────────────────────────────────────────────────────────
+# Helpers
+# ─────────────────────────────────────────────────────────────────────────────
 
-
-def _parse_dt(value: Any) -> Optional[datetime]:
+def _safe_float(value: Any, default: Optional[float] = None) -> Optional[float]:
     if value is None or value == "":
+        return default
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _parse_iso(value: Any) -> Optional[datetime]:
+    if value is None:
         return None
-    if isinstance(value, datetime):
-        dt = value
-    else:
-        text = str(value).strip()
-        if text.endswith("Z"):
-            text = text[:-1] + "+00:00"
-        try:
-            dt = datetime.fromisoformat(text)
-        except Exception:
-            return None
-    if dt.tzinfo is None:
-        return dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+    if isinstance(value, (int, float)):
+        ts = float(value)
+        if ts > 10_000_000_000:
+            ts /= 1000.0
+        return datetime.fromtimestamp(ts, tz=timezone.utc)
+    text = str(value).strip().replace("Z", "+00:00").replace(" ", "T")
+    if not text:
+        return None
+    try:
+        dt = datetime.fromisoformat(text)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc)
+    except ValueError:
+        return None
 
 
-def _fmt_dt(value: Any) -> Optional[str]:
-    dt = _parse_dt(value)
+def _iso_utc(dt: Optional[datetime]) -> Optional[str]:
     if dt is None:
         return None
-    return dt.isoformat().replace("+00:00", "Z")
+    return dt.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def _seconds_between(a: Any, b: Any) -> Optional[float]:
-    da = _parse_dt(a)
-    db = _parse_dt(b)
-    if da is None or db is None:
+def _seconds_between(t1: Any, t2: Any) -> Optional[float]:
+    dt1, dt2 = _parse_iso(t1), _parse_iso(t2)
+    if dt1 is None or dt2 is None:
         return None
-    return round((db - da).total_seconds(), 3)
+    return abs((dt2 - dt1).total_seconds())
 
 
-def _zone(moment: Mapping[str, Any]) -> dict[str, Any]:
-    z = moment.get("zone_memory")
-    return dict(z) if isinstance(z, Mapping) else {}
+# ─────────────────────────────────────────────────────────────────────────────
+# Source confidence — lower when proxy/reconstructed
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _source_confidence(moment: Dict[str, Any]) -> str:
+    source_mode = str(moment.get("source_mode") or "").upper()
+    data_visibility = str(moment.get("data_visibility") or "").upper()
+    confidence_cap = _safe_float(moment.get("confidence_cap"), default=1.0)
+
+    if source_mode == "M1_BAR_PROXY" or data_visibility == "RECONSTRUCTED":
+        return CONFIDENCE_PROXY_CAUTION
+    if confidence_cap is not None and confidence_cap < 0.4:
+        return CONFIDENCE_LOW
+    if confidence_cap is not None and confidence_cap < 0.7:
+        return CONFIDENCE_MEDIUM
+
+    # Check source_profile sub-dict
+    sp = moment.get("source_profile")
+    if isinstance(sp, dict):
+        quality = str(sp.get("quality") or "").upper()
+        if "PROXY" in quality or "CAUTION" in quality:
+            return CONFIDENCE_PROXY_CAUTION
+        if "UNKNOWN" in quality:
+            return CONFIDENCE_LOW
+
+    return CONFIDENCE_HIGH
 
 
-def _pick(moment: Mapping[str, Any], zone: Mapping[str, Any], keys: list[str]) -> Any:
-    for key in keys:
-        if key in moment and moment.get(key) not in (None, ""):
-            return moment.get(key)
-        if key in zone and zone.get(key) not in (None, ""):
-            return zone.get(key)
+# ─────────────────────────────────────────────────────────────────────────────
+# Touch count — derived from retest_status + moment_type
+# ─────────────────────────────────────────────────────────────────────────────
+
+_RETEST_MOMENT_TYPES = {
+    "T009_MOMENT_BREAK_RETEST_FAILED",
+    "T009_MOMENT_RETRACE_DECISION_AREA",
+    "T009_MOMENT_BREAKOUT_PENDING_RETEST",
+    "T009_MOMENT_FLOW_BREATHING",
+}
+
+_ACTIVE_RETEST_STATUSES = {"ACTIVE_RETEST", "ACCEPTED", "PENDING", "FAILED"}
+
+
+def _infer_touch_count(moment: Dict[str, Any]) -> int:
+    """
+    Infer retest touch count from available fields.
+    Priority:
+      1. Explicit retest_touch_count already in moment (T0110 passthrough)
+      2. moment_type signals at least 1 touch
+      3. retest_status signals at least 1 touch
+    """
+    existing = moment.get("retest_touch_count")
+    if existing is not None:
+        try:
+            v = int(existing)
+            if v > 0:
+                return v
+        except (TypeError, ValueError):
+            pass
+
+    moment_type = str(moment.get("moment_type") or "")
+    retest_status = str(moment.get("retest_status") or "")
+
+    if moment_type in _RETEST_MOMENT_TYPES:
+        return 1
+    if retest_status in _ACTIVE_RETEST_STATUSES:
+        return 1
+    # zone_memory may carry touch info from T0110
+    zm = moment.get("zone_memory")
+    if isinstance(zm, dict):
+        tc = zm.get("touch_count")
+        if tc is not None:
+            try:
+                v = int(tc)
+                if v > 0:
+                    return v
+            except (TypeError, ValueError):
+                pass
+    return 0
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Retest timing fields
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _infer_retest_times(moment: Dict[str, Any], touch_count: int) -> Dict[str, Any]:
+    """
+    Return first/last touch times.
+    When only one touch detected: first == last == time_end of moment.
+    time_start is used as zone anchor reference.
+    """
+    if touch_count == 0:
+        return {
+            "retest_first_touch_time": None,
+            "retest_last_touch_time": None,
+            "retest_delay_seconds": None,
+        }
+
+    # Explicit fields take priority (may come from T0109/T0110 upstream)
+    first = moment.get("retest_first_touch_time")
+    last  = moment.get("retest_last_touch_time")
+
+    if first is None:
+        # Use time_end of the moment as the touch anchor
+        first = moment.get("time_end") or moment.get("time_start")
+    if last is None:
+        last = first
+
+    delay = _seconds_between(
+        moment.get("time_start"),
+        first,
+    )
+
+    return {
+        "retest_first_touch_time": first,
+        "retest_last_touch_time": last,
+        "retest_delay_seconds": round(delay, 1) if delay is not None else None,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Dwell + rejection speed
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _infer_dwell(moment: Dict[str, Any], touch_count: int) -> Optional[float]:
+    """
+    Estimate time price spent inside zone during retest.
+    Proxy: time_start → time_end of the moment for retest-type moments.
+    Returns None when not measurable.
+    """
+    if touch_count == 0:
+        return None
+    existing = moment.get("retest_acceptance_dwell_seconds")
+    if existing is not None:
+        v = _safe_float(existing)
+        if v is not None and v > 0:
+            return round(v, 1)
+
+    moment_type = str(moment.get("moment_type") or "")
+    if moment_type in (
+        "T009_MOMENT_RETRACE_DECISION_AREA",
+        "T009_MOMENT_FLOW_BREATHING",
+        "T009_MOMENT_ABSORPTION_SHELF",
+    ):
+        secs = _seconds_between(moment.get("time_start"), moment.get("time_end"))
+        if secs is not None:
+            return round(secs, 1)
     return None
 
 
-def _status_blob(moment: Mapping[str, Any], zone: Mapping[str, Any]) -> str:
-    values = [
-        moment.get("retest_status"),
-        moment.get("retest_state"),
-        moment.get("zone_retest_status"),
-        moment.get("memory_state"),
-        moment.get("retest_outcome_hint"),
-        zone.get("retest_status"),
-        zone.get("last_retest_status"),
-        zone.get("state"),
-        zone.get("memory_state"),
-    ]
-    return " ".join(_s(v).upper() for v in values if _s(v))
-
-
-def infer_retest_outcome_hint(moment: Mapping[str, Any]) -> str:
-    """Infer a conservative retest outcome hint from source fields.
-
-    This does not predict. It only canonicalizes visible source evidence.
+def _infer_rejection_speed(moment: Dict[str, Any], touch_count: int) -> Optional[float]:
     """
-    zone = _zone(moment)
-    blob = _status_blob(moment, zone)
+    Estimate rejection speed in pips/min when retest fails.
+    Uses center_delta_pips and moment duration.
+    """
+    if touch_count == 0:
+        return None
+    existing = moment.get("retest_rejection_speed_pips_per_min")
+    if existing is not None:
+        v = _safe_float(existing)
+        if v is not None and v > 0:
+            return round(v, 2)
 
-    if any(x in blob for x in ["FAILED", "FAIL", "REJECT", "INVALID"]):
-        return OUTCOME_REJECTED
-    if any(x in blob for x in ["ACCEPT", "VALID", "CONFIRM"]):
-        return OUTCOME_ACCEPTED
-    if any(x in blob for x in ["PENDING", "WATCH", "WAIT"]):
-        return OUTCOME_PENDING
-    if any(x in blob for x in ["ABSORB", "FRICTION"]):
-        return OUTCOME_FRICTION
-    if "ROTATION" in blob:
-        return OUTCOME_ROTATIONAL
+    moment_type = str(moment.get("moment_type") or "")
+    retest_status = str(moment.get("retest_status") or "")
 
-    return OUTCOME_NOT_VISIBLE
+    if moment_type != "T009_MOMENT_BREAK_RETEST_FAILED" and retest_status != "FAILED":
+        return None
 
-
-def _touch_count(moment: Mapping[str, Any], zone: Mapping[str, Any]) -> int:
-    candidates = [
-        moment.get("retest_touch_count"),
-        moment.get("zone_touch_count"),
-        moment.get("touch_count"),
-        moment.get("test_count"),
-        zone.get("retest_touch_count"),
-        zone.get("zone_touch_count"),
-        zone.get("touch_count"),
-        zone.get("test_count"),
-        zone.get("retest_count"),
-        zone.get("tests"),
-    ]
-    return max([_i(v, 0) for v in candidates] + [0])
-
-
-def _first_touch(moment: Mapping[str, Any], zone: Mapping[str, Any]) -> Any:
-    return _pick(moment, zone, [
-        "retest_first_touch_time",
-        "first_retest_time",
-        "first_touch_time",
-        "zone_first_touch_time",
-        "first_tested",
-    ])
-
-
-def _last_touch(moment: Mapping[str, Any], zone: Mapping[str, Any]) -> Any:
-    return _pick(moment, zone, [
-        "retest_last_touch_time",
-        "last_retest_time",
-        "last_touch_time",
-        "zone_last_touch_time",
-        "last_tested",
-        "last_seen",
-    ])
-
-
-def _acceptance_dwell(moment: Mapping[str, Any], zone: Mapping[str, Any], outcome: str) -> Optional[float]:
-    explicit = _pick(moment, zone, [
-        "retest_acceptance_dwell_seconds",
-        "acceptance_dwell_seconds",
-        "retest_dwell_seconds",
-    ])
-    if explicit is not None:
-        return _f(explicit, None)
-
-    if outcome == OUTCOME_ACCEPTED:
-        first_touch = _first_touch(moment, zone)
-        last_touch = _last_touch(moment, zone)
-        seconds = _seconds_between(first_touch, last_touch)
-        if seconds is not None and seconds >= 0:
-            return seconds
+    delta_pips = abs(_safe_float(moment.get("center_delta_pips"), 0.0) or 0.0)
+    duration_s = _seconds_between(moment.get("time_start"), moment.get("time_end"))
+    if duration_s and duration_s > 0 and delta_pips > 0:
+        pips_per_min = delta_pips / (duration_s / 60.0)
+        return round(pips_per_min, 2)
     return None
 
 
-def _rejection_speed(moment: Mapping[str, Any], zone: Mapping[str, Any], outcome: str) -> Optional[float]:
-    explicit = _pick(moment, zone, [
-        "retest_rejection_speed_pips_per_min",
-        "rejection_speed_pips_per_min",
-    ])
-    if explicit is not None:
-        return _f(explicit, None)
+# ─────────────────────────────────────────────────────────────────────────────
+# Zone distance
+# ─────────────────────────────────────────────────────────────────────────────
 
-    if outcome != OUTCOME_REJECTED:
-        return None
-
-    delta = abs(_f(moment.get("raw_delta_pips"), 0.0) or 0.0)
-    seconds = _seconds_between(moment.get("time_start"), moment.get("time_end"))
-    if seconds is None or seconds <= 0:
-        return None
-    return round((delta / seconds) * 60.0, 6)
-
-
-def _zone_distance(moment: Mapping[str, Any], zone: Mapping[str, Any]) -> Optional[float]:
-    value = _pick(moment, zone, [
-        "retest_zone_distance_pips",
-        "zone_distance_pips",
-        "distance_to_zone_pips",
-    ])
-    return _f(value, None)
-
-
-def _confidence(moment: Mapping[str, Any], zone: Mapping[str, Any], touch_count: int, first_touch: Any, last_touch: Any, outcome: str) -> str:
-    blob = _status_blob(moment, zone)
-    explicit_markers = ["ACCEPT", "VALID", "CONFIRM", "FAILED", "FAIL", "REJECT", "INVALID", "PENDING", "WATCH", "WAIT"]
-
-    if any(marker in blob for marker in explicit_markers):
-        return CONF_EXPLICIT
-    if touch_count > 0 or first_touch or last_touch:
-        return CONF_PARTIAL
-    if outcome != OUTCOME_NOT_VISIBLE:
-        return CONF_INFERRED
-    return CONF_NOT_VISIBLE
-
-
-def enrich_moment_with_native_retest_source_fields(moment: Mapping[str, Any]) -> dict[str, Any]:
-    """Return a copy of a B9 moment enriched with T0111 native retest fields.
-
-    Safe to call from the sequence summarizer when each moment is built.
+def _infer_zone_distance(moment: Dict[str, Any]) -> Optional[float]:
     """
-    out: dict[str, Any] = deepcopy(dict(moment))
-    zone = _zone(out)
+    Distance (pips) between center_end and midpoint of zone.
+    Positive = above zone mid. Negative = below.
+    Returns None when zone or center unavailable.
+    """
+    existing = moment.get("retest_zone_distance_pips")
+    if existing is not None:
+        v = _safe_float(existing)
+        if v is not None:
+            return round(v, 2)
 
-    outcome = infer_retest_outcome_hint(out)
-    touch_count = _touch_count(out, zone)
+    center_end = _safe_float(moment.get("center_end"))
+    zone_low   = _safe_float(moment.get("zone_low"))
+    zone_high  = _safe_float(moment.get("zone_high"))
+    pip_size   = 0.0001  # default; B9 does not handle JPY pairs specially here
 
-    # If the source explicitly talks about a retest but lacks a count, expose one minimum touch.
-    if touch_count <= 0 and outcome != OUTCOME_NOT_VISIBLE:
-        touch_count = 1
+    if center_end is None or zone_low is None or zone_high is None:
+        return None
 
-    first_touch = _first_touch(out, zone)
-    last_touch = _last_touch(out, zone)
+    zone_mid = (zone_low + zone_high) / 2.0
+    return round((center_end - zone_mid) / pip_size, 2)
 
-    if outcome != OUTCOME_NOT_VISIBLE:
-        if not first_touch:
-            first_touch = out.get("time_start")
-        if not last_touch:
-            last_touch = out.get("time_end") or out.get("time_start")
 
-    first_touch_fmt = _fmt_dt(first_touch)
-    last_touch_fmt = _fmt_dt(last_touch)
+# ─────────────────────────────────────────────────────────────────────────────
+# Outcome hint — canonical enum, never directional signal
+# ─────────────────────────────────────────────────────────────────────────────
 
-    delay = None
-    if last_touch_fmt and out.get("time_start"):
-        delay = _seconds_between(last_touch_fmt, out.get("time_start"))
+def _infer_outcome_hint(moment: Dict[str, Any], touch_count: int) -> str:
+    """
+    Canonical outcome enum derived from available moment fields.
+    Priority:
+      1. Existing retest_outcome_hint if already non-trivial
+      2. moment_type / retest_status combination
+      3. NOT_VISIBLE fallback
+    """
+    existing = str(moment.get("retest_outcome_hint") or "").upper()
+    if existing and existing not in ("", "RETEST_OUTCOME_NOT_VISIBLE", "NOT_VISIBLE"):
+        # Normalise legacy bare values
+        if existing in ("FAILED", "BREAK_RETEST_FAILED"):
+            return RETEST_OUTCOME_FAILED
+        if existing in ("ACCEPTED", "RETEST_ACCEPTED"):
+            return RETEST_OUTCOME_ACCEPTED
+        if existing in ("PENDING", "BREAKOUT_PENDING_RETEST"):
+            return RETEST_OUTCOME_PENDING
+        if existing in ("PARTIAL",):
+            return RETEST_OUTCOME_PARTIAL
+        # If already a canonical value, pass through
+        if existing.startswith("RETEST_OUTCOME_"):
+            return existing
 
-    out["retest_source_fields_version"] = T0111_VERSION
-    out["retest_touch_count"] = touch_count
-    out["retest_first_touch_time"] = first_touch_fmt
-    out["retest_last_touch_time"] = last_touch_fmt
-    out["retest_delay_seconds"] = delay
-    out["retest_acceptance_dwell_seconds"] = _acceptance_dwell(out, zone, outcome)
-    out["retest_rejection_speed_pips_per_min"] = _rejection_speed(out, zone, outcome)
-    out["retest_zone_distance_pips"] = _zone_distance(out, zone)
-    out["retest_outcome_hint"] = outcome
-    out["retest_source_field_confidence"] = _confidence(out, zone, touch_count, first_touch_fmt, last_touch_fmt, outcome)
-    out["retest_source_fields_limits"] = [
-        "native summarizer fields only",
-        "no DB write",
-        "no external Temporalite dependency",
-        "missing retest source remains NOT_VISIBLE",
-        "no BUY/SELL language",
-    ]
+    if touch_count == 0:
+        return RETEST_OUTCOME_NOT_VISIBLE
 
-    # Sync calibrated output zone_memory, without writing any DB.
-    if zone or outcome != OUTCOME_NOT_VISIBLE:
-        if touch_count and "touch_count" not in zone:
-            zone["touch_count"] = touch_count
-        if last_touch_fmt and "last_tested" not in zone:
-            zone["last_tested"] = last_touch_fmt
-        if outcome != OUTCOME_NOT_VISIBLE and "retest_status" not in zone:
-            zone["retest_status"] = outcome
-        out["zone_memory"] = zone
+    moment_type   = str(moment.get("moment_type") or "")
+    retest_status = str(moment.get("retest_status") or "")
+
+    if moment_type == "T009_MOMENT_BREAK_RETEST_FAILED" or retest_status == "FAILED":
+        return RETEST_OUTCOME_FAILED
+
+    if moment_type == "T009_MOMENT_BREAKOUT_PENDING_RETEST" or retest_status == "PENDING":
+        return RETEST_OUTCOME_PENDING
+
+    if retest_status == "ACCEPTED":
+        return RETEST_OUTCOME_ACCEPTED
+
+    if retest_status == "ACTIVE_RETEST":
+        return RETEST_OUTCOME_PARTIAL
+
+    if moment_type in ("T009_MOMENT_RETRACE_DECISION_AREA", "T009_MOMENT_FLOW_BREATHING"):
+        return RETEST_OUTCOME_PENDING
+
+    return RETEST_OUTCOME_NOT_VISIBLE
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# zone_memory enrichment
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _enrich_zone_memory(
+    zone_memory: Dict[str, Any],
+    touch_count: int,
+    last_touch_time: Optional[str],
+    outcome_hint: str,
+) -> Dict[str, Any]:
+    zm = dict(zone_memory)
+    # touch_count: take max of existing vs inferred
+    existing_tc = 0
+    try:
+        existing_tc = int(zm.get("touch_count") or 0)
+    except (TypeError, ValueError):
+        pass
+    zm["touch_count"] = max(existing_tc, touch_count)
+
+    # last_tested: use most recent known time
+    if last_touch_time is not None:
+        existing_lt = zm.get("last_tested")
+        if existing_lt is None:
+            zm["last_tested"] = last_touch_time
+        else:
+            dt_existing = _parse_iso(existing_lt)
+            dt_new      = _parse_iso(last_touch_time)
+            if dt_existing is not None and dt_new is not None:
+                zm["last_tested"] = _iso_utc(max(dt_existing, dt_new))
+
+    # retest_status: canonical
+    status_map = {
+        RETEST_OUTCOME_FAILED:   "RETEST_FAILED",
+        RETEST_OUTCOME_ACCEPTED: "RETEST_ACCEPTED",
+        RETEST_OUTCOME_PENDING:  "RETEST_PENDING",
+        RETEST_OUTCOME_PARTIAL:  "RETEST_PARTIAL",
+        RETEST_OUTCOME_NOT_VISIBLE: "RETEST_NOT_VISIBLE",
+    }
+    zm["retest_status"] = status_map.get(outcome_hint, "RETEST_NOT_VISIBLE")
+    return zm
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Public API
+# ─────────────────────────────────────────────────────────────────────────────
+
+def enrich_moment_with_native_retest_source_fields(
+    moment: Dict[str, Any],
+) -> Dict[str, Any]:
+    """
+    Enrich one B9 moment dict with native T0111 retest source fields.
+
+    Additive only — never removes existing keys.
+    Safe to call on any dict shape; missing keys default gracefully.
+
+    Returns a new dict (deep copy + additions).
+    """
+    out = deepcopy(moment)
+
+    touch_count   = _infer_touch_count(out)
+    timing        = _infer_retest_times(out, touch_count)
+    dwell         = _infer_dwell(out, touch_count)
+    rejection_spd = _infer_rejection_speed(out, touch_count)
+    zone_dist     = _infer_zone_distance(out)
+    outcome_hint  = _infer_outcome_hint(out, touch_count)
+    confidence    = _source_confidence(out)
+
+    # Write T0111 fields
+    out["retest_source_fields_version"]          = T0111_VERSION
+    out["retest_touch_count"]                    = touch_count
+    out["retest_first_touch_time"]               = timing["retest_first_touch_time"]
+    out["retest_last_touch_time"]                = timing["retest_last_touch_time"]
+    out["retest_delay_seconds"]                  = timing["retest_delay_seconds"]
+    out["retest_acceptance_dwell_seconds"]       = dwell
+    out["retest_rejection_speed_pips_per_min"]   = rejection_spd
+    out["retest_zone_distance_pips"]             = zone_dist
+    out["retest_outcome_hint"]                   = outcome_hint
+    out["retest_source_field_confidence"]        = confidence
+
+    # Enrich zone_memory sub-dict
+    zm = out.get("zone_memory")
+    if isinstance(zm, dict):
+        out["zone_memory"] = _enrich_zone_memory(
+            zm,
+            touch_count,
+            timing["retest_last_touch_time"],
+            outcome_hint,
+        )
 
     return out
 
 
-def enrich_summary_with_native_retest_source_fields(summary: Mapping[str, Any]) -> dict[str, Any]:
-    """Enrich every moment of a summary payload with T0111 fields."""
-    payload: dict[str, Any] = deepcopy(dict(summary))
-    payload["moments"] = [
-        enrich_moment_with_native_retest_source_fields(moment)
-        for moment in payload.get("moments", [])
-    ]
-    payload.setdefault("b9_sequence_summarizer_native_fields", {})
-    payload["b9_sequence_summarizer_native_fields"].update({
+def enrich_moments_batch(
+    moments: List[Dict[str, Any]],
+) -> List[Dict[str, Any]]:
+    """Convenience: enrich a list of moment dicts."""
+    return [enrich_moment_with_native_retest_source_fields(m) for m in moments]
+
+
+def probe() -> Dict[str, Any]:
+    """Return module identity. Used by integration checks."""
+    return {
         "version": T0111_VERSION,
-        "fields": [
+        "state": "READY",
+        "read_only": True,
+        "no_db_write": True,
+        "no_dashboard": True,
+        "no_telegram": True,
+        "no_buy_sell": True,
+        "no_probability_of_success": True,
+        "fields_added": [
+            "retest_source_fields_version",
             "retest_touch_count",
             "retest_first_touch_time",
             "retest_last_touch_time",
@@ -317,13 +481,21 @@ def enrich_summary_with_native_retest_source_fields(summary: Mapping[str, Any]) 
             "retest_zone_distance_pips",
             "retest_outcome_hint",
             "retest_source_field_confidence",
+            "zone_memory.touch_count",
+            "zone_memory.last_tested",
+            "zone_memory.retest_status",
         ],
-        "external_temporality_dependency": False,
-        "limits": [
-            "interpretation-only",
-            "native source fields are not a trading signal",
-            "MT5 volume is not global Forex volume",
-            "no BUY/SELL language",
-        ],
-    })
-    return payload
+    }
+
+
+__all__ = [
+    "T0111_VERSION",
+    "RETEST_OUTCOME_NOT_VISIBLE",
+    "RETEST_OUTCOME_ACCEPTED",
+    "RETEST_OUTCOME_FAILED",
+    "RETEST_OUTCOME_PENDING",
+    "RETEST_OUTCOME_PARTIAL",
+    "enrich_moment_with_native_retest_source_fields",
+    "enrich_moments_batch",
+    "probe",
+]
