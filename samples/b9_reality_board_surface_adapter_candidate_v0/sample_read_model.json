@@ -1,0 +1,19 @@
+{
+  "read_model_state": "B9_REALITY_BOARD_INTEGRATION_CANDIDATE_REVIEW_TECHNICAL_RISK",
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "scene_state": "SCENE_ACCEPTED",
+  "scene_transition": "TEST_TO_ACCEPTED",
+  "price_verdict": "ACCEPTED",
+  "active_zone": "1.3362-1.3374",
+  "latest_node": "PROGRESSIVE_REACTION_NODE",
+  "memory_confidence_ladder": "MEMORY_PARTIAL_COMPARABLE",
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260511_1641_010496DB",
+  "false_positive_context_available": true,
+  "source_quality_state": "SOURCE_LIVE_UNQUALIFIED",
+  "technical_risks": [
+    "Source live non qualifiée côté raw texture.",
+    "Mémoire comparable avec piège technique fort."
+  ],
+  "what_to_watch_next": "Surveiller la conservation du centre et le retest de la zone active."
+}

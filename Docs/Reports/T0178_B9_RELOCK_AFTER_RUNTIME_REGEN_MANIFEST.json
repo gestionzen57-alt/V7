@@ -1,0 +1,20 @@
+{
+  "version": "T0178_B9_RELOCK_AFTER_RUNTIME_REGEN_V0",
+  "files": [
+    "tools/build_t0178_b9_relock_after_runtime_regen.py",
+    "tests/test_t0178_b9_relock_after_runtime_regen.py",
+    "scripts/RUN_T0178_B9_RELOCK_AFTER_RUNTIME_REGEN_FROM_DOWNLOADS.ps1",
+    "samples/t0178_b9_relock_after_runtime_regen_v0/README.md",
+    "Docs/Reports/T0178_B9_RELOCK_AFTER_RUNTIME_REGEN_REPORT.md",
+    "Docs/Reports/T0178_B9_RELOCK_AFTER_RUNTIME_REGEN_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0178_B9_RELOCK_AFTER_RUNTIME_REGEN.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0178_B9_RELOCK_AFTER_RUNTIME_REGEN.md"
+  ],
+  "contract": {
+    "no_db": true,
+    "no_live_dashboard_wiring": true,
+    "no_telegram": true,
+    "no_buy_sell": true,
+    "dashboard_displays_does_not_decide": true
+  }
+}
