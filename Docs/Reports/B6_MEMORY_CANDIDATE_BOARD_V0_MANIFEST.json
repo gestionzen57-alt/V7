@@ -1,0 +1,49 @@
+{
+  "artifact": "B6_MEMORY_CANDIDATE_BOARD_V0",
+  "generated_from_uploads": true,
+  "input_files": [
+    "/mnt/data/B9_FORCE_SNAPSHOT_DERIVED_RAW_CALIBRATION_SHIFT0.zip",
+    "/mnt/data/B9_RAW_CALIBRATION_OUTPUTS_20260506_0001_0055_SHIFT0_RAW.zip"
+  ],
+  "counts": {
+    "total": 174,
+    "states": {
+      "B6_LOW_TRUST_CANDIDATE": 2,
+      "B6_REJECT_RAW_UNAVAILABLE": 21,
+      "B6_KEEP_CANDIDATE": 138,
+      "B6_REVIEW_CANDIDATE": 13
+    },
+    "source_family": {
+      "FORCE_SNAPSHOT_DERIVED": 122,
+      "RECOVERED_EXISTING_B9_SUMMARY": 52
+    },
+    "proxy_vs_raw_verdict": {
+      "NUANCED_BY_RAW": 113,
+      "RAW_UNAVAILABLE": 21,
+      "CONFIRMED_BY_RAW": 40
+    }
+  },
+  "runtime_contract": {
+    "db_write": false,
+    "dashboard": false,
+    "telegram": false,
+    "buy_sell": false,
+    "probability_of_success": false,
+    "force_snapshot_not_recovered_summary": true,
+    "raw_unavailable_excluded_from_active_memory": true,
+    "low_trust_kept_separate": true
+  },
+  "outputs": [
+    "B6_MEMORY_CANDIDATE_BOARD_V0.csv",
+    "B6_MEMORY_CANDIDATE_BOARD_V0.md",
+    "B6_MEMORY_CANDIDATE_BOARD_V0.zip",
+    "B6_MEMORY_CANDIDATE_KEEP.csv",
+    "B6_MEMORY_CANDIDATE_LOW_TRUST.csv",
+    "B6_MEMORY_CANDIDATE_REVIEW.csv",
+    "B6_MEMORY_REJECTED_RAW_UNAVAILABLE.csv",
+    "COMMANDES_B6_MEMORY_CANDIDATE_BOARD_V0.md",
+    "MESSAGE_CLAUDE_B6_MEMORY_CANDIDATE_BOARD_V0_FINAL.md",
+    "RUN_B6_MEMORY_CANDIDATE_BOARD_V0_FROM_UPLOADS.ps1",
+    "build_b6_memory_candidate_board_v0_from_uploads.py"
+  ]
+}
