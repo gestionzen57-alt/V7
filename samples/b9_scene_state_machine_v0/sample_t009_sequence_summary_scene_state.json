@@ -1,0 +1,73 @@
+{
+  "version": "SAMPLE_T0153",
+  "date": "2026-05-15",
+  "moments": [
+    {
+      "time_start": "2026-05-15T08:00:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat",
+      "b9_scene_role": "EFFORT_WITHOUT_RESULT_FRICTION",
+      "b9_price_verdict_state": "PENDING",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED"
+    },
+    {
+      "time_start": "2026-05-15T09:10:00Z",
+      "time_end": "2026-05-15T09:31:00Z",
+      "label_fr": "Retest échoué",
+      "b9_scene_role": "RETEST_FAILED_REJECTION_NODE",
+      "b9_price_verdict_state": "REJECTED",
+      "retest_result": "RETEST_FAILED",
+      "source_quality_state": "SOURCE_RAW_NUANCED"
+    },
+    {
+      "time_start": "2026-05-15T10:00:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "label_fr": "Vague progressive réelle",
+      "b9_scene_role": "PROGRESSIVE_FIRST_LEG",
+      "b9_price_verdict_state": "ACCEPTED",
+      "retest_result": "RETEST_ACCEPTED",
+      "memory_confidence_ladder": "MEMORY_STRONG_COMPARABLE",
+      "source_quality_state": "SOURCE_RAW_CONFIRMED"
+    },
+    {
+      "time_start": "2026-05-15T11:00:00Z",
+      "time_end": "2026-05-15T11:31:00Z",
+      "label_fr": "Centre de gravité qui descend",
+      "b9_scene_role": "CENTER_MIGRATION_DOWN_MEMORY_SHIFT",
+      "b9_price_verdict_state": "CONSUMED",
+      "b9_memory_shift_state": "MEMORY_SHIFT_DOWN"
+    },
+    {
+      "time_start": "2026-05-15T11:37:00Z",
+      "time_end": "2026-05-15T12:00:00Z",
+      "label_fr": "Respiration basse sans progrès durable",
+      "b9_scene_role": "CORRECTIVE_BREATH_NO_PROGRESS",
+      "b9_price_verdict_state": "PENDING"
+    },
+    {
+      "time_start": "2026-05-15T13:14:00Z",
+      "time_end": "2026-05-15T13:32:00Z",
+      "label_fr": "Zone de décision",
+      "b9_scene_role": "ABSORPTION_SHELF_FRICTION",
+      "b9_price_verdict_state": "PENDING",
+      "b9_memory_false_positive_state": "B6_FALSE_POSITIVE_CONTEXT_HIGH"
+    },
+    {
+      "time_start": "2026-05-15T13:53:00Z",
+      "time_end": "2026-05-15T13:57:00Z",
+      "label_fr": "Réintégration échouée sous le haut",
+      "b9_scene_role": "FAILED_REINTEGRATION_NODE",
+      "b9_price_verdict_state": "FAILED_REINTEGRATION"
+    },
+    {
+      "time_start": "2026-05-15T14:00:00Z",
+      "time_end": "2026-05-15T14:10:00Z",
+      "label_fr": "Source raw indisponible",
+      "b9_scene_role": "PROGRESSIVE_FIRST_LEG",
+      "b9_price_verdict_state": "ACCEPTED",
+      "proxy_vs_raw_verdict": "RAW_UNAVAILABLE",
+      "source_quality_state": "SOURCE_RAW_UNAVAILABLE_REJECTED"
+    }
+  ]
+}

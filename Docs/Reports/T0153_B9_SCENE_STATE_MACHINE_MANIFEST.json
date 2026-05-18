@@ -1,0 +1,9 @@
+{
+  "version": "T0153_B9_SCENE_STATE_MACHINE_V0",
+  "files": [
+    "pf_t009_scene_state_machine.py",
+    "tools/build_t0153_b9_scene_state_machine.py",
+    "tests/test_t0153_b9_scene_state_machine.py"
+  ],
+  "read_only": true
+}
