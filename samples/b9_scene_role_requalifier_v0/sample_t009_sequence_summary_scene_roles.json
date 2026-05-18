@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "source": "T0140_SAMPLE",
+    "symbol": "GBPUSD"
+  },
+  "moments": [
+    {
+      "time_start": "2026-05-15T08:00:00Z",
+      "time_end": "2026-05-15T08:14:00Z",
+      "label_fr": "Effort sans résultat",
+      "moment_type": "T009_MOMENT_EFFORT_WITHOUT_RESULT",
+      "b9_effort_result_progress_state": "ABSORPTION_WITHOUT_PROGRESS",
+      "b9_progress_type": "NO_PROGRESS",
+      "b9_memory_shift_state": "MEMORY_NOT_MOVED",
+      "b9_center_net_delta_pips": 0.8,
+      "b9_center_range_pips": 1.0,
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED"
+    },
+    {
+      "time_start": "2026-05-15T09:10:00Z",
+      "time_end": "2026-05-15T09:31:00Z",
+      "label_fr": "Retest échoué / reprise refusée",
+      "moment_type": "T009_MOMENT_BREAK_RETEST_FAILED",
+      "b9_effort_result_progress_state": "CENTER_MIGRATION",
+      "b9_progress_type": "CENTER_MIGRATION_DOWN",
+      "retest_result": "RETEST_FAILED",
+      "b9_center_net_delta_pips": -9.0,
+      "b9_center_range_pips": 9.0,
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED"
+    },
+    {
+      "time_start": "2026-05-15T10:00:00Z",
+      "time_end": "2026-05-15T10:23:00Z",
+      "label_fr": "Vague progressive",
+      "moment_type": "T009_MOMENT_PROGRESSIVE_WAVE",
+      "b9_effort_result_progress_state": "PROGRESSIVE_WAVE",
+      "b9_progress_type": "PROGRESSIVE_WAVE_UP",
+      "b9_center_net_delta_pips": 11.5,
+      "b9_center_range_pips": 11.5,
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "b9_source_quality_gate_state": "SOURCE_RAW_CONFIRMED"
+    },
+    {
+      "time_start": "2026-05-15T11:00:00Z",
+      "time_end": "2026-05-15T11:31:00Z",
+      "label_fr": "Centre de gravité qui descend",
+      "moment_type": "T009_MOMENT_CENTER_MIGRATION_DOWN",
+      "b9_effort_result_progress_state": "CENTER_MIGRATION",
+      "b9_progress_type": "CENTER_MIGRATION_DOWN",
+      "b9_center_net_delta_pips": -12.9,
+      "b9_center_range_pips": 12.9,
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED"
+    },
+    {
+      "time_start": "2026-05-15T15:48:00Z",
+      "time_end": "2026-05-15T17:00:00Z",
+      "label_fr": "Rebond correctif sans progrès durable",
+      "moment_type": "T009_MOMENT_CORRECTIVE_WAVE",
+      "b9_effort_result_progress_state": "CORRECTIVE_BREATH",
+      "b9_progress_type": "CORRECTIVE_BREATH_NO_PROGRESS",
+      "b9_center_net_delta_pips": 2.0,
+      "b9_center_range_pips": 7.5,
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "NUANCED_BY_RAW",
+      "b9_source_quality_gate_state": "SOURCE_RAW_NUANCED"
+    },
+    {
+      "time_start": "2026-05-14T18:20:00Z",
+      "time_end": "2026-05-14T19:00:00Z",
+      "label_fr": "Réintégration échouée",
+      "moment_type": "FAILED_REINTEGRATION",
+      "b9_effort_result_progress_state": "CENTER_MIGRATION",
+      "retest_result": "FAILED_REINTEGRATION",
+      "b9_center_net_delta_pips": -8.0,
+      "b9_center_range_pips": 9.0,
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED",
+      "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+      "b9_source_quality_gate_state": "SOURCE_RAW_CONFIRMED"
+    },
+    {
+      "time_start": "2026-05-05T20:00:00Z",
+      "time_end": "2026-05-05T20:30:00Z",
+      "label_fr": "Raw indisponible",
+      "moment_type": "T009_MOMENT_UNKNOWN",
+      "b9_effort_result_progress_state": "PROGRESSIVE_WAVE",
+      "proxy_vs_raw_verdict": "RAW_UNAVAILABLE",
+      "b9_source_quality_gate_state": "SOURCE_RAW_UNAVAILABLE_REJECTED",
+      "source_mode": "M1_BAR_PROXY",
+      "data_visibility": "RECONSTRUCTED"
+    }
+  ]
+}

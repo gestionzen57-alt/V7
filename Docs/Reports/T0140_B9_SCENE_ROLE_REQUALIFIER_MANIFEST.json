@@ -1,0 +1,22 @@
+{
+  "task": "T0140_B9_SCENE_ROLE_REQUALIFIER_V0",
+  "branch": "feat/t0140-b9-scene-role-requalifier",
+  "commit_message": "feat(t0140): add B9 scene role requalifier v0",
+  "read_only": true,
+  "db_write": false,
+  "dashboard": false,
+  "telegram": false,
+  "buy_sell": false,
+  "probability_of_success": false,
+  "files": [
+    "pf_t009_scene_role_requalifier.py",
+    "tools/build_t0140_b9_scene_role_requalifier.py",
+    "scripts/RUN_T0140_B9_SCENE_ROLE_REQUALIFIER_FROM_DOWNLOADS.ps1",
+    "tests/test_t0140_b9_scene_role_requalifier.py",
+    "samples/b9_scene_role_requalifier_v0/sample_t009_sequence_summary_scene_roles.json",
+    "Docs/Reports/T0140_B9_SCENE_ROLE_REQUALIFIER_REPORT.md",
+    "Docs/Reports/T0140_B9_SCENE_ROLE_REQUALIFIER_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0140_B9_SCENE_ROLE_REQUALIFIER.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0140_B9_SCENE_ROLE_REQUALIFIER.md"
+  ]
+}
