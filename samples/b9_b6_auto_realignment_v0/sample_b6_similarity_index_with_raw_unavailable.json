@@ -1,0 +1,67 @@
+{
+  "version": "SAMPLE_B6_INDEX",
+  "active_index": [
+    {
+      "film_id": "B6FC_20260511_1641_010496DB",
+      "date": "2026-05-11",
+      "time_start": "2026-05-11T16:41:00Z",
+      "time_end": "2026-05-11T17:04:00Z",
+      "label_fr": "Vague progressive acceptée avec mémoire déplacée",
+      "scene_role": "PROGRESSIVE_FIRST_LEG",
+      "scene_family": "PROGRESSIVE_WAVE_MEMORY_SHIFT",
+      "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "price_verdict": "ACCEPTED",
+      "session": "LONDON",
+      "source_quality_state": "SOURCE_RAW_CONFIRMED",
+      "b6_memory_candidate_state": "B6_KEEP_CANDIDATE"
+    },
+    {
+      "film_id": "B6FC_20260514_1903_E8F0918A",
+      "date": "2026-05-14",
+      "time_start": "2026-05-14T19:03:00Z",
+      "time_end": "2026-05-14T19:28:00Z",
+      "label_fr": "Progression directionnelle avec contexte technique fort",
+      "scene_role": "PROGRESSIVE_FIRST_LEG",
+      "scene_family": "PROGRESSIVE_WAVE_MEMORY_SHIFT",
+      "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "price_verdict": "ACCEPTED",
+      "session": "NY",
+      "source_quality_state": "SOURCE_RAW_NUANCED",
+      "b6_memory_candidate_state": "B6_KEEP_CANDIDATE"
+    },
+    {
+      "film_id": "B6FC_20260508_1018_A13DD019",
+      "date": "2026-05-08",
+      "time_start": "2026-05-08T10:18:00Z",
+      "time_end": "2026-05-08T10:43:00Z",
+      "label_fr": "Vague directionnelle progressive comparable",
+      "scene_role": "PROGRESSIVE_SECOND_LEG_CANDIDATE",
+      "scene_family": "PROGRESSIVE_WAVE_MEMORY_SHIFT",
+      "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "price_verdict": "ACCEPTED",
+      "session": "LONDON",
+      "source_quality_state": "SOURCE_RAW_CONFIRMED",
+      "b6_memory_candidate_state": "B6_REVIEW_CANDIDATE"
+    },
+    {
+      "film_id": "B6FC_20260505_1413_BDE6E508",
+      "date": "2026-05-05",
+      "time_start": "2026-05-05T14:13:00Z",
+      "label_fr": "Auction équilibrée proxy",
+      "scene_role": "FLOW_BALANCED_AUCTION",
+      "memory_family": "FRICTION_ABSORPTION_MEMORY",
+      "price_verdict": "PENDING",
+      "session": "LONDON_NY_OVERLAP",
+      "source_quality_state": "SOURCE_PROXY_ONLY"
+    },
+    {
+      "film_id": "B6FC_RAW_UNAVAILABLE_SAMPLE",
+      "date": "2026-05-09",
+      "label_fr": "Mémoire rejetée raw indisponible",
+      "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+      "scene_family": "PROGRESSIVE_WAVE_MEMORY_SHIFT",
+      "source_quality_state": "RAW_UNAVAILABLE",
+      "b6_memory_candidate_state": "B6_REJECT_RAW_UNAVAILABLE"
+    }
+  ]
+}

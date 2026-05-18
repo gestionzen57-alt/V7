@@ -1,0 +1,20 @@
+{
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "date": "2026-05-15",
+  "time_start": "2026-05-15T10:00:00Z",
+  "time_end": "2026-05-15T10:23:00Z",
+  "label_fr": "Vague progressive réelle",
+  "scene_role": "PROGRESSIVE_FIRST_LEG",
+  "scene_state": "SCENE_ACCEPTED",
+  "scene_family": "PROGRESSIVE_WAVE_MEMORY_SHIFT",
+  "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+  "price_verdict": "ACCEPTED",
+  "session": "LONDON",
+  "source_quality_state": "SOURCE_RAW_CONFIRMED",
+  "raw_texture_state": "RAW_TEXTURE_VISIBLE",
+  "data_visibility": "FULL_RAW",
+  "proxy_vs_raw_verdict": "CONFIRMED_BY_RAW",
+  "technical_limits": [
+    "Mémoire comparable, pas répétition certaine."
+  ]
+}

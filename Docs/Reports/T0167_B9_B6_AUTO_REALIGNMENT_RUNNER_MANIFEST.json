@@ -1,0 +1,20 @@
+{
+  "version": "T0167_B9_B6_AUTO_REALIGNMENT_RUNNER_V0",
+  "files": [
+    "pf_t009_b9_b6_auto_realignment_runner.py",
+    "tools/build_t0167_b9_b6_auto_realignment_runner.py",
+    "scripts/RUN_T0167_B9_B6_AUTO_REALIGNMENT_FROM_DOWNLOADS.ps1",
+    "tests/test_t0167_b9_b6_auto_realignment_runner.py",
+    "samples/b9_b6_auto_realignment_v0/sample_latest_scene_candidate.json",
+    "samples/b9_b6_auto_realignment_v0/sample_b6_similarity_index.json",
+    "samples/b9_b6_auto_realignment_v0/sample_b6_similarity_index_with_raw_unavailable.json",
+    "Docs/Reports/T0167_B9_B6_AUTO_REALIGNMENT_RUNNER_REPORT.md",
+    "Docs/Reports/T0167_B9_B6_AUTO_REALIGNMENT_RUNNER_MANIFEST.json",
+    "Docs/Reports/COMMANDES_T0167_B9_B6_AUTO_REALIGNMENT_RUNNER.md",
+    "Docs/Reports/MESSAGE_CLAUDE_T0167_B9_B6_AUTO_REALIGNMENT_RUNNER.md"
+  ],
+  "read_only": true,
+  "db_write": false,
+  "dashboard_live": false,
+  "telegram_send": false
+}
