@@ -1,0 +1,35 @@
+{
+  "version": "T0148_B9_LIVE_BRIEF_ONCE_RUNNER_V0",
+  "brief_state": "B9_LIVE_BRIEF_READY",
+  "candidate_id": "B9LIVE_20260515_1100_1131",
+  "symbol": "GBPUSD",
+  "time_start": "2026-05-15T11:00:00Z",
+  "time_end": "2026-05-15T11:31:00Z",
+  "session": "LONDON",
+  "scene_role": "CENTER_MIGRATION_DOWN_MEMORY_SHIFT",
+  "price_verdict": "REJECTED",
+  "source_quality_state": "SOURCE_RAW_NUANCED",
+  "source_mode": "M1_BAR_PROXY",
+  "data_visibility": "RECONSTRUCTED",
+  "confidence_cap": "0.35",
+  "memory_family": "DIRECTIONAL_PROGRESS_MEMORY",
+  "memory_confidence_ladder": "MEMORY_PARTIAL_COMPARABLE",
+  "false_positive_state": "MEMORY_FP_MEDIUM",
+  "top_match_film_id": "B6FC_20260514_1903_E8F0918A",
+  "match_count": 3,
+  "cross_family_match_count": 0,
+  "low_trust_in_results": false,
+  "raw_unavailable_in_results": false,
+  "attention_reason_fr": "B9 voit une migration de centre descendante après une zone travaillée.",
+  "b9_reading_fr": "Le flux ne se contente pas de respirer : il déplace la mémoire plus bas par paliers.",
+  "memory_context_fr": "Film B6 proche : rejet haut suivi d'une pression qui avance par paliers. Similarité partielle car la source est reconstruite.",
+  "technical_risks": [
+    "Source M1 proxy reconstruite : le footprint exact reste invisible.",
+    "Similarité mémoire moyenne : vérifier les différences de session et de retest."
+  ],
+  "what_to_watch_next_fr": [
+    "Surveiller si la zone précédente reste rejetée.",
+    "Observer si le prochain palier devient consommé ou défendu."
+  ],
+  "forbidden_language_hits": []
+}

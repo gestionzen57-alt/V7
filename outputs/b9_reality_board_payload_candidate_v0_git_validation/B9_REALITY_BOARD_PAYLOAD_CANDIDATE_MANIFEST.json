@@ -1,0 +1,17 @@
+{
+  "version": "T0149_B9_REALITY_BOARD_PAYLOAD_CANDIDATE_V0",
+  "payload_state": "B9_REALITY_BOARD_PAYLOAD_CANDIDATE_REVIEW_LIMITED_SOURCE",
+  "output_dir": "outputs\\b9_reality_board_payload_candidate_v0_git_validation",
+  "files": [
+    "B9_REALITY_BOARD_PAYLOAD_CANDIDATE_V0.json",
+    "B9_REALITY_BOARD_PAYLOAD_CANDIDATE_V0.md",
+    "B9_REALITY_BOARD_PAYLOAD_CANDIDATE_V0.csv",
+    "B9_REALITY_BOARD_PAYLOAD_CANDIDATE_MANIFEST.json",
+    "B9_REALITY_BOARD_PAYLOAD_CANDIDATE_V0.zip"
+  ],
+  "read_only": true,
+  "writes_powerflow_db": false,
+  "writes_tick_archive_db": false,
+  "writes_dashboard": false,
+  "sends_telegram": false
+}
