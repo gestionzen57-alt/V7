@@ -1,0 +1,17 @@
+{
+  "version": "T0169_B9_REALITY_BOARD_SURFACE_ADAPTER_CANDIDATE_V0",
+  "branch": "feat/t0169-b9-reality-board-surface-adapter-candidate",
+  "commit_message": "feat(t0169): add B9 Reality Board surface adapter candidate v0",
+  "read_only": true,
+  "files": [
+    "Docs/Reports/T0169_B9_REALITY_BOARD_SURFACE_ADAPTER_CANDIDATE_REPORT.md",
+    "pf_t009_reality_board_surface_adapter_candidate.py",
+    "samples/b9_reality_board_surface_adapter_candidate_v0/sample_display_contract.json",
+    "samples/b9_reality_board_surface_adapter_candidate_v0/sample_panel.json",
+    "samples/b9_reality_board_surface_adapter_candidate_v0/sample_payload.json",
+    "samples/b9_reality_board_surface_adapter_candidate_v0/sample_read_model.json",
+    "scripts/RUN_T0169_B9_REALITY_BOARD_SURFACE_ADAPTER_CANDIDATE_FROM_DOWNLOADS.ps1",
+    "tests/test_t0169_b9_reality_board_surface_adapter_candidate.py",
+    "tools/build_t0169_b9_reality_board_surface_adapter_candidate.py"
+  ]
+}

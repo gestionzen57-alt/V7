@@ -1,0 +1,11 @@
+{
+  "payload_state": "B9_REALITY_BOARD_INTEGRATION_CANDIDATE_REVIEW_TECHNICAL_RISK",
+  "candidate_id": "B9LSC_E49A7AEC65CE",
+  "scene_state": "SCENE_ACCEPTED",
+  "price_verdict": "ACCEPTED",
+  "memory_confidence_ladder": "MEMORY_PARTIAL_COMPARABLE",
+  "match_count": 3,
+  "top_match_film_id": "B6FC_20260511_1641_010496DB",
+  "false_positive_context_available": true,
+  "no_decision_guard": true
+}

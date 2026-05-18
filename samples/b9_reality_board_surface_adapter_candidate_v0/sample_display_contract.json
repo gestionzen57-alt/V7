@@ -1,0 +1,28 @@
+{
+  "entries": [
+    {
+      "enum_key": "SCENE_ACCEPTED",
+      "label_fr": "Scène acceptée par le prix"
+    },
+    {
+      "enum_key": "TEST_TO_ACCEPTED",
+      "label_fr": "Le test devient acceptation"
+    },
+    {
+      "enum_key": "ACCEPTED",
+      "label_fr": "Accepté par le prix"
+    },
+    {
+      "enum_key": "MEMORY_PARTIAL_COMPARABLE",
+      "label_fr": "Mémoire comparable partielle"
+    },
+    {
+      "enum_key": "SOURCE_LIVE_UNQUALIFIED",
+      "label_fr": "Source live non qualifiée"
+    },
+    {
+      "enum_key": "B9_REALITY_BOARD_INTEGRATION_CANDIDATE_REVIEW_TECHNICAL_RISK",
+      "label_fr": "Surface avec limites techniques visibles"
+    }
+  ]
+}
