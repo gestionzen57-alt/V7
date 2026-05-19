@@ -206,6 +206,134 @@ footer{padding:0 14px 18px}
 #b9-nodes-container::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
 #b9-nodes-container::-webkit-scrollbar-thumb:hover { background: #555; }
 /* B9_PANEL_CSS_END */
+/* BEGIN POWERFLOW B9 TERRAIN PANEL CSS V2 */
+#b9-terrain-panel {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+#b9-terrain-panel h3 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    color: #fff;
+}
+
+#b9-status {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    background: #222;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: #888;
+}
+
+#b9-nodes-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.b9-node {
+    background: #222;
+    border-left: 4px solid #666;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 40px 1fr 120px 80px;
+    gap: 12px;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.b9-node:hover {
+    background: #2a2a2a;
+    transform: translateX(2px);
+}
+
+.b9-node.ACCEPTED { border-left-color: #00ff88; }
+.b9-node.REJECTED { border-left-color: #ff4444; }
+.b9-node.PULLBACK_ABSORBED { border-left-color: #ffaa00; }
+.b9-node.EFFORT_VISIBLE { border-left-color: #ff9900; }
+.b9-node.ZONE_CONTESTED { border-left-color: #ffdd00; }
+.b9-node.NEUTRAL_DWELL { border-left-color: #888888; }
+.b9-node.BREAKOUT_CONFIRMED { border-left-color: #00ccff; }
+
+.b9-node .emoji {
+    font-size: 28px;
+    text-align: center;
+}
+
+.b9-node-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.b9-node-role {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.b9-node-verdict {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.b9-node-zone {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #666;
+}
+
+.b9-node-confidence {
+    background: #333;
+    border-radius: 4px;
+    padding: 6px 10px;
+    text-align: center;
+}
+
+.b9-node-confidence-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.b9-node-confidence-label {
+    font-size: 9px;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.b9-node-time {
+    font-size: 11px;
+    color: #666;
+    text-align: right;
+}
+
+#b9-nodes-container::-webkit-scrollbar { width: 6px; }
+#b9-nodes-container::-webkit-scrollbar-track { background: #1a1a1a; }
+#b9-nodes-container::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+#b9-nodes-container::-webkit-scrollbar-thumb:hover { background: #555; }
+
+@media (max-width: 900px) {
+    .b9-node {
+        grid-template-columns: 32px 1fr;
+    }
+    .b9-node-confidence,
+    .b9-node-time {
+        grid-column: 2;
+        text-align: left;
+    }
+}
+/* END POWERFLOW B9 TERRAIN PANEL CSS V2 */
 </style>
 </head>
 <body>
@@ -848,6 +976,168 @@ if (document.readyState === 'loading') {
     initB9Panel();
 }
 // B9_PANEL_JS_END
+</script>
+<!-- BEGIN POWERFLOW B9 TERRAIN PANEL V2 -->
+<div id="b9-terrain-panel" class="panel dashboard-panel">
+    <h3>🎯 Nodes Terrain B9 (Live)</h3>
+    <div id="b9-status" class="status-bar">
+        <span id="b9-last-update">Chargement...</span>
+        <span id="b9-node-count">0 nodes</span>
+    </div>
+    <div id="b9-nodes-container" aria-live="polite"></div>
+</div>
+<!-- END POWERFLOW B9 TERRAIN PANEL V2 -->
+<script>
+// BEGIN POWERFLOW B9 TERRAIN PANEL JS V2
+(function () {
+    const B9_CONFIG = {
+        apiEndpoint: '/api/b9-nodes-live',
+        pollInterval: 5000,
+        maxNodes: 20,
+        symbol: 'GBPUSD',
+    };
+
+    const VERDICT_EMOJI = {
+        'ACCEPTED': '✅',
+        'REJECTED': '🔴',
+        'PULLBACK_ABSORBED': '🟡',
+        'EFFORT_VISIBLE': '🟠',
+        'ZONE_CONTESTED': '⚔️',
+        'NEUTRAL_DWELL': '⚪',
+        'BREAKOUT_CONFIRMED': '🚀',
+    };
+
+    const ZONE_ROLE_FR = {
+        'RESISTANCE_ACTIVE': 'Résistance Active',
+        'SUPPORT_ACTIVE': 'Support Actif',
+        'RESISTANCE_STALE': 'Résistance Fatiguée',
+        'SUPPORT_STALE': 'Support Fatigué',
+        'NEUTRAL': 'Zone Neutre',
+    };
+
+    function safeText(value, fallback) {
+        if (value === null || value === undefined || value === '') {
+            return fallback;
+        }
+        return String(value);
+    }
+
+    function safePrice(value) {
+        const numberValue = Number(value);
+        if (!Number.isFinite(numberValue)) {
+            return '?';
+        }
+        return numberValue.toFixed(4);
+    }
+
+    function safeTimestamp(value) {
+        if (!value) {
+            return 'N/A';
+        }
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) {
+            return String(value);
+        }
+        return date.toLocaleTimeString('fr-FR');
+    }
+
+    async function fetchB9Nodes() {
+        try {
+            const url = `${B9_CONFIG.apiEndpoint}?symbol=${encodeURIComponent(B9_CONFIG.symbol)}&limit=${B9_CONFIG.maxNodes}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const nodes = Array.isArray(data.nodes) ? data.nodes : [];
+            updateB9Status(nodes.length, data.last_update, false);
+            displayB9Nodes(nodes);
+        } catch (error) {
+            console.error('[B9 Panel] Fetch error:', error);
+            updateB9Status(0, null, true);
+        }
+    }
+
+    function updateB9Status(nodeCount, lastUpdate, isError) {
+        const statusUpdate = document.getElementById('b9-last-update');
+        const statusCount = document.getElementById('b9-node-count');
+        if (!statusUpdate || !statusCount) {
+            return;
+        }
+
+        if (isError) {
+            statusUpdate.textContent = '❌ Erreur connexion';
+            statusUpdate.style.color = '#ff4444';
+        } else {
+            statusUpdate.textContent = `Dernière mise à jour : ${safeTimestamp(lastUpdate)}`;
+            statusUpdate.style.color = '#888';
+        }
+
+        statusCount.textContent = `${nodeCount} node${nodeCount > 1 ? 's' : ''}`;
+    }
+
+    function displayB9Nodes(nodes) {
+        const container = document.getElementById('b9-nodes-container');
+        if (!container) {
+            return;
+        }
+
+        if (!nodes || nodes.length === 0) {
+            container.innerHTML = '<div style="padding:20px;text-align:center;color:#666;">Aucun node détecté</div>';
+            return;
+        }
+
+        container.innerHTML = nodes.map(createB9NodeHTML).join('');
+    }
+
+    function createB9NodeHTML(node) {
+        const verdict = safeText(node.price_verdict_candidate, 'NEUTRAL_DWELL');
+        const safeVerdictClass = verdict.replace(/[^A-Z0-9_]/g, '');
+        const emoji = VERDICT_EMOJI[verdict] || '⚪';
+        const roleFr = safeText(node.node_role_fr || ZONE_ROLE_FR[node.node_role], safeText(node.node_role, 'Node terrain'));
+        const confidence = Math.round((Number(node.confidence) || 0) * 100);
+        const timestamp = safeTimestamp(node.timestamp);
+        const zoneBounds = node.zone_bounds || {};
+        const zoneLow = safePrice(zoneBounds.zone_low);
+        const zoneHigh = safePrice(zoneBounds.zone_high);
+        let zonePips = '?';
+
+        if (Number.isFinite(Number(zoneBounds.zone_high)) && Number.isFinite(Number(zoneBounds.zone_low))) {
+            zonePips = Math.round((Number(zoneBounds.zone_high) - Number(zoneBounds.zone_low)) * 10000).toString();
+        }
+
+        return `
+            <div class="b9-node ${safeVerdictClass}">
+                <div class="emoji">${emoji}</div>
+                <div class="b9-node-info">
+                    <div class="b9-node-role">${roleFr}</div>
+                    <div class="b9-node-verdict">${verdict.replace(/_/g, ' ')}</div>
+                    <div class="b9-node-zone">Zone ${zoneLow} → ${zoneHigh} (${zonePips} pips)</div>
+                </div>
+                <div class="b9-node-confidence">
+                    <div class="b9-node-confidence-value">${confidence}%</div>
+                    <div class="b9-node-confidence-label">Confiance</div>
+                </div>
+                <div class="b9-node-time">${timestamp}</div>
+            </div>
+        `;
+    }
+
+    function initB9Panel() {
+        console.log('[B9 Panel] Initialisation...');
+        fetchB9Nodes();
+        setInterval(fetchB9Nodes, B9_CONFIG.pollInterval);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initB9Panel);
+    } else {
+        initB9Panel();
+    }
+}());
+// END POWERFLOW B9 TERRAIN PANEL JS V2
 </script>
 </body>
 </html>
