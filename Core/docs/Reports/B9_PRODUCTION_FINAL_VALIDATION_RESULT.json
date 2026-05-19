@@ -1,0 +1,1010 @@
+{
+  "timestamp_utc": "2026-05-19T15:34:51Z",
+  "core": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core",
+  "flask": {
+    "ok": true,
+    "base_url": "http://localhost:8880",
+    "endpoints": {
+      "health": {
+        "ok": true,
+        "status_code": 200,
+        "url": "http://localhost:8880/api/health",
+        "json": {
+          "port": 8880,
+          "read_surfaces": {
+            "b9_nodes_dir_exists": true,
+            "db_exists": true
+          },
+          "service": "cockpit_b9_server",
+          "status": "ok",
+          "timestamp": "2026-05-19T15:34:53Z",
+          "version": "1.0.0"
+        }
+      },
+      "b9_nodes_live": {
+        "ok": true,
+        "status_code": 200,
+        "url": "http://localhost:8880/api/b9-nodes-live?symbol=GBPUSD&limit=5",
+        "json": {
+          "count": 5,
+          "data_visibility": "TACTICAL_OK",
+          "limit": 5,
+          "nodes": [
+            {
+              "current_price": null,
+              "data_visibility": {
+                "capture_quality": "TACTICAL_OK",
+                "data_visibility": "TACTICAL_OK",
+                "limits": [
+                  "compatibility facade",
+                  "source visibility minimal"
+                ],
+                "source_profile": {
+                  "confidence_cap": 0.5,
+                  "data_visibility": "TACTICAL_OK",
+                  "delta_quality": "proxy",
+                  "raw_footprint_visible": false,
+                  "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                },
+                "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                "status": "ok",
+                "symbol": "GBPUSD"
+              },
+              "limits": [
+                "runtime contract compatibility facade"
+              ],
+              "node_id": "B9NODE_GBPUSD_COMPAT",
+              "price_verdict_candidate": {
+                "confidence": 0.0,
+                "limits": [
+                  "compatibility facade",
+                  "price verdict minimal"
+                ],
+                "price_confirmation": "PENDING",
+                "price_verdict_candidate": "PENDING",
+                "status": "ok",
+                "symbol": "GBPUSD",
+                "verdict": "INCONCLUSIVE"
+              },
+              "raw": {
+                "price_verdict": {
+                  "confidence": 0.0,
+                  "limits": [
+                    "compatibility facade",
+                    "price verdict minimal"
+                  ],
+                  "price_confirmation": "PENDING",
+                  "price_verdict_candidate": "PENDING",
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "verdict": "INCONCLUSIVE"
+                },
+                "visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "window": {
+                  "current_price": 1.3408799999999998,
+                  "packet_strength": 0.5,
+                  "previous_scene_state": {},
+                  "price_path": {
+                    "dwell_seconds_inside_center": 0.0,
+                    "dwell_seconds_inside_zone": 0.0,
+                    "is_pullback_context": false,
+                    "max_center_penetration_ratio": 0.0,
+                    "net_progress_pips": 0.0,
+                    "price_close": 1.3408799999999998,
+                    "price_exits_original_side": false,
+                    "price_max": 0.0,
+                    "price_min": 0.0,
+                    "price_open": 1.3408799999999998,
+                    "rejection_distance_pips": 0.0,
+                    "rejection_speed_pips_per_min": 0.0,
+                    "ticks_inside_center_band": 0,
+                    "ticks_inside_zone": 0,
+                    "ticks_total": 0
+                  },
+                  "raw_bias": "NEUTRAL",
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "symbol": "GBPUSD",
+                  "timestamp": "2026-05-19T15:33:11",
+                  "zone_bars_since_touch": 0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_touch_history": []
+                },
+                "zone_context": {
+                  "limits": [
+                    "compatibility facade",
+                    "zone context minimal"
+                  ],
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "zone_center": 0.0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_state": "active"
+                }
+              },
+              "source_file": "GBPUSD_20260519T153311.json",
+              "source_profile": {
+                "confidence_cap": 0.35,
+                "data_visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "source_mode": "B9_RUNTIME_COMPAT"
+              },
+              "symbol": "GBPUSD",
+              "timestamp": "2026-05-19T15:33:11",
+              "zone_bounds": {
+                "high": null,
+                "low": null
+              },
+              "zone_high": null,
+              "zone_low": null
+            },
+            {
+              "current_price": null,
+              "data_visibility": {
+                "capture_quality": "TACTICAL_OK",
+                "data_visibility": "TACTICAL_OK",
+                "limits": [
+                  "compatibility facade",
+                  "source visibility minimal"
+                ],
+                "source_profile": {
+                  "confidence_cap": 0.5,
+                  "data_visibility": "TACTICAL_OK",
+                  "delta_quality": "proxy",
+                  "raw_footprint_visible": false,
+                  "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                },
+                "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                "status": "ok",
+                "symbol": "GBPUSD"
+              },
+              "limits": [
+                "runtime contract compatibility facade"
+              ],
+              "node_id": "B9NODE_GBPUSD_COMPAT",
+              "price_verdict_candidate": {
+                "confidence": 0.0,
+                "limits": [
+                  "compatibility facade",
+                  "price verdict minimal"
+                ],
+                "price_confirmation": "PENDING",
+                "price_verdict_candidate": "PENDING",
+                "status": "ok",
+                "symbol": "GBPUSD",
+                "verdict": "INCONCLUSIVE"
+              },
+              "raw": {
+                "price_verdict": {
+                  "confidence": 0.0,
+                  "limits": [
+                    "compatibility facade",
+                    "price verdict minimal"
+                  ],
+                  "price_confirmation": "PENDING",
+                  "price_verdict_candidate": "PENDING",
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "verdict": "INCONCLUSIVE"
+                },
+                "visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "window": {
+                  "current_price": 1.3408799999999998,
+                  "packet_strength": 0.5,
+                  "previous_scene_state": {},
+                  "price_path": {
+                    "dwell_seconds_inside_center": 0.0,
+                    "dwell_seconds_inside_zone": 0.0,
+                    "is_pullback_context": false,
+                    "max_center_penetration_ratio": 0.0,
+                    "net_progress_pips": 0.0,
+                    "price_close": 1.3408799999999998,
+                    "price_exits_original_side": false,
+                    "price_max": 0.0,
+                    "price_min": 0.0,
+                    "price_open": 1.3408799999999998,
+                    "rejection_distance_pips": 0.0,
+                    "rejection_speed_pips_per_min": 0.0,
+                    "ticks_inside_center_band": 0,
+                    "ticks_inside_zone": 0,
+                    "ticks_total": 0
+                  },
+                  "raw_bias": "NEUTRAL",
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "symbol": "GBPUSD",
+                  "timestamp": "2026-05-19T15:32:19",
+                  "zone_bars_since_touch": 0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_touch_history": []
+                },
+                "zone_context": {
+                  "limits": [
+                    "compatibility facade",
+                    "zone context minimal"
+                  ],
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "zone_center": 0.0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_state": "active"
+                }
+              },
+              "source_file": "GBPUSD_20260519T153219.json",
+              "source_profile": {
+                "confidence_cap": 0.35,
+                "data_visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "source_mode": "B9_RUNTIME_COMPAT"
+              },
+              "symbol": "GBPUSD",
+              "timestamp": "2026-05-19T15:32:19",
+              "zone_bounds": {
+                "high": null,
+                "low": null
+              },
+              "zone_high": null,
+              "zone_low": null
+            },
+            {
+              "current_price": null,
+              "data_visibility": {
+                "capture_quality": "TACTICAL_OK",
+                "data_visibility": "TACTICAL_OK",
+                "limits": [
+                  "compatibility facade",
+                  "source visibility minimal"
+                ],
+                "source_profile": {
+                  "confidence_cap": 0.5,
+                  "data_visibility": "TACTICAL_OK",
+                  "delta_quality": "proxy",
+                  "raw_footprint_visible": false,
+                  "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                },
+                "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                "status": "ok",
+                "symbol": "GBPUSD"
+              },
+              "limits": [
+                "runtime contract compatibility facade"
+              ],
+              "node_id": "B9NODE_GBPUSD_COMPAT",
+              "price_verdict_candidate": {
+                "confidence": 0.0,
+                "limits": [
+                  "compatibility facade",
+                  "price verdict minimal"
+                ],
+                "price_confirmation": "PENDING",
+                "price_verdict_candidate": "PENDING",
+                "status": "ok",
+                "symbol": "GBPUSD",
+                "verdict": "INCONCLUSIVE"
+              },
+              "raw": {
+                "price_verdict": {
+                  "confidence": 0.0,
+                  "limits": [
+                    "compatibility facade",
+                    "price verdict minimal"
+                  ],
+                  "price_confirmation": "PENDING",
+                  "price_verdict_candidate": "PENDING",
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "verdict": "INCONCLUSIVE"
+                },
+                "visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "window": {
+                  "current_price": 1.3408799999999998,
+                  "packet_strength": 0.5,
+                  "previous_scene_state": {},
+                  "price_path": {
+                    "dwell_seconds_inside_center": 0.0,
+                    "dwell_seconds_inside_zone": 0.0,
+                    "is_pullback_context": false,
+                    "max_center_penetration_ratio": 0.0,
+                    "net_progress_pips": 0.0,
+                    "price_close": 1.3408799999999998,
+                    "price_exits_original_side": false,
+                    "price_max": 0.0,
+                    "price_min": 0.0,
+                    "price_open": 1.3408799999999998,
+                    "rejection_distance_pips": 0.0,
+                    "rejection_speed_pips_per_min": 0.0,
+                    "ticks_inside_center_band": 0,
+                    "ticks_inside_zone": 0,
+                    "ticks_total": 0
+                  },
+                  "raw_bias": "NEUTRAL",
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "symbol": "GBPUSD",
+                  "timestamp": "2026-05-19T15:32:03",
+                  "zone_bars_since_touch": 0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_touch_history": []
+                },
+                "zone_context": {
+                  "limits": [
+                    "compatibility facade",
+                    "zone context minimal"
+                  ],
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "zone_center": 0.0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_state": "active"
+                }
+              },
+              "source_file": "GBPUSD_20260519T153203.json",
+              "source_profile": {
+                "confidence_cap": 0.35,
+                "data_visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "source_mode": "B9_RUNTIME_COMPAT"
+              },
+              "symbol": "GBPUSD",
+              "timestamp": "2026-05-19T15:32:03",
+              "zone_bounds": {
+                "high": null,
+                "low": null
+              },
+              "zone_high": null,
+              "zone_low": null
+            },
+            {
+              "current_price": null,
+              "data_visibility": {
+                "capture_quality": "TACTICAL_OK",
+                "data_visibility": "TACTICAL_OK",
+                "limits": [
+                  "compatibility facade",
+                  "source visibility minimal"
+                ],
+                "source_profile": {
+                  "confidence_cap": 0.5,
+                  "data_visibility": "TACTICAL_OK",
+                  "delta_quality": "proxy",
+                  "raw_footprint_visible": false,
+                  "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                },
+                "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                "status": "ok",
+                "symbol": "GBPUSD"
+              },
+              "limits": [
+                "runtime contract compatibility facade"
+              ],
+              "node_id": "B9NODE_GBPUSD_COMPAT",
+              "price_verdict_candidate": {
+                "confidence": 0.0,
+                "limits": [
+                  "compatibility facade",
+                  "price verdict minimal"
+                ],
+                "price_confirmation": "PENDING",
+                "price_verdict_candidate": "PENDING",
+                "status": "ok",
+                "symbol": "GBPUSD",
+                "verdict": "INCONCLUSIVE"
+              },
+              "raw": {
+                "price_verdict": {
+                  "confidence": 0.0,
+                  "limits": [
+                    "compatibility facade",
+                    "price verdict minimal"
+                  ],
+                  "price_confirmation": "PENDING",
+                  "price_verdict_candidate": "PENDING",
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "verdict": "INCONCLUSIVE"
+                },
+                "visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "window": {
+                  "current_price": 1.3408799999999998,
+                  "packet_strength": 0.5,
+                  "previous_scene_state": {},
+                  "price_path": {
+                    "dwell_seconds_inside_center": 0.0,
+                    "dwell_seconds_inside_zone": 0.0,
+                    "is_pullback_context": false,
+                    "max_center_penetration_ratio": 0.0,
+                    "net_progress_pips": 0.0,
+                    "price_close": 1.3408799999999998,
+                    "price_exits_original_side": false,
+                    "price_max": 0.0,
+                    "price_min": 0.0,
+                    "price_open": 1.3408799999999998,
+                    "rejection_distance_pips": 0.0,
+                    "rejection_speed_pips_per_min": 0.0,
+                    "ticks_inside_center_band": 0,
+                    "ticks_inside_zone": 0,
+                    "ticks_total": 0
+                  },
+                  "raw_bias": "NEUTRAL",
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "symbol": "GBPUSD",
+                  "timestamp": "2026-05-19T15:27:03",
+                  "zone_bars_since_touch": 0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_touch_history": []
+                },
+                "zone_context": {
+                  "limits": [
+                    "compatibility facade",
+                    "zone context minimal"
+                  ],
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "zone_center": 0.0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_state": "active"
+                }
+              },
+              "source_file": "GBPUSD_20260519T152703.json",
+              "source_profile": {
+                "confidence_cap": 0.35,
+                "data_visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "source_mode": "B9_RUNTIME_COMPAT"
+              },
+              "symbol": "GBPUSD",
+              "timestamp": "2026-05-19T15:27:03",
+              "zone_bounds": {
+                "high": null,
+                "low": null
+              },
+              "zone_high": null,
+              "zone_low": null
+            },
+            {
+              "current_price": null,
+              "data_visibility": {
+                "capture_quality": "TACTICAL_OK",
+                "data_visibility": "TACTICAL_OK",
+                "limits": [
+                  "compatibility facade",
+                  "source visibility minimal"
+                ],
+                "source_profile": {
+                  "confidence_cap": 0.5,
+                  "data_visibility": "TACTICAL_OK",
+                  "delta_quality": "proxy",
+                  "raw_footprint_visible": false,
+                  "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                },
+                "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                "status": "ok",
+                "symbol": "GBPUSD"
+              },
+              "limits": [
+                "runtime contract compatibility facade"
+              ],
+              "node_id": "B9NODE_GBPUSD_COMPAT",
+              "price_verdict_candidate": {
+                "confidence": 0.0,
+                "limits": [
+                  "compatibility facade",
+                  "price verdict minimal"
+                ],
+                "price_confirmation": "PENDING",
+                "price_verdict_candidate": "PENDING",
+                "status": "ok",
+                "symbol": "GBPUSD",
+                "verdict": "INCONCLUSIVE"
+              },
+              "raw": {
+                "price_verdict": {
+                  "confidence": 0.0,
+                  "limits": [
+                    "compatibility facade",
+                    "price verdict minimal"
+                  ],
+                  "price_confirmation": "PENDING",
+                  "price_verdict_candidate": "PENDING",
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "verdict": "INCONCLUSIVE"
+                },
+                "visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "window": {
+                  "current_price": 1.3408799999999998,
+                  "packet_strength": 0.5,
+                  "previous_scene_state": {},
+                  "price_path": {
+                    "dwell_seconds_inside_center": 0.0,
+                    "dwell_seconds_inside_zone": 0.0,
+                    "is_pullback_context": false,
+                    "max_center_penetration_ratio": 0.0,
+                    "net_progress_pips": 0.0,
+                    "price_close": 1.3408799999999998,
+                    "price_exits_original_side": false,
+                    "price_max": 0.0,
+                    "price_min": 0.0,
+                    "price_open": 1.3408799999999998,
+                    "rejection_distance_pips": 0.0,
+                    "rejection_speed_pips_per_min": 0.0,
+                    "ticks_inside_center_band": 0,
+                    "ticks_inside_zone": 0,
+                    "ticks_total": 0
+                  },
+                  "raw_bias": "NEUTRAL",
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "symbol": "GBPUSD",
+                  "timestamp": "2026-05-19T15:26:03",
+                  "zone_bars_since_touch": 0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_touch_history": []
+                },
+                "zone_context": {
+                  "limits": [
+                    "compatibility facade",
+                    "zone context minimal"
+                  ],
+                  "status": "ok",
+                  "symbol": "GBPUSD",
+                  "zone_center": 0.0,
+                  "zone_high": 0.0,
+                  "zone_low": 0.0,
+                  "zone_state": "active"
+                }
+              },
+              "source_file": "GBPUSD_20260519T152603.json",
+              "source_profile": {
+                "confidence_cap": 0.35,
+                "data_visibility": {
+                  "capture_quality": "TACTICAL_OK",
+                  "data_visibility": "TACTICAL_OK",
+                  "limits": [
+                    "compatibility facade",
+                    "source visibility minimal"
+                  ],
+                  "source_profile": {
+                    "confidence_cap": 0.5,
+                    "data_visibility": "TACTICAL_OK",
+                    "delta_quality": "proxy",
+                    "raw_footprint_visible": false,
+                    "source_mode": "SCHEDULER_TURBO_WRAPPER"
+                  },
+                  "source_stack": "SCHEDULER_TURBO_WRAPPER",
+                  "status": "ok",
+                  "symbol": "GBPUSD"
+                },
+                "source_mode": "B9_RUNTIME_COMPAT"
+              },
+              "symbol": "GBPUSD",
+              "timestamp": "2026-05-19T15:26:03",
+              "zone_bounds": {
+                "high": null,
+                "low": null
+              },
+              "zone_high": null,
+              "zone_low": null
+            }
+          ],
+          "symbol": "GBPUSD",
+          "technical_risks": [],
+          "timestamp": "2026-05-19T15:34:55Z"
+        }
+      },
+      "b8_coalition_context": {
+        "ok": true,
+        "status_code": 200,
+        "url": "http://localhost:8880/api/b8-coalition-context?symbol=GBPUSD",
+        "json": {
+          "coalitions": {},
+          "data_visibility": "READING_PARTIAL",
+          "gbp_cross": [],
+          "source": "powerflow.db/bars_h1",
+          "symbol": "GBPUSD",
+          "technical_risks": [
+            "BARS_H1_TABLE_MISSING"
+          ],
+          "timestamp": "2026-05-19T15:34:57Z",
+          "usd_base": [],
+          "usd_quote": []
+        }
+      }
+    }
+  },
+  "tick_archive": {
+    "ok": true,
+    "db_path": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\tick_archive.db",
+    "table": "tick_stream",
+    "symbol_column": "symbol",
+    "timestamp_column": "ts_utc",
+    "count": 129203,
+    "max_timestamp": "2026-05-19T15:50:30.008Z",
+    "age_minutes": -15.544343933333332,
+    "max_age_minutes": 5.0
+  },
+  "scheduler_5min": {
+    "ok": true,
+    "before_nodes": 17,
+    "after_nodes": 23,
+    "created_nodes": 6,
+    "loops": 5,
+    "duration_seconds": 300,
+    "logs": [
+      {
+        "loop": 1,
+        "returncode": 0,
+        "elapsed_seconds": 6.498,
+        "tail": "ase_synthesis status=OK returncode=0 elapsed=0.09s\nSTDOUT phase_synthesis: PHASE_SYNTHESIS_OK | symbol=GBPUSD | attention=WATCH | phase=REACTION_ZONE_TEST | bias=PAIR_DOWN | conf=0.62 | out=output/dashboard_surface/phase_synthesis.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_phase_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --phase output/dashboard_surface/phase_synthesis.json\nSTEP_CWD trader_cockpit_phase_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_phase_enrich status=OK returncode=0 elapsed=0.09s\nSTDOUT trader_cockpit_phase_enrich: PHASE_COCKPIT_ENRICH_OK | phase=REACTION_ZONE_TEST | attention=WATCH | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_bus_once.py --symbol GBPUSD --output output/dashboard_surface/evidence_bus.json --txt output/dashboard_surface/evidence_bus.txt\nSTEP_CWD evidence_bus: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_bus status=OK returncode=0 elapsed=0.105s\nSTDOUT evidence_bus: EVIDENCE_BUS_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=PAIR_DOWN | evidence=10 | out=output/dashboard_surface/evidence_bus.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_reading_once.py --evidence-bus output/dashboard_surface/evidence_bus.json --output output/dashboard_surface/evidence_reading.json --txt output/dashboard_surface/evidence_reading.txt\nSTEP_CWD evidence_reading: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_reading status=OK returncode=0 elapsed=0.112s\nSTDOUT evidence_reading: EVIDENCE_READING_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=PAIR_DOWN | out=output/dashboard_surface/evidence_reading.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_evidence_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --evidence-reading output/dashboard_surface/evidence_reading.json --evidence-bus output/dashboard_surface/evidence_bus.json\nSTEP_CWD trader_cockpit_evidence_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_evidence_enrich status=OK returncode=0 elapsed=0.118s\nSTDOUT trader_cockpit_evidence_enrich: TRADER_COCKPIT_EVIDENCE_READING_ENRICH_OK | phase=DIRECTIONAL_CONFLICT | bias=PAIR_DOWN | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\dashboard_v74_contract_check.py --html dashboard_powerflow_v74.html\nSTEP_CWD dashboard_v74_contract_check: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END dashboard_v74_contract_check status=OK returncode=0 elapsed=0.115s\nSTDOUT dashboard_v74_contract_check: DASHBOARD_V74_CONTRACT_OK | out=output/dashboard_surface/dashboard_v74_contract_check.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_journal_j1.py --symbols GBPUSD --output output/dashboard_surface/trader_journal_j1.json --md output/dashboard_surface/trader_journal_j1.md\nSTEP_CWD trader_journal_j1: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_journal_j1 status=OK returncode=0 elapsed=0.09s\nSTDOUT trader_journal_j1: TRADER_JOURNAL_J1_OK | global_status=J1_REVIEW_PENDING | symbols=1 | out=output/dashboard_surface/trader_journal_j1.json | md=output/dashboard_surface/trader_journal_j1.md\nTURBO_V73_CYCLE_OK | symbols=GBPUSD | steps=9 | duration_seconds=3.013 | layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,b8,phase_synthesis,evidence_bus,evidence_reading,daily_journal\n\n"
+      },
+      {
+        "loop": 2,
+        "returncode": 0,
+        "elapsed_seconds": 6.137,
+        "tail": "hase_synthesis status=OK returncode=0 elapsed=0.084s\nSTDOUT phase_synthesis: PHASE_SYNTHESIS_OK | symbol=GBPUSD | attention=WATCH | phase=REACTION_ZONE_TEST | bias=PAIR_DOWN | conf=0.62 | out=output/dashboard_surface/phase_synthesis.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_phase_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --phase output/dashboard_surface/phase_synthesis.json\nSTEP_CWD trader_cockpit_phase_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_phase_enrich status=OK returncode=0 elapsed=0.085s\nSTDOUT trader_cockpit_phase_enrich: PHASE_COCKPIT_ENRICH_OK | phase=REACTION_ZONE_TEST | attention=WATCH | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_bus_once.py --symbol GBPUSD --output output/dashboard_surface/evidence_bus.json --txt output/dashboard_surface/evidence_bus.txt\nSTEP_CWD evidence_bus: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_bus status=OK returncode=0 elapsed=0.112s\nSTDOUT evidence_bus: EVIDENCE_BUS_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | evidence=10 | out=output/dashboard_surface/evidence_bus.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_reading_once.py --evidence-bus output/dashboard_surface/evidence_bus.json --output output/dashboard_surface/evidence_reading.json --txt output/dashboard_surface/evidence_reading.txt\nSTEP_CWD evidence_reading: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_reading status=OK returncode=0 elapsed=0.118s\nSTDOUT evidence_reading: EVIDENCE_READING_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | out=output/dashboard_surface/evidence_reading.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_evidence_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --evidence-reading output/dashboard_surface/evidence_reading.json --evidence-bus output/dashboard_surface/evidence_bus.json\nSTEP_CWD trader_cockpit_evidence_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_evidence_enrich status=OK returncode=0 elapsed=0.103s\nSTDOUT trader_cockpit_evidence_enrich: TRADER_COCKPIT_EVIDENCE_READING_ENRICH_OK | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\dashboard_v74_contract_check.py --html dashboard_powerflow_v74.html\nSTEP_CWD dashboard_v74_contract_check: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END dashboard_v74_contract_check status=OK returncode=0 elapsed=0.13s\nSTDOUT dashboard_v74_contract_check: DASHBOARD_V74_CONTRACT_OK | out=output/dashboard_surface/dashboard_v74_contract_check.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_journal_j1.py --symbols GBPUSD --output output/dashboard_surface/trader_journal_j1.json --md output/dashboard_surface/trader_journal_j1.md\nSTEP_CWD trader_journal_j1: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_journal_j1 status=OK returncode=0 elapsed=0.111s\nSTDOUT trader_journal_j1: TRADER_JOURNAL_J1_OK | global_status=J1_REVIEW_PENDING | symbols=1 | out=output/dashboard_surface/trader_journal_j1.json | md=output/dashboard_surface/trader_journal_j1.md\nTURBO_V73_CYCLE_OK | symbols=GBPUSD | steps=9 | duration_seconds=2.697 | layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,b8,phase_synthesis,evidence_bus,evidence_reading,daily_journal\n\n"
+      },
+      {
+        "loop": 3,
+        "returncode": 0,
+        "elapsed_seconds": 6.12,
+        "tail": "hase_synthesis status=OK returncode=0 elapsed=0.083s\nSTDOUT phase_synthesis: PHASE_SYNTHESIS_OK | symbol=GBPUSD | attention=WATCH | phase=REACTION_ZONE_TEST | bias=PAIR_DOWN | conf=0.62 | out=output/dashboard_surface/phase_synthesis.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_phase_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --phase output/dashboard_surface/phase_synthesis.json\nSTEP_CWD trader_cockpit_phase_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_phase_enrich status=OK returncode=0 elapsed=0.078s\nSTDOUT trader_cockpit_phase_enrich: PHASE_COCKPIT_ENRICH_OK | phase=REACTION_ZONE_TEST | attention=WATCH | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_bus_once.py --symbol GBPUSD --output output/dashboard_surface/evidence_bus.json --txt output/dashboard_surface/evidence_bus.txt\nSTEP_CWD evidence_bus: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_bus status=OK returncode=0 elapsed=0.074s\nSTDOUT evidence_bus: EVIDENCE_BUS_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | evidence=10 | out=output/dashboard_surface/evidence_bus.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_reading_once.py --evidence-bus output/dashboard_surface/evidence_bus.json --output output/dashboard_surface/evidence_reading.json --txt output/dashboard_surface/evidence_reading.txt\nSTEP_CWD evidence_reading: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_reading status=OK returncode=0 elapsed=0.073s\nSTDOUT evidence_reading: EVIDENCE_READING_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | out=output/dashboard_surface/evidence_reading.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_evidence_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --evidence-reading output/dashboard_surface/evidence_reading.json --evidence-bus output/dashboard_surface/evidence_bus.json\nSTEP_CWD trader_cockpit_evidence_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_evidence_enrich status=OK returncode=0 elapsed=0.068s\nSTDOUT trader_cockpit_evidence_enrich: TRADER_COCKPIT_EVIDENCE_READING_ENRICH_OK | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\dashboard_v74_contract_check.py --html dashboard_powerflow_v74.html\nSTEP_CWD dashboard_v74_contract_check: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END dashboard_v74_contract_check status=OK returncode=0 elapsed=0.072s\nSTDOUT dashboard_v74_contract_check: DASHBOARD_V74_CONTRACT_OK | out=output/dashboard_surface/dashboard_v74_contract_check.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_journal_j1.py --symbols GBPUSD --output output/dashboard_surface/trader_journal_j1.json --md output/dashboard_surface/trader_journal_j1.md\nSTEP_CWD trader_journal_j1: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_journal_j1 status=OK returncode=0 elapsed=0.07s\nSTDOUT trader_journal_j1: TRADER_JOURNAL_J1_OK | global_status=J1_REVIEW_PENDING | symbols=1 | out=output/dashboard_surface/trader_journal_j1.json | md=output/dashboard_surface/trader_journal_j1.md\nTURBO_V73_CYCLE_OK | symbols=GBPUSD | steps=9 | duration_seconds=3.096 | layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,b8,phase_synthesis,evidence_bus,evidence_reading,daily_journal\n\n"
+      },
+      {
+        "loop": 4,
+        "returncode": 0,
+        "elapsed_seconds": 5.9,
+        "tail": "ase_synthesis status=OK returncode=0 elapsed=0.113s\nSTDOUT phase_synthesis: PHASE_SYNTHESIS_OK | symbol=GBPUSD | attention=WATCH | phase=REACTION_ZONE_TEST | bias=PAIR_DOWN | conf=0.62 | out=output/dashboard_surface/phase_synthesis.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_phase_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --phase output/dashboard_surface/phase_synthesis.json\nSTEP_CWD trader_cockpit_phase_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_phase_enrich status=OK returncode=0 elapsed=0.104s\nSTDOUT trader_cockpit_phase_enrich: PHASE_COCKPIT_ENRICH_OK | phase=REACTION_ZONE_TEST | attention=WATCH | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_bus_once.py --symbol GBPUSD --output output/dashboard_surface/evidence_bus.json --txt output/dashboard_surface/evidence_bus.txt\nSTEP_CWD evidence_bus: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_bus status=OK returncode=0 elapsed=0.127s\nSTDOUT evidence_bus: EVIDENCE_BUS_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | evidence=10 | out=output/dashboard_surface/evidence_bus.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_reading_once.py --evidence-bus output/dashboard_surface/evidence_bus.json --output output/dashboard_surface/evidence_reading.json --txt output/dashboard_surface/evidence_reading.txt\nSTEP_CWD evidence_reading: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_reading status=OK returncode=0 elapsed=0.114s\nSTDOUT evidence_reading: EVIDENCE_READING_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | out=output/dashboard_surface/evidence_reading.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_evidence_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --evidence-reading output/dashboard_surface/evidence_reading.json --evidence-bus output/dashboard_surface/evidence_bus.json\nSTEP_CWD trader_cockpit_evidence_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_evidence_enrich status=OK returncode=0 elapsed=0.082s\nSTDOUT trader_cockpit_evidence_enrich: TRADER_COCKPIT_EVIDENCE_READING_ENRICH_OK | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\dashboard_v74_contract_check.py --html dashboard_powerflow_v74.html\nSTEP_CWD dashboard_v74_contract_check: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END dashboard_v74_contract_check status=OK returncode=0 elapsed=0.085s\nSTDOUT dashboard_v74_contract_check: DASHBOARD_V74_CONTRACT_OK | out=output/dashboard_surface/dashboard_v74_contract_check.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_journal_j1.py --symbols GBPUSD --output output/dashboard_surface/trader_journal_j1.json --md output/dashboard_surface/trader_journal_j1.md\nSTEP_CWD trader_journal_j1: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_journal_j1 status=OK returncode=0 elapsed=0.084s\nSTDOUT trader_journal_j1: TRADER_JOURNAL_J1_OK | global_status=J1_REVIEW_PENDING | symbols=1 | out=output/dashboard_surface/trader_journal_j1.json | md=output/dashboard_surface/trader_journal_j1.md\nTURBO_V73_CYCLE_OK | symbols=GBPUSD | steps=9 | duration_seconds=2.937 | layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,b8,phase_synthesis,evidence_bus,evidence_reading,daily_journal\n\n"
+      },
+      {
+        "loop": 5,
+        "returncode": 0,
+        "elapsed_seconds": 5.949,
+        "tail": "ase_synthesis status=OK returncode=0 elapsed=0.086s\nSTDOUT phase_synthesis: PHASE_SYNTHESIS_OK | symbol=GBPUSD | attention=WATCH | phase=REACTION_ZONE_TEST | bias=PAIR_DOWN | conf=0.62 | out=output/dashboard_surface/phase_synthesis.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_phase_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --phase output/dashboard_surface/phase_synthesis.json\nSTEP_CWD trader_cockpit_phase_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_phase_enrich status=OK returncode=0 elapsed=0.097s\nSTDOUT trader_cockpit_phase_enrich: PHASE_COCKPIT_ENRICH_OK | phase=REACTION_ZONE_TEST | attention=WATCH | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_bus_once.py --symbol GBPUSD --output output/dashboard_surface/evidence_bus.json --txt output/dashboard_surface/evidence_bus.txt\nSTEP_CWD evidence_bus: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_bus status=OK returncode=0 elapsed=0.134s\nSTDOUT evidence_bus: EVIDENCE_BUS_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | evidence=10 | out=output/dashboard_surface/evidence_bus.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_evidence_reading_once.py --evidence-bus output/dashboard_surface/evidence_bus.json --output output/dashboard_surface/evidence_reading.json --txt output/dashboard_surface/evidence_reading.txt\nSTEP_CWD evidence_reading: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END evidence_reading status=OK returncode=0 elapsed=0.084s\nSTDOUT evidence_reading: EVIDENCE_READING_OK | symbol=GBPUSD | attention=WAKE_TRADER | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | out=output/dashboard_surface/evidence_reading.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_cockpit_evidence_enrich.py --cockpit-json output/dashboard_surface/trader_cockpit.json --cockpit-txt output/dashboard_surface/trader_cockpit.txt --evidence-reading output/dashboard_surface/evidence_reading.json --evidence-bus output/dashboard_surface/evidence_bus.json\nSTEP_CWD trader_cockpit_evidence_enrich: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_cockpit_evidence_enrich status=OK returncode=0 elapsed=0.098s\nSTDOUT trader_cockpit_evidence_enrich: TRADER_COCKPIT_EVIDENCE_READING_ENRICH_OK | phase=DIRECTIONAL_CONFLICT | bias=CONFLICT | cockpit=output/dashboard_surface/trader_cockpit.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\dashboard_v74_contract_check.py --html dashboard_powerflow_v74.html\nSTEP_CWD dashboard_v74_contract_check: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END dashboard_v74_contract_check status=OK returncode=0 elapsed=0.121s\nSTDOUT dashboard_v74_contract_check: DASHBOARD_V74_CONTRACT_OK | out=output/dashboard_surface/dashboard_v74_contract_check.json\n> C:\\Python314\\python.exe C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\\pf_trader_journal_j1.py --symbols GBPUSD --output output/dashboard_surface/trader_journal_j1.json --md output/dashboard_surface/trader_journal_j1.md\nSTEP_CWD trader_journal_j1: C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\Core\nSTEP_END trader_journal_j1 status=OK returncode=0 elapsed=0.094s\nSTDOUT trader_journal_j1: TRADER_JOURNAL_J1_OK | global_status=J1_REVIEW_PENDING | symbols=1 | out=output/dashboard_surface/trader_journal_j1.json | md=output/dashboard_surface/trader_journal_j1.md\nTURBO_V73_CYCLE_OK | symbols=GBPUSD | steps=9 | duration_seconds=2.919 | layers=data_health,ontology,signal_adaptive,price_schema,topdown_reader,time_profiles,live_brief,b6,multiread,trader_cockpit,b8,phase_synthesis,evidence_bus,evidence_reading,daily_journal\n\n"
+      }
+    ]
+  },
+  "nodes": {
+    "ok": true,
+    "count": 23,
+    "before_count": 17,
+    "created_during_run": 6,
+    "latest": [
+      {
+        "file": "GBPUSD_20260519T152703.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:27:03.937757Z"
+      },
+      {
+        "file": "GBPUSD_20260519T153203.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:32:03.374556Z"
+      },
+      {
+        "file": "GBPUSD_20260519T153219.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:32:19.151898Z"
+      },
+      {
+        "file": "GBPUSD_20260519T153311.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:33:11.642934Z"
+      },
+      {
+        "file": "GBPUSD_20260519T153458.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:34:58.710218Z"
+      },
+      {
+        "file": "GBPUSD_20260519T153605.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:36:05.113617Z"
+      },
+      {
+        "file": "GBPUSD_20260519T153703.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:37:03.252663Z"
+      },
+      {
+        "file": "GBPUSD_20260519T153711.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:37:11.548608Z"
+      },
+      {
+        "file": "GBPUSD_20260519T153817.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:38:17.524713Z"
+      },
+      {
+        "file": "GBPUSD_20260519T153923.json",
+        "node_id": "B9NODE_GBPUSD_COMPAT",
+        "symbol": "GBPUSD",
+        "verdict": {
+          "status": "ok",
+          "symbol": "GBPUSD",
+          "price_verdict_candidate": "PENDING",
+          "price_confirmation": "PENDING",
+          "limits": [
+            "compatibility facade",
+            "price verdict minimal"
+          ],
+          "verdict": "INCONCLUSIVE",
+          "confidence": 0.0
+        },
+        "mtime_utc": "2026-05-19T15:39:23.470628Z"
+      }
+    ],
+    "dir": "C:\\Users\\User\\Desktop\\ProjetPowerFlow\\IA\\GPT\\Core\\output\\b9_nodes_live"
+  },
+  "ok": true
+}
