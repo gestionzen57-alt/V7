@@ -148,3 +148,27 @@ def _assert_message_is_clean(message: str) -> None:
     for word in FORBIDDEN_WORDS:
         if word in lower:
             raise ValueError(f"Forbidden Telegram wording detected: {word}")
+
+# B9_RUNTIME_CONTRACT_COMPAT_V5 telegram facade
+try:
+    _B9_V5_ORIGINAL_SEND_B9_ALERT = send_b9_alert
+except NameError:  # pragma: no cover
+    _B9_V5_ORIGINAL_SEND_B9_ALERT = None
+
+
+def send_b9_alert(*args, **kwargs):
+    """Dry-run default compatibility facade for B9 alert transmission."""
+    original = _B9_V5_ORIGINAL_SEND_B9_ALERT
+    enable = bool(kwargs.get("enable") or kwargs.get("ENABLE_TELEGRAM") or kwargs.get("send", False))
+    if original is not None and enable:
+        return original(*args, **kwargs)
+    return {
+        "status": "DRY_RUN",
+        "alert_sent": False,
+        "channel": "telegram_disabled",
+        "limits": ["telegram compatibility facade dry-run"],
+    }
+
+
+def send_telegram_alert_b9(*args, **kwargs):
+    return send_b9_alert(*args, **kwargs)

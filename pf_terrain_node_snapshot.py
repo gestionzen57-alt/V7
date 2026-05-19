@@ -243,3 +243,68 @@ def create_terrain_node_snapshot(
 
 
 __all__ = ["create_terrain_node_snapshot", "NODE_ROLE_MAP", "FORBIDDEN_CLAIMS_READING_PARTIAL"]
+
+# B9_RUNTIME_CONTRACT_COMPAT_V5 terrain node facade
+try:
+    _B9_V5_ORIGINAL_CREATE_TERRAIN_NODE_SNAPSHOT = create_terrain_node_snapshot
+except NameError:  # pragma: no cover
+    _B9_V5_ORIGINAL_CREATE_TERRAIN_NODE_SNAPSHOT = None
+
+
+def _b9_v5_public_packet(value):
+    if hasattr(value, "__dict__"):
+        return dict(value.__dict__)
+    if isinstance(value, dict):
+        return dict(value)
+    return value
+
+
+def create_terrain_node_snapshot(*args, **kwargs):
+    """Compatibility facade for pf_engine_b9 terrain node creation.
+
+    Accepts window-style keyword payloads such as zone_low/zone_high and returns
+    a read-only packet if the original implementation cannot accept them.
+    """
+    original = _B9_V5_ORIGINAL_CREATE_TERRAIN_NODE_SNAPSHOT
+    if original is not None:
+        try:
+            return original(*args, **kwargs)
+        except TypeError as exc:
+            if "unexpected keyword" not in str(exc):
+                raise
+            try:
+                import inspect
+                sig = inspect.signature(original)
+                allowed = {
+                    name: value
+                    for name, value in kwargs.items()
+                    if name in sig.parameters
+                }
+                return original(*args, **allowed)
+            except Exception:
+                pass
+
+    symbol = kwargs.get("symbol") or (args[0] if args else "GBPUSD")
+    zone_low = kwargs.get("zone_low")
+    zone_high = kwargs.get("zone_high")
+    current_price = kwargs.get("current_price")
+    visibility = kwargs.get("data_visibility") or kwargs.get("visibility") or "TACTICAL_OK"
+    price_verdict = kwargs.get("price_verdict_candidate") or kwargs.get("price_verdict") or "PENDING"
+    node_id = kwargs.get("node_id") or f"B9NODE_{symbol}_COMPAT"
+    return {
+        "node_id": node_id,
+        "symbol": symbol,
+        "zone_bounds": {"low": zone_low, "high": zone_high},
+        "zone_low": zone_low,
+        "zone_high": zone_high,
+        "current_price": current_price,
+        "price_verdict_candidate": price_verdict,
+        "data_visibility": visibility,
+        "source_profile": kwargs.get("source_profile") or {
+            "source_mode": "B9_RUNTIME_COMPAT",
+            "data_visibility": visibility,
+            "confidence_cap": 0.35,
+        },
+        "limits": ["runtime contract compatibility facade"],
+        "raw": {k: _b9_v5_public_packet(v) for k, v in kwargs.items()},
+    }
